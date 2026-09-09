@@ -1,0 +1,985 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\setlist[itemize]{leftmargin=*, itemsep=0.35em}
+\setlist[enumerate]{leftmargin=*, itemsep=0.35em}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Norm}{\operatorname{N}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\ord}{\operatorname{ord}}
+
+\title{\textbf{Number Theory I}\\
+Advanced Course Structure and Detailed Breakdown}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Course Identity}
+
+\subsection*{Course title}
+\textbf{Number Theory I: Algebraic, Local, Global, and Analytic Number Theory}
+
+\subsection*{Course level}
+Advanced undergraduate / beginning graduate level, with substantial graduate-level extensions.
+
+\subsection*{Recommended format}
+A two-semester sequence or an intensive year-long course:
+\begin{itemize}
+    \item \textbf{Semester I:} Algebraic number theory, local fields, completions, ramification, geometry of numbers, adeles/ideles, and elementary zeta functions.
+    \item \textbf{Semester II:} Local and global class field theory, reciprocity laws, $L$-functions, functional equations, prime density, and Brauer--Siegel theory.
+\end{itemize}
+
+\subsection*{Course description}
+This course develops modern algebraic number theory from the arithmetic of algebraic integers and ideals to local and global class field theory. It emphasizes the interaction among:
+\[
+\text{global fields}
+\longleftrightarrow
+\text{local completions}
+\longleftrightarrow
+\text{adeles and ideles}
+\longleftrightarrow
+\text{reciprocity laws}
+\longleftrightarrow
+\text{zeta and }L\text{-functions}.
+\]
+
+The course begins with Dedekind domains, algebraic integers, ideal factorization, valuations, completions, discriminants, and cyclotomic fields. It then introduces Minkowski theory, ideal class groups, adeles, ideles, and zeta functions. The second half develops local and global class field theory through norm-index computations, Artin reciprocity, conductors, Hilbert symbols, the Brauer group, and class fields. The final analytic modules establish functional equations, Tauberian results, prime-density theorems, explicit formulas, and the Brauer--Siegel theorem.
+
+\section{Major Topics and Course Modules}
+
+\begin{longtable}{p{0.08\textwidth}p{0.28\textwidth}p{0.54\textwidth}}
+\toprule
+\textbf{Module} & \textbf{Title} & \textbf{Central Themes} \\
+\midrule
+\endhead
+
+I &
+Foundations of Algebraic Number Theory &
+Localization, integral closure, algebraic integers, prime ideals, Dedekind rings, discrete valuation rings, ideal factorization, projective modules. \\
+
+II &
+Local Fields and Completions &
+Valuations, complete fields, local compactness, $p$-adic fields, unramified and tamely ramified extensions, local multiplicative structure. \\
+
+III &
+Discriminants, Differents, and Ramification &
+Trace and norm maps, complementary modules, different ideals, discriminants, ramification indices, residue degrees, splitting behavior. \\
+
+IV &
+Cyclotomic and Quadratic Fields &
+Roots of unity, cyclotomic extensions, quadratic fields, Gauss sums, ideal classes, explicit reciprocity phenomena. \\
+
+V &
+Geometry of Numbers and Ideal Classes &
+Minkowski embeddings, lattices, parallelotopes, product formula, Minkowski bounds, ideal class groups, finiteness of class numbers. \\
+
+VI &
+Global Fields, Places, Adeles, and Ideles &
+Places and completions of global fields, restricted direct products, adeles, ideles, idele class groups, Galois actions. \\
+
+VII &
+Zeta Functions and Elementary $L$-Series &
+Dirichlet series, Euler products, Dedekind zeta functions, Hecke characters, abelian $L$-series, density of primes in arithmetic progressions. \\
+
+VIII &
+Central Simple Algebras and Brauer Groups &
+Simple algebras, representations, factor sets, cyclic algebras, Brauer groups, local invariants, norm forms. \\
+
+IX &
+Local Class Field Theory &
+Local norm groups, local reciprocity maps, local Brauer groups, ramification in abelian extensions, transfer maps, Hilbert symbols. \\
+
+X &
+Global Class Field Theory &
+Artin symbols, conductors, global reciprocity, class fields, canonical pairings, Hasse reciprocity, global norm principles. \\
+
+XI &
+Functional Equations and Harmonic Analysis &
+Fourier transforms, Poisson summation, additive duality, multiplicative harmonic analysis, Tate's thesis, global functional equations. \\
+
+XII &
+Analytic Number Theory of Global Fields &
+Tauberian theorems, nonvanishing of $L$-series, prime-density theorems, Brauer--Siegel, explicit formulas, Weil-type formulas. \\
+\bottomrule
+\end{longtable}
+
+\section{Prerequisite Knowledge}
+
+\subsection*{Essential prerequisites}
+Students should be comfortable with the following material before beginning the course.
+
+\begin{enumerate}
+    \item \textbf{Abstract algebra}
+    \begin{itemize}
+        \item Groups, quotient groups, group actions, Sylow theory, and finite abelian groups.
+        \item Rings, ideals, quotient rings, polynomial rings, Euclidean domains, principal ideal domains, and unique factorization domains.
+        \item Fields, field extensions, splitting fields, finite fields, and separability.
+        \item Basic module theory, including free modules, tensor products, and exact sequences.
+    \end{itemize}
+
+    \item \textbf{Galois theory}
+    \begin{itemize}
+        \item Fundamental theorem of Galois theory.
+        \item Normal and separable extensions.
+        \item Decomposition and inertia ideas at an introductory level.
+        \item Cyclic extensions and roots of unity.
+    \end{itemize}
+
+    \item \textbf{Linear algebra}
+    \begin{itemize}
+        \item Vector spaces, dual spaces, linear maps, bilinear pairings, determinants, and eigenvalues.
+        \item Matrix representations and trace/determinant computations.
+        \item Lattices in finite-dimensional real vector spaces.
+    \end{itemize}
+
+    \item \textbf{Real and complex analysis}
+    \begin{itemize}
+        \item Metric spaces, convergence, completeness, compactness, and continuity.
+        \item Uniform convergence and power series.
+        \item Basic complex analysis: holomorphic functions, contour integration, residues, and analytic continuation.
+        \item Fourier series or introductory Fourier analysis is strongly recommended.
+    \end{itemize}
+
+    \item \textbf{Elementary number theory}
+    \begin{itemize}
+        \item Congruences, Chinese remainder theorem, primitive roots, quadratic reciprocity, and arithmetic functions.
+        \item Dirichlet characters and Dirichlet's theorem on primes in arithmetic progressions are recommended.
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Recommended preliminary topics}
+The following topics are not strictly required at the start, but students should learn them early in the course:
+\begin{itemize}
+    \item Topological groups and locally compact abelian groups.
+    \item Haar measure and basic integration on locally compact groups.
+    \item Tensor products of fields and algebras.
+    \item Homological algebra terminology, especially exact sequences and cohomology intuition.
+    \item Basic algebraic geometry language: affine varieties, coordinate rings, and divisors.
+\end{itemize}
+
+\section{Detailed Course Breakdown}
+
+\subsection*{Part I: General Basic Theory}
+
+\subsubsection*{Module 1: Algebraic Integers and Dedekind Domains}
+
+\textbf{Chapters covered:} Algebraic Integers; Orders in $\Q$-algebras; Lattices over algebraic number fields; Ideals.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Algebraic integers and rings of integers $\mathcal{O}_K$.
+    \item Localization of rings and modules.
+    \item Integral elements, integral closure, and normal domains.
+    \item Prime ideals and maximal ideals in $\mathcal{O}_K$.
+    \item Chinese remainder theorem for ideals.
+    \item Dedekind domains and unique factorization of nonzero ideals.
+    \item Discrete valuation rings and valuations associated with prime ideals.
+    \item Factorization of rational primes in number fields.
+    \item Orders, fractional ideals, ideal classes, and projective modules.
+\end{itemize}
+
+\paragraph{Learning objectives}
+By the end of this module, students should be able to:
+\begin{enumerate}
+    \item Define algebraic integers and compute rings of integers in standard quadratic examples.
+    \item Prove that $\mathcal{O}_K$ is a Dedekind domain for a number field $K$.
+    \item Factor ideals and rational primes in simple extensions.
+    \item Use localization to study arithmetic near a prime ideal.
+    \item Relate discrete valuations, prime ideals, and local rings.
+    \item Explain why ideal factorization replaces element factorization in algebraic number fields.
+\end{enumerate}
+
+\paragraph{Representative problems}
+\begin{itemize}
+    \item Compute $\mathcal{O}_{\Q(\sqrt{d})}$ for squarefree integers $d$.
+    \item Factor $(p)$ in $\mathcal{O}_{\Q(i)}$ or $\mathcal{O}_{\Q(\sqrt{-5})}$.
+    \item Prove that every nonzero ideal in a Dedekind domain factors uniquely into prime ideals.
+    \item Determine ramification, residue degree, and splitting type for selected primes.
+\end{itemize}
+
+\paragraph{Difficulty level}
+Moderate to high. The conceptual transition from element factorization to ideal factorization is essential and often difficult for students encountering Dedekind domains for the first time.
+
+\subsubsection*{Module 2: Completions, Local Fields, and $p$-adic Structure}
+
+\textbf{Chapters covered:} Locally Compact Fields; Completions; Lattices and Duality over Local Fields.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Absolute values, valuations, and equivalent valuations.
+    \item Completions of fields with respect to valuations.
+    \item The $p$-adic numbers $\Q_p$ and their valuation rings $\Z_p$.
+    \item Locally compact fields and their classification.
+    \item Finite fields and residue fields.
+    \item Unramified and tamely ramified extensions.
+    \item Norms, lattices, and multiplicative structure of local fields.
+    \item Local additive and multiplicative groups.
+    \item Duality over local fields.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Construct $\Q_p$ as the completion of $\Q$ with respect to the $p$-adic norm.
+    \item Work with valuation rings, maximal ideals, uniformizers, and residue fields.
+    \item Distinguish archimedean and nonarchimedean completions.
+    \item Classify finite extensions of $\Q_p$ using ramification index and residue degree.
+    \item Analyze the structure of $K^\times$ for a nonarchimedean local field $K$.
+    \item Apply Hensel's lemma and complete-field arguments to polynomial equations.
+\end{enumerate}
+
+\paragraph{Core formula}
+For a finite extension $L/K$ of local fields,
+\[
+[L:K] = e(L/K)f(L/K),
+\]
+where $e(L/K)$ is the ramification index and $f(L/K)$ is the residue-field degree.
+
+\paragraph{Difficulty level}
+High. Students must combine algebraic, topological, and valuation-theoretic arguments. The nonarchimedean viewpoint is a major conceptual hurdle.
+
+\subsubsection*{Module 3: The Different, Discriminant, and Ramification}
+
+\textbf{Chapters covered:} The Different and Discriminant; Traces and Norms; Ramification Theory.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Field trace $\Tr_{L/K}$ and norm $\Norm_{L/K}$.
+    \item Trace pairing and complementary modules.
+    \item The different $\mathfrak{D}_{L/K}$ and inverse different.
+    \item The discriminant of a basis and discriminant ideals.
+    \item Ramification, inertia, decomposition groups, and residue degrees.
+    \item Wild and tame ramification.
+    \item Splitting of places in separable extensions.
+    \item Relative discriminants and the relationship between discriminants and ramification.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Compute traces and norms in explicit extensions.
+    \item Define the different using the trace pairing.
+    \item Compute discriminants of quadratic and cyclotomic fields.
+    \item Explain how ramification contributes to the discriminant.
+    \item Distinguish unramified, tamely ramified, and wildly ramified extensions.
+    \item Use prime decomposition data to describe local behavior in global extensions.
+\end{enumerate}
+
+\paragraph{Difficult concepts}
+\begin{itemize}
+    \item The relation between the different and K\"ahler differentials or dual modules.
+    \item Ramification filtrations and their role in wild ramification.
+    \item Passing consistently between global prime ideals and local extensions.
+\end{itemize}
+
+\subsubsection*{Module 4: Cyclotomic and Quadratic Fields}
+
+\textbf{Chapters covered:} Cyclotomic Fields; Roots of Unity; Quadratic Fields; Gauss Sums.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Primitive roots of unity and cyclotomic polynomials.
+    \item Cyclotomic fields $\Q(\zeta_n)$.
+    \item The Galois group
+    \[
+    \Gal(\Q(\zeta_n)/\Q)\cong(\Z/n\Z)^\times.
+    \]
+    \item Quadratic fields and quadratic characters.
+    \item Gauss sums and their relation to quadratic reciprocity.
+    \item Decomposition of primes in cyclotomic fields.
+    \item Relations among ideal classes.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Determine the degree and Galois group of a cyclotomic extension.
+    \item Describe the splitting of primes in cyclotomic fields using congruence conditions.
+    \item Compute classical quadratic Gauss sums.
+    \item Connect Dirichlet characters, cyclotomic extensions, and abelian Galois groups.
+    \item Use cyclotomic fields as motivating examples for class field theory.
+\end{enumerate}
+
+\paragraph{Pedagogical role}
+This module supplies concrete examples of abelian extensions before the abstract reciprocity laws of class field theory are introduced.
+
+\subsubsection*{Module 5: Geometry of Numbers and Ideal Class Groups}
+
+\textbf{Chapters covered:} Parallelotopes; Fundamental Sets; The Ideal Function.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Minkowski embeddings of number fields.
+    \item Lattices in Euclidean spaces.
+    \item Fundamental parallelotopes and covolumes.
+    \item The product formula.
+    \item Minkowski's convex body theorem.
+    \item Minkowski's constant and bounds for ideal classes.
+    \item Finiteness of the ideal class group.
+    \item Generalized ideal classes and the ideal-counting function.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Embed $\mathcal{O}_K$ as a lattice in $K\otimes_{\Q}\R$.
+    \item Compute or interpret the covolume of the Minkowski lattice.
+    \item Apply Minkowski's theorem to bound representatives of ideal classes.
+    \item Prove that the class group $\Cl(K)$ is finite.
+    \item Estimate the number of ideals of bounded norm.
+    \item Connect geometric volume calculations with arithmetic finiteness theorems.
+\end{enumerate}
+
+\paragraph{Difficult concepts}
+\begin{itemize}
+    \item The precise normalization of the Minkowski embedding.
+    \item The role of the discriminant in lattice covolume.
+    \item Translating a convex-body theorem into a statement about ideals.
+\end{itemize}
+
+\subsubsection*{Module 6: Places, Adeles, and Ideles}
+
+\textbf{Chapters covered:} Places of $A$-fields; Adeles; Ideles and Adeles.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Global fields and their places.
+    \item Archimedean and nonarchimedean completions.
+    \item Restricted direct products.
+    \item The adele ring
+    \[
+    \A_K = \prod_v' K_v.
+    \]
+    \item The idele group
+    \[
+    \A_K^\times = \prod_v' K_v^\times.
+    \]
+    \item Idele class group
+    \[
+    C_K=\A_K^\times/K^\times.
+    \]
+    \item Generalized ideal class groups and their connection with idele classes.
+    \item Galois actions on adeles, ideles, and idele class groups.
+    \item Global additive and multiplicative structures.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Define places and completions of a global field.
+    \item Explain why restricted products are necessary in the construction of adeles and ideles.
+    \item Prove basic topological properties of $\A_K$ and $\A_K^\times$.
+    \item Relate fractional ideals to finite ideles.
+    \item Interpret the class group as a quotient of the idele class group.
+    \item State the product formula in local-global form.
+\end{enumerate}
+
+\paragraph{Core conceptual principle}
+Adeles and ideles package all completions of a global field into a single global object:
+\[
+\text{arithmetic of }K
+\quad\rightsquigarrow\quad
+\text{simultaneous arithmetic at every place }v.
+\]
+
+\paragraph{Difficulty level}
+Very high. Restricted products, topology, Haar measure, and the local-global viewpoint are among the most abstract components of the course.
+
+\subsubsection*{Module 7: Zeta Functions and Elementary $L$-Series}
+
+\textbf{Chapters covered:} Zeta-Functions of $A$-Fields; Elementary Properties of the Zeta Function and $L$-Series.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Dirichlet series and abscissae of convergence.
+    \item Euler products.
+    \item Dedekind zeta function
+    \[
+    \zeta_K(s)=\sum_{\mathfrak{a}\neq 0}\frac{1}{\Norm(\mathfrak{a})^s}
+    =\prod_{\mathfrak{p}}\left(1-\Norm(\mathfrak{p})^{-s}\right)^{-1}.
+    \]
+    \item Quasicharacters and Hecke characters.
+    \item Abelian $L$-functions and Artin $L$-functions.
+    \item Functional equations.
+    \item Coefficients of $L$-series.
+    \item Density of primes in arithmetic progressions.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Derive Euler products from unique ideal factorization.
+    \item Define the Dedekind zeta function and Hecke $L$-functions.
+    \item Establish elementary convergence regions for Dirichlet series and Euler products.
+    \item Explain the arithmetic meaning of coefficients of zeta and $L$-series.
+    \item State the analytic continuation and functional equation goals for zeta functions.
+    \item Connect splitting of primes with Frobenius data and $L$-series.
+\end{enumerate}
+
+\section{Part II: Class Field Theory}
+
+\subsubsection*{Module 8: Central Simple Algebras and Brauer Groups}
+
+\textbf{Chapters covered:} Simple Algebras; Simple Algebras over Local Fields; Simple Algebras over Global Fields.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Simple and central simple algebras.
+    \item Matrix algebras and division algebras.
+    \item Representations of simple algebras.
+    \item Factor sets and crossed products.
+    \item Cyclic algebras.
+    \item Brauer equivalence and the Brauer group $\operatorname{Br}(K)$.
+    \item Local invariants and local-global principles for Brauer groups.
+    \item Reduced trace and reduced norm.
+    \item Ramification of central simple algebras.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Define central simple algebras and classify basic examples.
+    \item Explain the Brauer-group operation via tensor products.
+    \item Construct cyclic algebras from cyclic field extensions.
+    \item Relate norm equations to cyclic algebras.
+    \item State the role of local invariants in classifying central simple algebras over local fields.
+    \item Understand how Brauer groups enter the formulation of local and global reciprocity.
+\end{enumerate}
+
+\paragraph{Difficult topics}
+\begin{itemize}
+    \item Cohomological interpretations of the Brauer group.
+    \item Factor sets and crossed-product constructions.
+    \item The invariant map
+    \[
+    \operatorname{inv}_K:\operatorname{Br}(K)\longrightarrow \Q/\Z
+    \]
+    for local fields.
+\end{itemize}
+
+\subsubsection*{Module 9: Norm Indices and Local Reciprocity}
+
+\textbf{Chapters covered:} Norm Index Computations; Local Class Field Theory.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Norm maps in local and global extensions.
+    \item Local norm index.
+    \item Unit groups in local fields.
+    \item $p$-adic exponential and logarithm.
+    \item Norm residue symbols.
+    \item Local Artin maps.
+    \item The local reciprocity homomorphism
+    \[
+    K^\times \longrightarrow \Gal(K^{\mathrm{ab}}/K).
+    \]
+    \item Local class field theory.
+    \item Ramification of abelian extensions.
+    \item Transfer maps and local Hilbert symbols.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Compute norm groups in selected local cyclic extensions.
+    \item Use local units and filtrations to study norm indices.
+    \item Describe the reciprocity isomorphism of local class field theory.
+    \item Identify the relationship between open finite-index subgroups of $K^\times$ and finite abelian extensions of $K$.
+    \item Use Hilbert symbols to test local norm conditions.
+    \item Explain how local ramification is encoded by the reciprocity map.
+\end{enumerate}
+
+\paragraph{Central theorem}
+For a local field $K$, finite abelian extensions $L/K$ correspond to open subgroups of finite index in $K^\times$, via the norm subgroup:
+\[
+L \longleftrightarrow \Norm_{L/K}(L^\times)\subseteq K^\times.
+\]
+
+\subsubsection*{Module 10: Global Reciprocity and Global Class Fields}
+
+\textbf{Chapters covered:} The Artin Symbol, Reciprocity Law, and Class Field Theory; Global Class Field Theory.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Frobenius and Artin symbols.
+    \item Conductors and ray class groups.
+    \item Artin reciprocity.
+    \item Global norm index computations.
+    \item Hasse norm theorem and local-global norm principles.
+    \item Canonical pairings.
+    \item Hasse reciprocity law.
+    \item Hilbert symbols and Hilbert $p$-symbols.
+    \item Global Brauer groups.
+    \item Abelian extensions and idele class groups.
+    \item Existence theorem and complete splitting theorem.
+    \item Hilbert class field and principal ideal theorem.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Define Frobenius elements for unramified primes.
+    \item Define the Artin map on ideals or ideles.
+    \item Explain the meaning of the conductor of an abelian extension.
+    \item State global Artin reciprocity in idele-theoretic form.
+    \item Relate finite abelian extensions of $K$ to finite-index open subgroups of $C_K$.
+    \item Use the Hilbert class field to interpret the ideal class group as a Galois group.
+    \item Explain how local reciprocity maps assemble into global reciprocity.
+\end{enumerate}
+
+\paragraph{Central theorem}
+Global class field theory identifies the profinite completion of the idele class group with the abelianized absolute Galois group:
+\[
+\widehat{C_K}
+\cong
+\Gal(K^{\mathrm{ab}}/K).
+\]
+
+\paragraph{Difficult concepts}
+\begin{itemize}
+    \item The transition from ideals to ideles.
+    \item Conductors and ray class fields.
+    \item The proof of the existence theorem.
+    \item Compatibility between local and global reciprocity maps.
+    \item The role of the Brauer group in the proof of reciprocity.
+\end{itemize}
+
+\subsubsection*{Module 11: Abelian and Nonabelian $L$-Series}
+
+\textbf{Chapters covered:} $L$-Series Again.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Proper abelian $L$-series.
+    \item Artin representations and Artin $L$-functions.
+    \item Induced characters.
+    \item Artin formalism.
+    \item Local Euler factors.
+    \item Contributions of induced representations.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Define Artin $L$-functions associated with finite-dimensional Galois representations.
+    \item Compare abelian Hecke $L$-functions and Artin $L$-functions.
+    \item Use induction of characters to decompose $L$-functions.
+    \item Explain the distinction between known analytic properties in the abelian setting and conjectural properties in the general nonabelian setting.
+\end{enumerate}
+
+\section{Part III: Analytic Theory}
+
+\subsubsection*{Module 12: Functional Equations via Hecke's Method}
+
+\textbf{Chapters covered:} Functional Equation of the Zeta Function, Hecke's Proof.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Poisson summation formula.
+    \item Theta functions.
+    \item Functional equations of Dedekind zeta functions.
+    \item Gamma factors and archimedean local data.
+    \item Analytic continuation.
+    \item Residues of zeta functions.
+    \item Applications to ideal-counting functions.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item State and apply the Poisson summation formula.
+    \item Construct theta-series expressions associated with number fields.
+    \item Derive the functional equation of $\zeta_K(s)$ using Hecke's method.
+    \item Explain the arithmetic meaning of the residue of $\zeta_K(s)$ at $s=1$.
+    \item Connect analytic behavior of zeta functions to class numbers, regulators, and discriminants.
+\end{enumerate}
+
+\subsubsection*{Module 13: Tate's Thesis and Harmonic Analysis on Adeles}
+
+\textbf{Chapters covered:} Functional Equation, Tate's Thesis.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Additive characters of local fields.
+    \item Local additive duality.
+    \item Fourier transforms over local fields.
+    \item Local multiplicative theory.
+    \item Local zeta integrals.
+    \item Local functional equations.
+    \item Restricted direct products.
+    \item Global additive duality.
+    \item Riemann--Roch-type statements for global fields.
+    \item Global zeta integrals and global functional equations.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Define Haar measure and Fourier transform on local fields.
+    \item State local functional equations for zeta integrals.
+    \item Explain how local gamma and epsilon factors arise.
+    \item Construct global zeta integrals on the adele ring.
+    \item Derive the functional equation of Hecke $L$-functions in the adelic framework.
+    \item Compare Hecke's classical method with Tate's adelic method.
+\end{enumerate}
+
+\paragraph{Why this module matters}
+Tate's thesis provides a unified local-global framework:
+\[
+\text{local Fourier analysis}
+\quad+\quad
+\text{adeles}
+\quad\Longrightarrow\quad
+\text{global }L\text{-functions and functional equations}.
+\]
+
+\paragraph{Difficulty level}
+Very high. This material requires simultaneous control of local fields, topological groups, Haar measure, Fourier analysis, adeles, and complex analytic continuation.
+
+\subsubsection*{Module 14: Prime Density and Tauberian Methods}
+
+\textbf{Chapters covered:} Density of Primes and Tauberian Theorem.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Dirichlet integrals.
+    \item Tauberian theorems.
+    \item Ikehara's Tauberian theorem.
+    \item Nonvanishing of $L$-series.
+    \item Prime ideal theorem.
+    \item Density of primes in prescribed splitting classes.
+    \item Chebotarev-type density principles.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item Explain the purpose of Tauberian theorems in analytic number theory.
+    \item Connect poles of Dirichlet series to asymptotic counting formulas.
+    \item State the prime ideal theorem for number fields.
+    \item Explain why nonvanishing of $L$-functions on a boundary line is analytically significant.
+    \item Interpret prime-density statements in terms of arithmetic progressions and Frobenius conjugacy classes.
+\end{enumerate}
+
+\paragraph{Illustrative principle}
+If a Dirichlet series has suitable analytic continuation and a simple pole at $s=1$, Tauberian theory can convert this analytic information into an asymptotic counting formula for arithmetic objects.
+
+\subsubsection*{Module 15: Brauer--Siegel and Explicit Formulas}
+
+\textbf{Chapters covered:} The Brauer--Siegel Theorem; Explicit Formulas.
+
+\paragraph{Key concepts}
+\begin{itemize}
+    \item Class number formula.
+    \item Residues of Dedekind zeta functions.
+    \item Upper and lower estimates for residues.
+    \item Brauer--Siegel theorem.
+    \item Weierstrass factorization of $L$-functions.
+    \item Logarithmic derivatives of zeta and $L$-functions.
+    \item Weil explicit formula.
+    \item Relations between zeros of $L$-functions and prime distributions.
+\end{itemize}
+
+\paragraph{Learning objectives}
+Students should be able to:
+\begin{enumerate}
+    \item State the analytic class number formula.
+    \item Explain the relationship among class number, regulator, discriminant, and zeta residues.
+    \item State the Brauer--Siegel theorem and describe its asymptotic content.
+    \item Use logarithmic derivatives to connect Euler products with prime sums.
+    \item Explain the conceptual content of explicit formulas.
+    \item Describe how zeros of zeta and $L$-functions influence the distribution of prime ideals.
+\end{enumerate}
+
+\paragraph{Advanced outcome}
+Students should recognize the broad theme:
+\[
+\text{arithmetic invariants}
+\longleftrightarrow
+\text{special values and residues of }L\text{-functions}
+\longleftrightarrow
+\text{asymptotic distribution of primes}.
+\]
+
+\section{Suggested Semester Structure}
+
+\subsection*{Semester I: Algebraic and Local Foundations}
+
+\begin{longtable}{p{0.12\textwidth}p{0.32\textwidth}p{0.46\textwidth}}
+\toprule
+\textbf{Weeks} & \textbf{Topic} & \textbf{Main Outcomes} \\
+\midrule
+\endhead
+
+1--2 &
+Algebraic integers and localization &
+Integral closure, rings of integers, localization, prime ideals. \\
+
+3--4 &
+Dedekind domains and ideal factorization &
+Unique factorization of ideals, fractional ideals, class groups. \\
+
+5--6 &
+Valuations and completions &
+$\Q_p$, valuation rings, local fields, Hensel's lemma. \\
+
+7 &
+Ramification and local extensions &
+Ramification indices, residue degrees, unramified and tame extensions. \\
+
+8 &
+Different and discriminant &
+Trace pairing, different ideals, discriminants, ramification. \\
+
+9 &
+Cyclotomic and quadratic fields &
+Roots of unity, Gauss sums, explicit splitting of primes. \\
+
+10--11 &
+Geometry of numbers &
+Minkowski theory, class-number finiteness, ideal bounds. \\
+
+12--13 &
+Adeles and ideles &
+Restricted products, idele class groups, local-global structure. \\
+
+14 &
+Zeta functions and Euler products &
+Dedekind zeta functions, Dirichlet series, introductory $L$-series. \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Semester II: Class Field Theory and Analytic Theory}
+
+\begin{longtable}{p{0.12\textwidth}p{0.32\textwidth}p{0.46\textwidth}}
+\toprule
+\textbf{Weeks} & \textbf{Topic} & \textbf{Main Outcomes} \\
+\midrule
+\endhead
+
+1--2 &
+Central simple algebras and Brauer groups &
+Cyclic algebras, Brauer equivalence, local invariants. \\
+
+3--4 &
+Local class field theory &
+Norm groups, local Artin maps, local reciprocity. \\
+
+5--7 &
+Global class field theory &
+Artin symbols, conductors, global reciprocity, class fields. \\
+
+8 &
+Hilbert class fields and norm theorems &
+Principal ideal theorem, splitting and norm behavior. \\
+
+9 &
+Abelian and Artin $L$-series &
+Hecke characters, Artin formalism, induced characters. \\
+
+10--11 &
+Hecke's proof of functional equations &
+Poisson summation, theta functions, zeta functional equations. \\
+
+12--13 &
+Tate's thesis &
+Local/global Fourier analysis, zeta integrals, adelic functional equations. \\
+
+14 &
+Tauberian methods and prime densities &
+Prime ideal theorem, density theorems, analytic consequences. \\
+
+15 &
+Brauer--Siegel and explicit formulas &
+Residues, class-number asymptotics, zeros and primes. \\
+\bottomrule
+\end{longtable}
+
+\section{Difficult Topics and Support Plan}
+
+\begin{longtable}{p{0.28\textwidth}p{0.28\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Difficult topic} & \textbf{Why it is difficult} & \textbf{Recommended support} \\
+\midrule
+\endhead
+
+Dedekind domains and ideal factorization &
+Students must abandon element-based unique factorization and work with ideals. &
+Use many explicit quadratic-field examples, especially fields with non-UFD rings of integers. \\
+
+Valuations and completions &
+The $p$-adic topology is counterintuitive and differs sharply from Euclidean geometry. &
+Begin with computations in $\Q_p$, $p$-adic expansions, and Hensel lifting. \\
+
+Ramification and the different &
+It combines local algebra, traces, valuations, and prime factorization. &
+Work through quadratic, cyclotomic, and Eisenstein-polynomial examples. \\
+
+Minkowski theory &
+It translates arithmetic questions into high-dimensional geometry. &
+Use diagrams in low dimensions and calculate Minkowski bounds explicitly. \\
+
+Adeles and ideles &
+Restricted products and their topologies are abstract and technically demanding. &
+First motivate them from the product formula and ideal groups; use $\Q$ as the primary example. \\
+
+Brauer groups and cyclic algebras &
+They rely on advanced algebra, tensor products, and cohomological ideas. &
+Present matrix algebras and quaternion algebras before abstract factor sets. \\
+
+Local class field theory &
+The reciprocity map is deep and may seem unmotivated. &
+Start with explicit local norm groups and the Lubin--Tate or cyclotomic intuition where appropriate. \\
+
+Global class field theory &
+The theorem combines ideles, local reciprocity, conductors, and Galois theory. &
+Emphasize the correspondence between finite abelian extensions and open subgroups of $C_K$. \\
+
+Tate's thesis &
+It requires harmonic analysis on locally compact groups plus adelic global methods. &
+Review Haar measure and Fourier transform carefully; separate local and global arguments. \\
+
+Tauberian theorems and explicit formulas &
+They require complex analysis and subtle inference from analytic to arithmetic information. &
+Develop the Riemann zeta function as a guiding model before treating general global fields. \\
+\bottomrule
+\end{longtable}
+
+\section{Course-Level Learning Outcomes}
+
+Upon successful completion of the course, students will be able to:
+
+\begin{enumerate}
+    \item Use the language of algebraic integers, Dedekind domains, ideals, valuations, and completions to solve arithmetic problems in number fields.
+
+    \item Analyze the splitting, ramification, and residue behavior of primes in finite extensions of global and local fields.
+
+    \item Compute and interpret traces, norms, differents, discriminants, and class groups.
+
+    \item Apply Minkowski theory to prove finiteness results and obtain effective bounds for ideal classes.
+
+    \item Construct and use the adele ring, idele group, and idele class group of a global field.
+
+    \item Define Dedekind zeta functions, Hecke $L$-functions, and Artin $L$-functions, including their Euler products and arithmetic coefficients.
+
+    \item Explain the local and global reciprocity maps of class field theory.
+
+    \item Relate finite abelian extensions of a global field to finite-index open subgroups of its idele class group.
+
+    \item Use Fourier analysis and Poisson summation to understand functional equations of zeta and $L$-functions.
+
+    \item Explain how analytic behavior of zeta and $L$-functions controls class numbers, regulators, ideal counts, and densities of prime ideals.
+
+    \item State and contextualize major theorems, including:
+    \begin{itemize}
+        \item the finiteness of the ideal class group;
+        \item the Minkowski bound;
+        \item the analytic class number formula;
+        \item local class field theory;
+        \item global Artin reciprocity;
+        \item the existence theorem of class field theory;
+        \item the functional equation of $\zeta_K(s)$;
+        \item prime-density results;
+        \item the Brauer--Siegel theorem.
+    \end{itemize}
+\end{enumerate}
+
+\section{Assessment Recommendations}
+
+\begin{longtable}{p{0.28\textwidth}p{0.18\textwidth}p{0.44\textwidth}}
+\toprule
+\textbf{Assessment} & \textbf{Suggested weight} & \textbf{Purpose} \\
+\midrule
+\endhead
+
+Weekly problem sets &
+35\% &
+Proof-writing, local computations, explicit examples, and development of technical fluency. \\
+
+Midterm examination I &
+15\% &
+Algebraic integers, Dedekind domains, local fields, ramification, and discriminants. \\
+
+Midterm examination II &
+15\% &
+Adeles, ideles, zeta functions, norm indices, and local reciprocity. \\
+
+Reading presentation or theorem exposition &
+10\% &
+A guided presentation on a central theorem, such as Minkowski's theorem, Artin reciprocity, or Tate's thesis. \\
+
+Final project or final examination &
+25\% &
+Synthesis of algebraic, local-global, class-field-theoretic, and analytic techniques. \\
+\bottomrule
+\end{longtable}
+
+\section{Suggested Capstone Projects}
+
+\begin{itemize}
+    \item Compute ideal class groups of selected quadratic number fields using Minkowski bounds.
+    \item Study splitting of primes in cyclotomic fields and relate it to congruence classes modulo $n$.
+    \item Develop local norm criteria for quadratic extensions of $\Q_p$.
+    \item Prove and apply the Hasse norm theorem in a special cyclic setting.
+    \item Derive the functional equation of the Riemann zeta function via Poisson summation.
+    \item Present the idele-theoretic formulation of global Artin reciprocity.
+    \item Investigate the Hilbert class field of an imaginary quadratic field.
+    \item Explain the analytic class number formula for a quadratic field.
+    \item Compare Hecke's proof and Tate's adelic proof of a functional equation.
+    \item Study the relationship between prime splitting and Frobenius elements through examples.
+\end{itemize}
+
+\section{Recommended Conceptual Progression}
+
+The intended conceptual progression of the course is:
+\[
+\begin{aligned}
+&\text{Integers and primes in }\Q \\
+&\qquad\downarrow \\
+&\text{Algebraic integers and prime ideals in number fields} \\
+&\qquad\downarrow \\
+&\text{Valuations, local fields, and ramification} \\
+&\qquad\downarrow \\
+&\text{Lattices, class groups, discriminants, and Minkowski theory} \\
+&\qquad\downarrow \\
+&\text{Places, adeles, ideles, and global arithmetic} \\
+&\qquad\downarrow \\
+&\text{Artin reciprocity and class field theory} \\
+&\qquad\downarrow \\
+&\text{Zeta functions, }L\text{-functions, functional equations, and prime density}.
+\end{aligned}
+\]
+
+\section{Summary}
+
+This course is best understood as a modern theory of arithmetic in global fields. Its foundational component studies how primes, ideals, valuations, and discriminants behave in algebraic extensions. Its central structural component uses local fields, adeles, ideles, and reciprocity maps to classify abelian extensions. Its analytic component connects arithmetic data to zeta functions and $L$-functions, ultimately explaining how class numbers, prime distributions, and field invariants are reflected in complex-analytic behavior.
+
+\end{document}

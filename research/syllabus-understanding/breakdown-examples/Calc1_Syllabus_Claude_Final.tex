@@ -1,0 +1,853 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue}
+
+\setlist[itemize]{nosep, itemsep=2pt}
+\setlist[enumerate]{nosep, itemsep=2pt}
+
+\title{AS.110.106 Calculus I (Biology and Social Sciences) \\ \large Full Course Design Package}
+\author{Johns Hopkins University, Department of Mathematics \\ \small Redesigned for a 12-week lecture-format term}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent This document reverse-engineers the AS.110.106 Calculus I (Bio.\ \& Soc.\ Sci.) syllabus, based on \emph{Calculus for Biology and Medicine}, 4th ed.\ (Neuhauser \& Roper), into a complete 12-week course design: module structure, topic-level learning objectives, a prerequisite dependency map, a difficulty analysis with mitigations, an assessment schedule, and worked example questions.
+\end{abstract}
+
+\section*{Assumptions}
+\begin{itemize}
+\item The syllabus gives week ranges as ``2-- weeks,'' ``2 weeks,'' ``3-- weeks,'' ``2+ weeks,'' ``2 weeks,'' ``1+ week.'' The minimum values sum to exactly 12 weeks, so this design uses the low end of each range to fit the stated 12-week term.
+\item The syllabus does not specify exam dates or a grading breakdown. This design assumes a standard two-midterm-plus-final structure, since none is stated.
+\item The syllabus does not specify contact hours per week; this design assumes a standard lecture cadence (roughly 2--3 sessions per week) without altering topic order.
+\item Chapter 1 is treated as an assumed-background review (functions, domain/range, composition, inverses, transformations, symmetry) since the syllabus lists it only as ``Chapter 1'' with no subsections.
+\end{itemize}
+
+\tableofcontents
+
+%=================================================================
+\section*{Course Structure Overview}
+\addcontentsline{toc}{section}{Course Structure Overview}
+\begin{longtable}{p{1.6cm}p{4.2cm}p{5.3cm}p{4.5cm}}
+\caption{Twelve-week module map} \\
+\toprule
+\textbf{Weeks} & \textbf{Module} & \textbf{Goal} & \textbf{Topics} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Weeks} & \textbf{Module} & \textbf{Goal} & \textbf{Topics} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1--2 & A: Review of Functions \& Growth Models & Refresh algebraic/functional foundations and introduce exponential and sequence-based models needed for later biological applications. & Ch.\ 1; 2.1; 2.2 \\
+3--4 & B: Limits and Continuity & Develop rigorous and intuitive understanding of limiting behavior and continuity as the foundation of the derivative. & 3.1--3.5 \\
+5--7 & C: Derivatives & Build differentiation from first principles to fluent symbolic computation across all elementary function types. & 4.1--4.11 \\
+8--9 & D: Applications of Differentiation & Use derivatives to analyze function behavior and solve optimization problems. & 5.1--5.5 \\
+10--11 & E: Integration & Introduce the definite integral and connect differentiation and integration via the FTC. & 5.10; 6.1--6.3 \\
+12 & F: Applications of the Integral & Extend the integration toolkit with substitution, parts, and partial fractions for realistic models. & 7.1--7.3 \\
+\end{longtable}
+
+%=================================================================
+\section{Module A: Review of Functions and Growth Models (Weeks 1--2)}
+
+\subsection{Chapter 1: Review of Functions}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Definition of a function; domain and range
+\item Composition of functions and inverse functions
+\item Polynomial, rational, trigonometric, exponential, and logarithmic function families
+\item Piecewise-defined functions
+\item Transformations: shifts, stretches, reflections
+\item Even/odd symmetry
+\end{itemize}
+\textbf{Learning Objectives} (students will be able to)
+\begin{enumerate}
+\item Identify the domain and range of algebraic, trigonometric, and piecewise functions.
+\item Compute compositions $f\circ g$ and determine when a function is invertible.
+\item Sketch transformations of a parent function given shift and scale parameters.
+\item Classify a function as even, odd, or neither.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} State the domain of $f(x) = \dfrac{1}{\sqrt{x-3}}$. \\
+\textit{Answer:} $x > 3$, i.e.\ $(3,\infty)$.
+\item \emph{(Application)} Let $f(x)=x^2$ and $g(x) = x - 4$. Find $(f\circ g)(x)$ and state whether $g$ is invertible; if so, find $g^{-1}(x)$. \\
+\textit{Answer:} $(f\circ g)(x) = (x-4)^2$; $g$ is invertible (linear, one-to-one), $g^{-1}(x) = x+4$.
+\end{enumerate}
+
+\subsection{2.1 Exponential Growth and Decay}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Exponential functions $b^x$ and the base $e$
+\item Continuous vs.\ discrete growth models
+\item Growth/decay constant $k$; doubling time and half-life
+\item Preview of the differential equation $\frac{dy}{dt} = ky$
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Explain the qualitative difference between linear and exponential growth.
+\item Derive the half-life/doubling-time formula from a given decay/growth constant.
+\item Apply exponential models to population-growth and radioactive-decay word problems.
+\item Evaluate, from a data trend, whether an exponential growth or decay model is appropriate.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} A population grows according to $P(t) = P_0 e^{kt}$ with $k = 0.05$/year. What does $k$ represent? \\
+\textit{Answer:} The continuous relative (per-capita) growth rate: the population grows at 5\% per year, compounded continuously.
+\item \emph{(Application)} A bacterial culture doubles every 3 hours. If it starts at 200 cells, find $k$ and predict the population after 10 hours. \\
+\textit{Answer:} $2 = e^{3k} \Rightarrow k = \frac{\ln 2}{3} \approx 0.231$; $P(10) = 200e^{0.231(10)} \approx 200e^{2.31}\approx 2009$ cells.
+\end{enumerate}
+
+\subsection{2.2 Sequences}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Sequence notation $a_n$
+\item Recursive vs.\ explicit definitions
+\item Convergence and divergence of a sequence
+\item Informal limit of a sequence as $n\to\infty$
+\item Monotonic and bounded sequences
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Define a sequence both recursively and explicitly.
+\item Determine whether a simple sequence converges or diverges.
+\item Compute the limit of a sequence using algebraic limit laws.
+\item Relate a discrete sequence model to the continuous growth model of Section 2.1.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Does the sequence $a_n = \dfrac{n}{n+1}$ converge? If so, to what value? \\
+\textit{Answer:} Yes; $a_n \to 1$ as $n\to\infty$.
+\item \emph{(Application)} A drug dose recursion is $a_{n+1} = 0.5a_n + 10$, $a_0 = 0$ (mg, after each dosing interval). Find $a_1, a_2, a_3$ and conjecture the long-run (steady-state) value. \\
+\textit{Answer:} $a_1=10,\ a_2=15,\ a_3=17.5$; steady state solves $L = 0.5L+10 \Rightarrow L=20$ mg.
+\end{enumerate}
+
+%=================================================================
+\section{Module B: Limits and Continuity (Weeks 3--4)}
+
+\subsection{3.1 Limits}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Intuitive limit as $x\to a$; one-sided limits
+\item Limit laws: sum, product, quotient
+\item Formal $\varepsilon$--$\delta$ definition (Sec.\ 3.6)
+\item Nonexistence of a limit: oscillation, jump, unboundedness
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Estimate a limit numerically and graphically.
+\item Compute limits algebraically using limit laws.
+\item Prove a simple limit statement using the formal $\varepsilon$--$\delta$ definition.
+\item Diagnose why a limit fails to exist at a given point.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+The $\varepsilon$--$\delta$ definition asks students to reason about two interdependent ``smallness'' quantities inside nested quantifiers ($\forall \varepsilon\ \exists \delta$), which is a genuine jump from the procedural algebra they have used up to this point. The notation itself (two Greek letters, an implication, an absolute-value inequality) is unfamiliar, so many students' difficulty is more about parsing the symbols than about the underlying idea. \\
+\textbf{Mitigation}: Introduce the idea in ``tolerance/target'' language before any symbols (``how close does $x$ need to be to $a$ so that $f(x)$ lands within a given target window?''), use a numerical guess-and-check table (pick $\varepsilon$, find a working $\delta$) before asking for a general proof, and restrict formal proofs to linear functions only in this course.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\lim_{x\to 2}(3x^2 - x)$. \\
+\textit{Answer:} $3(4)-2 = 10$.
+\item \emph{(Application)} Explain why $\displaystyle\lim_{x\to 0}\dfrac{|x|}{x}$ does not exist. \\
+\textit{Answer:} The left-hand limit is $-1$ and the right-hand limit is $1$; since the one-sided limits differ, the two-sided limit does not exist.
+\item \emph{(Analysis)} Using the formal definition, show that $\displaystyle\lim_{x\to 3}(2x+1)=7$. \\
+\textit{Rubric:} Full credit requires: given $\varepsilon>0$, choosing $\delta = \varepsilon/2$, and correctly showing $0<|x-3|<\delta \Rightarrow |(2x+1)-7|=2|x-3|<2\delta=\varepsilon$.
+\end{enumerate}
+
+\subsection{3.2 Continuity}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Three-part definition of continuity at a point
+\item Removable, jump, and infinite discontinuities
+\item Continuity on an interval
+\item Intermediate Value Theorem (IVT)
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Test whether a function is continuous at a point using the three-part definition.
+\item Classify a discontinuity by type.
+\item Apply the IVT to justify the existence of a root or solution.
+\item Construct a piecewise function exhibiting a specified type of discontinuity.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Classify the discontinuity of $f(x) = \dfrac{x^2-4}{x-2}$ at $x=2$. \\
+\textit{Answer:} Removable (the factor $x-2$ cancels; the limit exists but $f(2)$ is undefined).
+\item \emph{(Application)} Show that $f(x) = x^3 - x - 1$ has a root in $(1,2)$. \\
+\textit{Answer:} $f$ is continuous (polynomial); $f(1) = -1 < 0$ and $f(2) = 5 > 0$; by the IVT there exists $c\in(1,2)$ with $f(c)=0$.
+\end{enumerate}
+
+\subsection{3.3 Limits at Infinity}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Horizontal asymptotes
+\item End behavior of rational, exponential, and logarithmic functions
+\item Formal $\varepsilon$--$M$ definition (Sec.\ 3.6)
+\item Distinguishing limits at infinity from infinite limits
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Compute limits as $x\to\pm\infty$ for rational and transcendental functions.
+\item Identify horizontal asymptotes from a limit computation.
+\item Distinguish, in words and notation, an infinite limit from a limit at infinity.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find $\displaystyle\lim_{x\to\infty}\dfrac{3x^2+1}{5x^2-x}$. \\
+\textit{Answer:} $3/5$ (divide numerator and denominator by $x^2$).
+\item \emph{(Application)} Find all horizontal asymptotes of $f(x) = \dfrac{2x+1}{\sqrt{x^2+1}}$. \\
+\textit{Answer:} $y=2$ as $x\to\infty$ and $y=-2$ as $x\to -\infty$ (the sign of $x$ matters once $\sqrt{x^2}$ is rewritten as $|x|$).
+\end{enumerate}
+
+\subsection{3.4 Trigonometric Limits and the Sandwich Theorem}
+\textbf{Core Concepts}
+\begin{itemize}
+\item $\displaystyle\lim_{x\to 0}\frac{\sin x}{x}=1$ and related limits
+\item Statement of the Sandwich (Squeeze) Theorem
+\item Bounding a function between two known functions
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item State and apply the Sandwich Theorem.
+\item Derive $\displaystyle\lim_{x\to 0}\frac{\sin x}{x}=1$ using a geometric bounding argument.
+\item Apply trigonometric limit results in later derivative derivations.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\lim_{x\to 0}\dfrac{\sin(5x)}{x}$. \\
+\textit{Answer:} $5$ (rewrite as $5\cdot\frac{\sin 5x}{5x}$).
+\item \emph{(Application)} Given $-x^2 \le g(x) \le x^2$ for all $x$, find $\displaystyle\lim_{x\to0}g(x)$ and justify using the Sandwich Theorem. \\
+\textit{Answer:} $0$, since both bounding functions $\to 0$ as $x\to 0$.
+\end{enumerate}
+
+\subsection{3.5 Properties of Continuous Functions}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Preview of the Extreme Value Theorem
+\item Boundedness of a continuous function on a closed interval
+\item Continuity of compositions and algebraic combinations of continuous functions
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Explain why a continuous function on $[a,b]$ must attain a maximum and minimum (preview of 5.1).
+\item Prove continuity of a composite or combined function using the relevant theorems.
+\item Apply these properties to simplify continuity arguments.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Why is $h(x) = \sin(x^2+1)$ continuous everywhere? \\
+\textit{Answer:} It is a composition of continuous functions ($x^2+1$ is continuous, $\sin$ is continuous), and compositions of continuous functions are continuous.
+\item \emph{(Application)} $f$ is continuous on $[0,4]$ with $f(0)=-2$ and $f(4)=6$. Must $f$ attain the value $2$ somewhere in $[0,4]$? Justify. \\
+\textit{Answer:} Yes, by the IVT, since $2$ lies between $f(0)$ and $f(4)$ and $f$ is continuous on the interval.
+\end{enumerate}
+
+%=================================================================
+\section{Module C: Derivatives (Weeks 5--7)}
+
+\subsection{4.1 Formal Definition of the Derivative}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Difference quotient $\dfrac{f(x+h)-f(x)}{h}$
+\item Derivative as the limit of the difference quotient
+\item Derivative as instantaneous rate of change / slope of the tangent line
+\item Differentiability implies continuity (converse fails)
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Compute a derivative directly from the limit definition for simple functions.
+\item Explain the geometric and physical meaning of $f'(a)$.
+\item Exhibit a function that is continuous but not differentiable at a point.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Use the limit definition to find $f'(x)$ for $f(x) = x^2$. \\
+\textit{Answer:} $f'(x) = \displaystyle\lim_{h\to 0}\frac{(x+h)^2-x^2}{h} = \lim_{h\to0}(2x+h) = 2x$.
+\item \emph{(Application)} Show that $f(x)=|x|$ is continuous at $x=0$ but not differentiable there. \\
+\textit{Rubric:} Full credit requires showing $\lim_{x\to0}|x|=0=f(0)$ (continuity), and computing the left-hand difference quotient limit ($-1$) and right-hand limit ($1$) to show they disagree (non-differentiability).
+\end{enumerate}
+
+\subsection{4.2 Basic Rules of Derivatives}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Constant rule; sum/difference rule; constant-multiple rule
+\item Linearity of differentiation
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Apply the constant, sum, and constant-multiple rules to differentiate polynomials.
+\item Justify these rules from the limit definition.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Differentiate $f(x) = 5x^3 - 2x + 7$. \\
+\textit{Answer:} $f'(x) = 15x^2-2$.
+\item \emph{(Application)} Prove the constant-multiple rule $\frac{d}{dx}[cf(x)] = cf'(x)$ from the limit definition. \\
+\textit{Rubric:} Credit for correctly factoring $c$ out of the difference quotient and applying the limit-of-a-constant-times-a-function law.
+\end{enumerate}
+
+\subsection{4.3 Power Rule and the Rules of Differentiation}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Power rule for integer, rational, and negative exponents
+\item Combining the power rule with the basic rules
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Apply the power rule to functions with rational and negative exponents.
+\item Differentiate polynomial and radical functions fluently.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Differentiate $f(x) = x^{5}$ and $g(x)=x^{-3}$. \\
+\textit{Answer:} $f'(x)=5x^4$, $g'(x) = -3x^{-4}$.
+\item \emph{(Application)} Differentiate $f(x) = 3\sqrt{x} - \dfrac{4}{x^2}$. \\
+\textit{Answer:} Rewrite as $3x^{1/2}-4x^{-2}$; $f'(x) = \tfrac{3}{2}x^{-1/2}+8x^{-3}$.
+\end{enumerate}
+
+\subsection{4.4 Product and Quotient Rules}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Product rule formula and its derivation
+\item Quotient rule formula and its derivation
+\item Common sign errors in the quotient rule
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Derive the product rule from the limit definition.
+\item Apply the product and quotient rules to composite algebraic expressions.
+\item Diagnose and correct a quotient-rule sign error in sample work.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Differentiate $f(x) = x^2\sin x$. \\
+\textit{Answer:} $f'(x) = 2x\sin x + x^2\cos x$.
+\item \emph{(Application)} A student writes $\frac{d}{dx}\left[\frac{x^2}{x+1}\right] = \frac{2x(x+1)+x^2}{(x+1)^2}$. Identify and correct the error. \\
+\textit{Answer:} The sign in the numerator is wrong; the correct quotient rule gives $\frac{2x(x+1)-x^2}{(x+1)^2} = \frac{x^2+2x}{(x+1)^2}$.
+\end{enumerate}
+
+\subsection{4.5 The Chain Rule}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Composite functions $f(g(x))$
+\item Chain rule formula; ``outside--inside'' heuristic
+\item Chain rule with multiply-nested compositions
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Identify the inner and outer functions in a composite expression.
+\item Apply the chain rule to single and multiply-nested compositions.
+\item Combine the chain rule with the product and quotient rules.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+The most common error is not a conceptual gap but an execution gap: students differentiate the outer function correctly but forget to multiply by the derivative of the inner function, or misidentify which piece is ``outside.'' The error compounds silently when compositions are nested two or three layers deep, since each layer adds another factor that is easy to drop. \\
+\textbf{Mitigation}: Teach an explicit ``peel the onion, layer by layer'' procedure and sequence worked examples from one layer of nesting to three. Use error-spotting exercises built from real (anonymized) student mistakes so learners practice catching the missing-factor error rather than only producing correct answers.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Differentiate $f(x) = (3x+1)^5$. \\
+\textit{Answer:} $f'(x) = 15(3x+1)^4$.
+\item \emph{(Application)} Differentiate $f(x) = \sin(\cos(x^2))$. \\
+\textit{Answer:} $f'(x) = \cos(\cos(x^2))\cdot(-\sin(x^2))\cdot 2x = -2x\sin(x^2)\cos(\cos(x^2))$.
+\item \emph{(Analysis)} A student differentiates $f(x)=e^{3x^2}$ and gets $f'(x)=e^{3x^2}$. Identify the missing step. \\
+\textit{Answer:} They forgot to multiply by the derivative of the inner function $3x^2$, namely $6x$; correct answer is $f'(x)=6xe^{3x^2}$.
+\end{enumerate}
+
+\subsection{4.6 Implicit Functions and Implicit Differentiation}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Implicitly defined curves (e.g., circles)
+\item Differentiating both sides with respect to $x$, treating $y$ as a function of $x$
+\item Solving for $dy/dx$
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Differentiate an implicitly defined relation.
+\item Solve for $dy/dx$ and evaluate the slope at a given point.
+\item Apply implicit differentiation to a related-rates-style biological model.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+Writing $\frac{d}{dx}(y^2) = 2y\,\frac{dy}{dx}$ requires silently treating $y$ as $y(x)$ and applying the chain rule to a variable that has no explicit formula -- a notational leap that differs from every derivative students have taken so far, where the ``inside function'' was always written out. \\
+\textbf{Mitigation}: Before differentiating, have students explicitly rewrite $y$ as $y(x)$ once on the page, then apply a fixed template: differentiate term by term, attach $\frac{dy}{dx}$ to every term containing $y$, then collect and solve.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find $dy/dx$ for $x^2+y^2=25$. \\
+\textit{Answer:} $2x+2y\frac{dy}{dx}=0 \Rightarrow \frac{dy}{dx} = -\frac{x}{y}$.
+\item \emph{(Application)} Find the slope of the tangent line to $xy^2 + x^2 = 6$ at the point $(2,1)$. \\
+\textit{Answer:} $y^2 + 2xy\frac{dy}{dx}+2x=0 \Rightarrow \frac{dy}{dx} = -\frac{y^2+2x}{2xy}$; at $(2,1)$: $-\frac{1+4}{4}=-\frac{5}{4}$.
+\end{enumerate}
+
+\subsection{4.7 Higher Derivatives}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Second- and higher-order derivative notation
+\item Physical interpretation (acceleration) and preview of concavity
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Compute second and third derivatives of standard functions.
+\item Interpret $f''$ in terms of concavity or acceleration.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find $f''(x)$ for $f(x) = x^4 - 3x^2$. \\
+\textit{Answer:} $f'(x) = 4x^3-6x$; $f''(x) = 12x^2-6$.
+\item \emph{(Application)} A particle's position is $s(t) = t^3-6t^2+9t$. Find its acceleration at $t=2$ and state whether it is speeding up or slowing down at that instant (given $s'(2)$). \\
+\textit{Answer:} $s''(t)=6t-12$, so $s''(2)=0$; with $s'(2)=3(4)-24+9=-3\ne0$, acceleration is momentarily zero while velocity is nonzero, so the particle is neither speeding up nor slowing down at that exact instant.
+\end{enumerate}
+
+\subsection{4.8 Derivative of Trigonometric Functions}
+\textbf{Core Concepts}
+\begin{itemize}
+\item $\frac{d}{dx}\sin x=\cos x$, $\frac{d}{dx}\cos x=-\sin x$, derived from the limit definition and the trig limits of 3.4
+\item Derivatives of $\tan x$, $\cot x$, $\sec x$, $\csc x$
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Derive $\frac{d}{dx}\sin x$ using the limit definition together with the trigonometric limits from Section 3.4.
+\item Apply trig derivative rules together with the chain and product rules.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Differentiate $f(x)=\tan x$. \\
+\textit{Answer:} $f'(x) = \sec^2 x$.
+\item \emph{(Application)} Differentiate $f(x) = x^2\sec(3x)$. \\
+\textit{Answer:} $f'(x) = 2x\sec(3x) + x^2\cdot 3\sec(3x)\tan(3x) = 2x\sec(3x)+3x^2\sec(3x)\tan(3x)$.
+\end{enumerate}
+
+\subsection{4.9 Derivatives of Exponential Functions}
+\textbf{Core Concepts}
+\begin{itemize}
+\item $\frac{d}{dx}e^x = e^x$; $\frac{d}{dx}b^x = b^x\ln b$
+\item Definition of $e$ as $\lim_{n\to\infty}(1+1/n)^n$, linking back to Sections 2.1/2.2
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Derive $\frac{d}{dx}e^x=e^x$ from the limit definition.
+\item Differentiate exponential functions of arbitrary base.
+\item Apply exponential derivatives to rate-of-change problems in growth/decay contexts.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Differentiate $f(x) = 3^x$. \\
+\textit{Answer:} $f'(x) = 3^x\ln 3$.
+\item \emph{(Application)} A population is modeled by $P(t)=500e^{0.08t}$. Find the instantaneous growth rate $P'(t)$ and evaluate it at $t=10$. \\
+\textit{Answer:} $P'(t) = 40e^{0.08t}$; $P'(10) = 40e^{0.8}\approx 89.0$ individuals per unit time.
+\end{enumerate}
+
+\subsection{4.10 Derivatives of Inverse Functions}
+\textbf{Core Concepts}
+\begin{itemize}
+\item General inverse function derivative formula $\left(f^{-1}\right)'(x) = \dfrac{1}{f'(f^{-1}(x))}$
+\item Derivatives of $\ln x$, $\arcsin x$, $\arctan x$, etc.
+\item Logarithmic differentiation
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Derive the general inverse-function derivative formula.
+\item Differentiate logarithmic and inverse trigonometric functions.
+\item Apply logarithmic differentiation to functions with variable exponents.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Differentiate $f(x) = \ln(5x)$. \\
+\textit{Answer:} $f'(x) = \dfrac{1}{x}$.
+\item \emph{(Application)} Use logarithmic differentiation to differentiate $f(x) = x^{x}$ ($x>0$). \\
+\textit{Answer:} $\ln f = x\ln x \Rightarrow \frac{f'}{f}=\ln x + 1 \Rightarrow f'(x) = x^x(\ln x+1)$.
+\end{enumerate}
+
+\subsection{4.11 Linear Approximation}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Tangent-line approximation $L(x) = f(a)+f'(a)(x-a)$
+\item Differentials $dy = f'(x)\,dx$
+\item Informal error estimation
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Construct the linear approximation of a function at a point.
+\item Use a linear approximation to estimate a function value near $a$.
+\item Judge when a linear approximation is reliable versus unreliable.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find the linear approximation of $f(x)=\sqrt{x}$ at $a=25$. \\
+\textit{Answer:} $f(25)=5$, $f'(x)=\frac{1}{2\sqrt{x}}$, $f'(25)=\frac{1}{10}$; $L(x) = 5 + \frac{1}{10}(x-25)$.
+\item \emph{(Application)} Use the result above to estimate $\sqrt{26.5}$, and discuss whether the estimate is likely an over- or under-estimate. \\
+\textit{Answer:} $L(26.5)=5+0.15=5.15$; since $\sqrt{x}$ is concave down, the tangent line lies above the curve, so $5.15$ is a slight overestimate of the true value ($\approx5.148$).
+\end{enumerate}
+
+%=================================================================
+\section{Module D: Applications of Differentiation (Weeks 8--9)}
+
+\subsection{5.1 Extreme and Mean Value Theorems}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Absolute vs.\ local extrema
+\item Extreme Value Theorem (EVT)
+\item Fermat's Theorem and critical points
+\item Rolle's Theorem and the Mean Value Theorem (MVT)
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item State the hypotheses and conclusions of the EVT and the MVT.
+\item Find the critical points of a function.
+\item Apply the MVT to justify a statement about a function's behavior.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find the critical points of $f(x) = x^3-3x+1$. \\
+\textit{Answer:} $f'(x)=3x^2-3=0 \Rightarrow x=\pm1$.
+\item \emph{(Application)} Show that $f(x)=x^3+x-1$ has exactly one real root using Rolle's Theorem (by contradiction) together with the IVT. \\
+\textit{Rubric:} Credit for (i) using IVT to show a root exists (e.g., $f(0)=-1<0<f(1)=1$), and (ii) arguing that $f'(x)=3x^2+1>0$ always, so $f$ is strictly increasing and cannot have two roots (if it did, Rolle's Theorem would require $f'=0$ somewhere between them, a contradiction).
+\end{enumerate}
+
+\subsection{5.2 Monotonicity and Concavity}
+\textbf{Core Concepts}
+\begin{itemize}
+\item First derivative test for increasing/decreasing behavior
+\item Second derivative and concavity
+\item Sign charts
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Determine intervals of increase/decrease using $f'$.
+\item Determine concavity using $f''$.
+\item Construct a sign chart summarizing a function's behavior.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find the intervals where $f(x)=x^3-3x^2$ is increasing. \\
+\textit{Answer:} $f'(x)=3x^2-6x = 3x(x-2)$; increasing on $(-\infty,0)\cup(2,\infty)$.
+\item \emph{(Application)} Determine the concavity of $f(x)=x^4-6x^2$ on all intervals. \\
+\textit{Answer:} $f''(x)=12x^2-12=12(x-1)(x+1)$; concave up on $(-\infty,-1)\cup(1,\infty)$, concave down on $(-1,1)$.
+\end{enumerate}
+
+\subsection{5.3 Extrema and Inflection Points}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Classifying critical points via the first- or second-derivative test
+\item Inflection points (concavity change)
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Classify critical points as local maxima, minima, or neither.
+\item Locate inflection points and justify with a concavity-change argument.
+\item Sketch a curve using first- and second-derivative information.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+Students frequently conflate ``critical point'' with ``extremum'' (not every critical point is a max/min, e.g.\ $f(x)=x^3$ at $x=0$) and conflate ``$f''=0$'' with ``inflection point'' (concavity must actually \emph{change} sign, e.g.\ $f(x)=x^4$ has $f''(0)=0$ but no inflection point there). Both errors stem from treating a necessary condition as if it were sufficient. \\
+\textbf{Mitigation}: Pair every rule with an explicit counterexample ($x^3$ for critical-but-not-extreme, $x^4$ for $f''=0$-but-not-inflection) at first introduction, and require a sign-change check, not just a zero, before students may label a point an inflection point.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Classify the critical point of $f(x)=x^3$ at $x=0$. \\
+\textit{Answer:} Neither a max nor a min ($f'(x)=3x^2\ge0$ everywhere, so $f$ never decreases).
+\item \emph{(Application)} Find and classify all local extrema and inflection points of $f(x)=x^4-4x^3$. \\
+\textit{Answer:} $f'(x)=4x^3-12x^2=4x^2(x-3)$, critical points $x=0,3$; sign analysis shows $f$ decreasing on $(-\infty,3)$, increasing on $(3,\infty)$, so $x=3$ is a local min, $x=0$ is neither. $f''(x)=12x^2-24x=12x(x-2)$, sign changes at $x=0$ and $x=2$, so both are inflection points.
+\end{enumerate}
+
+\subsection{5.4 Optimization}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Translating a word problem into an objective function
+\item Identifying constraints and the domain of the objective function
+\item Solving via critical points plus endpoint/boundary checks
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Translate a real-world (biological or social-science) scenario into an optimization function.
+\item Apply calculus techniques to find the optimal value.
+\item Justify, via the first- or second-derivative test, that a critical point is the required max or min.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+The bottleneck is rarely the calculus itself; it is the translation step. Turning prose into a labeled diagram, a constraint equation, and a single-variable objective function is a distinct skill from differentiating, and many students who can optimize a given function cannot construct one from a word problem. The cognitive load of doing both steps at once overwhelms working memory. \\
+\textbf{Mitigation}: Teach a fixed five-step template (draw a diagram $\to$ label variables $\to$ write the constraint $\to$ substitute to get a one-variable objective $\to$ differentiate and classify), and sequence practice from simple geometric setups (rectangle with fixed perimeter) to biological ones (e.g., resource-allocation or population models) only after the template is automatic.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} A rectangle has perimeter 40. Write its area as a function of one side length $x$. \\
+\textit{Answer:} $A(x) = x(20-x)$.
+\item \emph{(Application)} Find the dimensions of the rectangle in the previous question that maximize area, and confirm it is a maximum. \\
+\textit{Answer:} $A'(x)=20-2x=0\Rightarrow x=10$; $A''(x)=-2<0$ confirms a maximum; the rectangle is a $10\times10$ square, area $100$.
+\item \emph{(Analysis)} A culture's growth rate depends on nutrient concentration $c$ via $R(c) = \dfrac{c}{1+c^2}$. Find the nutrient concentration that maximizes the growth rate. \\
+\textit{Answer:} $R'(c) = \dfrac{(1+c^2)-c(2c)}{(1+c^2)^2} = \dfrac{1-c^2}{(1+c^2)^2}=0 \Rightarrow c=1$ (taking $c>0$); sign change from positive to negative confirms a maximum at $c=1$.
+\end{enumerate}
+
+\subsection{5.5 L'Hopital's Rule}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Indeterminate forms $0/0$ and $\infty/\infty$
+\item Statement and hypotheses of L'Hopital's Rule
+\item Algebraically converting other indeterminate forms ($0\cdot\infty$, $\infty-\infty$, $0^0$, etc.) into $0/0$ or $\infty/\infty$
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Identify when L'Hopital's Rule applies.
+\item Apply L'Hopital's Rule, including repeated application.
+\item Convert a non-standard indeterminate form into $0/0$ or $\infty/\infty$ before applying the rule.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+Students often apply L'Hopital's Rule to limits that are not actually indeterminate, or differentiate the entire fraction using the quotient rule instead of differentiating numerator and denominator separately -- confusing this rule with ordinary differentiation of a quotient. \\
+\textbf{Mitigation}: Require students to write the verification ``form: $0/0$'' or ``form: $\infty/\infty$'' explicitly before applying the rule, and use a side-by-side common-error walkthrough contrasting correct L'Hopital application against the quotient-rule mistake.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\lim_{x\to 0}\dfrac{\sin x}{x}$ using L'Hopital's Rule. \\
+\textit{Answer:} Form is $0/0$; differentiate top and bottom: $\lim_{x\to0}\frac{\cos x}{1}=1$.
+\item \emph{(Application)} Evaluate $\displaystyle\lim_{x\to\infty} x e^{-x}$. \\
+\textit{Answer:} Rewrite as $\lim_{x\to\infty}\frac{x}{e^{x}}$, form $\infty/\infty$; apply L'Hopital: $\lim_{x\to\infty}\frac{1}{e^x}=0$.
+\end{enumerate}
+
+%=================================================================
+\section{Module E: Integration (Weeks 10--11)}
+
+\subsection{5.10 Antiderivatives}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Definition of an antiderivative / indefinite integral
+\item Basic antiderivative rules: power, exponential, trigonometric
+\item The constant of integration $C$
+\item Initial value problems
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Compute antiderivatives of elementary functions.
+\item Solve an initial value problem to find a particular antiderivative.
+\item Explain why any two antiderivatives of the same function differ by a constant.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find the general antiderivative of $f(x) = 4x^3 + \sin x$. \\
+\textit{Answer:} $F(x) = x^4 - \cos x + C$.
+\item \emph{(Application)} Find $f(x)$ given $f'(x) = 6x^2 - 2$ and $f(1) = 5$. \\
+\textit{Answer:} $f(x) = 2x^3-2x+C$; $f(1)=2-2+C=5\Rightarrow C=5$, so $f(x)=2x^3-2x+5$.
+\end{enumerate}
+
+\subsection{6.1 The Definite Integral}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Riemann sums: left, right, midpoint
+\item The definite integral as a limit of Riemann sums
+\item Area interpretation (signed area)
+\item Properties of definite integrals: linearity, additivity over intervals
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Approximate a definite integral using a Riemann sum.
+\item Set up and interpret a definite integral as signed area.
+\item Apply properties of definite integrals to simplify a computation.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+The definite integral asks students to accept a limit of an ever-finer sum of an ever-larger number of rectangles -- an abstraction jump layered on top of unfamiliar notation ($\sum$, $\Delta x$, sample points $x_i^*$) all introduced at once. Many students can compute a Riemann sum mechanically without understanding what the limiting process represents. \\
+\textbf{Mitigation}: Use a visual or numerical scaffold (a spreadsheet or applet showing the sum converging as the number of rectangles increases) before introducing sigma notation formally, and separate ``compute a sum for a fixed $n$'' practice from ``interpret the limit as $n\to\infty$'' practice.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Approximate $\displaystyle\int_0^2 x^2\,dx$ using a right-endpoint Riemann sum with $n=4$ rectangles. \\
+\textit{Answer:} $\Delta x = 0.5$; right endpoints $0.5,1,1.5,2$; sum $=0.5(0.25+1+2.25+4)=3.75$.
+\item \emph{(Application)} Interpret $\displaystyle\int_{-2}^{2}x\,dx = 0$ geometrically, and explain why this does \emph{not} mean the region has zero area. \\
+\textit{Answer:} The integral gives \emph{signed} area; the region above the axis on $[0,2]$ and below the axis on $[-2,0]$ have equal magnitude but opposite sign, so they cancel, even though the total (unsigned) area enclosed is nonzero.
+\end{enumerate}
+
+\subsection{6.2 The Fundamental Theorem of Calculus}
+\textbf{Core Concepts}
+\begin{itemize}
+\item FTC Part 1: the derivative of an accumulation function
+\item FTC Part 2: evaluating a definite integral via an antiderivative
+\item The connection between differentiation and integration
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item State both parts of the Fundamental Theorem of Calculus.
+\item Apply FTC Part 2 to evaluate a definite integral.
+\item Apply FTC Part 1 to differentiate a function defined by an integral.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+Students often memorize FTC Part 2 as a computational shortcut without grasping \emph{why} integration undoes differentiation, and they routinely confuse the two parts -- particularly Part 1, which produces a derivative of an accumulation function rather than a number. \\
+\textbf{Mitigation}: Present both parts in an explicit side-by-side comparison table with distinct worked examples for each, and frame Part 1 with a ``rate in $\to$ total accumulated'' narrative (e.g., a rate function whose accumulation gives total change) before introducing the symbolic statement $\frac{d}{dx}\int_a^x f(t)\,dt = f(x)$.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\int_1^3 (2x+1)\,dx$ using FTC Part 2. \\
+\textit{Answer:} Antiderivative $x^2+x$; $(9+3)-(1+1)=10$.
+\item \emph{(Application)} Let $g(x) = \displaystyle\int_0^x \sqrt{t^2+1}\,dt$. Find $g'(x)$. \\
+\textit{Answer:} By FTC Part 1, $g'(x) = \sqrt{x^2+1}$.
+\end{enumerate}
+
+\subsection{6.3 Applications of Integration}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Area between two curves
+\item Average value of a function on an interval
+\item Accumulated change (e.g., total change from a given rate function)
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Set up and compute the area between two curves.
+\item Compute the average value of a function on an interval.
+\item Apply the integral to accumulate a rate into a total change in a biological or social-science context.
+\end{enumerate}
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Find the area between $y=x^2$ and $y=4$ on the interval where $x^2 \le 4$. \\
+\textit{Answer:} $\int_{-2}^{2}(4-x^2)\,dx = \left[4x-\tfrac{x^3}{3}\right]_{-2}^{2} = \tfrac{32}{3}$.
+\item \emph{(Application)} A population's growth rate is $R(t) = 50e^{0.1t}$ individuals/year. Find the total population increase between $t=0$ and $t=5$. \\
+\textit{Answer:} $\int_0^5 50e^{0.1t}\,dt = 500\left(e^{0.5}-1\right) \approx 500(0.6487)\approx 324.4$ individuals.
+\end{enumerate}
+
+%=================================================================
+\section{Module F: Applications of the Integral (Week 12)}
+
+\subsection{7.1 The Substitution Rule}
+\textbf{Core Concepts}
+\begin{itemize}
+\item $u$-substitution for indefinite integrals
+\item Changing the limits of integration for a definite integral
+\item Recognizing composite-function integrands
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Identify an appropriate substitution $u=g(x)$ for a given integral.
+\item Apply substitution to evaluate indefinite and definite integrals.
+\item Correctly adjust the limits of integration when substituting in a definite integral.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+Substitution is essentially the chain rule run in reverse, so students who never fully internalized ``spot the inner function'' in 4.5 struggle equally here, now compounded by the extra bookkeeping step of also changing $dx$ and (for definite integrals) the limits of integration -- a step that is easy to forget entirely. \\
+\textbf{Mitigation}: Run explicit ``spot the inside function'' drills on integrands before ever computing an antiderivative, and require a written limit-conversion table ($x$-limits $\to$ $u$-limits) as a mandatory step for every definite-integral substitution problem.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\int 2x(x^2+1)^4\,dx$. \\
+\textit{Answer:} Let $u=x^2+1$, $du=2x\,dx$; integral $=\int u^4\,du = \tfrac{u^5}{5}+C = \tfrac{(x^2+1)^5}{5}+C$.
+\item \emph{(Application)} Evaluate $\displaystyle\int_0^{2} x e^{x^2}\,dx$, changing the limits of integration explicitly. \\
+\textit{Answer:} $u=x^2$, $du=2x\,dx$; when $x=0, u=0$; when $x=2, u=4$; integral $=\tfrac12\int_0^4 e^u\,du = \tfrac12(e^4-1)$.
+\end{enumerate}
+
+\subsection{7.2 Integration by Parts and Practicing Integration}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Integration by parts formula, derived from the product rule
+\item LIATE/ILATE heuristic for choosing $u$ and $dv$
+\item Repeated and tabular integration by parts
+\item General strategy selection among substitution, parts, and direct integration
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Derive the integration-by-parts formula from the product rule.
+\item Apply integration by parts, including cases requiring repetition.
+\item Select the correct integration technique for a given mixed problem set.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+A poor choice of $u$ and $dv$ produces a \emph{harder} integral than the original, and students frequently apply the LIATE heuristic mechanically without understanding why it tends to work, so they cannot adapt when it fails or when repeated integration by parts is needed. \\
+\textbf{Mitigation}: Show an explicit ``wrong choice vs.\ right choice'' worked comparison for the same integral, then build toward problems (e.g., $\int x^2 e^x\,dx$) that require recognizing the need for repetition or the tabular shortcut.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\int x e^{x}\,dx$. \\
+\textit{Answer:} $u=x, dv=e^x dx$; $=xe^x - \int e^x\,dx = xe^x-e^x+C$.
+\item \emph{(Application)} Evaluate $\displaystyle\int x^2 e^{x}\,dx$ (requires integration by parts twice). \\
+\textit{Answer:} $=x^2e^x - 2xe^x+2e^x+C$ (first pass: $u=x^2$; second pass on the resulting $\int 2xe^x\,dx$: $u=2x$).
+\item \emph{(Analysis)} A student sets $u=e^x$, $dv=x\,dx$ for $\int xe^x\,dx$ and gets stuck. Explain why this choice is unproductive and what the better choice is. \\
+\textit{Answer:} This choice makes $v=\tfrac{x^2}{2}$, producing a \emph{more} complicated integral $\int \tfrac{x^2}{2}e^x\,dx$; the better choice is $u=x$ (which differentiates to something simpler) and $dv=e^x\,dx$ (which is easy to integrate).
+\end{enumerate}
+
+\subsection{7.3 Rational Functions and Partial Fractions}
+\textbf{Core Concepts}
+\begin{itemize}
+\item Partial fraction decomposition for distinct linear factors (with brief mention of repeated and irreducible quadratic factors)
+\item Integrating each decomposed term
+\item Polynomial long division when the numerator's degree is at least the denominator's
+\end{itemize}
+\textbf{Learning Objectives}
+\begin{enumerate}
+\item Decompose a proper rational function into partial fractions.
+\item Integrate each partial-fraction term.
+\item Apply polynomial long division before decomposition when required.
+\end{enumerate}
+\textbf{Why This Topic Is Historically Difficult} \\
+This topic stacks three separate skills -- factoring, solving a system of equations for unknown coefficients, and integration -- into a single problem, and an algebra slip in the coefficient system silently invalidates the entire integral that follows, making errors hard for students to locate on their own. \\
+\textbf{Mitigation}: Split practice into two stages: first, decomposition-only problems with no integration required, graded purely on the coefficient system; only after that skill is solid, combine decomposition with integration in full end-to-end problems.
+\textbf{Example Questions}
+\begin{enumerate}
+\item \emph{(Recall)} Decompose $\dfrac{5x-1}{(x-1)(x+2)}$ into partial fractions. \\
+\textit{Answer:} $\dfrac{5x-1}{(x-1)(x+2)} = \dfrac{A}{x-1}+\dfrac{B}{x+2}$; solving gives $A=\tfrac{4}{3}$, $B=\tfrac{11}{3}$.
+\item \emph{(Application)} Evaluate $\displaystyle\int \dfrac{5x-1}{(x-1)(x+2)}\,dx$ using the decomposition above. \\
+\textit{Answer:} $\tfrac{4}{3}\ln|x-1| + \tfrac{11}{3}\ln|x+2| + C$.
+\end{enumerate}
+
+%=================================================================
+\section{Prerequisite Map}
+
+\begin{longtable}{p{3.4cm}p{5.3cm}p{4.8cm}}
+\caption{Topic-by-topic prerequisite dependencies} \\
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Ch.\ 1 Functions & Algebra, function notation & Assumed background (precalculus) \\
+2.1 Exp.\ Growth/Decay & Exponent rules; function notation & Ch.\ 1 (this course); exponent rules assumed background \\
+2.2 Sequences & Function notation; informal notion of a limit & Ch.\ 1 (this course); informal limit notion previewed here, formalized in 3.1 \\
+3.1 Limits & Function evaluation and algebra & Ch.\ 1 \\
+3.2 Continuity & Limits & 3.1 \\
+3.3 Limits at Infinity & Limits; rational-function behavior; exponent rules & 3.1; Ch.\ 1 \\
+3.4 Trig Limits \& Sandwich Thm. & Limits; unit-circle trig values & 3.1; Ch.\ 1 \\
+3.5 Properties of Cont.\ Functions & Continuity; limits & 3.2; 3.1 \\
+4.1 Def.\ of Derivative & Limits; secant-line slope & 3.1 \\
+4.2 Basic Rules & Derivative definition & 4.1 \\
+4.3 Power Rule & Basic rules; exponent laws & 4.2; Ch.\ 1 \\
+4.4 Product/Quotient Rules & Basic and power rules; derivative definition & 4.2--4.3 \\
+4.5 Chain Rule & Function composition; product/quotient rules & Ch.\ 1; 4.2--4.4 \\
+4.6 Implicit Diff. & Chain rule & 4.5 \\
+4.7 Higher Derivatives & Basic differentiation rules & 4.2--4.5 \\
+4.8 Trig Derivatives & Trig limits; chain rule; trig identities & 3.4; 4.5; Ch.\ 1 \\
+4.9 Exponential Derivatives & Definition of $e$; chain rule & 2.1--2.2; 4.5 \\
+4.10 Inverse Fn.\ Derivatives & Inverse functions; chain rule; implicit diff. & Ch.\ 1; 4.5; 4.6 \\
+4.11 Linear Approximation & Derivative as tangent slope & 4.1 \\
+5.1 EVT/MVT & Continuity; differentiability & 3.2; 4.1 \\
+5.2 Monotonicity/Concavity & First and second derivatives & 4.1; 4.7 \\
+5.3 Extrema/Inflection Pts. & Monotonicity/concavity; critical points & 5.2; 5.1 \\
+5.4 Optimization & Extrema; full differentiation toolkit & 5.3; Module C \\
+5.5 L'Hopital's Rule & Limits; differentiation toolkit & 3.1, 3.3; Module C \\
+5.10 Antiderivatives & All differentiation rules (reversed) & Module C \\
+6.1 Definite Integral & Limits; area/geometry concepts & 3.1 \\
+6.2 FTC & Antiderivatives; definite integral & 5.10; 6.1 \\
+6.3 Applications of Integration & FTC & 6.2 \\
+7.1 Substitution Rule & Chain rule (reversed); antiderivatives & 4.5; 5.10 \\
+7.2 Integration by Parts & Product rule (reversed); substitution & 4.4; 7.1 \\
+7.3 Partial Fractions & Factoring/systems of equations; polynomial division; log antiderivative & Ch.\ 1 (background); 4.10; 5.10 \\
+\end{longtable}
+
+%=================================================================
+\section{Assessment Plan}
+
+\begin{longtable}{p{2.6cm}p{3.6cm}p{2.0cm}p{6.0cm}}
+\caption{Assessment schedule across the 12-week term} \\
+\toprule
+\textbf{Module} & \textbf{Assessment} & \textbf{Timing} & \textbf{Rationale} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Module} & \textbf{Assessment} & \textbf{Timing} & \textbf{Rationale} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+A & Diagnostic quiz + Homework Set 1 & End of Wk 2 & Low-stakes diagnostic surfaces precalculus gaps (domain/range, exponent rules) before they compound in limits and derivatives. \\
+B & In-class $\varepsilon$--$\delta$ exercise & Wk 3 & Surfaces the quantifier/notation misconception immediately, before continuity content builds on an unstable grasp of limits. \\
+B & Quiz on limits \& continuity + Homework Set 2 & End of Wk 4 & Checks limit-law fluency and continuity classification before differentiation begins. \\
+C & In-class chain-rule error-spotting exercise & Wk 6 & Catches the missing-inner-derivative error (the most common chain-rule mistake) while it is still cheap to fix, before it propagates into implicit differentiation and later integration by substitution. \\
+C & Midterm 1 (limits through derivatives) + Homework Sets 3--4 & End of Wk 7 & Assesses cumulative differentiation fluency at a natural break point before moving to applications. \\
+D & In-class optimization workshop & Wk 8 & Scaffolds the word-problem-to-objective-function translation skill in a low-stakes, collaborative setting before it is tested individually. \\
+D & Quiz on L'Hopital's Rule + Homework Set 5 & Wk 9 & Targets indeterminate-form misidentification and the quotient-rule confusion before the final exam. \\
+E & Homework Set 6 & Wk 10 & Reinforces Riemann-sum and antiderivative mechanics while FTC is being introduced. \\
+E & Midterm 2 (applications of differentiation through FTC) & End of Wk 11 & Checks integration fundamentals at a second natural break point, since Module F techniques depend on them. \\
+F & Homework Set 7 (integration techniques) & Wk 12 & Verifies fluency in substitution, parts, and partial fractions, and in choosing among them. \\
+F & Comprehensive Final Exam & Finals period & Assesses cumulative mastery across all six modules. \\
+F & Optional applied project & Due finals period & Lets students (Bio.\ \& Soc.\ Sci.\ audience) apply differentiation/integration to a real dataset or model, reinforcing course relevance. \\
+\end{longtable}
+
+\end{document}

@@ -1,0 +1,159 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\title{\textbf{Course Syllabus \& Breakdown: Time Series Analysis}}
+\author{\textbf{Department of Statistics / Applied Mathematics}}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Course Overview \& Structure}
+This course provides a comprehensive coverage of time series analysis in both the time domain and frequency domain. The course structure is divided into four major learning modules covering foundational modeling, model development and forecasting, advanced non-stationary and multivariate features, and spectral analysis with non-linear models.
+
+\section{Prerequisites}
+Students taking this course should have a solid foundation in the following topics:
+\begin{itemize}
+    \item \textbf{Probability \& Mathematical Statistics:} Expectation, Variance, Covariance, Joint Distributions, Conditional Expectation, Correlation[cite: 1].
+    \item \textbf{Linear Algebra \& Matrix Theory:} Vector spaces, eigenvalues, matrix transformations[cite: 1].
+    \item \textbf{Regression Analysis:} Ordinary Least Squares (OLS), residual analysis, hypothesis testing[cite: 1].
+    \item \textbf{Calculus:} Differential and integral calculus, optimization techniques[cite: 1].
+    \item \textbf{Computational Skills:} Experience with statistical programming in R (functions, libraries, data processing)[cite: 1].
+\end{itemize}
+
+\section{Course Learning Objectives}
+By the end of this course, students will be able to:
+\begin{enumerate}
+    \item Identify, visualize, and mathematically model key characteristics of time series data (stationarity, trend, seasonality, autocorrelation)[cite: 1].
+    \item Formulate, estimate, and evaluate stationary (AR, MA, ARMA) and non-stationary (ARIMA, SARIMA) time series models[cite: 1].
+    \item Execute complete model identification, parameter estimation, diagnostic checking, and minimum mean square error forecasting[cite: 1].
+    \item Model volatility using ARCH and GARCH processes for financial time series[cite: 1].
+    \item Apply frequency-domain techniques including periodograms, spectral density, and spectral smoothing[cite: 1].
+    \item Detect and model non-linear time series behaviors using Threshold Autoregressive (TAR) models[cite: 1].
+    \item Utilize statistical software (R) for empirical data analysis and visualization[cite: 1].
+\end{enumerate}
+
+\section{Major Modules \& Chapters Summary}
+\begin{itemize}
+    \item \textbf{Module 1: Foundations of Time Series \& Linear Stationary Models} (Chapters 1--4)[cite: 1]
+    \item \textbf{Module 2: Non-Stationarity, Model Building \& Forecasting} (Chapters 5--9)[cite: 1]
+    \item \textbf{Module 3: Seasonal Models, Time Series Regression \& Volatility} (Chapters 10--12)[cite: 1]
+    \item \textbf{Module 4: Spectral Analysis \& Non-Linear Models} (Chapters 13--15)[cite: 1]
+\end{itemize}
+
+\section{Detailed Course Breakdown by Chapter}
+
+\subsection*{Chapter 1: Introduction}
+\begin{itemize}
+    \item \textbf{Concepts:} Examples of time series, Model-building strategy, History of time series plots[cite: 1].
+    \item \textbf{Learning Objectives:} Understand basic characteristics of time series data and master the iterative process of model specification, estimation, and diagnostics[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 2: Fundamental Concepts}
+\begin{itemize}
+    \item \textbf{Concepts:} Stochastic processes, Means, Variances, Covariances, Weak/Strict Stationarity, Autocorrelation function (ACF)[cite: 1].
+    \item \textbf{Learning Objectives:} Calculate expected values, variances, and covariances of stochastic processes; assess weak stationarity mathematically[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 3: Trends}
+\begin{itemize}
+    \item \textbf{Concepts:} Deterministic vs. stochastic trends, Constant mean estimation, Regression methods, Reliability/efficiency of estimates, Residual analysis[cite: 1].
+    \item \textbf{ Learning Objectives:} Fit and interpret trend models using regression techniques; evaluate model fit using residual diagnostics[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 4: Models for Stationary Time Series}
+\begin{itemize}
+    \item \textbf{Concepts:} General linear processes, Moving Average (MA) processes, Autoregressive (AR) processes, Mixed ARMA models, Invertibility, Stationarity regions[cite: 1].
+    \item \textbf{Learning Objectives:} Derive the theoretical ACF and PACF for AR, MA, and ARMA models; verify conditions for stationarity and invertibility[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 5: Models for Nonstationary Time Series}
+\begin{itemize}
+    \item \textbf{Concepts:} Differencing operator, ARIMA models, Constant terms, Transformations (Box-Cox), Backshift operator ($B$)[cite: 1].
+    \item \textbf{Learning Objectives:} Transform non-stationary processes into stationary ones using differencing and data transformations[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 6: Model Specification}
+\begin{itemize}
+    \item \textbf{Concepts:} Sample Autocorrelation Function (SACF), Partial Autocorrelation Function (PACF), Extended Autocorrelation Function (EACF), Specification tests[cite: 1].
+    \item \textbf{Learning Objectives:} Use sample ACF, PACF, and EACF plots to tentatively identify optimal order parameter values $(p, d, q)$[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 7: Parameter Estimation}
+\begin{itemize}
+    \item \textbf{Concepts:} Method of Moments (Yule-Walker), Least Squares Estimation, Maximum Likelihood Estimation (MLE), Unconditional Least Squares, Bootstrapping[cite: 1].
+    \item \textbf{Learning Objectives:} Derive and estimate parameters for AR, MA, and ARIMA models using numerical algorithms and sample data[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 8: Model Diagnostics}
+\begin{itemize}
+    \item \textbf{Concepts:} Residual analysis, Ljung-Box test, Portmanteau tests, Overfitting, Parameter redundancy[cite: 1].
+    \item \textbf{Learning Objectives:} Validate model adequacy using diagnostic checks on residuals; avoid parameter over-specification[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 9: Forecasting}
+\begin{itemize}
+    \item \textbf{Concepts:} Minimum Mean Square Error (MMSE) forecasting, Prediction limits, Updating ARIMA forecasts, Exponentially Weighted Moving Averages (EWMA), State Space Models[cite: 1].
+    \item \textbf{Learning Objectives:} Compute point forecasts and prediction intervals for stationary and non-stationary processes[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 10: Seasonal Models}
+\begin{itemize}
+    \item \textbf{Concepts:} Seasonal ARIMA (SARIMA) models, Multiplicative seasonal models, Seasonal differencing, Seasonal forecasting[cite: 1].
+    \item \textbf{Learning Objectives:} Identify seasonal patterns and fit Multiplicative Seasonal ARIMA $(p,d,q) \times (P,D,Q)_s$ models[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 11: Time Series Regression Models}
+\begin{itemize}
+    \item \textbf{Concepts:} Intervention analysis, Outliers (additive/innovational), Spurious correlation, Prewhitening, Stochastic regression[cite: 1].
+    \item \textbf{Learning Objectives:} Evaluate external interventions, identify outliers, avoid spurious correlation, and perform transfer function modeling via prewhitening[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 12: Time Series Models of Heteroscedasticity}
+\begin{itemize}
+    \item \textbf{Concepts:} Volatility clustering, ARCH(1) models, GARCH models, Nonnegativity conditions, Maximum Likelihood for GARCH, Generalized Portmanteau Tests[cite: 1].
+    \item \textbf{Learning Objectives:} Model non-constant conditional variance in financial data using ARCH and GARCH frameworks[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 13: Introduction to Spectral Analysis}
+\begin{itemize}
+    \item \textbf{Concepts:} Frequency domain, Periodogram, Spectral representation/distribution, Spectral density, Spectral densities for ARMA processes[cite: 1].
+    \item \textbf{Learning Objectives:} Compute and interpret the periodogram and theoretical spectral density of stationary ARMA processes[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 14: Estimating the Spectrum}
+\begin{itemize}
+    \item \textbf{Concepts:} Smoothing spectral density, Bias and variance trade-offs, Bandwidth, Tapering, Leakage, Dirichlet kernel, Autoregressive spectral estimation[cite: 1].
+    \item \textbf{Learning Objectives:} Apply spectral smoothing techniques, tapering, and parametric spectral estimates to real-world continuous frequency domain data[cite: 1].
+\end{itemize}
+
+\subsection*{Chapter 15: Threshold Models}
+\begin{itemize}
+    \item \textbf{Concepts:} Non-linear time series, Tests for nonlinearity, Threshold Autoregressive (TAR) models, TAR estimation, Non-linear prediction[cite: 1].
+    \item \textbf{Learning Objectives:} Test for non-linear structures in time series data and fit TAR models[cite: 1].
+\end{itemize}
+
+\section{Key Difficult Topics}
+Students often find the following course concepts mathematically or conceptually challenging:
+\begin{itemize}
+    \item \textbf{Invertibility \& Stationarity Regions:} Determining exact parameter boundaries (e.g., stationarity regions for AR(2) processes)[cite: 1].
+    \item \textbf{Partial \& Extended Autocorrelations:} Distinguish between PACF and EACF behavior for model order identification[cite: 1].
+    \item \textbf{Prewhitening in Stochastic Regression:} Filtering input and output series to remove autocorrelation without confounding relationships[cite: 1].
+    \item \textbf{ARCH/GARCH Nonnegativity \& Stationarity Constraints:} Ensuring conditional variance expressions remain strictly positive and stationary[cite: 1].
+    \item \textbf{Frequency Domain Analysis:} Transitioning from time-domain models to spectral representations, understanding Dirichlet kernels, leakage, and spectral smoothing bandwidth trade-offs[cite: 1].
+\end{itemize}
+
+\section{Software \& Lab Integration}
+The course incorporates statistical programming using R[cite: 1]. Labs correspond directly to textbook topics[cite: 1]:
+\begin{itemize}
+    \item R commands for Chapters 1--15[cite: 1]
+    \item Applications using the specialized \texttt{TSA} package[cite: 1]
+    \item Practical work with historical datasets[cite: 1]
+\end{itemize}
+
+\end{document}

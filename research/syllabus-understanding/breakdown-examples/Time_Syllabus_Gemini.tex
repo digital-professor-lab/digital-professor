@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{margin=1in}
+
+\title{\textbf{Course Structure \& Curriculum Analysis}\\
+\large EN.553.439/639: Time Series Analysis}
+\author{Johns Hopkins University --- Department of Applied Mathematics and Statistics}
+\date{Spring 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Course Foundations \& Prerequisites}
+\begin{itemize}
+    \item \textbf{Course Title:} Time Series Analysis (EN.553.439 / EN.553.639)
+    \item \textbf{Instructor:} Dr. Sergey Kushnarev
+    \item \textbf{Primary Textbook:} \textit{Time Series Analysis with Applications in R} (2nd ed.) by J.D. Cryer and K.-S. Chan.
+    \item \textbf{Prerequisites:} 
+    \begin{itemize}
+        \item Probability and Statistics (EN.553.310 / 311 / 420 / 421 / 620)
+        \item Linear Algebra (AS.110.201 / 212 or EN.553.291)
+    \end{itemize}
+    \item \textbf{Software Environment:} R programming language for statistical modeling and computational assignments.
+\end{itemize}
+
+\section*{2. Learning Objectives}
+By the conclusion of this course, students will be able to:
+\begin{enumerate}
+    \item Define, evaluate, and verify conditions for strict and weak stationarity.
+    \item Calculate and interpret mean, variance, covariance, autocovariance, and autocorrelation functions (ACF/PACF).
+    \item Identify, fit, diagnostic-check, and forecast using ARMA, ARIMA, and Seasonal ARIMA (SARIMA) processes.
+    \item Estimate parameters using Yule-Walker equations, Least Squares, and Maximum Likelihood Estimation (MLE).
+    \item Apply intervention analysis, outlier detection, pre-whitening, and ARCH/GARCH models to financial and non-linear dynamic data.
+\end{enumerate}
+
+\section*{3. Module Breakdown \& Course Structure}
+
+\subsection*{Module 1: Foundations of Time Series \& Stationarity}
+\begin{itemize}
+    \item \textbf{Chapters Covered:} Chapters 1--3
+    \item \textbf{Core Concepts:}
+    \begin{itemize}
+        \item Mean, variance, covariance, autocovariance, and autocorrelation functions (ACF).
+        \item Notions of stationarity: strict vs. weak (wide-sense) stationarity.
+        \item Deterministic vs. stochastic trends; deterministic trend estimation and smoothing.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Module 2: Stationary \& Nonstationary Linear Time Series Models}
+\begin{itemize}
+    \item \textbf{Chapters Covered:} Chapters 4--5
+    \item \textbf{Core Concepts:}
+    \begin{itemize}
+        \item General linear processes.
+        \item Autoregressive Moving Average (ARMA) processes ($AR(p)$, $MA(q)$, $ARMA(p,q)$).
+        \item Nonstationarity: Differencing operators, unit roots, integrated models ($ARIMA(p,d,q)$).
+        \item Variance-stabilizing transformations (Box-Cox transformations).
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Module 3: Model Identification, Parameter Estimation \& Diagnostics}
+\begin{itemize}
+    \item \textbf{Chapters Covered:} Chapters 6--8
+    \item \textbf{Core Concepts:}
+    \begin{itemize}
+        \item Model specification: Partial Autocorrelation Function (PACF), Extended Autocorrelation Function (EACF).
+        \item Parameter estimation methods: Yule-Walker equations, Maximum Likelihood Estimation (MLE), Least Squares, Conditional Least Squares.
+        \item Model diagnostics: Residual analysis, Ljung-Box test, goodness-of-fit evaluation.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Module 4: Forecasting \& Seasonal Box-Jenkins Models}
+\begin{itemize}
+    \item \textbf{Chapters Covered:} Chapters 9--10
+    \item \textbf{Core Concepts:}
+    \begin{itemize}
+        \item Minimum Mean Square Error (MMSE) forecasting, linear prediction for ARIMA.
+        \item Derivation and computation of prediction intervals.
+        \item Seasonal ARIMA (SARIMA) modeling: seasonal differencing, multiplicative structures, seasonal forecasting, and diagnostic checks.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Module 5: Advanced Regression, Volatility Models \& Specialized Topics}
+\begin{itemize}
+    \item \textbf{Chapters Covered:} Chapter 12 \& Selected Topics
+    \item \textbf{Core Concepts:}
+    \begin{itemize}
+        \item Regression with time series errors: Intervention analysis, outlier detection, spurious correlation, pre-whitening.
+        \item Volatility/Heteroskedastic models: ARCH ($p$) and GARCH ($p,q$) processes for financial modeling.
+        \item Overview of non-linear time series and spectral/frequency domain methods.
+    \end{itemize}
+\end{itemize}
+
+\section*{4. High-Difficulty Topics Summary}
+\begin{table}[h!]
+\centering
+\begin{tabular}{@{}llp{8cm}@{}}
+\toprule
+\textbf{Topic} & \textbf{Module} & \textbf{Key Challenges} \\ \midrule
+PACF \& EACF Identification & Module 3 & Abstract cut-off behaviors; complex pattern recognition in empirical sample functions. \\
+MLE \& Estimation Algorithms & Module 3 & Optimization landscape, non-linear system solving, boundary conditions for invertibility. \\
+Seasonal ARIMA (SARIMA) & Module 4 & Multiplicative lag structures, combined seasonal and non-seasonal differencing. \\
+ARCH / GARCH Dynamics & Module 5 & Non-linear dynamics, time-varying conditional variance parameter estimation. \\
+Frequency Domain Methods & Module 5 & Transition from time domain to spectral density functions via Fourier transforms. \\ \bottomrule
+\end{tabular}
+\caption{Key Challenging Topics in EN.553.439/639}
+\end{table}
+
+\end{document}

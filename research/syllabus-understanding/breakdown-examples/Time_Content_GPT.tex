@@ -1,0 +1,1722 @@
+\documentclass[11pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Packages
+% ------------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+
+% ------------------------------------------------------------
+% Formatting
+% ------------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    urlcolor=blue!60!black,
+    citecolor=blue!60!black
+}
+
+\setlist[itemize]{leftmargin=*,noitemsep,topsep=2pt}
+\setlist[enumerate]{leftmargin=*,noitemsep,topsep=2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Time Series Analysis}
+\lhead{Course Structure}
+\cfoot{\thepage}
+
+\titleformat{\section}
+  {\Large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}
+  {\large\bfseries}{\thesubsection}{0.7em}{}
+
+% ------------------------------------------------------------
+% Custom commands
+% ------------------------------------------------------------
+\newcommand{\AR}{\operatorname{AR}}
+\newcommand{\MA}{\operatorname{MA}}
+\newcommand{\ARMA}{\operatorname{ARMA}}
+\newcommand{\ARIMA}{\operatorname{ARIMA}}
+\newcommand{\GARCH}{\operatorname{GARCH}}
+\newcommand{\ARCH}{\operatorname{ARCH}}
+\newcommand{\TAR}{\operatorname{TAR}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Corr}{\operatorname{Corr}}
+
+% ============================================================
+\begin{document}
+
+\begin{center}
+    {\Huge\bfseries Time Series Analysis}\\[0.4cm]
+    {\Large Full Course Structure, Modules, Concepts, Learning Objectives}\\[0.4cm]
+    {\large Based on the supplied textbook Table of Contents}
+\end{center}
+
+\vspace{0.5cm}
+
+% ============================================================
+\section{Course Overview}
+
+\textbf{Course Title:} Time Series Analysis
+
+\textbf{Course Level:} Advanced undergraduate / Graduate
+
+\textbf{Primary Mathematical Orientation:}
+Probability, mathematical statistics, regression, stochastic processes, and
+statistical modeling.
+
+\textbf{Primary Computational Orientation:}
+Statistical computing and empirical time-series analysis, with particular
+emphasis on implementation in R.
+
+\subsection{Course Description}
+
+This course develops a systematic framework for analyzing observations
+collected sequentially through time. The course begins with the fundamental
+concepts of stochastic processes, means, variances, covariances, and
+stationarity. It then develops deterministic and stochastic trend models,
+stationary AR, MA, and ARMA models, and nonstationary ARIMA models.
+
+The central part of the course emphasizes the complete time-series
+model-building cycle:
+
+\[
+\boxed{
+\text{Identification}
+\rightarrow
+\text{Specification}
+\rightarrow
+\text{Estimation}
+\rightarrow
+\text{Diagnostics}
+\rightarrow
+\text{Forecasting}
+}
+\]
+
+The course subsequently extends these ideas to seasonal models, time-series
+regression, heteroscedastic models such as ARCH and GARCH, spectral analysis,
+and nonlinear threshold models.
+
+\subsection{Overall Course Goals}
+
+By the end of the course, students should be able to:
+
+\begin{enumerate}
+    \item Formulate real-world sequential data as stochastic time-series
+          models.
+    \item Distinguish deterministic trends from stochastic trends.
+    \item Understand and assess stationarity.
+    \item Derive and interpret autocovariance and autocorrelation structures.
+    \item Analyze MA, AR, and ARMA processes.
+    \item Model nonstationary data using differencing and ARIMA models.
+    \item Identify plausible models using ACF, PACF, and related diagnostics.
+    \item Estimate model parameters using several statistical methods.
+    \item Diagnose model adequacy using residual analysis.
+    \item Produce and evaluate multi-step forecasts.
+    \item Model seasonal time-series behavior.
+    \item Incorporate interventions, outliers, and explanatory variables.
+    \item Model conditional heteroscedasticity using ARCH/GARCH methods.
+    \item Analyze time series in the frequency domain.
+    \item Recognize and model nonlinear dynamics using threshold models.
+    \item Implement time-series methods computationally, particularly using R.
+\end{enumerate}
+
+% ============================================================
+\section{Prerequisite Knowledge}
+
+The following prerequisites are recommended before beginning the course.
+
+\subsection{Probability}
+
+Students should be comfortable with:
+
+\begin{itemize}
+    \item Random variables.
+    \item Probability distributions.
+    \item Expectation.
+    \item Variance.
+    \item Covariance.
+    \item Correlation.
+    \item Conditional expectation.
+    \item Basic properties of independent and identically distributed random
+          variables.
+\end{itemize}
+
+\subsection{Mathematical Statistics}
+
+Students should know:
+
+\begin{itemize}
+    \item Point estimation.
+    \item Sampling distributions.
+    \item Least squares.
+    \item Maximum likelihood.
+    \item Statistical hypothesis testing.
+    \item Confidence intervals.
+    \item Bias and variance.
+    \item Consistency and efficiency at an introductory level.
+\end{itemize}
+
+\subsection{Regression}
+
+Students should understand:
+
+\begin{itemize}
+    \item Simple and multiple linear regression.
+    \item Regression coefficients.
+    \item Residuals.
+    \item Standard errors.
+    \item $t$-tests and $F$-tests.
+    \item Model fit.
+    \item Residual diagnostics.
+\end{itemize}
+
+\subsection{Linear Algebra and Calculus}
+
+A working knowledge of:
+
+\begin{itemize}
+    \item Vectors and matrices.
+    \item Matrix multiplication.
+    \item Eigenvalues and eigenvectors at a basic level.
+    \item Differentiation.
+    \item Optimization.
+    \item Basic infinite series.
+\end{itemize}
+
+\subsection{Computational Prerequisites}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Import and manipulate data.
+    \item Produce basic statistical plots.
+    \item Fit statistical models.
+    \item Interpret numerical output.
+    \item Write basic R code.
+\end{itemize}
+
+% ============================================================
+\section{Course Architecture}
+
+The 15 textbook chapters can be organized into the following pedagogical
+modules.
+
+\begin{longtable}{p{0.10\textwidth}p{0.25\textwidth}p{0.55\textwidth}}
+\toprule
+\textbf{Module} & \textbf{Theme} & \textbf{Main Chapters} \\
+\midrule
+1 & Foundations &
+Chapters 1--2: Introduction and Fundamental Concepts \\
+
+2 & Trends and Regression &
+Chapter 3: Trends \\
+
+3 & Stationary Models &
+Chapter 4: Models for Stationary Time Series \\
+
+4 & Nonstationary Models &
+Chapter 5: Models for Nonstationary Time Series \\
+
+5 & Model Identification &
+Chapter 6: Model Specification \\
+
+6 & Parameter Estimation &
+Chapter 7: Parameter Estimation \\
+
+7 & Model Diagnostics &
+Chapter 8: Model Diagnostics \\
+
+8 & Forecasting &
+Chapter 9: Forecasting \\
+
+9 & Seasonal Models &
+Chapter 10: Seasonal Models \\
+
+10 & Time-Series Regression &
+Chapter 11: Time Series Regression Models \\
+
+11 & Volatility Modeling &
+Chapter 12: Time Series Models of Heteroscedasticity \\
+
+12 & Frequency-Domain Methods &
+Chapters 13--14: Spectral Analysis and Spectrum Estimation \\
+
+13 & Nonlinear Models &
+Chapter 15: Threshold Models \\
+
+14 & Statistical Computing &
+R commands, TSA library, datasets, and computational implementation \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Module 1: Introduction and Fundamental Concepts}
+
+\subsection{Chapter 1 -- Introduction}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Examples of time series.
+    \item Characteristics of temporally ordered observations.
+    \item Model-building strategy.
+    \item Historical development of time-series plots.
+    \item Overview of time-series methodology.
+\end{itemize}
+
+\textbf{Core Concepts}
+
+\begin{itemize}
+    \item Time-indexed observations.
+    \item Dependence across time.
+    \item Trend.
+    \item Random variation.
+    \item Model identification.
+    \item Model estimation.
+    \item Model checking.
+    \item Forecasting.
+\end{itemize}
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Define a time series and distinguish it from ordinary cross-sectional
+          data.
+    \item Identify common features of time-series data.
+    \item Explain why temporal dependence changes statistical analysis.
+    \item Describe the basic model-building strategy.
+    \item Interpret time-series plots as a first diagnostic tool.
+\end{enumerate}
+
+\subsection{Chapter 2 -- Fundamental Concepts}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Time series and stochastic processes.
+    \item Means.
+    \item Variances.
+    \item Covariances.
+    \item Stationarity.
+\end{itemize}
+
+\textbf{Core Mathematical Concepts}
+
+For a stochastic process $\{X_t\}$:
+
+\[
+\mu_t = \E(X_t),
+\]
+
+\[
+\gamma(t,s)
+=
+\Cov(X_t,X_s),
+\]
+
+and the autocorrelation function may be expressed as
+
+\[
+\rho(t,s)
+=
+\frac{\Cov(X_t,X_s)}
+{\sqrt{\Var(X_t)\Var(X_s)}}.
+\]
+
+For a weakly stationary process,
+
+\[
+\E(X_t)=\mu,
+\]
+
+\[
+\Var(X_t)=\gamma(0),
+\]
+
+and
+
+\[
+\Cov(X_t,X_{t-k})=\gamma(k),
+\]
+
+where the covariance depends on the lag $k$ rather than on calendar time
+itself.
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Define a stochastic process.
+    \item Distinguish a stochastic process from a single observed time series.
+    \item Calculate means, variances, and covariances.
+    \item Explain autocovariance and autocorrelation.
+    \item Distinguish stationary and nonstationary processes.
+    \item Explain why stationarity is central to classical time-series modeling.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item The distinction between a stochastic process and its realization.
+    \item Stationarity.
+    \item Lag-based covariance structures.
+    \item Interpretation of dependence over time.
+\end{itemize}
+
+% ============================================================
+\section{Module 2: Trends and Regression}
+
+\subsection{Chapter 3 -- Trends}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Deterministic versus stochastic trends.
+    \item Estimation of a constant mean.
+    \item Regression methods.
+    \item Reliability and efficiency of regression estimates.
+    \item Interpretation of regression output.
+    \item Residual analysis.
+\end{itemize}
+
+\textbf{Core Concepts}
+
+A deterministic trend may be represented by
+
+\[
+X_t = \beta_0+\beta_1t+\epsilon_t,
+\]
+
+whereas a stochastic trend may arise through accumulated random shocks,
+for example,
+
+\[
+X_t=X_{t-1}+\epsilon_t.
+\]
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Distinguish deterministic and stochastic trends.
+    \item Estimate trend parameters using regression.
+    \item Interpret regression coefficients for time-indexed data.
+    \item Evaluate the reliability of regression estimates.
+    \item Analyze residuals for evidence of model inadequacy.
+    \item Explain why ordinary regression assumptions may fail for time-series
+          observations.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Deterministic versus stochastic trends.
+    \item Efficiency of regression estimators under temporal dependence.
+    \item Residual analysis for dependent observations.
+\end{itemize}
+
+% ============================================================
+\section{Module 3: Stationary Time-Series Models}
+
+\subsection{Chapter 4 -- Models for Stationary Time Series}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item General linear processes.
+    \item Moving average processes.
+    \item Autoregressive processes.
+    \item Mixed autoregressive moving average models.
+    \item Invertibility.
+\end{itemize}
+
+\subsection{Moving Average Models}
+
+An $\MA(q)$ process can be written as
+
+\[
+X_t
+=
+\mu+
+\epsilon_t
++
+\theta_1\epsilon_{t-1}
++\cdots+
+\theta_q\epsilon_{t-q}.
+\]
+
+Students study:
+
+\begin{itemize}
+    \item Finite dependence.
+    \item Mean and variance.
+    \item Autocovariance.
+    \item ACF behavior.
+    \item Parameter interpretation.
+\end{itemize}
+
+\subsection{Autoregressive Models}
+
+An $\AR(p)$ process can be represented by
+
+\[
+X_t
+=
+c+
+\phi_1X_{t-1}
++\cdots+
+\phi_pX_{t-p}
++\epsilon_t.
+\]
+
+Important concepts include:
+
+\begin{itemize}
+    \item Stability.
+    \item Stationarity regions.
+    \item Characteristic equations.
+    \item Autocorrelation structure.
+\end{itemize}
+
+\subsection{ARMA Models}
+
+The mixed model combines autoregressive and moving-average components:
+
+\[
+\phi(B)X_t
+=
+\theta(B)\epsilon_t,
+\]
+
+where $B$ denotes the backshift operator.
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Explain the structure of linear stochastic processes.
+    \item Derive basic properties of MA processes.
+    \item Analyze stationarity conditions for AR processes.
+    \item Construct and interpret ARMA models.
+    \item Understand the distinction between stationarity and invertibility.
+    \item Relate model structure to autocorrelation behavior.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Stationarity regions for AR models.
+    \item Characteristic roots.
+    \item ARMA representation.
+    \item Invertibility.
+    \item Derivation of autocorrelation functions.
+\end{itemize}
+
+% ============================================================
+\section{Module 4: Nonstationary Time-Series Models}
+
+\subsection{Chapter 5 -- Models for Nonstationary Time Series}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Stationarity through differencing.
+    \item ARIMA models.
+    \item Constant terms in ARIMA models.
+    \item Transformations.
+\end{itemize}
+
+\subsection{Differencing}
+
+The first difference is
+
+\[
+\nabla X_t=X_t-X_{t-1}.
+\]
+
+Higher-order differencing is represented as
+
+\[
+\nabla^d X_t=(1-B)^dX_t.
+\]
+
+\subsection{ARIMA Models}
+
+An $\ARIMA(p,d,q)$ model can be represented as
+
+\[
+\phi(B)(1-B)^dX_t
+=
+\theta(B)\epsilon_t.
+\]
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Recognize common forms of nonstationarity.
+    \item Explain why differencing can produce stationarity.
+    \item Select an appropriate order of differencing conceptually.
+    \item Interpret the components $p$, $d$, and $q$ of an ARIMA model.
+    \item Understand the role of constant terms in ARIMA models.
+    \item Apply appropriate transformations when required.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Distinguishing trend from stochastic nonstationarity.
+    \item Selecting the order of differencing.
+    \item Understanding ARIMA notation.
+    \item Backshift-operator algebra.
+\end{itemize}
+
+% ============================================================
+\section{Module 5: Model Specification and Identification}
+
+\subsection{Chapter 6 -- Model Specification}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Properties of the sample autocorrelation function.
+    \item Partial autocorrelation function.
+    \item Extended autocorrelation function.
+    \item Specification using simulated series.
+    \item Specification under nonstationarity.
+    \item Alternative specification methods.
+    \item Specification using actual time series.
+\end{itemize}
+
+\subsection{Autocorrelation Function}
+
+The sample ACF at lag $k$ is conceptually based on
+
+\[
+r_k
+=
+\frac{
+\sum_{t=k+1}^{n}(X_t-\bar X)(X_{t-k}-\bar X)
+}{
+\sum_{t=1}^{n}(X_t-\bar X)^2
+}.
+\]
+
+\subsection{Partial Autocorrelation}
+
+The PACF measures the relationship between $X_t$ and $X_{t-k}$ after
+accounting for intermediate lags.
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Compute and interpret the sample ACF.
+    \item Explain the purpose of the PACF.
+    \item Use ACF/PACF patterns to propose ARMA models.
+    \item Recognize characteristic patterns associated with AR and MA models.
+    \item Account for nonstationarity during model identification.
+    \item Compare alternative candidate specifications.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Correct interpretation of ACF and PACF patterns.
+    \item Distinguishing theoretical and sample correlation behavior.
+    \item Model identification under nonstationarity.
+    \item Avoiding over-identification and under-identification.
+\end{itemize}
+
+% ============================================================
+\section{Module 6: Parameter Estimation}
+
+\subsection{Chapter 7 -- Parameter Estimation}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Method of moments.
+    \item Least-squares estimation.
+    \item Maximum likelihood.
+    \item Unconditional least squares.
+    \item Properties of parameter estimates.
+    \item Parameter-estimation illustrations.
+    \item Bootstrapping ARIMA models.
+\end{itemize}
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Explain the method of moments.
+    \item Estimate ARIMA parameters using least-squares approaches.
+    \item Explain the basic principle of maximum likelihood estimation.
+    \item Compare estimation procedures.
+    \item Interpret estimated parameters and their uncertainty.
+    \item Understand the role of bootstrap procedures for ARIMA models.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Likelihood construction for dependent observations.
+    \item Conditional versus unconditional estimation.
+    \item Statistical properties of estimators.
+    \item Bootstrap procedures for dependent data.
+\end{itemize}
+
+% ============================================================
+\section{Module 7: Model Diagnostics}
+
+\subsection{Chapter 8 -- Model Diagnostics}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Residual analysis.
+    \item Overfitting.
+    \item Parameter redundancy.
+\end{itemize}
+
+A fitted model should produce residuals that behave approximately like
+uncorrelated random errors:
+
+\[
+\hat{\epsilon}_t
+=
+X_t-\hat X_t.
+\]
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Compute and inspect model residuals.
+    \item Determine whether residual autocorrelation remains.
+    \item Assess whether a fitted model adequately captures temporal dependence.
+    \item Identify overfitting.
+    \item Recognize redundant parameters.
+    \item Decide whether a model should be revised.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Distinguishing random residual behavior from remaining structure.
+    \item Understanding overfitting.
+    \item Balancing model complexity and adequacy.
+\end{itemize}
+
+% ============================================================
+\section{Module 8: Forecasting}
+
+\subsection{Chapter 9 -- Forecasting}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Minimum mean-square-error forecasting.
+    \item Forecasting deterministic trends.
+    \item ARIMA forecasting.
+    \item Prediction limits.
+    \item Forecasting illustrations.
+    \item Updating forecasts.
+    \item Forecast weights.
+    \item Exponentially weighted moving averages.
+    \item Forecasting transformed series.
+\end{itemize}
+
+\subsection{Minimum Mean-Square-Error Forecast}
+
+For a future value $X_{t+h}$, the MMSE forecast is
+
+\[
+\hat X_t(h)
+=
+\E(X_{t+h}\mid \mathcal{F}_t),
+\]
+
+where $\mathcal{F}_t$ denotes the information available at time $t$.
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Explain the principle of minimum mean-square-error forecasting.
+    \item Construct one-step and multi-step forecasts.
+    \item Forecast using ARIMA models.
+    \item Construct prediction limits.
+    \item Update forecasts as new observations become available.
+    \item Explain forecast weights.
+    \item Apply exponentially weighted moving-average ideas.
+    \item Account for transformations when forecasting.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Conditional expectation.
+    \item Multi-step forecasting.
+    \item Forecast-error variance.
+    \item Prediction intervals.
+    \item Forecasting transformed series.
+\end{itemize}
+
+% ============================================================
+\section{Module 9: Seasonal Time-Series Models}
+
+\subsection{Chapter 10 -- Seasonal Models}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Seasonal ARIMA models.
+    \item Multiplicative seasonal ARMA models.
+    \item Nonstationary seasonal ARIMA models.
+    \item Seasonal model specification.
+    \item Model fitting and checking.
+    \item Seasonal forecasting.
+\end{itemize}
+
+For seasonal period $s$, seasonal differencing is represented by
+
+\[
+\nabla_s X_t
+=
+X_t-X_{t-s}.
+\]
+
+A general seasonal ARIMA structure combines ordinary and seasonal operators.
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Identify seasonal patterns in time-series data.
+    \item Explain seasonal differencing.
+    \item Construct seasonal ARIMA specifications.
+    \item Understand multiplicative seasonal structures.
+    \item Fit and diagnose seasonal models.
+    \item Produce forecasts from seasonal models.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Seasonal versus nonseasonal dependence.
+    \item Seasonal differencing.
+    \item Multiplicative seasonal ARIMA notation.
+    \item Seasonal model identification.
+\end{itemize}
+
+% ============================================================
+\section{Module 10: Time-Series Regression Models}
+
+\subsection{Chapter 11 -- Time Series Regression Models}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Intervention analysis.
+    \item Outliers.
+    \item Spurious correlation.
+    \item Prewhitening.
+    \item Stochastic regression.
+\end{itemize}
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Incorporate interventions into time-series models.
+    \item Identify and account for outliers.
+    \item Explain the danger of spurious correlation.
+    \item Understand prewhitening.
+    \item Distinguish ordinary regression from stochastic regression.
+    \item Model relationships between multiple time-dependent variables.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Spurious correlation.
+    \item Dynamic regression relationships.
+    \item Prewhitening.
+    \item Separating intervention effects from ordinary temporal variation.
+\end{itemize}
+
+% ============================================================
+\section{Module 11: Heteroscedasticity and Volatility Models}
+
+\subsection{Chapter 12 -- Time Series Models of Heteroscedasticity}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Features of financial time series.
+    \item ARCH models.
+    \item GARCH models.
+    \item Maximum likelihood estimation.
+    \item Model diagnostics.
+    \item Nonnegativity of conditional variances.
+    \item Extensions of GARCH.
+    \item Financial exchange-rate examples.
+\end{itemize}
+
+\subsection{ARCH Model}
+
+A basic ARCH model may be expressed as
+
+\[
+X_t=\sigma_t\epsilon_t,
+\]
+
+with
+
+\[
+\sigma_t^2
+=
+\omega+
+\alpha_1X_{t-1}^2.
+\]
+
+\subsection{GARCH Model}
+
+A GARCH$(p,q)$ variance equation has the general form
+
+\[
+\sigma_t^2
+=
+\omega+
+\sum_{i=1}^{q}\alpha_i X_{t-i}^2
++
+\sum_{j=1}^{p}\beta_j\sigma_{t-j}^2.
+\]
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Explain conditional heteroscedasticity.
+    \item Recognize volatility clustering in financial time series.
+    \item Construct an ARCH model.
+    \item Construct and interpret GARCH models.
+    \item Estimate volatility-model parameters.
+    \item Diagnose fitted volatility models.
+    \item Explain conditions required for nonnegative conditional variances.
+    \item Understand extensions of the basic GARCH framework.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Conditional variance dynamics.
+    \item Maximum likelihood estimation for volatility models.
+    \item Parameter restrictions ensuring nonnegative variances.
+    \item Interpretation of ARCH/GARCH persistence.
+\end{itemize}
+
+% ============================================================
+\section{Module 12: Spectral Analysis}
+
+\subsection{Chapter 13 -- Introduction to Spectral Analysis}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Introduction to frequency-domain analysis.
+    \item Periodogram.
+    \item Spectral representation.
+    \item Spectral distribution.
+    \item Spectral density.
+    \item Spectral densities for ARMA processes.
+    \item Sampling properties of sample spectral density.
+\end{itemize}
+
+\textbf{Core Concept}
+
+Spectral analysis studies how the variability of a time series is distributed
+across frequencies rather than only across time lags.
+
+A spectral density can be related to the autocovariance sequence through a
+Fourier representation of the form
+
+\[
+f(\lambda)
+=
+\frac{1}{2\pi}
+\sum_{k=-\infty}^{\infty}
+\gamma(k)e^{-ik\lambda}.
+\]
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Explain the motivation for frequency-domain analysis.
+    \item Interpret the periodogram.
+    \item Explain spectral representation.
+    \item Define and interpret spectral density.
+    \item Relate spectral density to autocovariance.
+    \item Derive or interpret spectral densities for ARMA processes.
+    \item Understand sampling properties of spectral estimates.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Fourier representations.
+    \item Frequency versus time-domain interpretations.
+    \item Spectral density.
+    \item Relationship between ACF and spectrum.
+\end{itemize}
+
+% ============================================================
+\section{Module 13: Spectrum Estimation}
+
+\subsection{Chapter 14 -- Estimating the Spectrum}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Smoothing spectral densities.
+    \item Bias and variance.
+    \item Bandwidth.
+    \item Confidence intervals for the spectrum.
+    \item Leakage.
+    \item Tapering.
+    \item Autoregressive spectrum estimation.
+    \item Simulated-data examples.
+    \item Actual-data examples.
+    \item Other spectral-estimation methods.
+\end{itemize}
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Explain why raw spectral estimates may be unstable.
+    \item Understand spectral smoothing.
+    \item Explain the bias--variance tradeoff.
+    \item Interpret bandwidth.
+    \item Construct or interpret confidence intervals for spectra.
+    \item Explain spectral leakage.
+    \item Understand tapering.
+    \item Compare alternative methods of spectrum estimation.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Bias--variance tradeoff in spectral estimation.
+    \item Bandwidth selection.
+    \item Leakage.
+    \item Tapering.
+    \item Statistical inference for spectra.
+\end{itemize}
+
+% ============================================================
+\section{Module 14: Nonlinear Time-Series Models}
+
+\subsection{Chapter 15 -- Threshold Models}
+
+\textbf{Major Topics}
+
+\begin{itemize}
+    \item Graphical exploration of nonlinearity.
+    \item Tests for nonlinearity.
+    \item Polynomial models and explosiveness.
+    \item First-order threshold autoregressive models.
+    \item General threshold models.
+    \item Tests for threshold nonlinearity.
+    \item Estimation of TAR models.
+    \item Model diagnostics.
+    \item Prediction.
+\end{itemize}
+
+\subsection{Threshold Autoregressive Structure}
+
+A simple threshold autoregressive model can be represented schematically as
+
+\[
+X_t=
+\begin{cases}
+c_1+\phi_{11}X_{t-1}+\epsilon_t,
+& X_{t-d}\leq r,\\[4pt]
+c_2+\phi_{21}X_{t-1}+\epsilon_t,
+& X_{t-d}>r,
+\end{cases}
+\]
+
+where $r$ is a threshold and $d$ is the delay parameter.
+
+\textbf{Learning Objectives}
+
+Students will be able to:
+
+\begin{enumerate}
+    \item Recognize evidence of nonlinear temporal dependence.
+    \item Explain why polynomial models can become explosive.
+    \item Define a threshold autoregressive model.
+    \item Interpret regimes and threshold parameters.
+    \item Test for threshold nonlinearity.
+    \item Estimate TAR models.
+    \item Diagnose fitted nonlinear models.
+    \item Produce predictions from threshold models.
+\end{enumerate}
+
+\textbf{Difficult Topics}
+
+\begin{itemize}
+    \item Detecting nonlinearity.
+    \item Threshold identification.
+    \item Regime-dependent dynamics.
+    \item Nonlinear estimation.
+    \item Prediction under regime switching.
+\end{itemize}
+
+% ============================================================
+\section{Module 15: Statistical Computing with R}
+
+The supplied table of contents includes an extensive computational component,
+including chapter-specific R commands, an R introduction, TSA library
+functions, and dataset information.
+
+\subsection{Computational Skills}
+
+Students should develop the ability to:
+
+\begin{enumerate}
+    \item Import time-series datasets.
+    \item Visualize time series.
+    \item Calculate descriptive statistics.
+    \item Examine ACF and PACF plots.
+    \item Fit AR, MA, ARMA, and ARIMA models.
+    \item Examine residuals.
+    \item Generate forecasts.
+    \item Fit seasonal models.
+    \item Analyze interventions and outliers.
+    \item Fit ARCH/GARCH-type models.
+    \item Perform spectral analysis.
+    \item Fit threshold models.
+    \item Reproduce textbook examples computationally.
+\end{enumerate}
+
+\textbf{Recommended Computational Workflow}
+
+\[
+\boxed{
+\text{Import Data}
+\rightarrow
+\text{Plot}
+\rightarrow
+\text{Transform}
+\rightarrow
+\text{Identify}
+\rightarrow
+\text{Fit}
+\rightarrow
+\text{Diagnose}
+\rightarrow
+\text{Forecast}
+}
+\]
+
+% ============================================================
+\section{Integrated Model-Building Workflow}
+
+The entire course can be viewed as one unified modeling pipeline.
+
+\subsection{Stage 1 -- Understand the Data}
+
+\begin{itemize}
+    \item Plot the series.
+    \item Identify trend.
+    \item Identify seasonality.
+    \item Identify changing variance.
+    \item Search for unusual observations.
+\end{itemize}
+
+\subsection{Stage 2 -- Determine Stationarity}
+
+Ask:
+
+\begin{itemize}
+    \item Is the mean stable?
+    \item Is the variance stable?
+    \item Is the dependence structure stable?
+    \item Is differencing required?
+    \item Is a transformation required?
+\end{itemize}
+
+\subsection{Stage 3 -- Specify the Model}
+
+Use:
+
+\begin{itemize}
+    \item ACF.
+    \item PACF.
+    \item Extended autocorrelation information.
+    \item Graphical diagnostics.
+    \item Subject-matter considerations.
+\end{itemize}
+
+Possible models include:
+
+\[
+\MA(q),\qquad
+\AR(p),\qquad
+\ARMA(p,q),\qquad
+\ARIMA(p,d,q).
+\]
+
+For seasonal data:
+
+\[
+\text{Seasonal ARIMA}.
+\]
+
+For conditional variance dynamics:
+
+\[
+\ARCH,\qquad \GARCH.
+\]
+
+For nonlinear dynamics:
+
+\[
+\TAR.
+\]
+
+\subsection{Stage 4 -- Estimate Parameters}
+
+Candidate approaches include:
+
+\begin{itemize}
+    \item Method of moments.
+    \item Least squares.
+    \item Maximum likelihood.
+    \item Unconditional least squares.
+    \item Bootstrap methods.
+\end{itemize}
+
+\subsection{Stage 5 -- Diagnose the Model}
+
+Check:
+
+\begin{itemize}
+    \item Residual autocorrelation.
+    \item Residual behavior.
+    \item Remaining systematic structure.
+    \item Parameter redundancy.
+    \item Overfitting.
+\end{itemize}
+
+A satisfactory model should leave residuals that contain little predictable
+structure.
+
+\subsection{Stage 6 -- Forecast}
+
+Generate:
+
+\begin{itemize}
+    \item One-step forecasts.
+    \item Multi-step forecasts.
+    \item Prediction limits.
+    \item Updated forecasts.
+\end{itemize}
+
+\subsection{Stage 7 -- Compare and Refine}
+
+The model-building process is iterative:
+
+\[
+\boxed{
+\text{Specify}
+\rightarrow
+\text{Estimate}
+\rightarrow
+\text{Diagnose}
+\rightarrow
+\text{Revise}
+\rightarrow
+\text{Forecast}
+}
+\]
+
+% ============================================================
+\section{Major Difficult Topics Across the Course}
+
+The following topics are likely to require the greatest conceptual and
+mathematical effort.
+
+\begin{longtable}{p{0.28\textwidth}p{0.62\textwidth}}
+\toprule
+\textbf{Topic} & \textbf{Why It Is Difficult} \\
+\midrule
+Stationarity &
+Requires students to rethink ordinary statistical assumptions in terms of
+dependence across time. \\
+
+AR stationarity &
+Requires understanding characteristic roots and stationarity regions. \\
+
+Invertibility &
+Requires distinguishing the representational properties of MA and ARMA
+models. \\
+
+ARIMA modeling &
+Combines autoregression, moving averages, and differencing. \\
+
+ACF/PACF identification &
+Requires pattern recognition and understanding finite-sample behavior. \\
+
+Parameter estimation &
+Likelihood and least-squares methods become more complicated under temporal
+dependence. \\
+
+Residual diagnostics &
+Students must assess whether temporal structure remains after fitting. \\
+
+MMSE forecasting &
+Requires conditional expectation and forecast-error reasoning. \\
+
+Prediction limits &
+Requires understanding uncertainty that accumulates with forecast horizon. \\
+
+Seasonal ARIMA &
+Combines seasonal and nonseasonal dynamics. \\
+
+Spurious correlation &
+Requires recognizing that strong relationships can arise from common
+time-dependent structure rather than substantive relationships. \\
+
+Prewhitening &
+Requires understanding how temporal dependence can distort regression and
+cross-correlation analysis. \\
+
+ARCH/GARCH &
+Introduces dynamic conditional variance in addition to dynamic conditional
+means. \\
+
+Spectral analysis &
+Requires moving from the time domain to the frequency domain. \\
+
+Spectral estimation &
+Introduces smoothing, bandwidth, leakage, tapering, and bias--variance
+tradeoffs. \\
+
+Threshold models &
+Requires nonlinear and regime-dependent thinking rather than a single global
+linear model. \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Learning Objectives by Cognitive Level}
+
+\subsection{Foundational Knowledge}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Define a stochastic process.
+    \item Define stationarity.
+    \item Define autocorrelation.
+    \item Define AR, MA, ARMA, and ARIMA models.
+    \item Define ARCH and GARCH models.
+    \item Define spectral density.
+    \item Define threshold models.
+\end{itemize}
+
+\subsection{Conceptual Understanding}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Explain temporal dependence.
+    \item Explain stationarity.
+    \item Explain differencing.
+    \item Explain model identification.
+    \item Explain residual diagnostics.
+    \item Explain forecasting uncertainty.
+    \item Explain conditional heteroscedasticity.
+    \item Explain time-domain versus frequency-domain analysis.
+    \item Explain nonlinear threshold behavior.
+\end{itemize}
+
+\subsection{Application}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Fit ARMA and ARIMA models.
+    \item Analyze seasonal series.
+    \item Fit regression models with time-series structure.
+    \item Fit ARCH/GARCH models.
+    \item Estimate spectra.
+    \item Fit threshold models.
+\end{itemize}
+
+\subsection{Analysis}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Diagnose stationarity.
+    \item Interpret ACF/PACF behavior.
+    \item Compare competing models.
+    \item Diagnose residual dependence.
+    \item Evaluate forecasting performance.
+    \item Analyze volatility dynamics.
+    \item Detect nonlinear behavior.
+\end{itemize}
+
+\subsection{Evaluation}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Determine whether a model is adequate.
+    \item Evaluate whether a model is overfitted.
+    \item Compare alternative specifications.
+    \item Evaluate forecast uncertainty.
+    \item Assess whether a linear model is sufficient.
+\end{itemize}
+
+\subsection{Creation}
+
+Students should ultimately be able to:
+
+\begin{itemize}
+    \item Develop a complete time-series model from raw data.
+    \item Justify model choices statistically.
+    \item Estimate and diagnose the selected model.
+    \item Produce forecasts.
+    \item Communicate model assumptions, limitations, and conclusions.
+\end{itemize}
+
+% ============================================================
+\section{Suggested Course Sequence}
+
+A coherent semester sequence is:
+
+\begin{longtable}{p{0.10\textwidth}p{0.27\textwidth}p{0.48\textwidth}}
+\toprule
+\textbf{Weeks} & \textbf{Module} & \textbf{Content} \\
+\midrule
+1--2 & Foundations &
+Introduction; stochastic processes; moments; covariance; stationarity \\
+
+3 & Trends &
+Deterministic and stochastic trends; regression; residual analysis \\
+
+4--5 & Stationary Models &
+Linear processes; MA; AR; ARMA; invertibility \\
+
+6 & Nonstationary Models &
+Differencing; ARIMA; transformations \\
+
+7 & Specification &
+ACF; PACF; model identification; nonstationarity \\
+
+8 & Estimation &
+Moments; least squares; maximum likelihood; bootstrap \\
+
+9 & Diagnostics &
+Residual analysis; overfitting; parameter redundancy \\
+
+10 & Forecasting &
+MMSE forecasts; ARIMA forecasting; prediction limits; updating \\
+
+11 & Seasonal Models &
+Seasonal ARIMA; multiplicative models; seasonal forecasting \\
+
+12 & Regression &
+Interventions; outliers; spurious correlation; prewhitening \\
+
+13 & Heteroscedasticity &
+Financial series; ARCH; GARCH; diagnostics \\
+
+14 & Spectral Analysis &
+Periodogram; spectral density; spectrum estimation \\
+
+15 & Nonlinear Models &
+Nonlinearity; threshold models; TAR estimation; diagnostics; prediction \\
+
+16 & Integration &
+Comprehensive modeling project and computational review \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Recommended Assessment Structure}
+
+A course based on this structure can use the following assessment framework.
+
+\begin{longtable}{p{0.45\textwidth}p{0.20\textwidth}p{0.25\textwidth}}
+\toprule
+\textbf{Assessment} & \textbf{Weight} & \textbf{Primary Skills} \\
+\midrule
+Problem Sets & 15\% &
+Theory, derivations, calculations \\
+
+Computational Laboratories & 15\% &
+R implementation and interpretation \\
+
+Midterm Examination & 20\% &
+Foundations through model specification \\
+
+Modeling Project & 20\% &
+Complete empirical modeling workflow \\
+
+Final Examination & 25\% &
+Theory, modeling, diagnostics, forecasting \\
+
+Participation / Presentation & 5\% &
+Communication and interpretation \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Suggested Capstone Project}
+
+Students should complete a full empirical time-series analysis following the
+course model-building strategy.
+
+\subsection{Project Requirements}
+
+\begin{enumerate}
+    \item Select an appropriate real-world time series.
+    \item Describe the data-generating context.
+    \item Produce an exploratory time-series plot.
+    \item Assess trend and seasonality.
+    \item Investigate stationarity.
+    \item Apply transformations or differencing when appropriate.
+    \item Examine ACF and PACF.
+    \item Specify candidate models.
+    \item Estimate model parameters.
+    \item Perform residual diagnostics.
+    \item Compare competing models.
+    \item Select a final model.
+    \item Generate forecasts.
+    \item Quantify forecast uncertainty.
+    \item Interpret the results in substantive terms.
+    \item Document the analysis using reproducible R code.
+\end{enumerate}
+
+\subsection{Advanced Project Extensions}
+
+Students seeking additional difficulty may extend the project to include:
+
+\begin{itemize}
+    \item Seasonal ARIMA.
+    \item Intervention analysis.
+    \item Time-series regression.
+    \item ARCH/GARCH modeling.
+    \item Spectral analysis.
+    \item Threshold autoregressive modeling.
+\end{itemize}
+
+% ============================================================
+\section{Concept Dependency Structure}
+
+The conceptual dependencies of the course can be summarized as follows:
+
+\[
+\begin{array}{c}
+\text{Probability and Statistics}\\
+\downarrow\\
+\text{Stochastic Processes}\\
+\downarrow\\
+\text{Stationarity}\\
+\downarrow\\
+\text{ACF/PACF and Dependence}\\
+\downarrow\\
+\text{AR / MA Models}\\
+\downarrow\\
+\text{ARMA Models}\\
+\downarrow\\
+\text{Differencing}\\
+\downarrow\\
+\text{ARIMA Models}\\
+\downarrow\\
+\text{Model Specification}\\
+\downarrow\\
+\text{Parameter Estimation}\\
+\downarrow\\
+\text{Model Diagnostics}\\
+\downarrow\\
+\text{Forecasting}
+\end{array}
+\]
+
+After the core ARIMA framework is established, the course branches into:
+
+\[
+\begin{array}{ccc}
+\text{ARIMA Core}
+&\longrightarrow&
+\text{Seasonal Models}\\
+&\longrightarrow&
+\text{Time-Series Regression}\\
+&\longrightarrow&
+\text{ARCH/GARCH}\\
+&\longrightarrow&
+\text{Spectral Analysis}\\
+&\longrightarrow&
+\text{Threshold Models}.
+\end{array}
+\]
+
+% ============================================================
+\section{Final Course Competency Map}
+
+At the completion of the course, a successful student should be capable of
+performing the following complete sequence:
+
+\[
+\boxed{
+\begin{minipage}{0.88\textwidth}
+\centering
+\textbf{Understand the data}
+$\rightarrow$
+\textbf{Identify temporal structure}
+$\rightarrow$
+\textbf{Assess stationarity}
+$\rightarrow$
+\textbf{Specify a model}
+$\rightarrow$
+\textbf{Estimate parameters}
+$\rightarrow$
+\textbf{Diagnose the model}
+$\rightarrow$
+\textbf{Revise if necessary}
+$\rightarrow$
+\textbf{Forecast}
+$\rightarrow$
+\textbf{Quantify uncertainty}
+$\rightarrow$
+\textbf{Communicate conclusions}
+\end{minipage}
+}
+\]
+
+\subsection{Core Competencies}
+
+\begin{enumerate}
+    \item \textbf{Probability and stochastic-process reasoning}
+    \item \textbf{Stationarity and temporal dependence}
+    \item \textbf{AR/MA/ARMA modeling}
+    \item \textbf{ARIMA and seasonal ARIMA modeling}
+    \item \textbf{Model identification using ACF/PACF}
+    \item \textbf{Parameter estimation}
+    \item \textbf{Residual diagnostics}
+    \item \textbf{Forecasting and prediction intervals}
+    \item \textbf{Dynamic regression}
+    \item \textbf{Volatility modeling}
+    \item \textbf{Frequency-domain analysis}
+    \item \textbf{Nonlinear threshold modeling}
+    \item \textbf{Statistical programming and reproducibility}
+\end{enumerate}
+
+% ============================================================
+\section{Textbook-to-Course Mapping}
+
+The supplied contents explicitly organize the material into Chapters 1--15,
+followed by R commands, datasets, bibliography, and index. The first four
+chapters establish introduction, fundamental concepts, trends, and stationary
+models; Chapters 5--9 develop nonstationary models, specification, estimation,
+diagnostics, and forecasting. 
+
+The later chapters extend the framework to seasonal models, time-series
+regression, heteroscedasticity, spectral analysis, spectrum estimation, and
+threshold models.
+
+\begin{longtable}{p{0.12\textwidth}p{0.35\textwidth}p{0.38\textwidth}}
+\toprule
+\textbf{Chapter} & \textbf{Textbook Topic} & \textbf{Course Role} \\
+\midrule
+1 & Introduction & Orientation and model-building strategy \\
+2 & Fundamental Concepts & Mathematical foundation \\
+3 & Trends & Trend modeling and regression \\
+4 & Stationary Time Series & AR, MA, ARMA foundations \\
+5 & Nonstationary Time Series & Differencing and ARIMA \\
+6 & Model Specification & Identification \\
+7 & Parameter Estimation & Statistical estimation \\
+8 & Model Diagnostics & Model validation \\
+9 & Forecasting & Prediction and uncertainty \\
+10 & Seasonal Models & Seasonal extensions \\
+11 & Time Series Regression & Interventions and dynamic regression \\
+12 & Heteroscedasticity & ARCH/GARCH volatility modeling \\
+13 & Spectral Analysis & Frequency-domain foundations \\
+14 & Estimating the Spectrum & Statistical spectral estimation \\
+15 & Threshold Models & Nonlinear time-series analysis \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Conclusion}
+
+This course structure turns the supplied textbook contents into a coherent
+progression from fundamental probability concepts to advanced time-series
+modeling.
+
+The central intellectual progression is:
+
+\[
+\boxed{
+\text{Describe}
+\rightarrow
+\text{Understand}
+\rightarrow
+\text{Model}
+\rightarrow
+\text{Estimate}
+\rightarrow
+\text{Diagnose}
+\rightarrow
+\text{Forecast}
+}
+\]
+
+The first half of the course establishes the linear time-domain framework,
+with AR, MA, ARMA, ARIMA, identification, estimation, diagnostics, and
+forecasting as its central components. The second half broadens the framework
+to seasonal dependence, dynamic regression, conditional heteroscedasticity,
+frequency-domain methods, and nonlinear threshold dynamics.
+
+This organization therefore supports both a mathematically rigorous course
+and a practical empirical modeling course in which students repeatedly apply
+the same model-building logic to increasingly sophisticated classes of
+time-series models.
+
+\end{document}
+```

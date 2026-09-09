@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{\textbf{Course Structure \& Detailed Breakdown}\\ \large Math 617: Number Theory I (Johns Hopkins University)}
+\author{Based on Syllabus Data}
+\date{Fall Semester}
+
+\begin{document}
+
+\maketitle
+
+\section*{I. Course Overview \& Architecture}
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Level:} Graduate level (Requires mastery of qualifying exam-level Algebra and Analysis).
+    \item \textbf{Assessment Weight:} $100\%$ Homework (Weekly problem sets; lowest score dropped).
+    \item \textbf{Primary References:} 
+        \begin{itemize}
+            \item Jürgen Neukirch, \emph{Algebraic Number Theory}
+            \item André Weil, \emph{Basic Number Theory}
+            \item Serge Lang, \emph{Algebraic Number Theory}
+            \item J.W.S. Cassels \& A. Fröhlich (Eds.), \emph{Algebraic Number Theory}
+        \end{itemize}
+\end{itemize}
+
+---
+
+\section*{II. Core Prerequisite Knowledge}
+
+To succeed in this course, students must have firm ground in the following topics:
+
+\begin{description}[leftmargin=*]
+    \item[Graduate Algebra:] Ring theory (PIDs, UFDs, maximal/prime ideals), Module theory (structure theorem for finitely generated modules over PIDs), Galois theory (field extensions, Galois groups, trace, and norm maps), and group representation basics.
+    \item[Graduate Analysis:] Measure theory and integration (Haar measure on locally compact abelian groups), basic topology (topological groups, compactness, completion of metric spaces), and complex analysis (analytic continuation, gamma function basics).
+\end{description}
+
+---
+
+\section*{III. Modular Course Breakdown}
+
+\subsection*{Module 1: Dedekind Domains and Ramification Theory}
+\textbf{Focus:} Structural algebraic number theory; moving from ideal factorization in rings of integers to geometric and local behavior via ramification.
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Key Concepts:}
+        \begin{itemize}
+            \item Noetherian, integrally closed domains of Krull dimension 1.
+            \item Unique factorization of fractional ideals.
+            \item Prime ideal decomposition in extension fields: $e$ (ramification index), $f$ (inertia degree), and $g$ (number of prime factors). The fundamental identity $\sum_{i=1}^g e_i f_i = n$.
+            \item Galois action on prime ideals, decomposition groups ($D_\mathfrak{P}$), and inertia groups ($I_\mathfrak{P}$).
+            \item Discriminant and Different: Different ideal $\mathfrak{D}_{L/K}$, discriminant $\mathfrak{d}_{L/K}$, and Dedekind's criterion for ramification.
+        \end{itemize}
+    \item \textbf{Learning Objectives:}
+        \begin{itemize}
+            \item Prove the unique factorization of ideals in Dedekind domains.
+            \item Compute ramification indices and residue degree extensions in explicit field extensions (e.g., cyclotomic and quadratic fields).
+            \item Analyze unramified, tamely ramified, and wildly ramified extensions via lower and upper filtration series of ramification groups.
+        \end{itemize}
+    \item \textbf{Identified Difficult Topics:} Distinguishing between wild and tame ramification; precise calculation of the relative different and its connection to algebraic ramification.
+\end{itemize}
+
+\subsection*{Module 2: Global and Local Fields}
+\textbf{Focus:} Transitioning from global field arithmetic (number fields, function fields over finite fields) to local fields via valuations and completions ($p$-adic numbers).
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Key Concepts:}
+        \begin{itemize}
+            \item Absolute values, valuations (archimedean vs. non-archimedean), and Ostrowski's Theorem.
+            \item Completions of global fields: $p$-adic numbers $\mathbb{Q}_p$ and local fields $K_v$.
+            \item Structure of local fields: Ring of integers $\mathcal{O}_v$, maximal ideal $\mathfrak{m}_v$, residue field $k_v$.
+            \item Hensel's Lemma (multiple formulations) and roots of unity in $\mathbb{Q}_p$.
+            \item Unramified and totally ramified extensions of local fields.
+            \item Local norm-index computations.
+        \end{itemize}
+    \item \textbf{Learning Objectives:}
+        \begin{itemize}
+            \item Classify all non-trivial topologies/absolute values on $\mathbb{Q}$ and global function fields.
+            \item Apply Hensel's Lemma to solve polynomial equations in local fields.
+            \item Formulate the local-global principle (Hasse Principle) for quadratic forms.
+        \end{itemize}
+    \item \textbf{Identified Difficult Topics:} Local-to-global spectral arguments; topological groups over non-archimedean fields; local class field theory inputs.
+\end{itemize}
+
+\subsection*{Module 3: Adèles and Idèles}
+\textbf{Focus:} Unifying local extensions into global topological objects to examine global number theory through harmonic analysis.
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Key Concepts:}
+        \begin{itemize}
+            \item Restricted direct products of topological spaces.
+            \item The Ring of Adèles $\mathbb{A}_K$: Topology, compactness of $\mathbb{A}_K / K$, and discrete embeddings.
+            \item The Group of Idèles $\mathbb{I}_K$: Idele class group $C_K = \mathbb{I}_K / K^\times$, compactness of $C_K^1$.
+            \item Connection between idele classes, ideal class groups, and Dirichlet's Unit Theorem.
+        \end{itemize}
+    \item \textbf{Learning Objectives:}
+        \begin{itemize}
+            \item Construct the restricted product topology and prove structural properties of $\mathbb{A}_K$.
+            \item Show that $K$ is discrete and co-compact in $\mathbb{A}_K$.
+            \item Translate classical ideal theory statements into the language of adèles/idèles.
+        \end{itemize}
+    \item \textbf{Identified Difficult Topics:} Working fluently with the restricted product topology; establishing co-compactness of $K \subset \mathbb{A}_K$.
+\end{itemize}
+
+\subsection*{Module 4: Tate's Thesis (Harmonic Analysis on Local/Global Fields)}
+\textbf{Focus:} Analytic continuation and functional equations of global $L$-functions via Fourier analysis on adèles (if time permits).
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Key Concepts:}
+        \begin{itemize}
+            \item Haar measures on local fields and adèle rings.
+            \item Local Fourier transforms, self-duality, and local gamma factors.
+            \item Schwartz-Bruhat functions on adèles.
+            \item Tate's global zeta integral $Z(f, \chi)$ and the Poisson summation formula on $\mathbb{A}_K$.
+            \item Functional equation and analytic continuation of Riemann Zeta and Dirichlet $L$-functions.
+        \end{itemize}
+    \item \textbf{Learning Objectives:}
+        \begin{itemize}
+            \item Calculate local zeta integrals for unramified and ramified characters.
+            \item Use Poisson summation on the adèle space to derive global functional equations cleanly.
+        \end{itemize}
+    \item \textbf{Identified Difficult Topics:} Harmonizing local and global Fourier transforms; subtle topology of characters on the idèle class group.
+\end{itemize}
+
+---
+
+\section*{IV. Summary Map of Pedagogical Dependencies}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Module} & \textbf{Core Prerequisites} & \textbf{Conceptual Peak / Goal} \\ \midrule
+Module 1: Dedekind Domains & Abstract Algebra (Galois, Ideal Theory) & Ramification Groups \& Different Ideal \\
+Module 2: Local Fields & Point-Set Topology, Analysis & Hensel's Lemma \& Valuations \\
+Module 3: Adèles \& Idèles & Modules 1 \& 2, Topological Groups & Compactness of $C_K^1$ \\
+Module 4: Tate's Thesis & Module 3, Harmonic Analysis & Functional Equation of $L$-functions \\ \bottomrule
+\end{tabular}
+\caption{Progression of mathematical tools across the semester.}
+\end{table}
+
+\end{document}

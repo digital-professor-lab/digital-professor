@@ -1,0 +1,96 @@
+\documentclass[10pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{titlesec}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\bfseries}{\thesubsection}{1em}{}
+
+\title{\textbf{Course Syllabus \& Breakdown: Calculus I for Biological and Social Sciences}}
+\author{\textbf{Target Audience:} Undergraduate Students in Biological, Ecological, and Social Sciences}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Course Overview}
+This course covers single-variable and multivariable calculus, linear algebra, differential equations, and probability, with a heavy emphasis on modeling dynamic systems in biology, ecology, medicine, and social sciences[cite: 1].
+
+\section{Prerequisites and Foundational Skills}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Precalculus Skills:} Linear equations, quadratic equations, Cartesian coordinates, and basic trigonometry[cite: 1].
+    \item \textbf{Elementary Functions:} Polynomials, rational functions, power functions, exponential functions, and logarithmic functions[cite: 1].
+    \item \textbf{Data Transformation \& Graphing:} Logarithmic scales, semi-log and log-log plots, and function transformations[cite: 1].
+    \item \textbf{Complex Numbers:} Basic arithmetic and roots of polynomial equations[cite: 1].
+\end{itemize}
+
+\section{Core Course Structure \& Modules}
+
+\subsection{Module 1: Discrete Dynamics and Limits}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Major Topics:} Discrete-Time Models, Sequences, Limits, and Continuity[cite: 1].
+    \item \textbf{Key Concepts:} Recurrence equations, population growth, limit laws, continuity, Intermediate-Value Theorem, Bisection Method[cite: 1].
+    \item \textbf{Learning Objectives:} Model discrete population growth (Logistic, Beverton-Holt), evaluate limits analytically/graphically, and determine function continuity[cite: 1].
+\end{itemize}
+
+\subsection{Module 2: Single-Variable Differential Calculus}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Major Topics:} Derivatives, Differentiation Rules, and Applications[cite: 1].
+    \item \textbf{Key Concepts:} Product/Quotient/Chain rules, implicit differentiation, related rates, local/global extrema, concavity, L'H\^opital's Rule, linear approximation[cite: 1].
+    \item \textbf{Learning Objectives:} Calculate derivatives of transcendental functions, optimize biological systems, analyze stability of recurrence equations, and run Newton-Raphson approximations[cite: 1].
+\end{itemize}
+
+\subsection{Module 3: Integral Calculus}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Major Topics:} Definite Integrals, Fundamental Theorem of Calculus, Integration Techniques[cite: 1].
+    \item \textbf{Key Concepts:} Riemann sums, substitution rule, integration by parts, partial fractions, numerical integration (Trapezoidal/Midpoint), improper integrals, Taylor polynomials[cite: 1].
+    \item \textbf{Learning Objectives:} Compute cumulative change, evaluate average values, integrate rational and exponential models, and estimate integration errors[cite: 1].
+\end{itemize}
+
+\subsection{Module 4: Differential Equations \& Dynamical Systems}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Major Topics:} First-Order ODEs, Systems of Differential Equations, Mathematical Modeling[cite: 1].
+    \item \textbf{Key Concepts:} Separable equations, vector fields, phase lines, equilibria, stability, compartment models, epidemic (SIR) models, Lotka-Volterra predator-prey systems[cite: 1].
+    \item \textbf{Learning Objectives:} Analyze autonomous differential equations, determine stability of equilibria, and model infectious diseases and ecological interactions[cite: 1].
+\end{itemize}
+
+\subsection{Module 5: Linear Algebra \& Analytic Geometry}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Major Topics:} Linear Systems, Matrix Algebra, Eigenvalues, Vector Geometry[cite: 1].
+    \item \textbf{Key Concepts:} Gaussian elimination, matrix inverses, eigenvalues, eigenvectors, Leslie matrices, stable age distributions, dot product, parametric lines[cite: 1].
+    \item \textbf{Learning Objectives:} Solve linear systems using matrices, compute eigenvalues/eigenvectors for iterated maps, and apply Leslie matrices to demographic modeling[cite: 1].
+\end{itemize}
+
+\subsection{Module 6: Multivariable Calculus}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Major Topics:} Functions of Multiple Variables, Partial Derivatives, Optimization[cite: 1].
+    \item \textbf{Key Concepts:} Contour plots, partial derivatives, tangent planes, directional derivatives, gradient vector, constrained optimization, least-squares regression[cite: 1].
+    \item \textbf{Learning Objectives:} Compute partial derivatives, optimize multivariable biological models, interpret gradient vectors, and fit models to data using least-squares[cite: 1].
+\end{itemize}
+
+\subsection{Module 7: Applied Probability \& Statistics}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Major Topics:} Combinatorics, Probability Distributions, Limit Theorems, Parameter Estimation[cite: 1].
+    \item \textbf{Key Concepts:} Conditional probability, Bayes' Formula, discrete distributions (Binomial, Poisson), continuous distributions (Normal, Exponential), Central Limit Theorem, linear regression[cite: 1].
+    \item \textbf{Learning Objectives:} Apply Bayes' Rule to diagnostic tests, model rare events using Poisson distributions, and perform statistical parameter estimation on biological data[cite: 1].
+\end{itemize}
+
+\section{Conceptually Challenging / Advanced Topics}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Rigorous Limit Definitions ($\epsilon$-$\delta$ proofs):} Section 3.6 \& Section 10.2[cite: 1].
+    \item \textbf{Stability Analysis of Nonlinear Systems:} Recurrence stability (Section 5.7), autonomous ODE equilibria (Section 8.2), and systems of recurrence equations (Section 10.9)[cite: 1].
+    \item \textbf{Eigenvalue/Eigenvector Applications:} Matrix dynamics and Leslie demographic models (Section 9.3, 9.4)[cite: 1].
+    \item \textbf{Nonlinear Systems of ODEs:} Phase-plane analysis and community matrices in Lotka-Volterra models (Section 11.3, 11.4, 11.5)[cite: 1].
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,463 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
+
+\title{Time Series Analysis (EN.553.439/639) \\ \large Full Course Design Package}
+\author{Reverse-engineered from the Spring 2026 syllabus (Instructor: Dr.\ Sergey Kushnarev)}
+\date{Spring 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Course Overview and Design Assumptions}
+
+This design package reverse-engineers the EN.553.439/639 syllabus into four instructional modules, a topic-by-topic objective map, a prerequisite dependency table, a difficulty analysis, and an assessment plan. The following assumptions were required to fill gaps the syllabus itself leaves open:
+
+\begin{itemize}
+\item \textbf{Duration.} The brief specified 12 weeks, but the syllabus's own midterm dates (Feb.\ 18 = ``Week 5'' Wed, Mar.\ 25 = ``Week 9'' Wed, Apr.\ 22 = ``Week 13'' Wed) are only consistent with a \textbf{13-teaching-week term plus a non-teaching spring-break week} between Weeks 8 and 9. This document follows the syllabus's own week numbering rather than compressing it.
+\item \textbf{Chapter mapping.} The syllabus states topics cover ``approximately the first ten chapters and parts of Chapter 12'' of Cryer \& Chan (2nd ed.) without naming exact chapter numbers per topic; the mapping used here follows that text's standard chapter order.
+\item \textbf{Pacing.} No lecture-by-lecture schedule was available (the syllabus defers this to CANVAS); week ranges below are inferred from topic count, the three midterm boundaries, and typical pacing for this material.
+\item \textbf{No final exam.} Grading sums to 100\% via 6 homeworks (25\%) plus 3 non-cumulative midterms (75\%). Topics 12--13 (ARCH/GARCH; nonlinear \& spectral methods) are exactly the topics the syllabus itself calls ``other topics as time allows,'' so they are treated here as ungraded enrichment rather than examined material.
+\item \textbf{Prerequisite gaps flagged, not assumed away.} OLS regression (needed for Trends) is not explicitly named among the stated prerequisite courses; Fourier/complex-number background (needed for spectral analysis) is not in the prerequisites at all. Both are flagged in the Prerequisite Map.
+\item \textbf{Undergraduate/graduate sections.} EN.553.439 and EN.553.639 share lectures; this design targets the shared ``intermediate'' level the syllabus itself uses, without inventing an undocumented graduate-only track.
+\end{itemize}
+
+\section{Module 1: Foundations --- Description, Stationarity, Trends \& Linear Models}
+\textbf{Weeks 1--5 (Midterm 1: Wednesday, Week 5).} Goal: equip students to characterize a time series descriptively and represent it as a stationary ARMA process.
+
+\subsection{Topic 1: Fundamental Tools --- Mean, Variance, Covariance, ACF}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Time series as a realization of a stochastic process $\{Y_t\}$
+\item Mean function $\mu_t = E[Y_t]$
+\item Autocovariance function $\gamma(t,s) = \text{Cov}(Y_t,Y_s)$
+\item Autocorrelation function (ACF) $\rho_k = \gamma_k/\gamma_0$
+\item Sample ACF and its approximate $\pm 2/\sqrt{n}$ significance bounds
+\item Time series plots and lag plots for exploratory analysis
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Define} the mean, autocovariance, and autocorrelation functions of a stochastic process.
+\item \emph{Compute} the sample ACF for a dataset and \emph{interpret} a correlogram.
+\item \emph{Explain} why time-ordering and dependence invalidate classical iid-based inference.
+\item \emph{Distinguish} the population ACF from its sample estimate, including sampling variability.
+\end{enumerate}
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} Define the autocorrelation function $\rho_k$ of a stationary process in terms of its autocovariance function. \\
+\emph{Answer:} $\rho_k = \gamma_k/\gamma_0$, where $\gamma_k = \text{Cov}(Y_t,Y_{t+k})$ and $\gamma_0 = \text{Var}(Y_t)$.
+\item \textbf{(Application/Analysis)} Given sample ACF values $r_1=0.62$, $r_2=0.35$, $r_3=0.10$, $r_4=-0.05$ for $n=100$, use the $\pm 2/\sqrt{n}$ rule to determine which lags are significant. \\
+\emph{Answer/Rubric:} $2/\sqrt{100}=0.2$; lags 1 and 2 exceed the threshold (significant), lags 3--4 do not. Full credit requires the correct threshold \emph{and} correct classification of each lag; partial credit for the threshold alone.
+\end{enumerate}
+
+\subsection{Topic 2: Stationarity \& Basic Models}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Strict stationarity vs.\ weak (second-order) stationarity
+\item Conditions under which the two coincide (e.g., Gaussian processes)
+\item White noise process
+\item Random walk (with/without drift) as a canonical nonstationary process
+\item MA(1) as a first stationary example
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Define} strict and weak stationarity and state the conditions distinguishing them.
+\item \emph{Determine} whether a given process is stationary by checking its mean/variance/covariance structure.
+\item \emph{Derive} the ACF of a simple process (MA(1), random walk) from first principles.
+\item \emph{Justify} why stationarity is a prerequisite for meaningful ACF-based inference.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} students trained on iid statistics have never needed a joint-distributional property to be time-invariant, and commonly conflate ``stationary'' with ``looks flat,'' so they can recite the definition but cannot apply it to a concrete process. \emph{Mitigation:} before the formal definition, show white noise vs.\ a same-starting-value random walk side by side (one wanders, one does not, yet neither plot alone proves anything), then walk line-by-line through a 3-process checklist (white noise, random walk, MA(1)) asking ``does this expression depend on $t$?''
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} State the definition of weak (second-order) stationarity. \\
+\emph{Answer:} Constant mean $E[Y_t]=\mu$ for all $t$; constant finite variance; $\text{Cov}(Y_t,Y_{t+k})$ depends only on lag $k$, not on $t$.
+\item \textbf{(Application)} Is the random walk $Y_t = Y_{t-1}+e_t$, $Y_0=0$, stationary? Justify using its variance function. \\
+\emph{Answer/Rubric:} $\text{Var}(Y_t)=t\sigma_e^2$, which depends on $t$, so $Y_t$ is not stationary. Full credit requires the explicit variance derivation, not just ``no.''
+\end{enumerate}
+
+\subsection{Topic 3: Trends}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Deterministic trend models (linear, quadratic, seasonal-means regression)
+\item Estimating and removing deterministic trends via least squares
+\item Residual analysis after detrending
+\item Stochastic (unit-root) trend as an alternative source of nonstationarity
+\item Overdifferencing vs.\ overfitting a deterministic trend
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Fit} a deterministic trend model via least-squares regression.
+\item \emph{Distinguish} deterministic trend behavior from stochastic trend behavior in a plot and its ACF.
+\item \emph{Evaluate} whether detrended residuals are consistent with a stationary process.
+\item \emph{Critique} the consequences of misclassifying a stochastic trend as deterministic (or vice versa).
+\end{enumerate}
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} What distinguishes a deterministic trend from a stochastic trend? \\
+\emph{Answer:} A deterministic trend is a fixed function of time (e.g., $\beta_0+\beta_1 t$) with stationary deviations around it; a stochastic trend is nonstationarity built into the process itself (e.g., a unit root), so shocks have a permanent effect on the level.
+\item \textbf{(Application/Analysis)} A researcher fits $Y_t=\beta_0+\beta_1 t + e_t$ by OLS and finds the residual ACF decays very slowly. What does this suggest, and what would you try next? \\
+\emph{Answer/Rubric:} Suggests the series may have a stochastic trend (or the deterministic form is misspecified) rather than stationary deviations; next step is to difference the original series and re-examine the ACF. Full credit requires both the diagnosis and a concrete next step.
+\end{enumerate}
+
+\subsection{Topic 4: Linear Models --- General Linear Process, AR, MA, ARMA}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item General linear process $Y_t = \sum_j \psi_j e_{t-j}$
+\item Backshift operator $B$; operator polynomials $\phi(B)$, $\theta(B)$
+\item AR($p$), MA($q$), ARMA($p,q$) definitions
+\item Stationarity condition (roots of $\phi(z)=0$ outside unit circle) and invertibility condition (roots of $\theta(z)=0$ outside unit circle)
+\item Theoretical ACF and PACF shapes for AR/MA/ARMA processes
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Express} an AR, MA, or ARMA process using backshift-operator notation.
+\item \emph{Derive} the stationarity condition for an AR($p$) process from the roots of its characteristic polynomial.
+\item \emph{Derive} the theoretical ACF of an AR(1)/AR(2) or MA(1)/MA(2) process.
+\item \emph{Evaluate} whether given estimated coefficients yield a stationary and invertible model.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} this is the first place students must connect a difference equation to a polynomial-root condition, requiring fluency with $B$ as an algebraic object rather than a time-shift description; $\phi(B)$ and the characteristic equation $\phi(z)=0$ look alike and are frequently conflated. \emph{Mitigation:} hand-iterate an AR(1) recursion numerically for $\phi=0.5$ and $\phi=1.5$ so students see one path settle and one explode \emph{before} the root condition is introduced as ``the algebra that predicts what you just watched.''
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} Write the AR(2) model in backshift-operator form and state its characteristic equation. \\
+\emph{Answer:} $(1-\phi_1 B - \phi_2 B^2)Y_t = e_t$; characteristic equation $1-\phi_1 z - \phi_2 z^2=0$.
+\item \textbf{(Application/Analysis)} For $Y_t=\phi Y_{t-1}+e_t$, find the range of $\phi$ for stationarity and compute $\rho_k$. \\
+\emph{Answer/Rubric:} Stationary for $|\phi|<1$; $\rho_k = \phi^{|k|}$. Credit for correct range \emph{and} correct ACF formula; partial credit if only one is correct.
+\end{enumerate}
+
+\section{Module 2: Nonstationarity, Identification, Estimation \& Diagnostics}
+\textbf{Weeks 6--9 (spring break falls between Weeks 8 and 9; Midterm 2: Wednesday, Week 9).} Goal: run the full Box--Jenkins loop --- difference/transform, identify, estimate, diagnose --- on real, nonstationary data.
+
+\subsection{Topic 5: Nonstationary Models --- Differencing, ARIMA, Transformations}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Differencing operator $\nabla = 1-B$; order-$d$ differencing
+\item ARIMA($p,d,q$) as ARMA applied to a differenced series
+\item Variance-stabilizing transformations (log, Box--Cox)
+\item Random walk as ARIMA(0,1,0); overdifferencing pitfalls
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Apply} differencing to transform a nonstationary series into an apparently stationary one.
+\item \emph{Select} an appropriate variance-stabilizing transformation from a plot showing changing variance.
+\item \emph{Formulate} a series' dynamics as an ARIMA($p,d,q$) model.
+\item \emph{Assess} evidence of overdifferencing.
+\end{enumerate}
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} What operation converts an ARIMA($p,d,q$) process into a stationary ARMA($p,q$) process? \\
+\emph{Answer:} Differencing $d$ times: $(1-B)^d Y_t$.
+\item \textbf{(Application)} A series shows increasing variance over time and a slowly decaying ACF. Propose a sequence of steps to reach a stationary series, and justify each. \\
+\emph{Answer/Rubric:} (1) Apply a variance-stabilizing transform such as log (justified by increasing variance); (2) then difference the transformed series (justified by slow ACF decay); (3) re-check the ACF/plot. Full credit requires the correct order (transform before differencing) and justification for each step.
+\end{enumerate}
+
+\subsection{Topic 6: Model Specification --- ACF, PACF, EACF}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Partial autocorrelation function (PACF) via Durbin--Levinson/regression definition
+\item AR($p$): PACF cuts off at lag $p$, ACF tails off; MA($q$): ACF cuts off at lag $q$, PACF tails off; ARMA($p,q$): both tail off
+\item Extended ACF (EACF) triangular pattern
+\item Using ACF/PACF/EACF jointly with parsimony to propose candidate models
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Compute} and \emph{interpret} the sample PACF of a time series.
+\item \emph{Identify} candidate $(p,q)$ orders from ACF/PACF cutoff/tailoff patterns.
+\item \emph{Read} an EACF table to shortlist candidate ARMA orders.
+\item \emph{Compare} competing candidate specifications and justify a preferred one.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} identification is pattern recognition against a lookup table, but real sample ACF/PACF plots are noisy, so a genuine AR(2) may not cut off crisply at lag 2; the EACF adds a second, unfamiliar 2-D scanning task (finding a triangle's vertex) unlike the 1-D ``read bar $k$'' of an ACF. \emph{Mitigation:} pair a clean textbook ACF/PACF with a messy real one on the same day and practice ranking several plausible candidates rather than identify-and-stop; for EACF, walk through a table with the vertex pre-highlighted before asking students to find one unaided.
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} What are the theoretical ACF and PACF signatures of an MA(2) process? \\
+\emph{Answer:} ACF cuts off (equals 0) after lag 2; PACF tails off (decays), never exactly zero.
+\item \textbf{(Application/Analysis)} A sample ACF tails off gradually and a sample PACF cuts off sharply after lag 1. What model would you tentatively identify, and why? \\
+\emph{Answer/Rubric:} AR(1) --- a PACF cutoff at lag 1 combined with a tailing-off ACF is the AR(1) signature. Must name AR(1) specifically and cite both patterns.
+\end{enumerate}
+
+\subsection{Topic 7: Parameter Estimation --- Yule--Walker, MLE, LS/CLS}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Method-of-moments/Yule--Walker equations for AR parameters
+\item Conditional and unconditional least squares (CLS/ULS) for ARMA
+\item Maximum likelihood estimation (exact vs.\ conditional likelihood)
+\item Asymptotic properties: consistency, approximate normality, standard errors
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Derive} the Yule--Walker equations for an AR($p$) process and solve them for AR(1)/AR(2).
+\item \emph{Contrast} CLS, ULS, and MLE in terms of assumptions and computational approach.
+\item \emph{Compute} parameter estimates and standard errors for a fitted ARMA model in software.
+\item \emph{Evaluate} which estimation method is most appropriate given sample size and complexity.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} students must hold three estimation methods in mind and often can't articulate what differs beyond ``one uses calculus''; this is worsened because exact MLE is usually taught via a conditional-likelihood shortcut without covering why the exact likelihood is hard (the innovations-algorithm prerequisite is typically missing). \emph{Mitigation:} estimate the same AR(1) example three ways in one side-by-side table so students see the methods converge rather than treating them as unrelated procedures.
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} Write the Yule--Walker estimator of $\phi$ for an AR(1) process. \\
+\emph{Answer:} $\hat\phi = r_1$ (the lag-1 sample autocorrelation), from $\rho_1=\phi$ for AR(1).
+\item \textbf{(Application/Analysis)} Explain one key difference between CLS and MLE for ARMA estimation, and one condition under which they should agree closely. \\
+\emph{Answer/Rubric:} CLS conditions on (fixes) initial values, ignoring their contribution to the likelihood; exact MLE incorporates the full joint density including initial observations. They converge for large $n$, since the initial conditions' contribution becomes negligible. Credit for a correct distinguishing feature and a correct convergence condition.
+\end{enumerate}
+
+\subsection{Topic 8: Model Diagnostics}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Standardized residuals; residual ACF
+\item Ljung--Box (portmanteau) test for residual autocorrelation
+\item Normality checks (QQ-plot, Shapiro--Wilk) and overfitting checks
+\item The iterative identify $\to$ estimate $\to$ diagnose (\,$\to$ revise) loop
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Perform} residual diagnostics (residual ACF, Ljung--Box) on a fitted ARIMA model.
+\item \emph{Interpret} the null hypothesis and result of a Ljung--Box test.
+\item \emph{Diagnose} evidence of misspecification and propose a revised model.
+\item \emph{Justify} when a model should be judged adequate versus requiring refinement.
+\end{enumerate}
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} What null hypothesis does the Ljung--Box test check when applied to fitted-model residuals? \\
+\emph{Answer:} $H_0$: the residuals are uncorrelated up to the tested lag (the model has captured the linear dependence; residuals resemble white noise).
+\item \textbf{(Application/Analysis)} A fitted model's residual ACF shows a significant spike at lag 12, with all other lags within bounds. What would you investigate, and what change might you consider? \\
+\emph{Answer/Rubric:} Investigate seasonal dependence (period 12, e.g.\ monthly data); consider adding a seasonal AR or MA term (moving to a SARIMA specification). Credit for identifying seasonality and proposing a seasonal remedy.
+\end{enumerate}
+
+\section{Module 3: Forecasting, Seasonality \& Time Series Regression}
+\textbf{Weeks 10--13 (Midterm 3: Wednesday, Week 13).} Goal: use fitted models to forecast, extend ARIMA to seasonal data, and incorporate external events/outliers via regression.
+
+\subsection{Topic 9: Forecasting}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Minimum mean-square-error (MMSE) forecast = conditional expectation
+\item $\psi$-weight forecasting and forecast-error variance
+\item Forecast recursions for AR, MA, ARMA, ARIMA
+\item Prediction intervals and their widening with forecast horizon
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Derive} the $h$-step-ahead MMSE forecast for an AR(1) or MA(1) process.
+\item \emph{Compute} forecasts and standard errors for a fitted ARIMA model using $\psi$-weights.
+\item \emph{Construct} a prediction interval at a specified confidence level.
+\item \emph{Explain} why prediction-interval width grows unboundedly with horizon for ARIMA ($d\geq1$) processes.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} deriving forecast-error variance via $\psi$-weights is the heaviest symbolic-manipulation task in the course (infinite-series conditional expectations), and clashes with the intuition that a good model should forecast with growing certainty. \emph{Mitigation:} build the derivation two terms at a time (1-step, then 2-step) with actual numbers before generalizing; pair the ARIMA($d=1$) case with a visual contrasting a random-walk forecast fan (widens forever) against an AR(1) forecast (levels off).
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} For an MA(1) model, what is the 2-step-ahead forecast given only current information? \\
+\emph{Answer:} The unconditional mean (0 if mean-zero) --- MA(1) has memory of only 1 lag, so nothing from the current information set informs step 2.
+\item \textbf{(Application/Analysis)} Explain why the 95\% prediction interval for an ARIMA(0,1,0) forecast widens without bound as horizon grows, while a stationary AR(1)'s levels off. \\
+\emph{Answer/Rubric:} Random-walk forecast-error variance equals $h\sigma_e^2$, growing linearly and unboundedly with $h$; stationary AR(1) forecast-error variance converges to $\sigma_e^2/(1-\phi^2)$ as $h\to\infty$, giving a bounded interval. Credit requires citing the correct growth behavior for both cases.
+\end{enumerate}
+
+\subsection{Topic 10: Seasonal Box--Jenkins Models --- SARIMA}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Seasonal differencing operator $\nabla_s = 1-B^s$
+\item Multiplicative seasonal model SARIMA$(p,d,q)\times(P,D,Q)_s$
+\item Identifying seasonal orders from ACF/PACF spikes at seasonal lags
+\item Forecasting and diagnostics for seasonal models
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Formulate} a seasonal series as a SARIMA$(p,d,q)\times(P,D,Q)_s$ model.
+\item \emph{Identify} seasonal AR/MA orders from spikes at multiples of the seasonal period.
+\item \emph{Apply} seasonal differencing to remove seasonal nonstationarity.
+\item \emph{Evaluate} a fitted SARIMA model's adequacy via seasonal and non-seasonal diagnostics.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} the notation stacks two polynomials, two differencing operators, and a period into one symbol, so a model like ARIMA$(1,1,1)\times(1,1,1)_{12}$ is frequently mis-expanded. \emph{Mitigation:} have students expand a small example, e.g.\ $(1,0,0)\times(1,0,0)_4$, fully by hand into an explicit lag polynomial before ever fitting one in software.
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} In SARIMA$(1,1,1)\times(1,1,1)_{12}$, what does the subscript 12 represent, and what does $D=1$ indicate? \\
+\emph{Answer:} 12 is the seasonal period (e.g., monthly data with annual seasonality); $D=1$ means one order of seasonal differencing, $(1-B^{12})$, to remove seasonal nonstationarity.
+\item \textbf{(Application/Analysis)} A monthly series' ACF shows large, slowly-decaying spikes at lags 12, 24, 36, plus typical AR(1)-like short-lag decay. What seasonal and non-seasonal orders would you propose? \\
+\emph{Answer/Rubric:} Seasonal differencing ($D=1$, $s=12$) to address the seasonal-lag pattern, plus a low-order AR term (e.g., $p=1$) for the short-lag structure. Full credit for identifying seasonal differencing and a plausible non-seasonal order.
+\end{enumerate}
+
+\subsection{Topic 11: Regression Methods --- Intervention Analysis, Outliers, Spurious Correlation, Pre-whitening}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Time series regression with autocorrelated errors
+\item Intervention analysis via step/pulse indicator variables
+\item Additive outliers (AO) vs.\ innovational outliers (IO)
+\item Spurious correlation between independent nonstationary series
+\item Pre-whitening for valid cross-correlation/transfer-function inference
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Explain} why standard OLS inference is invalid under autocorrelated regression errors.
+\item \emph{Model} a known intervention using indicator variables.
+\item \emph{Distinguish} additive from innovational outliers by their impact on the series.
+\item \emph{Demonstrate}, via pre-whitening, why an apparent correlation between two series may be spurious.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} a genuine conceptual trap, not just computational --- two independent random walks routinely show ``significant'' correlation, directly contradicting trained intuition, and students often resist the result even after seeing it demonstrated. \emph{Mitigation:} run a live simulation generating many independent random-walk pairs and plotting the distribution of their correlations (far wider than the iid benchmark), then introduce pre-whitening as the fix tied directly to the diagnosed cause.
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} Distinguish an additive outlier (AO) from an innovational outlier (IO). \\
+\emph{Answer:} An AO affects only a single observation directly (a one-time shock, not propagated through the model dynamics); an IO enters through the error term and propagates through the dynamics, affecting subsequent observations too.
+\item \textbf{(Application/Analysis)} Two independent random-walk series have a sample correlation of 0.82. Is this evidence of a real relationship? What procedure would you use, and what do you expect it to show? \\
+\emph{Answer/Rubric:} No --- this is classic spurious correlation. Recommend pre-whitening both series (fit an appropriate ARIMA model to each, then correlate the residuals); expect the pre-whitened cross-correlation to be near zero/insignificant. Full credit requires identifying spurious correlation, naming pre-whitening, and the expected outcome.
+\end{enumerate}
+
+\section{Module 4: Advanced \& Special Topics (Enrichment)}
+\textbf{Week 14, ungraded.} Goal: preview two extensions beyond linear, constant-variance ARMA theory, consistent with the syllabus's own framing of this material as time-permitting (``other topics as time allows'').
+
+\subsection{Topic 12: Heteroskedastic Models --- ARCH/GARCH}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Volatility clustering as a stylized fact of financial/economic series
+\item Conditional mean vs.\ conditional variance modeling
+\item ARCH($q$): variance as a function of past squared residuals
+\item GARCH($p,q$) as a parsimonious generalization
+\item Estimation (MLE) and diagnostics (Ljung--Box on squared residuals) for ARCH effects
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Explain} conditional heteroskedasticity versus ARMA's constant-variance assumption.
+\item \emph{Test} a residual series for ARCH effects via Ljung--Box on squared residuals.
+\item \emph{Specify} an ARCH($q$) or GARCH($p,q$) model and interpret its parameters.
+\item \emph{Compare} ARCH and GARCH specifications for parsimony and fit.
+\end{enumerate}
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} What stylized fact motivates ARCH/GARCH models over standard ARMA models? \\
+\emph{Answer:} Volatility clustering --- high-volatility periods tend to be followed by more high volatility, and calm periods by more calm, i.e., the conditional variance changes over time even when the mean structure looks like white noise.
+\item \textbf{(Application/Analysis)} A fitted ARMA model's residuals pass the Ljung--Box test, but the squared residuals show significant autocorrelation. What would you conclude, and what would you fit next? \\
+\emph{Answer/Rubric:} No linear mean-dependence remains, but conditional heteroskedasticity (ARCH effects) is present; fit an ARCH($q$) or GARCH($p,q$) model to the residual series. Credit requires distinguishing mean vs.\ variance dependence and proposing ARCH/GARCH.
+\end{enumerate}
+
+\subsection{Topic 13: Nonlinear Time Series \& Spectral/Frequency-Domain Methods}
+
+\textbf{Core Concepts:}
+\begin{itemize}
+\item Limitations of linear (ARMA) models; brief survey of nonlinear alternatives
+\item Spectral density function as the Fourier transform of the ACVF
+\item Periodogram as an estimator of the spectral density
+\item Relating time-domain (ACF) and frequency-domain (spectral density) representations
+\end{itemize}
+
+\textbf{Learning Objectives.} Students will be able to:
+\begin{enumerate}
+\item \emph{Explain} the relationship between the autocovariance function and the spectral density.
+\item \emph{Compute} and \emph{interpret} a periodogram for a series with suspected periodic behavior.
+\item \emph{Identify} dominant frequencies/cycles from a periodogram.
+\item \emph{Discuss} when a nonlinear time series model may be preferable to a linear ARMA model.
+\end{enumerate}
+
+\textbf{Difficulty Note.} \emph{Why hard:} almost no student has a Fourier-analysis background, so switching from ``indexed by time'' to ``indexed by frequency'' is the largest representational jump in the course, arriving when bandwidth is already stretched. \emph{Mitigation:} introduce the periodogram purely visually first --- decompose a synthetic signal that is literally two sine waves plus noise, showing its unremarkable time plot next to its periodogram (two clean spikes) before any formula.
+
+\textbf{Example Questions:}
+\begin{enumerate}
+\item \textbf{(Recall)} How is the spectral density $f(\omega)$ of a stationary process related to its autocovariance function $\gamma_k$? \\
+\emph{Answer:} $f(\omega)$ is (proportional to) the Fourier transform of the ACVF: $f(\omega) = \frac{1}{2\pi}\sum_{k=-\infty}^{\infty} \gamma_k e^{-ik\omega}$.
+\item \textbf{(Application/Analysis)} A series' periodogram shows a single sharp, dominant spike at frequency $\omega=\pi/6$, with all other frequencies near zero. What does this suggest, and what is the implied period? \\
+\emph{Answer/Rubric:} Suggests a strong periodic/cyclical component at that frequency; period $= 2\pi/\omega = 2\pi/(\pi/6) = 12$ time units. Full credit requires the correct period calculation and correct interpretation of a periodogram spike as a dominant cycle.
+\end{enumerate}
+
+\section{Prerequisite Map}
+
+\begin{longtable}{p{4cm} p{6cm} p{5cm}}
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+T1 Fundamental tools & Expectation, variance, covariance of random variables & Assumed background (probability prereq: 553.310/311/420/421/620) \\
+T2 Stationarity/basic models & T1 (ACF/ACVF); joint distributions \& independence & T1 in this course; joint distributions = probability prereq \\
+T3 Trends & Simple/multiple OLS regression; T2 (stationary-residual concept) & \textbf{Gap flagged}: OLS not explicitly named in prereqs --- assumed via linear algebra prereq (110.201/212, projections/least squares); T2 in this course \\
+T4 ARMA/linear models & T1--T3; linear algebra (polynomial roots, matrix operations); infinite-series convergence & T1--T3 in this course; linear algebra = 110.201/212 prereq \\
+T5 ARIMA/differencing & T4 (ARMA representation); difference-operator algebra; log/power transforms & T4 in this course \\
+T6 ACF/PACF/EACF & T4 (theoretical AR/MA shapes), T5 (ARIMA); partial-correlation concept & T4--T5 in this course \\
+T7 Estimation & T6 (identified order); likelihood/MLE theory; linear algebra (Toeplitz systems) & T6 in this course; \textbf{light MLE background flagged} \\
+T8 Diagnostics & T7 (fitted residuals); hypothesis testing / $\chi^2$ distribution & T7 in this course; hypothesis testing = probability prereq \\
+T9 Forecasting & T4, T5, T7 (model representation \& fit); conditional expectation & T4/T5/T7 in this course; conditional expectation = probability prereq \\
+T10 SARIMA & T5, T6, T9 (ARIMA, identification, forecasting), extended seasonally & T5/T6/T9 in this course \\
+T11 Regression/intervention & T3 (trend regression); T8 (residual diagnostics); T6 (cross-correlation for pre-whitening) & T3/T6/T8 in this course \\
+T12 ARCH/GARCH & T4 (AR structure on squared residuals); T7 (MLE); conditional variance & T4/T7 in this course; conditional variance = probability prereq \\
+T13 Spectral/nonlinear & T1 (ACVF, whose Fourier transform is the spectral density); complex numbers/Fourier series & T1 in this course; \textbf{Fourier/complex background NOT in stated prereqs} --- gap flagged \\
+\end{longtable}
+
+\section{Assessment Plan}
+
+\begin{longtable}{p{1.6cm} p{2.4cm} p{2.0cm} p{1.6cm} p{6.4cm}}
+\toprule
+\textbf{Status} & \textbf{Assessment} & \textbf{Timing} & \textbf{Topics} & \textbf{Rationale} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Status} & \textbf{Assessment} & \textbf{Timing} & \textbf{Topics} & \textbf{Rationale} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Official & HW1 & End Wk2 (Fri) & T1(--T2) & Checks sample-ACF computation/interpretation before trend/ARMA content builds on it \\
+Recommended & Ungraded in-class check & Wk2 & T2 & Surfaces the ``stationary = flat'' misconception before it compounds into T4's stationarity-condition work \\
+Official & HW2 & End Wk4 (Fri) & T2--T4 & Confirms detrending and ARMA representation right before Midterm 1 \\
+Official & \textbf{Midterm 1} & Wk5 Wed & T1--T4 & Summative check on describe $\to$ stationarize $\to$ represent-as-ARMA while fresh \\
+Recommended & In-class ACF/PACF exercise & Start Wk7 & T6 & Surfaces the clean-signature-vs-noisy-real-plot misconception before HW3 relies on correct reading \\
+Official & HW3 & End Wk7 (Fri) & T5--T6 & Tests differencing/transform choice and model identification \\
+Official & HW4 & End Wk8 (Fri) & T7--T8 & Tests estimation and diagnostics together, mirroring the real iterative loop \\
+Official & \textbf{Midterm 2} & Wk9 Wed & T5--T8 & Non-cumulative check on the identify $\to$ estimate $\to$ diagnose cycle \\
+Recommended & Spurious-correlation simulation/quiz & Start Wk12 & T11 & This misconception resists simple explanation --- confront it before HW6 requires pre-whitening \\
+Official & HW5 & End Wk10/11 (Fri) & T9--T10 & Tests forecasting computations and seasonal identification/fitting \\
+Official & HW6 & End Wk12 (Fri) & T11--T12 & Final graded checkpoint, bundling regression/intervention with an intro ARCH/GARCH application \\
+Official & \textbf{Midterm 3} & Wk13 Wed & T9--T11 & Non-cumulative; T12--T13 intentionally excluded (syllabus's ``as time allows'' framing) \\
+Recommended & Ungraded concept-check discussion & Wk14 & T12--T13 & Gives closure/accountability for enrichment material without touching the fixed 25/75 grade split \\
+\end{longtable}
+
+\end{document}

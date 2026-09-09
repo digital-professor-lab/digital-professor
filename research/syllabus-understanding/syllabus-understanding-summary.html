@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syllabus Understanding — Research Summary | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
+  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
+    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
+  .backlink:hover{opacity:1}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
+  .p-under{background:#EFE4D5; color:#8A5A2A}
+  .p-mast{background:#EADFD7; color:#9A5030}
+  .p-phd{background:#F4DED3; color:#B0472E}
+  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
+  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
+  .yes{color:var(--green); font-weight:700}
+  .no{color:var(--red); font-weight:700}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:1rem}
+  .flow .step.s1{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:#FBF1DD; border-color:#E9D6AC}
+  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
+  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
+  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
+  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
+  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .stars{color:var(--amber); letter-spacing:2px}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
+    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
+  .btn:hover{background:var(--navy)}
+  .exlink-wrap{margin-top:18px}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+
+  /* ---- Example-output rendering ---- */
+  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
+  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
+  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
+  .exhead p{margin:0; opacity:.85; font-size:.85rem}
+  .exbody{padding:22px 24px; background:var(--paper)}
+  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
+  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
+  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
+  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
+  .exdoc li{margin:3px 0; font-size:.92rem}
+  .exdoc table{font-size:.86rem}
+  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
+  .diffcard .dt{color:var(--red); font-weight:700}
+  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
+  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
+  .qa .ans{color:var(--muted); display:block; margin-top:3px}
+  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
+  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
+  @media(max-width:720px){.pdfbox iframe{height:520px}}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+</style>
+<script>
+  window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Digital Professor · Research · Syllabus Understanding</p>
+  <h1>Can AI Understand a Full One-Semester Course?</h1>
+  <p>An experiment testing how well large language models can read a course's <strong>syllabus and/or source materials</strong> and reconstruct a complete, semester-scoped breakdown — modules, concepts, learning objectives, difficulty, and prerequisites.</p>
+  <div class="toc">
+    <a href="#goal">Goal</a>
+    <a href="#setup">Setup</a>
+    <a href="#methods">Method Evolution</a>
+    <a href="#textbook">Why Textbook Failed</a>
+    <a href="#toc">ToC Overshoots</a>
+    <a href="#pro">Claude (Pro)</a>
+    <a href="#free">Free-Tier Models</a>
+    <a href="#example">Example Output</a>
+    <a href="#verdict">Verdict</a>
+  </div>
+</header>
+
+<section id="goal">
+  <h2><span class="n">1</span>The Goal</h2>
+  <p class="lead">The core question driving this part of the project.</p>
+  <div class="callout good">
+    <strong>Objective:</strong> “Explore how AI can understand and break down a full one-semester course using a syllabus and/or professor-provided materials.”
+  </div>
+  <p>For a digital/AI professor to teach a course, it first has to <em>understand the shape of the course</em>: what topics are covered, in what order, at what depth, with what prerequisites, and where students typically struggle. This experiment measures how reliably today's AI models can produce that structured understanding — and which <em>inputs</em> make them do it best.</p>
+</section>
+
+<section id="setup">
+  <h2><span class="n">2</span>Experimental Setup</h2>
+  <p class="lead">Three courses spanning the full academic spectrum, four AI models, identical prompts.</p>
+
+  <h3>The three test courses</h3>
+  <p>One course was chosen at each academic level, each with an available syllabus and textbook, to see whether difficulty and abstraction affect AI performance. All of them are courses I know first-hand — I <strong>teach</strong> the undergraduate Calculus I course, and I <strong>took</strong> Time Series Analysis and Number Theory I as a student — which let me sanity-check the breakdowns against the real courses.</p>
+  <table>
+    <thead><tr><th>File prefix</th><th>Level</th><th>Course</th><th>Source material</th><th>My connection</th></tr></thead>
+    <tbody>
+      <tr><td><code>Calc1</code></td><td><span class="pill p-under">Undergraduate</span></td><td>Calculus I for Biology &amp; Social Sciences</td><td>Neuhauser &amp; Roper, <em>Calculus for Biology and Medicine</em> (single textbook)</td><td>A course I <strong>teach</strong></td></tr>
+      <tr><td><code>Time</code></td><td><span class="pill p-mast">Master's</span></td><td>Time Series Analysis (EN.553.439/639)</td><td>Cryer &amp; Chan, <em>Time Series Analysis with R</em></td><td>A course I <strong>took</strong> as a student</td></tr>
+      <tr><td><code>Number</code></td><td><span class="pill p-phd">PhD</span></td><td>Math 617: Number Theory I (Johns Hopkins)</td><td><strong>Multiple</strong> references (algebraic number theory), cross-cited as <code>[W] [N] [L]</code></td><td>A course I <strong>took</strong> as a student</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The four AI models</h3>
+  <p>The same prompts were given to four models. <strong>One critical difference:</strong> Claude was used on its <strong>paid Pro tier</strong>, while the other three were used on their <strong>free tiers</strong>. This is not an apples-to-apples fight — so the results are read in two groups (see §6 and §7).</p>
+  <table>
+    <thead><tr><th>Model</th><th>Tier used</th><th>Comparison group</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Claude</strong></td><td class="yes">Pro (paid)</td><td>Reference / benchmark</td></tr>
+      <tr><td>GPT</td><td>Free</td><td>Free-tier group</td></tr>
+      <tr><td>Perplexity</td><td>Free</td><td>Free-tier group</td></tr>
+      <tr><td>Gemini</td><td>Free</td><td>Free-tier group</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What was produced</h3>
+  <p>Each model produced LaTeX course-breakdown documents. Across the three methods below, this yielded <strong>27 breakdown files</strong> in <code>breakdown-examples/</code>. The exact structured prompt used for every course and model is reproduced in full on the <a href="#example">example pages</a> (§8).</p>
+</section>
+
+<section id="methods">
+  <h2><span class="n">3</span>How the Method Evolved</h2>
+  <p class="lead">Three input strategies were tried — the middle one was abandoned.</p>
+
+  <div class="flow">
+    <div class="step s1">
+      <span class="tag t-kept">Best</span>
+      <h4>1 · Syllabus / Topic List</h4>
+      <p style="margin:.4rem 0 0; font-size:.9rem">Feed the model the <strong>syllabus</strong> — or at minimum the explicit list of topics to be taught. It is the only input that states what the course <em>actually</em> covers, so the breakdown stays in scope.</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="step s2">
+      <span class="tag t-drop">Dropped</span>
+      <h4>2 · Full Textbook</h4>
+      <p style="margin:.4rem 0 0; font-size:.9rem">Feed the <strong>entire textbook</strong>. Intended to give maximum detail — but broke down in practice (see §4). Only ever run on <code>Calc1</code>.</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="step s3">
+      <span class="tag" style="color:var(--amber)">Overshoots</span>
+      <h4>3 · Table of Contents</h4>
+      <p style="margin:.4rem 0 0; font-size:.9rem">Feed the textbook's <strong>table of contents</strong>. Solves the size problem — but lists everything the book contains, so the model assumes the <em>whole</em> book is taught and overshoots the real course scope (see §5).</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Tell-tale evidence in the file set:</strong> the <code>_Book_</code> (full-textbook) files exist <em>only</em> for <code>Calc1</code>, and only for 3 of the 4 models. The <code>_Content_</code> (table-of-contents) files exist for <em>all three</em> courses and all four models — the textbook method was tried once, judged unworkable, and dropped in favour of the table of contents, which in turn revealed its own scope problem (§5).
+  </div>
+</section>
+
+<section id="textbook">
+  <h2><span class="n">4</span>Why the Full-Textbook Method Didn't Work</h2>
+  <p class="lead">Feeding the whole book seemed like it should give the richest result. It didn't.</p>
+  <ul class="clean">
+    <li><strong>Courses use more than one textbook.</strong> The PhD Number Theory course draws on <em>several</em> references (the breakdowns cross-cite them as <code>[W] [N] [L]</code>). There is no single "the textbook" to feed — and stitching multiple full books together is impractical.</li>
+    <li><strong>A full textbook is too large to parse reliably.</strong> Entire books strain the context window and the model's ability to hold the whole thing in view. This hits <em>free-tier</em> models hardest — Gemini's full-textbook run for Calc1 collapsed to just <strong>121 lines</strong>, a fraction of what it produced from a table of contents.</li>
+    <li><strong>The model summarizes the book, not the course.</strong> A textbook contains far more than fits in one semester. Fed the whole thing, models drift into re-summarizing chapters and then <em>arbitrarily trim</em> — Claude's full-book Calc1 output silently restricted itself to “Chapters 1–6,” with no principled reason tied to the actual semester.</li>
+    <li><strong>Low signal-to-noise.</strong> Worked examples, exercises, and prose add tokens without adding <em>structural</em> information about what the course covers — which is the only thing needed at this stage.</li>
+  </ul>
+  <div class="callout warn">
+    <strong>Bottom line:</strong> the textbook method maximized input size but not <em>useful</em> input. It was slower, more expensive, degraded badly on free tiers, and produced course maps that were <em>less</em> faithful to the actual semester than a plain syllabus-driven approach.
+  </div>
+</section>
+
+<section id="toc">
+  <h2><span class="n">5</span>The Table-of-Contents Trap: Overshooting the Course</h2>
+  <p class="lead">A table of contents fixes the textbook method's size problem — but introduces a new one: it cannot tell the model what the course <em>actually</em> covers.</p>
+  <ul class="clean">
+    <li><strong>It did solve the parsing problem.</strong> A ToC is small and structured — chapters and sections only — so it feeds cleanly even on free tiers and handles multiple books at once (the <code>[W] [N] [L]</code> multi-source correspondence in the Number Theory breakdowns). On that axis it clearly beats the full textbook.</li>
+    <li><strong>But a ToC lists everything the book contains — not what the professor teaches.</strong> There is no signal about which chapters are on the syllabus and which are skipped, so the model cannot separate covered material from ignored material.</li>
+    <li><strong>Concrete failure — the PhD course.</strong> Number Theory I drew on its reference books for only a <em>handful</em> of topics, yet the ToC-based breakdowns assumed the <em>entire</em> books were taught — inflating the course far beyond its real one-semester scope.</li>
+    <li><strong>"In the book" gets treated as "in the course."</strong> That assumption is wrong for almost any selective course — and advanced courses are nearly always selective.</li>
+  </ul>
+  <div class="callout warn">
+    <strong>Bottom line:</strong> a table of contents tells you what <em>could</em> be covered, not what <em>is</em> covered. Without the syllabus to bound it, the model over-scopes the course.
+  </div>
+</section>
+
+<section id="pro">
+  <h2><span class="n">6</span>The Benchmark — Claude (Pro Tier)</h2>
+  <p class="lead">Read on its own, because it played on a different (paid) field.</p>
+  <div class="card pro">
+    <h4>Claude <span class="rank">Best overall</span></h4>
+    <p class="sub">Paid Pro tier · used as the quality reference</p>
+    <div class="stars">★★★★★</div>
+    <ul>
+      <li><strong>Most faithful scoping.</strong> Consistently produced <em>semester-realistic</em> breakdowns (e.g. explicit 15-week structure) rather than dumping the whole book.</li>
+      <li><strong>Handled the hardest course best.</strong> On PhD Number Theory it correctly framed prerequisites (Galois theory, Dedekind domains, adèles/idèles) and layered a multi-source correspondence.</li>
+      <li><strong>Richest structure.</strong> Difficulty ratings, prerequisite mapping, per-module objectives, and clean cross-referencing — the most "teachable" output.</li>
+      <li><strong>Polished, artifact-free LaTeX.</strong> Coherent formatting with no leftover tool residue.</li>
+    </ul>
+  </div>
+  <div class="callout">
+    Because Claude ran on a <strong>paid tier</strong> while the others ran free, it is unfair to rank it directly against them. It is treated here as the <strong>quality bar</strong> the free models are measured against.
+  </div>
+</section>
+
+<section id="free">
+  <h2><span class="n">7</span>The Free-Tier Field — GPT vs. Perplexity vs. Gemini</h2>
+  <p class="lead">A fair, like-for-like comparison of the three free models.</p>
+  <div class="cards">
+    <div class="card">
+      <h4>GPT <span class="rank">Free · 1st</span></h4>
+      <p class="sub">Best of the free tier</p>
+      <div class="stars">★★★★☆</div>
+      <ul>
+        <li><span class="badge b-best">Most thorough</span> — by far the most detailed output (breakdowns routinely 1,700–2,000+ lines).</li>
+        <li>Clean, well-engineered LaTeX with custom math macros.</li>
+        <li>Complete chapter-by-chapter coverage with concepts + objectives.</li>
+        <li><em>Caveat:</em> verbose to the point of bloat — quantity sometimes over concision.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Perplexity <span class="rank">Free · 2nd</span></h4>
+      <p class="sub">Balanced and solid</p>
+      <div class="stars">★★★★☆</div>
+      <ul>
+        <li><span class="badge b-ok">Well-rounded</span> — consistent, readable, medium-length documents.</li>
+        <li>Good module structure and difficulty discussion.</li>
+        <li><em>Caveat:</em> adds generic filler not tied to the real course (e.g. invented "Suggested Audience" and "Recommended Course Duration" sections).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Gemini <span class="rank">Free · 3rd</span></h4>
+      <p class="sub">Weakest of the group</p>
+      <div class="stars">★★☆☆☆</div>
+      <ul>
+        <li><span class="badge b-weak">Thinnest output</span> — consistently the shortest (often ~95–170 lines); little depth per topic.</li>
+        <li>Degraded the most on the full-textbook method (Calc1 collapsed to 121 lines).</li>
+        <li>Left unpolished artifacts — stray <code>[cite: 1]</code> citation tags throughout the LaTeX.</li>
+        <li>Flat formatting: no tables, difficulty coding, or source correspondence.</li>
+      </ul>
+    </div>
+    <div class="card" style="background:var(--soft)">
+      <h4>Free-tier takeaway</h4>
+      <p class="sub">If limited to free models</p>
+      <div class="stars">&nbsp;</div>
+      <ul>
+        <li><strong>GPT</strong> is the strongest free option for raw completeness.</li>
+        <li><strong>Perplexity</strong> is the best <em>balance</em> of detail and readability — trim its filler and it is very usable.</li>
+        <li><strong>Gemini</strong> is not reliable enough for this task at the free tier.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>At-a-glance comparison</h3>
+  <table>
+    <thead><tr><th>Criterion</th><th>Claude <span class="pill p-mast">Pro</span></th><th>GPT</th><th>Perplexity</th><th>Gemini</th></tr></thead>
+    <tbody>
+      <tr><td>Depth &amp; completeness</td><td class="yes">Excellent</td><td class="yes">Excellent</td><td>Good</td><td class="no">Shallow</td></tr>
+      <tr><td>Scoped to actual semester</td><td class="yes">Yes</td><td>Mostly</td><td>Mostly (+filler)</td><td>Partial</td></tr>
+      <tr><td>Handles multi-source (PhD course)</td><td class="yes">Yes</td><td>Yes</td><td>Partial</td><td class="no">No</td></tr>
+      <tr><td>Formatting &amp; difficulty coding</td><td class="yes">Rich</td><td class="yes">Rich</td><td>Moderate</td><td class="no">Flat</td></tr>
+      <tr><td>Output cleanliness</td><td class="yes">Clean</td><td class="yes">Clean</td><td>Clean</td><td class="no"><code>[cite:1]</code> artifacts</td></tr>
+      <tr><td>Robust on free tier</td><td>— (paid)</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">Weak</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="example">
+  <h2><span class="n">8</span>Example Output — What "Good" Looks Like</h2>
+  <p class="lead">Two full breakdowns produced by <strong>Claude (Pro)</strong> using the recommended <strong>syllabus method</strong> — each on its own page. Both are courses I know first-hand, so I could check the output against reality.</p>
+  <p>Each reverse-engineers a complete course design from the syllabus alone: a module map, per-topic core concepts and objectives, a difficulty analysis with teaching mitigations, worked example questions, a prerequisite dependency map, and an assessment schedule — followed by the full compiled PDF.</p>
+  <div class="cards">
+    <div class="card">
+      <h4>Calculus I <span class="rank">Undergraduate</span></h4>
+      <p class="sub">AS.110.106 · a course I <strong>teach</strong></p>
+      <ul>
+        <li>12-week module map with transparent, defensible scoping.</li>
+        <li>~30 topics, each with concepts, objectives, difficulty mitigations, and worked questions.</li>
+        <li>Full prerequisite dependency map + assessment plan · 20-page PDF.</li>
+      </ul>
+      <p class="exlink-wrap"><a class="btn" href="example-calc1-claude.html">View the Calculus I example &rarr;</a></p>
+    </div>
+    <div class="card">
+      <h4>Time Series Analysis <span class="rank">Master's</span></h4>
+      <p class="sub">EN.553.439/639 · a course I <strong>took</strong> as a student</p>
+      <ul>
+        <li>Inferred the true term length (13 weeks + spring break) from the syllabus's own midterm dates.</li>
+        <li>Demoted "as time allows" topics to ungraded enrichment — real scope fidelity.</li>
+        <li>Flagged prerequisite gaps instead of assuming them away · 14-page PDF.</li>
+      </ul>
+      <p class="exlink-wrap"><a class="btn" href="example-time-claude.html">View the Time Series example &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="verdict">
+  <h2><span class="n">9</span>Verdict &amp; Next Steps</h2>
+  <div class="callout good">
+    <strong>Best input method:</strong> <em>the syllabus — or, at minimum, an explicit list of the topics to teach or learn.</em> It is the only input that defines the course's <em>actual scope</em>. The full textbook failed (§4), and a table of contents overshoots because it cannot tell covered material from skipped material (§5). A syllabus encodes exactly what the professor intends to teach, so the breakdown stays inside the real course.
+  </div>
+  <div class="callout">
+    <strong>Where a table of contents still helps:</strong> once the syllabus has fixed the scope, a ToC (or the book itself) can <em>enrich the depth</em> within those chosen topics. Scope should come from the syllabus; detail can come from the book — but never scope from the book alone.
+  </div>
+  <div class="callout">
+    <strong>Best model:</strong> <em>Claude (Pro)</em> is the quality benchmark — most faithful, best on the hardest (PhD) course. Among <em>free</em> models, <em>GPT</em> leads on completeness and <em>Perplexity</em> on balance; <em>Gemini</em> lags.
+  </div>
+  <h3>Where this points next</h3>
+  <ul class="clean">
+    <li>Make the <strong>syllabus / explicit topic list</strong> the primary input for every course, passed as a hard scope constraint on the breakdown.</li>
+    <li>When richer detail is wanted, add the table of contents <em>on top of</em> the syllabus (syllabus for scope, ToC for depth) — never the ToC alone.</li>
+    <li>Define an objective rubric — <em>scope fidelity</em> first (does the breakdown stay within the syllabus?), plus prerequisite accuracy and difficulty calibration — to score breakdowns rather than judging by eye.</li>
+    <li>Test whether combining models — e.g. GPT for exhaustive coverage, Claude for scoping and structure — beats any single model.</li>
+  </ul>
+</section>
+
+<footer>
+  Digital Professor · Research / Syllabus Understanding · Source files in <code>breakdown-examples/</code><br>
+  Comparison of Claude (Pro), GPT, Perplexity, and Gemini across Undergraduate, Master's, and PhD courses.
+</footer>
+
+</body>
+</html>

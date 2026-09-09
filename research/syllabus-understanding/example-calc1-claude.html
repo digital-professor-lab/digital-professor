@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Example Output — Claude (Pro) Calculus I Breakdown | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
+  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
+    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
+  .backlink:hover{opacity:1}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
+  .p-under{background:#EFE4D5; color:#8A5A2A}
+  .p-mast{background:#EADFD7; color:#9A5030}
+  .p-phd{background:#F4DED3; color:#B0472E}
+  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
+  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
+  .yes{color:var(--green); font-weight:700}
+  .no{color:var(--red); font-weight:700}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:1rem}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
+  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
+  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
+  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
+  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .stars{color:var(--amber); letter-spacing:2px}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
+    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
+  .btn:hover{background:var(--navy)}
+  .exlink-wrap{margin-top:18px}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+
+  /* ---- Example-output rendering ---- */
+  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
+  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
+  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
+  .exhead p{margin:0; opacity:.85; font-size:.85rem}
+  .exbody{padding:22px 24px; background:var(--paper)}
+  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
+  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
+  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
+  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
+  .exdoc li{margin:3px 0; font-size:.92rem}
+  .exdoc table{font-size:.86rem}
+  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
+  .diffcard .dt{color:var(--red); font-weight:700}
+  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
+  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
+  .qa .ans{color:var(--muted); display:block; margin-top:3px}
+  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
+  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
+  @media(max-width:720px){.pdfbox iframe{height:520px}}
+  .promptbox{border:1px solid var(--line); border-left:4px solid var(--steel); border-radius:0 10px 10px 0; background:var(--soft); padding:18px 22px; margin-top:16px}
+  .promptbox .ph{font-weight:700; color:var(--navy); font-size:1.05rem; margin:0 0 4px}
+  .promptbox .pmeta{font-size:.82rem; color:var(--muted); margin:0 0 12px}
+  .promptbox .ptext{font-size:.9rem; line-height:1.5}
+  .promptbox ol{padding-left:20px; margin:8px 0}
+  .promptbox ol>li{margin:7px 0}
+  .promptbox ul{padding-left:20px; margin:4px 0}
+  .promptbox .ctx{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:.87rem}
+  .promptbox code{background:var(--paper)}
+  .promptbox .rules{margin-top:12px; padding-top:10px; border-top:1px dashed #D8CFBF}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+</style>
+<script>
+  window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+<header class="hero">
+  <a class="backlink" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p class="kicker">Digital Professor · Example Output</p>
+  <h1>Claude (Pro) — Full Course Breakdown Example</h1>
+  <p>A complete 12-week course design for <em>AS.110.106 Calculus I (Biology &amp; Social Sciences)</em>, reverse-engineered by Claude (Pro) from the syllabus alone.</p>
+</header>
+
+<section id="example">
+  <h2>What "Good" Looks Like</h2>
+  <p class="lead">A representative breakdown produced by <strong>Claude (Pro)</strong> using the <strong>syllabus method</strong> on the undergraduate course <em>AS.110.106 Calculus I (Biology &amp; Social Sciences)</em>.</p>
+  <p>This is the concrete artifact behind the benchmark discussion in the summary. From <em>only</em> the syllabus (plus the textbook it references), the model reverse-engineered a complete 12-week course design: a module map, topic-level core concepts and learning objectives, a difficulty analysis <em>with teaching mitigations</em>, worked example questions with answers, a full prerequisite dependency map, and an assessment schedule. Key excerpts are rendered below; the fully compiled PDF is embedded at the end.</p>
+
+  <h3>The Prompt I Used</h3>
+  <div class="promptbox">
+    <p class="ph">Course Design Prompt (Syllabus &rarr; Full Breakdown)</p>
+    <p class="pmeta">The same structured prompt was used for every course and every model &mdash; only the bold context values changed. It is reproduced here verbatim.</p>
+    <div class="ptext">
+      <p>You are an expert instructional designer and curriculum architect with expertise in <strong>Calculus (Biology &amp; Social Sciences)</strong>. I will give you a syllabus and want you to reverse-engineer it into a full course design package, ending in compilable LaTeX.</p>
+      <div class="ctx"><strong>Context</strong>
+        <ul>
+          <li>Course level: <strong>introductory</strong></li>
+          <li>Duration: <strong>12-weeks</strong></li>
+          <li>Delivery format: <strong>lecture</strong></li>
+        </ul>
+        Find the syllabus attached to this prompt.
+      </div>
+      <p>Produce the following, in order:</p>
+      <ol>
+        <li><strong>Course structure</strong> &mdash; Break the syllabus into units/modules mapped to weeks or sessions. For each module: title, one-sentence goal, and the chapters/topics it covers.</li>
+        <li><strong>Topic breakdown</strong> &mdash; For every topic/chapter, list:
+          <ul>
+            <li>Core concepts (bulleted)</li>
+            <li>Learning objectives as measurable outcomes using Bloom's-taxonomy verbs (explain, derive, apply, evaluate, design, etc.)</li>
+          </ul>
+        </li>
+        <li><strong>Prerequisite map</strong> &mdash; For each topic, list the specific prior concepts a student must already know, and where those are taught (earlier in this course, or assumed background). Present as a dependency table: <code>Topic | Prerequisite(s) | Where taught</code>.</li>
+        <li><strong>Difficulty analysis</strong> &mdash; Flag topics that are historically hard. For each:
+          <ul>
+            <li>Why it's hard (common misconception, abstraction jump, notational overload, missing prerequisite, cognitive load, etc.) &mdash; be specific, not generic</li>
+            <li>A concrete mitigation (analogy, worked-example sequencing, scaffolding steps, common-error walkthrough)</li>
+          </ul>
+        </li>
+        <li><strong>Assessment plan</strong> &mdash; For each module, recommend the assessment type (low-stakes quiz, homework set, in-class exercise, midterm, project, final exam) and when in the timeline, with a one-line rationale tied to what that assessment is meant to catch (e.g., "quiz right after Module 3 to surface the recursion misconception before it compounds").</li>
+        <li><strong>Example questions</strong> &mdash; For each major topic, write 2&ndash;3 example questions spanning at least two difficulty levels (recall vs. application/analysis). Include the answer or a short grading rubric for each.</li>
+        <li><strong>Full breakdown in LaTeX</strong> &mdash; Compile everything above into one compilable LaTeX document:
+          <ul>
+            <li><code>\documentclass{article}</code>, packages: <code>enumitem</code>, <code>longtable</code> (or <code>booktabs</code>), <code>hyperref</code></li>
+            <li>One <code>\section</code> per module, <code>\subsection</code> per topic</li>
+            <li>Tables (<code>longtable</code>) for the prerequisite map and assessment schedule</li>
+            <li><code>itemize</code>/<code>enumerate</code> for objectives and example questions</li>
+            <li>Output ONLY the LaTeX in this step's code block &mdash; no prose mixed in</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="rules"><strong>Rules</strong>
+        <ul>
+          <li>Do steps 1&ndash;6 in plain markdown first so I can review the reasoning before you generate LaTeX.</li>
+          <li>If the syllabus is missing info needed for a step, state your assumption explicitly instead of skipping it.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="exwrap">
+    <div class="exhead">
+      <h3>AS.110.106 Calculus I — Full Course Design Package</h3>
+      <p>Claude (Pro) · Syllabus method · reverse-engineered into a 12-week term · based on Neuhauser &amp; Roper, <em>Calculus for Biology and Medicine</em>, 4th ed.</p>
+    </div>
+    <div class="exbody exdoc">
+
+      <h4>1 · Twelve-Week Module Map</h4>
+      <table>
+        <thead><tr><th>Weeks</th><th>Module</th><th>Goal</th><th>Topics</th></tr></thead>
+        <tbody>
+          <tr><td>1–2</td><td><strong>A:</strong> Review of Functions &amp; Growth Models</td><td>Refresh algebraic/functional foundations; introduce exponential and sequence-based models for later biological applications.</td><td>Ch. 1; 2.1; 2.2</td></tr>
+          <tr><td>3–4</td><td><strong>B:</strong> Limits &amp; Continuity</td><td>Develop rigorous and intuitive understanding of limiting behavior as the foundation of the derivative.</td><td>3.1–3.5</td></tr>
+          <tr><td>5–7</td><td><strong>C:</strong> Derivatives</td><td>Build differentiation from first principles to fluent symbolic computation.</td><td>4.1–4.11</td></tr>
+          <tr><td>8–9</td><td><strong>D:</strong> Applications of Differentiation</td><td>Use derivatives to analyze function behavior and solve optimization problems.</td><td>5.1–5.5</td></tr>
+          <tr><td>10–11</td><td><strong>E:</strong> Integration</td><td>Introduce the definite integral and connect differentiation and integration via the FTC.</td><td>5.10; 6.1–6.3</td></tr>
+          <tr><td>12</td><td><strong>F:</strong> Applications of the Integral</td><td>Extend the toolkit with substitution, parts, and partial fractions.</td><td>7.1–7.3</td></tr>
+        </tbody>
+      </table>
+      <p class="exnote">Note the model's stated assumption: the syllabus gave week ranges whose minimums "sum to exactly 12 weeks," so it deliberately used the low end of each range to fit the stated term — an example of transparent, defensible scoping.</p>
+
+      <h4>2 · A Fully Expanded Topic (§4.5 The Chain Rule)</h4>
+      <p class="exnote">Each of the ~30 topics is expanded into this same four-part structure. One is shown in full here.</p>
+
+      <span class="lbl">Core Concepts</span>
+      <ul>
+        <li>Composite functions $f(g(x))$</li>
+        <li>Chain rule formula; the "outside–inside" heuristic</li>
+        <li>Chain rule with multiply-nested compositions</li>
+      </ul>
+
+      <span class="lbl">Learning Objectives</span>
+      <ol>
+        <li>Identify the inner and outer functions in a composite expression.</li>
+        <li>Apply the chain rule to single and multiply-nested compositions.</li>
+        <li>Combine the chain rule with the product and quotient rules.</li>
+      </ol>
+
+      <div class="diffcard">
+        <span class="dt">Why this topic is historically difficult.</span> The most common error is not conceptual but an execution gap: students differentiate the outer function correctly but forget to multiply by the derivative of the inner function. The error compounds silently in nested compositions.<br>
+        <span class="dt">Mitigation.</span> Teach an explicit "peel the onion, layer by layer" procedure; sequence worked examples from one layer of nesting to three; use error-spotting exercises built from real (anonymized) student mistakes.
+      </div>
+
+      <span class="lbl">Example Questions</span>
+      <div class="qa"><span class="qtype">Recall</span> Differentiate $f(x) = (3x+1)^5$.<span class="ans">Answer: $f'(x) = 15(3x+1)^4$.</span></div>
+      <div class="qa"><span class="qtype">Application</span> Differentiate $f(x) = \sin(\cos(x^2))$.<span class="ans">Answer: $f'(x) = -2x\sin(x^2)\cos(\cos(x^2))$.</span></div>
+      <div class="qa"><span class="qtype">Analysis</span> A student differentiates $f(x)=e^{3x^2}$ and gets $f'(x)=e^{3x^2}$. Identify the missing step.<span class="ans">Answer: they forgot to multiply by the derivative of the inner function $3x^2$, namely $6x$; the correct answer is $f'(x)=6xe^{3x^2}$.</span></div>
+
+      <h4>3 · Prerequisite Dependency Map (excerpt)</h4>
+      <p class="exnote">Every topic is traced to its prerequisites and where each is taught — a genuine dependency graph, not just a topic list.</p>
+      <table>
+        <thead><tr><th>Topic</th><th>Prerequisite(s)</th><th>Where taught</th></tr></thead>
+        <tbody>
+          <tr><td>4.5 Chain Rule</td><td>Function composition; product/quotient rules</td><td>Ch. 1; 4.2–4.4</td></tr>
+          <tr><td>4.6 Implicit Diff.</td><td>Chain rule</td><td>4.5</td></tr>
+          <tr><td>6.2 FTC</td><td>Antiderivatives; definite integral</td><td>5.10; 6.1</td></tr>
+          <tr><td>7.1 Substitution Rule</td><td>Chain rule (reversed); antiderivatives</td><td>4.5; 5.10</td></tr>
+        </tbody>
+      </table>
+
+      <h4>4 · Assessment Plan (excerpt)</h4>
+      <p class="exnote">Assessments are placed to catch each course's characteristic misconceptions <em>before</em> they compound.</p>
+      <table>
+        <thead><tr><th>Module</th><th>Assessment</th><th>Timing</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>B</td><td>In-class $\varepsilon$–$\delta$ exercise</td><td>Wk 3</td><td>Surfaces the quantifier/notation misconception before continuity builds on an unstable grasp of limits.</td></tr>
+          <tr><td>C</td><td>Chain-rule error-spotting exercise</td><td>Wk 6</td><td>Catches the missing-inner-derivative error while it is cheap to fix, before it propagates into substitution.</td></tr>
+          <tr><td>C</td><td>Midterm 1 (limits → derivatives)</td><td>End Wk 7</td><td>Assesses cumulative differentiation fluency at a natural break point.</td></tr>
+          <tr><td>F</td><td>Comprehensive final + optional applied project</td><td>Finals</td><td>Lets the Bio/Soc-Sci audience apply calculus to a real dataset, reinforcing relevance.</td></tr>
+        </tbody>
+      </table>
+
+      <h4>5 · The Complete Compiled Document (20 pages)</h4>
+      <p class="exnote">The full breakdown exactly as it compiles from LaTeX to PDF.</p>
+      <div class="pdfbox">
+        <iframe src="breakdown-examples/Calc1_Syllabus_Claude_Final.pdf#view=FitH" title="Calc1_Syllabus_Claude_Final.pdf" loading="lazy"></iframe>
+      </div>
+      <p class="exnote">If the preview doesn't load in your browser, <a href="breakdown-examples/Calc1_Syllabus_Claude_Final.pdf" target="_blank" rel="noopener">open the PDF in a new tab</a> (20 pages · compiled with pdfLaTeX).</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a class="btn" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p style="margin-top:16px">Digital Professor · Research / Syllabus Understanding · source: <code>breakdown-examples/Calc1_Syllabus_Claude_Final.tex</code></p>
+</footer>
+
+</body>
+</html>

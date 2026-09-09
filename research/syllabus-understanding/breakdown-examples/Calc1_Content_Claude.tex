@@ -1,0 +1,756 @@
+\documentclass[11pt]{article}
+
+% ---------- Packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{hyperref}
+
+% ---------- Colors ----------
+\definecolor{primary}{HTML}{1B3A5C}
+\definecolor{accent}{HTML}{9C3D1B}
+\definecolor{lightgray}{HTML}{5A5A5A}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=primary,
+  urlcolor=accent,
+  citecolor=primary,
+  pdftitle={Course Breakdown: Calculus for the Biological and Social Sciences},
+  pdfauthor={Course Design Summary}
+}
+
+% ---------- Heading styles ----------
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primary}}{\thesection}{0.8em}{}[{\color{primary!40}\titlerule}]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{primary}}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{accent}}{}{0em}{}
+\titlespacing*{\subsubsection}{0pt}{1.4em}{0.6em}
+
+\titleformat{\paragraph}
+  {\normalfont\bfseries\itshape\color{lightgray}}{}{0em}{}
+\titlespacing*{\paragraph}{0pt}{0.9em}{0.3em}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{3}
+
+\setlist[itemize]{itemsep=1pt, topsep=2pt, parsep=0pt, leftmargin=1.4em}
+\setlist[enumerate]{itemsep=2pt, topsep=2pt, parsep=0pt, leftmargin=1.6em}
+
+% Convenience commands for the recurring five-part chapter template
+\newcommand{\ChapHead}[2]{\subsubsection{#1 \textnormal{\normalfont\normalsize\color{lightgray}(pp.\ #2)}}}
+\newcommand{\MajorTopics}{\paragraph{Major Topics}}
+\newcommand{\KeyConcepts}{\paragraph{Key Concepts}}
+\newcommand{\LearnObj}{\paragraph{Learning Objectives --- students will be able to:}}
+\newcommand{\PreReq}{\paragraph{Prerequisite Knowledge}}
+\newcommand{\Hard}{\paragraph{Challenging Topics \& Teaching Notes}}
+
+\title{\color{primary}\textbf{Course Breakdown}\\[0.3em]
+\Large Calculus for the Biological and Social Sciences}
+\author{Derived from the course textbook's Table of Contents}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\begin{minipage}{0.85\textwidth}
+\small\itshape\centering
+A structured curriculum map --- course structure, modules, chapters, key concepts,
+learning objectives, prerequisites, and challenging topics --- built from the
+textbook's table of contents for a life-science- and social-science-oriented
+Calculus sequence.
+\end{minipage}
+\end{center}
+
+\tableofcontents
+\newpage
+
+% =====================================================================
+\section*{0. Course Overview}
+\addcontentsline{toc}{section}{0. Course Overview}
+
+The source textbook covers twelve chapters that blend standard single- and
+multivariable calculus with discrete-time modeling, differential equations,
+linear algebra, and probability/statistics --- the toolkit most commonly used
+in biology and social-science quantitative courses. Twelve chapters is more
+material than a single semester of ``Calculus 1'' typically covers, so this
+breakdown makes the following working assumption, stated here explicitly:
+
+\begin{quote}\small
+\textbf{Assumption.} The textbook is delivered across a two-semester sequence.
+\textbf{Calculus I} (this course) corresponds to \textbf{Chapters 1--6}
+(precalculus review through integration). \textbf{Calculus II} corresponds to
+\textbf{Chapters 7--12} (integration techniques through probability and
+statistics) and is included here so the breakdown reflects the complete table
+of contents and shows how Calculus I feeds into it. If your program instead
+runs this material as a single accelerated semester, a three-quarter sequence,
+or omits later chapters, the six modules below can be regrouped or trimmed
+without changing their internal structure.
+\end{quote}
+
+\paragraph{Audience and emphasis} Students are primarily biology, ecology,
+pre-health, and social-science majors. Motivating examples throughout the
+course are drawn from population growth, drug kinetics, epidemiology,
+ecological interactions, demography, and data analysis rather than physics.
+
+\paragraph{Asterisk convention} Following the textbook's own convention,
+topics marked with an asterisk (*) are optional or enrichment material --
+deeper rigor (e.g.\ formal $\varepsilon$--$\delta$ limits), extensions of core
+ideas (e.g.\ stability of recurrence equations), or additional modeling
+examples. A course can be taught in full without covering starred topics;
+instructors choose which to include based on time and student background.
+
+\paragraph{Computational component} Several sections (numerical recursion,
+the bisection method, numerical integration) are built around spreadsheet
+use. A weekly computer lab or homework component using a spreadsheet
+application is recommended alongside lecture.
+
+% =====================================================================
+\section*{1. Overall Prerequisites (Before Calculus I)}
+\addcontentsline{toc}{section}{1. Overall Prerequisites (Before Calculus I)}
+
+\begin{itemize}
+\item \textbf{Algebra:} manipulating and solving linear, polynomial, and
+rational equations and inequalities; working with exponents and radicals.
+\item \textbf{Functions and graphs:} function notation, domain and range,
+composition, and basic graph reading.
+\item \textbf{Geometry:} equations of lines and circles; basic coordinate
+geometry.
+\item \textbf{Trigonometry:} the unit circle, radian measure, and core
+identities.
+\item \textbf{Exponentials and logarithms:} laws of exponents and logarithms,
+and the relationship between them.
+\item \textbf{Complex numbers:} arithmetic of complex numbers and the
+quadratic formula for non-real roots.
+\end{itemize}
+Chapter 1 of the course is itself a diagnostic-and-review chapter, so gaps in
+the list above are expected to be identified and remediated in the first two
+weeks rather than assumed away.
+
+% =====================================================================
+\section*{2. Course Structure at a Glance}
+\addcontentsline{toc}{section}{2. Course Structure at a Glance}
+
+The twelve chapters are grouped into six two-chapter modules, three per
+semester.
+
+\begin{longtable}{@{}p{0.09\textwidth}p{0.30\textwidth}p{0.10\textwidth}p{0.10\textwidth}p{0.32\textwidth}@{}}
+\toprule
+\textbf{Module} & \textbf{Chapters} & \textbf{Semester} & \textbf{Approx.\ Weeks} & \textbf{Theme} \\
+\midrule
+\endhead
+A & 1. Preview and Review \newline 2. Discrete-Time Models & Calc.\ I & 4 & Foundations: precalculus review and discrete-time (recurrence-equation) modeling \\
+B & 3. Limits and Continuity \newline 4. Differentiation & Calc.\ I & 5 & Limits as the gateway to the derivative; full toolkit of differentiation rules \\
+C & 5. Applications of Differentiation \newline 6. Integration & Calc.\ I & 6 & Using derivatives to analyze functions; the definite integral and the Fundamental Theorem \\
+D & 7. Integration Techniques \newline 8. Differential Equations & Calc.\ II & 5 & Symbolic/numerical integration methods; first-order differential equation models \\
+E & 9. Linear Algebra \& Analytic Geometry \newline 10. Multivariable Calculus & Calc.\ II & 5 & Matrices, eigenvalues, and calculus of several variables \\
+F & 11. Systems of Differential Equations \newline 12. Probability and Statistics & Calc.\ II & 5 & Coupled dynamical systems and the language of probability/statistics \\
+\bottomrule
+\end{longtable}
+
+% =====================================================================
+\section{Semester 1: Calculus I}
+
+\subsection{Module A --- Foundations: Functions and Discrete-Time Models}
+
+\ChapHead{Chapter 1: Preview and Review}{1--61}
+
+\MajorTopics
+\begin{itemize}
+\item Precalculus skills diagnostic test
+\item Preliminaries: real numbers, lines, circles, trigonometry, exponentials/logarithms, complex numbers and quadratics
+\item Elementary functions: polynomial, rational, power, exponential, inverse, logarithmic, trigonometric
+\item Graphing: transformations, logarithmic scales, transforming data into linear form, (optional) verbal description to graph
+\end{itemize}
+
+\KeyConcepts
+Function families and their defining properties; domain/range; graph
+transformations (shifts, stretches, reflections); inverse functions;
+logarithmic and semi-log axes as a way to linearize exponential or
+power-law data.
+
+\LearnObj
+\begin{enumerate}
+\item Use the diagnostic test to identify and remediate personal precalculus gaps.
+\item Solve equations involving lines, circles, exponentials, logarithms, and quadratics (including non-real roots).
+\item Classify a function by family and describe its domain, range, and key graphical features.
+\item Apply shifts, stretches, and reflections to graph a function and its inverse.
+\item Re-express exponential or power-law data on logarithmic or semi-log axes to reveal a linear trend.
+\item * Translate a verbal description of a process into a qualitative graph.
+\end{enumerate}
+
+\PreReq High-school algebra, geometry, and trigonometry (see Section 1 above).
+
+\Hard Complex numbers and the quadratic formula tend to be rusty for
+returning students; log and semi-log scales are conceptually new even to
+students comfortable with logarithms as a computation. Building a
+qualitative graph directly from a verbal story (Sec.\ 1.4.4*) is a skill,
+not a formula, and benefits from in-class modeling.
+
+\bigskip
+\ChapHead{Chapter 2: Discrete-Time Models, Sequences, and Difference Equations}{62--100}
+
+\MajorTopics
+\begin{itemize}
+\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization
+\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation
+\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption
+\end{itemize}
+
+\KeyConcepts
+Recurrence (difference) equations; discrete exponential growth
+$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;
+sigma notation; density dependence and carrying capacity; the
+Beverton--Holt and discrete logistic maps.
+
+\LearnObj
+\begin{enumerate}
+\item Formulate a recurrence equation that models discrete-time population growth or decay.
+\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.
+\item Determine whether a sequence converges and, if so, find its limit.
+\item Evaluate sums of sequences using sigma notation.
+\item Compare density-independent and density-dependent growth models and interpret carrying capacity.
+\item * Model drug absorption using a discrete recurrence equation.
+\end{enumerate}
+
+\PreReq Exponential and logarithmic functions (Sec.\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.
+
+\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a
+\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy
+task in the course and is often harder than the algebra itself; students
+also frequently struggle to set up a recurrence equation directly from a
+word problem rather than recognizing a pre-built formula.
+
+\subsection{Module B --- Limits and Differential Calculus}
+
+\ChapHead{Chapter 3: Limits and Continuity}{101--141}
+
+\MajorTopics
+\begin{itemize}
+\item Limits: an informal treatment, common pitfalls, and limit laws
+\item Continuity: definition and combinations of continuous functions
+\item Limits at infinity
+\item Trigonometric limits and the Sandwich (Squeeze) Theorem
+\item Properties of continuous functions: the Intermediate-Value Theorem and the bisection method
+\item * A formal ($\varepsilon$--$\delta$) definition of limits
+\end{itemize}
+
+\KeyConcepts
+One-sided and two-sided limits; limit laws; continuity at a point and on an
+interval; removable, jump, and infinite discontinuities; horizontal and
+vertical asymptotes; the Sandwich Theorem; the Intermediate-Value Theorem
+(IVT); the bisection method for root-finding.
+
+\LearnObj
+\begin{enumerate}
+\item Evaluate limits using direct substitution, algebraic manipulation, and limit laws.
+\item Identify discontinuities of a function and classify their type.
+\item Evaluate limits at infinity and identify horizontal and vertical asymptotes.
+\item Apply the Sandwich Theorem to evaluate trigonometric limits.
+\item Use the IVT to justify the existence of a root and approximate it with the bisection method.
+\item * State and apply the formal $\varepsilon$--$\delta$ definition of a limit.
+\end{enumerate}
+
+\PreReq Elementary functions and their graphs (Chapter 1); the intuitive notion of a sequence limit (Sec.\ 2.2.3).
+
+\Hard The formal $\varepsilon$--$\delta$ definition (Sec.\ 3.6*) is the
+first rigor-heavy topic in the course and is genuinely difficult for a
+non-math-major audience; trigonometric limits requiring the Sandwich
+Theorem require comfort manipulating inequalities, and students often
+confuse ``the limit does not exist'' with ``the function is undefined.''
+
+\bigskip
+\ChapHead{Chapter 4: Differentiation}{142--212}
+
+\MajorTopics
+\begin{itemize}
+\item Formal definition of the derivative
+\item Properties of the derivative: interpretation; differentiability vs.\ continuity
+\item The power rule and derivatives of polynomials
+\item The product and quotient rules; derivatives of rational and power functions
+\item The chain rule (with proof)
+\item Implicit functions, implicit differentiation, and related rates
+\item Higher derivatives
+\item Derivatives of trigonometric, exponential, inverse, and logarithmic functions; the inverse tangent function
+\item Linear approximation and error propagation
+\end{itemize}
+
+\KeyConcepts
+The derivative as a limit of a difference quotient and as an instantaneous
+rate of change / slope of the tangent line; differentiability implies
+continuity (but not conversely); the power, product, quotient, and chain
+rules; implicit differentiation; related rates; higher-order derivatives;
+linear approximation and differentials.
+
+\LearnObj
+\begin{enumerate}
+\item Compute a derivative directly from its limit definition.
+\item Apply the power, product, quotient, and chain rules to differentiate combinations of functions.
+\item Perform implicit differentiation and solve related-rates problems.
+\item Differentiate trigonometric, exponential, logarithmic, and inverse functions.
+\item Compute higher-order derivatives.
+\item Use linear approximation and differentials to estimate function values and propagate measurement error.
+\end{enumerate}
+
+\PreReq Limits and continuity (Chapter 3); the elementary function families of Chapter 1.
+
+\Hard Related-rates and implicit-differentiation word problems are
+consistently among the hardest topics in introductory calculus because they
+require translating a physical/biological scenario into an equation before
+any calculus is applied; combining the chain rule with implicit
+differentiation compounds this. Error propagation (Sec.\ 4.11) is a valuable
+but unfamiliar application for many students.
+
+\subsection{Module C --- Applications of Differentiation and Integral Calculus}
+
+\ChapHead{Chapter 5: Applications of Differentiation}{213--305}
+
+\MajorTopics
+\begin{itemize}
+\item Extrema and the Mean-Value Theorem
+\item Monotonicity and concavity
+\item Extrema and inflection points
+\item Optimization
+\item L'Hopital's Rule
+\item Graphing and asymptotes
+\item * Stability of recurrence equations
+\item * The Newton--Raphson method
+\item * Modeling biological systems with differential equations
+\item Antiderivatives
+\end{itemize}
+
+\KeyConcepts
+Critical points; local vs.\ global extrema; the Extreme-Value Theorem and
+the Mean-Value Theorem; the first- and second-derivative tests;
+concavity and inflection points; constrained optimization; indeterminate
+forms; curve sketching; equilibrium stability; Newton--Raphson iteration;
+antiderivatives.
+
+\LearnObj
+\begin{enumerate}
+\item Locate and classify local and global extrema using the first- and second-derivative tests.
+\item Apply and interpret the Mean-Value Theorem.
+\item Solve applied optimization problems (e.g.\ resource allocation, foraging efficiency).
+\item Evaluate indeterminate-form limits using L'Hopital's Rule.
+\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.
+\item Compute basic antiderivatives.
+\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.
+\end{enumerate}
+
+\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).
+
+\Hard Translating a word problem into an optimization objective function
+and constraint(s) is the single hardest recurring skill in this chapter;
+equilibrium/stability analysis of a nonlinear recurrence equation (Sec.\
+5.7*) revisits Chapter 2 with new tools and is conceptually demanding;
+students often misapply L'Hopital's Rule to forms that are not actually
+indeterminate.
+
+\bigskip
+\ChapHead{Chapter 6: Integration}{306--354}
+
+\MajorTopics
+\begin{itemize}
+\item The definite integral: the area problem, the general theory of Riemann integrals, properties (including optional order properties)
+\item The Fundamental Theorem of Calculus, Parts I and II (with an optional rigorous treatment via Leibniz's Rule); antiderivatives and indefinite integrals
+\item Applications: cumulative change, average values, and (optional) the Mean-Value Theorem for integrals, areas, volumes of solids, and rectification of curves
+\end{itemize}
+
+\KeyConcepts
+Riemann sums; the definite integral as a limit of Riemann sums / signed
+area / accumulated change; linearity and additivity of the integral; the
+Fundamental Theorem of Calculus (both parts); the indefinite integral;
+average value of a function; area between curves; volumes of revolution;
+arc length.
+
+\LearnObj
+\begin{enumerate}
+\item Construct and evaluate Riemann sums and interpret the definite integral as their limit.
+\item Apply properties of the definite integral (linearity, additivity, comparison).
+\item Apply the Fundamental Theorem of Calculus to evaluate definite integrals and to differentiate accumulation functions.
+\item Compute indefinite integrals of standard functions.
+\item Use integration to compute cumulative change and average values (e.g.\ total drug dose, average population size).
+\item * Compute areas between curves, volumes of solids of revolution, and arc length.
+\end{enumerate}
+
+\PreReq Antiderivatives (Sec.\ 5.10); limits (Chapter 3, for the Riemann-sum limiting process).
+
+\Hard The rigorous construction of the Riemann integral (Sec.\ 6.1.2) and
+the proof of the Fundamental Theorem via Leibniz's Rule (Sec.\ 6.2.2*) are
+the most abstract material so far; volume and arc-length integrals (Sec.\
+6.3.5*--6.3.6*) require strong three-dimensional/geometric visualization
+that many students have not practiced since high-school geometry.
+
+% =====================================================================
+\newpage
+\section{Semester 2: Calculus II}
+
+\subsection{Module D --- Integration Techniques and Differential Equations}
+
+\ChapHead{Chapter 7: Integration Techniques and Computational Methods}{355--426}
+
+\MajorTopics
+\begin{itemize}
+\item The substitution rule (indefinite and definite integrals)
+\item Integration by parts and practicing integration
+\item Rational functions and partial fractions (proper rational functions, decomposition, repeated linear factors, (optional) irreducible quadratic factors, summary)
+\item * Improper integrals (unbounded intervals, unbounded integrand, a comparison result)
+\item Numerical integration: the midpoint rule, the trapezoidal rule, spreadsheet implementation, (optional) error estimation
+\item * The Taylor approximation
+\item * Tables of integrals
+\end{itemize}
+
+\KeyConcepts
+$u$-substitution; integration by parts; partial-fraction decomposition;
+improper integrals and convergence/divergence; the comparison test;
+midpoint and trapezoidal numerical rules; Taylor polynomials and their
+remainder/error.
+
+\LearnObj
+\begin{enumerate}
+\item Evaluate integrals using $u$-substitution and integration by parts.
+\item Decompose a rational function into partial fractions (including repeated and, optionally, irreducible quadratic factors) and integrate it.
+\item * Determine convergence or divergence of an improper integral and evaluate convergent ones.
+\item Approximate a definite integral numerically using the midpoint and trapezoidal rules, and estimate the error.
+\item * Construct a Taylor polynomial to approximate a function and bound the approximation error.
+\end{enumerate}
+
+\PreReq The definite/indefinite integral and the Fundamental Theorem of Calculus (Chapter 6).
+
+\Hard The main recurring difficulty is strategic: recognizing \emph{which}
+technique (substitution, parts, partial fractions, or a numerical method)
+fits a given integrand. Partial fractions with repeated or irreducible
+quadratic factors (Sec.\ 7.3.3*--7.3.4*) is algebraically heavy, and
+improper-integral convergence tests (Sec.\ 7.4.3*) and Taylor remainder
+estimates (Sec.\ 7.6.3*) are the most proof-like material in the chapter.
+
+\bigskip
+\ChapHead{Chapter 8: Differential Equations}{427--486}
+
+\MajorTopics
+\begin{itemize}
+\item Solving separable differential equations: pure-time, autonomous, and general separable equations
+\item Equilibria and their stability: equilibrium points, a graphical approach, stability, sketching solutions with a vector-field/direction-field plot, behavior near an equilibrium
+\item Differential equation models: compartment models, an ecological model, a chemical-reaction model, the evolution of cooperation, and an epidemic model
+\item Integrating factors and two-compartment models
+\end{itemize}
+
+\KeyConcepts
+Separation of variables; equilibrium solutions; phase-line and
+direction-field analysis; stable, unstable, and semi-stable equilibria;
+compartment (box) models; SIR-type epidemic models; linear first-order
+ODEs; the integrating-factor method.
+
+\LearnObj
+\begin{enumerate}
+\item Solve separable differential equations, including pure-time and autonomous cases.
+\item Find equilibrium solutions of an autonomous ODE and classify their stability using a phase line or direction field.
+\item Build and interpret compartment models for ecological, chemical, and epidemiological systems.
+\item Solve linear first-order ODEs using an integrating factor.
+\item Extend the integrating-factor method to a simple two-compartment (coupled) model.
+\end{enumerate}
+
+\PreReq Integration techniques (Chapter 7); the introductory notion of equilibrium/stability from Sec.\ 5.7*.
+
+\Hard Constructing a realistic compartment or epidemic model from a verbal
+description (Sec.\ 8.3) is the chapter's central modeling challenge;
+classifying the stability of a \emph{nonlinear} equilibrium (Sec.\
+8.2.3--8.2.5) requires synthesizing calculus and qualitative reasoning; the
+two-compartment integrating-factor problems (Sec.\ 8.4.2) are algebraically
+involved.
+
+\subsection{Module E --- Linear Algebra and Multivariable Calculus}
+
+\ChapHead{Chapter 9: Linear Algebra and Analytic Geometry}{487--560}
+
+\MajorTopics
+\begin{itemize}
+\item Linear systems: graphical solution, elimination, solving systems, matrix representation
+\item Matrices: operations, multiplication, inverse matrices, (optional) computing inverse matrices
+\item Linear maps, eigenvectors, and eigenvalues: graphical representation, eigenvalues/eigenvectors, (optional) iterated maps
+\item * Demographic modeling: Leslie matrices and stable age distributions
+\item Analytic geometry: points and vectors in higher dimensions, the dot product, parametric equations of lines
+\end{itemize}
+
+\KeyConcepts
+Systems of linear equations and Gaussian elimination; matrix arithmetic
+and multiplication; matrix inverses; linear transformations; eigenvalues
+and eigenvectors; Leslie (age-structured) matrix models; the dot product;
+parametric line equations in $\mathbb{R}^n$.
+
+\LearnObj
+\begin{enumerate}
+\item Solve systems of linear equations graphically, by elimination, and using matrix methods.
+\item Perform matrix addition, multiplication, and compute matrix inverses.
+\item Compute eigenvalues and eigenvectors of a matrix and interpret them geometrically.
+\item * Construct and analyze a Leslie matrix model to determine long-term population age structure.
+\item Compute dot products and write parametric equations of lines in higher-dimensional space.
+\end{enumerate}
+
+\PreReq Algebraic manipulation (Chapter 1); recurrence equations (Chapter 2), which motivate iterated linear maps.
+
+\Hard Computing \emph{and} interpreting eigenvalues/eigenvectors (Sec.\
+9.3.2) is the conceptual centerpiece of the chapter and the most commonly
+under-practiced skill; connecting eigenvalues to the long-term behavior of
+an iterated map or a Leslie matrix (Sec.\ 9.3.3*, 9.4*) asks students to
+combine algebraic computation with qualitative, long-run reasoning; working
+with vectors in more than three dimensions is a new abstraction for most
+students.
+
+\bigskip
+\ChapHead{Chapter 10: Multivariable Calculus}{561--652}
+
+\MajorTopics
+\begin{itemize}
+\item Functions of two or more variables: definitions, surface plots, heat maps, contour plots
+\item * Limits and continuity (informal and formal definitions)
+\item Partial derivatives (two and more variables; higher-order)
+\item Tangent planes, differentiability, and linearization (scalar and vector-valued functions)
+\item * The chain rule and implicit differentiation for functions of two variables
+\item * Directional derivatives and gradient vectors
+\item * Maximization and minimization: local and global extrema, extrema with constraints, least-squares data fitting
+\item * Diffusion
+\item * Systems of recurrence equations: a biological example, equilibria and stability (linear and nonlinear)
+\end{itemize}
+
+\KeyConcepts
+Multivariable functions and their graphical representations (surfaces,
+heat maps, contour/level curves); partial derivatives; tangent planes and
+linearization; the multivariable chain rule; the gradient vector and
+directional derivatives; critical-point classification; Lagrange
+multipliers; least-squares regression; equilibria and stability of systems
+of recurrence equations.
+
+\LearnObj
+\begin{enumerate}
+\item Represent and interpret functions of two or more variables using surface, heat-map, and contour-plot representations.
+\item Compute partial and higher-order partial derivatives.
+\item Find the tangent plane to a surface and use linearization to approximate function values.
+\item * Apply the multivariable chain rule and implicit differentiation.
+\item * Compute directional derivatives and gradients, and interpret the gradient as the direction of steepest ascent.
+\item * Find local, global, and constrained extrema (via Lagrange multipliers), and perform least-squares data fitting.
+\item * Analyze equilibria and stability in systems of recurrence equations.
+\end{enumerate}
+
+\PreReq Single-variable differentiation and optimization (Chapters 4--5); vectors and matrices (Chapter 9).
+
+\Hard Reading and constructing contour plots and interpreting gradients
+(Sec.\ 10.1, 10.6*) is a visualization skill that takes deliberate practice;
+constrained optimization via Lagrange multipliers (Sec.\ 10.7.3*) is
+routinely one of the hardest topics in any multivariable course; extending
+stability analysis to \emph{systems} of nonlinear recurrence equations
+(Sec.\ 10.9.3*) is the most advanced modeling topic in the module.
+
+\subsection{Module F --- Systems of Differential Equations and Probability/Statistics}
+
+\ChapHead{Chapter 11: Systems of Differential Equations}{653--733}
+
+\MajorTopics
+\begin{itemize}
+\item Linear systems theory: the vector field, solving linear systems, equilibria and stability, systems with complex conjugate eigenvalues, summary of the theory
+\item Linear systems applications: two-compartment models, a mathematical model for love, (optional) the harmonic oscillator
+\item Nonlinear autonomous systems: an analytical approach and a graphical (phase-plane) approach for $2\times2$ systems
+\item Lotka--Volterra models for interspecific interaction: competition and a predator--prey model
+\item * More mathematical models: the community matrix, neuron activity, enzymatic reactions, microbial growth in a chemostat, an epidemic model
+\end{itemize}
+
+\KeyConcepts
+Systems of linear and nonlinear ODEs; the vector field; eigenvalue-based
+classification of equilibria (node, saddle, spiral, center); phase-plane
+analysis and nullclines; linearization and the Jacobian matrix;
+Lotka--Volterra competition and predator--prey dynamics.
+
+\LearnObj
+\begin{enumerate}
+\item Solve linear systems of differential equations using eigenvalues and eigenvectors.
+\item Classify equilibria of a linear system (node, saddle, spiral, center), including the complex-eigenvalue case.
+\item Apply linear-systems models to two-compartment and romantic-dynamics applications.
+\item Linearize a nonlinear autonomous system near an equilibrium and use phase-plane/nullcline analysis to sketch trajectories.
+\item Analyze Lotka--Volterra competition and predator--prey models and interpret coexistence, exclusion, and cyclical dynamics.
+\item * Apply systems of differential equations to additional models (neuron activity, enzyme kinetics, chemostats, epidemics).
+\end{enumerate}
+
+\PreReq Eigenvalues and eigenvectors (Chapter 9); single-ODE equilibria and stability (Chapter 8); partial derivatives, for linearization (Chapter 10).
+
+\Hard Classifying equilibria with complex eigenvalues (Sec.\ 11.1.4) is a
+notational and conceptual jump; linearizing a nonlinear system and building
+its Jacobian (Sec.\ 11.3.1) draws on nearly every earlier chapter at once;
+phase-plane/nullcline sketching for predator--prey and competition models
+(Sec.\ 11.3.2, 11.4) is qualitative reasoning that resists a purely
+computational approach.
+
+\bigskip
+\ChapHead{Chapter 12: Probability and Statistics}{734--850}
+
+\MajorTopics
+\begin{itemize}
+\item Counting: the multiplication principle, permutations, combinations, combining the counting principles
+\item What is probability? Basic definitions and equally likely outcomes
+\item Conditional probability and independence: conditional probability, the Law of Total Probability, independence, the Bayes formula
+\item Discrete random variables and discrete distributions: means and variances; the binomial, multinomial, geometric, and Poisson distributions
+\item Continuous distributions: density functions, the normal, uniform, and exponential distributions, the Poisson process, aging
+\item Limit theorems: the Law of Large Numbers and the Central Limit Theorem
+\item Statistical tools: describing univariate data, estimating parameters, linear regression
+\end{itemize}
+
+\KeyConcepts
+Permutations and combinations; sample spaces and events; conditional
+probability and independence; Bayes' Theorem; discrete random variables,
+expectation, and variance; the binomial, geometric, and Poisson
+distributions; probability density functions; the normal, uniform, and
+exponential distributions; the Law of Large Numbers; the Central Limit
+Theorem; point estimation; linear regression.
+
+\LearnObj
+\begin{enumerate}
+\item Apply counting techniques (multiplication principle, permutations, combinations) to compute probabilities.
+\item Compute conditional probabilities and apply the Law of Total Probability and Bayes' Theorem.
+\item Work with discrete distributions (binomial, geometric, Poisson), including computing mean and variance.
+\item Work with continuous probability distributions (normal, uniform, exponential), including computing probabilities by integrating density functions.
+\item State and apply the Law of Large Numbers and the Central Limit Theorem.
+\item Summarize univariate data, estimate distribution parameters, and fit a linear regression model.
+\end{enumerate}
+
+\PreReq Integration (Chapters 6--7), needed for continuous densities; counting and basic algebra (Chapter 1).
+
+\Hard Applying Bayes' Theorem to multi-stage or diagnostic-testing
+problems (Sec.\ 12.3.4) is the most common stumbling block in elementary
+probability; building genuine conceptual understanding of the Central
+Limit Theorem (Sec.\ 12.6.2), rather than rote formula use, takes
+deliberate repetition; connecting a continuous density function back to
+integration (Sec.\ 12.5.1) can feel like an abrupt return to Chapter 6 for
+students who have not used integration in several weeks.
+
+% =====================================================================
+\newpage
+\section*{3. Suggested Weekly Schedule}
+\addcontentsline{toc}{section}{3. Suggested Weekly Schedule}
+
+Each semester below assumes a standard 15-week term with three midterm
+exams built into the flow; starred/optional sections can be compressed or
+skipped to recover time.
+
+\subsection*{3.1 Calculus I}
+\addcontentsline{toc}{subsection}{3.1 Calculus I}
+\begin{longtable}{@{}p{0.10\textwidth}p{0.85\textwidth}@{}}
+\toprule
+\textbf{Week} & \textbf{Topics} \\
+\midrule
+\endhead
+1 & Ch.\ 1.1--1.2 --- Diagnostic test; preliminaries (real numbers, lines, circles, trig, exponentials/logs, complex numbers) \\
+2 & Ch.\ 1.3--1.4 --- Elementary functions; graphing and transformations \\
+3 & Ch.\ 2.1--2.2 --- Discrete exponential growth; sequences and limits \\
+4 & Ch.\ 2.3 --- Modeling with recurrence equations; Module A review \\
+5 & \textbf{Exam 1}; Ch.\ 3.1 --- Limits \\
+6 & Ch.\ 3.2--3.4 --- Continuity, limits at infinity, trigonometric limits \\
+7 & Ch.\ 3.5 --- IVT and bisection; Ch.\ 4.1 --- Definition of the derivative \\
+8 & Ch.\ 4.2--4.5 --- Differentiation rules through the chain rule \\
+9 & \textbf{Exam 2}; Ch.\ 4.6--4.7 --- Implicit differentiation, related rates, higher derivatives \\
+10 & Ch.\ 4.8--4.11 --- Derivatives of trig/exponential/log/inverse functions; linear approximation \\
+11 & Ch.\ 5.1--5.3 --- Extrema, the MVT, monotonicity and concavity \\
+12 & Ch.\ 5.4--5.6 --- Optimization, L'Hopital's Rule, curve sketching \\
+13 & \textbf{Exam 3}; Ch.\ 5.10 --- Antiderivatives; Ch.\ 6.1 --- The definite integral \\
+14 & Ch.\ 6.2--6.3 --- The Fundamental Theorem of Calculus and applications \\
+15 & Review and \textbf{Final Exam} \\
+\bottomrule
+\end{longtable}
+
+\subsection*{3.2 Calculus II}
+\addcontentsline{toc}{subsection}{3.2 Calculus II}
+\begin{longtable}{@{}p{0.10\textwidth}p{0.85\textwidth}@{}}
+\toprule
+\textbf{Week} & \textbf{Topics} \\
+\midrule
+\endhead
+1 & Ch.\ 7.1--7.2 --- Substitution; integration by parts \\
+2 & Ch.\ 7.3 --- Partial fractions \\
+3 & Ch.\ 7.5 --- Numerical integration (optional: 7.4 improper integrals, 7.6 Taylor approximation, as time allows) \\
+4 & \textbf{Exam 1}; Ch.\ 8.1 --- Separable differential equations \\
+5 & Ch.\ 8.2 --- Equilibria and stability \\
+6 & Ch.\ 8.3--8.4 --- Differential equation models; integrating factors \\
+7 & Ch.\ 9.1--9.2 --- Linear systems; matrices \\
+8 & \textbf{Exam 2}; Ch.\ 9.3 --- Eigenvalues and eigenvectors \\
+9 & Ch.\ 9.5 --- Analytic geometry; Ch.\ 10.1 --- Functions of several variables \\
+10 & Ch.\ 10.3--10.4 --- Partial derivatives; tangent planes and linearization \\
+11 & Ch.\ 10.6--10.7 --- Gradients and directional derivatives; optimization \\
+12 & \textbf{Exam 3}; Ch.\ 11.1 --- Linear systems of differential equations \\
+13 & Ch.\ 11.3--11.4 --- Nonlinear systems; Lotka--Volterra models \\
+14 & Ch.\ 12.1--12.4 --- Counting, probability, discrete distributions \\
+15 & Ch.\ 12.5--12.7 --- Continuous distributions, limit theorems, regression; Review and \textbf{Final Exam} \\
+\bottomrule
+\end{longtable}
+
+% =====================================================================
+\section*{4. Cross-Cutting Themes and the Hardest Topics in the Course}
+\addcontentsline{toc}{section}{4. Cross-Cutting Themes and the Hardest Topics in the Course}
+
+Several difficulties recur across chapters rather than belonging to any one
+of them. Naming these explicitly helps with pacing and with designing
+review sessions that span module boundaries.
+
+\begin{itemize}
+\item \textbf{Discrete-to-continuous transitions.} Students build strong
+discrete-time intuition in Chapter 2, then must re-learn stability and
+growth concepts in continuous form in Chapters 5 and 8. Explicitly
+cross-referencing the discrete and continuous versions of the same idea
+(e.g.\ discrete vs.\ continuous exponential growth, equilibrium stability
+of a recurrence equation vs.\ an ODE) shortens this transition.
+\item \textbf{Rigor vs.\ intuition.} The starred rigorous topics
+($\varepsilon$--$\delta$ limits, the Riemann integral construction, the
+Leibniz's Rule proof of the FTC) sit in tension with the course's
+model-building emphasis. Treating them as optional deep dives, clearly
+separated from the applied spine of the course, works better than
+interleaving them.
+\item \textbf{Word-problem translation.} Related rates, optimization,
+compartment/epidemic modeling, and Leslie-matrix demography all share the
+same underlying difficulty: converting a verbal description into equations
+before any calculus or algebra is applied. This is best taught as an
+explicit, repeated skill (define variables, state relationships, then
+compute) rather than assumed.
+\item \textbf{Stacked symbolic technique.} The chain rule combined with
+implicit differentiation, and partial fractions combined with
+substitution, both require executing several symbolic steps in the correct
+order; errors compound quickly, so scaffolded, partial-credit practice
+matters more here than in single-step computations.
+\item \textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as
+the organizing idea behind Leslie-matrix demography (Ch.\ 9), linear
+systems of ODEs (Ch.\ 11), and linearization of nonlinear systems (Ch.\
+10--11). Investing extra time in Sec.\ 9.3.2 pays off across the rest of
+the second semester.
+\item \textbf{Probabilistic reasoning.} Bayes' Theorem and the Central
+Limit Theorem are conceptually distinct from the calculus that precedes
+them and often need to be taught with less reliance on procedural fluency
+and more reliance on worked examples and simulation.
+\end{itemize}
+
+% =====================================================================
+\section*{5. Supplementary Course Materials}
+\addcontentsline{toc}{section}{5. Supplementary Course Materials}
+
+The textbook's back matter supports the course as reference material
+rather than as separately taught content:
+\begin{itemize}
+\item \textbf{Appendix A --- Frequently Used Symbols:} a quick-reference
+sheet worth distributing in Week 1.
+\item \textbf{Appendix B --- Table of the Standard Normal Distribution:}
+needed for Chapter 12 and worth revisiting immediately before that unit.
+\item \textbf{Answers to Odd-Numbered Problems:} supports independent
+practice and self-assessment throughout both semesters.
+\item \textbf{References and Index:} useful for students pursuing the
+optional/starred modeling sections in more depth.
+\end{itemize}
+
+\end{document}

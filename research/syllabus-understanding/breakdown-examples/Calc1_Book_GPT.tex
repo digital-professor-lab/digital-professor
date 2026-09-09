@@ -1,0 +1,1859 @@
+\documentclass[11pt]{article}
+
+% ------------------------------------------------------------
+% Packages
+% ------------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+
+% ------------------------------------------------------------
+% General formatting
+% ------------------------------------------------------------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Calculus I for Biology and Social Sciences}
+\rhead{Course Structure}
+\cfoot{\thepage}
+
+\titleformat{\section}
+  {\large\bfseries}
+  {\thesection}
+  {0.5em}
+  {}
+
+\titleformat{\subsection}
+  {\normalsize\bfseries}
+  {\thesubsection}
+  {0.5em}
+  {}
+
+% ------------------------------------------------------------
+% Custom commands
+% ------------------------------------------------------------
+\newcommand{\important}{\textbf{Core}}
+\newcommand{\optional}{\textit{Optional}}
+\newcommand{\bioapp}{\textit{Biological/Application Context}}
+
+% ------------------------------------------------------------
+% Document
+% ------------------------------------------------------------
+\begin{document}
+
+\begin{center}
+    {\LARGE\bfseries Calculus I for Biology and Social Sciences}\\[4pt]
+    {\large Full Course Structure and Learning Framework}\\[8pt]
+    \textit{Based primarily on Claudia Neuhauser and Marcus L. Roper,}\\
+    \textit{Calculus for Biology and Medicine, Fourth Edition}\\[8pt]
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+% ============================================================
+\section{Course Description}
+
+This course develops the fundamental ideas and techniques of single-variable
+calculus with emphasis on applications to biological, health, behavioral,
+environmental, and other quantitative sciences.
+
+The course is organized around the central calculus ideas of:
+
+\begin{enumerate}[label=\arabic*.]
+    \item functions and mathematical modeling,
+    \item limits and continuity,
+    \item differentiation and rates of change,
+    \item applications of derivatives,
+    \item antiderivatives,
+    \item definite integrals,
+    \item the Fundamental Theorem of Calculus, and
+    \item applications of integration.
+\end{enumerate}
+
+The course uses the life-sciences orientation of the textbook: mathematical
+ideas are introduced through meaningful applications and are subsequently
+developed mathematically and applied to models.
+
+The main mathematical progression is
+
+\[
+\boxed{
+\text{Functions}
+\longrightarrow
+\text{Limits}
+\longrightarrow
+\text{Derivatives}
+\longrightarrow
+\text{Applications}
+\longrightarrow
+\text{Integrals}
+}
+\]
+
+The course should emphasize not only symbolic computation but also
+interpretation, graphical reasoning, dimensional analysis, model construction,
+and communication of quantitative conclusions.
+
+% ============================================================
+\section{Textbook Alignment}
+
+The primary textbook is:
+
+\begin{quote}
+Claudia Neuhauser and Marcus L. Roper,
+\textit{Calculus for Biology and Medicine},
+Fourth Edition, Pearson.
+\end{quote}
+
+The textbook is explicitly designed around applications in biology and
+medicine and emphasizes mathematical modeling, interpretation of mathematical
+models, data, and quantitative reasoning.
+
+For a one-semester calculus course with an integration emphasis, the textbook
+recommends:
+
+\begin{itemize}
+    \item Chapters 3--4,
+    \item Sections 5.1--5.6,
+    \item Section 5.10,
+    \item Sections 6.1--6.3.
+\end{itemize}
+
+Chapter 1 is principally prerequisite/precalculus material. Chapter 2 is
+useful as an introduction to recurrence models and mathematical modeling,
+although it can be compressed or assigned as preparatory work.
+
+Thus the recommended Calculus I pathway is:
+
+\[
+\boxed{
+\text{Chapter 1 Review}
+\rightarrow
+\text{Chapter 2 Modeling Bridge}
+\rightarrow
+\text{Chapter 3}
+\rightarrow
+\text{Chapter 4}
+\rightarrow
+\text{Chapter 5}
+\rightarrow
+\text{Chapter 6}
+}
+\]
+
+% ============================================================
+\section{Overall Course Structure}
+
+\begin{longtable}{p{0.8cm}p{3.0cm}p{4.0cm}p{5.2cm}}
+\toprule
+\textbf{Unit} & \textbf{Textbook} & \textbf{Major Theme}
+& \textbf{Central Concepts} \\
+\midrule
+1 & Ch. 1 & Prerequisite mathematics
+& Algebra, functions, trigonometry, exponentials, logarithms, graphing \\
+
+2 & Ch. 2 & Mathematical modeling bridge
+& Discrete growth, recurrence equations, sequences, limits, model assumptions \\
+
+3 & Ch. 3 & Limits and continuity
+& Limits, continuity, limits at infinity, trigonometric limits, IVT \\
+
+4 & Ch. 4 & Differentiation
+& Derivative, rates of change, differentiation rules, chain rule, implicit differentiation \\
+
+5 & Ch. 5 & Applications of differentiation
+& Extrema, MVT, monotonicity, concavity, optimization, graphing, antiderivatives \\
+
+6 & Ch. 6 & Integration
+& Definite integral, Riemann sums, FTC, cumulative change, average value \\
+
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Prerequisite Knowledge}
+
+Students entering Calculus I should be able to work comfortably with the
+following topics.
+
+\subsection{Algebra}
+
+\begin{itemize}
+    \item Real numbers and intervals.
+    \item Algebraic manipulation.
+    \item Factoring.
+    \item Solving linear and quadratic equations.
+    \item Solving inequalities.
+    \item Fractions and rational expressions.
+    \item Exponents and radicals.
+    \item Scientific notation.
+    \item Coordinate geometry.
+    \item Equations of lines.
+    \item Basic polynomial manipulation.
+\end{itemize}
+
+\subsection{Functions}
+
+Students should understand:
+
+\begin{itemize}
+    \item function notation,
+    \item domain and range,
+    \item composition,
+    \item inverse functions,
+    \item polynomial functions,
+    \item rational functions,
+    \item power functions,
+    \item exponential functions,
+    \item logarithmic functions, and
+    \item basic transformations of graphs.
+\end{itemize}
+
+\subsection{Trigonometry}
+
+Students should know:
+
+\begin{itemize}
+    \item radians and degrees,
+    \item basic trigonometric functions,
+    \item unit-circle values,
+    \item basic trigonometric identities,
+    \item graphs of sine, cosine, and tangent,
+    \item inverse trigonometric functions.
+\end{itemize}
+
+\subsection{Graphing and Data Interpretation}
+
+Students should be able to:
+
+\begin{itemize}
+    \item interpret a graph,
+    \item identify increasing and decreasing behavior,
+    \item estimate slopes,
+    \item interpret intercepts,
+    \item recognize transformations,
+    \item read logarithmic and semilogarithmic graphs,
+    \item translate a verbal description into a qualitative graph.
+\end{itemize}
+
+% ============================================================
+\section{Course-Level Learning Objectives}
+
+By the end of Calculus I, students should be able to:
+
+\begin{enumerate}[label=\textbf{LO\arabic*.}]
+    \item Analyze and manipulate elementary functions used in quantitative
+          science.
+          
+    \item Interpret graphs and mathematical relationships in biological and
+          social-science contexts.
+          
+    \item Construct simple mathematical models from verbal descriptions.
+    
+    \item Explain the intuitive meaning of a limit as a quantity approaches
+          a specified value.
+          
+    \item Evaluate limits algebraically, graphically, and numerically.
+    
+    \item Determine whether a function is continuous at a point or on an
+          interval.
+          
+    \item Explain the derivative as an instantaneous rate of change and as
+          the slope of a tangent line.
+          
+    \item Compute derivatives using the fundamental differentiation rules.
+    
+    \item Apply the product, quotient, and chain rules.
+    
+    \item Differentiate implicit relationships and solve related-rate
+          problems.
+          
+    \item Interpret higher derivatives in terms of changes in rates.
+    
+    \item Use derivatives to identify extrema, monotonicity, concavity, and
+          inflection points.
+          
+    \item Apply the Mean Value Theorem and Extreme Value Theorem conceptually
+          and computationally.
+          
+    \item Formulate and solve optimization problems arising from scientific
+          models.
+          
+    \item Analyze and sketch functions using derivative information.
+    
+    \item Explain the meaning of an antiderivative.
+    
+    \item Interpret a definite integral as accumulated change and as area
+          under a curve.
+          
+    \item Approximate definite integrals using Riemann sums.
+    
+    \item Apply the Fundamental Theorem of Calculus.
+    
+    \item Calculate cumulative change and average values using definite
+          integrals.
+          
+    \item Translate between graphical, numerical, symbolic, and verbal
+          representations of calculus concepts.
+          
+    \item Select an appropriate calculus method for a scientific problem and
+          justify the choice.
+          
+    \item Interpret the mathematical result in the original scientific
+          context, including units and limitations of the model.
+\end{enumerate}
+
+% ============================================================
+\section{Module 1: Precalculus and Mathematical Foundations}
+
+\subsection{Textbook Coverage}
+
+\textbf{Chapter 1: Preview and Review}
+
+\begin{itemize}
+    \item 1.1 Precalculus Skills Diagnostic Test
+    \item 1.2 Preliminaries
+    \item 1.3 Elementary Functions
+    \item 1.4 Graphing
+\end{itemize}
+
+\subsection{Major Concepts}
+
+\begin{itemize}
+    \item Real numbers.
+    \item Lines in the plane.
+    \item Equations of circles.
+    \item Trigonometry.
+    \item Exponential and logarithmic functions.
+    \item Complex numbers and quadratic equations.
+    \item Function notation.
+    \item Polynomial and rational functions.
+    \item Power functions.
+    \item Inverse functions.
+    \item Function transformations.
+    \item Logarithmic and semilogarithmic scales.
+    \item Graphical representation of scientific data.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item manipulate algebraic expressions accurately;
+    \item solve equations and inequalities;
+    \item evaluate and compose functions;
+    \item determine domains and ranges;
+    \item work with exponential and logarithmic functions;
+    \item use basic trigonometric identities;
+    \item transform graphs;
+    \item interpret logarithmic scales;
+    \item convert scientific descriptions into graphs.
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+This module is itself the prerequisite foundation for the calculus course.
+
+\subsection{Potentially Difficult Topics}
+
+\begin{itemize}
+    \item Function composition and inverse functions.
+    \item Exponential versus logarithmic representations.
+    \item Logarithmic graph transformations.
+    \item Trigonometric identities.
+    \item Translating verbal descriptions into graphs.
+\end{itemize}
+
+\subsection{Recommended Instructional Role}
+
+Most of Chapter 1 should be treated as prerequisite review rather than as a
+full calculus module. Students can complete a diagnostic assessment and
+receive targeted remediation.
+
+% ============================================================
+\section{Module 2: Discrete Models and Mathematical Modeling}
+
+\subsection{Textbook Coverage}
+
+\textbf{Chapter 2: Discrete-Time Models, Sequences, and Difference Equations}
+
+\begin{itemize}
+    \item 2.1 Exponential Growth and Decay
+    \item 2.2 Sequences
+    \item 2.3 Modeling with Recurrence Equations
+\end{itemize}
+
+\subsection{Major Concepts}
+
+\begin{itemize}
+    \item Discrete-time population growth.
+    \item Exponential growth and decay.
+    \item Recurrence equations.
+    \item Sequences.
+    \item Limits of sequences.
+    \item Sigma notation.
+    \item Density-dependent population growth.
+    \item Beverton--Holt model.
+    \item Discrete logistic equation.
+    \item Model assumptions.
+    \item Comparing mathematical models with data.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item distinguish discrete-time from continuous-time models;
+    \item formulate simple recurrence equations;
+    \item calculate terms of a sequence;
+    \item interpret long-term behavior of sequences;
+    \item use sigma notation;
+    \item identify assumptions in a mathematical model;
+    \item translate a verbal scientific description into a recurrence model;
+    \item interpret model parameters;
+    \item compare a model with observed data.
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \item Algebra.
+    \item Functions.
+    \item Exponential functions.
+    \item Graph interpretation.
+\end{itemize}
+
+\subsection{Potentially Difficult Topics}
+
+\begin{itemize}
+    \item Translating verbal assumptions into equations.
+    \item Understanding recurrence equations.
+    \item Distinguishing model behavior from actual biological behavior.
+    \item Interpreting parameters rather than simply calculating them.
+\end{itemize}
+
+\subsection{Course Role}
+
+This module serves as a bridge between prerequisite mathematics and
+continuous-time calculus. It establishes the modeling perspective that should
+continue throughout the course.
+
+% ============================================================
+\section{Module 3: Limits and Continuity}
+
+\subsection{Textbook Coverage}
+
+\textbf{Chapter 3: Limits and Continuity}
+
+\begin{itemize}
+    \item 3.1 Limits
+    \item 3.2 Continuity
+    \item 3.3 Limits at Infinity
+    \item 3.4 Trigonometric Limits and the Sandwich Theorem
+    \item 3.5 Properties of Continuous Functions
+    \item 3.6 Formal Definition of Limits \optional
+\end{itemize}
+
+\subsection{Major Concepts}
+
+\begin{itemize}
+    \item Informal definition of a limit.
+    \item One-sided behavior.
+    \item Limit laws.
+    \item Algebraic techniques for evaluating limits.
+    \item Indeterminate forms.
+    \item Continuity.
+    \item Limits at infinity.
+    \item Infinite limits and asymptotic behavior.
+    \item Trigonometric limits.
+    \item Sandwich Theorem.
+    \item Intermediate Value Theorem.
+    \item Bisection method.
+    \item Formal $\epsilon$--$\delta$ definition of a limit.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item explain the meaning of
+          \[
+          \lim_{x\to a}f(x);
+          \]
+    \item estimate limits graphically and numerically;
+    \item evaluate limits using algebraic limit laws;
+    \item recognize when direct substitution is insufficient;
+    \item evaluate limits involving trigonometric functions;
+    \item analyze end behavior;
+    \item determine continuity;
+    \item apply the Intermediate Value Theorem;
+    \item explain how the bisection method locates roots;
+    \item connect limits to the later concept of derivatives.
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \item Functions and function notation.
+    \item Algebraic manipulation.
+    \item Factoring.
+    \item Rational expressions.
+    \item Graph interpretation.
+    \item Trigonometry.
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Conceptual meaning of a limit.
+    \item Difference between $f(a)$ and $\lim_{x\to a}f(x)$.
+    \item Algebraic manipulation of indeterminate forms.
+    \item Limits at infinity.
+    \item Trigonometric limits.
+    \item Formal definition of a limit.
+\end{itemize}
+
+\subsection{Essential Conceptual Transition}
+
+The key conceptual transition is:
+
+\[
+\text{average rate of change}
+\quad\longrightarrow\quad
+\text{instantaneous rate of change}.
+\]
+
+This prepares students for the derivative.
+
+% ============================================================
+\section{Module 4: Differentiation}
+
+\subsection{Textbook Coverage}
+
+\textbf{Chapter 4: Differentiation}
+
+\begin{itemize}
+    \item 4.1 Formal Definition of the Derivative
+    \item 4.2 Properties of the Derivative
+    \item 4.3 Power Rule and Basic Rules
+    \item 4.4 Product and Quotient Rules
+    \item 4.5 Chain Rule
+    \item 4.6 Implicit Functions and Implicit Differentiation
+    \item 4.7 Higher Derivatives
+    \item 4.8 Derivatives of Trigonometric Functions
+    \item 4.9 Derivatives of Exponential Functions
+    \item 4.10 Derivatives of Inverse and Logarithmic Functions
+    \item 4.11 Linear Approximation and Error Propagation
+\end{itemize}
+
+\subsection{Major Concepts}
+
+\begin{itemize}
+    \item Difference quotient.
+    \item Derivative as a limit.
+    \item Tangent-line slope.
+    \item Instantaneous rate of change.
+    \item Differentiability.
+    \item Relationship between continuity and differentiability.
+    \item Power rule.
+    \item Constant and sum rules.
+    \item Product rule.
+    \item Quotient rule.
+    \item Chain rule.
+    \item Implicit differentiation.
+    \item Related rates.
+    \item Higher derivatives.
+    \item Trigonometric derivatives.
+    \item Exponential and logarithmic derivatives.
+    \item Linear approximation.
+    \item Error propagation.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item define the derivative using a limit;
+    \item interpret derivatives geometrically;
+    \item interpret derivatives as rates of change;
+    \item determine whether a function is differentiable;
+    \item compute derivatives using standard rules;
+    \item combine multiple differentiation rules;
+    \item apply the chain rule to composite functions;
+    \item differentiate implicitly defined functions;
+    \item solve related-rate problems;
+    \item calculate and interpret higher derivatives;
+    \item differentiate trigonometric functions;
+    \item differentiate exponential and logarithmic functions;
+    \item construct linear approximations;
+    \item estimate propagation of measurement errors.
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \item Chapter 3 limits.
+    \item Algebra.
+    \item Function composition.
+    \item Trigonometry.
+    \item Exponential and logarithmic functions.
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{enumerate}
+    \item Understanding the derivative conceptually rather than as a
+          differentiation algorithm.
+    \item Connecting the derivative to a physical or biological rate.
+    \item The chain rule.
+    \item Nested chain-rule problems.
+    \item Implicit differentiation.
+    \item Related rates.
+    \item Selecting the correct combination of derivative rules.
+\end{enumerate}
+
+\subsection{Central Mathematical Relationship}
+
+The derivative is defined by
+
+\[
+f'(x)
+=
+\lim_{h\to 0}
+\frac{f(x+h)-f(x)}{h}.
+\]
+
+It represents both
+
+\[
+\boxed{\text{slope of tangent line}}
+\]
+
+and
+
+\[
+\boxed{\text{instantaneous rate of change}}.
+\]
+
+For a biological quantity $N(t)$,
+
+\[
+N'(t)=\frac{dN}{dt}
+\]
+
+represents the instantaneous rate at which the population changes.
+
+% ============================================================
+\section{Module 5: Applications of Differentiation}
+
+\subsection{Textbook Coverage}
+
+\textbf{Chapter 5: Applications of Differentiation}
+
+\begin{itemize}
+    \item 5.1 Extrema and the Mean Value Theorem
+    \item 5.2 Monotonicity and Concavity
+    \item 5.3 Extrema and Inflection Points
+    \item 5.4 Optimization
+    \item 5.5 L'H\^opital's Rule
+    \item 5.6 Graphing and Asymptotes
+    \item 5.10 Antiderivatives
+\end{itemize}
+
+The following sections can be treated as extensions:
+
+\begin{itemize}
+    \item 5.7 Recurrence Equations: Stability
+    \item 5.8 Newton--Raphson Method
+    \item 5.9 Modeling Biological Systems Using Differential Equations
+\end{itemize}
+
+\subsection{Major Concepts}
+
+\begin{itemize}
+    \item Absolute and local extrema.
+    \item Extreme Value Theorem.
+    \item Mean Value Theorem.
+    \item Critical points.
+    \item First derivative and monotonicity.
+    \item Second derivative and concavity.
+    \item Inflection points.
+    \item Optimization.
+    \item Indeterminate forms.
+    \item L'H\^opital's Rule.
+    \item Asymptotes.
+    \item Curve sketching.
+    \item Antiderivatives.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item identify critical points;
+    \item distinguish local and global extrema;
+    \item apply the Extreme Value Theorem;
+    \item apply the Mean Value Theorem;
+    \item determine intervals of increase and decrease;
+    \item determine concavity;
+    \item identify inflection points;
+    \item use first- and second-derivative information to classify extrema;
+    \item solve scientific optimization problems;
+    \item interpret an optimal solution in context;
+    \item analyze asymptotic behavior;
+    \item construct a qualitative graph using calculus;
+    \item use L'H\^opital's Rule for appropriate indeterminate limits;
+    \item recognize antiderivatives as inverse operations to differentiation.
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \item Derivatives.
+    \item Chain rule.
+    \item Algebra.
+    \item Graph interpretation.
+    \item Limits.
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Distinguishing local from absolute extrema.
+    \item Selecting critical points correctly.
+    \item Applying the Mean Value Theorem.
+    \item Relating the first derivative to function behavior.
+    \item Relating the second derivative to concavity.
+    \item Translating word problems into optimization equations.
+    \item Interpreting an optimization result scientifically.
+    \item Combining multiple derivative tests in curve sketching.
+\end{itemize}
+
+\subsection{Optimization Framework}
+
+A general optimization problem should follow:
+
+\[
+\text{Scientific situation}
+\rightarrow
+\text{Variables}
+\rightarrow
+\text{Objective function}
+\rightarrow
+\text{Constraints}
+\rightarrow
+\text{One-variable function}
+\rightarrow
+\text{Derivative}
+\rightarrow
+\text{Critical points}
+\rightarrow
+\text{Optimal solution}
+\rightarrow
+\text{Interpretation}.
+\]
+
+% ============================================================
+\section{Module 6: Antiderivatives and Integration}
+
+\subsection{Textbook Coverage}
+
+\textbf{Chapter 5.10 and Chapter 6}
+
+\begin{itemize}
+    \item 5.10 Antiderivatives
+    \item 6.1 The Definite Integral
+    \item 6.2 The Fundamental Theorem of Calculus
+    \item 6.3 Applications of Integration
+\end{itemize}
+
+\subsection{Major Concepts}
+
+\begin{itemize}
+    \item Antiderivatives.
+    \item Indefinite integrals.
+    \item Accumulation.
+    \item Area under a curve.
+    \item Riemann sums.
+    \item Definite integrals.
+    \item Properties of the integral.
+    \item Fundamental Theorem of Calculus, Part I.
+    \item Fundamental Theorem of Calculus, Part II.
+    \item Cumulative change.
+    \item Average value.
+    \item Area between curves \optional.
+    \item Volume \optional.
+    \item Arc length \optional.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item explain the relationship between derivatives and antiderivatives;
+    \item find basic antiderivatives;
+    \item interpret a definite integral as accumulated change;
+    \item approximate an integral using Riemann sums;
+    \item distinguish a definite integral from an indefinite integral;
+    \item evaluate definite integrals using antiderivatives;
+    \item apply both parts of the Fundamental Theorem of Calculus;
+    \item calculate cumulative change from a rate;
+    \item calculate average values of functions;
+    \item interpret an integral in a biological or scientific context;
+    \item determine appropriate units for an integral.
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \item Limits.
+    \item Derivatives.
+    \item Antiderivatives.
+    \item Algebra.
+    \item Function interpretation.
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+The most important conceptual difficulties are:
+
+\begin{enumerate}
+    \item Understanding the definite integral as accumulation rather than
+          merely ``area.''
+    \item Understanding Riemann sums.
+    \item Connecting a rate function to accumulated quantity.
+    \item Distinguishing $\int f(x)\,dx$ from
+          $\int_a^b f(x)\,dx$.
+    \item Understanding both directions of the Fundamental Theorem of
+          Calculus.
+    \item Setting up integrals from scientific descriptions.
+\end{enumerate}
+
+\subsection{Central Relationship}
+
+The Fundamental Theorem of Calculus connects differentiation and integration:
+
+\[
+\boxed{
+\frac{d}{dx}
+\left(
+\int_a^x f(t)\,dt
+\right)
+=
+f(x)
+}
+\]
+
+and, when $F'(x)=f(x)$,
+
+\[
+\boxed{
+\int_a^b f(x)\,dx
+=
+F(b)-F(a).
+}
+\]
+
+Thus,
+
+\[
+\boxed{
+\text{differentiation}
+\longleftrightarrow
+\text{integration}
+}
+\]
+
+is the central structural idea of the second half of Calculus I.
+
+% ============================================================
+\section{Module 7: Integration Applications for Life and Social Sciences}
+
+\subsection{Core Applications}
+
+The course should prioritize applications that are directly meaningful for
+scientific students.
+
+\subsubsection{Cumulative Change}
+
+If $R(t)$ is a rate of change, then
+
+\[
+\Delta Q
+=
+\int_a^b R(t)\,dt.
+\]
+
+For a population,
+
+\[
+N(b)-N(a)
+=
+\int_a^b N'(t)\,dt.
+\]
+
+For drug concentration or flow-rate models, the same principle can be used
+to recover cumulative quantities.
+
+\subsubsection{Average Value}
+
+For a function $f$ on $[a,b]$,
+
+\[
+f_{\mathrm{avg}}
+=
+\frac{1}{b-a}
+\int_a^b f(x)\,dx.
+\]
+
+Students should be able to distinguish an instantaneous value $f(x)$ from
+the average value over an interval.
+
+\subsubsection{Area}
+
+The definite integral can represent accumulated area:
+
+\[
+A
+=
+\int_a^b f(x)\,dx
+\]
+
+when $f(x)\geq 0$.
+
+More generally, the signed area between two functions is
+
+\[
+A
+=
+\int_a^b
+\left[f(x)-g(x)\right]dx.
+\]
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item identify a rate from a scientific description;
+    \item construct an integral representing accumulated change;
+    \item evaluate the integral;
+    \item determine the correct units;
+    \item interpret the result in context;
+    \item calculate and interpret average values;
+    \item distinguish net accumulation from geometric area.
+\end{enumerate}
+
+% ============================================================
+\section{Prerequisite Dependency Structure}
+
+The conceptual dependency structure of the course is:
+
+\[
+\begin{array}{c}
+\text{Algebra, Functions, Trigonometry} \\[3pt]
+\downarrow \\[3pt]
+\text{Graphing and Modeling} \\[3pt]
+\downarrow \\[3pt]
+\text{Limits and Continuity} \\[3pt]
+\downarrow \\[3pt]
+\text{Derivative} \\[3pt]
+\downarrow \\[3pt]
+\text{Differentiation Rules} \\[3pt]
+\downarrow \\[3pt]
+\text{Applications of Derivatives} \\[3pt]
+\downarrow \\[3pt]
+\text{Antiderivatives} \\[3pt]
+\downarrow \\[3pt]
+\text{Definite Integral} \\[3pt]
+\downarrow \\[3pt]
+\text{Fundamental Theorem of Calculus} \\[3pt]
+\downarrow \\[3pt]
+\text{Applications of Integration}
+\end{array}
+\]
+
+A more detailed dependency graph is:
+
+\[
+\boxed{
+\begin{array}{ccccc}
+\text{Algebra} & \rightarrow & \text{Functions} &
+\rightarrow & \text{Limits} \\[3pt]
+&&&& \downarrow \\[3pt]
+\text{Trigonometry} & \rightarrow & \text{Exponential/Logarithmic Functions}
+&& \text{Derivative} \\[3pt]
+&&&& \downarrow \\[3pt]
+&&&& \text{Differentiation Rules} \\[3pt]
+&&&& \downarrow \\[3pt]
+&&&& \text{Optimization/Graphing} \\[3pt]
+&&&& \downarrow \\[3pt]
+&&&& \text{Antiderivatives} \\[3pt]
+&&&& \downarrow \\[3pt]
+&&&& \text{Definite Integrals} \\[3pt]
+&&&& \downarrow \\[3pt]
+&&&& \text{FTC and Applications}
+\end{array}
+}
+\]
+
+% ============================================================
+\section{Major Difficult Topics}
+
+The following topics should receive additional instructional time and
+practice.
+
+\begin{longtable}{p{0.7cm}p{4.0cm}p{6.5cm}p{3.0cm}}
+\toprule
+\textbf{\#} & \textbf{Topic} & \textbf{Why It Is Difficult}
+& \textbf{Recommended Support} \\
+\midrule
+
+1 & Limits
+& Students must transition from numerical substitution to a conceptual
+notion of approaching a value.
+& Graphical and numerical examples \\
+
+2 & Derivative as a limit
+& Requires students to connect average and instantaneous rates.
+& Secant-to-tangent visualizations \\
+
+3 & Chain Rule
+& Requires identification of nested functions and multiple differentiation
+steps.
+& Layered function notation \\
+
+4 & Implicit Differentiation
+& The dependent variable is not isolated.
+& Step-by-step symbolic practice \\
+
+5 & Related Rates
+& Students must construct the mathematical relationship before differentiating.
+& Modeling diagrams and units \\
+
+6 & Optimization
+& Requires translation from words to mathematical structure.
+& Explicit problem-solving framework \\
+
+7 & Concavity and Inflection
+& Students must interpret the second derivative conceptually.
+& Graph/derivative correspondence \\
+
+8 & Riemann Sums
+& Requires a transition from finite sums to limiting processes.
+& Numerical approximations and graphical areas \\
+
+9 & Fundamental Theorem of Calculus
+& Students must connect two apparently different operations:
+differentiation and integration.
+& Multiple representations \\
+
+10 & Integral Setup
+& The challenge is often modeling rather than integration itself.
+& Rate-to-accumulation problems \\
+
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Suggested 15-Week Course Schedule}
+
+\begin{longtable}{p{0.7cm}p{3.2cm}p{5.5cm}p{4.2cm}}
+\toprule
+\textbf{Week} & \textbf{Module} & \textbf{Topics}
+& \textbf{Major Learning Goal} \\
+\midrule
+
+1
+& Foundations
+& Chapter 1 diagnostic; algebra; functions; graphing
+& Establish prerequisite fluency \\
+
+2
+& Modeling Bridge
+& Exponential growth; recurrence equations; sequences; modeling
+& Translate scientific descriptions into mathematical models \\
+
+3
+& Limits
+& Limit concept; numerical and graphical limits; limit laws
+& Understand and calculate limits \\
+
+4
+& Limits and Continuity
+& Limits at infinity; trigonometric limits; continuity; IVT
+& Connect limits to continuity \\
+
+5
+& Derivatives
+& Derivative definition; tangent lines; rates of change
+& Understand derivative conceptually \\
+
+6
+& Differentiation
+& Power rule; product rule; quotient rule
+& Compute derivatives efficiently \\
+
+7
+& Differentiation
+& Chain rule; trigonometric; exponential and logarithmic derivatives
+& Differentiate composite functions \\
+
+8
+& Differentiation Applications
+& Implicit differentiation; related rates; higher derivatives
+& Model changing quantities \\
+
+9
+& Extrema
+& Critical points; EVT; MVT; monotonicity
+& Analyze function behavior \\
+
+10
+& Concavity and Optimization
+& Concavity; inflection points; optimization
+& Solve scientific optimization problems \\
+
+11
+& Graphing and Antiderivatives
+& Curve sketching; asymptotes; antiderivatives
+& Connect derivatives and antiderivatives \\
+
+12
+& Integration
+& Area problem; Riemann sums; definite integral
+& Understand integration conceptually \\
+
+13
+& Fundamental Theorem
+& FTC Part I and Part II; indefinite integrals
+& Connect differentiation and integration \\
+
+14
+& Integration Applications
+& Cumulative change; average value; area
+& Interpret integrals scientifically \\
+
+15
+& Synthesis
+& Integrated modeling problems; review; applications
+& Select and justify appropriate calculus methods \\
+
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Detailed Weekly Learning Sequence}
+
+\subsection*{Week 1: Prerequisite Readiness}
+
+\textbf{Concepts:}
+\begin{itemize}
+    \item Functions
+    \item Algebraic manipulation
+    \item Graphs
+    \item Exponents and logarithms
+    \item Trigonometry
+\end{itemize}
+
+\textbf{Assessment:}
+Precalculus diagnostic and prerequisite skills quiz.
+
+\subsection*{Week 2: Mathematical Modeling}
+
+\textbf{Concepts:}
+\begin{itemize}
+    \item Exponential growth and decay
+    \item Recurrence equations
+    \item Sequences
+    \item Model assumptions
+\end{itemize}
+
+\textbf{Application:}
+Population growth and physiological/drug models.
+
+\subsection*{Weeks 3--4: Limits and Continuity}
+
+\textbf{Core question:}
+
+\begin{quote}
+What does it mean for a quantity to approach a value?
+\end{quote}
+
+Students move from intuitive graphical ideas to algebraic limit laws and
+continuity.
+
+\subsection*{Weeks 5--7: Differentiation}
+
+\textbf{Core question:}
+
+\begin{quote}
+How quickly is a quantity changing at an instant?
+\end{quote}
+
+The progression should be
+
+\[
+\text{average rate}
+\rightarrow
+\text{limit}
+\rightarrow
+\text{instantaneous rate}
+\rightarrow
+\text{derivative}
+\rightarrow
+\text{differentiation rules}.
+\]
+
+\subsection*{Week 8: Implicit Differentiation and Related Rates}
+
+Students apply derivatives to relationships in which the dependent variable
+is not explicitly isolated and to systems whose quantities change
+simultaneously.
+
+\subsection*{Weeks 9--10: Applications of Differentiation}
+
+Students use derivatives to answer questions such as:
+
+\begin{itemize}
+    \item When is a population increasing most rapidly?
+    \item When does a quantity reach a maximum?
+    \item When is a function increasing or decreasing?
+    \item When does growth accelerate or decelerate?
+    \item What parameter value optimizes a biological process?
+\end{itemize}
+
+\subsection*{Week 11: Antiderivatives}
+
+Students reverse differentiation:
+
+\[
+f'(x)=g(x)
+\qquad\Longrightarrow\qquad
+f(x)=\int g(x)\,dx.
+\]
+
+\subsection*{Weeks 12--13: Definite Integrals and FTC}
+
+Students progress from
+
+\[
+\text{rectangles}
+\rightarrow
+\text{Riemann sums}
+\rightarrow
+\text{definite integral}
+\rightarrow
+\text{Fundamental Theorem}.
+\]
+
+\subsection*{Weeks 14--15: Applications and Synthesis}
+
+The final part of the course should emphasize interpretation and modeling,
+not merely symbolic integration.
+
+% ============================================================
+\section{Core Concept Inventory}
+
+\begin{longtable}{p{4.0cm}p{8.8cm}}
+\toprule
+\textbf{Concept Category} & \textbf{Concepts Students Should Master} \\
+\midrule
+
+Functions
+& Domain, range, composition, inverse functions, transformations,
+polynomial, rational, power, exponential, logarithmic, trigonometric functions \\
+
+Modeling
+& Variables, parameters, assumptions, recurrence equations, model
+interpretation, comparison with data \\
+
+Limits
+& Limit notation, one-sided limits, limit laws, infinite limits, limits at
+infinity, trigonometric limits \\
+
+Continuity
+& Continuity at a point, continuity on an interval, Intermediate Value
+Theorem \\
+
+Derivatives
+& Difference quotient, derivative, tangent line, instantaneous rate,
+differentiability \\
+
+Differentiation
+& Power, product, quotient, chain, implicit differentiation, related rates,
+higher derivatives \\
+
+Derivative Applications
+& Critical points, extrema, MVT, monotonicity, concavity, inflection points,
+optimization, asymptotes, graphing \\
+
+Antiderivatives
+& Antiderivatives, indefinite integrals, constant of integration \\
+
+Integration
+& Area, Riemann sums, definite integrals, accumulation \\
+
+Fundamental Theorem
+& FTC Part I, FTC Part II, derivative-integral relationship \\
+
+Integration Applications
+& Cumulative change, average value, area, scientific interpretation \\
+
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Mathematical Modeling Competencies}
+
+Because the textbook places unusually strong emphasis on modeling, modeling
+should be treated as a course-wide competency rather than as a single
+chapter.
+
+Students should learn the following modeling cycle:
+
+\[
+\boxed{
+\begin{array}{c}
+\text{Real-world phenomenon}\\
+\downarrow\\
+\text{Identify quantities and variables}\\
+\downarrow\\
+\text{State assumptions}\\
+\downarrow\\
+\text{Construct mathematical model}\\
+\downarrow\\
+\text{Analyze mathematically}\\
+\downarrow\\
+\text{Compare with data or expected behavior}\\
+\downarrow\\
+\text{Interpret results}\\
+\downarrow\\
+\text{Evaluate limitations}
+\end{array}
+}
+\]
+
+For every major calculus topic, at least one problem should require students
+to complete this cycle.
+
+% ============================================================
+\section{Application Domains}
+
+The textbook provides extensive life-science applications. For a broader
+Biology and Social Sciences course, the same calculus structures can be
+organized around the following application domains.
+
+\subsection{Biology}
+
+\begin{itemize}
+    \item Population growth.
+    \item Cell growth.
+    \item Population dynamics.
+    \item Species-area relationships.
+    \item Physiological rates.
+    \item Drug concentration and metabolism.
+    \item Chemical reaction rates.
+    \item Ecological processes.
+    \item Epidemiological processes.
+\end{itemize}
+
+\subsection{Health and Medicine}
+
+\begin{itemize}
+    \item Drug absorption and elimination.
+    \item Concentration and dosage models.
+    \item Physiological rates.
+    \item Cumulative exposure.
+    \item Medical optimization problems.
+\end{itemize}
+
+\subsection{Behavioral and Social Sciences}
+
+For a Biology and Social Sciences version of the course, analogous calculus
+problems can be constructed around:
+
+\begin{itemize}
+    \item population and demographic growth;
+    \item migration;
+    \item adoption of information;
+    \item social contagion;
+    \item behavioral change;
+    \item resource allocation;
+    \item marginal effects;
+    \item cost-benefit optimization;
+    \item accumulation of social or economic quantities.
+\end{itemize}
+
+These examples should preserve the mathematical structure of the textbook
+while broadening the application context.
+
+% ============================================================
+\section{Assessment Structure}
+
+A recommended assessment system is:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Assessment Component} & \textbf{Weight} \\
+\midrule
+Prerequisite/Diagnostic Assessment & 5\% \\
+Weekly Homework and Practice & 15\% \\
+Conceptual Quizzes & 10\% \\
+Application/Modeling Assignments & 15\% \\
+Midterm Examination I & 15\% \\
+Midterm Examination II & 15\% \\
+Final Examination & 25\% \\
+\midrule
+\textbf{Total} & \textbf{100\%} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The exact percentages can be modified according to institutional policy.
+
+% ============================================================
+\section{Assessment by Learning Domain}
+
+\begin{longtable}{p{4cm}p{7cm}p{3cm}}
+\toprule
+\textbf{Domain} & \textbf{Student Performance}
+& \textbf{Assessment} \\
+\midrule
+
+Procedural Fluency
+& Compute limits, derivatives, antiderivatives, and integrals
+& Quizzes/Homework \\
+
+Conceptual Understanding
+& Explain limits, derivatives, integrals, and FTC
+& Conceptual Questions \\
+
+Graphical Reasoning
+& Interpret functions and derivative/integral graphs
+& Quizzes/Exams \\
+
+Modeling
+& Translate scientific situations into equations
+& Modeling Assignments \\
+
+Interpretation
+& Explain results in scientific language
+& Application Problems \\
+
+Problem Solving
+& Select and justify an appropriate calculus method
+& Exams/Projects \\
+
+Communication
+& Clearly present mathematical reasoning and units
+& Written Assignments \\
+
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Recommended Teaching Strategy}
+
+The course should use four representations repeatedly:
+
+\[
+\boxed{
+\text{Symbolic}
+\quad
+\text{Graphical}
+\quad
+\text{Numerical}
+\quad
+\text{Verbal}
+}
+\]
+
+For example, when introducing a derivative:
+
+\begin{itemize}
+    \item \textbf{Verbal:} instantaneous rate of change;
+    \item \textbf{Graphical:} slope of a tangent line;
+    \item \textbf{Numerical:} limit of secant slopes;
+    \item \textbf{Symbolic:}
+          \[
+          f'(x)=\lim_{h\to0}
+          \frac{f(x+h)-f(x)}{h}.
+          \]
+\end{itemize}
+
+The same four-representation strategy should be used for limits,
+differentiation, optimization, and integration.
+
+% ============================================================
+\section{Technology Integration}
+
+Technology should support conceptual understanding rather than replace
+mathematical reasoning.
+
+Recommended uses include:
+
+\begin{itemize}
+    \item graphing calculators;
+    \item spreadsheet calculations;
+    \item numerical approximation;
+    \item graphical exploration;
+    \item parameter exploration;
+    \item model comparison;
+    \item numerical root-finding;
+    \item numerical integration.
+\end{itemize}
+
+Students should still be required to explain:
+
+\begin{enumerate}
+    \item what calculation they performed;
+    \item why the method is appropriate;
+    \item what the result means;
+    \item what the units are;
+    \item what assumptions underlie the result.
+\end{enumerate}
+
+% ============================================================
+\section{Recommended Core versus Optional Material}
+
+\subsection{Core Calculus I}
+
+\begin{itemize}
+    \item Chapter 1 prerequisite review.
+    \item Chapter 2 modeling bridge, especially Section 2.3.
+    \item Chapter 3.
+    \item Chapter 4.
+    \item Sections 5.1--5.6.
+    \item Section 5.10.
+    \item Sections 6.1--6.3.
+\end{itemize}
+
+\subsection{Optional Enrichment}
+
+Depending on available time:
+
+\begin{itemize}
+    \item Section 3.6: Formal definition of limits.
+    \item Section 5.7: Stability of recurrence equations.
+    \item Section 5.8: Newton--Raphson method.
+    \item Section 5.9: Biological differential-equation modeling.
+    \item Sections 6.3.4--6.3.6: additional geometric applications.
+    \item Section 7.1: substitution rule.
+    \item Section 7.5: numerical integration.
+\end{itemize}
+
+The textbook itself identifies a number of sections with an asterisk as
+optional, including more formal treatments and additional modeling
+applications. These can be selected according to course time and student
+needs.
+
+% ============================================================
+\section{Minimum Competency Standards}
+
+A student successfully completing Calculus I should be able to solve the
+following categories of problems without relying on memorized procedures
+alone.
+
+\subsection*{Competency 1: Function Analysis}
+
+Given
+
+\[
+f(x)=\frac{x^2+1}{x-2},
+\]
+
+the student can determine the domain, identify relevant graph behavior, and
+interpret the function.
+
+\subsection*{Competency 2: Limit}
+
+Given
+
+\[
+\lim_{x\to a}f(x),
+\]
+
+the student can estimate and calculate the limit and explain its meaning.
+
+\subsection*{Competency 3: Derivative}
+
+Given a model $N(t)$, the student can calculate
+
+\[
+N'(t)
+\]
+
+and explain what the derivative means in terms of the modeled quantity.
+
+\subsection*{Competency 4: Optimization}
+
+Given a scientific objective and constraints, the student can construct an
+objective function, differentiate it, identify candidate extrema, and
+interpret the optimal value.
+
+\subsection*{Competency 5: Accumulation}
+
+Given a rate $R(t)$, the student can construct
+
+\[
+\int_a^b R(t)\,dt
+\]
+
+and explain the accumulated quantity represented by the integral.
+
+\subsection*{Competency 6: Fundamental Theorem}
+
+The student can move between
+
+\[
+f(t)
+\quad\leftrightarrow\quad
+\int_a^t f(s)\,ds
+\quad\leftrightarrow\quad
+\frac{d}{dt}
+\left[
+\int_a^t f(s)\,ds
+\right].
+\]
+
+% ============================================================
+\section{Course Capstone}
+
+The final course assessment should include a small mathematical-modeling
+problem in which students must use several calculus ideas.
+
+A recommended structure is:
+
+\begin{enumerate}
+    \item Define a real-world quantity $Q(t)$.
+    \item Identify the relevant variables and parameters.
+    \item State assumptions.
+    \item Construct a mathematical model.
+    \item Analyze the model using derivatives.
+    \item Determine an important maximum, minimum, or rate.
+    \item Use integration to calculate cumulative change where appropriate.
+    \item Interpret the result.
+    \item Discuss model limitations.
+\end{enumerate}
+
+The final product should demonstrate that students understand calculus as a
+tool for analyzing changing quantities rather than as a collection of
+isolated computational techniques.
+
+% ============================================================
+\section{Summary Course Map}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|c|c}
+\toprule
+\textbf{Stage} & \textbf{Mathematical Question} & \textbf{Core Tool} \\
+\midrule
+1 & How are quantities related? & Functions \\
+2 & What happens as a quantity approaches a value? & Limits \\
+3 & Is the function behaving continuously? & Continuity \\
+4 & How quickly is a quantity changing? & Derivative \\
+5 & When does the quantity increase/decrease fastest? & Derivative Analysis \\
+6 & What value optimizes the system? & Optimization \\
+7 & What accumulated quantity results from a rate? & Integral \\
+8 & How are rates and accumulated quantities related? & FTC \\
+9 & How can calculus explain a scientific phenomenon? & Mathematical Modeling \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+The overall intellectual progression of the course is therefore:
+
+\[
+\boxed{
+\begin{aligned}
+\text{Functions}
+&\rightarrow
+\text{Modeling}
+\rightarrow
+\text{Limits}
+\rightarrow
+\text{Continuity}
+\\
+&\rightarrow
+\text{Derivatives}
+\rightarrow
+\text{Applications}
+\rightarrow
+\text{Antiderivatives}
+\\
+&\rightarrow
+\text{Definite Integrals}
+\rightarrow
+\text{Fundamental Theorem}
+\rightarrow
+\text{Accumulation and Modeling}.
+\end{aligned}
+}
+\]
+
+% ============================================================
+\section{Recommended Final Course Outcomes}
+
+Upon successful completion of the course, students will be able to:
+
+\begin{enumerate}
+    \item use algebraic, graphical, numerical, and symbolic representations
+          of functions;
+    \item construct and interpret elementary mathematical models;
+    \item evaluate and interpret limits;
+    \item determine continuity;
+    \item calculate and interpret derivatives;
+    \item apply differentiation rules accurately;
+    \item analyze functions using first- and second-derivative information;
+    \item solve optimization and related-rate problems;
+    \item find antiderivatives;
+    \item interpret and calculate definite integrals;
+    \item use the Fundamental Theorem of Calculus;
+    \item calculate cumulative change and average values;
+    \item interpret calculus results in biological, health, behavioral, or
+          social-science contexts;
+    \item communicate mathematical reasoning clearly;
+    \item recognize assumptions and limitations in mathematical models; and
+    \item use calculus as a quantitative reasoning tool for scientific
+          decision-making.
+\end{enumerate}
+
+% ============================================================
+\section{Textbook-to-Course Crosswalk}
+
+\begin{longtable}{p{2.3cm}p{4.0cm}p{6.3cm}p{2.2cm}}
+\toprule
+\textbf{Textbook} & \textbf{Course Module} & \textbf{Primary Role}
+& \textbf{Status} \\
+\midrule
+
+Ch. 1
+& Prerequisite Foundations
+& Algebra, functions, trigonometry, graphing
+& Review \\
+
+Ch. 2
+& Modeling Bridge
+& Recurrence equations, sequences, exponential models
+& Enrichment/Core bridge \\
+
+Ch. 3
+& Limits and Continuity
+& Conceptual foundation for calculus
+& Core \\
+
+Ch. 4
+& Differentiation
+& Definition and mechanics of derivatives
+& Core \\
+
+5.1--5.6
+& Applications of Differentiation
+& Extrema, MVT, monotonicity, concavity, optimization
+& Core \\
+
+5.10
+& Antiderivatives
+& Preparation for integration
+& Core \\
+
+6.1
+& Definite Integral
+& Area, Riemann integral, accumulation
+& Core \\
+
+6.2
+& Fundamental Theorem
+& Differentiation/integration connection
+& Core \\
+
+6.3
+& Applications of Integration
+& Cumulative change and average values
+& Core \\
+
+7.1
+& Substitution
+& Integration technique
+& Optional/Next course \\
+
+7.2
+& Integration by Parts
+& Advanced integration
+& Next course \\
+
+8
+& Differential Equations
+& Continuous-time modeling
+& Next course \\
+
+9--12
+& Advanced Quantitative Methods
+& Linear algebra, multivariable calculus, systems, probability/statistics
+& Subsequent courses \\
+
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section*{Final Design Principle}
+
+The course should not be organized simply as
+
+\[
+\text{``limits} \rightarrow \text{derivatives} \rightarrow
+\text{integrals.''}
+\]
+
+Instead, for Biology and Social Sciences students, the organizing principle
+should be:
+
+\[
+\boxed{
+\text{Phenomenon}
+\rightarrow
+\text{Model}
+\rightarrow
+\text{Mathematical Question}
+\rightarrow
+\text{Calculus Tool}
+\rightarrow
+\text{Interpretation}
+}
+\]
+
+This preserves the central philosophy of the textbook: calculus is presented
+as a rigorous mathematical framework for analyzing phenomena in the living
+world, while students develop the ability to transfer mathematical concepts
+to scientific situations.
+
+\end{document}

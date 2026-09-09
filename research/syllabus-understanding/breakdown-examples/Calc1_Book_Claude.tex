@@ -1,0 +1,771 @@
+\documentclass[11pt]{article}
+
+% ---------- Page & fonts ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper, margin=0.85in]{geometry}
+\usepackage{parskip}
+
+% ---------- Math ----------
+\usepackage{amsmath, amssymb}
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{colortbl}
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, parsep=0pt}
+
+% ---------- Color & boxes ----------
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% ---------- Section styling ----------
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+% ---------- Diagrams ----------
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+% ---------- Links ----------
+\usepackage{hyperref}
+
+% ================= Color palette =================
+\definecolor{primary}{HTML}{123C69}   % deep navy - headings
+\definecolor{secondary}{HTML}{1B6B93} % steel blue
+\definecolor{accent}{HTML}{2E8B57}    % sea green - bio applications
+\definecolor{soft}{HTML}{EAF2F8}      % pale blue box background
+\definecolor{softgreen}{HTML}{E9F5EC} % pale green box background
+\definecolor{diffgreenc}{HTML}{2E7D32}
+\definecolor{diffamberc}{HTML}{B8860B}
+\definecolor{diffredc}{HTML}{B03A2E}
+\definecolor{rulegray}{HTML}{B0B7BE}
+
+% ================= Difficulty macros =================
+\newcommand{\diffL}{\textcolor{diffgreenc}{\textbf{Low}}}
+\newcommand{\diffM}{\textcolor{diffamberc}{\textbf{Med}}}
+\newcommand{\diffH}{\textcolor{diffredc}{\textbf{High}}}
+\newcommand{\opt}{$^{\ast}$}
+
+% ================= Section title styling =================
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primary}}
+  {\thesection}{0.6em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{secondary}}
+  {\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\color{primary!80!black}}
+  {\thesubsubsection}{0.5em}{}
+
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+\titlespacing*{\subsection}{0pt}{14pt}{6pt}
+
+% ================= Header/Footer =================
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhead[L]{\small\textcolor{primary}{Calculus 1 for Biological \& Social Sciences}}
+\fancyhead[R]{\small\textcolor{primary}{Course Breakdown}}
+\fancyfoot[C]{\small\thepage}
+
+% ================= Hyperref setup =================
+\hypersetup{
+  colorlinks=true,
+  linkcolor=secondary,
+  citecolor=secondary,
+  urlcolor=secondary,
+  bookmarksopen=true,
+  pdftitle={Calculus 1 for Biological and Social Sciences: Course Breakdown},
+  pdfauthor={Course Design based on Neuhauser \& Roper, Calculus for Biology and Medicine, 4th ed.}
+}
+
+% ================= Custom box environments =================
+\newtcolorbox{modulebox}[2]{
+  enhanced, breakable, colback=soft, colframe=primary,
+  boxrule=0.6pt, arc=2pt, left=6pt, right=6pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries, coltitle=white, colbacktitle=primary,
+  title=#1, #2
+}
+
+\newtcolorbox{diffbox}{
+  enhanced, breakable, colback=white, colframe=diffredc,
+  boxrule=0.6pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  fonttitle=\bfseries, coltitle=white, colbacktitle=diffredc,
+  title=Watch-Out: Cross-Cutting Difficulty
+}
+
+\newtcolorbox{appbox}{
+  enhanced, breakable, colback=softgreen, colframe=accent,
+  boxrule=0.6pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  fonttitle=\bfseries, coltitle=white, colbacktitle=accent,
+  title=Biological / Social-Science Applications Emphasized
+}
+
+% Column type for wrapped text in tables
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{\vspace{-1.5cm}\textcolor{primary}{\huge\bfseries Calculus 1 for\\ Biological \& Social Sciences}\\[6pt]
+\textcolor{secondary}{\Large A Full Course Breakdown}}
+\author{\normalsize Based on: Neuhauser, C. \& Roper, M.\,L.\\ \emph{Calculus for Biology and Medicine}, 4th ed. (Pearson, 2018)}
+\date{One-Semester (15-Week) Course $\cdot$ Chapters 1--6}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{center}
+\begin{tcolorbox}[enhanced, colback=soft, colframe=primary,
+  arc=3pt, boxrule=0.7pt]
+\centering
+\textbf{At a Glance} \\[4pt]
+\begin{tabular}{>{\raggedleft\arraybackslash}p{2.2cm} P{11.3cm}}
+Textbook: & \emph{Calculus for Biology and Medicine}, 4th ed., Neuhauser \& Roper (Pearson, 2018) \\
+Coverage: & Chapters 1--6 (Preview/Review through Integration) \\
+Format: & 15 weeks of instruction + final exam week; 3 lecture hrs/wk (+ 1 recitation) \\
+Audience: & First-year students in life sciences, health sciences, and social sciences \\
+Prerequisite: & Algebra II / Precalculus (placement exam or equivalent) \\
+Leads to: & \emph{Calculus 2 for Biological \& Social Sciences} (Chapters 7--12) \\
+\end{tabular}
+\end{tcolorbox}
+\end{center}
+
+\vspace{0.3cm}
+\tableofcontents
+
+\newpage
+
+%==================================================================
+\section{Course Description and Design Rationale}
+%==================================================================
+
+\emph{Calculus for Biology and Medicine} (4th ed.) is written for a one- or two-semester
+calculus sequence for life-science and social-science majors. Its twelve chapters run from
+precalculus review through probability and statistics, and the authors explicitly design
+sections marked with an asterisk (\opt) as optional ``instructor's choice'' material that
+can be trimmed without breaking the logical flow of the book.
+
+This document treats \textbf{Chapters 1--6} as \emph{Calculus 1}: precalculus review,
+discrete-time (recurrence) models, limits and continuity, differentiation, applications of
+differentiation, and integration through the Fundamental Theorem of Calculus. This mirrors
+how the book is used in two-semester bio-calculus tracks (e.g., the first course covers
+single-variable differential and integral calculus, and a second course, \emph{Calculus 2},
+covers Chapters 7--12: integration techniques, differential equations, linear algebra,
+multivariable calculus, systems of differential equations, and probability/statistics --
+see Appendix~\ref{app:calc2}). Instructors on a one-semester-only track can compress the
+schedule in Section~\ref{sec:schedule} by cutting all asterisked (\opt) subsections.
+
+\textbf{Distinguishing feature of this course:} unlike a generic ``applied calculus''
+course, every mathematical tool is introduced through a biological or social-science model
+first (population growth, drug absorption and elimination, enzyme kinetics, epidemics,
+allometric scaling, blood alcohol elimination, oxygen binding in blood) and only then
+treated with full mathematical rigor. Word-problem literacy -- turning a verbal description
+of a process into an equation -- is therefore treated as a first-class course objective,
+not an afterthought.
+
+%==================================================================
+\section{Course-Level Student Learning Outcomes (SLOs)}
+%==================================================================
+
+By the end of the course, a successful student will be able to:
+
+\begin{enumerate}[label=\textbf{SLO\arabic*.}, leftmargin=2.6em]
+\item \textbf{Model discrete and continuous change.} Translate a verbal description of a
+      biological or social process into a recurrence equation, a limit statement, a
+      derivative, or a definite integral, and interpret the mathematical result back in
+      the original context.
+\item \textbf{Evaluate limits and determine continuity} of algebraic, exponential,
+      logarithmic, and trigonometric functions, including limits at infinity and limits
+      that require the sandwich theorem.
+\item \textbf{Differentiate} elementary, polynomial, rational, power, exponential,
+      logarithmic, and trigonometric functions using the formal definition and the rules
+      of differentiation (sum, product, quotient, chain, implicit).
+\item \textbf{Apply derivatives} to find extrema, analyze monotonicity and concavity,
+      solve optimization and related-rates problems, evaluate indeterminate forms
+      (L'H\^{o}pital's Rule), and produce derivative-informed graphs.
+\item \textbf{Evaluate definite and indefinite integrals}, state and apply both parts of
+      the Fundamental Theorem of Calculus, and interpret a definite integral as
+      cumulative change or an average value.
+\item \textbf{Use technology} (graphing calculators or spreadsheets) to visualize
+      functions and data, iterate recurrence equations, and implement simple numerical
+      methods (bisection, Newton--Raphson).
+\item \textbf{Communicate quantitative reasoning}, including the assumptions behind a
+      mathematical model, its limitations, and how well it fits real or simulated data.
+\end{enumerate}
+
+%==================================================================
+\section{Prerequisite Topics (Course Entry Requirements)}
+\label{sec:prereq}
+%==================================================================
+
+Formal prerequisite: a passing grade in Algebra II / Precalculus, or a satisfactory score
+on a placement/diagnostic exam. Chapter 1 of the text (\S1.1--\S1.4) is built into Week 1--2
+of the schedule as an explicit, graded review rather than an assumption, since incoming
+preparation varies widely between life-science and social-science students. Students should
+arrive able to:
+
+\begin{itemize}
+\item Perform algebraic manipulation of real numbers, absolute values, and inequalities.
+\item Write the equation of a line (point--slope, slope--intercept, standard form) and a circle.
+\item Convert between degrees and radians and recall basic trigonometric identities.
+\item Apply the laws of exponents and logarithms; solve simple exponential/log equations.
+\item Solve linear and quadratic equations, including via the quadratic formula.
+\item Identify domain, range, and composition of a function from a formula or graph.
+\item Recognize and sketch polynomial, rational, power, exponential, logarithmic,
+      and trigonometric functions, and apply basic graph transformations.
+\end{itemize}
+
+\begin{tcolorbox}[enhanced, colback=soft, colframe=secondary, arc=2pt, boxrule=0.5pt,
+  title={\bfseries Built-in Diagnostic}, fonttitle=\bfseries, coltitle=white, colbacktitle=secondary]
+Section 1.1, \emph{Precalculus Skills Diagnostic Test}, should be assigned before the first
+class meeting (self-graded or auto-graded in MyLab Math). Students who miss more than
+20\% of items are directed to the matching subsection of \S1.2--\S1.4 for targeted review
+during Week 1--2 office hours / recitation.
+\end{tcolorbox}
+
+%==================================================================
+\section{Course Map}
+%==================================================================
+
+The six chapters are organized into six teaching modules. Modules~1 and~2 both build
+directly on Module~0's function toolkit; Module~2's continuous-limit concept is a
+prerequisite for all of differential calculus (Modules~3--4) and integral calculus
+(Module~5).
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  every node/.style={rectangle, rounded corners=3pt, draw, thick, minimum width=2.55cm,
+    minimum height=1.15cm, align=center, font=\small},
+  arrow/.style={-{Latex[length=2.2mm]}, thick, color=primary}
+]
+\node[fill=primary!85!black, text=white] (m0) {Module 0\\Precalculus\\Foundations};
+\node[fill=secondary!85!black, text=white, right=0.9cm of m0] (m1) {Module 1\\Discrete-Time\\Models};
+\node[fill=secondary!70!black, text=white, right=0.9cm of m1] (m2) {Module 2\\Limits \&\\Continuity};
+\node[fill=accent!80!black, text=white, right=0.9cm of m2] (m3) {Module 3\\Differentiation};
+\node[fill=accent!65!black, text=white, right=0.9cm of m3] (m4) {Module 4\\Applications of\\Differentiation};
+\node[fill=diffamberc!85!black, text=white, right=0.9cm of m4] (m5) {Module 5\\Integration};
+
+\draw[arrow] (m0) -- (m1);
+\draw[arrow] (m0) -- (m2);
+\draw[arrow] (m2) -- (m3);
+\draw[arrow] (m3) -- (m4);
+\draw[arrow] (m3) -- (m5);
+\draw[arrow] (m4) -- (m5);
+\end{tikzpicture}%
+}
+\end{center}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{cc P{6.4cm} cc}
+\toprule
+\textbf{Module} & \textbf{Chapter} & \textbf{Title} & \textbf{Sections} & \textbf{Weeks} \\
+\midrule
+0 & Ch.\,1 & Preview and Review & 1.1--1.4 & 1--2 \\
+1 & Ch.\,2 & Discrete-Time Models, Sequences \& Difference Equations & 2.1--2.3 & 3--4 \\
+2 & Ch.\,3 & Limits and Continuity & 3.1--3.6\opt & 5--6 \\
+3 & Ch.\,4 & Differentiation & 4.1--4.11 & 7--10 \\
+4 & Ch.\,5 & Applications of Differentiation & 5.1--5.10 & 11--13 \\
+5 & Ch.\,6 & Integration & 6.1--6.3 & 14--15 \\
+\bottomrule
+\end{tabular}
+\caption{Module-to-chapter map. \opt\ marks sections containing optional/asterisked material.}
+\end{table}
+
+\newpage
+%==================================================================
+\section{Detailed Module Breakdown}
+%==================================================================
+
+Each module below lists: the textbook sections covered, section-level learning objectives,
+a difficulty rating (\diffL / \diffM / \diffH) reflecting typical student difficulty (not
+mathematical importance), the module's internal prerequisites, and the biological/social
+applications the book uses to motivate the mathematics. Sections marked \opt\ are the
+text's own asterisked (optional) topics.
+
+%------------------------------------------------------------------
+\subsection*{Module 0 --- Precalculus Foundations (Chapter 1)}
+\addcontentsline{toc}{subsection}{Module 0 --- Precalculus Foundations (Chapter 1)}
+
+\begin{modulebox}{Module 0 at a Glance}{}
+\textbf{Chapter:} 1 -- Preview and Review \quad\textbf{Sections:} 1.1--1.4 \quad
+\textbf{Weeks:} 1--2 \quad \textbf{Overall difficulty:} \diffL\ (review of prior material,
+but pace matters because gaps compound later) \quad
+\textbf{Prerequisite:} Algebra II / Precalculus (see \S\ref{sec:prereq})
+\end{modulebox}
+
+\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endhead
+1.1 & Precalculus Skills Diagnostic Test & Self-assess mastery of prerequisite skills and identify sections needing review. & \diffL \\
+1.2.1 & The Real Numbers & Use interval notation, absolute value, and proportionality to describe and solve inequalities. & \diffL \\
+1.2.2 & Lines in the Plane & Write the equation of a line in point--slope, slope--intercept, and standard form; interpret slope as a constant rate of change. & \diffL \\
+1.2.3 & Equation of the Circle & Derive and apply the standard equation of a circle. & \diffL \\
+1.2.4 & Trigonometry & Convert between degrees and radians; use the unit circle and core identities. & \diffM \\
+1.2.5 & Exponentials and Logarithms & Apply exponent/logarithm laws to simplify expressions and solve equations (e.g., half-life). & \diffM \\
+1.2.6 & Complex Numbers and Quadratic Equations & Solve quadratic equations, including complex-root cases, via the quadratic formula. & \diffL \\
+1.3.1 & What Is a Function? & Determine domain, codomain, range; evaluate and compose functions. & \diffL \\
+1.3.2 & Polynomial Functions & Analyze degree, roots, and end behavior of polynomials. & \diffL \\
+1.3.3 & Rational Functions & Identify domain restrictions and asymptotes (e.g., Monod growth function). & \diffM \\
+1.3.4 & Power Functions & Distinguish power-law (allometric) relationships from exponential growth. & \diffL \\
+1.3.5 & Exponential Functions & Model exponential growth/decay using base-$e$ and general-base exponentials. & \diffM \\
+1.3.6 & Inverse Functions & Determine when a function is one-to-one and construct its inverse. & \diffM \\
+1.3.7 & Logarithmic Functions & Use logarithms as inverses of exponentials; convert between exponential and log form. & \diffM \\
+1.3.8 & Trigonometric Functions & Graph and use sine/cosine/tangent to describe periodic phenomena (e.g., circadian rhythms). & \diffM \\
+1.4.1 & Graphing and Basic Transformations & Apply shifts, stretches, and reflections to sketch transformed functions. & \diffL \\
+1.4.2 & The Logarithmic Scale & Read and construct log and semilog scales for data spanning many orders of magnitude. & \diffM \\
+1.4.3 & Transformations into Linear Functions & Linearize power-law/exponential data via log--log or semilog plots to estimate model parameters. & \diffH \\
+1.4.4\opt & From a Verbal Description to a Graph & Translate a qualitative verbal description of a process into a rough graph. & \diffM \\
+\bottomrule
+\end{longtable}
+
+\begin{appbox}
+Chemical reaction rates (law of mass action), radioactive decay and half-life, the Monod
+growth function, allometric (power-law) scaling of body size, log--log and semilog plots of
+population and fish-yield data.
+\end{appbox}
+
+%------------------------------------------------------------------
+\subsection*{Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)}
+\addcontentsline{toc}{subsection}{Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)}
+
+\begin{modulebox}{Module 1 at a Glance}{}
+\textbf{Chapter:} 2 \quad\textbf{Sections:} 2.1--2.3 \quad\textbf{Weeks:} 3--4 \quad
+\textbf{Overall difficulty:} \diffM\ (first exposure to formal limit language and to
+$\Sigma$-notation) \quad\textbf{Prerequisite:} Module 0 (exponential/log functions, function
+composition)
+\end{modulebox}
+
+\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endhead
+2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \diffM \\
+2.1.2 & Recurrence Equations & Solve simple linear recurrence equations for an explicit (closed-form) formula. & \diffM \\
+2.1.3 & Visualizing Recurrence Equations & Use step/time-series plots to visualize the behavior of a recurrence equation. & \diffL \\
+2.2.1 & What Are Sequences? & Distinguish an explicit formula for a sequence from a recursive definition. & \diffL \\
+2.2.2\opt & Spreadsheets for Recursive Sequences & Iterate a recurrence equation numerically in a spreadsheet. & \diffL \\
+2.2.3 & Limits (of Sequences) & Determine convergence/divergence of a sequence and compute limits using limit laws. & \diffH \\
+2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \diffM \\
+2.2.5 & $\Sigma$-Notation for Sums & Write and evaluate finite and infinite sums of sequence terms using sigma notation. & \diffH \\
+2.3.1 & Density-Dependent Population Growth & Explain why per-capita growth typically declines with density; build a density-dependent model. & \diffM \\
+2.3.2 & The Beverton--Holt Model & Analyze the Beverton--Holt recurrence equation and identify its equilibrium. & \diffM \\
+2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \diffH \\
+2.3.4\opt & Modeling Drug Absorption & Build and iterate a discrete two-compartment model of drug absorption/elimination. & \diffM \\
+\bottomrule
+\end{longtable}
+
+\begin{appbox}
+Discrete population growth, red-wolf conservation data, the Beverton--Holt and discrete
+logistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug
+absorption/elimination.
+\end{appbox}
+
+\begin{diffbox}
+\textbf{$\Sigma$-notation and sequence limits (\S2.2.3, \S2.2.5)} are usually the first
+genuinely abstract notation students meet in the course. Because $\Sigma$-notation recurs
+in every later chapter (Riemann sums in Ch.\,6, series ideas in Ch.\,7), under-teaching it
+here creates compounding difficulty later. Budget an extra recitation for worked
+$\Sigma$-notation practice, and preview that a sequence limit is conceptually the same
+object as the function limits of Chapter 3.
+\end{diffbox}
+
+%------------------------------------------------------------------
+\subsection*{Module 2 --- Limits and Continuity (Chapter 3)}
+\addcontentsline{toc}{subsection}{Module 2 --- Limits and Continuity (Chapter 3)}
+
+\begin{modulebox}{Module 2 at a Glance}{}
+\textbf{Chapter:} 3 \quad\textbf{Sections:} 3.1--3.6\opt \quad\textbf{Weeks:} 5--6 \quad
+\textbf{Overall difficulty:} \diffM\text{--}\diffH \quad
+\textbf{Prerequisite:} Module 0 (elementary functions); informal limit intuition from
+Module 1
+\end{modulebox}
+
+\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endhead
+3.1.1 & A Non-Rigorous Discussion of Limits & Estimate $\lim_{x\to c} f(x)$ numerically and graphically. & \diffL \\
+3.1.2 & Pitfalls of Finding Limits & Recognize one-sided limits and oscillation as cases where a limit fails to exist. & \diffM \\
+3.1.3 & Limit Laws & Apply the limit laws (sum, product, quotient, composition) to evaluate limits algebraically. & \diffM \\
+3.2.1 & What Is Continuity? & Test continuity of a function at a point using the three-part definition. & \diffM \\
+3.2.2 & Combinations of Continuous Functions & Determine continuity of sums, products, quotients, and compositions of continuous functions. & \diffL \\
+3.3 & Limits at Infinity & Evaluate limits at infinity to find horizontal asymptotes and long-run model behavior. & \diffM \\
+3.4.1 & Trigonometric Limits & Derive $\lim_{x\to 0}\frac{\sin x}{x}=1$ using a geometric argument. & \diffM \\
+3.4.2\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \diffM \\
+3.5.1 & IVT and the Bisection Method & Use the Intermediate-Value Theorem to guarantee a root, and approximate it via bisection. & \diffM \\
+3.5.2\opt & Spreadsheet Bisection & Implement the bisection method numerically in a spreadsheet. & \diffL \\
+3.5.3 & A Final Remark on Continuity & Summarize the practical consequences of continuity for graphing and modeling. & \diffL \\
+3.6\opt & Formal ($\varepsilon$--$\delta$) Definition of Limits & State and apply the formal $\varepsilon$--$\delta$ definition of a limit. & \diffH \\
+\bottomrule
+\end{longtable}
+
+\begin{appbox}
+Population-size models with a horizontal asymptote (carrying capacity), damped oscillatory
+population signals analyzed via the sandwich theorem, stimulus--response threshold
+functions (quorum sensing), root-finding for model equations via bisection.
+\end{appbox}
+
+\begin{diffbox}
+\textbf{The $\varepsilon$--$\delta$ definition (\S3.6)} is asterisked by the authors
+precisely because it is not needed downstream in this book -- treat it as enrichment for
+students continuing toward a physical-science/engineering calculus track, and feel free to
+replace class time on it with extra practice on limit laws and continuity, which
+\emph{are} used throughout Chapters 4--8.
+\end{diffbox}
+
+%------------------------------------------------------------------
+\subsection*{Module 3 --- Differentiation (Chapter 4)}
+\addcontentsline{toc}{subsection}{Module 3 --- Differentiation (Chapter 4)}
+
+\begin{modulebox}{Module 3 at a Glance}{}
+\textbf{Chapter:} 4 \quad\textbf{Sections:} 4.1--4.11 \quad\textbf{Weeks:} 7--10 \quad
+\textbf{Overall difficulty:} \diffM\text{--}\diffH \quad
+\textbf{Prerequisite:} Module 2 (limits, continuity); Module 0 (all elementary function
+families)
+\end{modulebox}
+
+\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endhead
+4.1 & Formal Definition of the Derivative & Compute derivatives from the difference-quotient limit; interpret as tangent slope / instantaneous rate. & \diffH \\
+4.2.1 & Interpreting the Derivative & Interpret derivative values in context (velocity, reaction rate, growth rate). & \diffM \\
+4.2.2 & Differentiability and Continuity & Explain the relationship between differentiability and continuity; find points of non-differentiability. & \diffM \\
+4.3 & Power Rule and Basic Rules & Differentiate polynomials and power functions using the power, sum, and constant-multiple rules. & \diffL \\
+4.4.1 & The Product Rule & Differentiate products of functions. & \diffM \\
+4.4.2 & The Quotient Rule & Differentiate quotients, including rational and power functions. & \diffM \\
+4.5.1 & The Chain Rule & Differentiate composite functions. & \diffH \\
+4.5.2 & Proof of the Chain Rule & Follow a rigorous justification of the chain rule. & \diffM \\
+4.6.1 & Implicit Differentiation & Differentiate implicitly defined relations to find $dy/dx$. & \diffH \\
+4.6.2 & Related Rates & Set up and solve related-rates problems by differentiating a relation between time-dependent quantities. & \diffH \\
+4.7 & Higher Derivatives & Compute second and higher derivatives; interpret their meaning. & \diffL \\
+4.8 & Derivatives of Trigonometric Functions & Differentiate sine, cosine, tangent, and their combinations. & \diffM \\
+4.9 & Derivatives of Exponential Functions & Differentiate $e^{x}$, $a^{x}$, and exponential growth/decay models. & \diffM \\
+4.10.1 & Derivatives of Inverse Functions & Differentiate an inverse function using the inverse function theorem. & \diffM \\
+4.10.2 & Derivative of the Logarithmic Function & Differentiate $\ln x$ and general logarithms. & \diffM \\
+4.10.3\opt & Logarithmic Differentiation & Use logarithmic differentiation for products/quotients/powers of functions. & \diffM \\
+4.11 & Linear Approximation and Error Propagation & Use a tangent-line approximation to estimate function values and propagate measurement error. & \diffH \\
+\bottomrule
+\end{longtable}
+
+\begin{appbox}
+Reaction and growth rates as derivatives, chemical-kinetics interpretations, allometric and
+exponential growth-rate models, drug-concentration curves, error propagation in
+measurement-based biological quantities (e.g., estimating a rate from a noisy measurement).
+\end{appbox}
+
+\begin{diffbox}
+\textbf{The chain rule (\S4.5)} and \textbf{related rates (\S4.6.2)} are the two most
+commonly mis-executed skills in this module. The chain rule fails most often when
+functions are triple-composed (e.g., $e^{\sin(2x)}$); related rates fail most often at the
+translation step (turning a verbal scenario into a differentiable equation) rather than at
+the differentiation step itself. Dedicate at least one full recitation to each, using a
+``diagram-first'' strategy for related rates (label all time-dependent quantities before
+differentiating).
+\end{diffbox}
+
+%------------------------------------------------------------------
+\subsection*{Module 4 --- Applications of Differentiation (Chapter 5)}
+\addcontentsline{toc}{subsection}{Module 4 --- Applications of Differentiation (Chapter 5)}
+
+\begin{modulebox}{Module 4 at a Glance}{}
+\textbf{Chapter:} 5 \quad\textbf{Sections:} 5.1--5.10 \quad\textbf{Weeks:} 11--13 \quad
+\textbf{Overall difficulty:} \diffM\text{--}\diffH \quad
+\textbf{Prerequisite:} Module 3 (all differentiation rules)
+\end{modulebox}
+
+\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endhead
+5.1.1 & The Extreme-Value Theorem & State the EVT and locate absolute extrema on a closed interval. & \diffM \\
+5.1.2 & Local Extrema & Use critical points and Fermat's theorem to find candidates for local extrema. & \diffM \\
+5.1.3 & The Mean-Value Theorem & State and apply the MVT; relate average and instantaneous rate of change. & \diffM \\
+5.2.1 & Monotonicity & Use the first derivative to determine intervals of increase/decrease. & \diffL \\
+5.2.2 & Concavity & Use the second derivative to determine concavity. & \diffM \\
+5.3.1 & Extrema (classification) & Classify local extrema using the first- or second-derivative test. & \diffM \\
+5.3.2 & Inflection Points & Locate inflection points and relate them to changes in concavity. & \diffM \\
+5.4 & Optimization & Translate a verbal description into an objective function with constraints and solve for an optimum. & \diffH \\
+5.5 & L'H\^{o}pital's Rule & Evaluate indeterminate-form limits, verifying conditions before applying the rule. & \diffM \\
+5.6 & Graphing and Asymptotes & Use monotonicity, concavity, and asymptotes to produce an accurate, calculus-informed graph. & \diffM \\
+5.7\opt & Recurrence Equations: Stability & Determine the stability of an equilibrium of a recurrence equation via the derivative of the updating function. & \diffH \\
+5.8\opt & Newton--Raphson Method & Use derivative-based iteration to numerically approximate roots. & \diffM \\
+5.9\opt & Modeling with Differential Equations (intro) & Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. & \diffM \\
+5.10 & Antiderivatives & Find general antiderivatives of basic functions and solve simple initial-value problems. & \diffM \\
+\bottomrule
+\end{longtable}
+
+\begin{appbox}
+Optimal foraging and resource-allocation problems, blood-alcohol elimination kinetics,
+oxygen--hemoglobin binding (Hill's equation), fish growth curves, births-and-deaths
+population models, circadian growth-rate oscillations, drug-passage differential equations.
+\end{appbox}
+
+\begin{diffbox}
+\textbf{Optimization word problems (\S5.4)} are consistently the highest-friction topic in
+Module 4: the mathematics (finding a critical point) is routine once an objective function
+of a \emph{single} variable has been correctly derived, but students struggle to (a)
+identify the quantity to optimize, (b) express it in one variable using a constraint, and
+(c) justify that a critical point is a maximum/minimum in context. Model 2--3 full
+worked examples end-to-end (including a sanity check of the answer) before assigning
+homework.
+\end{diffbox}
+
+%------------------------------------------------------------------
+\subsection*{Module 5 --- Integration (Chapter 6)}
+\addcontentsline{toc}{subsection}{Module 5 --- Integration (Chapter 6)}
+
+\begin{modulebox}{Module 5 at a Glance}{}
+\textbf{Chapter:} 6 \quad\textbf{Sections:} 6.1--6.3 \quad\textbf{Weeks:} 14--15 \quad
+\textbf{Overall difficulty:} \diffM\text{--}\diffH \quad
+\textbf{Prerequisite:} Module 3 (antiderivatives, \S5.10); Module 1 ($\Sigma$-notation)
+\end{modulebox}
+
+\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Learning Objective} & \textbf{Diff.} \\
+\midrule
+\endhead
+6.1.1 & The Area Problem & Approximate the area under a curve using left/right/midpoint rectangle sums. & \diffM \\
+6.1.2 & The General Theory of Riemann Integrals & Define the definite integral as a limit of Riemann sums. & \diffH \\
+6.1.3 & Properties of the Riemann Integral & Apply linearity and additivity properties of definite integrals. & \diffM \\
+6.1.4\opt & Order Properties of the Riemann Integral & Use inequalities involving integrals to bound quantities. & \diffM \\
+6.2.1 & FTC, Part I & State and apply the first part of the Fundamental Theorem of Calculus. & \diffH \\
+6.2.2\opt & Leibniz's Rule / Rigorous Proof of FTC & Follow a rigorous proof of the FTC and differentiate integrals with variable limits. & \diffH \\
+6.2.3 & Antiderivatives and Indefinite Integrals & Compute indefinite integrals of elementary functions. & \diffM \\
+6.2.4 & FTC, Part II & Evaluate definite integrals using antiderivatives. & \diffM \\
+6.3.1 & Cumulative Change & Interpret a definite integral as the total/cumulative change of a quantity from its rate function. & \diffM \\
+6.3.2 & Average Values & Compute the average value of a function over an interval. & \diffM \\
+6.3.3\opt & The Mean-Value Theorem for Integrals & State and apply the MVT for definite integrals. & \diffM \\
+6.3.4\opt & Areas (between curves) & Compute the area between two curves using definite integrals. & \diffM \\
+6.3.5\opt & The Volume of a Solid & Compute volumes of solids of revolution. & \diffH \\
+6.3.6\opt & Rectification of Curves & Compute the arc length of a curve. & \diffH \\
+\bottomrule
+\end{longtable}
+
+\begin{appbox}
+Total drug absorbed as area under a concentration curve, cumulative population change from
+a growth-rate function, average wing-lift force in insect flight, spreading bacterial
+biofilms, average metabolic or reaction rate over an interval.
+\end{appbox}
+
+\begin{diffbox}
+\textbf{The Riemann-sum construction of the definite integral (\S6.1.2)} is the second
+major limit-of-an-infinite-process idea in the course (after sequence limits in Module 1)
+and is often where students who ``got'' derivatives hit a wall, because the object being
+computed (a number, not a function) and the process (partition--sum--limit) are both new.
+The text deliberately simplifies this from earlier editions by avoiding full partition
+formalism; keep class examples numeric (specific rectangle counts) before moving to the
+general limit definition.
+\end{diffbox}
+
+\newpage
+%==================================================================
+\section{Weekly Schedule}
+\label{sec:schedule}
+%==================================================================
+
+A 15-week instructional calendar plus a final-exam week. \opt-marked sections are the
+first candidates to cut if the course falls behind schedule.
+
+\begin{longtable}{c c P{8.3cm} P{3.4cm}}
+\toprule
+\textbf{Wk} & \textbf{Module} & \textbf{Sections \& Focus} & \textbf{Assessment} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Wk} & \textbf{Module} & \textbf{Sections \& Focus} & \textbf{Assessment} \\
+\midrule
+\endhead
+1  & 0 & Syllabus; 1.1 Diagnostic Test; 1.2 Preliminaries (reals, lines, circles, trig, exp/log, complex numbers) & Diagnostic (ungraded/low-stakes) \\
+2  & 0 & 1.3 Elementary Functions; 1.4 Graphing, log/semilog scales, linearizing data & Homework 1 \\
+3  & 1 & 2.1 Discrete growth \& recurrence equations; 2.2 Sequences, sequence limits, $\Sigma$-notation & Homework 2 \\
+4  & 1 & 2.3 Modeling with recurrence equations: density dependence, Beverton--Holt, discrete logistic (chaos) & Quiz 1 \\
+5  & 2 & 3.1 Limits (numerical/algebraic); 3.2 Continuity & Homework 3 \\
+6  & 2 & 3.3 Limits at infinity; 3.4 Trig limits \& sandwich theorem; 3.5 IVT \& bisection & \textbf{Midterm 1} (Ch.\,1--3) \\
+7  & 3 & 4.1 Definition of the derivative; 4.2 Properties; 4.3 Power rule \& polynomials & Homework 4 \\
+8  & 3 & 4.4 Product \& quotient rules; 4.5 Chain rule & Quiz 2 \\
+9  & 3 & 4.6 Implicit differentiation \& related rates; 4.7 Higher derivatives; 4.8--4.9 Trig \& exponential derivatives & Homework 5 \\
+10 & 3 & 4.10 Inverse/log derivatives; 4.11 Linear approximation \& error propagation & \textbf{Midterm 2} (Ch.\,4); Modeling Project assigned \\
+11 & 4 & 5.1 Extrema \& MVT; 5.2 Monotonicity \& concavity; 5.3 Inflection points & Homework 6 \\
+12 & 4 & 5.4 Optimization; 5.5 L'H\^{o}pital's rule; 5.6 Graphing \& asymptotes & Quiz 3 \\
+13 & 4 & 5.9 Intro to differential-equation models; 5.10 Antiderivatives; catch-up/review & Modeling Project due \\
+14 & 5 & 6.1 Riemann sums \& the definite integral; 6.2 Fundamental Theorem of Calculus (Parts I--II) & Homework 7 \\
+15 & 5 & 6.3 Applications (cumulative change, average value); comprehensive course review & Homework 8 \\
+16 & --- & \textbf{Final Exam} (cumulative, Ch.\,1--6) & \textbf{Final Exam} \\
+\bottomrule
+\end{longtable}
+
+%==================================================================
+\section{Assessment and Grading}
+%==================================================================
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Component} & \textbf{Weight} \\
+\midrule
+Homework / Online Practice (MyLab Math or equivalent) & 15\% \\
+Quizzes (3, lowest section dropped) & 10\% \\
+Modeling Project (data-fitting \& interpretation) & 10\% \\
+Midterm Exam 1 (Chapters 1--3) & 15\% \\
+Midterm Exam 2 (Chapter 4) & 15\% \\
+Participation / Recitation Engagement & 5\% \\
+Final Exam (cumulative, Chapters 1--6) & 30\% \\
+\midrule
+\textbf{Total} & \textbf{100\%} \\
+\bottomrule
+\end{tabular}
+\caption{Suggested grade weighting. Adjust to institutional norms.}
+\end{table}
+
+\subsection*{Modeling Project}
+Working individually or in pairs, students choose a published or provided real dataset
+(e.g., red-wolf population counts, fish-yield vs.\ chlorophyll data, or a drug-elimination
+time series) and: (1) propose a model from Chapters 2, 4, or 5 (recurrence equation,
+exponential/power fit via linearization, or a differential-equation description); (2)
+estimate parameters from the data (using the log--log/semilog linearization technique of
+\S1.4.3); (3) assess model fit and discuss its biological or social-science limitations.
+This directly exercises SLO1, SLO6, and SLO7.
+
+%==================================================================
+\section{Cross-Cutting Difficult Topics}
+%==================================================================
+
+The table below consolidates the ten topics most likely to require extra class time,
+independent of which module they fall in, together with a brief teaching strategy.
+
+\begin{longtable}{P{1.4cm}P{4.3cm}P{9.4cm}}
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Why It Is Hard / Strategy} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{\S} & \textbf{Topic} & \textbf{Why It Is Hard / Strategy} \\
+\midrule
+\endhead
+1.4.3 & Linearizing data (log--log, semilog) & New use of logarithms (as a data-transformation tool, not just a function). Pair every algebra step with a plotted example. \\
+2.2.3, 2.2.5 & Sequence limits \& $\Sigma$-notation & First rigorous limit idea and first heavy use of index notation; both recur constantly later. Over-invest time here. \\
+2.3.3 & Discrete logistic map / chaos & Counter-intuitive: a simple deterministic rule can produce non-repeating output. Use live spreadsheet iteration to build intuition before discussing theory. \\
+3.6\opt & $\varepsilon$--$\delta$ limit definition & Highly abstract quantifier logic ($\forall \varepsilon\, \exists \delta$). Optional -- skip or treat as enrichment unless rigor is a stated course goal. \\
+4.5 & Chain rule (nested compositions) & Errors compound with each layer of composition. Practice ``outside-in'' peeling with 3+ layer examples. \\
+4.6.2 & Related rates & Failure is usually at translation (setting up the equation), not differentiation. Require a labeled diagram before any calculus. \\
+4.11 & Error propagation & Requires connecting linear approximation to a measurement-science idea (absolute vs.\ relative vs.\ percentage error) many students have not seen. \\
+5.4 & Optimization word problems & Same translation bottleneck as related rates, plus justifying that a critical point is the desired extremum. Use a fixed 4-step template. \\
+5.5 & L'H\^{o}pital's Rule & Commonly mis-applied to non-indeterminate forms. Require students to state the indeterminate form \emph{before} differentiating. \\
+6.1.2 & Riemann sums / definite integral as a limit & Second ``limit of an infinite process'' idea; the output is a number, not a function, which confuses students expecting an antiderivative-style answer. \\
+\bottomrule
+\end{longtable}
+
+%==================================================================
+\section{Technology in the Course}
+%==================================================================
+
+Consistent with the textbook's own emphasis, this course assumes access to a graphing
+calculator and asks students to use spreadsheet software (the authors recommend Google
+Sheets for its shareability) for:
+\begin{itemize}
+\item Iterating recurrence equations numerically (\S2.2.2\opt, \S2.3).
+\item Implementing the bisection method to solve for roots (\S3.5.2\opt).
+\item Numerically approximating Riemann sums for the definite integral (\S6.1).
+\item Fitting linearized models to data for the Modeling Project (\S1.4.3, \S5.4).
+\end{itemize}
+No programming background is assumed or required.
+
+\newpage
+%==================================================================
+\appendix
+\section{Looking Ahead: Calculus 2 (Chapters 7--12)}
+\label{app:calc2}
+%==================================================================
+
+Students continuing to \emph{Calculus 2 for Biological \& Social Sciences} will use the
+remainder of the textbook:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{c P{3.6cm} P{8.2cm}}
+\toprule
+\textbf{Ch.} & \textbf{Title} & \textbf{Core Content} \\
+\midrule
+7  & Integration Techniques \& Computational Methods & Substitution, integration by parts, partial fractions, numerical integration, Taylor approximation\opt. \\
+8  & Differential Equations & Separable and linear first-order equations; compartment models; integrating factors. \\
+9  & Linear Algebra and Analytic Geometry & Linear systems, matrices, eigenvalues/eigenvectors; foundation for bioinformatics applications. \\
+10 & Multivariable Calculus & Functions of several variables, partial derivatives, gradients, constrained optimization, least-squares fitting. \\
+11 & Systems of Differential Equations & Linear and nonlinear autonomous systems; Lotka--Volterra competition and predator--prey models. \\
+12 & Probability and Statistics & Counting, probability, discrete/continuous distributions, limit theorems, regression. \\
+\bottomrule
+\end{tabular}
+\caption{Chapters 7--12 as covered in a subsequent \emph{Calculus 2} course.}
+
+\end{table}
+
+Module~5 (Integration, Ch.\,6) and Module~3's antiderivative work (\S5.10) are the direct
+prerequisites for Chapter 7; the $\Sigma$-notation and limit skills from Module~1 recur in
+the treatment of Taylor series and numerical methods.
+
+\section{Full Section Index (Chapters 1--6)}
+
+For quick reference, the complete list of graded (non-asterisked) sections that constitute
+the minimum content of this course, in textbook order:
+\begin{center}
+\small
+\begin{tabular}{p{2.35cm}p{2.35cm}p{2.35cm}p{2.35cm}p{2.35cm}p{2.35cm}}
+\toprule
+Module 0 & Module 1 & Module 2 & Module 3 & Module 4 & Module 5 \\
+\midrule
+1.1 & 2.1.1 & 3.1.1 & 4.1 & 5.1.1 & 6.1.1 \\
+1.2.1--1.2.6 & 2.1.2 & 3.1.2 & 4.2.1--4.2.2 & 5.1.2 & 6.1.2 \\
+1.3.1--1.3.8 & 2.1.3 & 3.1.3 & 4.3 & 5.1.3 & 6.1.3 \\
+1.4.1--1.4.3 & 2.2.1 & 3.2.1--3.2.2 & 4.4.1--4.4.2 & 5.2.1--5.2.2 & 6.2.1 \\
+ & 2.2.3--2.2.5 & 3.3 & 4.5.1--4.5.2 & 5.3.1--5.3.2 & 6.2.3--6.2.4 \\
+ & 2.3.1--2.3.3 & 3.4.1 & 4.6.1--4.6.2 & 5.4 & 6.3.1--6.3.2 \\
+ &  & 3.5.1, 3.5.3 & 4.7--4.10.2 & 5.5--5.6 & \\
+ &  &  & 4.11 & 5.10 & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}
