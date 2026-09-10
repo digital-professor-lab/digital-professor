@@ -315,6 +315,135 @@ arr/.style={-{Latex[length=2mm]},thick}]
 
 A modality service should return structured data rather than a conversational answer. A result can contain the input modality, original artifact ID, recognized text or LaTeX, confidence, provenance, and a \texttt{needs\_confirmation} flag. The tutoring orchestrator receives these results with course evidence, determines the student's intent, selects any further tools, and produces one coherent student-facing response.
 
+\section{Implementation scaffold}
+The first implementation should run locally in a browser and use mock data before connecting to a model or document-processing backend. This makes the interaction design demonstrable while the parallel research on syllabus extraction, model selection, costs, and existing products continues. The mock responses and service contracts can later be replaced without changing the tabs or student workflow.
+
+\subsection{Recommended project structure}
+\begin{verbatim}
+prototype/
+  README.md
+  frontend/
+    package.json
+    src/
+      app/
+        App.tsx
+        routes.ts
+      components/
+        TabNavigation.tsx
+        SourceCard.tsx
+        ChatMessage.tsx
+        MessageComposer.tsx
+        EquationPreview.tsx
+      tabs/
+        SourcesTab.tsx
+        ProviderSettingsTab.tsx
+        ChatTab.tsx
+      services/
+        apiClient.ts
+        mockApi.ts
+      types/
+        course.ts
+        source.ts
+        chat.ts
+        provider.ts
+      fixtures/
+        extractedCourse.json
+        conversation.json
+  backend/
+    app/
+      main.py
+      schemas.py
+      orchestrator.py
+      services/
+        syllabus.py
+        documents.py
+        equations.py
+        transcription.py
+        providers.py
+  notebooks/
+    interaction_demo.ipynb
+  resources/
+    interaction_test/
+\end{verbatim}
+
+The existing files in \texttt{resources/interaction\_test/} provide the first coherent test course: a Nonlinear Optimization I syllabus, lecture notes, homework, correct handwritten work, incorrect work, and ambiguous handwriting. The repository should later add audio and image-format fixtures, but these PDFs are sufficient to scaffold upload states and the main source-grounded chat path.
+
+\subsection{Frontend architecture}
+\begin{itemize}
+\item \textbf{Stack:} React with TypeScript and Vite for a lightweight single-page application served on localhost. React supplies reusable stateful components, while Vite supplies the local development server and production build.\cite{react,vite}
+\item \textbf{Navigation:} a top-level tab state switches between Sources, Provider Settings, and Chat without discarding the active course or conversation. Chat is the default tab after onboarding.
+\item \textbf{Sources tab:} if no course exists, show \emph{Upload your syllabus to create a course}. While using mocks, uploading \texttt{samp\_syllabus.pdf} loads a fixture containing the proposed name \emph{Nonlinear Optimization I}, course code \texttt{EN.553.761}, term, and topics. The student must confirm or edit the name. After confirmation, the tab accepts additional files and shows \emph{queued}, \emph{processing}, \emph{ready}, or \emph{failed} states.
+\item \textbf{Provider Settings tab:} begin with \emph{Mock provider} and placeholders for the tutor, transcription, OCR, and speech providers. Store only provider IDs and user preferences in browser state. API keys remain backend environment variables.
+\item \textbf{Chat tab:} render user and tutor messages, citations, math blocks, attachments, and comprehension checks. The composer accepts text and file references. Microphone and equation controls may initially display \emph{Coming Soon} or return mock results.
+\item \textbf{Office Hours:} keep a visible disabled control labeled \emph{Coming Soon}. It should not require any real-time implementation in the scaffold.
+\item \textbf{State:} for the first demonstration, keep the active course, source list, settings, and messages in a single application state object. Add browser persistence only after the basic reset and upload flows work predictably.
+\end{itemize}
+
+\subsection{Frontend components and states}
+The UI should be built around states that can be demonstrated without a backend:
+\begin{itemize}
+\item \textbf{Empty state:} no course exists; the Sources tab requests a syllabus.
+\item \textbf{Extracting state:} show the uploaded filename and a processing indicator.
+\item \textbf{Confirmation state:} display extracted fields with editable course name and \emph{Confirm course} action.
+\item \textbf{Ready state:} display the course name in the application header and allow notes, homework, and student work to be added.
+\item \textbf{Chatting state:} accept an open-ended question, show which sources are active, and return a fixture response with a citation and comprehension check.
+\item \textbf{Recovery state:} if recognition confidence is low, show the interpreted text or equation and require correction before continuing.
+\end{itemize}
+
+One scripted mock response should use the uploaded optimization materials. For example, after the student attaches \texttt{samp\_solution.pdf} and asks whether the log-sum-exp proof is complete, the tutor can ask the student to justify why $\operatorname{diag}(p)-pp^\top$ is positive semidefinite, cite the relevant lecture-note page, and finish with a comprehension question.
+
+\subsection{Backend architecture for the next stage}
+After the frontend scaffold is stable, add a small Python backend using FastAPI. FastAPI provides typed request models and automatically generated interactive API documentation, which is useful while the contracts are still changing.\cite{fastapi} The backend remains a thin boundary around reusable Python functions:
+\begin{itemize}
+\item \texttt{POST /courses/extract}: accept a syllabus and return proposed course metadata.
+\item \texttt{POST /courses}: confirm the edited metadata and create an in-memory course record.
+\item \texttt{POST /sources}: register a document or student artifact and return its processing state.
+\item \texttt{POST /chat}: accept the normalized tutoring request and return a structured tutor response.
+\item \texttt{GET /providers}: return the provider registry supplied by the model-and-cost research.
+\item \texttt{GET /health}: verify that the local backend is available.
+\end{itemize}
+
+For the first backend demonstration, use in-memory dictionaries and fixture responses. File persistence, a vector database, authentication, background workers, and production deployment are outside this scaffold. When a real model is added, only the backend reads credentials and calls provider APIs. The browser sends provider IDs, never secret keys.
+
+\subsection{Shared data contracts}
+The frontend, backend, and notebook should use the same conceptual objects:
+\begin{itemize}
+\item \textbf{CourseMetadata:} course ID, confirmed name, extracted name, code, term, instructor, topics, confidence, and fields needing confirmation.
+\item \textbf{SourceArtifact:} artifact ID, course ID, filename, media type, role (authoritative source or student work), status, page count, and optional selected region.
+\item \textbf{TutorRequest:} session ID, course ID, message, inferred intent, active source IDs, attachment IDs, recognized text/math, and response preferences.
+\item \textbf{TutorResponse:} response type, message, rendered-math strings, citations, recognition confirmation, comprehension check, and confidence.
+\item \textbf{ProviderDefinition:} provider ID, model ID, modalities, streaming support, enabled state, and cost fields supplied by the parallel research.
+\end{itemize}
+
+Use JSON fixtures conforming to these contracts before introducing network calls. This gives the syllabus, provider, frontend, and backend work a shared integration target.
+
+\subsection{Local setup and development sequence}
+The intended local workflow is:
+\begin{enumerate}
+\item Create the \texttt{prototype/frontend} application with the React--TypeScript Vite template, install dependencies, and run the Vite development server. Vite normally serves the application at \url{http://localhost:5173}.\cite{vite}
+\item Implement the tab layout and application state with no backend. Use \texttt{mockApi.ts} to simulate short processing delays and load JSON fixtures.
+\item Implement syllabus upload, extraction review, course confirmation, additional source cards, and the scripted chat exchange.
+\item Verify the complete interaction on a laptop browser and an iPad-sized responsive viewport.
+\item Add \texttt{prototype/backend} with a Python virtual environment and FastAPI. Run it locally on a separate port, commonly \url{http://localhost:8000}, and configure the frontend API base URL through a development environment variable.
+\item Replace one mock at a time: health check, provider registry, syllabus fixture response, source registration, then chat. Preserve a mock mode so the UI remains demonstrable without API credentials.
+\item Add the Jupyter notebook only after the Python schemas and service boundaries exist. The notebook should import or call those functions rather than contain a second implementation.
+\end{enumerate}
+
+The repository should include an \texttt{.env.example} listing variable names without values. Actual provider keys stay in an ignored local \texttt{.env} file. Setup instructions should specify supported Node.js and Python versions after they are chosen and tested, rather than relying on whichever versions happen to be installed by a contributor.
+
+\subsection{Jupyter notebook demonstration}
+The notebook is the first executable backend experiment, not the primary user interface. It should demonstrate the processing chain with visible intermediate objects:
+\begin{enumerate}
+\item Load \texttt{samp\_syllabus.pdf} and produce or load the \texttt{CourseMetadata} fixture.
+\item Confirm the course name and register \texttt{samp\_notes.pdf}, \texttt{samp\_homework.pdf}, and one handwritten solution as \texttt{SourceArtifact} objects.
+\item Construct a \texttt{TutorRequest} asking for feedback on the student's proof.
+\item Run the mock orchestrator first, then replace it with one selected model/provider.
+\item Display retrieved evidence, interpreted equations, inferred intent, the final \texttt{TutorResponse}, citations, and the comprehension check.
+\item Log latency and estimated or reported usage so the model-and-cost research can be compared with an actual interaction.
+\end{enumerate}
+
+The notebook and browser should produce the same response schema. Once that contract works, the FastAPI endpoint can wrap the notebook-tested function and the frontend can replace its mock client with the HTTP client.
+
 \subsection{Path toward a manager--worker agent system}
 The architecture should leave room to promote selected tools into reasoning workers. A later manager agent could understand the request, create a task plan, and delegate open-ended work to agents that independently retrieve evidence, solve a problem, inspect a diagram, critique a derivation, or design a Socratic response. Deterministic operations such as KaTeX rendering, file conversion, stroke capture, and basic transcription should remain services even in that design.
 
@@ -443,5 +572,8 @@ Proceed with tuning only if it improves a defined failure mode enough to justify
 \bibitem{deepmindmath} Saxton, D., Grefenstette, E., Hill, F., and Kohli, P. (2019). \emph{Analysing Mathematical Reasoning Abilities of Neural Models}. \url{https://github.com/google-deepmind/mathematics_dataset}.
 \bibitem{mathllava} Shi, W., et al. (2024). \emph{Math-LLaVA: Bootstrapping Mathematical Reasoning for Multimodal Large Language Models}. \url{https://github.com/HZQ950419/Math-LLaVA}.
 \bibitem{mathvista} Lu, P., et al. (2024). \emph{MathVista: Evaluating Mathematical Reasoning of Foundation Models in Visual Contexts}. \url{https://github.com/lupantech/MathVista}.
+\bibitem{react} Meta Open Source. \emph{React: Learn}. \url{https://react.dev/learn}.
+\bibitem{vite} Vite contributors. \emph{Vite: Getting Started}. \url{https://vite.dev/guide/}.
+\bibitem{fastapi} FastAPI contributors. \emph{FastAPI Tutorial}. \url{https://fastapi.tiangolo.com/tutorial/}.
 \end{thebibliography}
 \end{document}

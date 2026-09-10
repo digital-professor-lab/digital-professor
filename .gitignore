@@ -53,3 +53,17 @@ _minted*/
 *.tex.bak
 *.tex~
 *.pdfsync
+
+# Local Python and notebook state.
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Personal demo files
+resources/interaction_test/
+
+# Others
+.DS_Store
