@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Professor | Weekly Research Update</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f2f4f7;color:#17263e;font-family:Inter,Segoe UI,Arial,sans-serif}header{padding:18px 4vw;background:#122540;color:white;display:flex;align-items:center;justify-content:space-between;gap:18px}header strong{font-size:19px}header small{color:#b8c8de;display:block;margin-top:5px;font-size:12px}.tools{display:flex;gap:8px}button{font:inherit;cursor:pointer;border:1px solid #d7dfeb;border-radius:7px;background:white;color:#203651;padding:9px 14px}button:focus-visible,a:focus-visible{outline:3px solid #f8ad39;outline-offset:3px}nav{display:flex;gap:8px;padding:16px 4vw 0}nav button[aria-current=true]{background:#17695e;color:white;border-color:#17695e}main{max-width:1440px;margin:auto;padding:22px 4vw}.slide{background:white;border:1px solid #dce3ec;border-radius:14px;padding:28px 34px;box-shadow:0 8px 24px #23354b08;margin-bottom:20px}.slide[hidden]{display:none}.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.8px;color:#17776a;text-transform:uppercase}h1{font-size:32px;letter-spacing:-.7px;margin:9px 0 10px;line-height:1.12}.lead{font-size:17px;line-height:1.5;color:#526174;margin:0 0 18px}.callout{background:#eaf5f0;border-left:4px solid #25816e;padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:15px;line-height:1.5}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.45}th{text-align:left;color:#66758a;font-size:11px;letter-spacing:.7px;text-transform:uppercase;background:#f5f7fa;padding:11px 12px}td{padding:10px 12px;border-bottom:1px solid #e9edf3;vertical-align:middle}small{display:block;font-size:11px;color:#718094}a{color:#176eab;text-decoration:none}a:hover{text-decoration:underline}td a{display:inline-block;margin-right:10px}.price{white-space:nowrap;font-variant-numeric:tabular-nums}.note{font-size:11px;line-height:1.65;color:#637286;margin-top:12px}.grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px}.panel{padding:18px;background:#f5f7fa;border-radius:10px}.panel h2{font-size:17px;margin:0 0 12px}.panel p{font-size:14px;line-height:1.6;margin:9px 0}.bench{border-top:1px solid #dce3eb;margin-top:15px;padding-top:8px}footer{display:flex;align-items:center;justify-content:space-between;color:#66758a;font-size:12px;gap:20px;margin-top:18px}.pill{display:inline-block;background:#e9edf4;border-radius:30px;padding:5px 10px;font-size:11px}.limits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px;line-height:1.5}.limits div{background:#f5f7fa;padding:11px;border-radius:8px}.limits b{display:block;margin-bottom:3px}details{font-size:12px;color:#5e6f83;margin-top:14px}summary{cursor:pointer}details p{line-height:1.6}.tablewrap{overflow-x:auto}@media(max-width:850px){header{align-items:flex-start;flex-direction:column}.slide{padding:22px 18px}h1{font-size:27px}.grid,.limits{grid-template-columns:1fr}nav{overflow:auto}nav button{white-space:nowrap}td,th{padding:9px}table{min-width:560px}}@media print{header{background:white;color:#17263e;border-bottom:1px solid #ccc}.tools,nav,footer button{display:none}main{padding:0;max-width:none}.slide{display:block!important;break-before:page;border:0;box-shadow:none;padding:20px}.slide:first-child{break-before:auto}details{display:none}body{background:white}.grid{grid-template-columns:1.2fr 1fr}a{color:#176eab}footer{margin-top:12px}}.section-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.source-button{display:inline-block;padding:10px 14px;background:#eaf2fa;border:1px solid #cbddef;border-radius:8px;font-size:14px;font-weight:600;white-space:nowrap}.gateway-demo{display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid #d6e4ef;border-radius:10px;padding:15px 18px;margin-top:17px;background:#f5f9fd}.gateway-demo b{font-size:16px}.gateway-demo p{font-size:14px;line-height:1.5;margin:6px 0 0;color:#526174;max-width:770px}@media(max-width:850px){.gateway-demo{align-items:flex-start;flex-direction:column}}
+/* Section 03: wide report layout, scoped to the comparison view. */
+main:has(#selection:not([hidden])){max-width:1760px;padding-left:2.5vw;padding-right:2.5vw}
+#selection{padding:32px 38px}
+#selection h2{font-size:23px;letter-spacing:-.3px;margin:32px 0 12px}
+#selection h3{margin:0 0 8px;font-size:19px}
+#selection p{line-height:1.6}
+#selection .note{font-size:12px}
+#selection td{vertical-align:top;padding:14px 13px}
+#selection th{font-size:11px;line-height:1.5}
+#selection small{font-size:12px;line-height:1.5;margin-top:4px}
+#selection .section-links{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 24px}
+#selection .section-links a{background:#eef3f7;border-radius:6px;padding:8px 12px;font-size:13px}
+#selection .research-banner{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;background:#122e45;color:#fff;padding:24px;border-radius:10px}
+#selection .research-banner p{margin:0;font-size:15px}
+#selection .research-banner strong{color:#8ee1ca}
+#selection .research-banner small{color:#c4d5e2}
+#selection .audit th:first-child{width:19%}
+#selection .audit th:nth-child(2){width:36%}
+#selection .audit th:nth-child(3){width:45%}
+#selection .metric-table{font-variant-numeric:tabular-nums;min-width:1020px}
+#selection .metric-table td:not(:first-child){text-align:center;vertical-align:middle}
+#selection .metric-table th:not(:first-child){text-align:center}
+#selection .metric-table td:first-child{min-width:195px}
+#selection .metric-table b.score{font-size:17px;color:#174c64}
+#selection .muted{color:#7b8696}
+#selection .status{display:inline-block;padding:4px 8px;border-radius:5px;font-size:11px;line-height:1.4;background:#e6f4ef;color:#17634f;margin-bottom:7px}
+#selection .model-row{display:grid;grid-template-columns:210px minmax(0,1fr) 240px;gap:25px;border:1px solid #dce4eb;border-radius:10px;padding:23px;margin:13px 0;break-inside:avoid}
+#selection .model-row p{font-size:14px;margin:0 0 9px}
+#selection .model-row .test-note{font-size:13px;color:#596a7c;margin-bottom:0}
+#selection .model-meta{border-right:1px solid #e1e7ed;padding-right:17px}
+#selection .model-meta .number{font-size:12px;color:#7c8b9b;margin-bottom:9px}
+#selection .model-cost{border-left:1px solid #e1e7ed;padding-left:20px}
+#selection .model-cost .rate{font-size:23px;letter-spacing:-.5px;font-weight:700;margin:4px 0}
+#selection .model-cost .example{font-size:14px;font-weight:600;color:#17705e;margin:10px 0}
+#selection .model-cost small{font-size:11px}
+#selection .source-strip{font-size:12px;display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}
+#selection .interpretation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+#selection .interpretation div{padding:17px 19px;background:#f4f7fa;border-radius:8px;font-size:14px;line-height:1.65}
+#selection .interpretation b{display:block;margin-bottom:4px}
+#selection .cost-rule{padding:20px 23px;border:1px solid #bddfd4;background:#f0f8f4;border-radius:8px}
+#selection .cost-rule p{font-size:14px;margin:5px 0}
+#selection .ref-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 23px;font-size:12px;line-height:1.55}
+#selection .ref-grid a{padding:5px 0;overflow-wrap:anywhere}
+#selection .comparison-label{color:#17695e;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:30px}
+@media(max-width:1100px){#selection .model-row{grid-template-columns:180px minmax(0,1fr)}#selection .model-cost{grid-column:2;border-left:0;border-top:1px solid #e1e7ed;padding:12px 0 0}#selection .ref-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#selection{padding:23px 17px}#selection .research-banner,#selection .interpretation,#selection .model-row{grid-template-columns:1fr}#selection .model-meta{border-right:0;padding:0}#selection .model-cost{grid-column:1}#selection .ref-grid{grid-template-columns:1fr}#selection .audit{min-width:800px}#selection .model-row{gap:12px;padding:18px}}
+@media print{#selection{padding:12px 0}#selection h2{break-after:avoid}#selection .section-links{display:none}#selection .model-row{grid-template-columns:155px minmax(0,1fr) 175px;gap:12px;padding:14px}#selection .model-cost{grid-column:auto;border-top:0;border-left:1px solid #ddd;padding:0 0 0 12px}#selection .metric-table{min-width:0;font-size:10px}#selection .metric-table td:first-child{min-width:0}#selection .metric-table td,#selection .metric-table th{padding:7px 5px}#selection .metric-table b.score{font-size:12px}#selection .metric-table small{font-size:9px}#selection .tablewrap{overflow:visible}#selection .research-banner{background:#edf4f7;color:#17263e}#selection .research-banner strong{color:#17695e}#selection .research-banner small{color:#526174}}
+
+/* Model channels and capability groups. */
+#selection .channel{display:inline-block;margin-top:8px;padding:4px 8px;border-radius:5px;font-size:11px;font-weight:700;line-height:1.2}
+#selection .channel.gateway{background:#e7f1ff;color:#1261a0;border:1px solid #bfd8f4}
+#selection .channel.external{background:#f1f3f5;color:#66758a;border:1px solid #dce2e8}
+#selection .model-row:has(.channel.gateway) h3{color:#1261a0}
+#selection .category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 20px}
+#selection .category-card{background:#f5f7fa;border:1px solid #e0e6ed;border-radius:9px;padding:15px 17px}
+#selection .category-card h3{font-size:16px;margin:0 0 7px;color:#173b58}
+#selection .category-card p{font-size:14px;line-height:1.5;margin:0;color:#526174}
+#selection .gateway-note{background:#eef6ff;border-left:4px solid #2877ba;padding:12px 15px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.5;margin:12px 0 20px}
+@media(max-width:700px){#selection .category-grid{grid-template-columns:1fr}}
+/* Concise comparison presentation. */
+#selection .lead{margin-bottom:22px}
+#selection .audit th:first-child{width:25%}
+#selection .audit th:nth-child(2){width:32%}
+#selection .audit th:nth-child(3){width:43%}
+#selection .audit td{vertical-align:middle}
+#selection .pricing-label{font-size:14px;color:#526174;margin:0 0 18px}
+#selection .model-column-head{display:grid;grid-template-columns:210px minmax(0,1fr) 240px;gap:25px;padding:12px 23px;background:#f5f7fa;color:#66758a;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-radius:7px}
+#selection .model-row{align-items:center;padding:22px 23px;margin:10px 0;gap:25px}
+#selection .model-row p{margin:0;font-size:15px;line-height:1.65}
+#selection .model-row h3{margin:0;font-size:20px;line-height:1.35}
+#selection .model-cost .rate{font-size:24px;white-space:nowrap;margin:0}
+#selection .model-cost .rate a{color:#17263e}
+#selection .model-meta,#selection .model-cost{align-self:stretch;display:flex;align-items:center}
+#selection .priority-table th:first-child{width:44%}
+#selection .priority-table td{vertical-align:middle}
+@media(max-width:1100px) and (min-width:701px){#selection .model-column-head,#selection .model-row{grid-template-columns:180px minmax(0,1fr) 170px;gap:18px}#selection .model-cost{grid-column:auto;border-top:0;border-left:1px solid #e1e7ed;padding:0 0 0 14px}#selection .model-cost .rate{font-size:21px}}
+@media(max-width:700px){#selection .model-column-head{display:none}#selection .model-row{gap:12px}#selection .model-meta{border:0}#selection .model-cost{padding-top:12px}#selection .model-row h3{font-size:21px}}
+@media print{#selection .model-column-head,#selection .model-row{grid-template-columns:155px minmax(0,1fr) 145px;gap:14px}#selection .model-row p{font-size:12px}#selection .model-row h3{font-size:16px}#selection .model-cost .rate{font-size:18px}#selection .model-column-head{display:grid}}
+</style>
+</head>
+<body>
+<header>
+<div>
+<strong>Digital Professor <span style="font-weight:400;color:#9ab2d0">/ Weekly update</span>
+</strong>
+<small>Sean · Entagile × JHU · Week 1 · Section 03 reviewed 11 Sep 2026</small>
+</div>
+<div class="tools">
+<button id="mode">Show all</button>
+<button id="full">Fullscreen</button>
+<button id="print">Print / PDF</button>
+</div>
+</header>
+<nav aria-label="Report sections">
+<button>01 · JHU platforms</button>
+<button>02 · External models</button>
+<button>03 · Comparison & selection</button>
+<button>04 · Textbook-to-Wiki RAG</button>
+</nav>
+<main>
+<section class="slide" id="jhu">
+<div class="eyebrow">01 / JHU platforms</div>
+<div class="section-heading">
+<h1>Mapped the university access routes</h1>
+<a class="source-button" href="https://wseit.engineering.jhu.edu/get-help/generative-ai-chatgpt-information/" target="_blank" rel="noopener noreferrer">JHU AI overview ↗</a>
+</div>
+<p class="lead">Reviewed available tools, application routes, billing, and access restrictions.</p>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>What I found</th>
+<th>Access & reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<b>HopGPT</b>
+</td>
+<td>Free chat access with a JHED ID.<br>Useful for initial exploration.</td>
+<td>
+<a href="https://chat.ai.jh.edu/" target="_blank" rel="noopener noreferrer">Open HopGPT ↗</a> <a href="https://hopgpt.it.jh.edu/" target="_blank" rel="noopener noreferrer">Resources ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>WSE AI Gateway</b>
+</td>
+<td>Multi-provider API; usage billed to a JHU cost center.<br>Primary route to investigate for our application.</td>
+<td>
+<a href="https://gateway.engineering.jhu.edu/" target="_blank" rel="noopener noreferrer">Gateway ↗</a> <a href="https://wseit.engineering.jhu.edu/get-help/generative-ai-chatgpt-information/" target="_blank" rel="noopener noreferrer">WSE guidance ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>ChatGPT Edu</b>
+</td>
+<td>Faculty/staff access; $20–200/month.<br>Chat workspace access is separate from application API access.</td>
+<td>
+<a href="https://engineering.jhu.edu/cmts/services/chatgpt-edu-ai-user-resources/" target="_blank" rel="noopener noreferrer">Request & SSO steps ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>Azure / AWS Bedrock</b>
+</td>
+<td>Institutional API routes with cloud infrastructure.<br>Contact WSE IT for setup and usage billing.</td>
+<td>
+<a href="https://wseit.engineering.jhu.edu/get-help/generative-ai-chatgpt-information/" target="_blank" rel="noopener noreferrer">Institutional routes ↗</a> <a href="mailto:wsehelp@jhu.edu" target="_blank" rel="noopener noreferrer">WSE IT ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>HopGPT-supported API</b>
+</td>
+<td>Separate service: $50/key/month + token costs + 10%.<br>Request access with a use case and cost center.</td>
+<td>
+<a href="https://hopgpt.it.jh.edu/api-access/" target="_blank" rel="noopener noreferrer">Pricing & request ↗</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="gateway-demo" style="display:block">
+<div class="section-heading">
+<b>Many models through one Gateway</b>
+<a class="source-button" href="https://gateway.engineering.jhu.edu/" target="_blank" rel="noopener noreferrer">Explore Gateway models ↗</a>
+</div>
+<p>Seven examples from the JHU project model-selection catalog, covering flagship, efficient, reasoning, and multimodal options.</p>
+<div class="tablewrap" style="margin-top:12px">
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Model</th>
+<th>Input / 1M tokens</th>
+<th>Output / 1M tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anthropic</td>
+<td>
+<b>Claude Opus 4.6</b>
+</td>
+<td>$5.00</td>
+<td>$25.00</td>
+</tr>
+<tr>
+<td>Anthropic</td>
+<td>
+<b>Claude Sonnet 4.6</b>
+</td>
+<td>$3.00</td>
+<td>$15.00</td>
+</tr>
+<tr>
+<td>OpenAI</td>
+<td>
+<b>GPT 5.2 · 20251211</b>
+</td>
+<td>$0.88</td>
+<td>$7.00</td>
+</tr>
+<tr>
+<td>OpenAI</td>
+<td>
+<b>GPT 5 Mini · 2025-08-07</b>
+</td>
+<td>$0.13</td>
+<td>$1.00</td>
+</tr>
+<tr>
+<td>Meta</td>
+<td>
+<b>Llama 4 Scout 17B 16E Instruct</b>
+</td>
+<td>$0.27</td>
+<td>$0.85</td>
+</tr>
+<tr>
+<td>Alibaba</td>
+<td>
+<b>QwQ-32B</b>
+</td>
+<td>$0.66</td>
+<td>$1.00</td>
+</tr>
+<tr>
+<td>Mistral</td>
+<td>
+<b>Mistral Small 3.1 24B Instruct</b>
+</td>
+<td>$0.35</td>
+<td>$0.56</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="note" style="font-size:11px">USD per million tokens (MTok), transcribed from Sean’s JHU Gateway catalog excerpt. These are displayed catalog prices; no additional discounts or cache assumptions applied. Project selection controls which models key creators can enable.</p>
+<p class="note" style="font-size:11px">Also listed: DeepSeek V4 Flash 0731, but its price is not shown in the supplied excerpt. External APIs remain alternative access routes, even when the same model is available through JHU.</p>
+</div>
+<div class="callout">
+<b>Project takeaway:</b> Identify the project owner and billing source, then confirm the exact models enabled for our project.</div>
+<div class="limits">
+<div>
+<b>Usage controls</b>Project/key budgets and rate controls apply; confirm the assigned quota with the administrator.</div>
+<div>
+<b>Data scope</b>WSE Gateway supports sensitive data, but not PHI. Check the selected model’s data posture.</div>
+<div>
+<b>Permitted use</b>University policy excludes commercial use unrelated to Johns Hopkins. Keep access tied to this course project.</div>
+</div>
+<p class="note">
+<a href="https://wseit.engineering.jhu.edu/get-help/generative-ai-chatgpt-information/" target="_blank" rel="noopener noreferrer">JHU source provided by Sean ↗</a> · Exact model versions and account permissions require a signed-in check. WSE and HopGPT API support pages describe different services; their terms should not be combined.</p>
+<footer>
+<span>Digital Professor · Weekly research update</span>
+<span>01 / 04</span>
+</footer>
+</section>
+<section class="slide" id="external">
+<div class="eyebrow">02 / External options</div>
+<h1>Documented backup models and API routes</h1>
+<p class="lead">Collected access and pricing references for nine API candidates, plus three open-weight options through Hugging Face, Fireworks, and OpenRouter. Some models are also available through JHU.</p>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Model / platform</th>
+<th>Why keep it on the list?</th>
+<th>Input / output · $ per 1M tokens</th>
+<th>Open reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<b>GPT-5.6 Sol</b>
+<small>OpenAI</small>
+</td>
+<td>Reasoning + image input</td>
+<td class="price">$4 / $20</td>
+<td>
+<a href="https://developers.openai.com/api/docs/quickstart" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://developers.openai.com/api/docs/models/gpt-5.6-sol" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>Claude Opus 5</b>
+<small>Anthropic</small>
+</td>
+<td>Cross-provider quality check</td>
+<td class="price">$5 / $25</td>
+<td>
+<a href="https://platform.claude.com/docs/en/get-started" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>DeepSeek V4.1 Flash</b>
+<small>DeepSeek</small>
+</td>
+<td>Low-cost text + image reasoning<small>Current deepseek-flash endpoint; legacy Flash aliases now serve V4.1.</small></td>
+<td class="price">$0.15–0.30 / $0.60–1.20</td>
+<td>
+<a href="https://api-docs.deepseek.com/" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://api-docs.deepseek.com/quick_start/pricing/" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>MiniMax M3</b>
+<small>MiniMax</small>
+</td>
+<td>Low-cost multimodal option</td>
+<td class="price">$0.30 / $1.20</td>
+<td>
+<a href="https://platform.minimax.io/docs/guides/quickstart-preparation" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://platform.minimax.io/docs/guides/pricing-paygo" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>Qwen3.7-Plus</b>
+<small>Alibaba Cloud</small>
+</td>
+<td>Image + multilingual option</td>
+<td class="price">$0.276 / $1.101</td>
+<td>
+<a href="https://www.alibabacloud.com/help/en/model-studio/get-api-key" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://www.alibabacloud.com/help/en/model-studio/model-pricing" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>GPT-6 Astra</b>
+<small>OpenAI</small>
+</td>
+<td>Difficult-case reference</td>
+<td class="price">$10 / $50</td>
+<td>
+<a href="https://developers.openai.com/api/docs/quickstart" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://developers.openai.com/api/docs/models/gpt-6-astra" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>gpt-oss-120b</b>
+<small>Groq</small>
+</td>
+<td>Hosted open-weight baseline</td>
+<td class="price">$0.15 / $0.60</td>
+<td>
+<a href="https://console.groq.com/docs/quickstart" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://console.groq.com/docs/models" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>Gemini 3.8 Flash</b>
+<small>Google · gemini-3.8-flash</small>
+</td>
+<td>Long-context + multimodal candidate</td>
+<td class="price">$0.75 / $3.75</td>
+<td>
+<a href="https://ai.google.dev/gemini-api/docs/quickstart" target="_blank" rel="noopener noreferrer">API guide ↗</a> <a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener noreferrer">Pricing ↗</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>Kimi K3</b>
+<small>Kimi API · benchmark setting: max</small>
+</td>
+<td>Priority long-document candidate: AA-LCR evidence</td>
+<td class="price">$3 / $15<small>AA-reported; confirm provider price</small>
+</td>
+<td>
+<a href="https://platform.kimi.ai/docs/pricing/chat-k3" target="_blank" rel="noopener noreferrer">Provider docs ↗</a> <a href="https://artificialanalysis.ai/models/kimi-k3" target="_blank" rel="noopener noreferrer">AA evidence ↗</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 style="font-size:20px;margin:22px 0 12px">Open-weight candidates through Hugging Face, Fireworks & OpenRouter</h2>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Model / route</th>
+<th>Why it fits Digital Professor</th>
+<th>Recommended role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Qwen3.6-27B</b><small><a href="https://huggingface.co/Qwen/Qwen3.6-27B" target="_blank" rel="noopener noreferrer">Hugging Face weights ↗</a></small></td>
+<td>Apache-2.0 multimodal model with strong reported visual-math and OCR results. MathTutorBench also shows a useful balance across mistake correction and pedagogy.</td>
+<td>Primary open-weight challenger for handwritten math diagnosis; test hosted inference first before considering self-deployment.</td>
+</tr>
+<tr>
+<td><b>Qwen3-VL-235B-A22B Thinking</b><small><a href="https://huggingface.co/Qwen/Qwen3-VL-235B-A22B-Thinking" target="_blank" rel="noopener noreferrer">Hugging Face ↗</a> <a href="https://openrouter.ai/qwen/qwen3-vl-235b-a22b-thinking" target="_blank" rel="noopener noreferrer">OpenRouter ↗</a></small></td>
+<td>High-capacity open-weight visual reasoner for documents, diagrams, multi-image input, and visual mathematics; too large for a lightweight local prototype.</td>
+<td>High-quality multimodal reference through a hosted API if smaller models fail on handwriting or diagrams.</td>
+</tr>
+<tr>
+<td><b>Llama 4 Scout 17B 16E</b><small><a href="https://fireworks.ai/models/fireworks/llama4-scout-instruct-basic" target="_blank" rel="noopener noreferrer">Fireworks ↗</a> <a href="https://openrouter.ai/meta-llama/llama-4-scout" target="_blank" rel="noopener noreferrer">OpenRouter ↗</a></small></td>
+<td>Native image input and very long context, with managed API access and a low-cost Gateway route already listed above.</td>
+<td>Cost/latency baseline for multi-page course material and simple image understanding, not the primary math-tutoring reference.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="note"><b>Platform roles:</b> Hugging Face provides model weights and deployment options; Fireworks provides managed inference for open models; OpenRouter provides one API for rapid cross-provider comparisons. Hosted availability and pricing can change, so confirm the exact model endpoint before testing.</p>
+<div class="callout">
+<b>How we connect:</b> Developer account → billing or credits → API key → backend integration.</div>
+<p class="note">Standard, uncached text pricing. DeepSeek varies by peak/off-peak hours. MiniMax: input ≤512K. Qwen: fixed 2026-05-26 version, Virginia / Global deployment, input ≤256K; other regions differ. Astra: input ≤272K. Gemini 3.8 Flash: Standard paid price through Dec 31, 2026; $1.50 / $7.50 from Jan 1, 2027. Thinking tokens count as output. Images, tools, cache and long-context charges may differ.</p>
+<footer>
+<span class="pill">Documentation reviewed · No paid API tests completed</span>
+<span>02 / 04</span>
+</footer>
+</section>
+<section class="slide" id="selection">
+<div class="eyebrow">03 / Comparison &amp; model selection</div>
+<h1>Ten candidates, five product capabilities</h1>
+<p class="lead">Compare diagnosis, visual understanding, grounded feedback, long-context reasoning and cost.</p>
+<h2 id="benchmark-audit">1 · Benchmarks for the five capabilities</h2>
+<div class="tablewrap"><table class="audit"><thead><tr><th>Product dimension</th><th>Benchmark / evidence</th><th>What it measures</th></tr></thead><tbody>
+<tr><td><b>1 · Mathematical reasoning</b></td><td><a href="https://eth-lre.github.io/mathtutorbench/" target="_blank" rel="noopener noreferrer">MathTutorBench</a> · <a href="https://github.com/QwenLM/ProcessBench" target="_blank" rel="noopener noreferrer">ProcessBench</a></td><td>Measures <b>error diagnosis and step-level reasoning</b>. AIME and MATH-500 mainly assess final-answer correctness.</td></tr>
+<tr><td><b>2 · Multimodal understanding</b></td><td><a href="https://artificialanalysis.ai/evaluations/mmmu-pro" target="_blank" rel="noopener noreferrer">MMMU-Pro</a> · <a href="https://mathvista.github.io/" target="_blank" rel="noopener noreferrer">MathVista</a></td><td>Measures <b>visual reasoning and visual mathematics</b>. Messy handwriting still needs a separate check.</td></tr>
+<tr><td><b>3 · Groundedness &amp; instruction following</b></td><td><a href="https://artificialanalysis.ai/evaluations/ifbench" target="_blank" rel="noopener noreferrer">IFBench</a> · <a href="https://eth-lre.github.io/mathtutorbench/" target="_blank" rel="noopener noreferrer">MathTutorBench</a> · <a href="https://github.com/princeton-nlp/ALCE" target="_blank" rel="noopener noreferrer">ALCE</a></td><td>Checks <b>output constraints, teaching behavior and citation support</b>. No single score covers all three.</td></tr>
+<tr><td><b>4 · Long context / RAG compatibility</b></td><td><a href="https://artificialanalysis.ai/evaluations/artificial-analysis-long-context-reasoning" target="_blank" rel="noopener noreferrer">AA-LCR v1.1</a></td><td>Measures <b>reasoning across long documents</b>. Retrieval quality must be evaluated separately.</td></tr>
+<tr><td><b>5 · Cost efficiency</b></td><td>Provider API pricing · <a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener noreferrer">AA cost per task</a></td><td>Compare <b>cost per successful response</b>, including reasoning and retries. Token price alone is insufficient.</td></tr>
+</tbody></table></div>
+<h2 id="candidate-details">2 · Recommended models by strength</h2>
+<p class="pricing-label">The ten candidates are grouped by their strongest use case. A model can appear in more than one group.</p>
+<div class="category-grid">
+<div class="category-card"><h3>Mathematical reasoning &amp; diagnosis</h3><p><b>Gemini 3.1 Pro</b>, <b>Gemini 3.6 Flash</b>, <b>Claude Sonnet 4.6</b>, <b>GPT-5.6 Sol</b>, <b>GPT-6 Astra</b> and <b>Qwen3.6-27B</b> are the main candidates for solving steps, locating mistakes and giving hints.</p></div>
+<div class="category-card"><h3>Multimodal &amp; visual math</h3><p><b>GPT-6 Astra</b>, <b>Claude Opus 5</b>, <b>Gemini 3.1 Pro</b>, <b>Gemini 3.6 Flash</b>, <b>Qwen3.6-27B</b> and <b>DeepSeek V4.1 Flash</b> are the visual-submission candidates.</p></div>
+<div class="category-card"><h3>Long-context &amp; course RAG</h3><p><b>Kimi K3</b>, <b>GPT-5.6 Sol</b>, <b>GPT-5.6 Luna</b> and <b>DeepSeek V4.1 Flash</b> are the strongest comparison set for long course documents and grounded answers.</p></div>
+<div class="category-card"><h3>Cost-efficient baselines</h3><p><b>GPT-5.6 Luna</b>, <b>Gemini 3.6 Flash</b>, <b>Qwen3.6-27B</b> and <b>DeepSeek V4.1 Flash</b> provide lower-cost alternatives for frequent interactions.</p></div>
+</div>
+<div class="gateway-note" id="gateway-pricing"><b><span style="color:#1261a0">Blue label = JHU Gateway.</span></b> Gateway prices used here are: Sonnet 4.6 <b>$3/$15</b>, Opus 5 <b>$5/$25</b>, GPT-5.6 Sol <b>$2/$10</b>, GPT-6 Astra <b>$10/$50</b> and GPT-5.6 Luna <b>$0.20/$1.20</b>. Grey labels are external prices; availability and exact endpoints should be confirmed before testing.</div>
+<div class="model-column-head"><span>Model / channel</span><span>Why consider it</span><span>Cost · USD per 1M tokens<br><small>input / output</small></span></div>
+<article class="model-row" id="candidate-1">
+<div class="model-meta"><h3>Gemini 3.1 Pro Preview</h3><span class="channel external">External</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://eth-lre.github.io/mathtutorbench/" target="_blank" rel="noopener noreferrer">MathTutorBench</a> reports <b>mistake-location micro-F1 of 0.81</b> and <b>correction accuracy of 0.93</b>, making it a strong <b>error-diagnosis candidate</b>. Its <a href="https://artificialanalysis.ai/models/gemini-3-1-pro-preview" target="_blank" rel="noopener noreferrer">MMMU-Pro score of 82.4%</a> also supports testing it on visual student submissions.</p></div>
+<div class="model-cost"><div class="rate"><a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener noreferrer">$2 / $12</a></div></div>
+</article>
+<article class="model-row" id="candidate-2">
+<div class="model-meta"><h3>Gemini 3.6 Flash</h3><span class="channel external">External</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://eth-lre.github.io/mathtutorbench/" target="_blank" rel="noopener noreferrer">MathTutorBench</a> reports <b>mistake-location micro-F1 of 0.80</b> and <b>correction accuracy of 0.91</b>, close to Pro’s results. Its <b>lower token cost</b> makes it a promising option for frequent tutoring interactions.</p></div>
+<div class="model-cost"><div class="rate"><a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener noreferrer">$0.75 / $3.75</a></div></div>
+</article>
+<article class="model-row" id="candidate-3">
+<div class="model-meta"><h3>Claude Sonnet 4.6</h3><span class="channel gateway">JHU Gateway</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://eth-lre.github.io/mathtutorbench/" target="_blank" rel="noopener noreferrer">MathTutorBench</a> gives Sonnet a <b>pedagogical instruction-following win rate of 0.85</b>, the highest among the four tutoring candidates. This makes it a useful <b>guided-feedback candidate</b>, although its error-location result trails Gemini’s.</p></div>
+<div class="model-cost"><div class="rate"><a href="#gateway-pricing">$3 / $15</a></div></div>
+</article>
+<article class="model-row" id="candidate-4">
+<div class="model-meta"><h3>Qwen3.6-27B</h3><span class="channel external">External</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://eth-lre.github.io/mathtutorbench/" target="_blank" rel="noopener noreferrer">MathTutorBench</a> reports <b>correction accuracy of 0.89</b>; the <a href="https://huggingface.co/Qwen/Qwen3.6-27B" target="_blank" rel="noopener noreferrer">vendor model card</a> reports <b>MathVista-mini 87.4</b> and <b>OCRBench 89.4</b>. It is a promising <b>open-weight option for visual math</b>, with inexpensive hosted inference.</p></div>
+<div class="model-cost"><div class="rate"><a href="https://openrouter.ai/qwen/qwen3.6-27b" target="_blank" rel="noopener noreferrer">$0.30 / $2</a></div></div>
+</article>
+<article class="model-row" id="candidate-5">
+<div class="model-meta"><h3>GPT-5.6 Sol</h3><span class="channel gateway">JHU Gateway</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://artificialanalysis.ai/models/gpt-5-6-sol" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> reports <b>HLE 49.5%</b>, <b>IFBench 72.7%</b> and <b>AA-LCR 84.0%</b> at max reasoning. This broad academic, instruction-following and document-reasoning profile makes Sol a <b>well-rounded primary-model candidate</b>.</p></div>
+<div class="model-cost"><div class="rate"><a href="#gateway-pricing">$2 / $10</a></div></div>
+</article>
+<article class="model-row" id="candidate-6">
+<div class="model-meta"><h3>GPT-6 Astra</h3><span class="channel gateway">JHU Gateway</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://artificialanalysis.ai/models/gpt-6-astra" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> reports <b>MMMU-Pro 86.9%</b>, the highest among these ten, and <b>HLE 54.7%</b> at max reasoning. Consider it a <b>premium reference for difficult visual and academic tasks</b>, then test whether the improvement warrants the cost.</p></div>
+<div class="model-cost"><div class="rate"><a href="#gateway-pricing">$10 / $50</a></div></div>
+</article>
+<article class="model-row" id="candidate-7">
+<div class="model-meta"><h3>Claude Opus 5</h3><span class="channel gateway">JHU Gateway</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://artificialanalysis.ai/models/claude-opus-5" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> reports <b>HLE 54.9%</b> and <b>MMMU-Pro 84.7%</b> at max reasoning. It offers a <b>high-capability cross-provider comparison</b> at half Astra’s token rates; teaching quality still needs direct testing.</p></div>
+<div class="model-cost"><div class="rate"><a href="#gateway-pricing">$5 / $25</a></div></div>
+</article>
+<article class="model-row" id="candidate-8">
+<div class="model-meta"><h3>Kimi K3</h3><span class="channel external">External</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://artificialanalysis.ai/models/kimi-k3" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> reports <b>AA-LCR 88.7%</b> at max reasoning, the highest among these ten. Its main appeal is <b>reasoning across long course documents</b>, making it a useful RAG comparison candidate.</p></div>
+<div class="model-cost"><div class="rate"><a href="https://artificialanalysis.ai/models/kimi-k3" target="_blank" rel="noopener noreferrer">≈ $3 / $15</a></div></div>
+</article>
+<article class="model-row" id="candidate-9">
+<div class="model-meta"><h3>GPT-5.6 Luna</h3><span class="channel gateway">JHU Gateway</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://artificialanalysis.ai/models/gpt-5-6-luna" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> reports <b>AA-LCR 83.7%</b> and <b>MMMU-Pro 78.6%</b> at max reasoning. Its <b>very low token rates</b> make it a useful test of how much tutoring quality we can retain on a smaller budget.</p></div>
+<div class="model-cost"><div class="rate"><a href="#gateway-pricing">$0.20 / $1.20</a></div></div>
+</article>
+<article class="model-row" id="candidate-10">
+<div class="model-meta"><h3>DeepSeek V4.1 Flash</h3><span class="channel external">External</span></div>
+<div class="model-reason"><p><b>Why consider it:</b> <a href="https://artificialanalysis.ai/models/deepseek-v4-1-flash" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> reports <b>AA-LCR 84.0%</b> and <b>MMMU-Pro 77.0%</b> at max reasoning. Combined with <b>low token costs and image input</b>, it is a promising budget challenger for course-grounded interactions.</p></div>
+<div class="model-cost"><div class="rate"><a href="https://api-docs.deepseek.com/quick_start/pricing/" target="_blank" rel="noopener noreferrer">$0.30 / $1.20</a></div></div>
+</article>
+<h2 id="test-plan">3 · Priority comparisons</h2>
+<div class="tablewrap"><table class="priority-table"><thead><tr><th>Models</th><th>Main focus</th></tr></thead><tbody>
+<tr><td><b>Gemini Pro vs Flash vs Sonnet</b></td><td>Error diagnosis and useful hints.</td></tr>
+<tr><td><b>Qwen vs Flash vs Astra</b></td><td>Handwritten equations and visual reasoning.</td></tr>
+<tr><td><b>Sol vs Astra vs Opus 5</b></td><td>Difficult-case quality versus cost.</td></tr>
+<tr><td><b>Kimi vs Sol vs Luna vs DeepSeek</b></td><td>Course grounding and long-document reasoning.</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="slide" id="knowledge-base">
+<div class="eyebrow">04 / Additional investigation</div>
+<h1>Outlined a textbook-to-Wiki RAG pipeline</h1>
+<p class="lead">Extended the Week 1 research beyond model selection to define a practical way to convert a syllabus and textbook into a traceable course knowledge base for retrieval.</p>
+<div class="grid">
+<div class="panel">
+<h2><a href="https://github.com/microsoft/SkillOpt" target="_blank" rel="noopener noreferrer">Microsoft SkillOpt ↗</a></h2>
+<p><b>What it is:</b> A framework that improves reusable natural-language agent skills through repeated rollout, reflection, editing, and validation—without changing the base model’s weights.</p>
+<p><b>Potential use here:</b> Start with a textbook-extraction skill, score its output against reviewed examples, and later use a SkillOpt-style loop to improve its instructions and consistency.</p>
+</div>
+<div class="panel">
+<h2><a href="https://js.wiki/" target="_blank" rel="noopener noreferrer">Wiki.js · Wiki knowledge base ↗</a></h2>
+<p><b>What it is:</b> An open-source Wiki platform for organizing searchable, linked, and maintainable documentation.</p>
+<p><b>Potential use here:</b> Store course concepts as readable Wiki pages with chapter, page, and source metadata. The Wiki is the organized content layer; a search/vector index would make those pages available to RAG.</p>
+</div>
+</div>
+<h2 style="font-size:20px;margin:22px 0 12px">Proposed entry point</h2>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What we would do</th>
+<th>Output / validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>1 · Define the schema</b></td>
+<td>Use the syllabus as the course map and define a standard Wiki template before processing the full textbook.</td>
+<td>Module, concept, definition, objective, prerequisite, formula/example, chapter, page, and source text.</td>
+</tr>
+<tr>
+<td><b>2 · Build the extraction skill</b></td>
+<td>Extract important concepts, formulas, examples, and relationships from each textbook section, while retaining provenance and flagging uncertain output.</td>
+<td>Compare extracted fields with a small human-reviewed gold set; optimize the skill only after this baseline exists.</td>
+</tr>
+<tr>
+<td><b>3 · Ingest chapter by chapter</b></td>
+<td>Write approved entries into a concise knowledge layer and keep the original textbook passage in an evidence layer.</td>
+<td>Every Wiki claim remains linked to its textbook chapter/page; missing summaries can fall back to source evidence.</td>
+</tr>
+<tr>
+<td><b>4 · Connect and test RAG</b></td>
+<td>Index the Wiki content, retrieve relevant entries for course questions, and require the model to answer from retrieved evidence with citations.</td>
+<td>Measure passage Recall@k, source/citation correctness, answer completeness, unsupported-claim rate, and abstention when evidence is missing.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout"><b>Recommended MVP:</b> One syllabus + one textbook + one or two chapters + 20–30 reviewed test questions. First validate extraction and retrieval separately; then evaluate whether the final answer is complete and fully grounded in the cited course material.</div>
+<p class="note"><b>Important distinction:</b> SkillOpt is a possible optimization method, not the ingestion system itself. A Wiki organizes and governs the course content, but it does not automatically provide semantic RAG; the pages still need chunking, indexing, retrieval, and evaluation. This is a proposed approach and has not yet been implemented.</p>
+<h2 style="font-size:20px;margin:22px 0 12px">Model routing as a next direction</h2>
+<div class="grid">
+<div class="panel">
+<h2><a href="https://learn.microsoft.com/en-us/shows/ai-show/model-catalog-to-model-router-whats-new-in-azure-ai-foundry-models" target="_blank" rel="noopener noreferrer">Microsoft · Azure AI Foundry Model Router ↗</a></h2>
+<p>Routes each prompt to a suitable model based on task complexity, quality needs, and cost.</p>
+</div>
+<div class="panel">
+<h2><a href="https://aws.amazon.com/blogs/aws/reduce-costs-and-latency-with-amazon-bedrock-intelligent-prompt-routing-and-prompt-caching-preview/" target="_blank" rel="noopener noreferrer">AWS · Bedrock Intelligent Prompt Routing ↗</a></h2>
+<p>Routes simple requests to smaller models and difficult requests to stronger models within a model family.</p>
+</div>
+</div>
+<div class="callout"><b>Proposed sequence:</b> First fix a baseline and a RAG / prompt evaluation framework, then benchmark the mainstream candidates and select a main model. After that, analyze its failure cases and decide whether the product needs a model-selection layer.</div>
+<p class="routing-explanation" style="font-size:15px;line-height:1.6;color:#526174;margin-top:14px"><b>Why consider routing later?</b> Microsoft Model Router and AWS Intelligent Prompt Routing address the same practical problem: no single model is always best on quality, speed, and cost. They can send simple requests to a smaller, faster model and reserve stronger models for difficult, visual, or long-context cases. We should consider this only after the baseline shows a stable weakness, latency issue, or avoidable cost in the main model.</p>
+<footer>
+<span>Additional work: knowledge-base architecture + model routing direction</span>
+<span>04 / 04</span>
+</footer>
+</section>
+<p class="note">Use ← → to move between sections. References open in a new tab. This update covers research completed, not deployment or validated model performance.</p>
+</main>
+<script>const slides=[...document.querySelectorAll('.slide')],tabs=[...document.querySelectorAll('nav button')];let current=0,all=false;function show(i){current=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,n)=>s.hidden=!all&&n!==current);tabs.forEach((b,n)=>b.setAttribute('aria-current',String(n===current)));document.getElementById('mode').textContent=all?'Slide view':'Show all';}tabs.forEach((b,n)=>b.addEventListener('click',()=>{all=false;show(n)}));document.getElementById('mode').onclick=()=>{all=!all;show(current)};document.getElementById('print').onclick=()=>window.print();document.getElementById('full').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.()};document.addEventListener('keydown',e=>{if(e.target.closest('button,a,input,textarea,summary'))return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();all=false;show(current+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();all=false;show(current-1)}});show(0);</script>
+<script type="application/json" id="comparison-evidence">{"review_date": "2026-09-11", "source_type": "published_public_page_data", "models": [{"name": "Gemini 3.1 Pro Preview", "aa_source": "https://artificialanalysis.ai/models/gemini-3-1-pro-preview", "aa_setting": "Gemini 3.1 Pro Preview", "hle": 0.470342910101946, "mmmuPro": 0.824277456647399, "ifbench": 0.771428571428571, "lcr": 0.82, "intelligenceIndex": 30.3596656132261, "input_usd_per_million": 2, "output_usd_per_million": 12, "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing"}, {"name": "Gemini 3.6 Flash", "aa_source": "https://artificialanalysis.ai/models/gemini-3-6-flash", "aa_setting": "Gemini 3.6 Flash (high)", "hle": 0.408248378127896, "mmmuPro": 0.832369942196532, "ifbench": null, "lcr": 0.8, "intelligenceIndex": 34.3395678920714, "input_usd_per_million": 0.75, "output_usd_per_million": 3.75, "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing"}, {"name": "Claude Sonnet 4.6", "aa_source": "https://artificialanalysis.ai/models/claude-sonnet-4-6-adaptive", "aa_setting": "Claude Sonnet 4.6 (Adaptive Reasoning, Max Effort)", "hle": 0.33595922150139, "mmmuPro": 0.732947976878613, "ifbench": 0.565986394557823, "lcr": 0.8, "intelligenceIndex": 30.4529361117644, "input_usd_per_million": 3, "output_usd_per_million": 15, "pricing_source": "https://platform.claude.com/docs/en/about-claude/pricing"}, {"name": "Qwen3.6-27B", "aa_source": "https://artificialanalysis.ai/models/qwen3-6-27b", "aa_setting": "Qwen3.6 27B (Reasoning)", "hle": 0.230769230769231, "mmmuPro": 0.746242774566474, "ifbench": 0.675510204081633, "lcr": 0.773333333333333, "intelligenceIndex": 21.9050652240782, "input_usd_per_million": 0.3, "output_usd_per_million": 2, "pricing_source": "https://openrouter.ai/qwen/qwen3.6-27b"}, {"name": "GPT-5.6 Sol", "aa_source": "https://artificialanalysis.ai/models/gpt-5-6-sol", "aa_setting": "GPT-5.6 Sol (max)", "hle": 0.494902687673772, "mmmuPro": 0.834104046242775, "ifbench": 0.726530612244898, "lcr": 0.84, "intelligenceIndex": 47.0613568915036, "input_usd_per_million": 2, "output_usd_per_million": 10, "pricing_source": "JHU Gateway quote attached to report"}, {"name": "GPT-6 Astra", "aa_source": "https://artificialanalysis.ai/models/gpt-6-astra", "aa_setting": "GPT-6 Astra (max)", "hle": 0.546802594995366, "mmmuPro": 0.86878612716763, "ifbench": null, "lcr": 0.806666666666667, "intelligenceIndex": 52.814069395513, "input_usd_per_million": 10, "output_usd_per_million": 50, "pricing_source": "https://developers.openai.com/api/docs/models/gpt-6-astra"}, {"name": "Claude Opus 5", "aa_source": "https://artificialanalysis.ai/models/claude-opus-5", "aa_setting": "Claude Opus 5 (Adaptive Reasoning, Max Effort)", "hle": 0.548656163113994, "mmmuPro": 0.847398843930636, "ifbench": null, "lcr": 0.793333333333333, "intelligenceIndex": 50.7001865797629, "input_usd_per_million": 5, "output_usd_per_million": 25, "pricing_source": "https://platform.claude.com/docs/en/about-claude/pricing"}, {"name": "Kimi K3", "aa_source": "https://artificialanalysis.ai/models/kimi-k3", "aa_setting": "Kimi K3 (max)", "hle": 0.468952734012975, "mmmuPro": 0.805202312138728, "ifbench": null, "lcr": 0.886666666666667, "intelligenceIndex": 43.7841729518782, "input_usd_per_million": 3, "output_usd_per_million": 15, "pricing_source": "https://platform.kimi.ai/docs/pricing/chat-k3"}, {"name": "GPT-5.6 Luna", "aa_source": "https://artificialanalysis.ai/models/gpt-5-6-luna", "aa_setting": "GPT-5.6 Luna (max)", "hle": 0.394810009267841, "mmmuPro": 0.785549132947977, "ifbench": null, "lcr": 0.836666666666667, "intelligenceIndex": 37.5048489690841, "input_usd_per_million": 0.2, "output_usd_per_million": 1.2, "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"}, {"name": "DeepSeek V4.1 Flash", "aa_source": "https://artificialanalysis.ai/models/deepseek-v4-1-flash", "aa_setting": "DeepSeek V4.1 Flash (Reasoning, Max Effort)", "hle": 0.392493049119555, "mmmuPro": 0.769942196531792, "ifbench": null, "lcr": 0.84, "intelligenceIndex": 39.545442472527, "input_usd_per_million": 0.3, "output_usd_per_million": 1.2, "pricing_source": "https://api-docs.deepseek.com/quick_start/pricing/"}]}</script>
+</body>
+</html>
