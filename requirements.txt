@@ -1,0 +1,28 @@
+# Digital Professor - Initial Research & Prototype Environment
+
+# Core utilities
+requests
+python-dotenv
+tenacity
+
+# Data analysis
+pandas
+numpy
+matplotlib
+
+# Notebook / experimentation
+jupyter
+ipykernel
+
+# Document processing
+pypdf
+python-docx
+
+# AI model SDKs
+openai
+anthropic
+huggingface_hub
+
+# Testing
+pytest
+responses
