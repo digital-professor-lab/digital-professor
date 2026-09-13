@@ -320,9 +320,9 @@ The first implementation should run locally in a browser and use mock data befor
 
 \subsection{Recommended project structure}
 \begin{verbatim}
-prototype/
-  README.md
-  frontend/
+research/interaction-methods/
+  webapp/
+   frontend/
     package.json
     src/
       app/
@@ -349,21 +349,19 @@ prototype/
       fixtures/
         extractedCourse.json
         conversation.json
-  backend/
-    app/
-      main.py
+   backend/
+     app.py
+  src/
+    digital_professor/
+      config.py
+      ingestion.py
+      recognition.py
       schemas.py
-      orchestrator.py
-      services/
-        syllabus.py
-        documents.py
-        equations.py
-        transcription.py
-        providers.py
-  notebooks/
-    interaction_demo.ipynb
-  resources/
-    interaction_test/
+      skills.json
+notebooks/
+  recognition_demo.ipynb
+resources/
+  interaction_test/
 \end{verbatim}
 
 The existing files in \texttt{resources/interaction\_test/} provide the first coherent test course: a Nonlinear Optimization I syllabus, lecture notes, homework, correct handwritten work, incorrect work, and ambiguous handwriting. The repository should later add audio and image-format fixtures, but these PDFs are sufficient to scaffold upload states and the main source-grounded chat path.
@@ -420,11 +418,11 @@ Use JSON fixtures conforming to these contracts before introducing network calls
 \subsection{Local setup and development sequence}
 The intended local workflow is:
 \begin{enumerate}
-\item Create the \texttt{prototype/frontend} application with the React--TypeScript Vite template, install dependencies, and run the Vite development server. Vite normally serves the application at \url{http://localhost:5173}.\cite{vite}
+\item Create the \texttt{research/interaction-methods/webapp/frontend} application with the React--TypeScript Vite template, install dependencies, and run the Vite development server. Vite normally serves the application at \url{http://localhost:5173}.\cite{vite}
 \item Implement the tab layout and application state with no backend. Use \texttt{mockApi.ts} to simulate short processing delays and load JSON fixtures.
 \item Implement syllabus upload, extraction review, course confirmation, additional source cards, and the scripted chat exchange.
 \item Verify the complete interaction on a laptop browser and an iPad-sized responsive viewport.
-\item Add \texttt{prototype/backend} with a Python virtual environment and FastAPI. Run it locally on a separate port, commonly \url{http://localhost:8000}, and configure the frontend API base URL through a development environment variable.
+\item Add \texttt{research/interaction-methods/webapp/backend} with FastAPI and keep its reusable Python machinery in \texttt{research/interaction-methods/src}. Run it locally on a separate port, commonly \url{http://localhost:8000}, and configure the frontend API base URL through a development environment variable.
 \item Replace one mock at a time: health check, provider registry, syllabus fixture response, source registration, then chat. Preserve a mock mode so the UI remains demonstrable without API credentials.
 \item Add the Jupyter notebook only after the Python schemas and service boundaries exist. The notebook should import or call those functions rather than contain a second implementation.
 \end{enumerate}
@@ -455,6 +453,8 @@ The interface includes an \emph{Office Hours} control to make the product direct
 This behavior should also govern ordinary chat. After each substantial explanation or reasoning step, the tutor explicitly checks comprehension with a short question such as ``Does that step make sense?'', ``What would you substitute next?'', or ``Can you explain why that assumption matters?'' The follow-up should match the situation: a simple check-in can preserve conversational flow, while a brief retrieval or application question provides stronger evidence of understanding. If the student is unsure, the tutor should rephrase, use a smaller example, or step back to the missing prerequisite instead of continuing the original explanation.
 
 The first Office Hours implementation can be a synchronous text session or push-to-talk conversation with visible transcripts. Video input is intentionally deferred; it is not necessary to reproduce the core educational behavior of office hours. Synchronous voice can be enabled after the system demonstrates reliable source grounding, intent handling, interruption behavior, transcript quality, latency, cost controls, and session recovery. The eventual mode reuses the same Sources tab, provider configuration, artifact store, and tutoring policies rather than becoming a separate application.
+
+In the future public-facing version, clicking emph{Office Hours} should enter a dedicated live session and activate a digital professor avatar. The avatar should synchronize spoken responses with facial movement and simple instructional gestures while the student communicates through real-time text, audio, and optional video. A shared work surface can display equations, code, uploaded pages, and annotations beside the avatar. The system should retain the current course sources and conversation context, provide a live transcript, support interruption and turn-taking, and continue checking whether the student follows. Camera use should be optional and permission-based; students should still be able to complete an Office Hours session using text, voice, and shared artifacts alone. This concept requires later evaluation of streaming latency, speech and avatar synchronization, accessibility, privacy, session recording, and recovery from dropped connections.
 
 \section{Prototype priorities and feasibility tests}
 \begin{enumerate}

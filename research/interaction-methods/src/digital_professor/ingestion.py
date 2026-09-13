@@ -6,7 +6,7 @@ import mimetypes
 from pathlib import Path
 from typing import Iterable
 
-import fitz
+import pymupdf as fitz
 
 from .schemas import DocumentIngestion, ExtractedPage, RenderedPage
 

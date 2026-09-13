@@ -31,10 +31,27 @@ class RecognitionPayload(StrictModel):
     document_summary: str
 
 
+class RequestMetadata(StrictModel):
+    """Observable metrics for one provider request."""
+
+    response_id: str | None
+    model: str
+    elapsed_seconds: float = Field(ge=0.0)
+    input_tokens: int | None = Field(default=None, ge=0)
+    output_tokens: int | None = Field(default=None, ge=0)
+    total_tokens: int | None = Field(default=None, ge=0)
+    estimated_cost_usd: float | None = Field(default=None, ge=0.0)
+    cost_basis: str | None = Field(
+        default=None,
+        description="Rates used for the estimate; absent when rates are not configured.",
+    )
+
+
 class RecognitionResult(RecognitionPayload):
     source_path: str
     method: str
     model: str | None
+    requests: list[RequestMetadata]
 
 
 class ExtractedPage(StrictModel):
@@ -67,3 +84,26 @@ class GenerationResult(StrictModel):
     answer_markdown: str
     model: str
     response_id: str | None
+    request: RequestMetadata
+
+
+class TutorPayload(StrictModel):
+    interpreted_question: str = Field(
+        description="A concise restatement of what the student appears to be asking."
+    )
+    detected_equations: list[str] = Field(
+        description="Equations found in the request, normalized as LaTeX without delimiters."
+    )
+    answer_markdown: str = Field(
+        description="A worked teaching response with mathematical steps in LaTeX."
+    )
+    assumptions: list[str] = Field(
+        description="Assumptions made because the request or notation was underspecified."
+    )
+    comprehension_check: str = Field(
+        description="One short question that checks whether the student follows."
+    )
+
+
+class TutorResponse(TutorPayload):
+    request: RequestMetadata

@@ -61,6 +61,9 @@ venv/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+node_modules/
+dist/
+.vite/
 
 # Personal demo files
 resources/interaction_test/
