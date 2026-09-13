@@ -121,17 +121,31 @@ input:focus, select:focus, textarea:focus { border-color: #4d7d70; box-shadow: 0
 @keyframes pulse { to { opacity: .2; transform: translateY(-3px); } }
 .composer { border-top: 1px solid var(--line); padding: 18px max(6vw, calc((100% - 850px)/2)) 15px; background: rgba(248,246,239,.9); }
 .composer-row { position: relative; }
-.composer textarea { width: 100%; resize: none; padding: 15px 82px 15px 52px; line-height: 1.5; }
-.composer-row > button { position: absolute; right: 9px; top: 9px; background: var(--forest); color: white; border: 0; border-radius: 8px; padding: 10px 17px; font-weight: 600; }
+.composer textarea { width: 100%; resize: none; padding: 15px 82px 15px 132px; line-height: 1.5; }
+.composer-row > button[type="submit"] { position: absolute; right: 9px; top: 9px; background: var(--forest); color: white; border: 0; border-radius: 8px; padding: 10px 17px; font-weight: 600; }
 .composer-row > button:disabled { opacity: .45; cursor: default; }
 .composer > p { margin: 5px 3px 0; color: #969c99; font-size: 10px; }
 .attach-button { position: absolute; left: 10px; top: 10px; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; background: #e5e1d7; color: var(--forest); font-size: 21px; z-index: 2; }
 .attach-button input { display: none; }
+.sketch-button { position: absolute; left: 50px; top: 10px; width: 34px; height: 34px; border: 0; border-radius: 8px; display: grid; place-items: center; background: #e5e1d7; color: var(--forest); font-size: 20px; z-index: 2; }
+.voice-button { position: absolute; left: 90px; top: 10px; width: 34px; height: 34px; border: 0; border-radius: 8px; display: grid; place-items: center; background: #e5e1d7; color: var(--rust); font-size: 13px; z-index: 2; }
+.voice-button.recording { color: white; background: var(--rust); animation: recording-pulse 1.2s infinite alternate; }
+@keyframes recording-pulse { to { box-shadow: 0 0 0 5px rgba(182,87,56,.18); } }
 .attached-sources { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 8px; }
 .attached-sources:empty { display: none; }
 .attached-sources span { flex: 0 0 auto; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 1px solid var(--line); background: white; border-radius: 999px; padding: 5px 9px; color: #65706c; font-size: 10px; }
 .attached-sources .uploading-chip { background: var(--mint); color: var(--forest); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(9,24,20,.7); backdrop-filter: blur(4px); z-index: 20; padding: 24px; display: grid; place-items: center; }
+.sketch-modal { width: min(960px, 100%); max-height: calc(100vh - 48px); overflow-y: auto; background: var(--cream); border-radius: 18px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,.3); }
+.sketch-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.sketch-header h2 { font: 600 32px "Newsreader", serif; margin: 0; }
+.sketch-modal > p { color: var(--muted); margin: 8px 0 18px; }
+.sketch-modal canvas { display: block; width: 100%; aspect-ratio: 2 / 1; background: white; border: 1px solid #c8c8c0; border-radius: 12px; cursor: crosshair; touch-action: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.02); }
+.sketch-actions { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 16px; }
+.sketch-actions label { margin-right: auto; display: flex; align-items: center; gap: 10px; }
+.primary-button { border: 0; background: var(--forest); color: white; padding: 10px 15px; border-radius: 8px; font-weight: 600; }
+.primary-button:disabled { opacity: .5; }
 
 @media (max-width: 760px) {
   .app-shell { grid-template-columns: 1fr; }
@@ -144,4 +158,5 @@ input:focus, select:focus, textarea:focus { border-color: #4d7d70; box-shadow: 0
   .upload-row { align-items: stretch; flex-direction: column; }.file-button { text-align: center; }.rate-grid { grid-template-columns: 1fr; }
   .chat-page { height: calc(100vh - 138px); }.messages { padding: 30px 20px; }.composer { padding: 14px 20px 10px; }
   .metrics { flex-wrap: wrap; }.error-banner { margin: 12px 20px 0; }
+  .modal-backdrop { padding: 10px; }.sketch-modal { padding: 16px; }.sketch-actions { flex-wrap: wrap; }.sketch-actions label { width: 100%; }
 }

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import tempfile
+import time
 from dataclasses import replace
 from pathlib import Path
 from uuid import uuid4
@@ -19,6 +20,10 @@ from digital_professor import (
     ingest_document,
     load_settings,
     load_skill_instructions,
+    faster_whisper_available,
+    recognize_with_tesseract,
+    transcribe_with_faster_whisper,
+    tesseract_available,
 )
 
 
@@ -34,6 +39,14 @@ app.add_middleware(
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
 sources: dict[str, "SourceRecord"] = {}
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+TRANSCRIPTION_MODELS = [
+    "gpt-transcribe",
+    "gpt-4o-transcribe",
+    "gpt-4o-mini-transcribe",
+    "whisper-1",
+]
+LOCAL_TRANSCRIPTION_MODELS = ["tiny", "base", "small"]
+SUPPORTED_AUDIO_SUFFIXES = {".flac", ".mp3", ".mp4", ".mpeg", ".mpga", ".m4a", ".ogg", ".wav", ".webm"}
 
 
 def current_settings():
@@ -102,6 +115,23 @@ class ProviderConfig(BaseModel):
     output_cost_per_1m: float | None
     models: list[str]
     skills: SkillInstructions
+    recognition_provider: str
+    tesseract_available: bool
+    transcription_model: str
+    transcription_models: list[str]
+    transcription_provider: str
+    local_transcription_models: list[str]
+    faster_whisper_available: bool
+
+
+class TranscriptionResult(BaseModel):
+    text: str
+    provider: str
+    model: str
+    elapsed_seconds: float
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    total_tokens: int | None = None
 
 
 class ChatRequest(BaseModel):
@@ -163,7 +193,77 @@ def provider_config() -> ProviderConfig:
         output_cost_per_1m=runtime.output_cost_per_1m,
         models=models,
         skills=load_skill_instructions(),
+        recognition_provider="openai_vision",
+        tesseract_available=tesseract_available(),
+        transcription_model="gpt-4o-mini-transcribe",
+        transcription_models=TRANSCRIPTION_MODELS,
+        transcription_provider="openai",
+        local_transcription_models=LOCAL_TRANSCRIPTION_MODELS,
+        faster_whisper_available=faster_whisper_available(),
     )
+
+
+@app.post("/api/transcriptions", response_model=TranscriptionResult)
+async def transcribe_audio(
+    file: UploadFile = File(...),
+    provider: str = Form("openai"),
+    model: str = Form("gpt-4o-mini-transcribe"),
+) -> TranscriptionResult:
+    runtime = current_settings()
+    if provider == "openai" and not runtime.api_enabled:
+        raise HTTPException(status_code=503, detail="Transcription requires OPENAI_API_KEY in the backend .env.")
+    if provider == "openai" and model not in TRANSCRIPTION_MODELS:
+        raise HTTPException(status_code=400, detail="Unsupported transcription model.")
+    if provider == "faster_whisper" and model not in LOCAL_TRANSCRIPTION_MODELS:
+        raise HTTPException(status_code=400, detail="Unsupported local Whisper model.")
+    if provider == "faster_whisper" and not faster_whisper_available():
+        raise HTTPException(
+            status_code=503,
+            detail="The local faster-whisper baseline is not installed. Install it with `python -m pip install faster-whisper` and restart the backend.",
+        )
+    if provider not in {"openai", "faster_whisper"}:
+        raise HTTPException(status_code=400, detail="Unsupported transcription provider.")
+    data = await file.read(MAX_UPLOAD_BYTES + 1)
+    if len(data) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="Audio exceeds the 20 MB demo limit.")
+    suffix = Path(file.filename or "recording.webm").suffix.lower()
+    if suffix not in SUPPORTED_AUDIO_SUFFIXES:
+        raise HTTPException(status_code=415, detail="Unsupported audio format.")
+
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as temporary:
+            temporary.write(data)
+            temporary_path = Path(temporary.name)
+        started = time.perf_counter()
+        if provider == "faster_whisper":
+            text = transcribe_with_faster_whisper(temporary_path, model)
+            usage = None
+        else:
+            with temporary_path.open("rb") as audio:
+                result = OpenAI(api_key=runtime.openai_api_key).audio.transcriptions.create(
+                    model=model,
+                    file=audio,
+                )
+            text = result.text.strip()
+            usage = getattr(result, "usage", None)
+        elapsed = time.perf_counter() - started
+        return TranscriptionResult(
+            text=text,
+            provider=provider,
+            model=model,
+            elapsed_seconds=elapsed,
+            input_tokens=getattr(usage, "input_tokens", None),
+            output_tokens=getattr(usage, "output_tokens", None),
+            total_tokens=getattr(usage, "total_tokens", None),
+        )
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise provider_error(exc) from exc
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
 
 
 @app.get("/api/sources", response_model=list[PublicSource])
@@ -182,6 +282,7 @@ def delete_source(source_id: str) -> dict[str, bool]:
 async def add_source(
     file: UploadFile = File(...),
     source_type: str = Form("document"),
+    recognition_provider: str = Form("openai_vision"),
 ) -> PublicSource:
     runtime = current_settings()
     if source_type not in {"syllabus", "document", "handwriting"}:
@@ -214,20 +315,32 @@ async def add_source(
             requires_visual_recognition = suffix == ".pdf" and visible_characters < 40
 
         if requires_visual_recognition:
-            if not runtime.api_enabled:
+            if recognition_provider == "tesseract":
+                try:
+                    recognition = recognize_with_tesseract(
+                        temporary_path,
+                        dpi=runtime.render_dpi,
+                        max_pages=runtime.max_pages,
+                    )
+                except Exception as exc:
+                    raise HTTPException(status_code=503, detail=str(exc)) from exc
+            elif recognition_provider != "openai_vision":
+                raise HTTPException(status_code=400, detail="Unknown recognition provider.")
+            elif not runtime.api_enabled:
                 raise HTTPException(
                     status_code=503,
                     detail="This file has no usable embedded text, so visual recognition requires OPENAI_API_KEY in .env.",
                 )
-            try:
-                recognition = RecognitionService(runtime).recognize_handwriting(temporary_path)
-            except Exception as exc:
-                raise provider_error(exc) from exc
+            else:
+                try:
+                    recognition = RecognitionService(runtime).recognize_handwriting(temporary_path)
+                except Exception as exc:
+                    raise provider_error(exc) from exc
             page_text = [page.markdown for page in recognition.pages]
             text = "\n\n".join(page_text)
             page_count = len(recognition.pages)
             request_metadata = [item.model_dump() for item in recognition.requests]
-            recognition_method = "visual_handwriting"
+            recognition_method = recognition.method
 
         course = _course_metadata(text) if source_type == "syllabus" else None
         source_id = str(uuid4())

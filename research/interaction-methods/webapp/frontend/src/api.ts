@@ -1,4 +1,4 @@
-import type { ProviderConfig, SkillInstructions, SourceRecord, TutorResponse } from "./types";
+import type { ProviderConfig, SkillInstructions, SourceRecord, TranscriptionResult, TutorResponse } from "./types";
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const response = await fetch(url, options);
@@ -13,13 +13,21 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 export const api = {
   config: () => request<ProviderConfig>("/api/config"),
   sources: () => request<SourceRecord[]>("/api/sources"),
-  upload: (file: File, sourceType: string) => {
+  upload: (file: File, sourceType: string, recognitionProvider = "openai_vision") => {
     const form = new FormData();
     form.append("file", file);
     form.append("source_type", sourceType);
+    form.append("recognition_provider", recognitionProvider);
     return request<SourceRecord>("/api/sources", { method: "POST", body: form });
   },
   removeSource: (id: string) => request<void>(`/api/sources/${id}`, { method: "DELETE" }),
+  transcribe: (file: File, provider: string, model: string) => {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("model", model);
+    form.append("provider", provider);
+    return request<TranscriptionResult>("/api/transcriptions", { method: "POST", body: form });
+  },
   chat: (body: {
     question: string;
     model: string;

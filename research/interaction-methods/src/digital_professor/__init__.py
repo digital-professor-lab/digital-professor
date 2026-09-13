@@ -1,6 +1,8 @@
 """Reusable interaction-recognition machinery for the Digital Professor demo."""
 
 from .config import Settings, load_settings
+from .baseline import recognize_with_tesseract, tesseract_available
+from .transcription import faster_whisper_available, transcribe_with_faster_whisper
 from .ingestion import ingest_document, render_document
 from .recognition import RecognitionService
 from .skills import SkillInstructions, load_skill_instructions
@@ -31,4 +33,8 @@ __all__ = [
     "load_settings",
     "load_skill_instructions",
     "render_document",
+    "recognize_with_tesseract",
+    "tesseract_available",
+    "faster_whisper_available",
+    "transcribe_with_faster_whisper",
 ]

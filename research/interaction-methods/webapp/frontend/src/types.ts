@@ -25,7 +25,7 @@ export interface SourceRecord {
   preview: string;
   course: CourseMetadata | null;
   request_metadata: RequestMetadata[];
-  recognition_method: "embedded_text" | "visual_handwriting";
+  recognition_method: "embedded_text" | "rendered_page_vision" | "tesseract_local";
 }
 
 export interface SkillInstructions {
@@ -42,6 +42,23 @@ export interface ProviderConfig {
   output_cost_per_1m: number | null;
   models: string[];
   skills: SkillInstructions;
+  recognition_provider: "openai_vision" | "tesseract";
+  tesseract_available: boolean;
+  transcription_model: string;
+  transcription_models: string[];
+  transcription_provider: "openai" | "faster_whisper";
+  local_transcription_models: string[];
+  faster_whisper_available: boolean;
+}
+
+export interface TranscriptionResult {
+  text: string;
+  provider: string;
+  model: string;
+  elapsed_seconds: number;
+  input_tokens: number | null;
+  output_tokens: number | null;
+  total_tokens: number | null;
 }
 
 export interface TutorResponse {

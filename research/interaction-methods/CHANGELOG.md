@@ -2,6 +2,17 @@
 
 This file records prototype and research milestones. Dates describe when work was added to this repository rather than formal software releases.
 
+## 2026-09-13
+
+### Voice transcription interaction
+
+- Added microphone recording to the chat composer for desktop, phone, and tablet input.
+- Added a mobile audio-capture and file-selection fallback for browsers that block direct recording.
+- Added backend audio transcription with `gpt-transcribe`, `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `whisper-1` comparison options.
+- Added an availability-gated local faster-whisper provider with `tiny`, `base`, and `small` model choices for API-free baseline comparisons.
+- Added transcription model and elapsed-time feedback while keeping recognized text editable before it is sent to the tutor.
+- Documented desktop and mobile voice testing, microphone permissions, accepted formats, and secure-context limitations.
+
 ## 2026-09-11
 
 ### Local web application prototype
@@ -16,6 +27,8 @@ This file records prototype and research milestones. Dates describe when work wa
 - Populated the model selector from the models available to the configured API key.
 - Added multi-document attachments directly to the chat composer.
 - Added fenced and inline code rendering and corrected KaTeX rendering for dollar-sign and backslash-style math delimiters.
+- Added an in-chat sketchpad that exports drawings as PNG handwriting sources.
+- Added a selectable local Tesseract OCR baseline with availability reporting, timing metadata, and zero API cost.
 - Added automatic visual-recognition fallback for image-only PDFs, including handwritten PDFs attached from Chat.
 - Moved tutoring, explanation, and review behavior into a separate configurable skills file and exposed session overrides in Provider Settings.
 - Increased response, list, heading, and display-equation spacing for readability.

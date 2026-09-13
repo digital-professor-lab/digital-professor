@@ -3,7 +3,9 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { api } from "./api";
-import type { Message, ProviderConfig, SkillInstructions, SourceRecord, Tab } from "./types";
+import type { Message, ProviderConfig, SkillInstructions, SourceRecord, Tab, TranscriptionResult } from "./types";
+import Sketchpad from "./Sketchpad";
+import VoiceInput from "./VoiceInput";
 
 const tabLabels: Record<Tab, string> = {
   sources: "Sources",
@@ -56,12 +58,18 @@ function App() {
     review_instructions: "",
   });
   const [sourceType, setSourceType] = useState("syllabus");
+  const [recognitionProvider, setRecognitionProvider] = useState<"openai_vision" | "tesseract">("openai_vision");
   const [uploading, setUploading] = useState(false);
   const [chatUploading, setChatUploading] = useState(false);
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [thinking, setThinking] = useState(false);
   const [error, setError] = useState("");
+  const [sketchOpen, setSketchOpen] = useState(false);
+  const [transcriptionModel, setTranscriptionModel] = useState("gpt-4o-mini-transcribe");
+  const [transcriptionProvider, setTranscriptionProvider] = useState<"openai" | "faster_whisper">("openai");
+  const [transcribing, setTranscribing] = useState(false);
+  const [lastTranscription, setLastTranscription] = useState<TranscriptionResult | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const chatFileInput = useRef<HTMLInputElement>(null);
 
@@ -74,6 +82,9 @@ function App() {
         setInputRate(nextConfig.input_cost_per_1m?.toString() ?? "");
         setOutputRate(nextConfig.output_cost_per_1m?.toString() ?? "");
         setSkills(nextConfig.skills);
+        setRecognitionProvider(nextConfig.recognition_provider);
+        setTranscriptionModel(nextConfig.transcription_model);
+        setTranscriptionProvider(nextConfig.transcription_provider);
       })
       .catch((reason: Error) => setError(reason.message));
   }, []);
@@ -88,7 +99,7 @@ function App() {
     setUploading(true);
     setError("");
     try {
-      const added = await api.upload(file, sourceType);
+      const added = await api.upload(file, sourceType, recognitionProvider);
       setSources((current) => [...current, added]);
       if (added.source_type === "syllabus") setTab("sources");
     } catch (reason) {
@@ -108,13 +119,13 @@ function App() {
     }
   }
 
-  async function uploadChatFiles(files: FileList) {
+  async function uploadChatFiles(files: FileList | File[]) {
     setChatUploading(true);
     setError("");
     try {
       for (const file of Array.from(files)) {
         const isImage = /\.(png|jpe?g|webp)$/i.test(file.name);
-        const added = await api.upload(file, isImage ? "handwriting" : "document");
+        const added = await api.upload(file, isImage ? "handwriting" : "document", recognitionProvider);
         setSources((current) => [...current, added]);
       }
     } catch (reason) {
@@ -157,6 +168,20 @@ function App() {
       setError(reason instanceof Error ? reason.message : "The tutor could not respond.");
     } finally {
       setThinking(false);
+    }
+  }
+
+  async function transcribe(file: File) {
+    setTranscribing(true);
+    setError("");
+    try {
+      const result = await api.transcribe(file, transcriptionProvider, transcriptionModel);
+      setQuestion((current) => [current.trim(), result.text].filter(Boolean).join(" "));
+      setLastTranscription(result);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Audio transcription failed.");
+    } finally {
+      setTranscribing(false);
     }
   }
 
@@ -279,9 +304,9 @@ function App() {
                     </p>
                   )}
                   <p className="recognition-note">
-                    {source.recognition_method === "visual_handwriting"
-                      ? "Visual handwriting recognition"
-                      : "Embedded text extraction"}
+                    {source.recognition_method === "rendered_page_vision" && "OpenAI visual handwriting recognition"}
+                    {source.recognition_method === "tesseract_local" && "Local Tesseract OCR baseline"}
+                    {source.recognition_method === "embedded_text" && "Embedded text extraction"}
                   </p>
                 </article>
               ))}
@@ -322,6 +347,37 @@ function App() {
                   <input type="number" min="0" step="0.01" value={outputRate} onChange={(event) => setOutputRate(event.target.value)} placeholder="Optional" />
                 </label>
               </div>
+              <label>
+                Handwriting recognition
+                <select value={recognitionProvider} onChange={(event) => setRecognitionProvider(event.target.value as "openai_vision" | "tesseract")}>
+                  <option value="openai_vision">OpenAI vision</option>
+                  <option value="tesseract" disabled={!config?.tesseract_available}>Tesseract local baseline{config?.tesseract_available ? "" : " — not installed"}</option>
+                </select>
+                <small className="field-help">Tesseract provides a zero-API-cost baseline for comparison but is not designed to reconstruct handwritten equations as LaTeX.</small>
+              </label>
+              <label>
+                Voice transcription provider
+                <select
+                  value={transcriptionProvider}
+                  onChange={(event) => {
+                    const provider = event.target.value as "openai" | "faster_whisper";
+                    setTranscriptionProvider(provider);
+                    setTranscriptionModel(provider === "openai" ? "gpt-4o-mini-transcribe" : "base");
+                  }}
+                >
+                  <option value="openai">OpenAI API</option>
+                  <option value="faster_whisper" disabled={!config?.faster_whisper_available}>Local faster-whisper{config?.faster_whisper_available ? "" : " — not installed"}</option>
+                </select>
+              </label>
+              <label>
+                Voice transcription model
+                <select value={transcriptionModel} onChange={(event) => setTranscriptionModel(event.target.value)}>
+                  {((transcriptionProvider === "openai" ? config?.transcription_models : config?.local_transcription_models) ?? [transcriptionModel]).map((modelId) => (
+                    <option key={modelId} value={modelId}>{modelId}</option>
+                  ))}
+                </select>
+                <small className="field-help">Record the same question with different models to compare transcription accuracy and processing time. Model availability depends on the configured API account.</small>
+              </label>
               <div className="key-status">
                 <span className={config?.api_key_configured ? "status-dot ready" : "status-dot"} />
                 <div>
@@ -410,6 +466,14 @@ function App() {
                   onChange={(event) => event.target.files && uploadChatFiles(event.target.files)}
                 />
                 </label>
+                <button className="sketch-button" type="button" title="Open handwriting sketchpad" onClick={() => setSketchOpen(true)} disabled={chatUploading || thinking}>
+                  <span aria-hidden="true">✎</span><span className="sr-only">Open sketchpad</span>
+                </button>
+                <VoiceInput
+                  disabled={chatUploading || thinking || transcribing}
+                  onAudio={transcribe}
+                  onError={setError}
+                />
                 <textarea
                 value={question}
                 onChange={(event) => setQuestion(event.target.value)}
@@ -419,16 +483,28 @@ function App() {
                     event.currentTarget.form?.requestSubmit();
                   }
                 }}
-                placeholder="Ask a question, use ``` for code, or $$ for display math…"
+                placeholder={transcribing ? "Transcribing your recording…" : "Ask, record, use ``` for code, or $$ for display math…"}
                 rows={2}
                 />
-                <button type="submit" disabled={!question.trim() || thinking || chatUploading}>Ask</button>
+                <button type="submit" disabled={!question.trim() || thinking || chatUploading || transcribing}>Ask</button>
               </div>
-              <p>Enter to send · Shift + Enter for a new line · Attachments become course context</p>
+              <p>
+                {transcribing
+                  ? "Converting speech to text…"
+                  : lastTranscription
+                    ? `Last transcription: ${lastTranscription.provider} / ${lastTranscription.model} · ${lastTranscription.elapsed_seconds.toFixed(2)}s`
+                    : "Enter to send · Shift + Enter for a new line · Voice is transcribed before sending"}
+              </p>
             </form>
           </section>
         )}
       </main>
+      {sketchOpen && (
+        <Sketchpad
+          onClose={() => setSketchOpen(false)}
+          onUpload={async (file) => uploadChatFiles([file])}
+        />
+      )}
     </div>
   );
 }
