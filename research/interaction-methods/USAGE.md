@@ -147,12 +147,62 @@ On iPhone or iPad, confirm microphone permission under **Settings > Privacy & Se
 2. Review the detected course name, code, and term.
 3. Add lecture notes, homework, or student work through Sources or the attachment button in Chat.
 4. Open **Provider Settings** to select an available model, enter token rates, or edit the tutoring, explanation, and review instructions for the browser session.
-5. Select OpenAI vision or the optional local Tesseract baseline for handwriting recognition.
-6. Open **Chat** and enter a question, equation, or code example. Use the pencil button to draw directly in the sketchpad and upload the canvas as a handwriting source.
+5. Enable **Expose sources in answers** when the demonstration should show citations to uploaded material.
+6. Select OpenAI vision or the optional local Tesseract baseline for handwriting recognition.
+7. Open **Chat** and enter a question, equation, or code example. Use the pencil button to draw directly in the sketchpad and upload the canvas as a handwriting source.
+8. Review the answer's **Sources** section, then rate recognized source content with **Good** or **Needs correction**.
 
 Use `$...$` for inline TeX and `$$...$$` for display equations. Use single backticks for inline code and triple backticks for fenced code blocks.
 
 The upload pipeline supports PDF, TXT, Markdown, TeX, PNG, JPEG, and WebP files. PDFs with usable embedded text are extracted locally. Image files and PDFs without usable embedded text are sent through the selected visual recognizer. OpenAI vision requires a configured API key. Tesseract runs locally with zero API cost, but it is primarily a printed-text baseline and does not reliably reconstruct handwritten mathematics as LaTeX. Uploaded sources and chat messages are held in memory and reset when the backend restarts.
+
+### Source citations
+
+In **Provider Settings**, enable **Expose sources in answers** to show citations for uploaded material used in a response. Citation entries display the source filename, a page number when preserved by ingestion, and a short explanation of how the source supports the answer. The backend accepts only citations whose source IDs match the current workspace. Disable the setting to keep citations out of the displayed response while retaining course material as tutor context.
+
+### Evaluation metrics
+
+The backend records metadata-only research events at:
+
+```text
+research/interaction-methods/logs/interaction_metrics.jsonl
+```
+
+The runtime log is ignored by Git. It does not contain document contents, recognized text, chat questions, or tutor answers. Each JSON Lines event can include:
+
+- Interaction type and modality
+- Provider, model, and recognition method
+- Page count and elapsed time
+- Input, output, and total tokens when the provider returns them
+- Estimated request cost when token rates are configured
+- Mean equation-recognition confidence as a model-derived quality proxy
+- A student-supplied recognition quality rating
+- Character edit distance and normalized correction rate between a voice transcript draft and the text ultimately sent
+- Whether sources were exposed and how many valid citations were returned
+
+Click **Good** or **Needs correction** on a source card to add a human quality rating. Voice correction effort is recorded automatically when a transcription is edited and then submitted. Metrics for the current backend session are also available from `GET /api/evaluation/metrics`, and a 1--5 rating can be submitted programmatically to `POST /api/evaluation/feedback` with an `interaction_id` and `quality_rating`.
+
+Inspect the session metrics in a browser at <http://127.0.0.1:8000/api/evaluation/metrics>, or from a terminal:
+
+```bash
+curl -s http://127.0.0.1:8000/api/evaluation/metrics | python -m json.tool
+```
+
+Watch persistent events arrive during a demonstration with:
+
+```bash
+tail -f research/interaction-methods/logs/interaction_metrics.jsonl
+```
+
+Submit a 1--5 quality rating directly when testing the API:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/evaluation/feedback \
+  -H 'Content-Type: application/json' \
+  -d '{"interaction_id":"SOURCE_OR_TRANSCRIPTION_ID","quality_rating":4}'
+```
+
+Recognition confidence is only a proxy produced by the recognition model. It is not ground-truth accuracy. Formal evaluation should compare recognized output with a reference transcription and calculate character or word error rates.
 
 ## Run the notebook
 

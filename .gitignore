@@ -67,6 +67,7 @@ dist/
 
 # Personal demo files
 resources/interaction_test/
+research/interaction-methods/logs/*.jsonl
 
 # Others
 .DS_Store

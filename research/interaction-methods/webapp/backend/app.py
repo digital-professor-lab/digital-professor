@@ -15,6 +15,7 @@ from openai import APIConnectionError, APIStatusError, AuthenticationError, Open
 from pydantic import BaseModel, Field
 
 from digital_professor import (
+    MetricsStore,
     RecognitionService,
     SkillInstructions,
     ingest_document,
@@ -24,6 +25,7 @@ from digital_professor import (
     recognize_with_tesseract,
     transcribe_with_faster_whisper,
     tesseract_available,
+    correction_metrics,
 )
 
 
@@ -38,6 +40,7 @@ app.add_middleware(
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
 sources: dict[str, "SourceRecord"] = {}
+metrics = MetricsStore(PROJECT_ROOT / "research" / "interaction-methods" / "logs" / "interaction_metrics.jsonl")
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
 TRANSCRIPTION_MODELS = [
     "gpt-transcribe",
@@ -122,9 +125,11 @@ class ProviderConfig(BaseModel):
     transcription_provider: str
     local_transcription_models: list[str]
     faster_whisper_available: bool
+    expose_sources: bool
 
 
 class TranscriptionResult(BaseModel):
+    interaction_id: str
     text: str
     provider: str
     model: str
@@ -140,6 +145,14 @@ class ChatRequest(BaseModel):
     input_cost_per_1m: float | None = Field(default=None, ge=0)
     output_cost_per_1m: float | None = Field(default=None, ge=0)
     skills: SkillInstructions | None = None
+    expose_sources: bool = True
+    recognition_interaction_id: str | None = None
+    recognition_draft: str | None = Field(default=None, max_length=10_000)
+
+
+class EvaluationFeedback(BaseModel):
+    interaction_id: str
+    quality_rating: int = Field(ge=1, le=5)
 
 
 def _public(record: SourceRecord) -> PublicSource:
@@ -160,6 +173,7 @@ def _course_metadata(text: str) -> CourseMetadata:
         for line in lines
         if 4 <= len(line) <= 120
         and not re.search(r"syllabus|instructor|office|email|semester", line, re.I)
+        and not re.fullmatch(r"\[PAGE \d+\]", line, re.I)
     ]
     name = candidates[0] if candidates else None
     if name and code:
@@ -200,6 +214,24 @@ def provider_config() -> ProviderConfig:
         transcription_provider="openai",
         local_transcription_models=LOCAL_TRANSCRIPTION_MODELS,
         faster_whisper_available=faster_whisper_available(),
+        expose_sources=True,
+    )
+
+
+@app.get("/api/evaluation/metrics")
+def evaluation_metrics() -> list[dict]:
+    """Return metadata-only events captured during this backend session."""
+    return metrics.list()
+
+
+@app.post("/api/evaluation/feedback")
+def evaluation_feedback(feedback: EvaluationFeedback) -> dict:
+    return metrics.record(
+        {
+            "event_type": "quality_feedback",
+            "interaction_id": feedback.interaction_id,
+            "quality_rating": feedback.quality_rating,
+        }
     )
 
 
@@ -231,6 +263,7 @@ async def transcribe_audio(
         raise HTTPException(status_code=415, detail="Unsupported audio format.")
 
     temporary_path: Path | None = None
+    interaction_id = str(uuid4())
     try:
         with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as temporary:
             temporary.write(data)
@@ -248,14 +281,36 @@ async def transcribe_audio(
             text = result.text.strip()
             usage = getattr(result, "usage", None)
         elapsed = time.perf_counter() - started
+        input_tokens = getattr(usage, "input_tokens", None)
+        output_tokens = getattr(usage, "output_tokens", None)
+        total_tokens = getattr(usage, "total_tokens", None)
+        metrics.record(
+            {
+                "event_type": "recognition",
+                "interaction_id": interaction_id,
+                "modality": "voice",
+                "provider": provider,
+                "model": model,
+                "elapsed_seconds": elapsed,
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "total_tokens": total_tokens,
+                "estimated_cost_usd": None,
+                "quality_rating": None,
+                "recognition_quality_proxy": None,
+                "correction_edit_distance": None,
+                "correction_rate": None,
+            }
+        )
         return TranscriptionResult(
+            interaction_id=interaction_id,
             text=text,
             provider=provider,
             model=model,
             elapsed_seconds=elapsed,
-            input_tokens=getattr(usage, "input_tokens", None),
-            output_tokens=getattr(usage, "output_tokens", None),
-            total_tokens=getattr(usage, "total_tokens", None),
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            total_tokens=total_tokens,
         )
     except HTTPException:
         raise
@@ -285,6 +340,7 @@ async def add_source(
     recognition_provider: str = Form("openai_vision"),
 ) -> PublicSource:
     runtime = current_settings()
+    upload_started = time.perf_counter()
     if source_type not in {"syllabus", "document", "handwriting"}:
         raise HTTPException(status_code=400, detail="Unsupported source type.")
     data = await file.read(MAX_UPLOAD_BYTES + 1)
@@ -301,6 +357,7 @@ async def add_source(
             temporary_path = Path(temporary.name)
 
         request_metadata: list[dict] = []
+        quality_proxy: float | None = None
         text = ""
         page_count = 0
         recognition_method = "embedded_text"
@@ -309,7 +366,11 @@ async def add_source(
 
         if not requires_visual_recognition:
             ingestion = ingest_document(temporary_path, max_pages=runtime.max_pages)
-            text = ingestion.combined_text
+            text = "\n\n".join(
+                f"[PAGE {page.page_number}]\n{page.text}"
+                for page in ingestion.pages
+                if page.text
+            )
             page_count = len(ingestion.pages)
             visible_characters = len(re.sub(r"\s+", "", text))
             requires_visual_recognition = suffix == ".pdf" and visible_characters < 40
@@ -336,11 +397,17 @@ async def add_source(
                     recognition = RecognitionService(runtime).recognize_handwriting(temporary_path)
                 except Exception as exc:
                     raise provider_error(exc) from exc
-            page_text = [page.markdown for page in recognition.pages]
+            page_text = [f"[PAGE {page.page_number}]\n{page.markdown}" for page in recognition.pages]
             text = "\n\n".join(page_text)
             page_count = len(recognition.pages)
             request_metadata = [item.model_dump() for item in recognition.requests]
             recognition_method = recognition.method
+            confidences = [
+                equation.confidence
+                for page in recognition.pages
+                for equation in page.equations
+            ]
+            quality_proxy = sum(confidences) / len(confidences) if confidences else None
 
         course = _course_metadata(text) if source_type == "syllabus" else None
         source_id = str(uuid4())
@@ -356,6 +423,28 @@ async def add_source(
             recognition_method=recognition_method,
         )
         sources[source_id] = record
+        costs = [item.get("estimated_cost_usd") for item in request_metadata]
+        known_costs = [cost for cost in costs if cost is not None]
+        metrics.record(
+            {
+                "event_type": "recognition",
+                "interaction_id": source_id,
+                "modality": source_type,
+                "provider": recognition_provider if requires_visual_recognition else "local_extraction",
+                "model": request_metadata[0].get("model") if request_metadata else None,
+                "recognition_method": recognition_method,
+                "page_count": page_count,
+                "elapsed_seconds": time.perf_counter() - upload_started,
+                "input_tokens": sum(item.get("input_tokens") or 0 for item in request_metadata) or None,
+                "output_tokens": sum(item.get("output_tokens") or 0 for item in request_metadata) or None,
+                "total_tokens": sum(item.get("total_tokens") or 0 for item in request_metadata) or None,
+                "estimated_cost_usd": sum(known_costs) if known_costs else (0.0 if recognition_method in {"embedded_text", "tesseract_local"} else None),
+                "quality_rating": None,
+                "recognition_quality_proxy": quality_proxy,
+                "correction_edit_distance": None,
+                "correction_rate": None,
+            }
+        )
         return _public(record)
     except HTTPException:
         raise
@@ -381,7 +470,7 @@ def chat(request: ChatRequest) -> dict:
         output_cost_per_1m=request.output_cost_per_1m,
     )
     context_parts = [
-        f"SOURCE: {record.filename}\n{record.text}"
+        f"SOURCE_ID: {record.id}\nFILENAME: {record.filename}\nCONTENT:\n{record.text}"
         for record in sources.values()
         if record.text
     ]
@@ -393,6 +482,41 @@ def chat(request: ChatRequest) -> dict:
         ).help_student(
             request.question,
             context=context,
+            expose_sources=request.expose_sources,
+        )
+        allowed_sources = {record.id: record for record in sources.values()}
+        if request.expose_sources:
+            result.citations = [
+                citation.model_copy(update={"filename": allowed_sources[citation.source_id].filename})
+                for citation in result.citations
+                if citation.source_id in allowed_sources
+            ]
+        else:
+            result.citations = []
+        correction = (
+            correction_metrics(request.recognition_draft, request.question)
+            if request.recognition_interaction_id and request.recognition_draft is not None
+            else {"correction_edit_distance": None, "correction_rate": None}
+        )
+        metrics.record(
+            {
+                "event_type": "tutoring",
+                "interaction_id": str(uuid4()),
+                "recognition_interaction_id": request.recognition_interaction_id,
+                "modality": "voice_to_chat" if request.recognition_interaction_id else "text_chat",
+                "provider": "openai",
+                "model": result.request.model,
+                "elapsed_seconds": result.request.elapsed_seconds,
+                "input_tokens": result.request.input_tokens,
+                "output_tokens": result.request.output_tokens,
+                "total_tokens": result.request.total_tokens,
+                "estimated_cost_usd": result.request.estimated_cost_usd,
+                "quality_rating": None,
+                "recognition_quality_proxy": None,
+                "sources_exposed": request.expose_sources,
+                "citation_count": len(result.citations),
+                **correction,
+            }
         )
         return result.model_dump()
     except Exception as exc:

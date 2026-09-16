@@ -2,6 +2,17 @@
 
 This file records prototype and research milestones. Dates describe when work was added to this repository rather than formal software releases.
 
+## 2026-09-15
+
+### Source exposure and evaluation telemetry
+
+- Added an **Expose sources in answers** setting and structured source citations with validated source IDs, filenames, optional page numbers, and supporting basis.
+- Preserved page markers through local extraction and visual recognition to support page-level citations when available.
+- Added metadata-only JSONL telemetry for recognition, transcription, and tutoring interactions.
+- Exposed session telemetry through `GET /api/evaluation/metrics` and recognition ratings through `POST /api/evaluation/feedback`.
+- Added source-card quality feedback and automatic character-level correction effort for edited voice transcripts.
+- Logged latency, token usage, configured cost estimates, recognition confidence proxies, source exposure, and valid citation counts without logging student content.
+
 ## 2026-09-13
 
 ### Voice transcription interaction

@@ -49,9 +49,11 @@ export interface ProviderConfig {
   transcription_provider: "openai" | "faster_whisper";
   local_transcription_models: string[];
   faster_whisper_available: boolean;
+  expose_sources: boolean;
 }
 
 export interface TranscriptionResult {
+  interaction_id: string;
   text: string;
   provider: string;
   model: string;
@@ -61,12 +63,20 @@ export interface TranscriptionResult {
   total_tokens: number | null;
 }
 
+export interface SourceCitation {
+  source_id: string;
+  filename: string;
+  page_number: number | null;
+  basis: string;
+}
+
 export interface TutorResponse {
   interpreted_question: string;
   detected_equations: string[];
   answer_markdown: string;
   assumptions: string[];
   comprehension_check: string;
+  citations: SourceCitation[];
   request: RequestMetadata;
 }
 

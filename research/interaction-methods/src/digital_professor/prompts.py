@@ -15,4 +15,7 @@ TUTOR_PROMPT = """STUDENT REQUEST:
 {question}
 
 OPTIONAL COURSE OR RECOGNITION CONTEXT:
-{context}"""
+{context}
+
+SOURCE CITATION MODE:
+{citation_instructions}"""

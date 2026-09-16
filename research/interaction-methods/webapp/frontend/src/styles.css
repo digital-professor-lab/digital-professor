@@ -76,6 +76,9 @@ input:focus, select:focus, textarea:focus { border-color: #4d7d70; box-shadow: 0
 .icon-button { margin-left: auto; border: 0; background: transparent; font-size: 20px; color: #949b98; }
 .preview { color: #505b57; font: 13px/1.5 "DM Sans", sans-serif; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .recognition-note { color: #327158; font-size: 11px; margin-bottom: 0; }
+.quality-actions { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.quality-actions span { color: var(--muted); font-size: 10px; margin-right: auto; }
+.quality-actions button { border: 1px solid var(--line); background: white; color: var(--forest); border-radius: 999px; padding: 4px 8px; font-size: 9px; }
 .settings-card { max-width: 680px; display: grid; gap: 22px; border: 1px solid var(--line); padding: 28px; border-radius: 16px; background: rgba(255,255,255,.55); }
 .skill-settings { display: grid; gap: 16px; border-top: 1px solid var(--line); padding-top: 24px; }
 .skill-settings h3 { font: 600 23px "Newsreader", serif; margin: 5px 0; }
@@ -84,6 +87,10 @@ input:focus, select:focus, textarea:focus { border-color: #4d7d70; box-shadow: 0
 .step-label.dark { color: #397360; }
 .secondary-button { justify-self: start; border: 1px solid var(--line); background: white; color: var(--forest); padding: 9px 13px; border-radius: 8px; font-weight: 600; }
 .rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.toggle-row { grid-template-columns: auto 1fr; align-items: start; border: 1px solid var(--line); border-radius: 10px; padding: 13px; background: white; }
+.toggle-row input { width: 17px; height: 17px; margin: 1px 0 0; accent-color: var(--forest); }
+.toggle-row span { display: grid; gap: 4px; }
+.toggle-row strong { color: var(--ink); font-size: 13px; }
 .key-status { border-top: 1px solid var(--line); padding-top: 22px; display: flex; gap: 12px; align-items: flex-start; }
 .key-status .status-dot { margin-top: 5px; }
 .key-status strong { font-size: 14px; }
@@ -110,6 +117,12 @@ input:focus, select:focus, textarea:focus { border-color: #4d7d70; box-shadow: 0
 .message-body .katex-display > .katex { font-size: 1.08em; line-height: 1.45; }
 .message details { border-left: 3px solid #d0a58f; padding: 6px 12px; color: var(--muted); font-size: 13px; }
 .check-in { background: #e2f0e7; border-radius: 12px; padding: 14px 16px; margin-top: 20px; }
+.citations { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 14px; }
+.citations > strong { color: #2f6551; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+.citations ol { margin: 8px 0 0; padding-left: 1.5em; }
+.citations li { padding-left: .25em; }
+.citations li span { font-weight: 600; font-size: 12px; }
+.citations li p { color: var(--muted); font-size: 12px; margin: 3px 0 10px; }
 .check-in strong { color: #2f6551; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
 .check-in p { margin: 6px 0 0; }
 .metrics { display: flex; gap: 8px; margin-top: 12px; }

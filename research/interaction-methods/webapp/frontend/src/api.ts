@@ -21,6 +21,12 @@ export const api = {
     return request<SourceRecord>("/api/sources", { method: "POST", body: form });
   },
   removeSource: (id: string) => request<void>(`/api/sources/${id}`, { method: "DELETE" }),
+  rateRecognition: (interactionId: string, qualityRating: number) =>
+    request<Record<string, unknown>>("/api/evaluation/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ interaction_id: interactionId, quality_rating: qualityRating }),
+    }),
   transcribe: (file: File, provider: string, model: string) => {
     const form = new FormData();
     form.append("file", file);
@@ -34,6 +40,9 @@ export const api = {
     input_cost_per_1m: number | null;
     output_cost_per_1m: number | null;
     skills: SkillInstructions;
+    expose_sources: boolean;
+    recognition_interaction_id: string | null;
+    recognition_draft: string | null;
   }) =>
     request<TutorResponse>("/api/chat", {
       method: "POST",

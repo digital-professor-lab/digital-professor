@@ -179,7 +179,13 @@ class RecognitionService:
             request=self._request_metadata(response, elapsed_seconds),
         )
 
-    def help_student(self, question: str, context: str | None = None) -> TutorResponse:
+    def help_student(
+        self,
+        question: str,
+        context: str | None = None,
+        *,
+        expose_sources: bool = False,
+    ) -> TutorResponse:
         """Reason about a student question or equation and return a teaching response."""
         if not question.strip():
             raise ValueError("The student question or equation cannot be empty.")
@@ -187,6 +193,13 @@ class RecognitionService:
         prompt = TUTOR_PROMPT.format(
             question=question.strip(),
             context=(context or "No course-specific context was supplied.").strip(),
+            citation_instructions=(
+                "Cite every uploaded source used. Use only the exact SOURCE_ID and FILENAME "
+                "values in the context. Add a short basis and a page number only when the context "
+                "provides reliable page provenance. Do not invent sources or page numbers."
+                if expose_sources
+                else "Return an empty citations list."
+            ),
         )
         started_at = time.perf_counter()
         response = self.client.responses.create(

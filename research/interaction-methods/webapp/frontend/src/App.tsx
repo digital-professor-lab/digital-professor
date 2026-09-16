@@ -70,6 +70,9 @@ function App() {
   const [transcriptionProvider, setTranscriptionProvider] = useState<"openai" | "faster_whisper">("openai");
   const [transcribing, setTranscribing] = useState(false);
   const [lastTranscription, setLastTranscription] = useState<TranscriptionResult | null>(null);
+  const [recognitionDraft, setRecognitionDraft] = useState<{ interactionId: string; text: string } | null>(null);
+  const [exposeSources, setExposeSources] = useState(true);
+  const [ratedSources, setRatedSources] = useState<Record<string, number>>({});
   const fileInput = useRef<HTMLInputElement>(null);
   const chatFileInput = useRef<HTMLInputElement>(null);
 
@@ -85,6 +88,7 @@ function App() {
         setRecognitionProvider(nextConfig.recognition_provider);
         setTranscriptionModel(nextConfig.transcription_model);
         setTranscriptionProvider(nextConfig.transcription_provider);
+        setExposeSources(nextConfig.expose_sources);
       })
       .catch((reason: Error) => setError(reason.message));
   }, []);
@@ -116,6 +120,15 @@ function App() {
       setSources((current) => current.filter((source) => source.id !== id));
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Could not remove source.");
+    }
+  }
+
+  async function rateRecognition(id: string, rating: number) {
+    try {
+      await api.rateRecognition(id, rating);
+      setRatedSources((current) => ({ ...current, [id]: rating }));
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Could not save recognition feedback.");
     }
   }
 
@@ -154,6 +167,9 @@ function App() {
         input_cost_per_1m: inputRate ? Number(inputRate) : null,
         output_cost_per_1m: outputRate ? Number(outputRate) : null,
         skills,
+        expose_sources: exposeSources,
+        recognition_interaction_id: recognitionDraft?.interactionId ?? null,
+        recognition_draft: recognitionDraft?.text ?? null,
       });
       setMessages((current) => [
         ...current,
@@ -164,6 +180,7 @@ function App() {
           result,
         },
       ]);
+      setRecognitionDraft(null);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "The tutor could not respond.");
     } finally {
@@ -176,8 +193,10 @@ function App() {
     setError("");
     try {
       const result = await api.transcribe(file, transcriptionProvider, transcriptionModel);
-      setQuestion((current) => [current.trim(), result.text].filter(Boolean).join(" "));
+      const draft = [question.trim(), result.text].filter(Boolean).join(" ");
+      setQuestion(draft);
       setLastTranscription(result);
+      setRecognitionDraft({ interactionId: result.interaction_id, text: draft });
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Audio transcription failed.");
     } finally {
@@ -308,6 +327,11 @@ function App() {
                     {source.recognition_method === "tesseract_local" && "Local Tesseract OCR baseline"}
                     {source.recognition_method === "embedded_text" && "Embedded text extraction"}
                   </p>
+                  <div className="quality-actions" aria-label={`Rate recognition quality for ${source.filename}`}>
+                    <span>{ratedSources[source.id] ? `Quality rated ${ratedSources[source.id]}/5` : "Recognition quality"}</span>
+                    <button type="button" onClick={() => rateRecognition(source.id, 5)}>Good</button>
+                    <button type="button" onClick={() => rateRecognition(source.id, 2)}>Needs correction</button>
+                  </div>
                 </article>
               ))}
             </div>
@@ -347,6 +371,13 @@ function App() {
                   <input type="number" min="0" step="0.01" value={outputRate} onChange={(event) => setOutputRate(event.target.value)} placeholder="Optional" />
                 </label>
               </div>
+              <label className="toggle-row">
+                <input type="checkbox" checked={exposeSources} onChange={(event) => setExposeSources(event.target.checked)} />
+                <span>
+                  <strong>Expose sources in answers</strong>
+                  <small className="field-help">Show citations for uploaded material used by the tutor. Uncheck to keep source references hidden in the response.</small>
+                </span>
+              </label>
               <label>
                 Handwriting recognition
                 <select value={recognitionProvider} onChange={(event) => setRecognitionProvider(event.target.value as "openai_vision" | "tesseract")}>
@@ -433,6 +464,19 @@ function App() {
                     <>
                       {message.result.assumptions.length > 0 && (
                         <details><summary>Assumptions</summary><ul>{message.result.assumptions.map((item) => <li key={item}>{item}</li>)}</ul></details>
+                      )}
+                      {message.result.citations.length > 0 && (
+                        <div className="citations">
+                          <strong>Sources</strong>
+                          <ol>
+                            {message.result.citations.map((citation, index) => (
+                              <li key={`${citation.source_id}-${index}`}>
+                                <span>{citation.filename}{citation.page_number ? `, p. ${citation.page_number}` : ""}</span>
+                                <p>{citation.basis}</p>
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
                       )}
                       <div className="check-in"><strong>Check your understanding</strong><Markdown>{message.result.comprehension_check}</Markdown></div>
                       <div className="metrics">

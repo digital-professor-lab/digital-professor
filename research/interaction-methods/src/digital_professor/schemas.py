@@ -87,6 +87,16 @@ class GenerationResult(StrictModel):
     request: RequestMetadata
 
 
+class SourceCitation(StrictModel):
+    source_id: str = Field(description="Stable source identifier supplied in the context.")
+    filename: str = Field(description="Exact source filename supplied in the context.")
+    page_number: int | None = Field(
+        ge=1,
+        description="Page number when page provenance is available; otherwise null.",
+    )
+    basis: str = Field(description="Brief paraphrase of the source material supporting the answer.")
+
+
 class TutorPayload(StrictModel):
     interpreted_question: str = Field(
         description="A concise restatement of what the student appears to be asking."
@@ -102,6 +112,9 @@ class TutorPayload(StrictModel):
     )
     comprehension_check: str = Field(
         description="One short question that checks whether the student follows."
+    )
+    citations: list[SourceCitation] = Field(
+        description="Sources used in the answer, or an empty list when citations are disabled or no source supports the answer."
     )
 
 
