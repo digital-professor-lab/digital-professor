@@ -4,6 +4,9 @@ This file records prototype and research milestones. Dates describe when work wa
 
 ## 2026-09-15
 
+# Todo: 
+assessment based learning, focused on text, and do evaluation on existing
+
 ### Source exposure and evaluation telemetry
 
 - Added an **Expose sources in answers** setting and structured source citations with validated source IDs, filenames, optional page numbers, and supporting basis.
