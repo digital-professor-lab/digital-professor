@@ -13,7 +13,7 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 export const api = {
   config: () => request<ProviderConfig>("/api/config"),
   sources: () => request<SourceRecord[]>("/api/sources"),
-  upload: (file: File, sourceType: string, recognitionProvider = "openai_vision") => {
+  upload: (file: File, sourceType = "auto", recognitionProvider = "openai_vision") => {
     const form = new FormData();
     form.append("file", file);
     form.append("source_type", sourceType);

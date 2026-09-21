@@ -2,8 +2,16 @@ export type Tab = "sources" | "settings" | "chat";
 
 export interface CourseMetadata {
   course_name: string | null;
-  course_code: string | null;
-  term: string | null;
+  course_number: string | null;
+  semester: string | null;
+  course_overview: string | null;
+}
+
+export interface TopicEntry {
+  title: string;
+  level: number;
+  section_number: string | null;
+  page_number: number | null;
 }
 
 export interface RequestMetadata {
@@ -20,12 +28,15 @@ export interface RequestMetadata {
 export interface SourceRecord {
   id: string;
   filename: string;
-  source_type: "syllabus" | "document" | "handwriting";
+  source_type: "syllabus" | "lecture_notes" | "textbook" | "document" | "handwriting";
   page_count: number;
   preview: string;
   course: CourseMetadata | null;
+  topics: TopicEntry[];
+  textbook_name: string | null;
   request_metadata: RequestMetadata[];
   recognition_method: "embedded_text" | "rendered_page_vision" | "tesseract_local";
+  analysis_warning: string | null;
 }
 
 export interface SkillInstructions {

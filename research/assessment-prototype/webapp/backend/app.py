@@ -13,11 +13,18 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from openai import APIConnectionError, APIStatusError, AuthenticationError, OpenAI, RateLimitError
 from pydantic import BaseModel, Field
+import pymupdf
 
 from digital_professor import (
     MetricsStore,
     RecognitionService,
     SkillInstructions,
+    CourseDetails,
+    TopicEntry,
+    classify_document,
+    extract_course_details,
+    extract_textbook_name,
+    extract_topics,
     ingest_document,
     load_settings,
     load_skill_instructions,
@@ -27,6 +34,7 @@ from digital_professor import (
     tesseract_available,
     correction_metrics,
 )
+from digital_professor.source_analysis import analyze_source_text
 
 
 app = FastAPI(title="Digital Professor Assessment Prototype API", version="0.1.0")
@@ -42,6 +50,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[4]
 sources: dict[str, "SourceRecord"] = {}
 metrics = MetricsStore(PROJECT_ROOT / "research" / "assessment-prototype" / "logs" / "interaction_metrics.jsonl")
 MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+MAX_SOURCE_UPLOAD_BYTES = 100 * 1024 * 1024
 TRANSCRIPTION_MODELS = [
     "gpt-transcribe",
     "gpt-4o-transcribe",
@@ -81,12 +90,6 @@ def provider_error(exc: Exception) -> HTTPException:
     return HTTPException(status_code=500, detail=f"Tutor request failed: {exc}")
 
 
-class CourseMetadata(BaseModel):
-    course_name: str | None = None
-    course_code: str | None = None
-    term: str | None = None
-
-
 class SourceRecord(BaseModel):
     id: str
     filename: str
@@ -94,9 +97,12 @@ class SourceRecord(BaseModel):
     page_count: int
     text: str
     preview: str
-    course: CourseMetadata | None = None
+    course: CourseDetails | None = None
+    topics: list[TopicEntry] = Field(default_factory=list)
+    textbook_name: str | None = None
     request_metadata: list[dict] = Field(default_factory=list)
     recognition_method: str
+    analysis_warning: str | None = None
 
 
 class PublicSource(BaseModel):
@@ -105,9 +111,12 @@ class PublicSource(BaseModel):
     source_type: str
     page_count: int
     preview: str
-    course: CourseMetadata | None = None
+    course: CourseDetails | None = None
+    topics: list[TopicEntry] = Field(default_factory=list)
+    textbook_name: str | None = None
     request_metadata: list[dict] = Field(default_factory=list)
     recognition_method: str
+    analysis_warning: str | None = None
 
 
 class ProviderConfig(BaseModel):
@@ -157,28 +166,6 @@ class EvaluationFeedback(BaseModel):
 
 def _public(record: SourceRecord) -> PublicSource:
     return PublicSource(**record.model_dump(exclude={"text"}))
-
-
-def _course_metadata(text: str) -> CourseMetadata:
-    """Return conservative syllabus metadata without inventing absent fields."""
-    lines = [line.strip() for line in text.splitlines() if line.strip()][:40]
-    code_pattern = re.compile(r"\b[A-Z]{2,}(?:[ -][A-Z]{2,})?[ -]?\d{3,4}[A-Z]?\b")
-    term_pattern = re.compile(
-        r"\b(Spring|Summer|Fall|Winter)\s+20\d{2}\b", re.IGNORECASE
-    )
-    code = next((match.group(0) for line in lines if (match := code_pattern.search(line))), None)
-    term = next((match.group(0) for line in lines if (match := term_pattern.search(line))), None)
-    candidates = [
-        line
-        for line in lines
-        if 4 <= len(line) <= 120
-        and not re.search(r"syllabus|instructor|office|email|semester", line, re.I)
-        and not re.fullmatch(r"\[PAGE \d+\]", line, re.I)
-    ]
-    name = candidates[0] if candidates else None
-    if name and code:
-        name = re.sub(re.escape(code), "", name, flags=re.IGNORECASE).strip(" :-–—") or None
-    return CourseMetadata(course_name=name, course_code=code, term=term)
 
 
 @app.get("/api/health")
@@ -336,16 +323,16 @@ def delete_source(source_id: str) -> dict[str, bool]:
 @app.post("/api/sources", response_model=PublicSource)
 async def add_source(
     file: UploadFile = File(...),
-    source_type: str = Form("document"),
+    source_type: str = Form("auto"),
     recognition_provider: str = Form("openai_vision"),
 ) -> PublicSource:
     runtime = current_settings()
     upload_started = time.perf_counter()
-    if source_type not in {"syllabus", "document", "handwriting"}:
+    if source_type not in {"auto", "syllabus", "lecture_notes", "textbook", "document", "handwriting"}:
         raise HTTPException(status_code=400, detail="Unsupported source type.")
-    data = await file.read(MAX_UPLOAD_BYTES + 1)
-    if len(data) > MAX_UPLOAD_BYTES:
-        raise HTTPException(status_code=413, detail="File exceeds the 20 MB demo limit.")
+    data = await file.read(MAX_SOURCE_UPLOAD_BYTES + 1)
+    if len(data) > MAX_SOURCE_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="File exceeds the 100 MB source limit.")
     suffix = Path(file.filename or "upload.pdf").suffix.lower()
     if suffix not in {".pdf", ".txt", ".md", ".tex", ".png", ".jpg", ".jpeg", ".webp"}:
         raise HTTPException(status_code=415, detail="Unsupported file format.")
@@ -360,6 +347,9 @@ async def add_source(
         quality_proxy: float | None = None
         text = ""
         page_count = 0
+        if suffix == ".pdf":
+            with pymupdf.open(temporary_path) as document:
+                page_count = len(document)
         recognition_method = "embedded_text"
         image_suffixes = {".png", ".jpg", ".jpeg", ".webp"}
         requires_visual_recognition = source_type == "handwriting" or suffix in image_suffixes
@@ -371,8 +361,9 @@ async def add_source(
                 for page in ingestion.pages
                 if page.text
             )
-            page_count = len(ingestion.pages)
-            visible_characters = len(re.sub(r"\s+", "", text))
+            if suffix != ".pdf":
+                page_count = len(ingestion.pages)
+            visible_characters = sum(len(re.sub(r"\s+", "", page.text)) for page in ingestion.pages)
             requires_visual_recognition = suffix == ".pdf" and visible_characters < 40
 
         if requires_visual_recognition:
@@ -399,7 +390,8 @@ async def add_source(
                     raise provider_error(exc) from exc
             page_text = [f"[PAGE {page.page_number}]\n{page.markdown}" for page in recognition.pages]
             text = "\n\n".join(page_text)
-            page_count = len(recognition.pages)
+            if suffix != ".pdf":
+                page_count = len(recognition.pages)
             request_metadata = [item.model_dump() for item in recognition.requests]
             recognition_method = recognition.method
             confidences = [
@@ -409,18 +401,81 @@ async def add_source(
             ]
             quality_proxy = sum(confidences) / len(confidences) if confidences else None
 
-        course = _course_metadata(text) if source_type == "syllabus" else None
+        if source_type == "auto":
+            detected_type = (
+                "textbook"
+                if suffix == ".pdf" and page_count > 300
+                else classify_document(text, file.filename or "", image=suffix in image_suffixes)
+            )
+        else:
+            detected_type = source_type
+        course = extract_course_details(text) if detected_type == "syllabus" else None
+        topics = extract_topics(temporary_path, text) if detected_type == "lecture_notes" else []
+        textbook_name = extract_textbook_name(temporary_path, text) if detected_type == "textbook" else None
+        analysis_warning = None
+        needs_model = bool(text.strip()) and (
+            (source_type == "auto" and detected_type == "document")
+            or (detected_type == "syllabus" and course is not None and not all(course.model_dump().values()))
+            or (detected_type == "lecture_notes" and not topics)
+            or (detected_type == "textbook" and not textbook_name)
+        )
+        if needs_model and runtime.api_enabled:
+            try:
+                analysis, analysis_metadata = analyze_source_text(
+                    text,
+                    api_key=runtime.openai_api_key,
+                    model=runtime.openai_model,
+                )
+                if runtime.input_cost_per_1m is not None and runtime.output_cost_per_1m is not None:
+                    analysis_metadata["estimated_cost_usd"] = (
+                        (analysis_metadata["input_tokens"] or 0) * runtime.input_cost_per_1m
+                        + (analysis_metadata["output_tokens"] or 0) * runtime.output_cost_per_1m
+                    ) / 1_000_000
+                request_metadata.append(analysis_metadata)
+                if source_type == "auto" and detected_type == "document":
+                    detected_type = analysis.document_type
+                if detected_type == "syllabus":
+                    local = course or CourseDetails()
+                    course = CourseDetails(**{
+                        field: getattr(analysis.course, field) or getattr(local, field)
+                        for field in CourseDetails.model_fields
+                    })
+                    if not any(course.model_dump().values()):
+                        analysis_warning = "No syllabus fields could be verified from this upload. Check that its text is readable."
+                elif detected_type == "lecture_notes" and not topics:
+                    topics = [
+                        TopicEntry(
+                            title=topic.title,
+                            level=max(topic.level, 1),
+                            section_number=topic.section_number,
+                            page_number=topic.page_number if topic.page_number and topic.page_number > 0 else None,
+                        )
+                        for topic in analysis.topics
+                        if topic.title.strip()
+                    ]
+                elif detected_type == "textbook":
+                    textbook_name = analysis.textbook_name or textbook_name
+                    if not textbook_name:
+                        analysis_warning = "The textbook title could not be verified from the opening pages."
+            except Exception as exc:
+                analysis_warning = f"Model extraction was unavailable: {type(exc).__name__}. Check the provider settings and try again."
+        elif needs_model:
+            analysis_warning = "This layout needs model extraction. Configure OPENAI_API_KEY in the root .env and upload again."
+
         source_id = str(uuid4())
         record = SourceRecord(
             id=source_id,
             filename=file.filename or temporary_path.name,
-            source_type=source_type,
+            source_type=detected_type,
             page_count=page_count,
             text=text,
             preview=text[:500],
             course=course,
+            topics=topics,
+            textbook_name=textbook_name,
             request_metadata=request_metadata,
             recognition_method=recognition_method,
+            analysis_warning=analysis_warning,
         )
         sources[source_id] = record
         costs = [item.get("estimated_cost_usd") for item in request_metadata]
@@ -429,8 +484,8 @@ async def add_source(
             {
                 "event_type": "recognition",
                 "interaction_id": source_id,
-                "modality": source_type,
-                "provider": recognition_provider if requires_visual_recognition else "local_extraction",
+                "modality": detected_type,
+                "provider": recognition_provider if requires_visual_recognition else ("openai" if request_metadata else "local_extraction"),
                 "model": request_metadata[0].get("model") if request_metadata else None,
                 "recognition_method": recognition_method,
                 "page_count": page_count,

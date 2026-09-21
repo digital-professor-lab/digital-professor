@@ -57,9 +57,10 @@ function App() {
     explanation_instructions: "",
     review_instructions: "",
   });
-  const [sourceType, setSourceType] = useState("syllabus");
+  const [sourceType, setSourceType] = useState("auto");
   const [recognitionProvider, setRecognitionProvider] = useState<"openai_vision" | "tesseract">("openai_vision");
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ completed: number; total: number; name: string } | null>(null);
   const [chatUploading, setChatUploading] = useState(false);
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -93,23 +94,33 @@ function App() {
       .catch((reason: Error) => setError(reason.message));
   }, []);
 
-  const syllabus = sources.find((source) => source.source_type === "syllabus");
+  const syllabus = [...sources].reverse().find((source) => source.source_type === "syllabus");
   const courseTitle = useMemo(() => {
     if (!syllabus?.course) return "Course workspace";
-    return [syllabus.course.course_code, syllabus.course.course_name].filter(Boolean).join(" · ");
+    return [syllabus.course.course_number, syllabus.course.course_name].filter(Boolean).join(" · ");
   }, [syllabus]);
 
-  async function upload(file: File) {
+  async function upload(files: FileList | File[]) {
+    const selected = Array.from(files);
+    if (selected.length === 0) return;
     setUploading(true);
     setError("");
+    const failures: string[] = [];
     try {
-      const added = await api.upload(file, sourceType, recognitionProvider);
-      setSources((current) => [...current, added]);
-      if (added.source_type === "syllabus") setTab("sources");
-    } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Upload failed.");
+      for (const [index, file] of selected.entries()) {
+        setUploadProgress({ completed: index, total: selected.length, name: file.name });
+        try {
+          const added = await api.upload(file, sourceType, recognitionProvider);
+          setSources((current) => [...current, added]);
+        } catch (reason) {
+          failures.push(`${file.name}: ${reason instanceof Error ? reason.message : "Upload failed."}`);
+        }
+      }
+      if (failures.length > 0) setError(failures.join("\n"));
+      setSourceType("auto");
     } finally {
       setUploading(false);
+      setUploadProgress(null);
       if (fileInput.current) fileInput.current.value = "";
     }
   }
@@ -138,7 +149,7 @@ function App() {
     try {
       for (const file of Array.from(files)) {
         const isImage = /\.(png|jpe?g|webp)$/i.test(file.name);
-        const added = await api.upload(file, isImage ? "handwriting" : "document", recognitionProvider);
+        const added = await api.upload(file, isImage ? "handwriting" : "auto", recognitionProvider);
         setSources((current) => [...current, added]);
       }
     } catch (reason) {
@@ -259,15 +270,15 @@ function App() {
               <div>
                 <p className="eyebrow">Ground the professor</p>
                 <h2>Course sources</h2>
-                <p>Start with a syllabus, then add notes, homework, or handwritten work.</p>
+                <p>Upload syllabi, lecture notes, and textbooks. Each file becomes a separate source.</p>
               </div>
             </div>
 
             {!syllabus && (
               <div className="onboarding-card">
                 <span className="step-label">First step</span>
-                <h3>Upload your syllabus</h3>
-                <p>We will extract a proposed course name, code, and term for you to review.</p>
+                <h3>Upload your course material</h3>
+                <p>Start with a syllabus and lecture notes; their types are detected automatically.</p>
               </div>
             )}
 
@@ -278,32 +289,44 @@ function App() {
                   <h3>{syllabus.course.course_name || "Course name needs review"}</h3>
                 </div>
                 <div className="course-facts">
-                  <span>{syllabus.course.course_code || "No code detected"}</span>
-                  <span>{syllabus.course.term || "No term detected"}</span>
+                  <span>{syllabus.course.course_number || "No course number detected"}</span>
+                  <span>{syllabus.course.semester || "No semester detected"}</span>
                 </div>
+              </div>
+            )}
+
+            {syllabus?.course?.course_overview && (
+              <div className="course-overview">
+                <span className="step-label dark">Course overview</span>
+                <p>{syllabus.course.course_overview}</p>
               </div>
             )}
 
             <div className="upload-row">
               <label>
-                Source type
+                Document type
                 <select value={sourceType} onChange={(event) => setSourceType(event.target.value)}>
-                  <option value="syllabus">Syllabus</option>
-                  <option value="document">Notes or homework</option>
+                  <option value="auto">Detect automatically</option>
+                  <option value="syllabus">Syllabus (override)</option>
+                  <option value="lecture_notes">Lecture notes (override)</option>
+                  <option value="textbook">Textbook (override)</option>
+                  <option value="document">Other document (override)</option>
                   <option value="handwriting">Handwritten work</option>
                 </select>
               </label>
               <label className="file-button">
-                {uploading ? "Processing…" : "Choose a file"}
+                {uploading && uploadProgress ? `Processing ${uploadProgress.completed + 1}/${uploadProgress.total}…` : "Choose files"}
                 <input
                   ref={fileInput}
                   type="file"
                   accept=".pdf,.txt,.md,.tex,.png,.jpg,.jpeg,.webp"
+                  multiple
                   disabled={uploading}
-                  onChange={(event) => event.target.files?.[0] && upload(event.target.files[0])}
+                  onChange={(event) => event.target.files && upload(event.target.files)}
                 />
               </label>
             </div>
+            {uploadProgress && <p className="upload-progress" role="status">Uploading {uploadProgress.name} ({uploadProgress.completed + 1} of {uploadProgress.total})</p>}
 
             <div className="source-grid">
               {sources.map((source) => (
@@ -317,6 +340,38 @@ function App() {
                     <button className="icon-button" onClick={() => removeSource(source.id)} aria-label="Remove source">×</button>
                   </div>
                   <p className="preview">{source.preview || "No embedded text was found."}</p>
+                  {source.analysis_warning && <p className="source-analysis-warning">{source.analysis_warning}</p>}
+                  {source.source_type === "textbook" && (
+                    <div className="source-course-details">
+                      <strong>{source.textbook_name || "Textbook title needs review"}</strong>
+                      <span>Textbook · {source.page_count} pages</span>
+                    </div>
+                  )}
+                  {source.source_type === "syllabus" && source.course && (
+                    <div className="source-course-details">
+                      <strong>{source.course.course_name || "Course name needs review"}</strong>
+                      <span>{source.course.course_number || "Course number not found"} · {source.course.semester || "Semester not found"}</span>
+                      {source.course.course_overview && (
+                        <details>
+                          <summary>Extracted course overview</summary>
+                          <p>{source.course.course_overview}</p>
+                        </details>
+                      )}
+                    </div>
+                  )}
+                  {source.topics.length > 0 && (
+                    <details className="topic-outline">
+                      <summary>{source.topics.length} topics in the lecture-note outline</summary>
+                      <ol>
+                        {source.topics.map((topic, index) => (
+                          <li key={`${topic.section_number ?? index}-${index}`} className={`topic-level-${Math.min(topic.level, 3)}`}>
+                            <span>{topic.section_number ? `${topic.section_number} ` : ""}{topic.title}</span>
+                            {topic.page_number && <small>PDF p. {topic.page_number}</small>}
+                          </li>
+                        ))}
+                      </ol>
+                    </details>
+                  )}
                   {source.request_metadata.length > 0 && (
                     <p className="recognition-note">
                       Recognized in {source.request_metadata.reduce((sum, item) => sum + item.elapsed_seconds, 0).toFixed(2)}s
