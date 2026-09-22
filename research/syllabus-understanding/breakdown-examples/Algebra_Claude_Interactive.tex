@@ -1,0 +1,642 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+
+\newtheorem*{remark*}{Remark}
+
+\title{Algebra\\[4pt]\large First-Year PhD Course Design}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Course Overview and Design Notes}
+\begin{itemize}
+  \item \textbf{Level:} First-year PhD.
+  \item \textbf{Format:} Lecture only; two 75-minute meetings per week; 14--15 weeks ($\approx$28--30 lectures).
+  \item \textbf{Assessment:} Weekly problem sets, class participation, one midterm exam, one final exam.
+  \item \textbf{Assumed background:} One undergraduate abstract algebra course (groups, rings, fields at an introductory level) and mathematical maturity sufficient to construct and write rigorous proofs.
+  \item \textbf{Stated assumption (grading weights):} Relative weighting of assessments was not specified. This design assumes problem sets 35\%, participation 10\%, midterm 25\%, final exam 30\%; adjust as needed.
+  \item \textbf{Stated assumption (topic ordering):} The source material lists ``universal properties, representable functors, and the Yoneda lemma'' before ``universal properties and universal elements.'' These have been reordered so the informal treatment (universal properties/universal elements) precedes the formal one (representable functors/Yoneda), for pedagogical flow. All content from both items is retained in full.
+\end{itemize}
+
+%=========================================================
+\section{Categorical Foundations of Algebra}
+\textbf{Weeks 1--2 (Lectures 1--4).} \emph{Goal:} introduce the categorical language (objects, morphisms, universal properties) needed to unify the treatment of groups, rings, and modules throughout the course.
+
+\subsection{Universal aspects of algebra}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Algebraic structures as sets with operations satisfying axioms; the recurring pattern across groups, rings, modules, vector spaces.
+  \item Motivation for a unifying language: homomorphisms, substructures, and quotients recur in every algebraic category.
+  \item Informal preview of ``universal property'' as a way to characterize an object by its relationships rather than its internal construction.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain why a uniform categorical vocabulary is useful across distinct algebraic structures.
+  \item Identify recurring patterns (homomorphism, sub-object, quotient) across at least three algebraic categories.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} List three constructions that make sense in groups, rings, and modules alike, and state the common pattern. \emph{Rubric: credit for identifying homomorphism/kernel, sub-object, quotient as the shared pattern.}
+  \item \emph{(Level 2)} Give an example of a construction (e.g., free product) that behaves very differently across two algebraic categories, and explain why. \emph{Rubric: correct example plus a precise statement of the structural difference (non-commutativity, lack of universal element, etc.).}
+\end{enumerate}
+
+\subsection{Categories of groups, rings, and modules}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Definition of a category: objects, morphisms, composition, identities.
+  \item $\mathbf{Grp}$, $\mathbf{Ring}$, $R\text{-}\mathbf{Mod}$ as categories; isomorphisms as invertible morphisms.
+  \item Forgetful functors between these categories and $\mathbf{Set}$.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the axioms of a category and verify them for $\mathbf{Grp}$, $\mathbf{Ring}$, and $R\text{-}\mathbf{Mod}$.
+  \item Apply the definition of functor to construct the forgetful functor $\mathbf{Grp}\to\mathbf{Set}$.
+  \item Derive that isomorphism in a category coincides with the usual algebraic notion of isomorphism.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Verify that $R\text{-}\mathbf{Mod}$ satisfies the category axioms, exhibiting identity morphisms and associativity of composition. \emph{Rubric: full credit for explicit identity maps and an associativity check on a general composite.}
+  \item \emph{(Level 3)} Show that a morphism in $\mathbf{Ring}$ that is bijective on underlying sets is automatically a categorical isomorphism, and give an example of a category where bijective-on-objects morphisms need not be isomorphisms. \emph{Rubric: correct proof for $\mathbf{Ring}$; valid counterexample category (e.g., $\mathbf{Top}$) for the second part.}
+\end{enumerate}
+
+\subsection{Universal properties and universal elements}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Universal properties defined via initial/terminal objects in an auxiliary category (e.g., ``objects under $X$'').
+  \item Universal elements: a pair $(U,u)$ with $u \in F(U)$ such that every element of $F(A)$ arises uniquely from $u$ via a morphism $U \to A$.
+  \item Uniqueness up to unique isomorphism of objects satisfying a universal property.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the general template of a universal property using initial/terminal objects.
+  \item Derive uniqueness up to unique isomorphism for any object satisfying a universal property.
+  \item Apply the universal-element formulation to a concrete example (e.g., free group on a set).
+\end{enumerate}
+\paragraph{Difficulty note}
+This topic is a common early stumbling block: students see universal properties as abstract nonsense before they have enough examples to ground the definition. \emph{Mitigation:} present at least three concrete universal properties (free group, quotient group, direct product) computed by hand \emph{before} stating the general uniqueness theorem.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} State the universal property of the free group on a set $S$ and verify it for $S = \{x\}$. \emph{Rubric: correct universal property statement; correct verification that the free group on one generator is $\mathbb{Z}$.}
+  \item \emph{(Level 2)} Prove that any two objects satisfying the same universal property are canonically isomorphic. \emph{Rubric: full proof using the two comparison morphisms and uniqueness in each direction.}
+\end{enumerate}
+
+%=========================================================
+\section{Representability and Adjunctions}
+\textbf{Week 3 (Lectures 5--6).} \emph{Goal:} formalize the universal-property arguments of Module 1 via representable functors, the Yoneda lemma, and adjoint functors, and recognize products, coproducts, and free constructions as instances.
+
+\subsection{Representable functors and the Yoneda lemma}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Representable functors $\mathrm{Hom}(A,-)$ and $\mathrm{Hom}(-,A)$; a universal element as exactly a natural isomorphism $\mathrm{Hom}(A,-) \cong F$.
+  \item Natural transformations between functors.
+  \item Statement and proof of the Yoneda lemma; the Yoneda embedding as fully faithful.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the correspondence between universal elements and natural isomorphisms with a representable functor.
+  \item Derive the Yoneda lemma from the definition of natural transformation.
+  \item Apply the Yoneda embedding to reprove uniqueness of objects representing a functor.
+\end{enumerate}
+\paragraph{Difficulty note}
+The Yoneda lemma is frequently perceived as circular or vacuous on first exposure (an abstraction jump compounded by notational overload with natural transformations). \emph{Mitigation:} first prove a fully concrete instance (e.g., natural transformations $\mathrm{Hom}(\mathbb{Z}^n,-) \to \mathrm{Hom}(\mathbb{Z}^m,-)$ correspond to matrices) via direct element-chasing, then present the general proof.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} State the Yoneda lemma precisely and identify what data a natural transformation $\mathrm{Hom}(A,-) \Rightarrow F$ is equivalent to. \emph{Rubric: correct statement; correct identification with an element of $F(A)$.}
+  \item \emph{(Level 3)} Use the Yoneda lemma to show that if $\mathrm{Hom}(A,-) \cong \mathrm{Hom}(B,-)$ naturally, then $A \cong B$. \emph{Rubric: full proof invoking the Yoneda embedding's fully-faithfulness.}
+\end{enumerate}
+
+\subsection{Products, coproducts, direct sums}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Products and coproducts as universal objects representing $\mathrm{Hom}(-,A)\times\mathrm{Hom}(-,B)$ and its dual.
+  \item Direct products vs. direct sums in $\mathbf{Grp}$ and $R\text{-}\mathbf{Mod}$; when they coincide (finite index sets).
+  \item Free products of groups as the coproduct in $\mathbf{Grp}$.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain products and coproducts as instances of universal properties.
+  \item Derive the universal property of the direct sum of modules from first principles.
+  \item Evaluate why the free product, not the direct product, is the coproduct in $\mathbf{Grp}$.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Verify the universal property of $M \oplus N$ for $R$-modules $M,N$. \emph{Rubric: correct universal property and verification via the two inclusion maps.}
+  \item \emph{(Level 2)} Explain why $\mathbb{Z}/2 * \mathbb{Z}/2$ (free product) is infinite while $\mathbb{Z}/2 \times \mathbb{Z}/2$ is not, and relate this to the coproduct/product distinction. \emph{Rubric: correct computation (infinite dihedral group) and correct categorical explanation.}
+\end{enumerate}
+
+\subsection{Free and forgetful constructions; tensor and Hom as adjoint functors}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Adjoint functors: definition via natural bijection $\mathrm{Hom}(FA,B)\cong\mathrm{Hom}(A,GB)$.
+  \item Free/forgetful adjunctions (free group, free module) as the paradigmatic example.
+  \item Tensor--Hom adjunction: $\mathrm{Hom}_R(M\otimes_R N, P) \cong \mathrm{Hom}_R(M,\mathrm{Hom}_R(N,P))$.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the general definition of an adjoint pair of functors.
+  \item Derive the free/forgetful adjunction for groups explicitly.
+  \item Apply the tensor--Hom adjunction to compute $\mathrm{Hom}$ or $\otimes$ in a specific case.
+\end{enumerate}
+\paragraph{Difficulty note}
+Tensor and Hom are each defined by their own universal property, and it is easy to lose track of variance (covariant vs.\ contravariant in each slot) when combining them. \emph{Mitigation:} compute $\mathbb{Z}/2 \otimes_{\mathbb{Z}} \mathbb{Z}/3$ and $\mathrm{Hom}_{\mathbb{Z}}(\mathbb{Z}/2,\mathbb{Z}/3)$ by hand before stating the adjunction abstractly, and use a side-by-side variance table.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Compute $\mathbb{Z}/2 \otimes_{\mathbb{Z}} \mathbb{Z}/3$ and $\mathrm{Hom}_{\mathbb{Z}}(\mathbb{Z}/2,\mathbb{Z}/3)$ directly from definitions. \emph{Rubric: both correctly computed as $0$, with justification via orders.}
+  \item \emph{(Level 3)} State and prove the tensor--Hom adjunction for modules over a commutative ring $R$. \emph{Rubric: correct natural bijection constructed in both directions with naturality verified.}
+\end{enumerate}
+
+%=========================================================
+\section{Group Actions and Sylow Theory}
+\textbf{Weeks 4--5 (Lectures 7--10).} \emph{Goal:} develop group actions as the primary tool for probing the internal structure of finite groups, culminating in the Sylow theorems.
+
+\subsection{Group actions}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item $G$-sets; orbits, stabilizers, orbit-stabilizer theorem.
+  \item Actions on cosets ($G/H$) and by conjugation; the class equation.
+  \item Cayley's theorem and faithful actions.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the correspondence between $G$-actions on $X$ and homomorphisms $G \to \mathrm{Sym}(X)$.
+  \item Derive the orbit-stabilizer theorem and the class equation.
+  \item Apply the class equation to prove that every $p$-group has nontrivial center.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Compute the orbits and stabilizers for $S_3$ acting on $\{1,2,3\}$. \emph{Rubric: single orbit of size 3, stabilizers of order 2, verified via orbit-stabilizer.}
+  \item \emph{(Level 2)} Prove that a group of order $p^2$ ($p$ prime) is abelian, using the class equation. \emph{Rubric: correct use of nontrivial center plus quotient argument.}
+\end{enumerate}
+
+\subsection{The Sylow theorems}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Existence, conjugacy, and counting ($n_p \equiv 1 \pmod p$, $n_p \mid [G:P]$) parts of the Sylow theorems.
+  \item Proof strategy via actions on the set of $p$-subgroups / cosets.
+  \item Applications: proving simplicity or non-simplicity of small-order groups.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the statement of each of the three Sylow theorems.
+  \item Derive existence of a Sylow $p$-subgroup via a group action argument.
+  \item Apply the counting formula for $n_p$ to show a group of a given order is not simple.
+  \item Evaluate which Sylow-theorem strategy (counting vs. normalizer argument) is most efficient for a given order.
+\end{enumerate}
+\paragraph{Difficulty note}
+The proofs chain together multiple group actions in sequence, and the counting argument for $n_p$ has high notational overload. \emph{Mitigation:} work through the full argument for a single concrete order (e.g., $|G|=12$) step by step before presenting the general theorem, with an explicit list of which action is used at each stage.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} Show that every group of order 15 is cyclic. \emph{Rubric: correct computation of $n_3=1$, $n_5=1$ and conclusion via internal direct product.}
+  \item \emph{(Level 3)} Show that no group of order 36 is simple. \emph{Rubric: correct case analysis on $n_3 \in \{1,4\}$ and construction of a nontrivial homomorphism to $S_4$ or $S_9$ when $n_3=4$.}
+\end{enumerate}
+
+%=========================================================
+\section{Structure of Groups}
+\textbf{Week 6 (Lectures 11--12).} \emph{Goal:} study symmetric and alternating groups and endomorphism rings as key examples, and introduce composition series as a structural decomposition tool.
+
+\subsection{Symmetric and alternating groups; endomorphism rings}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Cycle decomposition, parity/sign homomorphism, $A_n$ as its kernel.
+  \item Simplicity of $A_n$ for $n \geq 5$ (statement; proof sketch).
+  \item Endomorphism rings $\mathrm{End}(A)$ for an abelian group or module $A$; ring structure via addition and composition.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain cycle decomposition and compute the sign of a permutation.
+  \item Derive that $A_n$ is generated by 3-cycles for $n \geq 3$.
+  \item Evaluate the significance of simplicity of $A_n$, $n\ge 5$, for solvability (previewing Module 5).
+  \item Apply the endomorphism-ring construction to compute $\mathrm{End}(\mathbb{Z}/n\mathbb{Z})$.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Compute the cycle decomposition and sign of $(1\,3\,5)(2\,4)$ in $S_5$. \emph{Rubric: correct decomposition; sign $= -1$.}
+  \item \emph{(Level 2)} Show $\mathrm{End}(\mathbb{Z}/n\mathbb{Z}) \cong \mathbb{Z}/n\mathbb{Z}$ as rings. \emph{Rubric: correct ring isomorphism via $f \mapsto f(1)$, with multiplication matching composition.}
+\end{enumerate}
+
+\subsection{Composition series}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Subnormal series, composition series, composition factors.
+  \item Jordan--H\"older theorem: uniqueness of composition factors up to order and isomorphism.
+  \item Refinement of series (Schreier refinement theorem) as the key lemma.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the definition of composition series and composition factors.
+  \item Derive the Jordan--H\"older theorem from the Schreier refinement theorem.
+  \item Apply the theorem to compute composition factors of a specific group (e.g., $S_4$).
+\end{enumerate}
+\paragraph{Difficulty note}
+The Jordan--H\"older proof (via Zassenhaus/Schreier refinement) is technical, and students often lose track of which series is being refined into which. \emph{Mitigation:} present a fully worked example with $S_4$, drawing the refinement lattice explicitly, before the general proof; supply a common-error walkthrough addressing the mistake of assuming series must have equal length \emph{before} refinement.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} Find a composition series for $S_4$ and identify its composition factors. \emph{Rubric: series $1 \triangleleft V_4' \triangleleft V_4 \triangleleft A_4 \triangleleft S_4$ (or equivalent), factors $\mathbb{Z}/2,\mathbb{Z}/2,\mathbb{Z}/3,\mathbb{Z}/2$.}
+  \item \emph{(Level 3)} Prove the Jordan--H\"older theorem assuming the Schreier refinement theorem. \emph{Rubric: correct induction on series length using refinement to match factors.}
+\end{enumerate}
+
+%=========================================================
+\section{Solvability and Classification}
+\textbf{Week 7 (Lectures 13--14).} \emph{Goal:} characterize solvable groups via extension problems and completely classify finite abelian groups. \emph{Midterm exam at the end of this week, covering Modules 1--5.}
+
+\subsection{Solvability and extension problems}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Definition of solvable group via a subnormal series with abelian factors; equivalence with derived series terminating.
+  \item Extension problem: given $N \triangleleft G$ and $G/N$, classify possible $G$; split vs. non-split extensions.
+  \item Closure properties of solvable groups (subgroups, quotients, extensions).
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the equivalence of the several definitions of solvability.
+  \item Derive that $S_n$ is not solvable for $n \geq 5$ using simplicity of $A_n$.
+  \item Apply closure properties to determine solvability of a group built from an extension.
+  \item Design a non-split extension of two given groups and verify it is non-split.
+\end{enumerate}
+\paragraph{Difficulty note}
+The correspondence between towers of abelian quotients and solvability is abstract, and the extension problem is easy to state but subtle to reason about (many students initially assume all extensions split). \emph{Mitigation:} use the ``building blocks'' analogy (solvable groups are built from abelian pieces glued together) and present an explicit non-split extension ($\mathbb{Z}/4$ as an extension of $\mathbb{Z}/2$ by $\mathbb{Z}/2$) alongside a split one ($\mathbb{Z}/2\times\mathbb{Z}/2$).
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Show directly that $S_4$ is solvable by exhibiting a subnormal series with abelian factors. \emph{Rubric: correct series and verification of abelian quotients.}
+  \item \emph{(Level 3)} Prove that $S_n$ is not solvable for $n \geq 5$. \emph{Rubric: correct use of simplicity and non-abelianness of $A_n$.}
+\end{enumerate}
+
+\subsection{Classification of finite abelian groups}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Primary decomposition and invariant factor decomposition of finite abelian groups.
+  \item Structure theorem: every finite abelian group is a direct sum of cyclic groups of prime-power order.
+  \item Uniqueness of the decomposition.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the statement of the structure theorem for finite abelian groups.
+  \item Apply the theorem to enumerate all abelian groups of a given order up to isomorphism.
+  \item Derive the equivalence between the invariant factor and primary decompositions.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} List all abelian groups of order 72 up to isomorphism. \emph{Rubric: correct enumeration via partitions of the exponents of $2^3\cdot 3^2$ (6 groups total).}
+  \item \emph{(Level 2)} Convert the primary decomposition $\mathbb{Z}/4 \oplus \mathbb{Z}/9 \oplus \mathbb{Z}/2 \oplus \mathbb{Z}/3$ into invariant factor form. \emph{Rubric: correct answer $\mathbb{Z}/6 \oplus \mathbb{Z}/36$.}
+\end{enumerate}
+
+%=========================================================
+\section{Rings and Modules}
+\textbf{Weeks 8--9 (Lectures 15--18).} \emph{Goal:} extend the categorical and structural viewpoint from groups to rings and modules via ideals, quotients, and chain conditions.
+
+\subsection{Ideals and quotients}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Two-sided, left, and right ideals; kernels of ring homomorphisms as (two-sided) ideals.
+  \item Quotient rings and the first isomorphism theorem for rings.
+  \item Prime and maximal ideals; correspondence theorem for ideals.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the correspondence between ideals and kernels of ring homomorphisms.
+  \item Derive the first isomorphism theorem for rings.
+  \item Apply the definition of prime/maximal ideal to a specific ring (e.g., $\mathbb{Z}$, $k[x]$).
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Show that $(x^2+1)$ is a maximal ideal in $\mathbb{R}[x]$ by identifying the quotient. \emph{Rubric: correct identification $\mathbb{R}[x]/(x^2+1) \cong \mathbb{C}$, a field.}
+  \item \emph{(Level 2)} Prove the correspondence theorem: ideals of $R/I$ correspond bijectively to ideals of $R$ containing $I$. \emph{Rubric: full proof of the bijection and that it respects inclusion.}
+\end{enumerate}
+
+\subsection{Modules over a ring}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Module axioms; submodules, quotient modules, module homomorphisms.
+  \item Free modules and their universal property; generation and relations.
+  \item Modules as generalizing both vector spaces and abelian groups ($\mathbb{Z}$-modules).
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain how the module axioms generalize vector space axioms.
+  \item Derive the universal property of a free module on a set.
+  \item Apply module homomorphism theorems to a concrete example.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Verify that every abelian group is naturally a $\mathbb{Z}$-module, and describe $\mathbb{Z}/n$ as a quotient of a free module. \emph{Rubric: correct scalar action defined via repeated addition; correct presentation $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/(n)$.}
+  \item \emph{(Level 2)} Show that a module over a field is free (i.e., is a vector space with a basis), assuming finite generation. \emph{Rubric: correct argument via a minimal generating set being linearly independent.}
+\end{enumerate}
+
+\subsection{Chain conditions and existence of factorizations}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Ascending chain condition (ACC) and descending chain condition (DCC) on ideals/submodules.
+  \item Noetherian and Artinian rings/modules; equivalence of ACC with the maximal condition.
+  \item Noetherian induction as a proof technique; existence (not uniqueness) of factorizations into irreducibles.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the equivalence between ACC and the maximal condition on ideals.
+  \item Derive existence of a factorization into irreducibles in a Noetherian domain via Noetherian induction.
+  \item Evaluate whether a given ring is Noetherian, Artinian, both, or neither.
+\end{enumerate}
+\paragraph{Difficulty note}
+Students often conflate ``ACC on ideals'' with ``every ideal is finitely generated'' without realizing these require proof to be equivalent, and Noetherian induction feels unmotivated on first exposure (it looks like ordinary induction without a base case). \emph{Mitigation:} give an explicit non-Noetherian ring (e.g., a polynomial ring in infinitely many variables) to sharpen intuition, and present Noetherian induction as ``proof by minimal counterexample'' with an explicit template.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Show that $\mathbb{Z}$ satisfies ACC on ideals but not DCC. \emph{Rubric: correct argument via $(n) \supsetneq (n^2) \supsetneq \cdots$ failing to terminate, and ACC via finite generation.}
+  \item \emph{(Level 3)} Prove that every nonzero non-unit element of a Noetherian integral domain factors into irreducibles. \emph{Rubric: correct Noetherian-induction argument (minimal counterexample has no irreducible factorization, contradiction via a proper factorization).}
+\end{enumerate}
+
+%=========================================================
+\section{Factorization Theory}
+\textbf{Week 10 (Lectures 19--20).} \emph{Goal:} determine when unique factorization holds in an integral domain and extend the theory to polynomial rings.
+
+\subsection{UFDs, PIDs, Euclidean domains; existence of maximal ideals}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Definitions and implication chain: Euclidean domain $\Rightarrow$ PID $\Rightarrow$ UFD.
+  \item Irreducible vs.\ prime elements; equivalence in a UFD.
+  \item Existence of maximal ideals via Zorn's lemma.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the implication chain Euclidean $\Rightarrow$ PID $\Rightarrow$ UFD with a counterexample showing each implication is strict.
+  \item Derive that irreducible elements are prime in a PID.
+  \item Apply Zorn's lemma to prove every nonzero ring with identity has a maximal ideal.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Show that $\mathbb{Z}[i]$ is a Euclidean domain using the norm function. \emph{Rubric: correct division-with-remainder argument using the norm.}
+  \item \emph{(Level 3)} Show $\mathbb{Z}[\sqrt{-5}]$ is not a UFD by exhibiting two distinct factorizations of an element. \emph{Rubric: correct example $6 = 2\cdot 3 = (1+\sqrt{-5})(1-\sqrt{-5})$ with irreducibility of each factor justified via norms.}
+\end{enumerate}
+
+\subsection{Unique factorization in polynomial rings}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Gauss's lemma; content of a polynomial and primitive polynomials.
+  \item If $R$ is a UFD, then $R[x]$ is a UFD.
+  \item Consequences: $\mathbb{Z}[x]$, $k[x_1,\ldots,x_n]$ are UFDs.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain Gauss's lemma and the role of content/primitivity.
+  \item Derive that $R[x]$ is a UFD whenever $R$ is, by induction on number of variables.
+  \item Apply the result to conclude $k[x_1,\ldots,x_n]$ is a UFD.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} Use Gauss's lemma to show that if a primitive polynomial in $\mathbb{Z}[x]$ factors over $\mathbb{Q}$, it factors over $\mathbb{Z}$ with the same degree pattern. \emph{Rubric: correct clearing-of-denominators argument invoking primitivity.}
+  \item \emph{(Level 3)} Prove that $R[x]$ is a UFD whenever $R$ is a UFD (statement and proof outline). \emph{Rubric: correct reduction to irreducibility in $\mathrm{Frac}(R)[x]$ combined with Gauss's lemma.}
+\end{enumerate}
+
+%=========================================================
+\section{Polynomials and Field Extensions I}
+\textbf{Week 11 (Lectures 21--22).} \emph{Goal:} develop criteria for irreducibility of polynomials and use them to construct and measure basic field extensions.
+
+\subsection{Irreducibility of polynomials}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Rational root theorem; reduction mod $p$ criterion.
+  \item Eisenstein's criterion and its variants (after substitution).
+  \item Irreducibility over $\mathbb{Q}$ vs.\ over $\mathbb{Z}$ vs.\ over finite fields.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain and apply each of the standard irreducibility criteria.
+  \item Evaluate which criterion is most likely to succeed for a given polynomial.
+  \item Design a substitution (e.g., $x \mapsto x+1$) to make Eisenstein's criterion applicable.
+\end{enumerate}
+\paragraph{Difficulty note}
+Students often apply criteria as an unmotivated checklist rather than reasoning about which tool fits, and mistakenly treat irreducibility as base-ring-independent. \emph{Mitigation:} provide a decision-tree handout (degree, coefficients, obvious roots $\to$ which criterion to try first) and a common-error walkthrough contrasting irreducibility of the same polynomial over $\mathbb{Q}$ vs.\ $\mathbb{F}_p$.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Show $x^4+1$ is irreducible over $\mathbb{Q}$ using the substitution $x \mapsto x+1$ and Eisenstein. \emph{Rubric: correct substitution producing an Eisenstein-eligible polynomial at $p=2$.}
+  \item \emph{(Level 2)} Determine whether $x^3 - x - 1$ is irreducible over $\mathbb{F}_5$. \emph{Rubric: correct root check over $\mathbb{F}_5$ (no roots $\Rightarrow$ irreducible, since degree 3).}
+\end{enumerate}
+
+\subsection{Field extensions I}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Degree of an extension $[L:K]$; the tower law.
+  \item Algebraic vs. transcendental elements; minimal polynomials.
+  \item Simple extensions $K(\alpha)$ and their construction as $K[x]/(f)$.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the construction of $K(\alpha)$ as a quotient of $K[x]$.
+  \item Derive the tower law for finite extensions.
+  \item Apply the tower law to compute degrees of composite extensions.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Compute $[\mathbb{Q}(\sqrt{2},\sqrt{3}):\mathbb{Q}]$ using the tower law. \emph{Rubric: correct answer 4, with justification that $\sqrt{3}\notin\mathbb{Q}(\sqrt2)$.}
+  \item \emph{(Level 2)} Show that $K(\alpha) \cong K[x]/(f)$ where $f$ is the minimal polynomial of $\alpha$ over $K$. \emph{Rubric: correct construction of the isomorphism via evaluation at $\alpha$.}
+\end{enumerate}
+
+%=========================================================
+\section{Algebraic Closures and Geometric Applications}
+\textbf{Week 12 (Lectures 23--24).} \emph{Goal:} construct algebraic closures, relate ideals to geometric varieties via the Nullstellensatz, and resolve classical straightedge-and-compass construction problems.
+
+\subsection{Algebraic closure, the Nullstellensatz, and affine algebraic geometry}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Existence of an algebraic closure (via Zorn's lemma); algebraically closed fields.
+  \item Affine varieties $V(I) \subseteq k^n$ and the ideal $I(V)$ of a variety.
+  \item Hilbert's Nullstellensatz (weak and strong forms); the ideal--variety correspondence.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the construction of an algebraic closure of a field.
+  \item Explain the statement of the weak and strong Nullstellensatz.
+  \item Apply the Nullstellensatz to compute $I(V(I))$ for a specific ideal $I$.
+\end{enumerate}
+\paragraph{Difficulty note}
+This is students' first serious contact translating between algebra (ideals) and geometry (varieties), and the Nullstellensatz's quantifier structure (existence of a common zero for every proper ideal) is easy to misread. \emph{Mitigation:} work through low-dimensional pictures (plane curves) illustrating $V(I)$ and $I(V)$ before the general statement, with explicit small examples showing why algebraic closure of $k$ is essential (e.g., $V(x^2+1)$ empty over $\mathbb{R}$).
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Compute $V(x^2 - y)$ and $I(V(x^2-y))$ in $\mathbb{C}^2$. \emph{Rubric: correct parabola description and $I(V) = (x^2-y)$.}
+  \item \emph{(Level 3)} State the weak Nullstellensatz and use it to prove the strong Nullstellensatz for a radical ideal. \emph{Rubric: correct reduction via the Rabinowitsch trick.}
+\end{enumerate}
+
+\subsection{Geometric impossibilities}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Constructible numbers as those reachable via straightedge-and-compass from $\{0,1\}$.
+  \item Constructible numbers lie in a tower of quadratic extensions of $\mathbb{Q}$; degree of a constructible number over $\mathbb{Q}$ is a power of 2.
+  \item Classical impossibility proofs: doubling the cube, trisecting an angle, squaring the circle.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain why constructible points correspond to iterated quadratic extensions.
+  \item Derive that $[\mathbb{Q}(\alpha):\mathbb{Q}]$ must be a power of 2 for $\alpha$ constructible.
+  \item Apply this criterion to prove doubling the cube and trisecting $60^\circ$ are impossible.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} Prove that the cube cannot be doubled by straightedge and compass. \emph{Rubric: correct computation that $[\mathbb{Q}(\sqrt[3]{2}):\mathbb{Q}]=3$, not a power of 2.}
+  \item \emph{(Level 3)} Prove that a general angle cannot be trisected by straightedge and compass, using $\theta = 60^\circ$ as the counterexample. \emph{Rubric: correct minimal polynomial computation for $\cos 20^\circ$ showing degree 3.}
+\end{enumerate}
+
+%=========================================================
+\section{Advanced Field Theory}
+\textbf{Week 13 (Lectures 25--26).} \emph{Goal:} deepen the theory of field extensions with normality and separability, the two pillars needed for Galois theory.
+
+\subsection{Field extensions II}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Splitting fields of a polynomial; existence and uniqueness up to isomorphism.
+  \item Normal extensions: $L/K$ normal iff every irreducible polynomial in $K[x]$ with a root in $L$ splits in $L$.
+  \item Normal closure of an extension.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the construction and uniqueness of a splitting field.
+  \item Derive the equivalence of the several characterizations of normality.
+  \item Apply the definition to determine whether a given extension is normal.
+\end{enumerate}
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 1)} Determine whether $\mathbb{Q}(\sqrt[3]{2})/\mathbb{Q}$ is normal. \emph{Rubric: correct conclusion (not normal), justified by the missing complex roots of $x^3-2$.}
+  \item \emph{(Level 2)} Construct the splitting field of $x^4-2$ over $\mathbb{Q}$ and compute its degree. \emph{Rubric: correct splitting field $\mathbb{Q}(\sqrt[4]{2},i)$, degree 8.}
+\end{enumerate}
+
+\subsection{Field extensions III}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Separable polynomials and separable extensions; the derivative criterion for separability.
+  \item Perfect fields (all extensions separable); characteristic 0 and finite fields are perfect.
+  \item Primitive element theorem for finite separable extensions.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the derivative criterion for a polynomial to be separable.
+  \item Derive that every extension of a field of characteristic 0 is separable.
+  \item Apply the primitive element theorem to express a given extension as a simple extension.
+\end{enumerate}
+\paragraph{Difficulty note}
+Normal and separable are logically independent closure-type conditions that students frequently conflate, and the distinction between ``splitting field'' and ``algebraic closure'' blurs on first exposure. \emph{Mitigation:} build a $2\times2$ example table (normal+separable, normal-not-separable, separable-not-normal, neither) with a concrete field extension in each cell.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} Give an example of a non-separable extension in characteristic $p$. \emph{Rubric: correct example $\mathbb{F}_p(t)/\mathbb{F}_p(t^p)$ with $x^p - t^p$ having a repeated root.}
+  \item \emph{(Level 3)} Prove the primitive element theorem for finite separable extensions in characteristic 0. \emph{Rubric: correct argument via the finitely-many-intermediate-fields / infinite base field trick.}
+\end{enumerate}
+
+%=========================================================
+\section{Galois Theory and Applications}
+\textbf{Weeks 14--15 (Lectures 27--30).} \emph{Goal:} prove the fundamental theorem of Galois theory and apply it to solvability by radicals, constructibility, and computation of Galois groups. \emph{Final exam during finals week, cumulative with emphasis on this module.}
+
+\subsection{Galois theory}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Galois extensions: normal + separable; the Galois group $\mathrm{Gal}(L/K)$.
+  \item Fixed fields and the Galois correspondence (fundamental theorem of Galois theory).
+  \item Inclusion-reversing bijection between subgroups and intermediate fields; normal subgroups correspond to normal (sub-)extensions.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the definition of a Galois extension and its Galois group.
+  \item Derive the fundamental theorem of Galois theory (statement and structure of proof).
+  \item Apply the correspondence to compute all intermediate fields of a given Galois extension.
+  \item Evaluate why the correspondence is inclusion-reversing, in terms of fixed fields.
+\end{enumerate}
+\paragraph{Difficulty note}
+This is the capstone result of the course, requiring simultaneous fluency in group theory, field theory, and fixed-field arguments; students often memorize the correspondence without internalizing why it is inclusion-reversing. \emph{Mitigation:} trace one full worked example (splitting field of $x^4-2$, Galois group $D_4$) explicitly matching each subgroup to its fixed field \emph{before} stating the theorem in general.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} Compute $\mathrm{Gal}(\mathbb{Q}(\sqrt2,\sqrt3)/\mathbb{Q})$ and list all of its subgroups and their fixed fields. \emph{Rubric: correct group $\mathbb{Z}/2\times\mathbb{Z}/2$; correct matching of 3 proper subgroups to $\mathbb{Q}(\sqrt2),\mathbb{Q}(\sqrt3),\mathbb{Q}(\sqrt6)$.}
+  \item \emph{(Level 3)} For the splitting field of $x^4-2$ over $\mathbb{Q}$, compute the Galois group and exhibit the subgroup--subfield correspondence for one non-normal subgroup. \emph{Rubric: correct group $D_4$; correct identification of a non-normal order-2 subgroup and its non-normal fixed subfield.}
+\end{enumerate}
+
+\subsection{Applications of Galois theory}
+\paragraph{Core concepts}
+\begin{itemize}[nosep]
+  \item Solvability by radicals; the Galois group of a solvable-by-radicals polynomial is a solvable group.
+  \item The general quintic is not solvable by radicals (via $\mathrm{Gal} \cong S_5$).
+  \item Revisiting constructibility and the fundamental theorem of algebra via Galois theory.
+\end{itemize}
+\paragraph{Learning objectives}
+\begin{enumerate}[nosep]
+  \item Explain the correspondence between solvability by radicals and solvability of the Galois group.
+  \item Derive the insolvability of the general quintic.
+  \item Apply Galois-theoretic criteria to determine whether a specific quintic is solvable by radicals.
+  \item Evaluate how the Galois-theoretic proof of constructibility results sharpens the Module 9 argument.
+\end{enumerate}
+\paragraph{Difficulty note}
+Students often expect a computational recipe for solvability by radicals but the criterion is existential (solvability of the Galois group), requiring them to compute an unfamiliar Galois group rather than manipulate the polynomial directly. \emph{Mitigation:} work a specific insolvable quintic (e.g., $x^5-4x+2$) end to end, showing how irreducibility plus real-root count pins down $\mathrm{Gal}\cong S_5$.
+\paragraph{Example questions}
+\begin{enumerate}[nosep]
+  \item \emph{(Level 2)} Explain why solvability of $\mathrm{Gal}(f)$ is necessary for $f$ to be solvable by radicals (statement, not full proof). \emph{Rubric: correct sketch via radical towers corresponding to a subnormal series with abelian (cyclic) quotients.}
+  \item \emph{(Level 3)} Show that $x^5 - 4x + 2$ is not solvable by radicals over $\mathbb{Q}$. \emph{Rubric: correct Eisenstein irreducibility check, correct real-root count (3 real roots) forcing a transposition in the Galois group, correct conclusion $\mathrm{Gal}\cong S_5$, correct citation of insolvability of $S_5$.}
+\end{enumerate}
+
+%=========================================================
+\section{Prerequisite Map}
+
+\begin{longtable}{p{5cm} p{5cm} p{4.5cm}}
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where taught} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where taught} \\
+\midrule
+\endhead
+Universal aspects of algebra & Basic set theory; binary operations & Assumed background \\
+Categories of groups, rings, modules & Universal aspects of algebra; group/ring/module definitions & Assumed background; \S1.1 \\
+Universal properties and universal elements & Categories of groups/rings/modules & \S1.2 \\
+Representable functors and Yoneda lemma & Universal properties/elements; functors & \S1.3 \\
+Products, coproducts, direct sums & Universal properties; representable functors & \S1.3, \S2.1 \\
+Free/forgetful constructions; tensor--Hom adjunction & Products/coproducts; adjoint functor concept & \S2.2 \\
+Group actions & Group axioms, subgroups, cosets, Lagrange's theorem & Assumed background \\
+Sylow theorems & Group actions (esp. conjugation) & \S3.1 \\
+Symmetric/alternating groups; endomorphism rings & Group actions; permutation group basics & \S3.1; assumed background \\
+Composition series & Normal subgroups, quotients; Sylow theorems (examples) & Assumed background; \S3.2 \\
+Solvability and extension problems & Composition series, quotient groups & \S4.2 \\
+Classification of finite abelian groups & Direct sums; composition series & \S2.2, \S4.2 \\
+Ideals and quotients & Ring definitions; categories of rings & Assumed background; \S1.2 \\
+Modules over a ring & Ideals/quotients; direct sums; universal properties & \S6.1, \S2.2 \\
+Chain conditions and existence of factorizations & Ideals; modules & \S6.1, \S6.2 \\
+UFDs, PIDs, Euclidean domains; maximal ideals & Chain conditions; ideals & \S6.3 \\
+Unique factorization in polynomial rings & UFDs/PIDs & \S7.1 \\
+Irreducibility of polynomials & Unique factorization in polynomial rings & \S7.2 \\
+Field extensions I & Irreducibility; quotient rings & \S7.2, \S6.1 \\
+Algebraic closure, Nullstellensatz, affine algebraic geometry & Field extensions I; irreducibility; ideals & \S8.2, \S7.2, \S6.1 \\
+Geometric impossibilities & Field extensions I; tower law & \S8.2 \\
+Field extensions II & Field extensions I; algebraic closure & \S8.2, \S9.1 \\
+Field extensions III & Field extensions II & \S10.1 \\
+Galois theory & Field extensions II/III; group actions; normal subgroups & \S10.1, \S10.2, \S3.1 \\
+Applications of Galois theory & Galois theory; solvability & \S11.1, \S5.1 \\
+\bottomrule
+\end{longtable}
+
+%=========================================================
+\section{Assessment Plan}
+
+\begin{longtable}{p{2.8cm} p{3.6cm} p{2.6cm} p{5.2cm}}
+\toprule
+\textbf{Module} & \textbf{Assessment} & \textbf{Timing} & \textbf{Rationale} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Module} & \textbf{Assessment} & \textbf{Timing} & \textbf{Rationale} \\
+\midrule
+\endhead
+1. Categorical Foundations & Problem set 1; participation & End of week 2 & Tests ability to move between abstract universal-property statements and concrete verifying examples. \\
+2. Representability and Adjunctions & Problem set 2; participation & End of week 3 & Tests fluency with Yoneda-style and adjunction arguments, the module's main new abstraction. \\
+3. Group Actions and Sylow Theory & Problem set 3; participation & End of week 5 & Tests both action-based proof technique and direct application of the Sylow theorems to small groups. \\
+4. Structure of Groups & Problem set 4; participation & End of week 6 & Tests computational fluency in $S_n$/$A_n$ alongside construction of composition series. \\
+5. Solvability and Classification & Problem set 5; \textbf{Midterm exam}; participation & End of week 7 & Midterm consolidates Modules 1--5 under time conm conditions. \\
+6. Rings and Modules & Problem set 6; participation & End of week 9 & Tests translation of group-theoretic intuition (quotients, chain conditions) to rings/modules. \\
+7. Factorization Theory & Problem set 7; participation & End of week 10 & Tests ability to identify which factorization property a ring has and to prove unique factorization results. \\
+8. Polynomials and Field Extensions I & Problem set 8; participation & End of week 11 & Tests irreducibility criteria and basic degree/minimal-polynomial computations. \\
+9. Algebraic Closures and Geometric Applications & Problem set 9; participation & End of week 12 & Tests the algebra--geometry connection (Nullstellensatz) and application to constructibility, a common qualifying-exam topic. \\
+10. Advanced Field Theory & Problem set 10; participation & End of week 13 & Tests fluency distinguishing normal/separable extensions, a prerequisite for Galois theory. \\
+11. Galois Theory and Applications & Problem set 11; \textbf{Final exam}; participation & Final exam period & Cumulative final emphasizes the Galois correspondence and its applications (solvability by radicals, constructibility, Galois-group computation). \\
+\bottomrule
+\end{longtable}
+
+\end{document}

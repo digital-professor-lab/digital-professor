@@ -1,0 +1,898 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\setlength{\emergencystretch}{2.5em}
+
+\title{Real Variables (PhD) \\ \large Course Design: Measure Theory, Lebesgue Integration, and $L^p$ Spaces \\ \normalsize Based on Chapters 1--9 of Wheeden \& Zygmund, \emph{Measure and Integral}, 2nd ed.}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Course Overview and Design Assumptions}
+
+\textbf{Format:} Lecture only, PhD level, 14--15 weeks, two 75-minute sessions per week.
+\textbf{Assessment:} Weekly problem sets, two in-class midterms, no final exam.
+\textbf{Background assumed:} A good advanced calculus course, plus undergraduate real analysis and/or an introduction to point-set topology.
+
+\textbf{Explicit assumptions made in this design:}
+\begin{itemize}
+\item \textbf{Calendar length.} The course was specified as ``14--15 weeks.'' This design targets the full 15-week case (30 sessions: 28 content sessions + 2 midterm sessions), since that is the only length that lets every topic below receive its own session without compression. If the term is 14 weeks, cut Module 1 and Module 2 (both fast review of assumed background) to one combined session each; every later module and both midterms then shift two sessions earlier without further changes.
+\item \textbf{Grade weighting.} Since no weighting was specified beyond ``no final exam,'' this design uses: Problem sets 50\%, Midterm 1 25\%, Midterm 2 25\%. Rationale: at the PhD level, with no final, weekly problem sets are the primary vehicle for proof-writing mastery and should carry the majority of the grade; the two midterms are weighted equally since each tests comparable depth over a comparable span of material (Modules 1--4 and Modules 5--7, respectively), with Modules 8--9 assessed only through the last two problem sets.
+\end{itemize}
+
+\section{Module Overview}
+
+\begin{longtable}{@{}p{0.9cm} p{3.1cm} p{5.1cm} p{5.3cm}@{}}
+\toprule
+\textbf{Wk} & \textbf{Module (W\&Z Ch.)} & \textbf{Goal} & \textbf{Topics} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Wk} & \textbf{Module (W\&Z Ch.)} & \textbf{Goal} & \textbf{Topics} \\
+\midrule
+\endhead
+1 & 1. Preliminaries (Ch.\ 1) & Reactivate the point-set topology and Riemann-integration background needed before measure theory begins. & Topology of $\mathbb{R}^n$; Functions, Continuity, and the Riemann Integral \\
+2 & 2. BV Functions and the Riemann--Stieltjes Integral (Ch.\ 2) & Master the classical machinery that Lebesgue's differentiation theory (Module 7) will later re-derive and generalize. & BV Functions and Rectifiable Curves; The Riemann--Stieltjes Integral \\
+3--4 & 3. Lebesgue Measure and Outer Measure (Ch.\ 3) & Construct Lebesgue outer measure and the $\sigma$-algebra of measurable sets. & Outer Measure and the Cantor Set; Measurable Sets; Properties and Characterizations; Lipschitz Maps and a Nonmeasurable Set \\
+5--6 & 4. Lebesgue Measurable Functions (Ch.\ 4) & Extend measurability from sets to functions and connect measurable functions to continuous ones. & Elementary Properties; Semicontinuous Functions; Egorov/Lusin and Convergence in Measure \\
+6 & \textit{Midterm 1} & Covers Modules 1--4. & --- \\
+7--8 & 5. The Lebesgue Integral (Ch.\ 5) & Define the Lebesgue integral and repair the limit-interchange failures of the Riemann integral. & Definition for Nonnegative $f$; MCT/Fatou; DCT; Comparison with Riemann--Stieltjes and $L^p$, $0<p<\infty$ \\
+9 & 6. Repeated Integration (Ch.\ 6) & Extend integration to product measures and determine when iterated integrals may be swapped. & Fubini's and Tonelli's Theorems; Applications \\
+10--11 & 7. Differentiation (Ch.\ 7) & Establish the Lebesgue differentiation theorem and the full Lebesgue FTC. & Indefinite Integral \& Lebesgue Differentiation; Vitali Covering \& Monotone Differentiation; AC/Singular Functions \& FTC; Convex Functions \& the Differential in $\mathbb{R}^n$ \\
+12 & \textit{Midterm 2} & Covers Modules 5--7. & --- \\
+12--14 & 8. $L^p$ Classes (Ch.\ 8) & Develop $L^p(E)$ as a Banach space and $L^2$ as a Hilbert space; connect to classical Fourier series. & Definition, H\"older/Minkowski; $\ell^p$ and Completeness; $L^2$ and Orthogonality; Fourier Series, Parseval, Hilbert Spaces \\
+14--15 & 9. Approximations of the Identity and Maximal Functions (Ch.\ 9) & Apply the full toolkit to two workhorse constructions of harmonic analysis. & Convolutions and Approximate Identities; Hardy--Littlewood Maximal Function; The Marcinkiewicz Integral \\
+\bottomrule
+\end{longtable}
+
+\section{Prerequisite Map}
+
+\begin{longtable}{@{}p{5.3cm} p{5.7cm} p{3.4cm}@{}}
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endhead
+1.1 Topology of $\mathbb{R}^n$ & Advanced calculus (limits, sequences); undergraduate point-set topology & Assumed background \\
+1.2 Functions, Continuity, Riemann Integral & Advanced calculus; Riemann sums & Assumed background \\
+2.1 BV Functions \& Rectifiable Curves & Riemann integral; monotone functions (Topic 1.2) & Module 1 \\
+2.2 The Riemann--Stieltjes Integral & BV functions (Topic 2.1); Riemann integral (Topic 1.2) & Module 1--2 \\
+3.1 Outer Measure \& the Cantor Set & Open covers, compactness (Topic 1.1); countable additivity of length & Module 1 \\
+3.2 Lebesgue Measurable Sets & Outer measure (Topic 3.1) & Module 3 \\
+3.3 Properties \& Characterizations of Measurability & Measurable sets (Topic 3.2); $G_\delta$/$F_\sigma$ sets (Topic 1.1) & Module 3; Module 1 \\
+3.4 Lipschitz Maps \& a Nonmeasurable Set & Measurability and regularity (Topics 3.2--3.3) & Module 3 \\
+4.1 Elementary Properties of Measurable Functions & Measurable sets (Topic 3.2) & Module 3 \\
+4.2 Semicontinuous Functions & Measurable functions (Topic 4.1); open sets (Topic 1.1) & Module 4; Module 1 \\
+4.3 Egorov/Lusin; Convergence in Measure & Topics 4.1--4.2; regularity of measure (Topic 3.3) & Module 4; Module 3 \\
+5.1 The Integral of a Nonnegative $f$ & Measurable functions (Topic 4.1); measure (Topic 3.2) & Module 4; Module 3 \\
+5.2 MCT and Fatou's Lemma & Definition of the integral (Topic 5.1) & Module 5 \\
+5.3 DCT (Arbitrary Measurable $f$) & Fatou's Lemma (Topic 5.2) & Module 5 \\
+5.4 Comparison with RS Integration; $L^p$, $0<p<\infty$ & Topics 5.1--5.3; RS integral (Topic 2.2); Riemann integral (Topic 1.2) & Module 5; Module 2; Module 1 \\
+6.1 Fubini's and Tonelli's Theorems & The Lebesgue integral and MCT (Topics 5.1--5.3) & Module 5 \\
+6.2 Applications of Fubini's Theorem & Fubini/Tonelli (Topic 6.1) & Module 6 \\
+7.1 Indefinite Integral \& Lebesgue Differentiation Thm & The integral (Topics 5.1--5.3); continuity of measure (Topic 3.3) & Module 5; Module 3 \\
+7.2 Vitali Covering Lemma \& Monotone Differentiation & Covering by intervals (Topic 3.1); monotone/BV functions (Topic 2.1) & Module 3; Module 2 \\
+7.3 AC/Singular Functions; the FTC & Topics 7.1--7.2; BV functions (Topic 2.1) & Module 7; Module 2 \\
+7.4 Convex Functions \& the Differential in $\mathbb{R}^n$ & A.e.\ differentiability (Topic 7.3); topology of $\mathbb{R}^n$ (Topic 1.1) & Module 7; Module 1 \\
+8.1 Definition of $L^p$; H\"older/Minkowski & $L^p$, $0<p<\infty$ (Topic 5.4) & Module 5 \\
+8.2 $\ell^p$ Spaces; Completeness of $L^p$ & H\"older/Minkowski (Topic 8.1); MCT (Topic 5.2) & Module 8; Module 5 \\
+8.3 The Space $L^2$ and Orthogonality & H\"older's inequality (Topic 8.1) & Module 8 \\
+8.4 Fourier Series, Parseval, Hilbert Spaces & Completeness and orthogonality (Topics 8.2--8.3) & Module 8 \\
+9.1 Convolutions and Approximate Identities & Fubini/Tonelli (Topic 6.1); H\"older/Young (Topic 8.1) & Module 6; Module 8 \\
+9.2 The Hardy--Littlewood Maximal Function & Vitali covering lemma (Topic 7.2); $L^p$ spaces (Topics 5.4, 8.1) & Module 7; Modules 5, 8 \\
+9.3 The Marcinkiewicz Integral & Weak (1,1) bound (Topic 9.2); $L^p$ norms (Topic 8.1) & Module 9; Module 8 \\
+\bottomrule
+\end{longtable}
+
+\section{Assessment Plan}
+
+Weekly problem sets carry 50\% of the grade; Midterm 1 and Midterm 2 each carry 25\%; there is no final exam (see Section 1 for the weighting rationale).
+
+\begin{longtable}{@{}p{2.9cm} p{2.6cm} p{2.6cm} p{6.9cm}@{}}
+\toprule
+\textbf{Module(s)} & \textbf{Assessment} & \textbf{Timing} & \textbf{Rationale} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Module(s)} & \textbf{Assessment} & \textbf{Timing} & \textbf{Rationale} \\
+\midrule
+\endhead
+1. Preliminaries & Problem Set 1 & Week 1 & Checks fluency with topology and Riemann-integral prerequisites before they are needed in Module 3. \\
+2. BV \& RS Integral & Problem Set 2 & Week 2 & Tests the Jordan decomposition and RS-integral existence arguments -- the classical machinery Module 7 later re-derives. \\
+3. Lebesgue Measure & Problem Sets 3--4 & Weeks 3--4 & This is the most proof-dense module; weekly sets catch Carath\'eodory-criterion and Vitali-set misunderstandings before they compound. \\
+4. Measurable Functions & Problem Set 5 & Weeks 5--6 & Tests Egorov/Lusin and the convergence-in-measure vs.\ a.e.\ distinction. \\
+Modules 1--4 & \textit{Midterm 1} & Week 6 & In-class checkpoint on the measure-theoretic foundations before integration theory is built on top of them. \\
+5. The Lebesgue Integral & Problem Sets 6--7 & Weeks 7--8 & Tests correct application of MCT/Fatou/DCT hypotheses -- the single most common error source in the course. \\
+6. Repeated Integration & Problem Set 8 & Week 9 & Tests the ``Tonelli on $|f|$ first, then Fubini'' protocol. \\
+7. Differentiation & Problem Sets 9--10 & Weeks 10--11 & Tests the Vitali covering lemma and the AC-vs-a.e.-differentiable distinction via the Cantor function. \\
+Modules 5--7 & \textit{Midterm 2} & Week 12 & In-class checkpoint on integration and differentiation theory before the functional-analytic material begins. \\
+8. $L^p$ Classes & Problem Sets 11--12 & Weeks 12--14 & Tests the H\"older/Minkowski proofs and the Riesz--Fischer completeness argument. \\
+9. Approximations \& Maximal Functions & Problem Set 13 & Weeks 14--15 & Capstone application testing the weak (1,1) maximal-function bound and reuse of the Vitali lemma in a new context; serves as the de facto final assessment in place of a final exam. \\
+\bottomrule
+\end{longtable}
+
+\section{Module 1: Preliminaries}
+\textit{Weeks: 1 (Sessions 1--2). Goal: reactivate the point-set topology and Riemann-integration background needed before measure theory begins, and fix notation.}
+
+\subsection{Topology of $\mathbb{R}^n$: Metric Structure, Open/Closed Sets, Compactness}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item $\mathbb{R}^n$ as a complete metric space; open and closed balls
+\item Open, closed, $G_\delta$, and $F_\sigma$ sets
+\item Compactness in $\mathbb{R}^n$; the Heine--Borel theorem
+\item Equivalence of compactness and sequential compactness in $\mathbb{R}^n$
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Explain why $\mathbb{R}^n$'s completeness matters for later existence arguments (e.g., completeness of $L^p$)
+\item Prove the Heine--Borel theorem, or reconstruct its proof outline on demand
+\item Classify given sets as open, closed, $G_\delta$, $F_\sigma$, or neither
+\item Apply compactness (finite-subcover) arguments to prove uniform-continuity results
+\end{itemize}
+
+\textbf{Common difficulty:} $G_\delta$/$F_\sigma$ classification is often rusty and under-emphasized in undergraduate courses, yet it resurfaces constantly in Module 3's characterizations of measurability. \textit{Mitigation:} treat $G_\delta$/$F_\sigma$ as a named, drilled skill here rather than a passing remark, so Module 3 can build on it directly.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Show that a countable union of closed sets need not be closed, and identify such a union as an $F_\sigma$ set. \\
+\textit{Answer:} The union of the closed singletons $\{1/n\}$, $n\ge1$, is not closed since $0$ is a limit point not contained in it; by definition this union is $F_\sigma$.
+\item (Harder) Prove that every closed subset $F$ of $\mathbb{R}^n$ is a $G_\delta$ set. \\
+\textit{Rubric:} Write $F=\bigcap_n \{x : \operatorname{dist}(x,F)<1/n\}$; each set in the intersection is open since $x\mapsto\operatorname{dist}(x,F)$ is continuous, and the intersection equals $F$ because $F$ is closed.
+\end{enumerate}
+
+\subsection{Functions, Continuity, and the Riemann Integral}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Continuity, uniform continuity; semicontinuity previewed
+\item The Riemann integral via upper/lower sums
+\item Riemann's integrability criterion (in terms of the set of discontinuities)
+\item The (Riemann) Fundamental Theorem of Calculus
+\item Known deficiencies of the Riemann integral under limits, motivating Lebesgue theory
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Explain Riemann's integrability criterion in terms of upper and lower sums
+\item Derive the Riemann FTC from the definition of the integral
+\item Construct a bounded function that is not Riemann integrable and explain why
+\item Evaluate why limits fail to commute with the Riemann integral in general
+\end{itemize}
+
+\textbf{Common difficulty:} Students often know the Riemann integral procedurally but have not internalized precisely why it fails under limit operations; this failure is the throughline motivating Chapters 3--5. \textit{Mitigation:} open the module with two or three explicit ``broken'' examples before any measure theory is introduced.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Show that the indicator function of the rationals in $[0,1]$ is not Riemann integrable. \\
+\textit{Answer:} Every subinterval of any partition contains both rationals and irrationals, so every upper sum equals $1$ and every lower sum equals $0$, regardless of the partition.
+\item (Harder) Construct a sequence of Riemann integrable functions $f_n\to f$ pointwise on $[0,1]$ with $f$ not Riemann integrable. \\
+\textit{Rubric:} Enumerate the rationals in $[0,1]$ as $q_1,q_2,\dots$; let $f_n$ be the indicator of $\{q_1,\dots,q_n\}$. Each $f_n$ is Riemann integrable (finite set of discontinuities, integral $0$), and $f_n\to f$ pointwise, where $f$ is the indicator of the rationals.
+\end{enumerate}
+
+\section{Module 2: Functions of Bounded Variation and the Riemann--Stieltjes Integral}
+\textit{Weeks: 2 (Sessions 3--4). Goal: master BV functions and the RS integral as the classical machinery that Lebesgue's differentiation theory (Module 7) will later re-derive and generalize.}
+
+\subsection{Functions of Bounded Variation and Rectifiable Curves}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Total variation of $f$ on $[a,b]$; the space $BV[a,b]$
+\item The Jordan decomposition: $BV$ = difference of two nondecreasing functions
+\item $BV$ functions have at most countably many discontinuities
+\item Rectifiable curves and arc length as total variation of a parametrization
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove the Jordan decomposition theorem
+\item Compute the total variation of a piecewise-monotone function directly from the definition
+\item Explain the connection between $BV$ functions and rectifiable plane curves
+\item Evaluate whether a given parametrized curve is rectifiable
+\end{itemize}
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Compute the total variation of $f(x)=\sin(1/x)$ for $x\in(0,1]$, $f(0)=0$, on $[0,1]$. \\
+\textit{Answer:} Infinite -- $f$ oscillates between values near $\pm1$ infinitely often as $x\to0^+$, and the sum of these oscillation amplitudes diverges.
+\item (Harder) Prove that every $f\in BV[a,b]$ can be written as the difference of two nondecreasing functions. \\
+\textit{Rubric:} Define $p(x)$ = positive variation of $f$ on $[a,x]$ and $n(x)$ = negative variation on $[a,x]$; both are nondecreasing, and $f(x)=f(a)+p(x)-n(x)$ follows from decomposing the total variation into positive and negative parts.
+\end{enumerate}
+
+\subsection{The Riemann--Stieltjes Integral and Further Results}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Definition of $\int f\,dg$ via Riemann--Stieltjes sums
+\item Existence when $f$ is continuous and $g\in BV$ (or vice versa)
+\item Integration by parts for RS integrals
+\item Failure of $\int f\,dg$ to exist when $f,g$ share a discontinuity point
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove existence of $\int f\,dg$ when $f$ is continuous and $g\in BV$
+\item Derive the RS integration-by-parts formula
+\item Construct an example where $\int f\,dg$ fails to exist due to a shared discontinuity
+\item Apply RS integration to represent linear functionals (previewed for Module 8)
+\end{itemize}
+
+\textbf{Common difficulty:} The shared-discontinuity failure mode is a common blind spot, since students expect existence whenever both functions are individually well-behaved. \textit{Mitigation:} pair the existence theorem with an explicit worked counterexample in the same lecture.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Evaluate $\int_0^2 x\,dg(x)$ where $g$ is the unit step function jumping at $x=1$. \\
+\textit{Answer:} $1$ -- for a jump function the RS integral reduces to (value of $f$ at the jump)$\times$(size of the jump) $=1\cdot1$.
+\item (Harder) Give $f,g$ both with a jump at the same point $c\in(a,b)$ such that $\int_a^b f\,dg$ does not exist. \\
+\textit{Rubric:} Take $f=g=$ indicator of $[c,b]$. Riemann--Stieltjes sums then depend on which side of $c$ the tag point in the partition falls, so the limit fails to exist independent of the choice of tags.
+\end{enumerate}
+
+\section{Module 3: Lebesgue Measure and Outer Measure}
+\textit{Weeks: 3--4 (Sessions 5--8). Goal: construct Lebesgue outer measure and the $\sigma$-algebra of measurable sets, the foundational object the rest of the course builds on.}
+
+\subsection{Lebesgue Outer Measure and the Cantor Set}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Outer measure via countable covers by open intervals/boxes
+\item Monotonicity and countable subadditivity of $m^*$
+\item $m^*(I)=\operatorname{length}(I)$ for an interval $I$
+\item Construction of the Cantor set; it has outer measure zero despite being uncountable
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove countable subadditivity of outer measure
+\item Prove $m^*(I)=|I|$ for an interval $I$
+\item Construct the Cantor set and compute its outer measure via the geometric series of removed lengths
+\item Evaluate the significance of an uncountable measure-zero set for intuitions about ``size''
+\end{itemize}
+
+\textbf{Common difficulty:} Students often conflate cardinality with measure; the harder inequality $m^*(I)\ge|I|$, which needs a Heine--Borel compactness argument, is a frequent stumbling block. \textit{Mitigation:} present the compactness-based lower bound very explicitly before assigning it as homework, then immediately assign a ``fat Cantor set'' exercise to sharpen the size-vs-measure distinction.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Show $m^*(\mathbb{Q}\cap[0,1])=0$. \\
+\textit{Answer:} The rationals are countable; cover the $n$-th one by an interval of length $\varepsilon/2^n$; the total cover has length $\varepsilon$ for arbitrary $\varepsilon>0$.
+\item (Harder) Construct a ``fat Cantor set'': a nowhere-dense, uncountable subset of $[0,1]$ with positive outer measure. \\
+\textit{Rubric:} Repeat the Cantor construction but remove middle intervals of relative length $1/4$ (rather than $1/3$) at each stage; the total length removed is a convergent geometric series summing to less than $1$, so the remaining set has positive measure.
+\end{enumerate}
+
+\subsection{Lebesgue Measurable Sets}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Carath\'eodory's criterion for measurability
+\item The class $\mathcal{M}$ of measurable sets is a $\sigma$-algebra
+\item Every Borel set is measurable
+\item Translation invariance of Lebesgue measure
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item State and apply Carath\'eodory's criterion to verify a set is measurable
+\item Prove $\mathcal{M}$ is closed under countable unions/intersections and complements
+\item Prove open sets (hence all Borel sets) are measurable
+\item Prove translation invariance of $m$
+\end{itemize}
+
+\textbf{Common difficulty:} Carath\'eodory's splitting condition feels unmotivated on first exposure. \textit{Mitigation:} motivate it by first showing outer measure fails to be finitely additive on all sets, then present the criterion as exactly the property that repairs additivity.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Use Carath\'eodory's criterion directly to show any set of outer measure zero is measurable. \\
+\textit{Answer:} Subadditivity gives $m^*(A)\le m^*(A\cap E)+m^*(A\cap E^c)$ automatically; the reverse inequality is trivial since $m^*(A\cap E)\le m^*(E)=0$.
+\item (Harder) Prove that a countable union of measurable sets is measurable, using only that a finite union of measurable sets is measurable and continuity of measure. \\
+\textit{Rubric:} Disjointify via $E_n'=E_n\setminus\bigcup_{k<n}E_k$, use finite additivity on partial unions $\bigcup_{k\le n}E_k'$, then pass to the limit using continuity of measure from below.
+\end{enumerate}
+
+\subsection{Properties and Characterizations of Measurability}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Countable additivity of $m$; continuity from below and above
+\item Outer regularity: $m(E)=\inf\{m(O):O\supseteq E \text{ open}\}$; inner regularity via compact sets
+\item Equivalent characterizations: $E$ measurable iff it differs from a $G_\delta$ (or $F_\sigma$) set by a null set
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove countable additivity from finite additivity plus continuity
+\item Prove outer regularity of Lebesgue measure
+\item Show $E$ is measurable iff for every $\varepsilon>0$ there is an open $O\supseteq E$ with $m^*(O\setminus E)<\varepsilon$
+\item Apply the $G_\delta$/$F_\sigma$ characterization of measurability
+\end{itemize}
+
+\textbf{Common difficulty:} This topic directly requires Topic 1.1's $G_\delta$/$F_\sigma$ material, a common dependency gap. \textit{Mitigation:} open with a five-minute recap of $G_\delta$/$F_\sigma$ before proceeding to the characterization theorem.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Show continuity of measure from above requires a finiteness assumption, with a counterexample where it fails. \\
+\textit{Answer:} Let $E_n=[n,\infty)$; each has infinite measure and $\bigcap_n E_n=\varnothing$ (measure $0$), but $\lim_n m(E_n)=\infty\ne0$.
+\item (Harder) Prove that a bounded measurable set $E$ can be approximated from inside by compact sets. \\
+\textit{Rubric:} Apply outer regularity to $E^c$ relative to a large bounded open set containing $E$, complement the resulting open approximation back into $E$, and use boundedness to conclude compactness.
+\end{enumerate}
+
+\subsection{Lipschitz Transformations of $\mathbb{R}^n$ and a Nonmeasurable Set}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Lipschitz maps distort measure by at most (Lipschitz constant)$^n$ and send measurable sets to measurable sets
+\item Vitali's construction of a nonmeasurable set via equivalence classes mod $\mathbb{Q}$ and the Axiom of Choice
+\item Consequence: not every subset of $\mathbb{R}$ is Lebesgue measurable
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove that a Lipschitz image of a null set is null
+\item Reconstruct Vitali's construction of a nonmeasurable set
+\item Explain precisely where the Axiom of Choice enters the construction
+\item Evaluate why translation invariance, countable additivity, and $m([0,1])=1$ are jointly inconsistent with ``every set is measurable''
+\end{itemize}
+
+\textbf{Common difficulty:} The Vitali-set proof is short but conceptually dense: students can follow each line without seeing why it forces a contradiction. \textit{Mitigation:} present it as a proof by contradiction structured explicitly around three properties of measure, showing the contradiction arises from summing countably many identical quantities to reach both a lower and an upper finite bound.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item State precisely which three properties of Lebesgue measure are contradicted by the existence of a Vitali set. \\
+\textit{Answer:} Countable additivity, translation invariance, and $m([0,1])=1$ together force the sum of countably many copies of $m(V)$ to lie in a finite range (e.g. $[1,3]$), which is impossible for any value of $m(V)\in[0,\infty]$.
+\item (Harder) Show a Lipschitz function maps a null set to a null set, and use this to argue the image of a nonmeasurable set under a bi-Lipschitz map need not be measurable. \\
+\textit{Rubric:} Cover the null set by small cubes; the Lipschitz constant $L$ scales each cube's diameter, and hence its outer measure, by at most $L^n$, so the total stays arbitrarily small. Bi-Lipschitz maps preserve the measurable/nonmeasurable dichotomy up to null sets, so the Vitali construction's image remains nonmeasurable.
+\end{enumerate}
+
+\section{Module 4: Lebesgue Measurable Functions}
+\textit{Weeks: 5--6 (Sessions 9--11). Goal: extend measurability from sets to functions and establish the convergence theorems (Egorov, Lusin) connecting measurable functions to continuous ones.}
+
+\subsection{Elementary Properties of Measurable Functions}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Equivalent definitions of a measurable function (e.g., $\{f>a\}$ measurable for all $a$)
+\item Closure under $\sup$, $\inf$, $\limsup$, $\liminf$, and algebraic operations
+\item Simple functions as building blocks
+\item Measurability of compositions: continuous$\,\circ\,$measurable is measurable; the reverse order can fail
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove the equivalence of the standard definitions of measurability
+\item Prove the pointwise limit of measurable functions is measurable
+\item Construct an example showing composition order matters for measurability
+\item Apply simple-function approximation to reduce a general claim to the simple-function case
+\end{itemize}
+
+\textbf{Common difficulty:} The composition subtlety -- continuous$\,\circ\,$measurable is fine, measurable$\,\circ\,$measurable can fail -- is frequently missed. \textit{Mitigation:} a single side-by-side example contrasting the two orders.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Prove that if $f$ is measurable, then $|f|$ is measurable. \\
+\textit{Answer:} $\{|f|>a\}=\mathbb{R}$ for $a<0$, and $\{|f|>a\}=\{f>a\}\cup\{f<-a\}$ for $a\ge0$, a union of two measurable sets.
+\item (Harder) Give measurable $f,g$ with $g\circ f$ not measurable. \\
+\textit{Rubric:} Use a continuous, strictly increasing $f$ that maps a null set onto a nonmeasurable set (built from the Cantor function), and let $g$ be the indicator of that nonmeasurable set; $g\circ f$ then fails to be measurable even though $g$ and $f$ are each measurable in their own right. Full credit requires correctly identifying which composition order is at fault.
+\end{enumerate}
+
+\subsection{Semicontinuous Functions}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Upper/lower semicontinuity
+\item Semicontinuous functions are measurable
+\item Every measurable function is an a.e.\ limit of continuous functions (preview of Lusin)
+\item Semicontinuous envelopes of an arbitrary function
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove a lower semicontinuous function attains its infimum on a compact set
+\item Prove semicontinuous implies measurable, directly from the definition
+\item Construct the upper/lower semicontinuous envelope of a simple example function
+\end{itemize}
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Show $f=$ indicator of an open set $O$ is lower semicontinuous. \\
+\textit{Answer:} $\{f>a\}$ is $\varnothing$, $O$, or $\mathbb{R}$ depending on $a$, and all three are open, matching the LSC definition.
+\item (Harder) Prove the pointwise supremum of a family of lower semicontinuous functions is lower semicontinuous, but the analogous statement for infimum can fail. \\
+\textit{Rubric:} $\{\sup_\alpha f_\alpha>a\}=\bigcup_\alpha\{f_\alpha>a\}$, a union of open sets, hence open. For the failure under $\inf$, exhibit $f_n(x)=\max(0,1-n|x|)$, whose infimum is a discontinuous indicator-type function, not LSC.
+\end{enumerate}
+
+\subsection{Egorov's and Lusin's Theorems; Convergence in Measure}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Egorov's theorem: a.e.\ convergence on a finite-measure set is ``almost'' uniform
+\item Lusin's theorem: a measurable function is ``almost'' continuous
+\item Convergence in measure and its relation to a.e.\ convergence
+\item Riesz's subsequence theorem: convergence in measure implies an a.e.-convergent subsequence
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove Egorov's theorem
+\item Apply Lusin's theorem to approximate a measurable function by a continuous one
+\item Distinguish convergence in measure from a.e.\ convergence via a counterexample
+\item Prove convergence in measure implies an a.e.-convergent subsequence
+\end{itemize}
+
+\textbf{Common difficulty:} The ``typewriter'' (moving-bump) sequence -- converging in measure but nowhere pointwise -- is the crux of this topic and easy to get backwards. \textit{Mitigation:} construct the example explicitly, with a picture of shrinking bumps sweeping $[0,1]$ repeatedly, before stating the general theorem.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Construct a sequence on $[0,1]$ converging to $0$ in measure but not converging pointwise at any point. \\
+\textit{Answer:} Index by pairs $(k,j)$, $1\le j\le k$, with $f_{k,j}=$ indicator of $[(j-1)/k,\,j/k]$; the measure of the support tends to $0$ as $k\to\infty$, but every point is covered infinitely often, so pointwise convergence fails everywhere.
+\item (Harder) Prove Egorov's theorem on a finite-measure set $E$. \\
+\textit{Rubric:} For each $n$, use a.e.\ convergence and continuity of measure to find a set where $|f_k-f|<1/n$ for all $k$ beyond some threshold, except on a piece of measure less than $\varepsilon/2^n$; take the union of these exceptional pieces (total measure $<\varepsilon$) and note the complement gives uniform convergence.
+\end{enumerate}
+
+\section{Module 5: The Lebesgue Integral}
+\textit{Weeks: 7--8 (Sessions 12--15). Goal: define the Lebesgue integral and establish the convergence theorems that repair the deficiencies of Riemann integration identified in Module 1.}
+
+\subsection{Definition of the Integral for Nonnegative Functions}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Integral of a nonnegative simple function
+\item Integral of a nonnegative measurable $f$ as a supremum over simple functions below it
+\item Basic monotonicity properties
+\item Chebyshev's inequality
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Compute the integral of an explicit nonnegative simple function
+\item Prove Chebyshev's inequality from the definition
+\item Apply the definition to show $\int f=0$ iff $f=0$ a.e., for $f\ge0$ measurable
+\end{itemize}
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Compute $\int_{[0,1]}f$ where $f=2$ on the rationals and $f=1$ on the irrationals. \\
+\textit{Answer:} $1$ -- $f=1$ a.e.\ since the rationals form a null set and do not affect the integral.
+\item (Harder) Prove that if $f\ge0$ is measurable and $\int f=0$, then $f=0$ a.e. \\
+\textit{Rubric:} Write $\{f>0\}=\bigcup_n\{f>1/n\}$; Chebyshev gives $m\{f>1/n\}\le n\int f=0$ for each $n$; countable subadditivity gives $m\{f>0\}=0$.
+\end{enumerate}
+
+\subsection{Properties of the Integral: Monotone Convergence, Fatou, Linearity}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Linearity and monotonicity of the integral for nonnegative functions
+\item The Monotone Convergence Theorem (MCT)
+\item Fatou's Lemma
+\item Term-by-term integration of series of nonnegative functions
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove MCT from the definition of the integral as a supremum
+\item Derive Fatou's Lemma from MCT
+\item Apply MCT/Fatou to justify interchanging a limit and an integral in a concrete example
+\item Evaluate why strict inequality can occur in Fatou's Lemma, via an example
+\end{itemize}
+
+\textbf{Common difficulty:} This is the conceptual heart of the course. The classic error is applying MCT to a non-monotone sequence, or forgetting Fatou is only an inequality. \textit{Mitigation:} pair every convergence theorem with its own ``why the hypothesis is needed'' counterexample, drilled immediately after the proof.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Give a sequence $f_n\to0$ pointwise on $(0,1)$ with $\int f_n\not\to0$, illustrating why a monotonicity or domination hypothesis is needed. \\
+\textit{Answer:} $f_n=n\cdot$ indicator of $(0,1/n)$; $f_n\to0$ pointwise (indeed everywhere except at $0$), but $\int f_n=1$ for every $n$.
+\item (Harder) Prove Fatou's Lemma using MCT. \\
+\textit{Rubric:} Set $g_n=\inf_{k\ge n}f_k$; $g_n$ is increasing and $g_n\le f_n$. Apply MCT to $g_n\uparrow\liminf f_n$, use $\int g_n\le\int f_n$, and take $\liminf$ of both sides.
+\end{enumerate}
+
+\subsection{The Integral of an Arbitrary Measurable $f$; Dominated Convergence}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Splitting $f=f^+-f^-$; definition of $\int f$ for $f$ of either sign
+\item Integrability ($\int|f|<\infty$) versus mere measurability
+\item The Dominated Convergence Theorem (DCT)
+\item Linearity of the integral over integrable functions
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove DCT using Fatou's Lemma applied to $g\pm f_n$
+\item Construct an example where the domination hypothesis fails and the DCT conclusion genuinely fails
+\item Apply DCT to justify differentiating under the integral sign in a specific case
+\end{itemize}
+
+\textbf{Common difficulty:} Students apply DCT without verifying a genuine dominating function exists, often supplying a bound that itself is not integrable or that secretly depends on $n$. \textit{Mitigation:} require every DCT application to explicitly name and verify integrability of the dominating function.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Using $f_n=n\cdot$indicator$(0,1/n)$ from the previous topic, identify why no integrable dominating function exists. \\
+\textit{Answer:} Any $g\ge f_n$ for all $n$ must satisfy $g(x)\ge1/x$ near $0$ (taking $n$ large), and $\int_0^1 1/x\,dx=\infty$, so no integrable dominating $g$ exists -- consistent with $\int f_n\not\to0$.
+\item (Harder) Use DCT to justify $\frac{d}{dt}\int_0^\infty e^{-tx}\frac{\sin x}{x}\,dx=-\int_0^\infty e^{-tx}\sin x\,dx$ for $t>0$, and evaluate the resulting integral. \\
+\textit{Rubric:} Bound the difference-quotient integrand uniformly for $t$ near a fixed $t_0>0$, using $|\sin x|\le x$ and the exponential decay of $e^{-tx}$, by an integrable function; differentiate under the integral via DCT; the resulting Laplace-type integral evaluates to $-1/(1+t^2)$.
+\end{enumerate}
+
+\subsection{Comparison with Riemann--Stieltjes Integration; $L^p$ Spaces, $0<p<\infty$}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item A bounded function on a bounded interval is Riemann integrable iff it is continuous a.e., and the two integrals then agree
+\item Absolute versus conditional (improper Riemann) integrability, contrasted with Lebesgue's requirement $\int|f|<\infty$
+\item First definition of $L^p(E)$, $0<p<\infty$: measurable $f$ with $\int|f|^p<\infty$
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item State and apply the Lebesgue criterion for Riemann integrability
+\item Construct an improperly Riemann-integrable function that is not Lebesgue integrable
+\item Classify given functions by which of Riemann/Lebesgue integrability they satisfy
+\end{itemize}
+
+\textbf{Common difficulty:} The classic $\sin(x)/x$ example (improperly Riemann integrable, not Lebesgue integrable) is subtle since students expect a ``more powerful'' theory to integrate strictly more functions, which is false here. \textit{Mitigation:} state explicitly that Lebesgue integrability is an \emph{absolute}-convergence requirement, so it integrates fewer oscillating functions than improper Riemann integration while integrating far more discontinuous ones.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Determine whether $f(x)=\sin(x)/x$ is Lebesgue integrable on $(0,\infty)$. \\
+\textit{Answer:} No -- $\int|\sin x/x|\,dx$ diverges (comparable to a divergent harmonic-type sum over the humps), even though the improper Riemann integral converges conditionally to $\pi/2$.
+\item (Harder) Prove, using the Lebesgue criterion, that a bounded monotone function on $[a,b]$ is Riemann integrable. \\
+\textit{Rubric:} A monotone function has at most countably many discontinuities (jumps only), so its discontinuity set has measure zero, satisfying Lebesgue's criterion.
+\end{enumerate}
+
+\section{Module 6: Repeated Integration}
+\textit{Week: 9 (Sessions 16--17). Goal: extend single-variable Lebesgue integration to product measures and establish when iterated integrals may be swapped.}
+
+\subsection{Fubini's and Tonelli's Theorems}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Product measure construction (brief)
+\item Fubini's theorem (for $f\in L^1$ of the product) and Tonelli's theorem (for $f\ge0$ measurable, no integrability assumed)
+\item Precise hypotheses distinguishing the two
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item State precisely the hypotheses of Fubini vs.\ Tonelli and explain why Tonelli needs no integrability assumption
+\item Apply Tonelli to establish integrability of a function, then apply Fubini to compute the resulting iterated integral
+\item Construct a function whose iterated integrals exist and disagree, and locate exactly which hypothesis fails
+\end{itemize}
+
+\textbf{Common difficulty:} The classic error is invoking Fubini without first checking absolute integrability. \textit{Mitigation:} institute a standing two-step protocol -- ``Tonelli on $|f|$ first, then Fubini'' -- reinforced by the counterexample below.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item For $f(x,y)=(x^2-y^2)/(x^2+y^2)^2$ on $(0,1)\times(0,1)$, show the two iterated integrals differ, and identify why Fubini's theorem does not apply. \\
+\textit{Answer:} One iterated integral equals $\pi/4$, the other $-\pi/4$; Fubini fails because $\iint|f|\,dx\,dy=\infty$, so $f\notin L^1$ of the product.
+\item (Harder) Use Tonelli's theorem to justify swapping the order of integration in $\int_0^\infty\int_0^\infty e^{-xy}\sin x\,dx\,dy$, and evaluate the resulting integral. \\
+\textit{Rubric:} First verify an appropriate absolute-convergence bound justifying the swap; then compute the inner integral in $y$ (a standard Laplace-type integral), and finish with the resulting elementary integral in $x$, arriving at $\pi/2$.
+\end{enumerate}
+
+\subsection{Applications of Fubini's Theorem}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Well-definedness of convolution via Fubini/Tonelli (preview of Module 9)
+\item The layer-cake / distribution-function formula: $\int f\,dm=\int_0^\infty m\{f>t\}\,dt$ for $f\ge0$
+\item Differentiating under the integral sign via a Fubini-based justification, contrasted with the DCT-based route in Module 5
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Derive the layer-cake formula using Tonelli's theorem applied to the region under the graph of $f$
+\item Apply the layer-cake formula to compute $\int f^p$ directly from the distribution function of $f$ (previewed for Modules 8--9)
+\item Apply Fubini to prove convolution of two $L^1$ functions is well-defined a.e.\ and lies in $L^1$
+\end{itemize}
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Use the layer-cake formula to compute $\int_0^\infty e^{-x}\,dx$ via its distribution function. \\
+\textit{Answer:} $m\{e^{-x}>t\}=-\ln t$ for $t\in(0,1)$ and $0$ for $t\ge1$; $\int_0^1(-\ln t)\,dt=1$, matching the direct computation.
+\item (Harder) Prove that if $f,g\in L^1(\mathbb{R})$, then $f*g(x)=\int f(x-y)g(y)\,dy$ is defined for a.e.\ $x$, lies in $L^1$, and satisfies $\|f*g\|_1\le\|f\|_1\|g\|_1$. \\
+\textit{Rubric:} Apply Tonelli to $\iint|f(x-y)g(y)|\,dy\,dx$, swap the order, and use translation invariance of Lebesgue measure to evaluate the inner integral as $\|f\|_1\|g\|_1$ times a finite constant; this gives finiteness a.e.\ in $x$ and the stated norm bound.
+\end{enumerate}
+
+\section{Module 7: Differentiation}
+\textit{Weeks: 10--11 (Sessions 18--21). Goal: establish the Lebesgue differentiation theorem and the fundamental theorem of calculus in its full Lebesgue-integral form, closing the loop opened in Module 1.}
+
+\subsection{The Indefinite Integral and Lebesgue's Differentiation Theorem}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item The indefinite integral $F(x)=\int_a^x f$; its continuity
+\item Lebesgue's differentiation theorem: $F'=f$ a.e.\ when $f\in L^1$
+\item Lebesgue points of a function; almost every point is a Lebesgue point
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove $F$ is (absolutely) continuous when $f\in L^1$
+\item State Lebesgue's differentiation theorem, identifying precisely what it does and does not claim
+\item Apply the Lebesgue-point notion to an explicit $f$ and identify its Lebesgue points
+\end{itemize}
+
+\textbf{Common difficulty:} ``a.e.'' is frequently misread as ``everywhere,'' especially because the calculus FTC students already know has no exceptional set; students also sometimes think the theorem differentiates $f$ itself rather than the running integral $F$. \textit{Mitigation:} drill the precise statement against the naive one, and use the indicator-function example below to anchor the ``a.e.'' qualifier concretely.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item For $f=$ indicator of $[0,1]$ on $\mathbb{R}$, compute $F(x)=\int_{-\infty}^x f$ and identify every point where $F$ is not differentiable, reconciling this with Lebesgue's theorem. \\
+\textit{Answer:} $F(x)=0$ for $x<0$, $F(x)=x$ on $[0,1]$, $F(x)=1$ for $x>1$; $F$ fails to be differentiable only possibly at $x=0,1$, so $F'=f$ off a measure-zero set, consistent with (indeed stronger than) the theorem.
+\item (Harder) Determine whether $x=0$ is a Lebesgue point of $f=$ indicator of $[0,1]$, and justify. \\
+\textit{Rubric:} The Lebesgue-point condition requires $\frac{1}{2h}\int_{-h}^h|f(x+t)-f(x)|\,dt\to0$. At $x=0$ with $f(0)=1$, the half-interval $t<0$ contributes $|0-1|=1$, giving average $\to1/2\ne0$; so $x=0$ is \emph{not} a Lebesgue point, illustrating that jump points are exactly the (measure-zero) exceptional set.
+\end{enumerate}
+
+\subsection{The Vitali Covering Lemma and Differentiation of Monotone Functions}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item The Vitali covering lemma (finite/countable version)
+\item Dini derivatives; a monotone function has all four Dini derivatives finite and equal a.e.
+\item A monotone function is differentiable a.e.
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove the finite Vitali covering lemma
+\item Use the Vitali lemma to prove a monotone increasing function is differentiable a.e.
+\item Apply Dini-derivative machinery to analyze differentiability of a specific monotone function
+\end{itemize}
+
+\textbf{Common difficulty:} The Vitali covering lemma's proof (greedy selection of disjoint balls, ``triple the radius'' trick) is one of the most technically dense arguments in the course, and the monotone-differentiability proof stacks the lemma inside a further measure-theoretic contradiction argument. \textit{Mitigation:} teach the covering lemma as a standalone, picture-heavy lecture before combining it with Dini derivatives, and assign a pure covering-lemma warm-up problem first.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item State the finite Vitali covering lemma precisely and prove it. \\
+\textit{Rubric:} Given a finite collection of balls covering a set $E$, greedily select a disjoint subcollection by always choosing the largest remaining ball not intersecting a previously chosen one. Every discarded ball intersects some chosen ball of at least its own radius, so lies within three times that ball's radius; hence the chosen balls, tripled, cover $E$.
+\item (Harder) For a jump function $f$ (a pure sum of jumps, constant between jumps), show $f'=0$ a.e.\ directly, without invoking the general monotone-differentiation theorem. \\
+\textit{Rubric:} Write $f$ as a countable sum of scaled unit step functions; each has derivative $0$ off a single point; a countable union of measure-zero sets is measure zero, and term-by-term differentiation off that set (justified by the convergence of the series) gives $f'=0$ a.e.
+\end{enumerate}
+
+\subsection{Absolutely Continuous and Singular Functions; the Fundamental Theorem of Calculus}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Absolute continuity (AC): AC $\Rightarrow$ $BV$ $\Rightarrow$ differentiable a.e.
+\item Singular functions: derivative $0$ a.e.\ yet not constant (the Cantor--Lebesgue function)
+\item The full Lebesgue FTC: $F$ is AC iff $F(x)=F(a)+\int_a^x f$ for some $f\in L^1$, and then $f=F'$ a.e.
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove AC $\Rightarrow$ differentiable a.e.\ with $F'=f$ a.e., and recover $F$ from its derivative by integration
+\item Construct the Cantor--Lebesgue function and prove it is singular
+\item Evaluate why ``$F$ differentiable a.e.\ with $F'=f$ a.e.'' is not sufficient for $F=\int f$, using the Cantor function as the counterexample
+\item Apply the FTC criterion to determine, for a given $F$, whether $F(x)=F(a)+\int F'$
+\end{itemize}
+
+\textbf{Common difficulty:} Arguably the single hardest topic in the course. The Cantor function is the standing counterexample to nearly every naive form of FTC that students bring from calculus. \textit{Mitigation:} dedicate a full session to constructing the Cantor function explicitly and computing its variation directly, then contrast it explicitly against the AC criterion so students see exactly which hypothesis it violates.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Verify that the Cantor--Lebesgue function $c$ satisfies $c'=0$ a.e.\ but $c(1)-c(0)=1\ne\int_0^1 c'=0$, and identify which FTC hypothesis fails. \\
+\textit{Answer:} $c$ is constant on each removed middle-third interval (total measure $1$), so $c'=0$ on a full-measure set; yet $c$ is not absolutely continuous, since all of its increase happens on the Cantor set itself, which has measure zero. The FTC identity fails precisely because absolute continuity, not mere a.e.\ differentiability, is the correct hypothesis.
+\item (Harder) Prove that an absolutely continuous function is of bounded variation on $[a,b]$. \\
+\textit{Rubric:} Fix the $(\varepsilon,\delta)$ pair from the definition of absolute continuity with $\varepsilon=1$; this gives a uniform variation bound on any collection of $\delta$-small intervals. Partition $[a,b]$ into finitely many subintervals of length $<\delta$, bound the variation on each, and sum.
+\end{enumerate}
+
+\subsection{Convex Functions and the Differential in $\mathbb{R}^n$}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Convexity; convex functions are continuous on the interior of their domain and differentiable a.e.
+\item Jensen's inequality (previewed for Module 8's H\"older/Minkowski proofs)
+\item The total differential in several variables; a.e.\ differentiability of Lipschitz functions (Rademacher's theorem, statement only)
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove a convex function on an open interval is locally Lipschitz, hence continuous
+\item Derive Jensen's inequality from convexity
+\item State Rademacher's theorem and relate it to the one-variable differentiation results of this module
+\end{itemize}
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Prove that a convex function $f:(a,b)\to\mathbb{R}$ is continuous. \\
+\textit{Answer:} Convexity gives one-sided difference quotients monotone in the step size, bounding $f$ near any interior point by nearby secant lines from both sides and forcing continuity.
+\item (Harder) Derive Jensen's inequality $\varphi\!\left(\int f\,d\mu\right)\le\int\varphi(f)\,d\mu$, for $\mu$ a probability measure and $\varphi$ convex, from the definition of convexity. \\
+\textit{Rubric:} Use the supporting-line property of convex functions at $t_0=\int f\,d\mu$: $\varphi(t)\ge\varphi(t_0)+m(t-t_0)$ for all $t$ and some slope $m$. Substitute $t=f(x)$, integrate both sides, and use $\int(f-t_0)\,d\mu=0$.
+\end{enumerate}
+
+\section{Module 8: $L^p$ Classes}
+\textit{Weeks: 12--14 (Sessions 22--25). Goal: develop $L^p(E)$ as a Banach space, with $L^2$ as a Hilbert space, connecting measure theory to functional analysis and classical Fourier series.}
+
+\subsection{Definition of $L^p$; H\"older's and Minkowski's Inequalities}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item The $L^p(E)$ norm, $1\le p\le\infty$; $L^\infty$ and the essential supremum
+\item Conjugate exponents; H\"older's inequality
+\item Minkowski's inequality (the triangle inequality for the $L^p$ norm)
+\item Failure of the naive triangle inequality for $0<p<1$
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove H\"older's inequality via Young's inequality ($ab\le a^p/p+b^q/q$)
+\item Derive Minkowski's inequality from H\"older's
+\item Compute $L^p$ norms of explicit power-type functions and determine finiteness ranges
+\item Evaluate why $0<p<1$ fails to give a norm and what structure replaces it
+\end{itemize}
+
+\textbf{Common difficulty:} H\"older's inequality is often memorized without understanding why equality in Young's inequality pins down the equality case (proportionality of $|f|^p$ and $|g|^q$), which matters for later sharpness arguments. \textit{Mitigation:} work the equality case explicitly alongside the inequality, tied to a concrete sharpness example.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item For which $p$ is $f(x)=x^{-1/3}$ in $L^p((0,1))$? \\
+\textit{Answer:} $\int_0^1 x^{-p/3}\,dx$ converges iff $p/3<1$, i.e.\ $0<p<3$.
+\item (Harder) Prove H\"older's inequality $\int|fg|\le\|f\|_p\|g\|_q$ for conjugate $p,q$, and identify the equality condition. \\
+\textit{Rubric:} Normalize $\|f\|_p=\|g\|_q=1$, apply Young's inequality pointwise, and integrate; equality throughout requires $|f|^p$ and $|g|^q$ to be proportional a.e.
+\end{enumerate}
+
+\subsection{The Sequence Spaces $\ell^p$; Banach and Metric Space Properties of $L^p$}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item $\ell^p$ as the discrete analogue of $L^p$; the inclusions $\ell^p\subseteq\ell^q$ for $p\le q$
+\item Completeness of $L^p$ (the Riesz--Fischer theorem)
+\item $L^p$ as a metric space for $0<p<1$, via $d(f,g)=\int|f-g|^p$, not a norm
+\item Separability of $L^p$ for $1\le p<\infty$
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove the Riesz--Fischer theorem (completeness of $L^p$, $1\le p<\infty$)
+\item Prove $\ell^p\subseteq\ell^q$ for $p\le q$ and contrast with the reverse inclusion pattern for $L^p$ on a finite-measure space
+\item Apply completeness to identify the limit of a given Cauchy sequence in $L^p$
+\end{itemize}
+
+\textbf{Common difficulty:} The $\ell^p$ and $L^p$(finite measure) inclusion directions are opposite ($\ell^p\subseteq\ell^q$ for $p\le q$, but $L^q(E)\subseteq L^p(E)$ for $p\le q$ when $m(E)<\infty$), a frequent source of error. \textit{Mitigation:} derive both inclusion directions side by side in the same lecture, using H\"older for the $L^p$(finite measure) case, so the contrast is unavoidable.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Show $\ell^2\subseteq\ell^\infty$ but the reverse fails, with an explicit sequence in $\ell^\infty\setminus\ell^2$. \\
+\textit{Answer:} $\sum|a_n|^2<\infty$ forces $a_n\to0$, hence boundedness. The constant sequence $a_n=1$ is bounded but $\sum 1^2=\infty$, so it lies in $\ell^\infty\setminus\ell^2$.
+\item (Harder) Prove the Riesz--Fischer theorem: $L^p(E)$ is complete for $1\le p<\infty$. \\
+\textit{Rubric:} Given Cauchy $(f_n)$, extract a rapidly Cauchy subsequence with $\|f_{n_{k+1}}-f_{n_k}\|_p<2^{-k}$; show $\sum|f_{n_{k+1}}-f_{n_k}|$ converges a.e.\ and in $L^p$ via MCT applied to partial sums raised to the $p$-th power; identify the a.e.\ limit $f$, then show the full sequence converges to $f$ in $L^p$ using the Cauchy property.
+\end{enumerate}
+
+\subsection{The Space $L^2$ and Orthogonality}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Inner product structure on $L^2$; Cauchy--Schwarz as a special case of H\"older
+\item Orthogonality and orthogonal projection onto a closed subspace
+\item Orthonormal sets; Bessel's inequality
+\item Complete orthonormal systems
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove Cauchy--Schwarz directly from the inner-product axioms
+\item Prove Bessel's inequality for an orthonormal set
+\item Compute the orthogonal projection of a given function onto a finite-dimensional orthonormal span
+\item Apply the projection theorem to derive the best-approximation property of partial Fourier sums
+\end{itemize}
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Compute the orthogonal projection of $f(x)=x$ onto $\operatorname{span}\{1\}$ in $L^2([-1,1])$. \\
+\textit{Answer:} $0$, since $\langle f,1\rangle=\int_{-1}^1 x\,dx=0$ by symmetry.
+\item (Harder) Prove Bessel's inequality $\sum|\langle f,e_n\rangle|^2\le\|f\|^2$ for an orthonormal set $\{e_n\}$. \\
+\textit{Rubric:} Expand $\left\|f-\sum_{n=1}^N\langle f,e_n\rangle e_n\right\|^2\ge0$ using orthonormality and bilinearity; this reduces to $\|f\|^2-\sum_{n=1}^N|\langle f,e_n\rangle|^2\ge0$; let $N\to\infty$.
+\end{enumerate}
+
+\subsection{Fourier Series, Parseval's Formula, and Hilbert Spaces}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item The trigonometric system as an orthonormal basis for $L^2$ on a period interval
+\item Parseval's formula: completeness expressed as an equality, not merely Bessel's inequality
+\item Abstract Hilbert space axioms; every separable infinite-dimensional Hilbert space is isometric to $\ell^2$
+\item Convergence of Fourier series in $L^2$, contrasted with pointwise/uniform convergence
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item State Parseval's formula and derive it from completeness of the trigonometric system
+\item Prove a separable Hilbert space with a countable complete orthonormal system is isometrically isomorphic to $\ell^2$
+\item Apply Parseval's formula to sum an explicit numerical series via a known Fourier expansion
+\item Evaluate the difference between $L^2$-convergence and pointwise convergence of a Fourier series
+\end{itemize}
+
+\textbf{Common difficulty:} Students conflate ``the Fourier series converges to $f$ in $L^2$'' with ``the Fourier series converges to $f(x)$ at every $x$,'' which is false in general and a genuinely harder theorem largely outside this course's scope. \textit{Mitigation:} an explicit disclaimer, with a one-slide preview of pointwise-divergence phenomena clearly marked as out of scope, so the $L^2$ result is not over-claimed.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Use Parseval's formula applied to the Fourier series of $f(x)=x$ on $(-\pi,\pi)$ to evaluate $\sum_{n=1}^\infty 1/n^2$. \\
+\textit{Answer:} The sine coefficients of $x$ are $b_n=2(-1)^{n+1}/n$; Parseval gives $\frac{1}{\pi}\int_{-\pi}^\pi x^2\,dx=\sum b_n^2$, i.e.\ $\frac{2\pi^2}{3}=\pi\sum\frac{4}{n^2}$, giving $\sum 1/n^2=\pi^2/6$.
+\item (Harder) Prove that if $\{e_n\}$ is a complete orthonormal system in a Hilbert space $H$, then $\|f\|^2=\sum|\langle f,e_n\rangle|^2$ for every $f\in H$. \\
+\textit{Rubric:} As in Bessel's inequality, $\left\|f-\sum_{n=1}^N\langle f,e_n\rangle e_n\right\|^2=\|f\|^2-\sum_{n=1}^N|\langle f,e_n\rangle|^2$. Bessel's inequality makes the partial sums Cauchy, hence (by completeness of $H$) convergent to some $g$; $f-g$ is orthogonal to every $e_n$, so by completeness of the system $f=g$, giving equality as $N\to\infty$.
+\end{enumerate}
+
+\section{Module 9: Approximations of the Identity and Maximal Functions}
+\textit{Weeks: 14--15 (Sessions 26--28). Goal: apply the full measure/integration/$L^p$ toolkit to two workhorse constructions of harmonic analysis that recur throughout analysis and PDE.}
+
+\subsection{Convolutions and Approximations of the Identity}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Convolution $f*g$; Young's inequality for convolutions ($\|f*g\|_r\le\|f\|_p\|g\|_q$, $1/p+1/q=1+1/r$)
+\item Approximate identities: families $\{\varphi_\varepsilon\}$ with $\int\varphi_\varepsilon=1$, mass concentrating at $0$ as $\varepsilon\to0$
+\item Convergence $\varphi_\varepsilon*f\to f$ in $L^p$ ($1\le p<\infty$) and a.e.\ at Lebesgue points
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove Young's inequality for convolutions in the case $r=\infty$
+\item Prove $\varphi_\varepsilon*f\to f$ in $L^1$ for an approximate identity
+\item Apply approximate identities to prove density of smooth (or continuous) functions in $L^p$
+\end{itemize}
+
+\textbf{Common difficulty:} The $L^p$-convergence proof combines a near/far-from-origin split with continuity of translation in $L^p$ -- itself a nontrivial fact whose usual proof relies on density of continuous functions, creating a chicken-and-egg subtlety students often miss. \textit{Mitigation:} prove continuity of translation in $L^p$ as a separately labeled lemma first (from density of compactly-supported simple functions, established independently), then invoke it as a black box here.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Verify that $\varphi_\varepsilon(x)=(1/\varepsilon)\varphi(x/\varepsilon)$ is an approximate identity when $\varphi\ge0$, $\int\varphi=1$, and state what ``mass concentrating at $0$'' means quantitatively. \\
+\textit{Answer:} $\int\varphi_\varepsilon=\int\varphi=1$ for all $\varepsilon$ (change of variables), and for any $\delta>0$, $\int_{|x|>\delta}\varphi_\varepsilon(x)\,dx=\int_{|y|>\delta/\varepsilon}\varphi(y)\,dy\to0$ as $\varepsilon\to0$; this is the precise concentration statement.
+\item (Harder) Prove $\varphi_\varepsilon*f\to f$ in $L^1(\mathbb{R})$ as $\varepsilon\to0$ for $f\in L^1$. \\
+\textit{Rubric:} Write $\varphi_\varepsilon*f(x)-f(x)=\int\varphi_\varepsilon(y)[f(x-y)-f(x)]\,dy$ using $\int\varphi_\varepsilon=1$; take $L^1$ norms, apply Minkowski's integral inequality to move the norm inside, split the $y$-integral into $|y|<\delta$ and $|y|\ge\delta$, bound the near piece using continuity of translation in $L^1$ and the far piece using concentration, then send $\varepsilon\to0$ and $\delta\to0$.
+\end{enumerate}
+
+\subsection{The Hardy--Littlewood Maximal Function}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item Definition $Mf(x)=\sup_{B\ni x}\frac{1}{m(B)}\int_B|f|$, sup over balls $B$ containing $x$
+\item $Mf$ need not be integrable even for nice $f$ (borderline failure), motivating weak-type estimates
+\item The weak $(1,1)$ inequality via the Vitali covering lemma (callback to Module 7)
+\item Strong $(p,p)$ bounds for $1<p\le\infty$ via interpolation (previewed, proved next topic)
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item Prove the weak $(1,1)$ inequality $m\{Mf>\lambda\}\le(C/\lambda)\|f\|_1$ using the Vitali covering lemma
+\item Construct an $f\in L^1$ with $Mf\notin L^1$
+\item Apply the weak-type estimate to derive the Lebesgue differentiation theorem as a corollary, closing the loop back to Module 7
+\end{itemize}
+
+\textbf{Common difficulty:} This is the module's centerpiece and reuses the Vitali covering lemma in a genuinely new way -- covering a superlevel set rather than a general set -- which students often fail to recognize as the same lemma. \textit{Mitigation:} explicitly re-derive the covering lemma's statement side by side with its Module 7 use, highlighting that only the combinatorial selection argument, not the differentiation-specific conclusion, is being reused.
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item For $f=$ indicator of $[0,1]$ on $\mathbb{R}$, show $Mf(x)\sim1/|x|$ for large $|x|$, and determine whether $Mf\in L^1(\mathbb{R})$. \\
+\textit{Answer:} For $x>1$, the best ball is roughly $[0,2x]$, giving average $\sim1/(2x)$, so $Mf(x)\sim c/x$ for large $x$; since $\int^\infty 1/x\,dx$ diverges, $Mf\notin L^1(\mathbb{R})$ even though $f\in L^1$.
+\item (Harder) Prove the weak $(1,1)$ inequality for the Hardy--Littlewood maximal function. \\
+\textit{Rubric:} Fix $\lambda>0$; for each $x\in\{Mf>\lambda\}$ choose a ball $B_x$ with average of $|f|$ over $B_x$ exceeding $\lambda$, covering the superlevel set. Apply the Vitali covering lemma to extract a disjoint subcollection covering a fixed fraction of any compact piece of the superlevel set; summing $\lambda\, m(B_x)<\int_{B_x}|f|$ over the disjoint subcollection bounds $\lambda\, m\{Mf>\lambda\}$ by a constant times $\|f\|_1$.
+\end{enumerate}
+
+\subsection{The Marcinkiewicz Integral}
+
+\textbf{Core concepts:}
+\begin{itemize}[nosep]
+\item The Marcinkiewicz interpolation theorem: an operator that is weak $(p_0,p_0)$ and weak $(p_1,p_1)$ is strongly bounded $(p,p)$ for $p$ between $p_0$ and $p_1$
+\item Application to the maximal function: weak $(1,1)$ plus trivial strong $(\infty,\infty)$ give strong $(p,p)$ for $1<p\le\infty$
+\item The Marcinkiewicz integral function as a geometric device used in the original interpolation proof
+\end{itemize}
+
+\textbf{Learning objectives:}
+\begin{itemize}[nosep]
+\item State the Marcinkiewicz interpolation theorem precisely, distinguishing it from the (stronger-hypothesis) Riesz--Thorin theorem
+\item Apply Marcinkiewicz interpolation, combined with the weak $(1,1)$ bound of Topic 9.2, to prove $Mf\in L^p(\mathbb{R})$ with a norm bound whenever $f\in L^p$, $1<p\le\infty$
+\item Evaluate why interpolation is necessary here -- i.e., why a direct argument fails at the endpoint $p=1$
+\end{itemize}
+
+\textbf{Example questions:}
+\begin{enumerate}[nosep]
+\item Using the trivial strong $(\infty,\infty)$ bound $\|Mf\|_\infty\le\|f\|_\infty$ together with the weak $(1,1)$ bound of Topic 9.2, state what Marcinkiewicz interpolation yields at $p=2$. \\
+\textit{Answer:} $\|Mf\|_2\le C\|f\|_2$ for an absolute constant $C$; the maximal function is bounded on $L^2$.
+\item (Harder) Explain precisely why the weak $(1,1)$ bound cannot be upgraded to a strong $(1,1)$ bound for the maximal function, and why this makes interpolation, rather than a direct argument, necessary to obtain any strong $L^p$ bound. \\
+\textit{Rubric:} The Topic 9.2 example ($f=$ indicator of an interval) already shows $Mf\notin L^1$ for $f\in L^1$, ruling out strong $(1,1)$. Since a strong $(p,p)$ bound for $p$ near $1$ would, by a scaling heuristic, require something at least as strong at $p=1$, only the weaker weak-type endpoint is available there; Marcinkiewicz interpolation is exactly the tool that upgrades a weak endpoint plus a strong endpoint (here $p=\infty$) to strong bounds strictly in between.
+\end{enumerate}
+
+\end{document}

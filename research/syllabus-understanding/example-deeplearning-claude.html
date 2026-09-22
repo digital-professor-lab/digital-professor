@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Example — Deep Learning (Master's) | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
+  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
+    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
+  .backlink:hover{opacity:1}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
+  .p-under{background:#EFE4D5; color:#8A5A2A}
+  .p-mast{background:#EADFD7; color:#9A5030}
+  .p-phd{background:#F4DED3; color:#B0472E}
+  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
+  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
+  .yes{color:var(--green); font-weight:700}
+  .no{color:var(--red); font-weight:700}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:1rem}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
+  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
+  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
+  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
+  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .stars{color:var(--amber); letter-spacing:2px}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
+    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
+  .btn:hover{background:var(--navy)}
+  .exlink-wrap{margin-top:18px}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+
+  /* ---- Example-output rendering ---- */
+  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
+  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
+  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
+  .exhead p{margin:0; opacity:.85; font-size:.85rem}
+  .exbody{padding:22px 24px; background:var(--paper)}
+  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
+  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
+  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
+  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
+  .exdoc li{margin:3px 0; font-size:.92rem}
+  .exdoc table{font-size:.86rem}
+  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
+  .diffcard .dt{color:var(--red); font-weight:700}
+  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
+  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
+  .qa .ans{color:var(--muted); display:block; margin-top:3px}
+  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
+  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
+  @media(max-width:720px){.pdfbox iframe{height:520px}}
+  .promptbox{border:1px solid var(--line); border-left:4px solid var(--steel); border-radius:0 10px 10px 0; background:var(--soft); padding:18px 22px; margin-top:16px}
+  .promptbox .ph{font-weight:700; color:var(--navy); font-size:1.05rem; margin:0 0 4px}
+  .promptbox .pmeta{font-size:.82rem; color:var(--muted); margin:0 0 12px}
+  .promptbox .ptext{font-size:.9rem; line-height:1.5}
+  .promptbox ol{padding-left:20px; margin:8px 0}
+  .promptbox ol>li{margin:7px 0}
+  .promptbox ul{padding-left:20px; margin:4px 0}
+  .promptbox .ctx{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:.87rem}
+  .promptbox code{background:var(--paper)}
+  .promptbox .rules{margin-top:12px; padding-top:10px; border-top:1px dashed #D8CFBF}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+</style>
+<script>
+  window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+<header class="hero">
+  <a class="backlink" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p class="kicker">Digital Professor · Example Output · Interactive Method</p>
+  <h1>Claude — Interactive Course Design</h1>
+  <p>A complete design for <em>Statistical Learning 2: Deep Learning</em>, built by Claude through a live intake interview with the course's instructor.</p>
+</header>
+
+<section id="example">
+  <h2>What "Good" Looks Like — a Real Graduate Course</h2>
+  <p class="lead">A full course design from <strong>Claude</strong> built through an <strong>interactive intake interview</strong> with the course's actual instructor — no syllabus required.</p>
+  <p>This is the flagship example of the interactive method: the model interviewed the instructor about a real Master's-level course and turned the answers into a complete 14-week design. Tell-tale signs of a genuine interview appear throughout — e.g. <em>"you indicated 4–5 take-home coding projects"</em> and a <em>"buffer/flex session discussed during intake."</em></p>
+
+  <div class="callout">
+    <strong>What I gave the model:</strong> no document at all &mdash; I described the course conversationally, and all six intake fields were gathered through the interview itself. The full exchange is in the <a href="sergey-conversation.html">intake conversation</a>.
+  </div>
+
+  <div class="callout good" style="display:flex; gap:18px; align-items:center; flex-wrap:wrap">
+    <img src="sergey.jpg" alt="The course instructor" style="width:96px; height:96px; border-radius:50%; object-fit:cover; border:3px solid var(--green); flex:none">
+    <div style="flex:1; min-width:250px">
+      <strong>Tested with a real professor.</strong> This design wasn't hypothetical — it was produced in a live intake session with the professor pictured, for a course he plans to teach <em>next semester</em>. The full six-field conversation is reproduced verbatim.
+      <p class="exlink-wrap" style="margin-top:12px; margin-bottom:0"><a class="btn" href="sergey-conversation.html">Read the full intake conversation &rarr;</a></p>
+    </div>
+  </div>
+
+  <div class="exwrap">
+    <div class="exhead">
+      <h3>Statistical Learning 2: Deep Learning — Course Design Package</h3>
+      <p>Claude · Interactive intake · Advanced-undergraduate / Master's (cross-listed) · every architecture framed by its statistical motivation first</p>
+    </div>
+    <div class="exbody exdoc">
+      <h4>Interactive Intake &mdash; what the instructor was asked</h4>
+      <p class="exnote">Instead of a syllabus, the model collected these answers directly from the instructor, then designed the course from them.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Instructor's answer</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Level</strong></td><td>Advanced undergraduate / Master's, cross-listed</td></tr>
+          <tr><td><strong>Format</strong></td><td>Lecture · 2 sessions/week · 75 min · 14 weeks (28 sessions)</td></tr>
+          <tr><td><strong>Assessment</strong></td><td>Weekly in-section quizzes + take-home coding projects (instructor said 4&ndash;5; design uses 5) · no midterm or final</td></tr>
+          <tr><td><strong>Assumed background</strong></td><td>Statistical Learning 1; linear algebra &amp; multivariate calculus; probability &amp; inference; Python</td></tr>
+          <tr><td><strong>Orientation</strong></td><td>Introduce each architecture through its statistical motivation before its engineering mechanics</td></tr>
+        </tbody>
+      </table>
+
+      <p class="exnote">Where the instructor left something open, the model stated its choice explicitly &mdash; e.g. it fixed the project count at 5 (spaced after each thematic arc) and reserved Session 28 as the intake-discussed buffer, droppable to compress to 13 weeks.</p>
+
+      <h4>Course Structure (5 of 14 modules shown)</h4>
+      <table>
+        <thead><tr><th>Wk</th><th>Module</th><th>Goal</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>M1 · Neural Networks as Statistical Models</td><td>Frame feedforward nets as nonlinear statistical models; connect loss functions to maximum likelihood.</td></tr>
+          <tr><td>5</td><td>M5 · Convolutional Networks &amp; Inductive Bias</td><td>Show convolution as an encoded statistical assumption (stationarity, locality).</td></tr>
+          <tr><td>7</td><td>M7 · Attention Mechanisms</td><td>Derive attention as a kernel-smoothing / nonparametric-regression operation.</td></tr>
+          <tr><td>9</td><td>M9 · LLMs — Pretraining, Scaling, In-Context Learning</td><td>Treat pretraining as large-scale MLE; examine scaling laws.</td></tr>
+          <tr><td>11</td><td>M11 · Adversarial &amp; Score-Based Generative Models</td><td>Contrast implicit (GAN) and score-based (diffusion) estimation strategies.</td></tr>
+          <tr><td>14</td><td>M14 · Uncertainty, Frontiers &amp; Synthesis</td><td>Bayesian deep learning / calibration; synthesize the course (Session 28 = buffer).</td></tr>
+        </tbody>
+      </table>
+
+      <h4>A Fully Expanded Topic (Topic 1.1 · From GLMs to Neural Networks)</h4>
+      <span class="lbl">Core Concepts</span>
+      <ul>
+        <li>Neural networks as compositions of generalized linear models: each layer is an affine map plus a link-like nonlinearity.</li>
+        <li>Loss functions as negative log-likelihoods under an assumed output-noise model: squared error $\leftrightarrow$ Gaussian, cross-entropy $\leftrightarrow$ Bernoulli/categorical.</li>
+        <li>Final-layer activation as a choice of exponential-family output distribution.</li>
+        <li>Maximum likelihood: $\hat\theta = \arg\max_\theta \sum_i \log p_\theta(y_i \mid x_i)$.</li>
+      </ul>
+      <span class="lbl">Learning Objectives</span>
+      <ol>
+        <li>Explain why minimizing squared error is equivalent to Gaussian MLE.</li>
+        <li>Derive the cross-entropy loss from the Bernoulli/categorical log-likelihood.</li>
+        <li>Apply the GLM-to-network analogy to justify an output activation given a stated noise model.</li>
+      </ol>
+      <div class="diffcard">
+        <span class="dt">A difficulty spotlight from the next topic (backpropagation).</span> Students often experience backprop as notational overload &mdash; losing track of which Jacobian multiplies which, especially with branching graphs.<br>
+        <span class="dt">Mitigation.</span> Require a from-scratch backprop derivation for a 2-layer net by hand <em>before</em> showing the general computational-graph formalism, then re-derive it via the graph to show it is the same chain rule, reorganized.
+      </div>
+      <span class="lbl">Example Questions</span>
+      <div class="qa"><span class="qtype">Basic</span> Write the negative log-likelihood for $y_i \mid x_i \sim \mathcal{N}(f_\theta(x_i), \sigma^2)$ and show it reduces to squared error up to a constant.<span class="ans">Answer: $-\log p = \tfrac{1}{2\sigma^2}(y_i - f_\theta(x_i))^2 + \text{const}$; minimizing over $\theta$ is equivalent to minimizing squared error.</span></div>
+      <div class="qa"><span class="qtype">Advanced</span> A student trains a classifier with one-hot targets using squared error. What output-distribution assumption does this impose, and why is it a poor match?<span class="ans">Answer: it implicitly assumes Gaussian noise on a categorical target, giving miscalibrated gradients and poor probability estimates near saturation.</span></div>
+
+      <h4>Prerequisite Map (excerpt)</h4>
+      <p class="exnote">Every topic is traced to prior concepts and whether they are assumed background or taught earlier in the course.</p>
+      <table>
+        <thead><tr><th>Topic</th><th>Prerequisite(s)</th><th>Where taught</th></tr></thead>
+        <tbody>
+          <tr><td>7.1 Attention as Kernel Regression</td><td>Nonparametric regression / kernel smoothing; softmax</td><td>Assumed (Stat. Learning 1 &amp; Probability)</td></tr>
+          <tr><td>8.1 Full Transformer Block</td><td>Self-attention; normalization</td><td>Module 7.2; Module 4.2</td></tr>
+          <tr><td>9.1 Pretraining &amp; Scaling Laws</td><td>Autoregressive MLE; Transformer architecture</td><td>Module 1.1; Module 8</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Assessment Plan (excerpt)</h4>
+      <table>
+        <thead><tr><th>Module(s)</th><th>Assessment</th><th>Timing</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>All</td><td>In-section quiz</td><td>Weekly, Wks 2&ndash;14</td><td>Frequent low-stakes checks maintain pace and catch misconceptions early, since there is no midterm/final.</td></tr>
+          <tr><td>M1&ndash;M3</td><td>Project 1: build an MLP &amp; optimizer from scratch; reproduce a double-descent curve</td><td>End Wk 3</td><td>Tests translating statistical theory into working, measurable code.</td></tr>
+          <tr><td>M10&ndash;M11</td><td>Project 4: implement a VAE and a diffusion model on the same dataset</td><td>End Wk 12</td><td>Tests comparing likelihood-based vs. score-based generation empirically.</td></tr>
+        </tbody>
+      </table>
+
+      <h4>The Complete Compiled Document (27 pages)</h4>
+      <p class="exnote">The full course design exactly as it compiles from LaTeX to PDF.</p>
+      <div class="pdfbox">
+        <iframe src="breakdown-examples/Sergey_Claude_Interactive.pdf#view=FitH" title="breakdown-examples/Sergey_Claude_Interactive.pdf" loading="lazy"></iframe>
+      </div>
+      <p class="exnote">If the preview doesn't load, <a href="breakdown-examples/Sergey_Claude_Interactive.pdf" target="_blank" rel="noopener">open the PDF in a new tab</a> (27 pages · compiled with pdfLaTeX).</p>
+    </div>
+  </div>
+</section>
+
+<section id="feedback">
+  <h2>Professor Feedback</h2>
+  <div style="display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap">
+    <img src="sergey.jpg" alt="The course instructor" style="width:110px; height:110px; border-radius:50%; object-fit:cover; border:3px solid var(--steel); flex:none">
+    <div style="flex:1; min-width:260px">
+      <p class="lead" style="margin-top:0">After reviewing the generated breakdown for the course he plans to teach next semester, the professor shared his reaction and one concrete suggestion.</p>
+      <ul class="clean">
+        <li><strong>Very impressed by the depth.</strong> Overall he was struck by how thorough and detailed the breakdown was — well beyond what he expected.</li>
+        <li><strong>Liked the output a lot.</strong> His overall reaction to the generated course design was strongly positive.</li>
+        <li><strong>The example questions look good.</strong> He singled out the worked example questions as genuinely usable.</li>
+        <li><strong>Agreed with the difficulty analysis.</strong> He concurred with the calls on which topics are historically hard and why, and with the surrounding pedagogical notes.</li>
+      </ul>
+      <div class="callout">
+        <strong>His suggestion.</strong> Rather than requiring typed answers during the intake, the prompt could <em>offer options to choose from</em> — turning more of the interview into quick, tap-to-select choices instead of free typing.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a class="btn" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p style="margin-top:16px">Digital Professor · Research / Syllabus Understanding · Interactive intake method</p>
+</footer>
+
+</body>
+</html>

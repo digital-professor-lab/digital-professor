@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Example — Calculus I (Undergraduate) | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
+  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
+    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
+  .backlink:hover{opacity:1}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
+  .p-under{background:#EFE4D5; color:#8A5A2A}
+  .p-mast{background:#EADFD7; color:#9A5030}
+  .p-phd{background:#F4DED3; color:#B0472E}
+  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
+  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
+  .yes{color:var(--green); font-weight:700}
+  .no{color:var(--red); font-weight:700}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:1rem}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
+  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
+  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
+  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
+  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .stars{color:var(--amber); letter-spacing:2px}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
+    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
+  .btn:hover{background:var(--navy)}
+  .exlink-wrap{margin-top:18px}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+
+  /* ---- Example-output rendering ---- */
+  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
+  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
+  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
+  .exhead p{margin:0; opacity:.85; font-size:.85rem}
+  .exbody{padding:22px 24px; background:var(--paper)}
+  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
+  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
+  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
+  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
+  .exdoc li{margin:3px 0; font-size:.92rem}
+  .exdoc table{font-size:.86rem}
+  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
+  .diffcard .dt{color:var(--red); font-weight:700}
+  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
+  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
+  .qa .ans{color:var(--muted); display:block; margin-top:3px}
+  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
+  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
+  @media(max-width:720px){.pdfbox iframe{height:520px}}
+  .promptbox{border:1px solid var(--line); border-left:4px solid var(--steel); border-radius:0 10px 10px 0; background:var(--soft); padding:18px 22px; margin-top:16px}
+  .promptbox .ph{font-weight:700; color:var(--navy); font-size:1.05rem; margin:0 0 4px}
+  .promptbox .pmeta{font-size:.82rem; color:var(--muted); margin:0 0 12px}
+  .promptbox .ptext{font-size:.9rem; line-height:1.5}
+  .promptbox ol{padding-left:20px; margin:8px 0}
+  .promptbox ol>li{margin:7px 0}
+  .promptbox ul{padding-left:20px; margin:4px 0}
+  .promptbox .ctx{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:.87rem}
+  .promptbox code{background:var(--paper)}
+  .promptbox .rules{margin-top:12px; padding-top:10px; border-top:1px dashed #D8CFBF}
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px}
+  .compare .pane{border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column}
+  .compare .pane .cap{background:var(--navy); color:#fff; padding:9px 14px; font-size:.84rem; font-weight:600}
+  .compare .pane.out .cap{background:var(--green)}
+  .compare .frame{height:600px; overflow:auto; background:#e9e5dd}
+  .compare .frame iframe{width:100%; height:600px; border:0; display:block}
+  .compare .frame img{width:100%; display:block}
+  @media(max-width:760px){.compare{grid-template-columns:1fr} .compare .frame,.compare .frame iframe{height:460px}}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+</style>
+<script>
+  window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+<header class="hero">
+  <a class="backlink" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p class="kicker">Digital Professor · Example Output · Interactive Method</p>
+  <h1>Claude — Interactive Course Design</h1>
+  <p>A complete design for <em>Calculus I for Bio &amp; Social Sciences</em> — a course I teach — rebuilt by Claude from an intake interview, not a syllabus.</p>
+</header>
+
+<section id="example">
+  <h2>What "Good" Looks Like — Undergraduate, from an Interview</h2>
+  <p class="lead">The interactive method applied to <em>Calculus I for Biology &amp; Social Sciences</em> — <strong>a course I teach</strong>, here rebuilt purely from an intake interview rather than a syllabus.</p>
+  <p>Because I know this course well, it is a good control: the interview-driven design captures the real assessment structure (weights, group projects, portfolios), and — importantly — <strong>flags where it is assuming</strong> rather than guessing silently.</p>
+
+    <div class="callout">
+    <strong>What I gave the model:</strong> the official course <strong>syllabus</strong> (AS.110.106) &mdash; and nothing else. Everything below was reverse-engineered from that document plus the short intake interview. The syllabus itself is shown in the side-by-side comparison just below.
+  </div>
+
+  <h3>Interactive Breakdown vs. the Real Syllabus</h3>
+  <p>This breakdown was produced <strong>without</strong> the official syllabus &mdash; from an intake interview alone. The real <em>AS.110.106</em> syllabus is placed beside it so you can see how closely the interview-built design tracks the course as it is actually taught.</p>
+  <div class="compare">
+    <div class="pane">
+      <div class="cap">The real course syllabus</div>
+      <div class="frame"><iframe src="syllabus-examples/110.106CalculusISyllabus.pdf#view=FitH" title="AS.110.106 Calculus I syllabus" loading="lazy"></iframe></div>
+    </div>
+    <div class="pane out">
+      <div class="cap">Output &mdash; Claude interactive breakdown</div>
+      <div class="frame"><iframe src="breakdown-examples/Calc1_Claude_Interactive.pdf#view=FitH" title="interactive breakdown" loading="lazy"></iframe></div>
+    </div>
+  </div>
+  <p class="exnote">The interview did <strong>not</strong> include this syllabus &mdash; it is shown only so you can judge how closely the interview-built design matches the course as actually taught.</p>
+
+  <div class="exwrap">
+    <div class="exhead">
+      <h3>Calculus I for Bio &amp; Social Sciences — Full Course Design</h3>
+      <p>Claude · Interactive intake · Undergraduate, introductory · 14 modules over a 14&ndash;15 week semester</p>
+    </div>
+    <div class="exbody exdoc">
+      <h4>Interactive Intake &mdash; what the instructor was asked</h4>
+      <p class="exnote">Instead of a syllabus, the model collected these answers directly from the instructor, then designed the course from them.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Instructor's answer</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Level</strong></td><td>Undergraduate, introductory</td></tr>
+          <tr><td><strong>Format</strong></td><td>Lecture 3&times;/week (50 min) + one weekly TA/discussion session</td></tr>
+          <tr><td><strong>Duration</strong></td><td>14&ndash;15 week semester</td></tr>
+          <tr><td><strong>Assessment</strong></td><td>Weekly homework 8% · Quizzes (4) 35% · Group projects (2) 20% · Portfolios (2) 7% · Final exam 30%</td></tr>
+          <tr><td><strong>Assumed background</strong></td><td>College algebra / precalculus fluency <strong>(flagged as an assumption &mdash; not confirmed by instructor)</strong></td></tr>
+        </tbody>
+      </table>
+
+      <p class="exnote">The honesty flag is the point: rather than pretend the prerequisite was stated, the model marks it as its own assumption &mdash; exactly the behavior you want when scope is being inferred.</p>
+
+      <h4>Course Structure (6 of 14 modules shown)</h4>
+      <table>
+        <thead><tr><th>Module</th><th>Goal</th></tr></thead>
+        <tbody>
+          <tr><td>M1 · Functions &amp; Mathematical Modeling</td><td>Refresh core function types and show how functions model biological/social phenomena.</td></tr>
+          <tr><td>M3 · The Derivative: Definition &amp; Rates of Change</td><td>Introduce the derivative as instantaneous rate of change, motivated by real rate questions.</td></tr>
+          <tr><td>M4 · Differentiation Rules</td><td>Build the mechanical toolkit — power, product, quotient, chain rules. <em>(Quiz 1)</em></td></tr>
+          <tr><td>M8 · Optimization</td><td>Use derivatives to find and justify optima in applied bio/social problems.</td></tr>
+          <tr><td>M12 · Definite Integral &amp; the FTC</td><td>Formalize accumulated change via Riemann sums and the Fundamental Theorem. <em>(Quiz 4)</em></td></tr>
+          <tr><td>M14 · Differential Equations &amp; Logistic Growth</td><td>Extend growth modeling to resource-limited (logistic) growth. <em>(Portfolio 2 due)</em></td></tr>
+        </tbody>
+      </table>
+      <p class="exnote">Week 15 is reserved for cumulative review and the final exam. Quizzes, group projects, and portfolios are woven into the module timeline exactly where the intake said they occur.</p>
+
+      <h4>A Fully Expanded Topic (Module 4 · The Chain Rule)</h4>
+      <span class="lbl">Core Concepts</span>
+      <ul>
+        <li>Composite functions; the "outside/inside" structure</li>
+        <li>Statement of the chain rule</li>
+        <li>Chain rule with multiple nested layers</li>
+      </ul>
+      <span class="lbl">Learning Objectives</span>
+      <ol>
+        <li>Explain the chain rule as tracking how a composite function's rate of change compounds.</li>
+        <li>Apply the chain rule to nested/composite functions, including modeling contexts.</li>
+      </ol>
+      <div class="diffcard">
+        <span class="dt">Why the differentiation rules are historically hard.</span> Notational overload across three new rules in one week, and the chain rule's "outside/inside" structure is easy to misidentify &mdash; leading to systematic errors.<br>
+        <span class="dt">Mitigation.</span> Use a consistent color-coded/boxed "outside/inside" annotation on every example, and run explicit common-error walkthroughs comparing a wrong application side by side with the correct one.
+      </div>
+      <span class="lbl">Example Questions</span>
+      <div class="qa"><span class="qtype">Foundational</span> Differentiate $f(x) = 3x^4 - 5x^2 + 7$.<span class="ans">Answer: $f'(x) = 12x^3 - 10x$.</span></div>
+      <div class="qa"><span class="qtype">Applied</span> A drug concentration is $C(t) = \dfrac{5t}{t^2+4}$ (mg/L). Find $C'(t)$ and interpret its sign at $t=1$ and $t=3$.<span class="ans">Answer: quotient rule gives $C'(1)>0$ (still rising) and $C'(3)<0$ (falling) — tying the derivative's sign to the physical process.</span></div>
+
+      <h4>Prerequisite Map (excerpt)</h4>
+      <table>
+        <thead><tr><th>Topic</th><th>Prerequisite(s)</th><th>Where taught</th></tr></thead>
+        <tbody>
+          <tr><td>4.3 Chain Rule</td><td>4.1, 4.2; function composition</td><td>Module 4; Assumed background</td></tr>
+          <tr><td>12.2 Fundamental Theorem of Calculus</td><td>12.1; antiderivatives</td><td>Module 12; Module 11</td></tr>
+          <tr><td>14.2 Logistic Growth</td><td>14.1; exponential growth (for contrast)</td><td>Module 14; Module 10</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Assessment Plan (excerpt)</h4>
+      <table>
+        <thead><tr><th>Module</th><th>Assessment &amp; timing</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>M4</td><td>Homework 4; <strong>Quiz 1</strong></td><td>Checks mechanical fluency with differentiation rules before applications.</td></tr>
+          <tr><td>M9</td><td>Homework 9; <strong>Quiz 3</strong>; <strong>Portfolio 1 due</strong></td><td>Consolidates reflection on the full differentiation unit at the course midpoint.</td></tr>
+          <tr><td>Wk 15</td><td><strong>Final Exam</strong></td><td>Cumulative assessment across differentiation, integration, and modeling.</td></tr>
+        </tbody>
+      </table>
+
+      <h4>The Complete Compiled Document (19 pages)</h4>
+      <p class="exnote">The full course design exactly as it compiles from LaTeX to PDF.</p>
+      <div class="pdfbox">
+        <iframe src="breakdown-examples/Calc1_Claude_Interactive.pdf#view=FitH" title="breakdown-examples/Calc1_Claude_Interactive.pdf" loading="lazy"></iframe>
+      </div>
+      <p class="exnote">If the preview doesn't load, <a href="breakdown-examples/Calc1_Claude_Interactive.pdf" target="_blank" rel="noopener">open the PDF in a new tab</a> (19 pages · compiled with pdfLaTeX).</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a class="btn" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p style="margin-top:16px">Digital Professor · Research / Syllabus Understanding · Interactive intake method</p>
+</footer>
+
+</body>
+</html>

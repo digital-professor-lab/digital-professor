@@ -1,0 +1,13 @@
+# Private — real instructor intake material (not for distribution)
+research/syllabus-understanding/sergey.jpg
+research/syllabus-understanding/Sergey_convorsation.md
+research/syllabus-understanding/sergey-conversation.html
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
