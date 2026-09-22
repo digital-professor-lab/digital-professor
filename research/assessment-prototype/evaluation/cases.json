@@ -1,0 +1,60 @@
+{
+  "course_sources": [
+    {"file": "../../../resources/assessment_prototype/762_syllabus.pdf", "type": "syllabus"},
+    {"file": "../../../resources/assessment_prototype/762_notes.pdf", "type": "lecture_notes"}
+  ],
+  "handwriting": [
+    {"id": "h01", "category": "clean_single_equation", "file": "handwriting/h01.pdf", "reference_markdown": "$$\\min_x c^T x$$"},
+    {"id": "h02", "category": "fraction_and_exponent", "file": "handwriting/h02.pdf", "reference_markdown": "$$f(x)=\\frac{x^2+1}{(x-1)^2}$$"},
+    {"id": "h03", "category": "subscript_and_superscript", "file": "handwriting/h03.pdf", "reference_markdown": "$$x_i^{(k+1)}=x_i^{(k)}-\\alpha_k g_i^{(k)}$$"},
+    {"id": "h04", "category": "matrix_or_vector", "file": "handwriting/h04.pdf", "reference_markdown": "$$A=\\begin{bmatrix}2&-1\\\\-1&2\\end{bmatrix},\\quad x=\\begin{bmatrix}x_1\\\\x_2\\end{bmatrix}$$"},
+    {"id": "h05", "category": "multistep_solution", "file": "handwriting/h05.pdf", "reference_markdown": "$$f(x)=x^2-4x+3$$\n$$f'(x)=2x-4$$\n$$2x-4=0$$\n$$x=2$$"},
+    {"id": "h06", "category": "inequality_and_constraint", "file": "handwriting/h06.pdf", "reference_markdown": "$$\\min_x c^T x,$$\nsubject to $$Ax\\le b$$\n$$x\\ge 0$$"},
+    {"id": "h07", "category": "ambiguous_symbol", "file": "handwriting/h07.pdf", "reference_markdown": "$$x_1+x_2=1$$", "reference_note": "Intended first subscript is 1; its handwritten shape may resemble a lowercase l."},
+    {"id": "h08", "category": "student_error_preservation", "file": "handwriting/h08.pdf", "reference_markdown": "$$f(x)=x^2$$\n$$f'(x)=x$$", "reference_note": "The derivative is intentionally wrong; recognition must preserve x rather than correct it to 2x."},
+    {"id": "h09", "category": "multicolor_stylus", "file": "handwriting/h09.pdf", "reference_markdown": "$$z=\\theta x+(1-\\theta)y,\\quad 0\\le\\theta\\le 1$$", "reference_note": "Same expression as planned, written in multiple ink colors."},
+    {"id": "h10", "category": "variable_width_calligraphy", "file": "handwriting/h10.pdf", "reference_markdown": "$$L(x,y,\\lambda)=x^2+y^2+\\lambda(x+y-1)$$", "reference_note": "Same expression as planned, written with variable-width calligraphy strokes."}
+  ],
+  "tutoring": [
+    {
+      "id": "t01", "category": "grounded_definition", "question": "Using the uploaded notes, define a linear program and identify its objective and feasible region.",
+      "expected_points": ["Linear objective", "Constraints are linear inequalities or an equivalent standard form", "Feasible region is defined by the constraints"],
+      "reference": "762_notes.pdf, PDF p. 4", "source_visibility": "in_loaded_text"
+    },
+    {
+      "id": "t02", "category": "grounded_concept", "question": "According to the notes, what are the three possible outcomes for a linear program?",
+      "expected_points": ["Infeasible", "Unbounded", "Has an optimal solution"],
+      "reference": "762_notes.pdf, PDF p. 5", "source_visibility": "in_loaded_text"
+    },
+    {
+      "id": "t03", "category": "grounded_explanation", "question": "Explain the standard form for a linear program given in the uploaded notes, and give one example of the constraints.",
+      "expected_points": ["Minimize a linear objective", "Equality constraints Ax=b", "Nonnegative decision variables"],
+      "reference": "762_notes.pdf, PDF p. 5", "source_visibility": "in_loaded_text"
+    },
+    {
+      "id": "t04", "category": "course_overview", "question": "Based on the uploaded syllabus, what are the main areas covered in this course?",
+      "expected_points": ["Nonlinear optimization", "Constrained optimization", "Algorithms and supporting theory"],
+      "reference": "762_syllabus.pdf, PDF p. 1", "source_visibility": "in_loaded_text"
+    },
+    {
+      "id": "t05", "category": "outside_loaded_pages", "question": "How do the uploaded notes develop Lagrangian duality on page 29? Cite the relevant page if you can verify it.",
+      "expected_points": ["Do not claim direct support from a page absent from loaded chat text", "State the source limitation or answer as general background"],
+      "reference": "762_notes.pdf, PDF p. 29; not in first-five-page chat context", "source_visibility": "outside_loaded_text"
+    },
+    {
+      "id": "t06", "category": "outside_loaded_pages", "question": "What specific projected-gradient update rule is shown on page 23 of the uploaded notes?",
+      "expected_points": ["Do not fabricate a page-specific formula", "Acknowledge that page 23 is not available in the loaded chat text"],
+      "reference": "762_notes.pdf, PDF p. 23; not in first-five-page chat context", "source_visibility": "outside_loaded_text"
+    },
+    {
+      "id": "t07", "category": "misconception", "question": "I think every linear program must have an optimal solution. Is that what our notes say?",
+      "expected_points": ["Correct the misconception", "Mention infeasible and unbounded cases", "Ground the correction in the uploaded notes"],
+      "reference": "762_notes.pdf, PDF p. 5", "source_visibility": "in_loaded_text"
+    },
+    {
+      "id": "t08", "category": "underspecified_question", "question": "Can you solve this optimization problem for me?",
+      "expected_points": ["Ask for the objective and constraints", "Do not invent a problem", "Offer a next step"],
+      "reference": "No specific problem supplied", "source_visibility": "not_applicable"
+    }
+  ]
+}

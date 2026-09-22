@@ -29,6 +29,8 @@ Open <http://localhost:5174>. The frontend proxies `/api` to port 8001. The root
 
 In Sources, **Choose files** accepts multiple documents in one selection. Each file is uploaded and stored as a separate source; progress identifies the current file, and a failure for one file does not stop the remaining uploads. Each source file has a 100 MB limit.
 
+The focused handwriting and course-grounded tutoring evaluation is prepared under [`evaluation/`](evaluation/README.md). Its case list and runner are ready; the handwritten images and human reference transcriptions still need to be supplied before the evaluation is run.
+
 ## Assessment workflow to implement next
 
 1. Review the automatically classified syllabus and lecture notes. The syllabus parser now proposes a course name, course number, semester, and overview; the lecture-note parser now lists PDF outline topics with page numbers. Add editing and confirmation for the extracted structure.

@@ -69,6 +69,7 @@ dist/
 resources/interaction_test/
 research/interaction-methods/logs/*.jsonl
 research/assessment-prototype/logs/*.jsonl
+research/assessment-prototype/evaluation/results/
 
 # Others
 .DS_Store

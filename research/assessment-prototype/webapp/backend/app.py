@@ -135,6 +135,8 @@ class ProviderConfig(BaseModel):
     local_transcription_models: list[str]
     faster_whisper_available: bool
     expose_sources: bool
+    max_pages: int
+    render_dpi: int
 
 
 class TranscriptionResult(BaseModel):
@@ -202,6 +204,8 @@ def provider_config() -> ProviderConfig:
         local_transcription_models=LOCAL_TRANSCRIPTION_MODELS,
         faster_whisper_available=faster_whisper_available(),
         expose_sources=True,
+        max_pages=runtime.max_pages,
+        render_dpi=runtime.render_dpi,
     )
 
 
@@ -209,6 +213,31 @@ def provider_config() -> ProviderConfig:
 def evaluation_metrics() -> list[dict]:
     """Return metadata-only events captured during this backend session."""
     return metrics.list()
+
+
+@app.get("/api/evaluation/config")
+def evaluation_config() -> dict:
+    """Snapshot effective settings without a provider request or API key."""
+    runtime = current_settings()
+    return {
+        "model": runtime.openai_model,
+        "max_pages": runtime.max_pages,
+        "render_dpi": runtime.render_dpi,
+        "input_cost_per_1m": runtime.input_cost_per_1m,
+        "output_cost_per_1m": runtime.output_cost_per_1m,
+        "api_key_configured": runtime.api_enabled,
+        "skills": load_skill_instructions().model_dump(),
+        "temperature": "provider default; not explicitly set by prototype",
+    }
+
+
+@app.get("/api/evaluation/sources/{source_id}/text")
+def evaluation_source_text(source_id: str) -> dict[str, str]:
+    """Expose a source transcript for local, human-scored recognition evaluation."""
+    record = sources.get(source_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Source not found.")
+    return {"source_id": source_id, "text": record.text}
 
 
 @app.post("/api/evaluation/feedback")

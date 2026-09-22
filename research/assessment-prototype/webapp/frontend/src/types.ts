@@ -61,6 +61,8 @@ export interface ProviderConfig {
   local_transcription_models: string[];
   faster_whisper_available: boolean;
   expose_sources: boolean;
+  max_pages: number;
+  render_dpi: number;
 }
 
 export interface TranscriptionResult {

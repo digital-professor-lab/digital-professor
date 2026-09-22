@@ -2,6 +2,17 @@
 
 This log tracks work on `jonathan/assessment-prototype`. Version 0.1.0 is the first assessment-focused prototype, not a validated production release.
 
+## Unreleased — 2026-09-22
+
+### Focused evaluation preparation
+
+- Added a fixed 10-case handwriting template and eight 762-course tutoring scenarios, including questions whose source pages are outside the current chat-text window.
+- Added the ten one-page handwritten PDF samples and visual reference transcriptions. h09 tests multicolor stylus ink and h10 tests variable-width calligraphy; references still need independent human review before provider scoring.
+- Added a local evaluation runner for source uploads and tutoring requests, full-text recognition checks, review sheets, settings snapshots, and a summary of accuracy, grounding, consistency, failures, and latency.
+- The intended baseline is the configured `OPENAI_MODEL` (`gpt-4o` if unset), OpenAI vision handwriting recognition, source citations enabled, and unchanged tutoring/explanation/review skills from `src/digital_professor/skills.json`. `DP_MAX_PAGES` defaults to `5`; `DP_RENDER_DPI` defaults to `180`. Temperature is not explicitly set, so the provider default applies. Optional input/output token rates in `.env` determine whether cost estimates are available.
+- Each run records the **effective** model, skills, page limit, render DPI, recognition provider, citation setting, cost-rate settings, and cold/warm phase in a JSON settings snapshot. This distinguishes the actual evaluation configuration from the defaults above; no API key is written.
+- Completed one cold and one warm batch per modality on the prepared set: 46 successful requests. All runs used `gpt-4o`, OpenAI vision for handwriting, five-page chat text, 180 DPI, and provider-default temperature; price rates were unset. Draft AI-assisted review scores and the interpretation are in [`evaluation/RESULTS_DRAFT.md`](evaluation/RESULTS_DRAFT.md). Independent human review and repeated cold runs remain pending.
+
 ## 0.1.0 — 2026-09-21
 
 ### First version
