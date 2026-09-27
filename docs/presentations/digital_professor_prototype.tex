@@ -1,18 +1,15 @@
 \documentclass[aspectratio=169,10pt]{beamer}
-
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{booktabs}
 \usepackage{tikz}
-\graphicspath{{../../research/interaction-methods/demo/}}
+\graphicspath{{../../research/assessment-prototype/evaluation/handwriting/}}
 \usetikzlibrary{arrows.meta,positioning}
-
 \definecolor{Forest}{HTML}{153C32}
 \definecolor{Mint}{HTML}{C9F0DC}
 \definecolor{Cream}{HTML}{F8F6EF}
 \definecolor{Rust}{HTML}{B65738}
 \definecolor{Muted}{HTML}{64706C}
-
 \setbeamercolor{normal text}{fg=Forest,bg=Cream}
 \setbeamercolor{structure}{fg=Forest}
 \setbeamercolor{frametitle}{fg=Forest,bg=Cream}
@@ -23,280 +20,310 @@
 \setbeamercolor{alerted text}{fg=Rust}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{itemize item}{\color{Rust}$\blacktriangleright$}
-\setbeamertemplate{itemize subitem}{\color{Forest}$\bullet$}
-\setbeamertemplate{footline}{%
-  \leavevmode\hbox{%
-    \begin{beamercolorbox}[wd=.82\paperwidth,ht=2.6ex,dp=1.1ex,leftskip=1em]{author in head/foot}%
-      \color{Muted}\scriptsize Digital Professor interaction prototype
-    \end{beamercolorbox}%
-    \begin{beamercolorbox}[wd=.18\paperwidth,ht=2.6ex,dp=1.1ex,rightskip=1em plus1fil]{date in head/foot}%
-      \color{Muted}\scriptsize\hfill\insertframenumber/\inserttotalframenumber
-    \end{beamercolorbox}}}
-\setbeamertemplate{frametitle}{\vspace{0.35em}\insertframetitle\par\vspace{0.15em}\hrule height 0.4pt}
-
+\setbeamertemplate{footline}{\leavevmode\hbox{\begin{beamercolorbox}[wd=.82\paperwidth,ht=2.6ex,dp=1.1ex,leftskip=1em]{author in head/foot}\color{Muted}\scriptsize Digital Professor focused evaluation\end{beamercolorbox}\begin{beamercolorbox}[wd=.18\paperwidth,ht=2.6ex,dp=1.1ex,rightskip=1em plus1fil]{date in head/foot}\color{Muted}\scriptsize\hfill\insertframenumber/\inserttotalframenumber\end{beamercolorbox}}}
+\setbeamertemplate{frametitle}{\vspace{.35em}\insertframetitle\par\vspace{.15em}\hrule height .4pt}
 \newcommand{\good}[1]{\textcolor{Forest}{\textbf{#1}}}
 \newcommand{\risk}[1]{\textcolor{Rust}{\textbf{#1}}}
-
-\title{Digital Professor: Interaction Methods}
-\subtitle{Sep. 18th Update}
+\title{Digital Professor: Focused Evaluation}
+\subtitle{Handwriting recognition and course-grounded tutoring}
 \author{Jonathan Ma}
-\date{Prototype Review}
-
+\date{September 25, 2026}
 \begin{document}
-
 \begin{frame}[plain]
-  \vfill
-  {\usebeamerfont{title}\color{Forest}\LARGE\inserttitle\par}
-  \vspace{0.5em}
-  {\color{Muted}\large\insertsubtitle\par}
-  \vspace{1.5em}
-  {\color{Rust}\rule{2.2cm}{2pt}}\par
-  \vspace{1.2em}
-  {\small\insertauthor\hfill\insertdate}
-  \vfill
+\vfill
+{\usebeamerfont{title}\color{Forest}\LARGE\inserttitle\par}
+\vspace{.5em}{\color{Muted}\large\insertsubtitle\par}
+\vspace{1.5em}{\color{Rust}\rule{2.2cm}{2pt}}\par
+\vspace{1.2em}{\small\insertauthor\hfill\insertdate}
+\vfill
 \end{frame}
 
 \begin{frame}{What got done}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-      \begin{block}{A working tutoring experience}
-        \begin{itemize}
-          \item Browser-based course workspace
-          \item Syllabus and course-material uploads
-          \item Course-grounded tutoring chat
-          \item Source citations and learning check-ins
-        \end{itemize}
-      \end{block}
-    \column{0.49\textwidth}
-      \begin{block}{Multiple ways to interact}
-        \begin{itemize}
-          \item Typed questions, equations, and code
-          \item Documents and images
-          \item Handwriting with a sketchpad or stylus
-          \item Recorded voice converted to editable text
-        \end{itemize}
-      \end{block}
-  \end{columns}
-  \vspace{0.6em}
-  \centering
-  \good{Outcome:} an end-to-end prototype for testing how students might naturally work with a Digital Professor.
+\begin{columns}[T,onlytextwidth]
+\column{.49\textwidth}
+\begin{block}{Repeatable evaluation set}
+\begin{itemize}
+\item 10 handwritten mathematics cases
+\item 8 course-grounded tutoring scenarios
+\item Cold and warm execution modes
+\item Saved outputs and review sheets
+\end{itemize}
+\end{block}
+\column{.49\textwidth}
+\begin{block}{First measured baseline}
+\begin{itemize}
+\item Recognition accuracy and failures
+\item Tutoring correctness and grounding
+\item Consistency and response latency
+\item 46 requests with no request errors
+\end{itemize}
+\end{block}
+\end{columns}
+\vspace{.5em}
+\centering\good{Outcome:} a reusable baseline for measuring future improvements.
 \end{frame}
 
-\begin{frame}{The high-level student experience}
-  \centering
-  \begin{tikzpicture}[
-    node distance=0.55cm,
-    box/.style={draw=Forest, rounded corners=3pt, fill=white, minimum height=1.35cm,
-      text width=2.35cm, align=center, inner sep=6pt},
-    arrow/.style={-{Latex[length=2.5mm]}, thick, draw=Rust}
-  ]
-    \node[box] (setup) {\textbf{Set up}\\Upload a syllabus};
-    \node[box, right=of setup] (sources) {\textbf{Add context}\\Course materials};
-    \node[box, right=of sources] (interact) {\textbf{Ask naturally}\\Type, draw, or speak};
-    \node[box, right=of interact] (response) {\textbf{Learn}\\Guidance + check-in};
-    \draw[arrow] (setup) -- (sources);
-    \draw[arrow] (sources) -- (interact);
-    \draw[arrow] (interact) -- (response);
-  \end{tikzpicture}
-  \vspace{1em}
-  \begin{itemize}
-    \item The system builds a course-aware workspace from student-provided material.
-    \item Students choose the interaction method that fits the problem they are solving.
-    \item The tutor explains, cites its course sources, and checks understanding.
-  \end{itemize}
+\begin{frame}{Evaluation workflow}
+\centering
+\begin{tikzpicture}[node distance=.55cm,box/.style={draw=Forest,rounded corners=3pt,fill=white,minimum height=1.3cm,text width=2.25cm,align=center},arrow/.style={-{Latex[length=2.5mm]},thick,draw=Rust}]
+\node[box](a){\textbf{Give input}\\Writing or question};
+\node[box,right=of a](b){\textbf{Run model}\\Cold or warm};
+\node[box,right=of b](c){\textbf{Review}\\Against reference};
+\node[box,right=of c](d){\textbf{Measure}\\Quality + latency};
+\draw[arrow](a)--(b);\draw[arrow](b)--(c);\draw[arrow](c)--(d);
+\end{tikzpicture}
+\vspace{.8em}
+\begin{itemize}
+\item \textbf{Handwriting:} preserve mathematical meaning and the student's work.
+\item \textbf{Tutoring:} answer correctly from available course material and express uncertainty.
+\item \textbf{System:} remain consistent across repeats without excessive wait time.
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Demo: course setup and source material}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.68\textwidth}
-      \includegraphics[width=\linewidth]{landing_and_upload.png}
-    \column{0.29\textwidth}
-      \small
-      \textbf{What worked}
-      \begin{itemize}
-        \item Course material was uploaded and made available to the tutor
-        \item The course name was identified
-        \item Students can review the extracted sources
-      \end{itemize}
-      \textbf{What needs work}
-      \begin{itemize}
-        \item Some metadata was missed
-        \item Extracted information needs an edit-and-confirm step
-      \end{itemize}
-  \end{columns}
+\begin{frame}{Handwriting set}
+\small
+\begin{columns}[T,onlytextwidth]
+\column{.47\textwidth}
+\begin{tabular}{@{}cl@{}}\toprule
+\textbf{Case}&\textbf{Challenge} \\\midrule
+h01&Clean equation \\ h02&Fraction and exponents \\
+h03&Subscripts and superscripts \\ h04&Matrix layout \\
+h05&Multistep solution \\\bottomrule
+\end{tabular}
+\column{.51\textwidth}
+\begin{tabular}{@{}cl@{}}\toprule
+\textbf{Case}&\textbf{Challenge} \\\midrule
+h06&Inequalities and constraints \\ h07&Ambiguous symbols \\
+h08&Preserve an incorrect answer \\ h09&Multiple colors \\
+h10&Variable-width calligraphy \\\bottomrule
+\end{tabular}
+\end{columns}
+\vspace{.6em}
+\begin{columns}[T,onlytextwidth]
+\column{.32\textwidth}\centering
+\includegraphics[width=\linewidth,height=2.5cm,keepaspectratio]{h07.pdf}\par h07
+\column{.32\textwidth}\centering
+\includegraphics[width=\linewidth,height=2.5cm,keepaspectratio]{h09.pdf}\par h09
+\column{.32\textwidth}\centering
+\includegraphics[width=\linewidth,height=2.5cm,keepaspectratio]{h10.pdf}\par h10
+\end{columns}
 \end{frame}
 
-\begin{frame}{Demo: tutoring interaction}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.495\textwidth}
-      \includegraphics[width=\linewidth]{chat_1.png}
-    \column{0.495\textwidth}
-      \includegraphics[width=\linewidth]{chat_2.png}
-  \end{columns}
-  \vspace{0.45em}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-      \textbf{What worked}
-      \begin{itemize}
-        \item Course-specific worked explanation
-        \item Readable mathematical notation
-        \item Assumptions and comprehension check
-      \end{itemize}
-    \column{0.47\textwidth}
-      \textbf{What needs work}
-      \begin{itemize}
-        \item Responses can be too long
-        \item Latency is noticeable
-        \item Citation quality needs evaluation
-      \end{itemize}
-  \end{columns}
+\begin{frame}{Handwriting results}
+\begin{columns}[T,onlytextwidth]
+\column{.42\textwidth}
+\begin{block}{Meaning preserved}\centering{\Huge\textbf{16/21}}\par Mathematical equivalence\end{block}
+\begin{block}{Exact text match}\centering{\Large\textbf{5/21}}\par Character error rate: \textbf{0.246}\end{block}
+\column{.55\textwidth}
+\begin{itemize}
+\item Exact matching penalized harmless LaTeX formatting changes.
+\item h08 preserved the intentionally wrong derivative.
+\item Multicolor h09 succeeded in both runs.
+\item h06 added a hat to $A$.
+\item h07 omitted the final $1$.
+\item h10 confused plus signs, commas, and adjacency.
+\end{itemize}
+\end{columns}
+\vspace{.3em}
+\centering\risk{Finding:} ambiguous and variable-width strokes need confirmation.
 \end{frame}
 
-\begin{frame}{Demo: the experience is configurable}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.61\textwidth}
-      \includegraphics[width=\linewidth,height=2.75cm,keepaspectratio]{settings_1.png}\par
-      \vspace{0.35em}
-      \includegraphics[width=\linewidth,height=2.75cm,keepaspectratio]{settings_2.png}
-    \column{0.36\textwidth}
-      \small
-      \begin{itemize}
-        \item Tutoring behavior can be adjusted without changing code
-        \item Source visibility and interaction options can be changed for an experiment
-        \item This gives us a practical way to tune the experience during evaluation
-      \end{itemize}
-      \vspace{0.5em}
-      \risk{Design issue:} the settings need to become simpler before student use.
-  \end{columns}
+\begin{frame}[shrink=8]{New test case: equivalent notation and review flags}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\begin{block}{Same equation, different notation}
+\centering
+\textbf{Equivalent optimization notation}\par
+\[\min_x c^T x
+  \quad\Longleftrightarrow\quad
+  \operatorname*{minimize}_{x}\;c^{\mathsf T}x\]
+\textbf{Equivalent regression notation}\par
+\[\alpha+\beta x
+  \quad\Longleftrightarrow\quad
+  \beta_0+\beta_1x_1\]
+\scriptsize when $\alpha=\beta_0$, $\beta=\beta_1$, and $x=x_1$
+\end{block}
+\good{Expected:} equivalent after verifying the symbol mapping.
+\column{.49\textwidth}
+\begin{block}{Send uncertain work to human review}
+Flag the result when:
+\begin{itemize}
+\item symbol confidence is low,
+\item recognition methods disagree,
+\item equivalence cannot be established, or
+\item a formula appears mathematically inconsistent.
+\end{itemize}
+\end{block}
+\risk{Important:} preserve the student's original writing and label a possible error; do not silently correct it.
+\end{columns}
+\vspace{.35em}
+\begin{block}{Equivalence checking}
+\scriptsize
+\textbf{Current:} dictionary comparison with live updates after a mapping is verified. \quad
+\textbf{Exploring:} symbolic simplification, expression-tree comparison, and numerical checks.
+\end{block}
 \end{frame}
 
-\begin{frame}{Interaction methods now available}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.32\textwidth}
-      \begin{block}{Course material}
-        Upload syllabi, notes, homework, images, and handwritten work so the tutor can answer in context.
-      \end{block}
-    \column{0.32\textwidth}
-      \begin{block}{Live writing}
-        Draw a question or equation with a mouse, finger, or stylus and submit it from the chat.
-      \end{block}
-    \column{0.32\textwidth}
-      \begin{block}{Voice}
-        Record a question, review the transcription, correct it if needed, and send it to the tutor.
-      \end{block}
-  \end{columns}
-  \vspace{0.8em}
-  \centering
-  The prototype records quality feedback, correction effort, response time, and estimated cost so these methods can be compared.
+\begin{frame}{How the tutoring scores were calculated}
+\small
+Each response was compared with the case's predefined expected points and its cited course source, then assigned a 0--2 score in each dimension.
+\vspace{.45em}
+\begin{block}{Correctness}
+\textbf{0:} wrong or materially misleading \quad
+\textbf{1:} partly correct \quad
+\textbf{2:} correct on the expected points
+\end{block}
+\begin{block}{Grounding}
+\textbf{0:} unsupported or invented source/page \quad
+\textbf{1:} partly supported or weak citation \quad
+\textbf{2:} every course-specific claim supported by loaded text and citation
+\end{block}
+\begin{block}{Uncertainty handling}
+\textbf{0:} guesses through ambiguity or missing material \quad
+\textbf{1:} partly acknowledges limits \quad
+\textbf{2:} clearly states limits, asks for missing input, or answers directly when no uncertainty is needed
+\end{block}
+\vspace{.25em}
+The reported value is the arithmetic mean of the 25 reviewed response scores in that dimension.
 \end{frame}
 
-\begin{frame}{What we learned from the first demo}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-      \begin{block}{Promising}
-        \begin{itemize}
-          \item The complete student flow is understandable
-          \item Multiple input methods fit different learning tasks
-          \item Mathematical output is readable
-          \item Course grounding makes the tutor feel more relevant
-        \end{itemize}
-      \end{block}
-    \column{0.49\textwidth}
-      \begin{block}{Unresolved}
-        \begin{itemize}
-          \item We have not shown that the tutoring is consistently correct or helpful
-          \item Answers can be too detailed for the student's need
-          \item Recognition and citations still fail on ambiguous inputs
-          \item Latency can interrupt the tutoring rhythm
-        \end{itemize}
-      \end{block}
-  \end{columns}
+\begin{frame}{Tutoring results}
+\begin{columns}[T,onlytextwidth]
+\column{.46\textwidth}
+\begin{block}{Mean scores across 25 responses}
+\begin{tabular}{@{}lr@{}}
+Correctness&\textbf{1.16 / 2} \\
+Grounding&\textbf{0.88 / 2} \\
+Uncertainty&\textbf{1.44 / 2} \\
+\end{tabular}
+\end{block}
+Only \risk{3/25} earned full correctness and grounding.
+\column{.51\textwidth}
+\begin{block}{Consistency}
+All 8 repeated scenarios stayed in the same broad answer family.
+\end{block}
+\begin{itemize}
+\item Cited pages 23 and 29 when only five pages were loaded.
+\item Sometimes cited page 4 for content on page 5.
+\item Invented a task instead of clarifying an incomplete request.
+\end{itemize}
+\end{columns}
+\vspace{.3em}
+\centering\risk{Finding:} consistent answers can still be unsupported or wrong.
 \end{frame}
 
-\begin{frame}{Next milestone: mock tutoring situations}
-  \begin{block}{Tune and evaluate the tutoring experience}
-    Build a repeatable set of realistic student--professor interactions, score the prototype, adjust its tutoring behavior, and run the same situations again.
-  \end{block}
-  \vspace{0.5em}
-  \begin{itemize}
-    \item A student asks for a conceptual explanation at the wrong level of detail
-    \item A student has a misconception and needs guided correction
-    \item A student requests help on homework without being given the answer
-    \item A student submits flawed work and asks for review
-    \item A student asks a question that must be answered from course material
-    \item A handwritten or spoken equation is ambiguous and requires clarification
-  \end{itemize}
+\begin{frame}{Cold and warm latency}
+\centering
+\begin{tabular}{@{}lccc@{}}\toprule
+\textbf{Modality}&\textbf{Cold anchor}&\textbf{Warm same case}&\textbf{Warm median} \\\midrule
+Handwriting&5.84 s&2.56 s, 4.28 s&3.56 s \\
+Tutoring&11.45 s&7.79 s, 9.97 s, 9.08 s&6.60 s \\\bottomrule
+\end{tabular}
+\vspace{.8em}
+\begin{itemize}
+\item Measurements cover the complete HTTP request.
+\item Only one cold request was collected per modality.
+\item Warm medians mix inputs of different complexity.
+\end{itemize}
+\vspace{.3em}
+Treat these as a preliminary baseline rather than a final comparison.
 \end{frame}
 
-\begin{frame}{How the tuning and evaluation cycle works}
-  \centering
-  \begin{tikzpicture}[
-    node distance=0.55cm,
-    box/.style={draw=Forest, rounded corners=3pt, fill=white, minimum height=1.2cm,
-      text width=2.2cm, align=center, inner sep=5pt},
-    arrow/.style={-{Latex[length=2.5mm]}, thick, draw=Rust}
-  ]
-    \node[box] (scenario) {Run mock tutoring situations};
-    \node[box, right=of scenario] (score) {Score the student experience};
-    \node[box, right=of score] (tune) {Tune instructions and behavior};
-    \node[box, right=of tune] (repeat) {Repeat and compare};
-    \draw[arrow] (scenario) -- (score);
-    \draw[arrow] (score) -- (tune);
-    \draw[arrow] (tune) -- (repeat);
-  \end{tikzpicture}
-  \vspace{0.9em}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-      \textbf{Quality criteria}
-      \begin{itemize}
-        \item Correctness and source grounding
-        \item Pedagogical usefulness and appropriate hints
-        \item Recognition and recovery from ambiguity
-      \end{itemize}
-    \column{0.47\textwidth}
-      \textbf{Practical criteria}
-      \begin{itemize}
-        \item Student correction effort
-        \item Response time and interaction flow
-        \item Cost and consistency across repeated trials
-      \end{itemize}
-  \end{columns}
+\begin{frame}{Improved syllabus parsing test}
+\begin{columns}[T,onlytextwidth]
+\column{.38\textwidth}
+\begin{block}{Batch result}
+\centering
+{\Huge\color{Forest}\textbf{28/34}}\par
+\vspace{.25em}
+{\Large\textbf{82.35\%}} successful
+\end{block}
+\small
+The parser was tested on course name, course number, and semester extraction across 34 syllabus cases.
+\column{.59\textwidth}
+\begin{block}{What improved}
+Most cases returned a usable course title and recognized common number and term formats, including departmental prefixes and cross-listed courses.
+\end{block}
+\begin{block}{Remaining failure patterns}
+\begin{itemize}
+\item Generic department or school text selected as the course name
+\item Extra slash or parentheses in cross-listed results
+\item Course number or semester absent in otherwise successful rows
+\item Six cases still failed course-name extraction
+\end{itemize}
+\end{block}
+\end{columns}
+\vspace{.1em}
+\centering\small
+\risk{Next check:} score each field separately so partial extraction errors are visible instead of counted as one overall success.
 \end{frame}
 
-\begin{frame}{Blockers and roadmap}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.49\textwidth}
-      \textbf{Current blockers}
-      \begin{itemize}
-        \item No agreed scoring rubric or ground-truth tutoring examples yet
-        \item Handwriting and spoken mathematics remain ambiguous
-        \item Response time can be too slow for natural dialogue
-        \item The prototype is local and does not retain student work
-      \end{itemize}
-    \column{0.47\textwidth}
-      \textbf{Roadmap after evaluation}
-      \begin{enumerate}
-        \item Improve course grounding and citations
-        \item Add persistent course workspaces
-        \item Pilot a secure public web application
-        \item Prototype real-time Office Hours
-        \item Add specialized agents only if evaluation shows a need
-      \end{enumerate}
-  \end{columns}
+\begin{frame}{What works and what is blocked}
+\begin{columns}[T,onlytextwidth]
+\column{.49\textwidth}
+\begin{block}{Working well}
+\begin{itemize}
+\item Reliable evaluation execution
+\item Most handwriting retained meaning
+\item Student errors were preserved
+\item Repeated behavior was consistent
+\end{itemize}
+\end{block}
+\column{.49\textwidth}
+\begin{block}{Current blockers}
+\begin{itemize}
+\item Incomplete page-level source access
+\item Unsupported or inaccurate citations
+\item Ambiguous and stylized handwriting
+\item Weak clarification of missing input
+\item Cost rates were not configured
+\end{itemize}
+\end{block}
+\end{columns}
 \end{frame}
 
-\begin{frame}{Decision we want from the next milestone}
-  \begin{block}{Is the prototype acting like a useful tutor?}
-    The next milestone should tell us which tutoring behaviors work, where students must correct the system, and whether the experience is accurate, grounded, responsive, and affordable enough to develop further.
-  \end{block}
-  \vspace{0.8em}
-  \begin{itemize}
-    \item Keep the interaction methods that improve student success
-    \item Tune explanations, hints, review behavior, and comprehension checks
-    \item Use evidence to choose models and decide whether more architecture is necessary
-  \end{itemize}
-  \vfill
-  \centering\Large\color{Forest}\textbf{Questions and prototype walkthrough}
+\begin{frame}{Next to-do: page-level source access}
+\centering
+\begin{tikzpicture}[node distance=.38cm,box/.style={draw=Forest,rounded corners=3pt,fill=white,minimum height=1.2cm,text width=1.9cm,align=center,inner sep=4pt},arrow/.style={-{Latex[length=2.3mm]},thick,draw=Rust}]
+\node[box](a){\textbf{Ingest}\\Split document by page};
+\node[box,right=of a](b){\textbf{Index}\\Text + page metadata};
+\node[box,right=of b](c){\textbf{Retrieve}\\Relevant pages};
+\node[box,right=of c](d){\textbf{Answer}\\Use retrieved text};
+\node[box,right=of d](e){\textbf{Validate}\\Check cited page IDs};
+\draw[arrow](a)--(b);\draw[arrow](b)--(c);\draw[arrow](c)--(d);\draw[arrow](d)--(e);
+\end{tikzpicture}
+\vspace{.75em}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\begin{block}{Example request}
+``What projected-gradient update is shown on page 23?''
+\end{block}
+\column{.49\textwidth}
+\begin{block}{Required behavior}
+Retrieve page 23 directly, answer from that page, and cite it only after verifying that the page was supplied to the model.
+\end{block}
+\end{columns}
+\vspace{.4em}
+If retrieval fails, the tutor should state that the page is unavailable instead of reconstructing or inventing its contents.
 \end{frame}
 
+\begin{frame}{Next milestone: improve, then rerun}
+\centering
+\begin{tikzpicture}[node distance=.5cm,box/.style={draw=Forest,rounded corners=3pt,fill=white,minimum height=1.25cm,text width=2.2cm,align=center},arrow/.style={-{Latex[length=2.5mm]},thick,draw=Rust}]
+\node[box](a){Add page-level retrieval};
+\node[box,right=of a](b){Validate citations};
+\node[box,right=of b](c){Clarify missing input};
+\node[box,right=of c](d){Rerun evaluation};
+\draw[arrow](a)--(b);\draw[arrow](b)--(c);\draw[arrow](c)--(d);
+\end{tikzpicture}
+\vspace{.8em}
+\begin{itemize}
+\item Reject citations to pages the model did not receive.
+\item Ask for objectives and constraints when a problem is missing.
+\item Keep h07 and h10 as handwriting regression cases.
+\item Repeat cold starts and configure rates for cost reporting.
+\end{itemize}
+\vfill
+\centering\Large\color{Forest}\textbf{Use the baseline to measure improvement}
+\end{frame}
 \end{document}
