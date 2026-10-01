@@ -1,0 +1,899 @@
+\documentclass{article}
+
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\geometry{margin=1in}
+
+\title{Introduction to Derivatives}
+\author{Instructor Teaching Package}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Module Overview}
+
+\begin{itemize}
+    \item \textbf{Module scope:} First introduction to derivatives, including average and instantaneous rates of change, tangent lines, the transition from secant slopes to tangent slopes, the limit definition of the derivative, derivative notation, interpretation, and introductory computation from the definition.
+    \item \textbf{Format:} Three 50-minute class sessions and one 50-minute discussion session.
+    \item \textbf{Course level:} Introductory undergraduate calculus.
+    \item \textbf{Assumed prior knowledge:} Students are assumed to be comfortable with algebra, functions, evaluating functions, slopes of lines, and basic graph interpretation. Limits are introduced as part of this module as needed for the definition of the derivative.
+    \item \textbf{Topic emphasis:} Topics are distributed approximately evenly, with particular emphasis on the limit definition of the derivative.
+\end{itemize}
+
+\section*{Session Plan}
+
+\begin{enumerate}
+    \item \textbf{Class 1: Rates of Change and Tangent Lines}
+    \begin{itemize}
+        \item Motivation for studying derivatives
+        \item Average rate of change
+        \item Secant lines
+        \item Instantaneous rate of change
+        \item Tangent lines as limiting secant lines
+    \end{itemize}
+
+    \item \textbf{Class 2: The Derivative as a Limit}
+    \begin{itemize}
+        \item Making the secant interval smaller
+        \item Difference quotients
+        \item The limit definition of the derivative
+        \item Geometric interpretation
+        \item Derivative at a point versus derivative as a function
+    \end{itemize}
+
+    \item \textbf{Class 3: Derivative Notation and Computing from the Definition}
+    \begin{itemize}
+        \item Notation for derivatives
+        \item Interpreting derivative values
+        \item Computing derivatives directly from the definition
+        \item Tangent-line equations
+        \item Connecting algebraic and graphical interpretations
+    \end{itemize}
+
+    \item \textbf{Discussion Session: Conceptual Consolidation}
+    \begin{itemize}
+        \item Average versus instantaneous rate of change
+        \item Secant versus tangent lines
+        \item Difference quotients and limits
+        \item Interpreting derivative values
+        \item Mixed conceptual and computational problems
+    \end{itemize}
+\end{enumerate}
+
+% ------------------------------------------------------------
+\section*{Class 1: Rates of Change and Tangent Lines}
+
+\subsection*{Topics and Concepts}
+
+\subsubsection*{1. Motivation: What Does a Derivative Measure?}
+
+\begin{itemize}
+    \item Quantities that change as an input changes.
+    \item The question ``How fast is something changing right now?''
+    \item Examples involving position, temperature, population, and cost.
+    \item The distinction between a quantity and its rate of change.
+\end{itemize}
+
+\subsubsection*{2. Average Rate of Change}
+
+\begin{itemize}
+    \item Change in output divided by change in input.
+    \item The formula
+    \[
+        \frac{f(b)-f(a)}{b-a}.
+    \]
+    \item Connection with the slope of a line through two points on a graph.
+    \item Interpretation of the sign and magnitude of an average rate.
+\end{itemize}
+
+\subsubsection*{3. Secant Lines}
+
+\begin{itemize}
+    \item A secant line through two points on a curve.
+    \item The secant slope as an average rate of change.
+    \item Dependence of the secant slope on the two selected points.
+\end{itemize}
+
+\subsubsection*{4. Instantaneous Rate of Change and Tangent Lines}
+
+\begin{itemize}
+    \item Why an average rate does not answer the ``right now'' question.
+    \item Moving the second point toward the first.
+    \item Secant slopes approaching a limiting value.
+    \item Tangent slope as the instantaneous rate of change.
+\end{itemize}
+
+\begin{tcolorbox}[title=Key Definitions]
+\begin{description}
+    \item[Average rate of change:]
+    The average rate of change of $f$ from $x=a$ to $x=b$ is
+    \[
+        \frac{f(b)-f(a)}{b-a}.
+    \]
+
+    \item[Secant line:]
+    A secant line is a line passing through two points on the graph of a function.
+
+    \item[Tangent line:]
+    The tangent line at a point on a curve is the line whose slope is the limiting value of the slopes of secant lines through that point as the second point approaches it.
+\end{description}
+\end{tcolorbox}
+
+\subsection*{Learning Objectives}
+
+By the end of this class, students should be able to:
+
+\begin{itemize}
+    \item Explain what it means for one quantity to change with respect to another.
+    \item Calculate the average rate of change of a function over an interval.
+    \item Interpret an average rate of change in the context of a problem.
+    \item Identify the secant line corresponding to an interval on a graph.
+    \item Explain conceptually how instantaneous rate of change is related to tangent-line slope.
+\end{itemize}
+
+\subsection*{Prerequisites}
+
+\begin{itemize}
+    \item Evaluating functions.
+    \item Finding the slope of a line.
+    \item Interpreting graphs of functions.
+    \item Basic algebraic manipulation.
+\end{itemize}
+
+\begin{tcolorbox}[title=Connecting to Prior Learning]
+Students already know that the slope of a line is
+\[
+m=\frac{y_2-y_1}{x_2-x_1}.
+\]
+Begin by emphasizing that the average rate of change of a function is the same mathematical idea applied to two points on a possibly nonlinear graph:
+\[
+m_{\mathrm{secant}}
+=
+\frac{f(b)-f(a)}{b-a}.
+\]
+The important new question is what happens when the two points become arbitrarily close. This provides a natural transition from the familiar slope formula to derivatives rather than presenting the derivative as an unrelated new formula.
+\end{tcolorbox}
+
+\subsection*{Difficult Concepts}
+
+\begin{itemize}
+    \item \textbf{Average versus instantaneous rate:} Students may treat an average rate over an interval as if it describes the rate at a particular point. Explicitly contrast ``over the interval'' with ``at this instant.''
+    
+    \item \textbf{Tangent line intuition:} Students may think that a tangent line is simply a line that touches a curve at exactly one point. Emphasize instead that its defining property is its limiting slope.
+    
+    \item \textbf{Curves do not have one slope everywhere:} Students may transfer the constant-slope intuition from lines to nonlinear functions. Use a graph whose steepness visibly changes.
+\end{itemize}
+
+\subsection*{Example Questions with Solutions}
+
+\begin{enumerate}
+    \item \textbf{Question:} Let $f(x)=x^2$. Find the average rate of change from $x=1$ to $x=3$.
+
+    \textbf{Solution:}
+    \[
+        \frac{f(3)-f(1)}{3-1}
+        =
+        \frac{9-1}{2}
+        =
+        4.
+    \]
+    Thus the average rate of change is $4$.
+
+    \item \textbf{Question:} For $f(x)=x^2$, identify the secant line through $(1,1)$ and $(3,9)$.
+
+    \textbf{Solution:}
+    The slope is
+    \[
+        m=\frac{9-1}{3-1}=4.
+    \]
+    Using point-slope form through $(1,1)$,
+    \[
+        y-1=4(x-1),
+    \]
+    so
+    \[
+        y=4x-3.
+    \]
+
+    \item \textbf{Question:} Why does finding the slope between $(a,f(a))$ and $(a,f(a))$ not give the tangent slope?
+
+    \textbf{Solution:}
+    The ordinary slope formula would give
+    \[
+        \frac{f(a)-f(a)}{a-a}=\frac{0}{0},
+    \]
+    which is undefined. Instead, the tangent slope is obtained by considering two distinct points and then taking the limit as the second point approaches the first.
+\end{enumerate}
+
+\subsection*{Visual Aid}
+
+\begin{tcolorbox}[title=Instructor Note]
+Draw the graph of $f(x)=x^2$. Mark a fixed point $P=(1,1)$ and another point $Q=(3,9)$. Draw the secant line $PQ$ and label its slope as the average rate of change. Then draw several additional points $Q$ progressively closer to $P$ and corresponding secant lines. Visually emphasize that the secant lines appear to approach a single line through $P$: the tangent line.
+\end{tcolorbox}
+
+% ------------------------------------------------------------
+\section*{Class 2: The Derivative as a Limit}
+
+\subsection*{Topics and Concepts}
+
+\subsubsection*{1. From Two Points to a Small Increment}
+
+\begin{itemize}
+    \item Replace the second input $b$ with $a+h$.
+    \item Write the secant slope as
+    \[
+        \frac{f(a+h)-f(a)}{h}.
+    \]
+    \item Interpret $h$ as the horizontal distance between the two points.
+\end{itemize}
+
+\subsubsection*{2. The Difference Quotient}
+
+\begin{itemize}
+    \item Algebraic structure of the difference quotient.
+    \item Why $h$ must be nonzero before taking the quotient.
+    \item The geometric meaning of the numerator and denominator.
+\end{itemize}
+
+\subsubsection*{3. The Limit Definition of the Derivative}
+
+\begin{itemize}
+    \item Letting $h$ approach zero.
+    \item Defining the derivative at a point:
+    \[
+        f'(a)=
+        \lim_{h\to0}
+        \frac{f(a+h)-f(a)}{h}.
+    \]
+    \item Understanding this as the limiting slope of secant lines.
+\end{itemize}
+
+\subsubsection*{4. Derivative as a Function}
+
+\begin{itemize}
+    \item Moving from $f'(a)$ to $f'(x)$.
+    \item The derivative assigns a slope to each input where the derivative exists.
+    \item Distinguishing a derivative at one point from the derivative function.
+\end{itemize}
+
+\begin{tcolorbox}[title=Key Definitions]
+\begin{description}
+    \item[Difference quotient:]
+    The difference quotient of $f$ at $a$ with increment $h$ is
+    \[
+        \frac{f(a+h)-f(a)}{h},
+        \qquad h\neq0.
+    \]
+
+    \item[Derivative at a point:]
+    The derivative of $f$ at $x=a$ is
+    \[
+        f'(a)
+        =
+        \lim_{h\to0}
+        \frac{f(a+h)-f(a)}{h},
+    \]
+    provided this limit exists.
+
+    \item[Derivative function:]
+    The derivative function $f'$ assigns to each point $x$ where the derivative exists the value
+    \[
+        f'(x)
+        =
+        \lim_{h\to0}
+        \frac{f(x+h)-f(x)}{h}.
+    \]
+\end{description}
+\end{tcolorbox}
+
+\subsection*{Learning Objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Derive the difference quotient from the slope formula.
+    \item Explain the role of $h$ in the difference quotient.
+    \item State the limit definition of the derivative.
+    \item Explain why the derivative is a limit rather than the slope obtained by simply substituting $h=0$.
+    \item Connect the derivative at a point to the slope of the tangent line.
+    \item Distinguish between $f'(a)$ and the function $f'(x)$.
+\end{itemize}
+
+\subsection*{Prerequisites}
+
+\begin{itemize}
+    \item Average rate of change.
+    \item Secant lines.
+    \item Slope of a line.
+    \item Algebraic manipulation of expressions.
+    \item Conceptual understanding of a limit approaching a value.
+\end{itemize}
+
+\begin{tcolorbox}[title=Connecting to Prior Learning]
+Start with the Class 1 formula
+\[
+\frac{f(b)-f(a)}{b-a}.
+\]
+Set
+\[
+b=a+h.
+\]
+Then the formula becomes
+\[
+\frac{f(a+h)-f(a)}{h}.
+\]
+This makes the transition to the derivative definition completely explicit: the derivative is obtained by asking what happens to the secant slope as $h$ approaches zero.
+\end{tcolorbox}
+
+\subsection*{Difficult Concepts}
+
+\begin{itemize}
+    \item \textbf{Confusing $h\to0$ with $h=0$:} Students often substitute $h=0$ directly into the difference quotient. Emphasize that $h$ is nonzero while the quotient is being formed; the limit describes what happens as $h$ becomes arbitrarily close to zero.
+    
+    \item \textbf{Thinking that the derivative is a mysterious new operation:} Keep returning to the secant slope. The derivative is the limiting version of a quantity students already understand.
+    
+    \item \textbf{Confusing $f'(a)$ with $f'(x)$:} Use concrete examples. $f'(2)$ is one number; $f'(x)$ is a function whose value can be evaluated at different inputs.
+\end{itemize}
+
+\subsection*{Example Questions with Solutions}
+
+\begin{enumerate}
+    \item \textbf{Question:} Starting from the slope formula, derive the difference quotient for the slope of the secant line through $(a,f(a))$ and $(a+h,f(a+h))$.
+
+    \textbf{Solution:}
+    The slope is
+    \[
+        m=
+        \frac{f(a+h)-f(a)}
+        {(a+h)-a}.
+    \]
+    Simplifying the denominator gives
+    \[
+        m=
+        \frac{f(a+h)-f(a)}{h}.
+    \]
+    This is the difference quotient.
+
+    \item \textbf{Question:} Explain why the expression
+    \[
+        \frac{f(a+h)-f(a)}{h}
+    \]
+    is not evaluated by simply setting $h=0$.
+
+    \textbf{Solution:}
+    Setting $h=0$ produces
+    \[
+        \frac{f(a)-f(a)}{0}=\frac00,
+    \]
+    which is undefined. The derivative instead asks for the limiting value of the expression as $h$ approaches zero:
+    \[
+        f'(a)=
+        \lim_{h\to0}
+        \frac{f(a+h)-f(a)}{h}.
+    \]
+
+    \item \textbf{Question:} Write the derivative of $f(x)=x^2$ at $x=1$ using the limit definition and simplify it.
+
+    \textbf{Solution:}
+    \[
+        f'(1)
+        =
+        \lim_{h\to0}
+        \frac{(1+h)^2-1^2}{h}.
+    \]
+    Expand:
+    \[
+        (1+h)^2=1+2h+h^2.
+    \]
+    Therefore,
+    \[
+        f'(1)
+        =
+        \lim_{h\to0}
+        \frac{2h+h^2}{h}
+        =
+        \lim_{h\to0}(2+h)
+        =
+        2.
+    \]
+    Thus the tangent slope at $x=1$ is $2$.
+\end{enumerate}
+
+\subsection*{Visual Aid}
+
+\begin{tcolorbox}[title=Instructor Note]
+Draw $f(x)=x^2$ with $P=(1,1)$ fixed. Let $Q=(1+h,(1+h)^2)$ move toward $P$. Draw the secant line $PQ$ for several positive and negative values of $h$. Label its slope
+\[
+\frac{f(1+h)-f(1)}{h}.
+\]
+Then indicate that as $h\to0$, the secant line approaches the tangent line at $P$.
+\end{tcolorbox}
+
+\begin{tcolorbox}[title=Interactive Visualization]
+If available during lecture, an interactive visualization of a fixed point, moving secant point, secant slope, and limiting tangent can reinforce the transition from the difference quotient to the derivative.
+\end{tcolorbox}
+
+% ------------------------------------------------------------
+\section*{Class 3: Derivative Notation and Computing from the Definition}
+
+\subsection*{Topics and Concepts}
+
+\subsubsection*{1. Derivative Notation}
+
+\begin{itemize}
+    \item $f'(x)$ notation.
+    \item Leibniz notation $\frac{dy}{dx}$.
+    \item Notation such as $f'(a)$ for the derivative at a particular point.
+    \item Interpreting notation rather than treating it as symbolic decoration.
+\end{itemize}
+
+\subsubsection*{2. Computing Derivatives from the Definition}
+
+\begin{itemize}
+    \item Substitute into the difference quotient.
+    \item Expand and simplify algebraically.
+    \item Cancel the factor of $h$ when appropriate.
+    \item Take the limit as $h\to0$.
+\end{itemize}
+
+\subsubsection*{3. Derivative as Instantaneous Rate of Change}
+
+\begin{itemize}
+    \item Positive derivative: locally increasing.
+    \item Negative derivative: locally decreasing.
+    \item Zero derivative: horizontal tangent.
+    \item Magnitude of the derivative as local steepness.
+\end{itemize}
+
+\subsubsection*{4. Tangent-Line Equations}
+
+\begin{itemize}
+    \item Using $f'(a)$ as the tangent slope.
+    \item Point-slope form:
+    \[
+        y-f(a)=f'(a)(x-a).
+    \]
+    \item Connecting graphical and algebraic descriptions.
+\end{itemize}
+
+\begin{tcolorbox}[title=Key Definitions]
+\begin{description}
+    \item[Derivative notation:] For a function $y=f(x)$, the derivative may be written as
+    \[
+        f'(x)
+        \qquad\text{or}\qquad
+        \frac{dy}{dx}.
+    \]
+
+    \item[Instantaneous rate of change:] The instantaneous rate of change of $f$ at $x=a$ is the derivative $f'(a)$, when the derivative exists.
+
+    \item[Tangent line:] If $f'(a)$ exists, the tangent line to $y=f(x)$ at $(a,f(a))$ is
+    \[
+        y-f(a)=f'(a)(x-a).
+    \]
+\end{description}
+\end{tcolorbox}
+
+\subsection*{Learning Objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Translate between common derivative notations.
+    \item Compute derivatives of simple functions directly from the limit definition.
+    \item Interpret the sign and magnitude of a derivative in context.
+    \item Calculate the equation of a tangent line using a derivative.
+    \item Explain the relationship between a derivative, instantaneous rate, and tangent slope.
+\end{itemize}
+
+\subsection*{Prerequisites}
+
+\begin{itemize}
+    \item Limit definition of the derivative from Class 2.
+    \item Algebraic expansion and factoring.
+    \item Point-slope form of a line.
+    \item Graphical interpretation of slope.
+\end{itemize}
+
+\begin{tcolorbox}[title=Connecting to Prior Learning]
+The key connection is that the derivative now has three equivalent interpretations:
+
+\begin{enumerate}
+    \item Algebraically: a limit of difference quotients.
+    \item Geometrically: the slope of the tangent line.
+    \item Contextually: an instantaneous rate of change.
+\end{enumerate}
+
+When introducing notation, explicitly connect
+\[
+f'(a)
+\]
+to all three meanings. Students should not leave the class thinking that these are three separate concepts.
+\end{tcolorbox}
+
+\subsection*{Difficult Concepts}
+
+\begin{itemize}
+    \item \textbf{Derivative notation versus a fraction:} Students may assume that $\frac{dy}{dx}$ must always behave exactly like an ordinary fraction. At this introductory stage, emphasize its meaning as derivative notation while postponing more advanced interpretations.
+    
+    \item \textbf{Sign versus magnitude:} Students may interpret a negative derivative as ``negative speed.'' Clarify that a negative rate indicates decreasing output with respect to the input; its contextual meaning depends on the quantities involved.
+    
+    \item \textbf{Derivative as a function:} Students may think that every derivative problem produces one number. Reinforce that $f'(x)$ is itself a function.
+\end{itemize}
+
+\subsection*{Example Questions with Solutions}
+
+\begin{enumerate}
+    \item \textbf{Question:} Find $f'(x)$ from the definition when
+    \[
+        f(x)=x^2.
+    \]
+
+    \textbf{Solution:}
+    \[
+        f'(x)
+        =
+        \lim_{h\to0}
+        \frac{(x+h)^2-x^2}{h}.
+    \]
+    Expand:
+    \[
+        (x+h)^2=x^2+2xh+h^2.
+    \]
+    Thus
+    \[
+        f'(x)
+        =
+        \lim_{h\to0}
+        \frac{2xh+h^2}{h}
+        =
+        \lim_{h\to0}(2x+h)
+        =
+        2x.
+    \]
+
+    \item \textbf{Question:} Find the tangent line to $f(x)=x^2$ at $x=2$.
+
+    \textbf{Solution:}
+    From the previous result,
+    \[
+        f'(x)=2x.
+    \]
+    Therefore,
+    \[
+        f'(2)=4.
+    \]
+    The point on the curve is
+    \[
+        (2,f(2))=(2,4).
+    \]
+    Using point-slope form,
+    \[
+        y-4=4(x-2).
+    \]
+    Hence
+    \[
+        y=4x-4.
+    \]
+
+    \item \textbf{Question:} Suppose $s(t)$ represents the position of an object. What does $s'(3)=5$ mean?
+
+    \textbf{Solution:}
+    It means that at time $t=3$, the object's instantaneous rate of change of position is $5$ position-units per unit of time. In a standard position-time context, this means the instantaneous velocity at $t=3$ is $5$.
+\end{enumerate}
+
+\subsection*{Visual Aids}
+
+\begin{tcolorbox}[title=Instructor Note]
+Draw one graph of a nonlinear function and mark three points where the tangent slopes are positive, zero, and negative. Ask students to predict the signs of the corresponding derivative values before calculating anything. Then draw tangent lines at the points.
+\end{tcolorbox}
+
+% ------------------------------------------------------------
+\section*{Discussion Session: Conceptual Consolidation}
+
+\subsection*{Topics and Concepts}
+
+\begin{itemize}
+    \item Average rate versus instantaneous rate.
+    \item Secant slope versus tangent slope.
+    \item Difference quotient.
+    \item Limit definition of the derivative.
+    \item Derivative as a function.
+    \item Sign and magnitude of derivatives.
+    \item Tangent-line equations.
+    \item Translating between graphical, algebraic, and contextual interpretations.
+\end{itemize}
+
+\begin{tcolorbox}[title=Key Definitions]
+Students should be able to state and explain:
+
+\[
+\boxed{
+f'(a)=
+\lim_{h\to0}
+\frac{f(a+h)-f(a)}{h}
+}
+\]
+
+The derivative at $a$ is the limiting slope of secant lines through $(a,f(a))$ and nearby points on the graph. It represents the instantaneous rate of change of the function with respect to its input.
+\end{tcolorbox}
+
+\subsection*{Learning Objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Explain the derivative without relying exclusively on a memorized formula.
+    \item Move between a graph, a difference quotient, a derivative, and a contextual interpretation.
+    \item Diagnose errors involving $h=0$ versus $h\to0$.
+    \item Compute simple derivatives from the definition.
+    \item Interpret derivative values geometrically and contextually.
+\end{itemize}
+
+\subsection*{Prerequisites}
+
+All material from Classes 1--3.
+
+\begin{tcolorbox}[title=Connecting to Prior Learning]
+The discussion should repeatedly return to the original motivation from Class 1:
+\[
+\text{``How fast is this quantity changing right now?''}
+\]
+Students should see the entire development as one continuous argument:
+\[
+\text{average rate}
+\longrightarrow
+\text{secant slope}
+\longrightarrow
+\text{difference quotient}
+\longrightarrow
+\text{limit}
+\longrightarrow
+\text{tangent slope}
+\longrightarrow
+\text{instantaneous rate}.
+\]
+This chain is the conceptual backbone of the module.
+\end{tcolorbox}
+
+\subsection*{Discussion Questions with Solutions}
+
+\begin{enumerate}
+    \item \textbf{Question:} Explain in your own words why the derivative is not simply the slope of a secant line.
+
+    \textbf{Solution/Rubric:}
+    A secant line uses two distinct points and therefore measures an average rate of change over an interval. The derivative uses the limiting value of these secant slopes as the second point approaches the first. The resulting value describes the instantaneous rate of change and the tangent slope.
+
+    \item \textbf{Question:} A student writes
+    \[
+        f'(a)
+        =
+        \frac{f(a)-f(a)}{a-a}.
+    \]
+    Identify the error.
+
+    \textbf{Solution:}
+    The student has attempted to make the two points identical before taking a limit. This gives $0/0$, which is undefined. The derivative instead considers
+    \[
+        \frac{f(a+h)-f(a)}{h}
+    \]
+    for $h\neq0$ and then takes the limit as $h\to0$.
+
+    \item \textbf{Question:} If $f'(a)<0$, what can you conclude about the graph near $x=a$?
+
+    \textbf{Solution:}
+    The tangent slope at $x=a$ is negative. Thus the function is decreasing at that point in the local sense captured by its instantaneous rate of change.
+
+    \item \textbf{Question:} For $f(x)=x^2$, explain why $f'(1)=2$ and $f'(x)=2x$ are both correct statements but mean different things.
+
+    \textbf{Solution:}
+    $f'(x)=2x$ gives the derivative as a function. It provides the tangent slope at any input $x$. Evaluating that function at $x=1$ gives
+    \[
+        f'(1)=2(1)=2.
+    \]
+    Thus $f'(1)$ is one specific derivative value, whereas $f'(x)$ describes all the derivative values at once.
+\end{enumerate}
+
+% ------------------------------------------------------------
+\section*{Phase 10: Module Question Bank}
+
+\begin{enumerate}[leftmargin=*]
+
+    \item \textbf{[Foundational]} Let $f(x)=x^2$. Find the average rate of change from $x=2$ to $x=5$.
+
+    \textbf{Solution:}
+    \[
+        \frac{f(5)-f(2)}{5-2}
+        =
+        \frac{25-4}{3}
+        =
+        7.
+    \]
+
+    \item \textbf{[Foundational]} Explain the difference between a secant line and a tangent line.
+
+    \textbf{Solution/Rubric:}
+    A secant line passes through two points on a curve and its slope gives an average rate of change. A tangent line at a point is obtained as the limiting position of secant lines as the second point approaches the fixed point; its slope gives the instantaneous rate of change.
+
+    \item \textbf{[Intermediate]} Write the difference quotient for $f(x)=x^3$ at $x=a$ and simplify it.
+
+    \textbf{Solution:}
+    \[
+        \frac{f(a+h)-f(a)}{h}
+        =
+        \frac{(a+h)^3-a^3}{h}.
+    \]
+    Expanding,
+    \[
+        (a+h)^3
+        =
+        a^3+3a^2h+3ah^2+h^3.
+    \]
+    Therefore,
+    \[
+        \frac{(a+h)^3-a^3}{h}
+        =
+        3a^2+3ah+h^2.
+    \]
+    As $h\to0$,
+    \[
+        f'(a)=3a^2.
+    \]
+
+    \item \textbf{[Intermediate]} Explain why the expression
+    \[
+        \lim_{h\to0}
+        \frac{f(a+h)-f(a)}{h}
+    \]
+    can exist even though substituting $h=0$ into the fraction is impossible.
+
+    \textbf{Solution/Rubric:}
+    A limit concerns the values of an expression arbitrarily close to a point, not necessarily its value at the point. The difference quotient is defined for $h\neq0$. If its values approach a single number as $h$ approaches zero, that number is the derivative.
+
+    \item \textbf{[Intermediate]} Suppose a graph has tangent slope $-3$ at $x=4$. What does this tell you about $f'(4)$ and the local behavior of the function?
+
+    \textbf{Solution:}
+    \[
+        f'(4)=-3.
+    \]
+    The function has a negative instantaneous rate of change at $x=4$, so the graph is locally decreasing there.
+
+    \item \textbf{[Intermediate]} Find the derivative of
+    \[
+        f(x)=x^2+3x
+    \]
+    directly from the limit definition.
+
+    \textbf{Solution:}
+    \[
+        f'(x)
+        =
+        \lim_{h\to0}
+        \frac{(x+h)^2+3(x+h)-(x^2+3x)}{h}.
+    \]
+    Expand:
+    \[
+        =
+        \lim_{h\to0}
+        \frac{x^2+2xh+h^2+3x+3h-x^2-3x}{h}.
+    \]
+    Thus
+    \[
+        =
+        \lim_{h\to0}
+        \frac{2xh+h^2+3h}{h}
+        =
+        \lim_{h\to0}(2x+h+3).
+    \]
+    Therefore,
+    \[
+        \boxed{f'(x)=2x+3}.
+    \]
+
+    \item \textbf{[Advanced]} A student says: ``The derivative at $a$ is the slope between $(a,f(a))$ and the point immediately next to it on the graph.'' Explain why this is not a precise definition.
+
+    \textbf{Solution/Rubric:}
+    There is generally no single ``point immediately next to'' $a$. The derivative is defined using a limit of slopes between $(a,f(a))$ and points whose horizontal distance from $a$ approaches zero:
+    \[
+        f'(a)
+        =
+        \lim_{h\to0}
+        \frac{f(a+h)-f(a)}{h}.
+    \]
+    The limiting process, rather than an actual neighboring point, defines the derivative.
+
+    \item \textbf{[Advanced]} Let $f(x)=x^2$. Explain the following chain without performing any computation:
+    \[
+        \frac{f(1+h)-f(1)}{h}
+        \longrightarrow
+        f'(1).
+    \]
+
+    \textbf{Solution/Rubric:}
+    The expression on the left is the slope of the secant line between the fixed point $(1,f(1))$ and the nearby point $(1+h,f(1+h))$. As $h$ approaches zero, the nearby point approaches the fixed point. The secant slopes approach the tangent slope, which is by definition $f'(1)$.
+
+\end{enumerate}
+
+% ------------------------------------------------------------
+\section*{Recommended Timing}
+
+\begin{longtable}{p{0.22\textwidth}p{0.70\textwidth}}
+\textbf{Session} & \textbf{Suggested 50-minute structure} \\ \hline
+Class 1 &
+5 min: motivating question and physical/contextual examples.
+10 min: average rate of change.
+10 min: secant lines.
+15 min: transition toward instantaneous rate and tangent lines.
+10 min: guided example and conceptual check. \\[6pt]
+
+Class 2 &
+5 min: review of secant slopes.
+10 min: introduce $h$ and the difference quotient.
+15 min: derive the limit definition.
+10 min: geometric interpretation.
+10 min: guided computation from the definition. \\[6pt]
+
+Class 3 &
+5 min: conceptual review.
+10 min: derivative notation.
+15 min: computing from the definition.
+10 min: tangent-line equations.
+10 min: graphical/contextual interpretation. \\[6pt]
+
+Discussion &
+10 min: conceptual warm-up.
+15 min: collaborative derivative-definition problems.
+15 min: graph/context interpretation.
+10 min: misconception diagnosis and synthesis.
+\end{longtable}
+
+\section*{Instructor Throughline}
+
+The central narrative of the module should be maintained throughout all four sessions:
+
+\begin{center}
+\[
+\boxed{
+\text{Average Rate}
+\rightarrow
+\text{Secant Slope}
+\rightarrow
+\text{Difference Quotient}
+\rightarrow
+\text{Limit}
+\rightarrow
+\text{Tangent Slope}
+\rightarrow
+\text{Instantaneous Rate}
+}
+\]
+\end{center}
+
+Rather than presenting the derivative as a formula to memorize, repeatedly return to the original question:
+
+\begin{center}
+\emph{``How fast is the output changing at this particular input?''}
+\end{center}
+
+The limit definition is the mathematical mechanism that turns the familiar average rate of change into an instantaneous rate of change:
+
+\[
+\boxed{
+f'(a)
+=
+\lim_{h\to0}
+\frac{f(a+h)-f(a)}{h}
+}
+\]
+
+This should be the conceptual endpoint of the first two classes and the organizing idea connecting computation, graphs, and applications in the remaining sessions.
+
+\end{document}

@@ -1,0 +1,1178 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true, linkcolor=blue!50!black, urlcolor=blue!50!black}
+
+% ---------- Macros ----------
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\OK}{\mathcal{O}_K}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\fp}{\mathfrak{p}}
+\newcommand{\fP}{\mathfrak{P}}
+\newcommand{\fq}{\mathfrak{q}}
+\newcommand{\fa}{\mathfrak{a}}
+\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Nm}{N}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\Frob}{Frob}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Frac}{Frac}
+
+% ---------- Boxes ----------
+\newtcolorbox{keydefs}{breakable, colback=blue!4, colframe=blue!50!black,
+  fonttitle=\bfseries, title=Key Definitions}
+\newtcolorbox{instructornote}{breakable, colback=yellow!6, colframe=orange!70!black,
+  fonttitle=\bfseries, title=Instructor note --- visual aid (sketch on the board)}
+
+\setlist{itemsep=2pt, topsep=4pt}
+
+\title{Module Breakdown: Dedekind Domains and Ramification}
+\author{Concept-level teaching package}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+% =====================================================================
+\section*{Assumptions and intake settings}
+\addcontentsline{toc}{section}{Assumptions and intake settings}
+
+\begin{itemize}
+  \item \textbf{Module scope:} Dedekind domains (integrality, unique factorization of ideals, norms and discriminants) and ramification of rational primes in number fields, including the Galois-theoretic side (decomposition groups, inertia groups, Frobenius elements).
+  \item \textbf{Session count:} you answered ``7--8''. The plan uses 7 core sessions plus an optional Session 8 (Frobenius in cyclotomic fields and quadratic reciprocity). If you only have 7 sessions, drop Session 8; nothing earlier depends on it.
+  \item \textbf{Question bank type:} numerical (explicit computations in specific rings and fields).
+  \item \textbf{Tool policy:} no calculators. All numbers are hand-sized: primes below 30 and residue computations modulo small primes.
+  \item \textbf{Topic emphasis:} spread evenly across all topics.
+  \item \textbf{Galois side:} included in full (decomposition and inertia groups, Frobenius).
+  \item \textbf{Assumed audience (not specified; assumed):} first-year graduate students or strong advanced undergraduates who already know Galois theory (including finite fields), basic commutative algebra (Noetherian rings, localization, prime and maximal ideals), and elementary number theory (Legendre symbol, Euler's criterion).
+  \item \textbf{Conventions (assumed):}
+  \begin{itemize}
+    \item A Dedekind domain is never a field.
+    \item Base field is always $\Q$; relative extensions appear only in towers.
+    \item The facts $\cO_{\Q(\sqrt[3]{2})}=\Z[\sqrt[3]{2}]$ and $\cO_{\Q(\zeta_m)}=\Z[\zeta_m]$ are quoted without proof.
+  \end{itemize}
+  \item \textbf{Question bank format:} no question in the bank was judged to benefit from a graph or diagram, so none is included. Visual aids appear only as instructor notes.
+\end{itemize}
+
+% =====================================================================
+\section{Topics and session plan}
+
+\begin{longtable}{@{}p{0.11\textwidth}p{0.30\textwidth}p{0.53\textwidth}@{}}
+\toprule
+\textbf{Session} & \textbf{Topic} & \textbf{Core content}\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1 & T1. Integrality and Dedekind domains & Integral elements, integral closure, $\OK$, rings of integers of quadratic fields, the definition of a Dedekind domain, examples and non-examples.\\
+2 & T2. Fractional ideals and unique factorization & Fractional ideals, invertibility, unique factorization into prime ideals, ``to contain is to divide'', localization at primes (DVRs), the class group.\\
+3 & T3. Norms, discriminants, integral bases & Absolute ideal norm, discriminant $d_K$, the index formula, quadratic fields, the Minkowski bound as a computational tool.\\
+4 & T4. Primes in extensions: $e$, $f$, $g$ & Lying over, ramification index, residue degree, the fundamental identity $\sum e_if_i=n$, splitting types.\\
+5 & T5. The Dedekind--Kummer theorem & Factoring $p\OK$ from $f\bmod p$, the quadratic splitting law, pure cubic examples, cyclotomic splitting.\\
+6 & T6. Ramification and the discriminant; orders & Dedekind's discriminant theorem, index primes where Dedekind--Kummer fails, non-maximal orders and non-invertible ideals.\\
+7 & T7. Galois extensions: decomposition, inertia, Frobenius & Transitivity, $efg=n$, $D$ and $I$, the exact sequence, Frobenius elements, dependence on the choice of $\fP$.\\
+8 (optional) & T8. Frobenius in cyclotomic fields; quadratic reciprocity & $\Frob_p=\sigma_p$ in $\Q(\zeta_m)$, splitting in subfields, $\Q(\sqrt{p^*})\subset\Q(\zeta_p)$, a proof of quadratic reciprocity.\\
+\end{longtable}
+
+% =====================================================================
+\section{Topic-by-topic breakdown}
+
+% ---------------------------------------------------------------------
+\subsection{T1. Integrality and Dedekind domains (Session 1)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item Integral elements over a ring. Equivalently, $b$ is integral over $A$ if and only if $A[b]$ is a finitely generated $A$-module.
+  \item Integral elements form a subring (the integral closure), and integrality is transitive.
+  \item UFDs are integrally closed. In particular, the integral closure of $\Z$ in $\Q$ is $\Z$ (rational root theorem).
+  \item An algebraic number is integral if and only if its minimal polynomial over $\Q$ has integer coefficients. For a quadratic irrationality this means: integral if and only if its trace and norm lie in $\Z$.
+  \item The ring of integers $\OK$ of a number field. It is a free $\Z$-module of rank $n=[K:\Q]$ (statement now; proof in T3).
+  \item $\OK$ for $K=\Q(\sqrt d)$ with $d$ squarefree: it equals $\Z[\sqrt d]$ if $d\equiv 2,3\pmod 4$, and $\Z\!\left[\tfrac{1+\sqrt d}{2}\right]$ if $d\equiv 1\pmod 4$.
+  \item The three Dedekind axioms (Noetherian, integrally closed, every nonzero prime is maximal) and what each one rules out.
+  \item Examples: $\Z$, $k[x]$, and every $\OK$. For $\OK$:
+  \begin{itemize}
+    \item it is Noetherian because it is a finitely generated $\Z$-module;
+    \item it is integrally closed by construction;
+    \item every nonzero prime is maximal because a finite integral domain is a field.
+  \end{itemize}
+  \item Non-examples:
+  \begin{itemize}
+    \item $\Z[\sqrt{-3}]$ is not integrally closed;
+    \item $\Z[x]$ and $k[x,y]$ have Krull dimension 2;
+    \item the ring $\overline{\Z}$ of all algebraic integers is not Noetherian.
+  \end{itemize}
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Integral element.} Let $A\subseteq B$ be rings. An element $b\in B$ is \emph{integral over $A$} if it is a root of a \emph{monic} polynomial with coefficients in $A$. (Stress ``monic'': every algebraic number is a root of some polynomial with integer coefficients.)
+  \item \textbf{Integrally closed domain.} An integral domain $A$ is \emph{integrally closed} if every element of its fraction field $\Frac(A)$ that is integral over $A$ already lies in $A$. (The test elements come from $\Frac(A)$, not from some larger field.)
+  \item \textbf{Ring of integers.} For a number field $K$, $\OK$ is the set of elements of $K$ that are integral over $\Z$.
+  \item \textbf{Dedekind domain.} An integral domain, not a field, that satisfies all three of the following:
+  \begin{enumerate}[label=(\roman*)]
+    \item it is Noetherian;
+    \item it is integrally closed;
+    \item every nonzero prime ideal is maximal.
+  \end{enumerate}
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{determine} whether a given algebraic number is integral by computing its minimal polynomial;
+  \item \textbf{derive} $\OK$ and an integral basis for every quadratic field;
+  \item \textbf{explain} the role of each Dedekind axiom by giving, for each one, a ring that fails exactly that axiom;
+  \item \textbf{classify} given rings as Dedekind or not, with justification.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item Prime and maximal ideals; Noetherian rings (assumed background: commutative algebra).
+  \item Number fields, minimal polynomials, degree of an extension (assumed background: field theory).
+  \item Gauss's lemma and the rational root theorem (assumed background).
+  \item Structure of finitely generated modules over a PID (assumed background).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+\begin{enumerate}[label=\textbf{Q1.\arabic*}]
+  \item Let $\varphi=\frac{1+\sqrt5}{2}$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Show that $\varphi$ is integral over $\Z$.
+    \item Deduce that $\Z[\sqrt5]$ is not integrally closed.
+    \item Find $\cO_{\Q(\sqrt5)}$.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item We have $\varphi^2=\frac{6+2\sqrt5}{4}=\frac{3+\sqrt5}{2}=\varphi+1$. So $\varphi$ is a root of the monic polynomial $x^2-x-1\in\Z[x]$.
+    \item $\varphi$ lies in $\Q(\sqrt5)=\Frac(\Z[\sqrt5])$ and is integral over $\Z$, hence integral over $\Z[\sqrt5]$. But $\varphi\notin\Z[\sqrt5]$, because its coefficients $\tfrac12,\tfrac12$ are not integers. So $\Z[\sqrt5]$ is not integrally closed.
+    \item Since $5\equiv1\pmod4$, the quadratic classification gives $\cO_{\Q(\sqrt5)}=\Z[\varphi]$.
+  \end{enumerate}
+
+  \item Decide which of the following rings are Dedekind domains, and for each non-Dedekind ring name the axiom that fails:
+  \[
+  \text{(a) } \Z[\sqrt{-3}],\qquad \text{(b) } \Z[x],\qquad \text{(c) } \Z\!\left[\tfrac{1+\sqrt{-3}}{2}\right],\qquad \text{(d) } \overline{\Z}.
+  \]
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item Not Dedekind: it is not integrally closed. The element $\omega=\frac{1+\sqrt{-3}}2$ satisfies $\omega^2-\omega+1=0$ and lies in $\Q(\sqrt{-3})$, but $\omega\notin\Z[\sqrt{-3}]$.
+    \item Not Dedekind: $(0)\subsetneq(x)\subsetneq(2,x)$ is a chain of primes, so $(x)$ is a nonzero prime that is not maximal. (The ring is Noetherian and integrally closed, since it is a UFD.)
+    \item Dedekind: $-3\equiv1\pmod4$, so this ring is the full ring of integers of $\Q(\sqrt{-3})$.
+    \item Not Dedekind: it is not Noetherian. The chain $(2)\subsetneq(2^{1/2})\subsetneq(2^{1/4})\subsetneq\cdots$ never stabilizes.
+    \begin{itemize}
+      \item Each inclusion holds because $2^{1/2^k}=\bigl(2^{1/2^{k+1}}\bigr)^2$.
+      \item Each inclusion is strict because $2^{1/2^{k+1}}$ is not a unit: its inverse has minimal polynomial $x^{2^{k+1}}-\tfrac12\notin\Z[x]$, so the inverse is not integral.
+    \end{itemize}
+    Note that $\overline{\Z}$ is integrally closed and every nonzero prime is maximal. Only the Noetherian axiom fails.
+  \end{enumerate}
+
+  \item Derive $\OK$ for $K=\Q(\sqrt d)$, where $d\ne 0,1$ is squarefree.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item Let $\alpha=a+b\sqrt d$ with $a,b\in\Q$ and $b\neq0$. Its minimal polynomial is $x^2-2ax+(a^2-db^2)$, so $\alpha$ is integral if and only if $2a\in\Z$ and $a^2-db^2\in\Z$.
+    \item Put $A=2a$. Then $A^2-d(2b)^2=4(a^2-db^2)\in4\Z$, so $d(2b)^2\in\Z$.
+    \item Since $d$ is squarefree, $2b=B\in\Z$. (If $2b=r/s$ in lowest terms, then $s^2\mid d$, which forces $s=1$.)
+    \item The condition becomes $A^2\equiv dB^2\pmod 4$, where squares mod 4 are $0$ or $1$.
+    \item If $d\equiv2,3\pmod4$: $B$ odd would force $A^2\equiv2$ or $3\pmod4$, which is impossible. So $B$ is even, then $A$ is even, and $\alpha\in\Z[\sqrt d]$.
+    \item If $d\equiv1\pmod4$: the condition is exactly $A\equiv B\pmod2$. So $\alpha=\frac{A+B\sqrt d}{2}$ with $A\equiv B\pmod 2$, and these are precisely the elements of $\Z\!\left[\frac{1+\sqrt d}{2}\right]$.
+  \end{itemize}
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{(1) Where Dedekind domains sit among domains.}
+\begin{itemize}
+  \item Draw a large rectangle labeled ``integral domains''.
+  \item Inside it, draw two overlapping ovals: the left labeled ``UFDs'', the right labeled ``Dedekind domains''.
+  \item Label the overlap ``PIDs'' and place $\Z$ and $\Q[x]$ there.
+  \item In the UFD-only region, place $\Z[x]$ and $k[x,y]$.
+  \item In the Dedekind-only region, place $\Z[\sqrt{-5}]$.
+  \item Outside both ovals, place $\Z[\sqrt{-3}]$. Note beside it: ``not integrally closed; $4=2\cdot2=(1+\sqrt{-3})(1-\sqrt{-3})$''.
+  \item The point to make: for Dedekind domains, ``UFD'' and ``PID'' coincide.
+\end{itemize}
+
+\textbf{(2) $\Z[\sqrt5]$ inside $\Z[\varphi]$ as lattices.}
+\begin{itemize}
+  \item Use axes labeled ``rational part'' (horizontal) and ``coefficient of $\sqrt5$'' (vertical), both from $-2$ to $2$.
+  \item Mark the points of $\Z[\sqrt5]$ (integer coordinates) as filled dots.
+  \item Mark the additional points of $\Z[\varphi]$ (both coordinates half-odd-integers, such as $(\tfrac12,\tfrac12)$) as hollow dots.
+  \item Label $\varphi$ at $(\tfrac12,\tfrac12)$.
+  \item The filled dots form an index-2 sublattice of all the dots: $\Z[\sqrt5]$ misses exactly the points at the ``centers'' of its unit squares.
+\end{itemize}
+\end{instructornote}
+
+% ---------------------------------------------------------------------
+\subsection{T2. Fractional ideals and unique factorization (Session 2)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item Fractional ideals, their products, and principal fractional ideals.
+  \item Invertibility. The candidate inverse is always $(A:I)=\{x\in K: xI\subseteq A\}$.
+  \item The main theorem: in a Dedekind domain $A$,
+  \begin{itemize}
+    \item every nonzero fractional ideal is invertible;
+    \item every nonzero ideal factors uniquely into prime ideals;
+    \item the fractional ideals form the free abelian group on the nonzero primes.
+  \end{itemize}
+  \item Proof ingredients:
+  \begin{itemize}
+    \item every nonzero ideal contains a product of nonzero primes;
+    \item for a nonzero prime $\fp$, $\fp^{-1}\supsetneq A$;
+    \item hence $\fp\fp^{-1}=A$ by maximality.
+  \end{itemize}
+  \item ``To contain is to divide.'' Valuations $v_\fp$. The gcd of two ideals is their sum; the lcm is their intersection.
+  \item Local characterization: a Noetherian domain (not a field) is Dedekind if and only if every localization at a nonzero prime is a DVR.
+  \item The class group $\Cl(A)$. For Dedekind $A$: $A$ is a PID $\iff$ $A$ is a UFD $\iff$ $\Cl(A)=1$.
+  \item Elements versus ideals: irreducible elements need not generate prime ideals. Non-unique element factorizations are reconciled at the level of ideals.
+  \item Every ideal of a Dedekind domain is generated by two elements (statement).
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Fractional ideal.} Let $A$ be a domain with fraction field $K$. A fractional ideal is a \emph{nonzero} $A$-submodule $I\subseteq K$ such that $dI\subseteq A$ for some nonzero $d\in A$. (So it has a common denominator.)
+  \item \textbf{Invertible fractional ideal.} $I$ is invertible if $IJ=A$ for some fractional ideal $J$. When this happens, necessarily $J=I^{-1}=\{x\in K: xI\subseteq A\}$.
+  \item \textbf{Divisibility of ideals.} $\fa\mid\fb$ means $\fb=\fa\fc$ for some ideal $\fc$. In a Dedekind domain this holds \emph{if and only if $\fa\supseteq\fb$}: the bigger ideal is the divisor.
+  \item \textbf{$\fp$-adic valuation of an ideal.} $v_\fp(\fa)$ is the exponent of $\fp$ in the prime factorization of $\fa$.
+  \item \textbf{Ideal class group.} $\Cl(A)$ is the group of fractional ideals modulo the subgroup of nonzero principal fractional ideals. Its order $h$ is the class number.
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{compute} products and inverses of explicit ideals in quadratic rings;
+  \item \textbf{factor} principal ideals into prime ideals and \textbf{explain} how non-unique element factorizations become a single ideal factorization;
+  \item \textbf{apply} ``to contain is to divide'' to compute gcds and lcms of ideals;
+  \item \textbf{explain} why invertibility fails in a ring that is not integrally closed, using an explicit ideal.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item Definition of a Dedekind domain and quadratic rings of integers (earlier in this module: T1).
+  \item Localization and local rings (assumed background).
+  \item Noetherian induction (assumed background).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+Throughout, let $\cO=\Z[\sqrt{-5}]$, and write
+\[
+\fp_2=(2,1+\sqrt{-5}),\qquad \fp_3=(3,1+\sqrt{-5}),\qquad \fp_3'=(3,1-\sqrt{-5}).
+\]
+
+\begin{enumerate}[label=\textbf{Q2.\arabic*}]
+  \item Show that $(2)=\fp_2^2$, $(3)=\fp_3\fp_3'$, $(1+\sqrt{-5})=\fp_2\fp_3$ and $(1-\sqrt{-5})=\fp_2\fp_3'$. Deduce that the two factorizations $6=2\cdot3=(1+\sqrt{-5})(1-\sqrt{-5})$ give the same ideal factorization.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $\fp_2^2=(4,\;2+2\sqrt{-5},\;(1+\sqrt{-5})^2)$, and $(1+\sqrt{-5})^2=-4+2\sqrt{-5}$. Every generator is divisible by 2. The difference $(2+2\sqrt{-5})-(-4+2\sqrt{-5})=6$ lies in $\fp_2^2$, and so does 4. Hence $2=6-4\in\fp_2^2$, and $\fp_2^2=(2)$.
+    \item $\fp_3\fp_3'=(9,\;3(1-\sqrt{-5}),\;3(1+\sqrt{-5}),\;6)$. Every generator is divisible by 3, and $3=9-6$ lies in the ideal. Hence $\fp_3\fp_3'=(3)$.
+    \item $\fp_2\fp_3=(6,\;2+2\sqrt{-5},\;3+3\sqrt{-5},\;-4+2\sqrt{-5})$. It contains $(3+3\sqrt{-5})-(2+2\sqrt{-5})=1+\sqrt{-5}$. Conversely, every generator is a multiple of $1+\sqrt{-5}$, because $6=(1+\sqrt{-5})(1-\sqrt{-5})$ and $-4+2\sqrt{-5}=(1+\sqrt{-5})^2$. Hence $\fp_2\fp_3=(1+\sqrt{-5})$. The case $\fp_2\fp_3'=(1-\sqrt{-5})$ is the same computation with $\sqrt{-5}$ replaced by $-\sqrt{-5}$.
+    \item Therefore
+    \[
+    (6)=(2)(3)=\fp_2^2\fp_3\fp_3' \quad\text{and}\quad (6)=(1+\sqrt{-5})(1-\sqrt{-5})=\fp_2\fp_3\cdot\fp_2\fp_3'=\fp_2^2\fp_3\fp_3'.
+    \]
+    The two element factorizations just group the same four prime ideals differently.
+  \end{itemize}
+
+  \item Compute $\fp_2^{-1}$ explicitly and check that $\fp_2\fp_2^{-1}=\cO$. Show that $\fp_2^{-1}\not\subseteq\cO$.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item From $\fp_2^2=(2)$ we get $\fp_2\cdot\tfrac12\fp_2=\tfrac12(2)=\cO$. So $\fp_2^{-1}=\tfrac12\fp_2=\bigl\{\tfrac{a+b\sqrt{-5}}{2}: a\equiv b\pmod2\bigr\}$.
+    \item Check against the formula $\{x: x\fp_2\subseteq\cO\}$ with $x=\frac{1+\sqrt{-5}}2$:
+    \[
+    2x=1+\sqrt{-5}\in\cO,\qquad x(1+\sqrt{-5})=\tfrac{-4+2\sqrt{-5}}{2}=-2+\sqrt{-5}\in\cO.
+    \]
+    \item This same $x$ is not in $\cO$, so $\fp_2^{-1}\not\subseteq\cO$.
+  \end{itemize}
+
+  \item In $R=\Z[\sqrt{-3}]$, let $P=(2,1+\sqrt{-3})$. Show that $P^2=2P$ but $P\ne(2)$. Conclude that $P$ is not invertible, so $R$ is not Dedekind.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $(1+\sqrt{-3})^2=-2+2\sqrt{-3}$. So
+    \[
+    P^2=(4,\;2+2\sqrt{-3},\;-2+2\sqrt{-3})=(4,\;2+2\sqrt{-3}),
+    \]
+    since the third generator equals the second minus 4.
+    \item Also $2P=(4,\;2+2\sqrt{-3})$. Hence $P^2=2P$.
+    \item If $P$ were invertible, multiplying $P^2=2P$ by $P^{-1}$ would give $P=(2)$. But $1+\sqrt{-3}\in P$ is not divisible by 2 in $R$. So $P$ is not invertible.
+  \end{itemize}
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{(1) The ideal $\fp_2$ as a checkerboard sublattice.}
+\begin{itemize}
+  \item Draw axes: horizontal ``$a$'' and vertical ``$b$'' for $a+b\sqrt{-5}$, each from $-3$ to $3$.
+  \item Mark all integer points $(a,b)$ as small dots: this is $\cO$.
+  \item Circle those with $a\equiv b\pmod 2$: this is $\fp_2$. It forms a checkerboard pattern.
+  \item Label $2$ at $(2,0)$ and $1+\sqrt{-5}$ at $(1,1)$ as the two lattice generators, and shade the parallelogram they span.
+  \item Its area is twice that of the unit square, which makes $[\cO:\fp_2]=2$ visible.
+  \item Repeat beside it for $\fp_3=\{a\equiv b\pmod3\}$: circle every third point along each diagonal band.
+\end{itemize}
+
+\textbf{(2) Divisors of $(6)$ as a Hasse diagram.}
+\begin{itemize}
+  \item Put $\cO$ at the top.
+  \item Next row: the primes $\fp_2$, $\fp_3$, $\fp_3'$.
+  \item Next row: $(2)=\fp_2^2$, $(1+\sqrt{-5})=\fp_2\fp_3$, $(1-\sqrt{-5})=\fp_2\fp_3'$, $(3)=\fp_3\fp_3'$, and the other products as needed.
+  \item Put $(6)$ at the bottom.
+  \item Draw an edge whenever one ideal contains the next. Write in the margin: ``higher = bigger ideal = divisor''.
+\end{itemize}
+\end{instructornote}
+
+% ---------------------------------------------------------------------
+\subsection{T3. Norms, discriminants, integral bases (Session 3)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item The absolute norm $\Nm(\fa)=|\OK/\fa|$, which is finite.
+  \item Multiplicativity $\Nm(\fa\fb)=\Nm(\fa)\Nm(\fb)$, via the Chinese remainder theorem and $|\fp^k/\fp^{k+1}|=|\OK/\fp|$.
+  \item $\Nm(\alpha\OK)=|\Nm_{K/\Q}(\alpha)|$.
+  \item $\Nm(\fp)=p^{f}$, where $f$ is the residue degree (named properly in T4).
+  \item Discriminant of an $n$-tuple: $\det(\sigma_i(\alpha_j))^2=\det(\Tr(\alpha_i\alpha_j))$. Under a change of basis by $M$ it changes by $\det(M)^2$.
+  \item $\OK$ is free of rank $n$; integral bases; $d_K$ is independent of the basis chosen.
+  \item The index formula $\disc(\Z[\alpha])=[\OK:\Z[\alpha]]^2\,d_K$. Consequence: if $\disc(f)$ is squarefree, then $\OK=\Z[\alpha]$.
+  \item Polynomial discriminants:
+  \begin{itemize}
+    \item $\disc(f)=(-1)^{n(n-1)/2}\Nm_{K/\Q}(f'(\alpha))$;
+    \item $x^2+bx+c$ has discriminant $b^2-4c$;
+    \item $x^3+ax+b$ has discriminant $-4a^3-27b^2$.
+  \end{itemize}
+  \item Quadratic fields: $d_K=d$ if $d\equiv1\pmod4$, and $d_K=4d$ otherwise.
+  \item Minkowski bound (stated, not proved): every ideal class contains an integral ideal of norm at most
+  \[
+  M_K=\frac{n!}{n^n}\left(\frac4\pi\right)^{r_2}\sqrt{|d_K|}.
+  \]
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Absolute norm of an ideal.} For a nonzero ideal $\fa\subseteq\OK$, $\Nm(\fa)=|\OK/\fa|$, the number of elements of the quotient ring. (It is a count of residues, not a norm of a generator. The two agree, up to sign, only for principal ideals.)
+  \item \textbf{Discriminant of a basis.} For $\alpha_1,\dots,\alpha_n\in K$, $\disc(\alpha_1,\dots,\alpha_n)=\det\bigl(\sigma_i(\alpha_j)\bigr)^2=\det\bigl(\Tr_{K/\Q}(\alpha_i\alpha_j)\bigr)$, where the $\sigma_i$ are the $n$ embeddings $K\hookrightarrow\C$.
+  \item \textbf{Integral basis; discriminant of $K$.} An integral basis is a $\Z$-basis of $\OK$. The discriminant $d_K$ is the discriminant of any integral basis.
+  \item \textbf{Index.} For $\alpha\in\OK$ generating $K$, the index $[\OK:\Z[\alpha]]$ is the (finite) group index of $\Z[\alpha]$ in $\OK$.
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{compute} norms of explicit ideals by identifying the quotient ring;
+  \item \textbf{compute} discriminants of quadratic orders and trinomial cubic orders by hand;
+  \item \textbf{apply} the index formula to decide whether $\OK=\Z[\alpha]$;
+  \item \textbf{apply} the Minkowski bound to determine the class number of $\Q(\sqrt{-5})$.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item Trace and norm for finite field extensions; Vandermonde determinants (assumed background).
+  \item The Chinese remainder theorem for rings; finitely generated abelian groups and lattices (assumed background).
+  \item Unique factorization of ideals and the class group (earlier in this module: T2).
+  \item Rings of integers of quadratic fields (earlier in this module: T1).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+\begin{enumerate}[label=\textbf{Q3.\arabic*}]
+  \item Compute $\disc(\Z[\sqrt{-5}])$ and $\disc\!\left(\Z\!\left[\tfrac{1+\sqrt{13}}{2}\right]\right)$.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item For the basis $(1,\sqrt d)$:
+    \[
+    \det\begin{pmatrix}1&\sqrt d\\1&-\sqrt d\end{pmatrix}^2=(-2\sqrt d)^2=4d.
+    \]
+    With $d=-5$ this gives $-20$.
+    \item For the basis $\bigl(1,\tfrac{1+\sqrt d}{2}\bigr)$, the determinant is $\tfrac{1-\sqrt d}{2}-\tfrac{1+\sqrt d}{2}=-\sqrt d$, whose square is $d$. With $d=13$ this gives $13$.
+  \end{itemize}
+
+  \item
+  \begin{enumerate}[label=(\alph*)]
+    \item Use the index formula to find $[\cO_{\Q(\sqrt{13})}:\Z[\sqrt{13}]]$.
+    \item Let $\alpha$ be a root of $x^3-x-1$. Show that $\cO_{\Q(\alpha)}=\Z[\alpha]$.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $\disc(x^2-13)=0+52=52$ and $d_K=13$. So the index squared is $52/13=4$, and the index is 2.
+    \item The polynomial has no rational roots ($\pm1$ are not roots), so it is irreducible. Its discriminant is $-4(-1)^3-27(1)^2=4-27=-23$. From $-23=[\OK:\Z[\alpha]]^2d_K$ and the fact that 23 is squarefree, the index is 1.
+  \end{enumerate}
+
+  \item In $K=\Q(\sqrt{-5})$:
+  \begin{enumerate}[label=(\alph*)]
+    \item Compute $\Nm(\fp_2)$, $\Nm(\fp_3)$ and $\Nm((1+\sqrt{-5}))$, and check multiplicativity.
+    \item Show that $\fp_2$ is not principal.
+    \item Use the Minkowski bound to prove $h_K=2$.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $\cO/\fp_2\cong\Z[x]/(2,\;1+x,\;x^2+5)\cong\F_2[x]/(x+1)\cong\F_2$, since $x=-1$ gives $1+5\equiv0\pmod 2$. So $\Nm(\fp_2)=2$.
+
+    Similarly $\cO/\fp_3\cong\F_3$ (with $x=-1$, $1+5=6\equiv0\pmod 3$), so $\Nm(\fp_3)=3$.
+
+    Finally $\Nm((1+\sqrt{-5}))=|1+5|=6=2\cdot3$, consistent with $(1+\sqrt{-5})=\fp_2\fp_3$.
+    \item If $\fp_2=(a+b\sqrt{-5})$, then $a^2+5b^2=2$, which has no integer solutions.
+    \item Here $n=2$, $r_2=1$ and $|d_K|=20$, so $M_K=\tfrac{2}{4}\cdot\tfrac{4}{\pi}\sqrt{20}=\tfrac{2}{\pi}\sqrt{20}$. Since $4.5^2=20.25>20$ and $\pi>3$,
+    \[
+    M_K<\frac{2\cdot4.5}{\pi}=\frac9\pi<3.
+    \]
+    So every class contains an ideal of norm 1 or 2. The only such ideals are $\cO$ and $\fp_2$ (the unique prime above 2). Since $\fp_2$ is not principal, $h_K=2$.
+  \end{enumerate}
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{Covolume picture: discriminant as squared area.}
+\begin{itemize}
+  \item Draw the complex plane with $\Z[i]$ marked as the integer grid and shade the unit square spanned by $1$ and $i$. Label it ``area $=1=\tfrac12\sqrt{|d_K|}$, $d_K=-4$''.
+  \item Beside it, draw $\Z[\sqrt{-5}]$: points $a+b\sqrt{-5}$ plotted at $(a,\,b\sqrt5)$, a rectangular grid with vertical spacing about $2.24$. Shade the $1\times\sqrt5$ rectangle and label it ``area $=\sqrt5=\tfrac12\sqrt{20}$''.
+  \item State the general rule under the pictures: the covolume of $\OK$ in $\R^{r_1}\times\C^{r_2}$ is $2^{-r_2}\sqrt{|d_K|}$.
+  \item Point out that a sublattice of index $k$ has covolume $k$ times bigger. This is the geometric reason behind $\disc(\Z[\alpha])=[\OK:\Z[\alpha]]^2d_K$.
+\end{itemize}
+\end{instructornote}
+
+% ---------------------------------------------------------------------
+\subsection{T4. Primes in extensions: \texorpdfstring{$e$, $f$, $g$}{e, f, g} (Session 4)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item Lying over: each nonzero prime $\fP$ of $\OK$ contains exactly one rational prime $p$, and $\fP\supseteq p\OK$. Every $p$ has at least one prime above it.
+  \item The factorization $p\OK=\fP_1^{e_1}\cdots\fP_g^{e_g}$. The residue fields $\OK/\fP_i$ are $\F_{p^{f_i}}$.
+  \item The fundamental identity $\sum_{i=1}^g e_if_i=n$. Proof: by CRT, $\OK/p\OK\cong\prod_i\OK/\fP_i^{e_i}$. The left side has $p^n$ elements and the $i$-th factor has $p^{e_if_i}$.
+  \item Vocabulary: split completely ($g=n$), inert ($g=1$, $f=n$), ramified (some $e_i>1$), totally ramified ($e=n$), splitting type.
+  \item Reading $e$ and $f$ off the ring: $\OK/p\OK$ has nonzero nilpotents if and only if $p$ ramifies.
+  \item Multiplicativity in towers: $e(\fq\mid p)=e(\fq\mid\fP)\,e(\fP\mid p)$, and likewise for $f$.
+  \item Possible splitting types:
+  \begin{itemize}
+    \item quadratic fields: 3 types;
+    \item cubic fields: 5 types.
+  \end{itemize}
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Lying over.} A prime $\fP$ of $\OK$ \emph{lies over} $p$ (written $\fP\mid p$) if $\fP\cap\Z=p\Z$. Equivalently, $\fP\supseteq p\OK$.
+  \item \textbf{Ramification index.} $e(\fP\mid p)=v_\fP(p\OK)$, the exponent of $\fP$ in the factorization of $p\OK$.
+  \item \textbf{Residue (inertia) degree.} $f(\fP\mid p)=[\OK/\fP:\F_p]$, so that $\Nm(\fP)=p^{f}$. It is a degree of \emph{fields}; it has nothing to do with multiplicity.
+  \item \textbf{Ramified.} $p$ ramifies in $K$ if $e(\fP\mid p)>1$ for \emph{some} $\fP\mid p$. It need not hold for all of them.
+  \item \textbf{Split completely / inert / totally ramified.} Split completely: $p\OK$ is a product of $n$ distinct primes (all $e=f=1$). Inert: $p\OK$ is itself prime ($f=n$). Totally ramified: $p\OK=\fP^n$.
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{identify} $e$, $f$, $g$ from a factorization or from the structure of $\OK/p\OK$;
+  \item \textbf{derive} the fundamental identity from CRT and ideal norms;
+  \item \textbf{enumerate} all possible splitting types in degree 2 and 3;
+  \item \textbf{explain} why ramification corresponds to nilpotents in $\OK/p\OK$.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item Unique factorization of ideals (earlier in this module: T2).
+  \item Ideal norms and $\Nm(\fP)=p^f$ (earlier in this module: T3).
+  \item Finite fields and their extensions (assumed background).
+  \item The Chinese remainder theorem (assumed background).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+\begin{enumerate}[label=\textbf{Q4.\arabic*}]
+  \item In $\Z[i]$, factor $2$, $3$ and $5$. Give $e$, $f$, $g$ in each case and verify $\sum e_if_i=2$.
+
+  \textit{Solution.} Since $\Z[i]\cong\Z[x]/(x^2+1)$, we have $\Z[i]/(p)\cong\F_p[x]/(x^2+1)$.
+  \begin{itemize}
+    \item $p=2$: $x^2+1=(x+1)^2$ in $\F_2[x]$, so $(2)=(1+i)^2$. Here $e=2$, $f=1$, $g=1$, and $2\cdot1=2$.
+    \item $p=3$: $x^2+1$ has no roots mod 3, so $\F_3[x]/(x^2+1)=\F_9$ and $(3)$ is prime. Here $e=1$, $f=2$, $g=1$.
+    \item $p=5$: $x^2+1=(x-2)(x+2)$ in $\F_5[x]$, so $(5)=(5,i-2)(5,i+2)$. Since $\Nm(i-2)=5$, the ideal $(i-2)$ is contained in $(5,i-2)$ and has the same norm, so $(5,i-2)=(i-2)$. Thus $(5)=(2+i)(2-i)$ with $e=f=1$, $g=2$, and $1+1=2$.
+  \end{itemize}
+
+  \item Let $K$ be a cubic field. What does each of the following tell you about the factorization of $p$?
+  \begin{enumerate}[label=(\alph*)]
+    \item $\OK/3\OK\cong\F_3\times\F_9$
+    \item $\OK/7\OK\cong\F_7[t]/(t^2)\times\F_7$
+  \end{enumerate}
+
+  \textit{Solution.} Match each factor with $\OK/\fP_i^{e_i}$. The residue field of a factor gives $f_i$, and the nilpotency length gives $e_i$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Both factors are fields, so $(3)=\fP_1\fP_2$ with $f_1=1$, $f_2=2$ and all $e_i=1$. Check: $1+2=3$.
+    \item The factor $\F_7[t]/(t^2)$ has residue field $\F_7$ and $t$ nilpotent of order 2, so $e_1=2$, $f_1=1$. The second factor gives $e_2=f_2=1$. So $(7)=\fP_1^2\fP_2$, and $2+1=3$.
+  \end{enumerate}
+
+  \item List all possible splitting types of a prime $p$ in a cubic field.
+
+  \textit{Solution.} We need the multisets of pairs $(e_i,f_i)$ with $\sum e_if_i=3$:
+  \begin{itemize}
+    \item $\{(1,1),(1,1),(1,1)\}$: split completely;
+    \item $\{(1,1),(1,2)\}$;
+    \item $\{(1,3)\}$: inert;
+    \item $\{(2,1),(1,1)\}$: partially ramified;
+    \item $\{(3,1)\}$: totally ramified.
+  \end{itemize}
+  These are five types. (The Galois case in T7 will rule some of them out.)
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{``Primes of $\Z[i]$ over primes of $\Z$'' picture.}
+\begin{itemize}
+  \item Draw a horizontal line near the bottom of the board labeled ``primes of $\Z$''. Mark dots at $2,3,5,7,11,13$, evenly spaced.
+  \item Above it, draw a wavy horizontal curve labeled ``primes of $\Z[i]$''. Above each $p$, draw its primes as follows:
+  \begin{itemize}
+    \item over 2: one dot, with the curve drawn touching the line there like a tangency; label ``$e=2$'';
+    \item over 3, 7 and 11: one large hollow dot each; label ``$f=2$, inert'';
+    \item over 5 and 13: two separate small dots each (the curve crosses the vertical above $p$ twice); label ``split''.
+  \end{itemize}
+  \item Draw thin vertical dashed lines connecting each prime of $\Z$ to the primes above it.
+  \item Write the rule in the corner: ``$p\equiv1\ (4)$: split; $p\equiv3\ (4)$: inert; $p=2$: ramified''.
+  \item The point to emphasize: $e$ is a multiplicity (tangency), $f$ is the size of the residue field (a big dot), and $g$ is a count (how many dots).
+\end{itemize}
+\end{instructornote}
+
+% ---------------------------------------------------------------------
+\subsection{T5. The Dedekind--Kummer theorem (Session 5)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item Statement of Dedekind--Kummer, and the proof idea: if $p\nmid[\OK:\Z[\alpha]]$, then $\OK/p\OK\cong\Z[\alpha]/p\Z[\alpha]\cong\F_p[x]/(\bar f)$.
+  \item Why the index hypothesis matters (developed in T6).
+  \item Explicit two-element generators $\fP_i=(p,\,g_i(\alpha))$.
+  \item The quadratic splitting law via Legendre symbols, including the special rule at $p=2$.
+  \item The pure cubic $\Q(\sqrt[3]2)$: splitting via cubic residues.
+  \item Cyclotomic fields (with $\OK=\Z[\zeta_m]$ quoted):
+  \begin{itemize}
+    \item for $p\nmid m$: $\Phi_m$ factors mod $p$ into $\varphi(m)/f$ irreducibles of degree $f=\ord_m(p)$;
+    \item $p$ is totally ramified in $\Q(\zeta_{p^k})$.
+  \end{itemize}
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Dedekind--Kummer theorem (state it verbatim, hypothesis first).} Let $K=\Q(\alpha)$ with $\alpha\in\OK$ and minimal polynomial $f\in\Z[x]$. Let $p$ be a prime with $p\nmid[\OK:\Z[\alpha]]$. Suppose
+  \[
+  \bar f=\prod_{i=1}^g\bar g_i^{\,e_i}\quad\text{in }\F_p[x],
+  \]
+  with the $\bar g_i$ distinct monic irreducibles, and let $g_i\in\Z[x]$ be any lifts. Then
+  \[
+  p\OK=\prod_{i=1}^g\fP_i^{e_i},\qquad \fP_i=(p,\,g_i(\alpha)),\qquad f(\fP_i\mid p)=\deg\bar g_i.
+  \]
+  \item \textbf{Quadratic splitting law.} Let $K=\Q(\sqrt d)$ with $d$ squarefree.
+  \begin{itemize}
+    \item Odd $p$: ramified if $p\mid d$; split if $\legendre dp=1$; inert if $\legendre dp=-1$.
+    \item $p=2$: ramified if $d\equiv2,3\pmod4$; split if $d\equiv1\pmod8$; inert if $d\equiv5\pmod8$.
+  \end{itemize}
+  \item \textbf{Multiplicative order.} For $p\nmid m$, $\ord_m(p)$ is the least $k\ge1$ with $p^k\equiv1\pmod m$.
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{apply} Dedekind--Kummer to factor $p\OK$ and write explicit generators;
+  \item \textbf{derive} the quadratic splitting law from Dedekind--Kummer;
+  \item \textbf{predict} splitting in $\Q(\zeta_m)$ from $\ord_m(p)$;
+  \item \textbf{determine} splitting in $\Q(\sqrt[3]2)$ using cubes mod $p$.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item The index $[\OK:\Z[\alpha]]$ (earlier in this module: T3).
+  \item $e$, $f$, $g$ and the fundamental identity (earlier in this module: T4).
+  \item Factoring polynomials over $\F_p$; Legendre symbol; Euler's criterion (assumed background).
+  \item $\F_{p^f}^\times$ is cyclic of order $p^f-1$ (assumed background).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+\begin{enumerate}[label=\textbf{Q5.\arabic*}]
+  \item Factor $2$, $3$, $5$, $7$ and $11$ in $\Z[\sqrt{-5}]$.
+
+  \textit{Solution.} Here $\OK=\Z[\sqrt{-5}]$ (since $-5\equiv3\pmod4$), so the index is 1. Take $f=x^2+5$.
+  \begin{itemize}
+    \item Mod 2: $x^2+1=(x+1)^2$, so $(2)=(2,1+\sqrt{-5})^2$. Ramified.
+    \item Mod 3: $x^2+2=x^2-1=(x-1)(x+1)$, so $(3)=(3,\sqrt{-5}-1)(3,\sqrt{-5}+1)$. Split.
+    \item Mod 5: $\bar f=x^2$, so $(5)=(5,\sqrt{-5})^2=(\sqrt{-5})^2$. Ramified.
+    \item Mod 7: $x^2+5\equiv x^2-2$, and $3^2=9\equiv2\pmod 7$. So $\bar f=(x-3)(x+3)$ and $(7)=(7,\sqrt{-5}-3)(7,\sqrt{-5}+3)$. Split.
+    \item Mod 11: $x^2+5\equiv x^2-6$. The squares mod 11 are $1,4,9,5,3$, so 6 is not a square. Hence $\bar f$ is irreducible and 11 is inert.
+  \end{itemize}
+
+  \item Let $\alpha=\sqrt[3]2$, so $\OK=\Z[\alpha]$. Factor $2$, $3$, $5$ and $7$.
+
+  \textit{Solution.} Take $f=x^3-2$.
+  \begin{itemize}
+    \item Mod 2: $\bar f=x^3$, so $(2)=(\alpha)^3$. Totally ramified.
+    \item Mod 3: $x^3-2\equiv x^3+1=(x+1)^3$ (Frobenius), so $(3)=(3,\alpha+1)^3$. Totally ramified.
+
+    As a check: the minimal polynomial of $\alpha+1$ is $(x-1)^3-2$, whose constant term is $-3$, so $\Nm(\alpha+1)=3$. In fact $(3)=(\alpha+1)^3$ as ideals, because $(\alpha+1)^3=3(1+\alpha+\alpha^2)$ and $1+\alpha+\alpha^2=1/(\alpha-1)$ is a unit.
+    \item Mod 5: $3^3=27\equiv2$, so $x=3$ is a root. Dividing, $\bar f=(x-3)(x^2+3x+4)$. Check:
+    \[
+    (x-3)(x^2+3x+4)=x^3-5x-12\equiv x^3-2\pmod 5.
+    \]
+    The quadratic has discriminant $9-16=-7\equiv3\pmod 5$, which is not a square mod 5. So
+    \[
+    (5)=\fP_1\fP_2,\quad \fP_1=(5,\alpha-3),\ f(\fP_1\mid5)=1,\quad \fP_2=(5,\alpha^2+3\alpha+4),\ f(\fP_2\mid5)=2.
+    \]
+    \item Mod 7: the cubes mod 7 are $0,1,6$, so 2 is not a cube. A cubic with no roots is irreducible, so 7 is inert.
+  \end{itemize}
+
+  \item In $\Q(\zeta_5)$ (with $\OK=\Z[\zeta_5]$), determine the splitting of $2$, $11$, $19$ and $5$. For 11, find the four primes explicitly.
+
+  \textit{Solution.} For $p\ne5$: $f=\ord_5(p)$ and $g=4/f$.
+  \begin{itemize}
+    \item $p=2$: $2,4,3,1$ are the successive powers, so $f=4$ and 2 is inert.
+    \item $p=11$: $11\equiv1\pmod 5$, so $f=1$ and 11 splits completely. The roots of $\Phi_5$ mod 11 are the elements of order 5 in $\F_{11}^\times$. Since $3^5=243=242+1\equiv1$, the element 3 has order 5, with powers $3,9,5,4$. Hence
+    \[
+    (11)=\prod_{a\in\{3,4,5,9\}}(11,\zeta_5-a).
+    \]
+    \item $p=19$: $19\equiv4\pmod 5$ and $4^2\equiv1$, so $f=2$ and $g=2$.
+    \item $p=5$: $\Phi_5(x)=\frac{x^5-1}{x-1}\equiv\frac{(x-1)^5}{x-1}=(x-1)^4\pmod5$. So $(5)=(5,\zeta_5-1)^4=(1-\zeta_5)^4$, totally ramified.
+  \end{itemize}
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{Dictionary diagram: polynomial factors $\leftrightarrow$ prime ideals.}
+\begin{itemize}
+  \item Draw two columns. Head the left one ``factors of $\bar f$ in $\F_p[x]$'' and the right one ``primes of $\OK$ above $p$''.
+  \item First example: $\Q(\sqrt[3]2)$ at $p=5$.
+  \begin{itemize}
+    \item Left: $(x-3)$ and $(x^2+3x+4)$, each with its exponent 1 written as a superscript.
+    \item Right: $(5,\alpha-3)$ and $(5,\alpha^2+3\alpha+4)$.
+    \item Connect matching entries with arrows.
+  \end{itemize}
+  \item Annotate the arrows with three rules: ``exponent $\to e$'', ``degree $\to f$'', ``number of distinct factors $\to g$''.
+  \item Second example underneath, same format: $\Q(\sqrt[3]2)$ at $p=3$, where the left column is $(x+1)^3$ and the right column is $(3,\alpha+1)^3$.
+  \item Above both columns, draw a box around the hypothesis ``$p\nmid[\OK:\Z[\alpha]]$'' with an arrow pointing to the whole diagram. This foreshadows T6.
+\end{itemize}
+\end{instructornote}
+
+% ---------------------------------------------------------------------
+\subsection{T6. Ramification and the discriminant; orders (Session 6)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item Dedekind's discriminant theorem: $p$ ramifies in $K$ if and only if $p\mid d_K$. Consequences:
+  \begin{itemize}
+    \item only finitely many primes ramify;
+    \item every $K\ne\Q$ has a ramified prime, because Minkowski's bound forces $|d_K|>1$ (statement).
+  \end{itemize}
+  \item Proof idea: $p$ ramifies $\iff$ $\OK/p\OK$ has nonzero nilpotents $\iff$ the trace form on $\OK/p\OK$ over $\F_p$ is degenerate $\iff$ $p\mid d_K$.
+  \item $\disc(f)$ versus $d_K$. They differ by the square of the index, so primes dividing the index can divide $\disc(f)$ without ramifying.
+  \item What to do at an index prime: use another generator, such as $\tfrac{1+\sqrt d}{2}$ instead of $\sqrt d$.
+  \item Orders: subrings of finite index in $\OK$.
+  \begin{itemize}
+    \item A non-maximal order is not integrally closed, hence not Dedekind.
+    \item Ideals at primes dividing the conductor can fail to be invertible.
+  \end{itemize}
+  \item (Optional enrichment) The different $\mathfrak D_K$: $|\Nm(\mathfrak D_K)|=|d_K|$, and $\fP\mid\mathfrak D_K$ if and only if $\fP$ is ramified.
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Dedekind's discriminant theorem.} A rational prime $p$ ramifies in $K$ if and only if $p\mid d_K$. (It is $d_K$, not $\disc(f)$.)
+  \item \textbf{Order.} An order in $K$ is a subring $\cO\subseteq\OK$ that is a free $\Z$-module of rank $n$. Equivalently, it has finite index in $\OK$. The maximal order is $\OK$.
+  \item \textbf{Conductor of an order.} $\mathfrak f=\{x\in\OK: x\OK\subseteq\cO\}$. It is the largest ideal of $\OK$ contained in $\cO$. For example, $\Z[\sqrt{-3}]=\Z+2\Z[\omega]$ has conductor $2\Z[\omega]$, where $\omega=\frac{1+\sqrt{-3}}2$.
+  \item \textbf{Index prime.} A prime $p$ dividing $[\OK:\Z[\alpha]]$. At such primes Dedekind--Kummer applied to $\alpha$ may give the wrong answer.
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{determine} the ramified primes of a field from $d_K$;
+  \item \textbf{diagnose} when Dedekind--Kummer with a given generator is unreliable, and \textbf{correct} it;
+  \item \textbf{evaluate} whether an ideal in a non-maximal order is invertible;
+  \item \textbf{explain} the chain ``ramified $\iff$ nilpotents $\iff$ degenerate trace form $\iff$ $p\mid d_K$''.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item Discriminants and the index formula (earlier in this module: T3).
+  \item Dedekind--Kummer (earlier in this module: T5).
+  \item Invertibility of ideals (earlier in this module: T2).
+  \item Nondegenerate bilinear forms over a field (assumed background).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+\begin{enumerate}[label=\textbf{Q6.\arabic*}]
+  \item List the ramified primes of $\Q(\sqrt{-5})$, $\Q(\sqrt{13})$, $\Q(\sqrt[3]2)$ (given $d_K=-108$) and $\Q(\zeta_5)$ (given $d_K=125$).
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $\Q(\sqrt{-5})$: $d_K=-20=-2^2\cdot5$, so $\{2,5\}$.
+    \item $\Q(\sqrt{13})$: $d_K=13$, so $\{13\}$.
+    \item $\Q(\sqrt[3]2)$: $-108=-2^2\cdot3^3$, so $\{2,3\}$. This matches Q5.2.
+    \item $\Q(\zeta_5)$: $125=5^3$, so $\{5\}$. This matches Q5.3.
+  \end{itemize}
+
+  \item A student applies Dedekind--Kummer to $x^2-13$ at $p=2$. They get $x^2-13\equiv(x+1)^2\pmod 2$ and conclude that 2 ramifies in $\Q(\sqrt{13})$. Find the error and give the correct factorization of $(2)$.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item The error: $[\OK:\Z[\sqrt{13}]]=2$ (Q3.2), so 2 is an index prime and the theorem does not apply with $\alpha=\sqrt{13}$. Consistently, $2\nmid d_K=13$, so 2 cannot ramify.
+    \item The correction: use $\theta=\frac{1+\sqrt{13}}2$, whose minimal polynomial is $x^2-x-3$. Mod 2 this is $x^2+x+1$, which has no roots in $\F_2$ and is therefore irreducible.
+    \item So 2 is inert: $(2)$ is prime with residue field $\F_4$. This matches the quadratic law, since $13\equiv5\pmod 8$.
+  \end{itemize}
+
+  \item In $R=\Z[\sqrt{-3}]$:
+  \begin{enumerate}[label=(\alph*)]
+    \item Show that $P=(2,1+\sqrt{-3})$ is the only prime of $R$ containing 2.
+    \item Show that $(2)$ is not a power of $P$.
+    \item Compare with $\Z[\omega]$.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $R/(2)\cong\F_2[x]/(x^2+3)=\F_2[x]/((x+1)^2)$. This ring has a unique prime ideal, generated by $x+1$. Pulled back to $R$, it is $P$, with $R/P\cong\F_2$.
+    \item $P\ne(2)$, since $1+\sqrt{-3}\notin 2R$. For $k\ge2$, $P^k\subseteq P^2=2P$ by Q2.3. Now $[R:2P]=[R:2R]\,[2R:2P]=4\cdot2=8$, while $[R:2R]=4$. So $P^k\neq(2)$ for every $k$.
+    \item In $\Z[\omega]$ the minimal polynomial is $x^2-x+1\equiv x^2+x+1\pmod2$, which is irreducible. So 2 is inert with norm 4, and unique factorization is restored. The failure in $R$ happens exactly at the conductor prime 2.
+  \end{enumerate}
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{The order $\Z[\sqrt{-3}]$ inside $\Z[\omega]$ (hexagonal lattice).}
+\begin{itemize}
+  \item Draw the complex plane and plot the points $a+b\omega$ for $a,b$ from $-2$ to $2$, where $\omega$ sits at $\bigl(\tfrac12,\tfrac{\sqrt3}{2}\bigr)\approx(0.5,0.87)$. This gives a triangular (hexagonal) lattice; make these points hollow dots.
+  \item Fill in the dots in rows with $b$ even, that is, at heights $0$ and $\pm\sqrt3$. These filled dots are $\Z[\sqrt{-3}]$.
+  \item Label $1$, $\omega$ and $\sqrt{-3}=2\omega-1$.
+  \item Circle one hollow dot, $\omega$, and write: ``integral over $R$, in $\Frac(R)$, not in $R$''.
+  \item Beside the picture, write ``index $2$ $\Rightarrow$ $\disc(R)=2^2\cdot(-3)=-12$''.
+  \item The takeaway: the missing half-rows are exactly what integral closure adds back, and 2 is exactly where things break.
+\end{itemize}
+\end{instructornote}
+
+% ---------------------------------------------------------------------
+\subsection{T7. Galois extensions: decomposition, inertia, Frobenius (Session 7)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item For $K/\Q$ Galois with group $G$, $G$ acts transitively on the primes above $p$. Hence all $e_i$ are equal, all $f_i$ are equal, and $efg=n$.
+  \item $|D(\fP\mid p)|=ef$ (orbit--stabilizer: $g=[G:D]$) and $|I(\fP\mid p)|=e$.
+  \item The exact sequence $1\to I\to D\to\Gal(k(\fP)/\F_p)\to1$, whose surjectivity is the key lemma. Here $\Gal(k(\fP)/\F_p)$ is cyclic, generated by $x\mapsto x^p$.
+  \item The Frobenius element at an unramified $\fP$.
+  \item Dependence on the choice of $\fP$: $D(\sigma\fP\mid p)=\sigma D(\fP\mid p)\sigma^{-1}$ and $\Frob_{\sigma\fP}=\sigma\Frob_\fP\sigma^{-1}$. So $p$ determines a conjugacy class.
+  \item The tower $\Q\subseteq K^D\subseteq K^I\subseteq K$. Going up, the steps carry $g$ (splitting, with $e=f=1$), then $f$ (residue growth), then $e$ (total ramification).
+  \item Criteria: $p$ is unramified $\iff$ $I=1$; $p$ splits completely $\iff$ $D=1$.
+  \item Cycle type: for $p\nmid\disc(f)$, the cycle type of $\Frob_\fP$ on the roots of $f$ equals the list of degrees of the irreducible factors of $f\bmod p$.
+  \item In the abelian case, $D$, $I$ and $\Frob$ depend only on $p$.
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Decomposition group.} $D(\fP\mid p)=\{\sigma\in G:\ \sigma(\fP)=\fP\}$, the stabilizer of $\fP$. It depends on $\fP$, not just on $p$.
+  \item \textbf{Inertia group.} $I(\fP\mid p)=\{\sigma\in D(\fP\mid p):\ \sigma(x)\equiv x \pmod{\fP}\ \text{for all } x\in\OK\}$, the kernel of $D\to\Gal(k(\fP)/\F_p)$.
+  \item \textbf{Frobenius element.} If $p$ is unramified in $K$, then $\Frob_\fP$ is the \emph{unique} $\sigma\in D(\fP\mid p)$ such that $\sigma(x)\equiv x^p\pmod{\fP}$ for all $x\in\OK$. If $p$ ramifies, this condition determines only a coset of $I$.
+  \item \textbf{Decomposition and inertia fields.} $K^D$ and $K^I$, the fixed fields of $D(\fP\mid p)$ and $I(\fP\mid p)$.
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{derive} $efg=n$, $|D|=ef$ and $|I|=e$ from transitivity;
+  \item \textbf{compute} $D$, $I$ and $\Frob$ in quadratic, cyclotomic and $S_3$ examples;
+  \item \textbf{explain} why these objects depend on $\fP$ only up to conjugacy;
+  \item \textbf{identify} decomposition and inertia fields and verify the splitting behavior in each layer of the tower;
+  \item \textbf{determine} the cycle type of $\Frob$ from a factorization mod $p$.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item The fundamental theorem of Galois theory; Galois groups of finite fields (assumed background).
+  \item $e$, $f$, $g$ and the fundamental identity (earlier in this module: T4).
+  \item Dedekind--Kummer and cyclotomic splitting (earlier in this module: T5).
+  \item Ramified primes via $d_K$ (earlier in this module: T6).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+\begin{enumerate}[label=\textbf{Q7.\arabic*}]
+  \item $K=\Q(i)$, $G=\{1,c\}$ with $c$ complex conjugation. Compute $D$, $I$ and (where defined) $\Frob$ at $p=2,3,5$.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $p=5$ splits, so $g=2$, $ef=1$, and $D=I=1$. Hence $\Frob=1$.
+    \item $p=3$ is inert, so $D=G$ ($ef=2$) and $I=1$ ($e=1$). Hence $\Frob=c$.
+
+    Direct check: $(a+bi)^3\equiv a^3+b^3i^3=a^3-b^3i\equiv a-bi\pmod 3$, by the binomial theorem mod 3 and Fermat.
+    \item $p=2$: $(2)=(1+i)^2$, so $D=I=G$. The Frobenius is only defined as the coset $I=G$.
+  \end{itemize}
+
+  \item $K=\Q(\zeta_8)$, $G=\{\sigma_1,\sigma_3,\sigma_5,\sigma_7\}$ with $\sigma_a(\zeta_8)=\zeta_8^a$. For $p=3$, find $e$, $f$, $g$, $D$, $I$, $\Frob$ and the decomposition field. Check the splitting in that field.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item 3 is unramified, so $e=1$. Also $\ord_8(3)=2$, so $f=2$ and $g=2$.
+    \item Hence $D=\langle\Frob\rangle$ has order 2 and $I=1$. The Frobenius is $\sigma_3$: in general $\Frob_p=\sigma_p$, since $\sigma_p(\zeta)=\zeta^p$ and $x\mapsto x^p$ is additive mod $p$.
+    \item Decomposition field: $\sqrt{-2}=\zeta+\zeta^3$ (check: $(\zeta+\zeta^3)^2=\zeta^2+2\zeta^4+\zeta^6=i-2-i=-2$). Also $\sigma_3(\zeta+\zeta^3)=\zeta^3+\zeta^9=\zeta^3+\zeta$. So $K^D=\Q(\sqrt{-2})$.
+    \item Check: $-2\equiv1\pmod 3$ is a square, and indeed $3=(1+\sqrt{-2})(1-\sqrt{-2})$ splits in $\Q(\sqrt{-2})$. Each of these two primes is then inert in $K$.
+  \end{itemize}
+
+  \item Let $L=\Q(\sqrt[3]2,\zeta_3)$, the splitting field of $x^3-2$, with $G\cong S_3$. For $p=5$, find $e$, $f$ and $g$, and describe the decomposition groups of the primes above 5.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item The ramified primes of $L$ lie among those of $\Q(\sqrt[3]2)$ (namely 2 and 3) and $\Q(\zeta_3)$ (namely 3). So 5 is unramified: $e=1$ and $I=1$.
+    \item By Q5.2, $x^3-2\equiv(x-3)(x^2+3x+4)\pmod 5$ with the quadratic irreducible. So the Frobenius fixes one root and swaps the other two: it is a transposition.
+    \item Hence $f=|D|=2$ and $g=6/2=3$.
+    \item The three primes above 5 have as decomposition groups the three distinct subgroups of order 2 (conjugate transpositions). No single subgroup is ``the'' decomposition group of 5.
+    \item Consistency check: $5\equiv2\pmod3$ is inert in $\Q(\zeta_3)$, which forces $2\mid f$.
+  \end{itemize}
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{(1) The $D$/$I$ tower.}
+\begin{itemize}
+  \item Draw a vertical tower of four fields, bottom to top: $\Q$, $K^D$, $K^I$, $K$. Join consecutive fields by vertical line segments.
+  \item Label the segment degrees on the left: $g$ from $\Q$ to $K^D$, $f$ from $K^D$ to $K^I$, $e$ from $K^I$ to $K$.
+  \item On the right, write the corresponding subgroups: $G$ beside $\Q$, $D$ beside $K^D$, $I$ beside $K^I$, $1$ beside $K$.
+  \item Beside each segment, write what happens to the prime below $\fP$ there:
+  \begin{itemize}
+    \item bottom: ``splits off, $e=f=1$'';
+    \item middle: ``inert, residue field grows'';
+    \item top: ``totally ramified''.
+  \end{itemize}
+  \item Work the example $\Q(\zeta_{12})$ at $p=3$ in a second column: $K^D=\Q$, $K^I=\Q(i)$, $K=\Q(\zeta_{12})$, with degrees $1$, $2$, $2$.
+\end{itemize}
+
+\textbf{(2) Three primes, three transpositions.}
+\begin{itemize}
+  \item Draw three dots in a row labeled $\fP_1,\fP_2,\fP_3$, all above one dot labeled $5$.
+  \item Under each $\fP_i$, write its decomposition group as a transposition acting on the roots $\{\beta_1,\beta_2,\beta_3\}$ of $x^3-2$: $(\beta_2\,\beta_3)$, $(\beta_1\,\beta_3)$, $(\beta_1\,\beta_2)$.
+  \item Draw curved arrows labeled by a 3-cycle $\tau$ moving $\fP_1\to\fP_2\to\fP_3$. Next to them, write $D(\tau\fP)=\tau D(\fP)\tau^{-1}$.
+\end{itemize}
+\end{instructornote}
+
+% ---------------------------------------------------------------------
+\subsection{T8 (optional). Frobenius in cyclotomic fields; quadratic reciprocity (Session 8)}
+
+\subsubsection*{Concepts}
+\begin{itemize}
+  \item In $\Q(\zeta_m)$, for $p\nmid m$: $\Frob_p=\sigma_p$, where $\sigma_p(\zeta_m)=\zeta_m^p$. This recovers the cyclotomic splitting law, since $f=\ord(\sigma_p)=\ord_m(p)$.
+  \item Splitting in subfields (abelian case). Let $F\subseteq L$ with $L/\Q$ abelian and $p$ unramified in $L$. Then $p$ splits completely in $F$ $\iff$ $\Frob_p\in\Gal(L/F)$.
+  \item $\Q(\zeta_p)$ contains a unique quadratic subfield, $\Q(\sqrt{p^*})$, proved via a Gauss sum. Its Galois group corresponds to the squares in $(\Z/p)^\times$.
+  \item Quadratic reciprocity: for odd primes $q\neq p$, $\legendre{p^*}{q}=\legendre qp$.
+  \item The supplementary law for 2 via $\Q(\sqrt2)\subseteq\Q(\zeta_8)$.
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}
+  \item \textbf{Artin symbol (abelian, unramified case).} If $L/\Q$ is abelian and $p$ is unramified, all $\Frob_\fP$ with $\fP\mid p$ coincide. The common element is written $\Frob_p$ or $\bigl(\frac{L/\Q}{p}\bigr)$.
+  \item \textbf{Signed prime.} For an odd prime $p$, $p^*=(-1)^{(p-1)/2}p$. It is the unique sign making $p^*\equiv1\pmod4$.
+  \item \textbf{Quadratic Gauss sum.} $g_p=\sum_{a=1}^{p-1}\legendre ap\zeta_p^a$. It satisfies $g_p^2=p^*$.
+\end{itemize}
+\end{keydefs}
+
+\subsubsection*{Learning objectives}
+Students will be able to:
+\begin{itemize}
+  \item \textbf{compute} Frobenius elements in cyclotomic fields;
+  \item \textbf{derive} splitting laws for subfields from the position of $\Frob_p$;
+  \item \textbf{prove} quadratic reciprocity from the embedding $\Q(\sqrt{p^*})\subseteq\Q(\zeta_p)$;
+  \item \textbf{verify} the resulting laws numerically for small primes.
+\end{itemize}
+
+\subsubsection*{Prerequisites}
+\begin{itemize}
+  \item Frobenius elements and decomposition groups (earlier in this module: T7).
+  \item Cyclotomic splitting (earlier in this module: T5).
+  \item Quadratic splitting law (earlier in this module: T5).
+  \item Legendre symbol and Euler's criterion (assumed background).
+\end{itemize}
+
+\subsubsection*{Example questions with solutions}
+\begin{enumerate}[label=\textbf{Q8.\arabic*}]
+  \item Show that $\Q(\sqrt5)\subseteq\Q(\zeta_5)$. Deduce that a prime $q\ne5$ splits in $\Q(\sqrt5)$ if and only if $q\equiv\pm1\pmod5$. Check the cases $q=11$ and $q=7$.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $g_5=\zeta-\zeta^2-\zeta^3+\zeta^4$ satisfies $g_5^2=5^*=5$. So $\sqrt5\in\Q(\zeta_5)$.
+    \item $\Gal(\Q(\zeta_5)/\Q(\sqrt5))$ is the unique subgroup of order 2 in $(\Z/5)^\times$, namely $\{1,4\}=\{\pm1\}$.
+    \item $q$ splits in $\Q(\sqrt5)$ $\iff$ $\Frob_q=\sigma_q\in\{\sigma_1,\sigma_4\}$ $\iff$ $q\equiv\pm1\pmod5$.
+    \item $q=11\equiv1$: splits. Direct check: $x^2-x-1$ has discriminant $5\equiv16=4^2\pmod{11}$, so it has roots mod 11.
+    \item $q=7\equiv2$: inert. Direct check: the squares mod 7 are $1,2,4$, so 5 is not a square.
+  \end{itemize}
+
+  \item Use $\Q(\sqrt{-7})\subseteq\Q(\zeta_7)$ to show that, for $q\ne7$, $q$ splits in $\Q(\sqrt{-7})$ if and only if $q$ is a square mod 7. Check $q=2$, $q=3$ and $q=11$ against the quadratic splitting law.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $7^*=-7$, and the unique quadratic subfield of $\Q(\zeta_7)$ is $\Q(\sqrt{-7})$. Its Galois group is the index-2 subgroup $\{\sigma_1,\sigma_2,\sigma_4\}$, the squares mod 7.
+    \item So $q$ splits $\iff$ $\sigma_q$ lies in that subgroup $\iff$ $q\bmod 7\in\{1,2,4\}$.
+    \item $q=2$: 2 is a square mod 7, so 2 splits. This agrees with the law at 2, since $-7\equiv1\pmod 8$.
+    \item $q=3$: 3 is not a square mod 7, so 3 is inert. This agrees with $-7\equiv2\pmod3$ being a non-square.
+    \item $q=11$: $11\equiv4$ is a square mod 7, so 11 splits. This agrees with $\legendre{-7}{11}=\legendre{4}{11}=1$.
+  \end{itemize}
+  In general, the two characterizations together give $\legendre{-7}{q}=\legendre{q}{7}$, which is reciprocity for $p=7$.
+\end{enumerate}
+
+\begin{instructornote}
+\textbf{Subfield lattice of $\Q(\zeta_8)$ with splitting annotations.}
+\begin{itemize}
+  \item Put $\Q(\zeta_8)$ at the top and $\Q$ at the bottom.
+  \item In the middle row, place $\Q(i)$, $\Q(\sqrt2)$ and $\Q(\sqrt{-2})$. Join each to both the top and the bottom.
+  \item Beside each middle field, write the subgroup of $(\Z/8)^\times$ fixing it: $\{1,5\}$ for $\Q(i)$, $\{1,7\}$ for $\Q(\sqrt2)$, $\{1,3\}$ for $\Q(\sqrt{-2})$.
+  \item Under the diagram, write a small key relating $p\bmod 8$ to the unique middle field in which $p$ splits:
+  \begin{itemize}
+    \item $3\mapsto\Q(\sqrt{-2})$;
+    \item $5\mapsto\Q(i)$;
+    \item $7\mapsto\Q(\sqrt2)$;
+    \item $1\mapsto$ all three (split completely).
+  \end{itemize}
+  \item Circle the $\Q(\sqrt2)$ entry and note: ``2 is a square mod $p$ $\iff$ $p\equiv\pm1\pmod8$'' (the supplementary law).
+\end{itemize}
+\end{instructornote}
+
+% =====================================================================
+\section{Difficult concepts}
+
+\begin{enumerate}[label=\textbf{D\arabic*.}]
+  \item \textbf{``$\OK=\Z[\alpha]$'' by default (T1, T5).}
+  \begin{itemize}
+    \item \emph{Misconception:} students assume $\cO_{\Q(\sqrt d)}=\Z[\sqrt d]$ always. More generally, they assume that any integral generator $\alpha$ of $K$ gives $\OK=\Z[\alpha]$.
+    \item \emph{Mitigation:} open Session 1 with $\varphi=\frac{1+\sqrt5}{2}$ and do the trace/norm derivation (Q1.3) live. Revisit the point in Session 6 with Q6.2, so that the mistake produces a visibly false conclusion (``2 ramifies in $\Q(\sqrt{13})$'').
+  \end{itemize}
+
+  \item \textbf{Direction of divisibility (T2).}
+  \begin{itemize}
+    \item \emph{Misconception:} writing $\fp\mid\fa\iff\fp\subseteq\fa$, the reverse of the truth, because ``divides'' feels like ``is smaller''.
+    \item \emph{Mitigation:} anchor it in $\Z$: $2\mid6$ and $(2)\supseteq(6)$. Use the Hasse diagram of $(6)$ in $\Z[\sqrt{-5}]$, with the rule ``higher = bigger = divisor''. Have students compute $\gcd=\fa+\fb$ in one quick example before any proof.
+  \end{itemize}
+
+  \item \textbf{Inverses of fractional ideals (T2).}
+  \begin{itemize}
+    \item \emph{Misconception:} expecting $\fp^{-1}\subseteq\OK$; conflating ``invertible'' with ``principal''; trying to invert an ideal by inverting its generators one at a time.
+    \item \emph{Mitigation:} compute $\fp_2^{-1}=\frac12\fp_2$ explicitly and exhibit $\frac{1+\sqrt{-5}}2\in\fp_2^{-1}\setminus\cO$ (Q2.2). Then set side by side an ideal that is invertible but not principal ($\fp_2$ in $\Z[\sqrt{-5}]$) and one that is not invertible ($P$ in $\Z[\sqrt{-3}]$, Q2.3).
+  \end{itemize}
+
+  \item \textbf{Irreducible elements versus prime ideals (T2).}
+  \begin{itemize}
+    \item \emph{Misconception:} believing that unique ideal factorization means an irreducible element generates a prime ideal.
+    \item \emph{Mitigation:} show that 2 is irreducible in $\Z[\sqrt{-5}]$ (no element has norm 2), yet $(2)=\fp_2^2$ is not prime. Say explicitly: ``irreducible elements can generate non-prime ideals; the primes that divide $(2)$ need not be principal.''
+  \end{itemize}
+
+  \item \textbf{Keeping $e$, $f$ and $g$ apart (T4).}
+  \begin{itemize}
+    \item \emph{Misconceptions:}
+    \begin{itemize}
+      \item confusing the multiplicity $e$ with the count $g$;
+      \item reading ``inert'' as ``nothing happens'' instead of ``the residue field grows to $\F_{p^n}$'';
+      \item assuming all $e_i$ (or all $f_i$) are equal outside the Galois case.
+    \end{itemize}
+    \item \emph{Mitigation:} always write $\OK/p\OK$ as a product of local rings and read off $e$ (nilpotency length) and $f$ (residue field size) separately (Q4.2). Use the cubic splitting-type table (Q4.3), which includes the unequal type $\fP^2\fq$, and point to its concrete occurrence at $23$ for $x^3-x-1$ in the question bank.
+  \end{itemize}
+
+  \item \textbf{Dedekind--Kummer at index primes (T5, T6).}
+  \begin{itemize}
+    \item \emph{Misconception:} applying the theorem to $x^2-d$ at $p=2$ when $d\equiv1\pmod4$, or reading ramification off $\disc(f)$ rather than $d_K$.
+    \item \emph{Mitigation:} institute a checklist before any Dedekind--Kummer computation: ``compute $\disc(f)/d_K$; if $p$ divides the index, change generator.'' Run Q6.2 ($\Q(\sqrt{13})$ at 2) in two columns, wrong on the left and right on the right.
+  \end{itemize}
+
+  \item \textbf{Ramification $\iff$ $p\mid d_K$: the abstraction jump (T6).}
+  \begin{itemize}
+    \item \emph{Misconception:} the discriminant is seen as ``just a number''. The link between a determinant and nilpotents feels magical.
+    \item \emph{Mitigation:} work $\Z[i]$ mod 2 explicitly.
+    \begin{itemize}
+      \item The trace form in the basis $(1,i)$ has matrix $\begin{pmatrix}2&0\\0&-2\end{pmatrix}$, which is the zero matrix mod 2, hence degenerate.
+      \item In $\Z[i]/(2)$, $(1+i)^2=2i\equiv0$, so $1+i$ is nilpotent. Nilpotents always have trace $0$, and here the nilpotent lies in the radical of the trace form.
+    \end{itemize}
+  \end{itemize}
+
+  \item \textbf{$D$, $I$ and $\Frob$ depend on $\fP$ (T7).}
+  \begin{itemize}
+    \item \emph{Misconceptions:}
+    \begin{itemize}
+      \item treating $D(\fP\mid p)$ as determined by $p$;
+      \item treating ``the Frobenius of $p$'' as a single element in a non-abelian extension;
+      \item using $\Frob$ at ramified primes.
+    \end{itemize}
+    \item \emph{Mitigation:} use Q7.3 ($x^3-2$ at $p=5$): three primes, three different decomposition groups, and one conjugacy class of transpositions. At ramified primes, say every time: ``only a coset of $I$''.
+  \end{itemize}
+
+  \item \textbf{Mixing up the layers of the $D$/$I$ tower (T7).}
+  \begin{itemize}
+    \item \emph{Misconception:} putting $e$ at the bottom and $g$ at the top, or mixing up the fact that the \emph{smaller} group $I$ corresponds to the \emph{bigger} field $K^I$.
+    \item \emph{Mitigation:} use the tower diagram with the mnemonic ``split, then grow, then ramify'' reading bottom to top. Check it on $\Q(\zeta_{12})$ at 3, where each layer can be verified with a quadratic subfield.
+  \end{itemize}
+\end{enumerate}
+
+% =====================================================================
+\section{Module question bank}
+
+Numerical questions, solvable without a calculator, spread evenly across topics. Each is tagged by difficulty and topic.
+
+\begin{enumerate}[label=\textbf{B\arabic*.}]
+  \item \textbf{[Easy --- T1]} Let $\theta=\frac{1+\sqrt{-7}}2$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Find the minimal polynomial of $\theta$.
+    \item Determine $\cO_{\Q(\sqrt{-7})}$ and $d_K$.
+    \item Is $\Z[\sqrt{-7}]$ a Dedekind domain?
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $\theta^2=\frac{1+2\sqrt{-7}-7}{4}=\frac{-3+\sqrt{-7}}2$, so $\theta^2-\theta=\frac{-3+\sqrt{-7}-1-\sqrt{-7}}{2}=-2$. The minimal polynomial is $x^2-x+2$.
+    \item $-7\equiv1\pmod 4$, so $\OK=\Z[\theta]$ and $d_K=-7$.
+    \item No. $\theta$ lies in its fraction field, is integral, and is not in $\Z[\sqrt{-7}]$. So $\Z[\sqrt{-7}]$ is not integrally closed.
+  \end{enumerate}
+
+  \item \textbf{[Easy --- T2]} In $\Z[\sqrt{-6}]$, let $\fp_2=(2,\sqrt{-6})$ and $\fp_3=(3,\sqrt{-6})$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Show that $\fp_2^2=(2)$, $\fp_3^2=(3)$ and $\fp_2\fp_3=(\sqrt{-6})$.
+    \item Use this to reconcile $6=2\cdot3=-(\sqrt{-6})^2$.
+    \item Show that $\fp_2$ is not principal.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $\fp_2^2=(4,\;2\sqrt{-6},\;-6)$. It contains $2=-6+2\cdot4$, and every generator is divisible by 2, so $\fp_2^2=(2)$.
+
+    $\fp_3^2=(9,\;3\sqrt{-6},\;-6)$. It contains $3=9-6$, and every generator is divisible by 3, so $\fp_3^2=(3)$.
+
+    $\fp_2\fp_3=(6,\;2\sqrt{-6},\;3\sqrt{-6},\;-6)$. It contains $\sqrt{-6}=3\sqrt{-6}-2\sqrt{-6}$. Conversely, every generator is a multiple of $\sqrt{-6}$, since $6=-(\sqrt{-6})^2$. So $\fp_2\fp_3=(\sqrt{-6})$.
+    \item Both factorizations give $(6)=\fp_2^2\fp_3^2$: the first as $(2)(3)$, the second as $(\sqrt{-6})^2$.
+    \item A generator would satisfy $a^2+6b^2=2$, which has no integer solutions.
+  \end{enumerate}
+
+  \item \textbf{[Medium --- T3]} In $\Z[\sqrt{-5}]$, let $\fq=(7,3+\sqrt{-5})$ and $\fp_2=(2,1+\sqrt{-5})$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Compute $\Nm(\fq)$ and show that $\fq$ is prime.
+    \item Show that $\fq$ is not principal.
+    \item Find a generator of the principal ideal $\fp_2\fq$.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $\Z[\sqrt{-5}]/\fq\cong\Z[x]/(7,\;x+3,\;x^2+5)$. Setting $x=-3$ gives $9+5=14\equiv0\pmod 7$, so the quotient is $\F_7$. Hence $\Nm(\fq)=7$, and $\fq$ is prime (maximal) because the quotient is a field.
+    \item A generator would satisfy $a^2+5b^2=7$. For $b=0$, 7 is not a square; for $b=\pm1$, $a^2=2$ is impossible; $|b|\ge2$ is too big. So $\fq$ is not principal.
+    \item $\Nm(\fp_2\fq)=14$, and $a^2+5b^2=14$ gives $3\pm\sqrt{-5}$. Take $3+\sqrt{-5}$:
+    \begin{itemize}
+      \item it lies in $\fq$ by definition;
+      \item it lies in $\fp_2=\{a+b\sqrt{-5}: a\equiv b\pmod2\}$, since 3 and 1 are both odd.
+    \end{itemize}
+    So $(3+\sqrt{-5})\subseteq\fp_2\cap\fq=\fp_2\fq$ (the two primes are coprime). Both sides have norm 14, so $\fp_2\fq=(3+\sqrt{-5})$. This is also consistent with $h_K=2$: the product of two nonprincipal ideals is principal.
+  \end{enumerate}
+
+  \item \textbf{[Hard --- T4/T6]} Let $\alpha$ be a root of $f=x^3-x-1$. You may use that $\disc(f)=-23$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Explain why $\OK=\Z[\alpha]$.
+    \item Factor $2$, $5$ and $23$ in $\OK$, giving $e$ and $f$ for each prime and checking $\sum e_if_i=3$.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $-23=[\OK:\Z[\alpha]]^2d_K$ and 23 is squarefree, so the index is 1.
+    \item \begin{itemize}
+      \item $p=2$: $\bar f=x^3+x+1$ has no root in $\F_2$ ($f(0)=f(1)=1$), so it is irreducible. Thus 2 is inert, with $f=3$.
+      \item $p=5$: $f(2)=8-2-1=5\equiv0$. Dividing, $\bar f=(x-2)(x^2+2x+3)$. Check:
+      \[
+      (x-2)(x^2+2x+3)=x^3-x-6\equiv x^3-x-1\pmod 5.
+      \]
+      The quadratic has discriminant $4-12=-8\equiv2\pmod 5$, a non-square. So
+      \[
+      (5)=(5,\alpha-2)(5,\alpha^2+2\alpha+3),
+      \]
+      with residue degrees 1 and 2 and all $e=1$. Check: $1+2=3$.
+      \item $p=23$: since $23\mid d_K$, the prime 23 ramifies, so $\bar f$ has a repeated root $r$. From $f'(r)=3r^2-1=0$ we get $r^2\equiv3^{-1}\equiv8\pmod{23}$, because $3\cdot8=24\equiv1$. Now $10^2=100=92+8$, so $r\equiv\pm10$.
+
+      Test $r=10$: $f(10)=1000-10-1=989=23\cdot43\equiv0$. So 10 is the double root.
+
+      The roots sum to 0 (there is no $x^2$ term), so the third root is $s\equiv-20\equiv3$. Check: $f(3)=27-3-1=23\equiv0$. So
+      \[
+      (23)=(23,\alpha-10)^2(23,\alpha-3),
+      \]
+      with $e=2,f=1$ and $e=1,f=1$. Check: $2+1=3$. The prime 23 ramifies but not totally.
+    \end{itemize}
+  \end{enumerate}
+
+  \item \textbf{[Medium --- T6]} Let $K=\Q(\sqrt{17})$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Find $d_K$ and the ramified primes.
+    \item Factor $(2)$ correctly, and explain why applying Dedekind--Kummer to $x^2-17$ gives the wrong answer.
+    \item Determine the splitting of $3$ and $13$.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item $17\equiv1\pmod 4$, so $\OK=\Z[\theta]$ with $\theta=\frac{1+\sqrt{17}}2$, and $d_K=17$. Only 17 ramifies.
+    \item $\theta$ has minimal polynomial $x^2-x-4\equiv x(x+1)\pmod 2$. So $(2)=(2,\theta)(2,\theta+1)$ splits, consistent with $17\equiv1\pmod 8$.
+
+    By contrast, $x^2-17\equiv(x+1)^2\pmod 2$ would suggest ramification. But $[\OK:\Z[\sqrt{17}]]=2$, so Dedekind--Kummer does not apply to $\sqrt{17}$ at $p=2$.
+    \item \begin{itemize}
+      \item $p=3$: $17\equiv2\pmod3$ is not a square, so 3 is inert. Directly: $x^2-x-4\equiv x^2+2x+2\pmod 3$ takes the values $2,2,1$ at $0,1,2$, so it has no roots.
+      \item $p=13$: $17\equiv4=2^2\pmod{13}$, so 13 splits.
+    \end{itemize}
+  \end{enumerate}
+
+  \item \textbf{[Easy --- T5]} In $\Q(\zeta_7)$ (with $\OK=\Z[\zeta_7]$), determine $e$, $f$ and $g$ for $p=2,13,29,7$. For $p=2$, give the prime ideals explicitly.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $p=2$: $2^3=8\equiv1\pmod7$, so $f=3$ and $g=2$. Explicitly,
+    \[
+    \Phi_7\equiv(x^3+x+1)(x^3+x^2+1)\pmod 2.
+    \]
+    Expanding the product gives $x^6+x^5+x^4+3x^3+x^2+x+1\equiv\Phi_7$. So $(2)=(2,\zeta^3+\zeta+1)(2,\zeta^3+\zeta^2+1)$.
+    \item $p=13\equiv6\pmod7$: the order is 2, so $f=2$ and $g=3$.
+    \item $p=29\equiv1\pmod7$: $f=1$ and $g=6$, so 29 splits completely.
+    \item $p=7$: totally ramified, $(7)=(1-\zeta_7)^6$, with $e=6$.
+  \end{itemize}
+
+  \item \textbf{[Medium --- T7]} In $K=\Q(\zeta_8)$, for $p=5$, $p=7$ and $p=2$, compute $e$, $f$, $g$, $D$, $I$, $\Frob$ (where defined) and the decomposition field. Check the splitting in the decomposition field.
+
+  \textit{Solution.}
+  \begin{itemize}
+    \item $p=5$: $\ord_8(5)=2$, so $e=1$, $f=2$, $g=2$. Then $D=\{\sigma_1,\sigma_5\}$, $I=1$ and $\Frob=\sigma_5$.
+
+    Since $\sigma_5(i)=\zeta^{10}=\zeta^2=i$, we get $K^D=\Q(i)$. Check: $5=(2+i)(2-i)$ splits in $\Q(i)$.
+    \item $p=7$: $\ord_8(7)=2$, so again $e=1$, $f=2$, $g=2$. Then $D=\{\sigma_1,\sigma_7\}$ and $\Frob=\sigma_7$, which is complex conjugation ($\zeta^7=\bar\zeta$).
+
+    So $K^D=\Q(\zeta+\bar\zeta)=\Q(\sqrt2)$. Check: $7=(3+\sqrt2)(3-\sqrt2)$ splits in $\Q(\sqrt2)$.
+    \item $p=2$: $\Phi_8=x^4+1\equiv(x+1)^4\pmod2$, so 2 is totally ramified with $e=4$. Then $D=I=G$, the decomposition field is $\Q$, and the Frobenius is only defined as the coset $I=G$.
+  \end{itemize}
+
+  \item \textbf{[Hard --- T7/T8]} Let $K=\Q(\zeta_{12})$ with $G=\{\sigma_1,\sigma_5,\sigma_7,\sigma_{11}\}$, and quadratic subfields $\Q(i)$, $\Q(\sqrt{-3})$, $\Q(\sqrt3)$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Identify which $\sigma_a$ fixes each quadratic subfield.
+    \item For $p=3$ and $p=2$, find $e$, $f$, $g$, $D$, $I$, the inertia field, and the coset of Frobenius elements.
+  \end{enumerate}
+
+  \textit{Solution.}
+  \begin{enumerate}[label=(\alph*)]
+    \item Use $i=\zeta_{12}^3$ and $\zeta_3=\zeta_{12}^4$.
+    \begin{itemize}
+      \item $\sigma_5$: $\zeta^{15}=\zeta^3$, so $\sigma_5$ fixes $i$ and hence $\Q(i)$.
+      \item $\sigma_7$: $\zeta^{28}=\zeta^4$, so $\sigma_7$ fixes $\zeta_3$ and hence $\Q(\sqrt{-3})$.
+      \item $\sigma_{11}$ is complex conjugation, which fixes the real subfield $\Q(\sqrt3)$.
+    \end{itemize}
+    \item \begin{itemize}
+      \item $p=3$: $3$ is totally ramified in $\Q(\zeta_3)$, so $e=2$. The part prime to 3 is $\Q(\zeta_4)$, and $\ord_4(3)=2$, so $f=2$. Then $g=4/(2\cdot2)=1$.
+
+      $D=G$, and $I=\{\sigma_1,\sigma_5\}$ (the elements $\equiv1\pmod4$). The inertia field is $\Q(i)$: 3 is unramified there, and in fact inert, which accounts for $f=2$.
+
+      The Frobenius coset is $\{\sigma_7,\sigma_{11}\}$. Both act on $\Q(i)$ as conjugation, as they should since $3\equiv3\pmod4$.
+      \item $p=2$: $2$ is ramified in $\Q(\zeta_4)$, so $e=\varphi(4)=2$. Also $\ord_3(2)=2$, so $f=2$, and $g=1$.
+
+      $I=\{\sigma_1,\sigma_7\}$ (the elements $\equiv1\pmod3$), and the inertia field is $\Q(\sqrt{-3})$. Check: 2 is inert in $\Q(\sqrt{-3})$ because $-3\equiv5\pmod 8$, and it ramifies in both $\Q(i)$ and $\Q(\sqrt3)$.
+
+      The Frobenius coset is $\{\sigma_5,\sigma_{11}\}$.
+    \end{itemize}
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,250 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{keydefbox}{colback=blue!5!white,colframe=blue!45!black,title=Key Definitions,fonttitle=\bfseries,breakable}
+\newtcolorbox{instructorbox}{colback=yellow!10!white,colframe=orange!65!black,title=Instructor Note --- Visual Aid,fonttitle=\bfseries,breakable}
+\newtcolorbox{bridgebox}{colback=green!6!white,colframe=green!45!black,title=Connecting to Prior Learning,fonttitle=\bfseries,breakable}
+
+\title{Module 2: Limits and Continuity \\ \large Concept-Level Teaching Package}
+\author{Calculus I for Bio \& Social Sciences}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Module 2: Limits and Continuity}
+
+\subsection*{Module Overview}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Goal:} Build the concept of a limit as the foundation for the derivative, and connect continuity to real-world ``no sudden jumps'' behavior.
+  \item \textbf{Sessions:} 4 total (3 lectures + 1 discussion section)
+  \item \textbf{Topics, in teaching order:}
+  \begin{enumerate}[leftmargin=*]
+    \item 2.1 Intuitive Notion of a Limit; One-Sided Limits
+    \item 2.2 Limit Laws and Algebraic Computation
+    \item 2.3 Continuity and Its Role in Modeling
+  \end{enumerate}
+  \item \textbf{Suggested session pacing:}
+  \begin{itemize}[leftmargin=*]
+    \item Session 1 (Lecture): Topic 2.1
+    \item Session 2 (Lecture): Topic 2.2
+    \item Session 3 (Lecture): Topic 2.3
+    \item Session 4 (Discussion): Synthesis and applied problem-solving across all three topics, with emphasis on Intermediate Value Theorem applications
+  \end{itemize}
+  \item \textbf{Assumed incoming knowledge (baseline for this breakdown):} Module 1 in full --- function types and their graphs (Topic 1.1), exponential/logarithmic functions (Topic 1.2), and choosing/interpreting models (Topic 1.3) --- plus the course's stated assumed background: precalculus algebraic fluency (factoring, solving equations) and recognition-level unit-circle trigonometry. This is inferred from the uploaded course document rather than separately confirmed with the instructor.
+\end{itemize}
+
+\subsection{Topic 2.1: Intuitive Notion of a Limit; One-Sided Limits}
+
+\subsubsection*{Concepts}
+\begin{itemize}[leftmargin=*]
+  \item Limits as ``approaching'' behavior, distinct from the function's actual value at the point
+  \item Left-hand limits ($x\to a^-$) and right-hand limits ($x\to a^+$)
+  \item The two-sided limit exists exactly when both one-sided limits exist and agree
+  \item Situations where a limit fails to exist (mismatched one-sided limits, unbounded behavior, oscillation)
+  \item Estimating limits numerically from a table of values and graphically from a sketch
+\end{itemize}
+
+\begin{keydefbox}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Limit (informal):} We say $\lim_{x\to a} f(x) = L$ if the values of $f(x)$ get arbitrarily close to $L$ as $x$ gets arbitrarily close to $a$ from either side, without $x$ ever actually equaling $a$.
+  \item \textbf{One-sided limits:} $\lim_{x\to a^-} f(x)=L$ means $f(x)\to L$ as $x$ approaches $a$ through values less than $a$; $\lim_{x\to a^+} f(x)=L$ means the same through values greater than $a$.
+  \item \textbf{Existence criterion:} $\displaystyle\lim_{x\to a} f(x)$ exists if and only if $\displaystyle\lim_{x\to a^-} f(x) = \lim_{x\to a^+} f(x)$, and in that case the limit equals their common value.
+\end{itemize}
+\end{keydefbox}
+
+\subsubsection*{Learning Objectives}
+\begin{itemize}[leftmargin=*]
+  \item Explain the difference between a function's value at a point and its limit at that point.
+  \item Apply graphical and tabular reasoning to estimate one-sided and two-sided limits.
+  \item Evaluate whether a two-sided limit exists at a point, given its one-sided limits.
+\end{itemize}
+
+\subsubsection*{Difficult Concepts}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Value vs.\ limit confusion:} students often assume a limit ``does not exist'' whenever $f(a)$ is undefined, because they try direct substitution first and get an error rather than reasoning about approach behavior. \textit{Mitigation:} spend a full set of purely graphical/tabular examples on functions with a hole at $x=a$ before introducing any algebra, so students see concretely that the limit can exist even when $f(a)$ does not.
+  \item \textbf{Premature existence claims:} students compute one one-sided limit, get a number, and declare ``the limit exists,'' without checking the other side --- especially with piecewise functions. \textit{Mitigation:} enforce a mandatory two-column routine (left-hand value beside right-hand value) for every borderline example, with an explicit written ``equal, so it exists'' or ``not equal, so it does not'' before any further work.
+\end{itemize}
+
+\subsubsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Use a table of values on both sides of $x=3$ to estimate $\displaystyle\lim_{x\to 3}\frac{x^2-9}{x-3}$. \\
+  \textbf{Solution:} Values from both sides approach $6$. Algebraically, $\dfrac{x^2-9}{x-3}=x+3$ for $x\ne 3$, and $x+3\to 6$ as $x\to 3$, confirming the tabular estimate.
+
+  \item \textit{(Foundational)} Let $g(x) = \begin{cases} x+1, & x<2 \\ 5, & x=2 \\ 3x-2, & x>2 \end{cases}$. Find $\displaystyle\lim_{x\to 2^-}g(x)$, $\displaystyle\lim_{x\to 2^+}g(x)$, and state whether $\displaystyle\lim_{x\to 2}g(x)$ exists. \\
+  \textbf{Solution:} $\displaystyle\lim_{x\to 2^-}g(x)=2+1=3$; $\displaystyle\lim_{x\to 2^+}g(x)=3(2)-2=4$. Since $3\ne 4$, the two-sided limit does not exist. (The value $g(2)=5$ plays no role in this determination.)
+
+  \item \textit{(Applied)} A drug's blood concentration $C(t)$ satisfies $\displaystyle\lim_{t\to 4^-}C(t)=2.1$ mg/L. A second dose administered at $t=4$ hours instantaneously raises the concentration by $1.5$ mg/L. Find $\displaystyle\lim_{t\to 4^+}C(t)$ and explain whether $\displaystyle\lim_{t\to 4}C(t)$ exists. \\
+  \textbf{Solution:} $\displaystyle\lim_{t\to 4^+}C(t)=2.1+1.5=3.6$ mg/L. Since $2.1 \ne 3.6$, the two-sided limit does not exist --- correctly reflecting the real, instantaneous jump in concentration caused by the dose.
+\end{enumerate}
+
+\begin{instructorbox}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Removable-discontinuity picture:} Draw a smooth curve approaching height $L$ from both the left and right of $x=a$; mark that approach point with an \emph{open} circle at $(a,L)$. Separately, plot a \emph{filled} dot at $(a, f(a))$ at a different height (or omit it entirely if $f(a)$ is undefined). Draw small arrows along the curve on both sides pointing toward the open circle. This is the anchor image for ``the limit is about the approach, not the landing spot.''
+  \item \textbf{Jump picture:} Draw a piecewise function with two branches meeting near $x=b$: the left branch ends in an open circle at height $L_1$, the right branch begins at height $L_2 \ne L_1$. Add a vertical dashed line at $x=b$ and dashed horizontal guide lines from each open circle to the $y$-axis, labeling $L_1$ and $L_2$.
+\end{itemize}
+\end{instructorbox}
+
+\subsection{Topic 2.2: Limit Laws and Algebraic Computation}
+
+\subsubsection*{Concepts}
+\begin{itemize}[leftmargin=*]
+  \item Sum, difference, product, quotient, and constant-multiple laws for limits
+  \item Direct substitution for polynomials and for rational functions where the denominator is nonzero
+  \item The indeterminate form $0/0$: what it does and does not tell you
+  \item Factoring techniques (difference of squares, common factors) to resolve $0/0$
+  \item Rationalizing (multiplying by the conjugate) to resolve $0/0$ in expressions with radicals
+\end{itemize}
+
+\begin{keydefbox}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Limit laws:} If $\displaystyle\lim_{x\to a}f(x)=L$ and $\displaystyle\lim_{x\to a}g(x)=M$ both exist, then $\displaystyle\lim_{x\to a}[f(x)\pm g(x)]=L\pm M$, $\displaystyle\lim_{x\to a}[f(x)g(x)]=LM$, and $\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}=\frac{L}{M}$ provided $M\ne 0$.
+  \item \textbf{Indeterminate form:} An expression such as $0/0$ obtained by direct substitution that, by itself, does not determine the value (or even the existence) of the limit and signals that further algebraic work is required before the limit laws can be applied.
+  \item \textbf{Direct substitution property:} If $f$ is a polynomial, or a rational function with $a$ in its domain, then $\displaystyle\lim_{x\to a}f(x)=f(a)$.
+\end{itemize}
+\end{keydefbox}
+
+\subsubsection*{Learning Objectives}
+\begin{itemize}[leftmargin=*]
+  \item Apply limit laws to compute limits of algebraic combinations of functions.
+  \item Derive simplified forms of indeterminate expressions using factoring or rationalization.
+  \item Evaluate which algebraic technique --- factoring or rationalizing --- is appropriate for a given $0/0$ form.
+\end{itemize}
+
+\subsubsection*{Difficult Concepts}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Treating $0/0$ as a dead end:} students read $0/0$ as ``the limit does not exist'' rather than ``I'm not done yet.'' \textit{Mitigation:} rebrand the $0/0$ moment in class as a stop sign meaning ``more algebra required, not an answer''; pair the first several examples with a visibly successful resolution so the reflex to continue is built early.
+  \item \textbf{Forgetting the domain restriction after cancelling:} after simplifying $\dfrac{(x-2)(x+2)}{x-2}$ to $x+2$, students treat the two expressions as identical everywhere, losing track of $x\ne 2$. \textit{Mitigation:} require students to write the restriction ``$x\ne 2$'' immediately after every cancellation, and explicitly tie it back to the hole picture from Topic 2.1 --- the simplified expression is only valid for computing the \emph{limit}, not for describing the original function at that one point.
+  \item \textbf{Conjugate pattern-matching too narrowly:} students only recognize ``multiply by the conjugate'' when a radical sits in the numerator, missing cases with a radical in the denominator. \textit{Mitigation:} present one numerator-radical example immediately followed by one denominator-radical example, side by side, so the technique is tied to the presence of a radical, not its position.
+\end{itemize}
+
+\subsubsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Evaluate $\displaystyle\lim_{x\to 3}(2x^2-5x+1)$. \\
+  \textbf{Solution:} Polynomials are continuous everywhere, so direct substitution applies: $2(3)^2-5(3)+1 = 18-15+1=4$.
+
+  \item \textit{(Foundational)} Evaluate $\displaystyle\lim_{x\to -1}\frac{x^2-1}{x+1}$. \\
+  \textbf{Solution:} Direct substitution gives $0/0$. Factor: $\dfrac{(x-1)(x+1)}{x+1}=x-1$ for $x\ne -1$. So the limit is $-1-1=-2$.
+
+  \item \textit{(Applied)} Near a production level of $100$ units, a vaccine's total cost satisfies $C(100+h)-C(100)=20h+3h^2$ (in dollars) for small $h$. Evaluate $\displaystyle\lim_{h\to 0}\frac{C(100+h)-C(100)}{h}$ and interpret the result. \\
+  \textbf{Solution:} $\displaystyle\lim_{h\to 0}\frac{20h+3h^2}{h}=\lim_{h\to 0}(20+3h)=20$. Near $100$ units, cost is increasing at an instantaneous rate of about \$20 per additional unit --- this expression is exactly the derivative students will formalize in Module 3.
+\end{enumerate}
+
+\begin{instructorbox}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Before/after simplification picture:} Side by side, sketch $y=\dfrac{(x-2)(x+2)}{x-2}$ with an open circle (hole) at $(2,4)$, and next to it the line $y=x+2$ drawn as a solid, unbroken line through $(2,4)$. Circle the single point of difference and label it ``same everywhere except this one point.''
+  \item \textbf{Resolving-indeterminacy flowchart:} On the board, draw three boxes connected by arrows: (1) ``Try direct substitution'' $\to$ (2) ``Got $0/0$?'' with a branch labeled ``No $\to$ done'' and a branch labeled ``Yes $\to$ factor or rationalize'' $\to$ (3) ``Simplify, then substitute again.'' Keep this posted as a standing reference for the rest of the topic.
+\end{itemize}
+\end{instructorbox}
+
+\subsection{Topic 2.3: Continuity and Its Role in Modeling}
+
+\subsubsection*{Concepts}
+\begin{itemize}[leftmargin=*]
+  \item The three-part definition of continuity at a point
+  \item Continuity on an interval
+  \item Types of discontinuity: removable, jump, infinite
+  \item The Intermediate Value Theorem (IVT): statement, hypotheses, and geometric meaning
+  \item Continuity as a modeling assumption --- when ``no sudden jumps'' is realistic and when it is not
+\end{itemize}
+
+\begin{keydefbox}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Continuity at a point:} $f$ is continuous at $x=a$ if (1) $f(a)$ is defined, (2) $\displaystyle\lim_{x\to a}f(x)$ exists, and (3) $\displaystyle\lim_{x\to a}f(x)=f(a)$.
+  \item \textbf{Removable discontinuity:} the limit exists at $a$, but $f(a)$ is either undefined or does not equal that limit.
+  \item \textbf{Jump discontinuity:} the left- and right-hand limits both exist (and are finite) but are unequal.
+  \item \textbf{Infinite discontinuity:} at least one one-sided limit grows without bound near $x=a$ (a vertical asymptote).
+  \item \textbf{Intermediate Value Theorem:} If $f$ is continuous on the closed interval $[a,b]$ and $N$ is any value between $f(a)$ and $f(b)$, then there exists at least one $c\in(a,b)$ with $f(c)=N$.
+\end{itemize}
+\end{keydefbox}
+
+\subsubsection*{Learning Objectives}
+\begin{itemize}[leftmargin=*]
+  \item Explain why continuity is a natural --- or sometimes unrealistic --- assumption in biological/social models.
+  \item Apply the Intermediate Value Theorem to justify the existence of a solution in context (e.g., a threshold dose, an equilibrium price).
+  \item Classify a given discontinuity as removable, jump, or infinite from a graph or formula.
+\end{itemize}
+
+\subsubsection*{Difficult Concepts}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Existence vs.\ uniqueness in the IVT:} students believe the IVT guarantees exactly one solution, not merely at least one. \textit{Mitigation:} show a wiggly continuous curve that crosses the same horizontal line $y=N$ three times within $[a,b]$, and have students literally count the crossings.
+  \item \textbf{Skipping the continuity check:} students apply the IVT to functions that are not continuous on the interval (e.g., a rational function with a vertical asymptote inside $[a,b]$) because they never verify the hypothesis. \textit{Mitigation:} require a mandatory ``continuity check'' line in every IVT solution --- students must state why $f$ is continuous on $[a,b]$ before invoking the theorem's conclusion.
+  \item \textbf{Missing ``quiet'' discontinuities:} students assume a graph that ``looks smooth'' to the eye must be continuous, overlooking a single missing or misplaced point. \textit{Mitigation:} explicitly reconnect to the hole picture from Topic 2.1 --- continuity requires $f(a)$ to actually equal the limit, and a single point is enough to break that.
+\end{itemize}
+
+\subsubsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Let $f(x)=\dfrac{x^2-4}{x-2}$, with $f(2)$ left undefined. Determine whether $f$ is continuous at $x=2$; if not, classify the discontinuity. \\
+  \textbf{Solution:} $\displaystyle\lim_{x\to 2}f(x)=4$ (by factoring, as in Topic 2.2), but $f(2)$ is undefined, so condition (1) fails. The limit exists but $f(2)$ does not, so this is a \emph{removable} discontinuity.
+
+  \item \textit{(Foundational)} Let $h(x)=x^2$ for $x<1$, $h(1)=3$, and $h(x)=2x$ for $x>1$. Classify the discontinuity, if any, at $x=1$. \\
+  \textbf{Solution:} $\displaystyle\lim_{x\to 1^-}h(x)=1$ and $\displaystyle\lim_{x\to 1^+}h(x)=2$. These finite one-sided limits disagree, so $x=1$ is a \emph{jump} discontinuity (the value $h(1)=3$ is irrelevant once the one-sided limits already disagree).
+
+  \item \textit{(Applied --- IVT)} A drug's receptor occupancy $O(x)$ (as a percentage) is a continuous function of dose $x$ (in mg), with $O(50)=25\%$ and $O(150)=60\%$. Use the IVT to argue that some dose between 50 and 150 mg produces exactly $40\%$ occupancy, and explain why continuity of $O$ is essential to the argument. \\
+  \textbf{Solution:} $O$ is continuous on $[50,150]$ (given), and $40$ lies between $O(50)=25$ and $O(150)=60$. By the IVT, there exists $c\in(50,150)$ with $O(c)=40$. Continuity is essential: without it, $O$ could jump discontinuously and skip over $40\%$ entirely, and the theorem's guarantee would not apply.
+\end{enumerate}
+
+\begin{instructorbox}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{IVT crossing picture:} Sketch a continuous curve from $(a,f(a))$ to $(b,f(b))$, with $f(a)$ below a horizontal dashed line at height $N$ and $f(b)$ above it. Mark the crossing point clearly as $c$ with a dotted vertical line down to the $x$-axis. Optionally, add a second, wigglier curve crossing the same line three times, to make ``at least one, not necessarily unique'' visually explicit.
+  \item \textbf{Discontinuity gallery:} Draw three small side-by-side axes. (1) \emph{Removable:} a smooth curve with an open circle at $x=a$ (and no filled point, or a displaced one). (2) \emph{Jump:} two branches meeting at different heights at $x=b$, each with an open or filled circle as appropriate. (3) \emph{Infinite:} a curve shooting toward $+\infty$ on one side of a vertical dashed asymptote at $x=c$ and toward $-\infty$ (or $+\infty$) on the other.
+\end{itemize}
+\end{instructorbox}
+
+\subsection*{Prerequisite Map for Module 2}
+\begin{longtable}{p{4.3cm} p{6.2cm} p{4cm}}
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+2.1 Intuitive Limits; One-Sided Limits & Reading and evaluating $f(x)$ directly from a graph or formula & Module 1, Topic 1.1 \\
+2.2 Limit Laws \& Algebraic Computation & 2.1 (limit concept); factoring polynomials (difference of squares, common factors) and rationalizing radical expressions & Module 2, Topic 2.1; Assumed background (precalculus algebra) \\
+2.3 Continuity and Its Role in Modeling & 2.1 (limit concept); 2.2 (algebraic limit computation, needed to check condition 3 of continuity) & Module 2, Topics 2.1--2.2 \\
+\end{longtable}
+
+\begin{bridgebox}
+Open Module 2 by explicitly revisiting a graph students already analyzed in Topic 1.1 (Review of Function Types). Students already know how to read $f(a)$ directly off a graph; Topic 2.1 reframes that exact same picture around a subtly different question --- not ``what is $f(a)$?'' but ``what value is $f(x)$ approaching as $x$ gets close to $a$?'' Make this pivot explicit on day one by re-asking a familiar Module 1 example as a limit question, rather than introducing limits with an unfamiliar graph.
+
+For Topic 2.2, connect back to that same Topic 1.1 algebra --- factoring and simplifying polynomial and rational expressions --- and to the factoring skills assumed from precalculus. Frame the limit laws not as new algebra but as familiar simplification tools now aimed at unsticking a $0/0$ answer instead of just tidying an expression.
+
+For Topic 2.3, connect back to Topic 1.3 (Mathematical Modeling), specifically the earlier discussion of when linear, exponential, or logistic models are ``reasonable'' descriptions of a phenomenon. Continuity is the same kind of modeling judgment, applied locally: Topic 1.3 asked whether a function \emph{family} reasonably describes a data set; Topic 2.3 asks whether ``no sudden jumps'' reasonably describes a phenomenon at a single point --- true for population size, generally false for a drug dose or a policy change. Naming this parallel explicitly extends a modeling habit students already have, rather than introducing a new one.
+\end{bridgebox}
+
+\subsection*{Module 2 Question Bank}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} A function $f$ is graphed with a smooth curve approaching an open circle at $(2,3)$ from both sides, and a separate filled point plotted at $(2,5)$. \textit{[Instructor: sketch this graph before class --- see the Topic 2.1 Visual Aid for the general pattern.]} State $\displaystyle\lim_{x\to 2}f(x)$ and $f(2)$, and explain why they differ. \\
+  \textbf{Solution:} $\displaystyle\lim_{x\to 2}f(x)=3$, since both one-sided approaches reach height $3$; $f(2)=5$, the separately plotted value. They differ because the limit only describes the approach behavior near $x=2$, not whatever value the function has been assigned there.
+
+  \item \textit{(Foundational)} Let $f(x)=2x+1$ for $x<1$ and $f(x)=x^2+2$ for $x\ge 1$. Find $\displaystyle\lim_{x\to 1^-}f(x)$, $\displaystyle\lim_{x\to 1^+}f(x)$, and $\displaystyle\lim_{x\to 1}f(x)$ if it exists. \\
+  \textbf{Solution:} Left limit: $2(1)+1=3$. Right limit: $(1)^2+2=3$. Since both agree, $\displaystyle\lim_{x\to 1}f(x)=3$ (and here it also equals $f(1)=3$, so $f$ happens to be continuous at $x=1$).
+
+  \item \textit{(Applied)} Evaluate $\displaystyle\lim_{x\to 4}\frac{\sqrt{x}-2}{x-4}$. \\
+  \textbf{Solution:} Multiply by the conjugate: $\dfrac{\sqrt{x}-2}{x-4}\cdot\dfrac{\sqrt{x}+2}{\sqrt{x}+2}=\dfrac{x-4}{(x-4)(\sqrt{x}+2)}=\dfrac{1}{\sqrt{x}+2}$ for $x\ne 4$. The limit is $\dfrac{1}{\sqrt{4}+2}=\dfrac14$.
+
+  \item \textit{(Applied)} Near $t=5$, a population satisfies $P(5+h)-P(5)=30h-2h^2$ (in individuals). Evaluate $\displaystyle\lim_{h\to 0}\dfrac{P(5+h)-P(5)}{h}$ and interpret the result. \\
+  \textbf{Solution:} $\displaystyle\lim_{h\to 0}\dfrac{30h-2h^2}{h}=\lim_{h\to 0}(30-2h)=30$. Near $t=5$, the population is growing at an instantaneous rate of about $30$ individuals per unit time.
+
+  \item \textit{(Applied --- IVT)} A reservoir's water level $L(t)$ (in meters) is continuous over a week, with $L(0)=8.2$ on Monday and $L(7)=6.5$ the following Monday. A drought warning triggers at exactly $7.0$ m. Use the IVT to argue the reservoir crossed the warning level at some point during the week, stating the theorem's hypothesis explicitly. \\
+  \textbf{Solution:} $L$ is continuous on $[0,7]$ (given, and physically reasonable since water levels change gradually); $7.0$ lies between $L(0)=8.2$ and $L(7)=6.5$. By the IVT, there is some $c\in(0,7)$ with $L(c)=7.0$, so the warning level was crossed at least once.
+
+  \item \textit{(Challenge --- IVT)} Explain why the IVT \emph{cannot} be used to guarantee a root of $f(x)=\dfrac{1}{x-3}$ on $[1,5]$, even though $f(1)=-\tfrac12<0$ and $f(5)=\tfrac12>0$. \textit{[Instructor: optionally sketch $y=1/(x-3)$, showing the vertical asymptote at $x=3$ splitting the interval, to make the hypothesis failure visible.]} \\
+  \textbf{Solution:} $f$ has an infinite discontinuity at $x=3$, which lies inside $[1,5]$, so $f$ is \emph{not} continuous on the interval --- the IVT's hypothesis fails, and the theorem simply does not apply. Indeed, $f$ never equals $0$ anywhere, despite the sign change.
+
+  \item \textit{(Challenge)} For $g(x)=\dfrac{x^2-x-6}{x-3}$, find all points of discontinuity, classify each, and state whether $g$ could be redefined at that point to make it continuous there. \\
+  \textbf{Solution:} Factor: $g(x)=\dfrac{(x-3)(x+2)}{x-3}=x+2$ for $x\ne 3$; the only discontinuity is at $x=3$. Since $\displaystyle\lim_{x\to 3}g(x)=5$ exists but $g(3)$ is undefined, this is a \emph{removable} discontinuity, and defining $g(3):=5$ makes $g$ continuous there.
+\end{enumerate}
+
+\end{document}

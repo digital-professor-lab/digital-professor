@@ -1,7 +1,11 @@
 # Private — real instructor intake material (not for distribution)
-research/syllabus-understanding/sergey.jpg
-research/syllabus-understanding/Sergey_convorsation.md
-research/syllabus-understanding/sergey-conversation.html
+research/syllabus-understanding/presentation-materials/sergey.jpg
+research/syllabus-understanding/presentation-materials/Sergey_Syllabus_Convo.md
+research/syllabus-understanding/presentation-materials/Sergey_Module_Convo.md
+research/syllabus-understanding/HTML-presentations/sergey-conversation.html
+research/syllabus-understanding/HTML-presentations/sergey-module-conversation.html
+research/syllabus-understanding/HTML-presentations/sergey-statlearning-conversation.html
+research/syllabus-understanding/presentation-materials/Sergey_Module_Convo2.md
 
 # LaTeX build artifacts
 *.aux

@@ -130,6 +130,7 @@
     <a href="#free">Free-Tier Models</a>
     <a href="#example">Example Output</a>
     <a href="#interactive">Interactive Method</a>
+    <a href="#module">Module Breakdown</a>
     <a href="#verdict">Verdict</a>
   </div>
 </header>
@@ -190,7 +191,7 @@
   </table>
 
   <h3>What was produced</h3>
-  <p>Each model produced LaTeX course-breakdown documents. Across the three methods below, this yielded <strong>27 breakdown files</strong> in <code>breakdown-examples/</code>. The exact structured prompt used for every course and model is reproduced in full on the <a href="#example">example pages</a> (§10).</p>
+  <p>Each model produced LaTeX course-breakdown documents. Across the three methods below, this yielded <strong>27 breakdown files</strong> for the cross-model comparison, collected in <code>syllabus-breakdown-examples/</code> (which also holds the later interactive-method outputs). The exact structured prompt used for every course and model is reproduced in full on the <a href="#example">example pages</a> (§10).</p>
 </section>
 
 <section id="methods">
@@ -403,8 +404,58 @@
   </div>
 </section>
 
+<section id="module">
+  <h2><span class="n">12</span>Going Deeper — Module-Level Breakdown</h2>
+  <p class="lead">The natural next step after designing a whole course: take one module and break it into a session-by-session teaching package.</p>
+  <p>Where the course-design prompt maps the whole semester, this step zooms into a single module and produces what an instructor carries into the classroom: a minute-by-minute lesson plan, boxed key definitions to state verbatim, measurable objectives, an explicit "connecting to prior learning" bridge, concept-level difficulty analysis, worked examples with full solutions, board-sketch visual-aid instructions, and a ready-to-use question bank. It runs off its own interactive intake prompt.</p>
+  <p class="exlink-wrap"><a class="btn" href="module-breakdown-prompt.html">Read the module-breakdown prompt &rarr;</a></p>
+  <h3>Worked examples</h3>
+  <div class="cards">
+    <div class="card">
+      <h4>Deep Learning <span class="rank">Master's</span></h4>
+      <p class="sub">Week 1 — built with the real professor</p>
+      <ul>
+        <li>Two 75-min sessions, minute-by-minute, from Module 1 of the course design.</li>
+        <li>Key definitions, measurable objectives, difficulty spotlights, worked examples.</li>
+        <li>Theoretical question bank · 13-page PDF.</li>
+      </ul>
+      <p class="exlink-wrap"><a class="btn" href="example-deeplearning-module-claude.html">View the Deep Learning module &rarr;</a></p>
+    </div>
+    <div class="card">
+      <h4>Number Theory <span class="rank">PhD</span></h4>
+      <p class="sub">Dedekind domains &amp; ramification</p>
+      <ul>
+        <li>7–8 sessions expanding the course's first module.</li>
+        <li>Boxed key definitions; the Galois-theoretic side in full.</li>
+        <li>Numerical question bank · 27-page PDF.</li>
+      </ul>
+      <p class="exlink-wrap"><a class="btn" href="example-number-module-claude.html">View the Number Theory module &rarr;</a></p>
+    </div>
+    <div class="card">
+      <h4>Calculus I <span class="rank">Undergraduate</span></h4>
+      <p class="sub">Modules 1–3 · one built in GPT</p>
+      <ul>
+        <li>Three modules, each turned into a teaching package.</li>
+        <li>Module 3 produced in GPT — same prompt, showing portability.</li>
+        <li>Session plans, definitions, question banks · 6/9/13-page PDFs.</li>
+      </ul>
+      <p class="exlink-wrap"><a class="btn" href="example-calc1-module-claude.html">View the Calculus I modules &rarr;</a></p>
+    </div>
+    <div class="card">
+      <h4>Statistical Learning <span class="rank">Ugrad/Master's</span></h4>
+      <p class="sub">Built from the professor's own lecture slides</p>
+      <ul>
+        <li>Ch. 4 Part 2 (Bayes, LDA, QDA, Naive Bayes) continuing his Part 1 deck.</li>
+        <li>Input was <em>lecture slides</em> — a new source type — for a single 75-min class.</li>
+        <li>Flags a pacing risk and what to compress · 15-page PDF.</li>
+      </ul>
+      <p class="exlink-wrap"><a class="btn" href="example-statlearning-module-claude.html">View the Statistical Learning module &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
 <section id="verdict">
-  <h2><span class="n">12</span>Verdict &amp; Next Steps</h2>
+  <h2><span class="n">13</span>Verdict &amp; Next Steps</h2>
   <div class="callout good">
     <strong>Best input method:</strong> <em>the syllabus — or, at minimum, an explicit list of the topics to teach or learn.</em> It is the only input that defines the course's <em>actual scope</em>. The full textbook failed (§6), and a table of contents overshoots because it cannot tell covered material from skipped material (§7). A syllabus encodes exactly what the professor intends to teach, so the breakdown stays inside the real course.
   </div>
@@ -413,6 +464,9 @@
   </div>
   <div class="callout good">
     <strong>Scaling to courses without a syllabus:</strong> for high-level (Master's/PhD) or newly-designed courses, an <em>interactive instructor interview</em> (§11) captures the same real-scope signal a syllabus provides — extending the recommended approach to cases where no syllabus document exists yet.
+  </div>
+  <div class="callout good">
+    <strong>From course to classroom:</strong> the same interactive approach scales <em>down</em> to a single module (§12), turning one module into a session-ready teaching package — lesson plan, key definitions, measurable objectives, and a question bank — in Claude or GPT.
   </div>
   <div class="callout">
     <strong>Best model:</strong> <em>Claude (Pro)</em> is the quality benchmark — most faithful, best on the hardest (PhD) course. Among <em>free</em> models, <em>GPT</em> leads on completeness and <em>Perplexity</em> on balance; <em>Gemini</em> lags.
@@ -427,7 +481,7 @@
 </section>
 
 <footer>
-  Digital Professor · Research / Syllabus Understanding · Source files in <code>breakdown-examples/</code><br>
+  Digital Professor · Research / Syllabus Understanding · Source files in <code>syllabus-breakdown-examples/</code><br>
   Comparison of Claude (Pro), GPT, Perplexity, and Gemini across Undergraduate, Master's, and PhD courses.
 </footer>
 

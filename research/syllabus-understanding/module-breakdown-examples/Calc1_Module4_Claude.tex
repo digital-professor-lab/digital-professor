@@ -1,0 +1,571 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue}
+
+\setlist[itemize]{itemsep=2pt, topsep=3pt}
+\setlist[enumerate]{itemsep=6pt, topsep=3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\newtcolorbox{defbox}{breakable, colback=blue!4, colframe=blue!55!black,
+  title={Key Definitions}, fonttitle=\bfseries}
+\newtcolorbox{bridgebox}{breakable, colback=green!5, colframe=green!45!black,
+  title={Connecting to Prior Learning}, fonttitle=\bfseries}
+\newtcolorbox{notebox}{breakable, colback=yellow!10, colframe=orange!70!black,
+  title={Instructor note: what to draw}, fonttitle=\bfseries}
+
+\title{Integration by Parts (Section 7.2) \\ \large Module Breakdown for AS.110.106 Calculus I (Biology and Social Sciences)}
+\author{Concept-level teaching package \\ \small Three sessions, Module F (Week 12)}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+%=================================================================
+\section*{Assumptions}
+\addcontentsline{toc}{section}{Assumptions}
+\begin{itemize}
+\item \textbf{Scope.} The module is Section 7.2 (Integration by Parts and Practicing Integration) of the syllabus, which sits inside Module F (Week 12). Sections 7.1 (substitution) and 7.3 (partial fractions) are not broken down here; 7.1 is treated as prior knowledge.
+\item \textbf{Sessions.} Three sessions, all devoted to Section 7.2. The syllabus assumes only about 2--3 sessions for all of Week 12, so this plan implicitly assumes that 7.1 and 7.3 are scheduled around these three sessions. If all of Module F must fit into one week, Topic 3 (tabular and cyclic extensions) and Topic 6 are the natural places to compress.
+\item \textbf{Level and prior knowledge.} Taken from the syllabus: introductory undergraduate calculus for biology and social-science majors. Students arrive having completed Modules A--E (through the Fundamental Theorem of Calculus and applications of integration) and Section 7.1.
+\item \textbf{Topic emphasis.} None was specified, so the question bank is spread evenly across all six topics.
+\item \textbf{Heuristic.} The syllabus lists ``LIATE/ILATE.'' This package uses LIATE; ILATE swaps the first two letters (inverse trigonometric before logarithmic), a difference that rarely matters at this level.
+\item \textbf{Items beyond the syllabus.} Cyclic integrals (e.g.\ $\int e^x\sin x\,dx$) and inverse-trigonometric integrals (e.g.\ $\int \arctan x\,dx$) are included even though the syllabus does not list them by name. The cyclic case is marked optional. Inverse-trigonometric derivatives appear in Section 4.10, so the arctangent items are within reach; drop them if your course skips inverse-trigonometric integrals.
+\item \textbf{Problems.} All examples are original. I did not have the textbook's own Section 7.2 exercises, so check notation against Neuhauser \& Roper. Every antiderivative and definite-integral value in this document was verified by differentiation or symbolic computation.
+\item \textbf{Visual aids.} Described in words only, as instructor notes for sketching on the board. No images or diagram code are included.
+\end{itemize}
+
+%=================================================================
+\section{Module Overview and Session Plan}
+
+The module is broken into six topics, taught in the order below across three sessions.
+
+\begin{longtable}{p{1.8cm}p{5.9cm}p{7.2cm}}
+\toprule
+\textbf{Session} & \textbf{Topics} & \textbf{Focus} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Session} & \textbf{Topics} & \textbf{Focus} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1 & Topic 1: The integration-by-parts formula \newline Topic 2: Choosing $u$ and $dv$ & Derive the formula from the product rule, evaluate first integrals, and show why the choice of $u$ decides whether the method helps. \\
+2 & Topic 3: Repeated integration by parts and the tabular method \newline Topic 4: Logarithms and inverse trigonometric functions by parts & Extend the method to several passes, then to integrands with a single factor that cannot be integrated directly. \\
+3 & Topic 5: Definite integrals by parts and applications \newline Topic 6: Choosing among integration techniques & Connect the method to the FTC and to accumulated change, then practice deciding among direct integration, substitution, and parts. \\
+\end{longtable}
+
+%=================================================================
+\section{Prerequisites and Connecting to Prior Learning}
+
+Prerequisites for each topic, and where each was taught:
+
+\begin{longtable}{p{3.2cm}p{6.9cm}p{4.7cm}}
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where taught} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where taught} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1. The formula & Product rule; derivatives of $e^x$ and trigonometric functions; antiderivatives of elementary functions; differential notation $dy=f'(x)\,dx$; checking an antiderivative by differentiating & 4.4; 4.8--4.9; 5.10; 4.11 \\
+2. Choosing $u$ and $dv$ & Topic 1; power rule; derivative of $\ln x$; $\int e^{ax}\,dx$ and $\int\sin(ax)\,dx$ (undoing the chain rule) & This module (Topic 1); 4.3; 4.10; 5.10 and 7.1 \\
+3. Repeated parts and tabular method & Topics 1--2; higher derivatives of polynomials; careful sign bookkeeping with parentheses & This module; 4.7; Ch.~1 (algebra background) \\
+4. $\ln x$ and inverse trig & Topics 1--2; derivatives of $\ln x$ and $\arctan x$; substitution for $\int \frac{x}{1+x^2}\,dx$; logarithm rules & This module; 4.10; 7.1; Ch.~1 and 2.1 \\
+5. Definite integrals & Topics 1--4; FTC Part 2; properties and signed-area meaning of the definite integral; accumulated change; the limit-conversion step of substitution (for contrast) & This module; 6.1--6.3; 7.1 \\
+6. Choosing a technique & Substitution; the antiderivative table; spotting an inner function; Topics 1--5 & 7.1; 5.10; 4.5; this module \\
+\end{longtable}
+
+\begin{bridgebox}
+\textbf{Where students are coming from.} They have just learned substitution, which the syllabus describes as the chain rule run in reverse. Integration by parts is the sequel: \emph{the product rule run in reverse}. Say this in the first minute so the module has a home in what they already know.
+
+\textbf{Opening move for Session 1 (about five minutes, students do the work).}
+\begin{enumerate}
+\item Ask them to differentiate $xe^x$. This is a Section 4.4 product-rule problem; they get $e^x + xe^x$.
+\item Ask for an antiderivative of $xe^x + e^x$. It is immediate: $xe^x$.
+\item Ask for an antiderivative of $xe^x$ alone. Guide them to $xe^x = (xe^x+e^x) - e^x$, so $\int xe^x\,dx = xe^x - e^x + C$.
+\item Name what they just did: they ran the product rule backwards and moved one piece to the other side. That is integration by parts; Topic 1 makes it general.
+\end{enumerate}
+
+\begin{tabular}{p{3.4cm}p{4.0cm}p{6.0cm}}
+\multicolumn{3}{l}{\textbf{Two reversals, side by side (put this on the board).}} \\[4pt]
+\toprule
+\textbf{Rule (Module C)} & \textbf{Reversed technique} & \textbf{What to spot in the integrand} \\
+\midrule
+Chain rule (4.5) & Substitution (7.1) & An inner function whose derivative also appears as a factor. \\
+Product rule (4.4) & Integration by parts & A product of two unrelated factors, one of which gets simpler when differentiated. \\
+\bottomrule
+\end{tabular}
+
+\medskip
+\textbf{Topic-specific callbacks.}
+\begin{itemize}
+\item \textbf{Topic 1 (Sections 4.4 and 4.11).} In 4.4 students learned that $(fg)'\neq f'g'$. The integral version of the same warning is $\int fg\,dx \neq \int f\,dx\int g\,dx$; Example Question 3 in Topic 1 uses the product rule to catch exactly this error. The differentials from 4.11 ($dy=f'(x)\,dx$) are the same objects as $du=u'(x)\,dx$ and $dv=v'(x)\,dx$ here, so remind them the notation is not new.
+\item \textbf{Topic 2 (Sections 4.3, 4.10, and 7.1).} Ask ``what happens to $x$ when we differentiate it? when we integrate it?'' (it becomes $1$; it becomes $x^2/2$) and ``what happens to $\ln x$ when we differentiate it?'' (the logarithm disappears: $1/x$). That is the whole reason logarithms come first in LIATE. Connect the ``spot the inside function'' drills from 7.1 to ``spot the piece to differentiate'' drills here.
+\item \textbf{Topic 3 (Section 4.7).} Differentiating a polynomial repeatedly until it reaches $0$ is Section 4.7 in disguise; the left column of the tabular method is exactly that list.
+\item \textbf{Topic 4 (Sections 4.10 and 5.10).} The antiderivative table from 5.10 has no entry for $\ln x$. Integration by parts is the first technique that fills that gap. The derivatives of $\ln x$ and $\arctan x$ from 4.10 are precisely what make the method work, and the leftover integral $\int\frac{x}{1+x^2}\,dx$ is a 7.1 substitution.
+\item \textbf{Topic 5 (Sections 6.2, 6.3, and 7.1).} The boundary term $[uv]_a^b$ is FTC Part 2 applied to $(uv)'$, so the definite formula is not a new fact. Accumulated change from 6.3 supplies the biological applications. Contrast explicitly with 7.1: in substitution the limits are converted; in parts they are not.
+\item \textbf{Topic 6 (Sections 7.1 and 5.10).} Put $\int xe^{x^2}\,dx$ (substitution) beside $\int xe^{x}\,dx$ (parts) so students see that the same visible ingredients can call for different techniques. Point forward to 7.3: partial fractions is the next entry in the same toolkit, and the ``ask the decision questions again after every step'' habit carries over.
+\end{itemize}
+\end{bridgebox}
+
+%=================================================================
+\section{Topic-by-Topic Breakdown}
+
+%-----------------------------------------------------------------
+\subsection{Topic 1: The Integration-by-Parts Formula}
+
+\textbf{Concepts}
+\begin{itemize}
+\item The product rule in differential form: $d(uv) = u\,dv + v\,du$
+\item Integrating both sides to obtain $\int u\,dv = uv - \int v\,du$
+\item Integration by parts as a \emph{trade}: one integral is exchanged for another, and the goal is a simpler one
+\item The four ingredients: $u$, $du = u'(x)\,dx$, $dv = v'(x)\,dx$, and $v$
+\item Constant of integration: $v$ needs no $+C$; a single $+C$ is added at the end
+\item Verifying an antiderivative by differentiating it with the product rule
+\item Why there is no ``product rule for integrals'': $\int fg\,dx \neq \int f\,dx \int g\,dx$
+\end{itemize}
+
+\begin{defbox}
+\begin{itemize}
+\item \textbf{Integration by parts formula.} ``If $u$ and $v$ are differentiable functions of $x$, then
+\[ \int u(x)\,v'(x)\,dx \;=\; u(x)\,v(x) \;-\; \int v(x)\,u'(x)\,dx. \]
+In differential notation, with $du = u'(x)\,dx$ and $dv = v'(x)\,dx$, this reads $\int u\,dv = uv - \int v\,du$.''
+\item \textbf{The four pieces.} ``$u$ is the factor we will differentiate. $dv$ is everything else, including the $dx$, and it is the factor we will integrate. $du$ is $u'\,dx$. $v$ is one antiderivative of $dv$.''
+\item \textbf{What the formula does.} ``Integration by parts does not evaluate an integral. It converts $\int u\,dv$ into $\int v\,du$. It helps exactly when the second integral is easier than the first.''
+\item \textbf{No constant in $v$.} ``When we find $v$ from $dv$, we take any single antiderivative and do not add a constant. If we did, the extra constant would cancel in $uv - \int v\,du$. We add $+C$ once, at the very end.''
+\end{itemize}
+\end{defbox}
+
+\textbf{Learning objectives} (students will be able to)
+\begin{enumerate}
+\item Derive the integration-by-parts formula from the product rule.
+\item State the formula in both function and differential notation, and identify $u$, $du$, $dv$, and $v$ in a given application.
+\item Apply the formula to evaluate integrals such as $\int xe^x\,dx$ and $\int x\cos x\,dx$.
+\item Evaluate a proposed antiderivative by differentiating it with the product rule.
+\item Explain, with a counterexample, why the integral of a product is not the product of the integrals.
+\end{enumerate}
+
+\textbf{Difficult concepts}
+\begin{itemize}
+\item \textbf{Formula errors.} The typical slips are specific: dropping the minus sign, forgetting that a second integral $\int v\,du$ remains, differentiating $v$ instead of integrating $dv$, and writing $u$ where $v$ belongs in the leftover integral. \emph{Mitigation:} derive the formula from the product rule in class rather than presenting it, require a four-line template ($u=$, $du=$, $dv=$, $v=$) before assembling the answer, and have students check every answer by differentiating.
+\item \textbf{The product-of-integrals misconception.} Students who integrate each factor separately are transferring linearity to a product. \emph{Mitigation:} Example Question 3 below; differentiate the wrong answer with the product rule so the extra term is visible.
+\end{itemize}
+
+\textbf{Example questions with solutions}
+\begin{enumerate}
+\item \emph{(Derive)} Starting from the product rule, derive the integration-by-parts formula.
+
+\textit{Solution.} The product rule states $\dfrac{d}{dx}\big[u(x)v(x)\big] = u'(x)v(x) + u(x)v'(x)$. Integrate both sides with respect to $x$. The left side integrates back to $uv$ (any constant is absorbed into the final $+C$):
+\[ uv = \int u'v\,dx + \int uv'\,dx. \]
+Solving for the second integral gives $\int uv'\,dx = uv - \int u'v\,dx$. Writing $du = u'\,dx$ and $dv = v'\,dx$, this is $\int u\,dv = uv - \int v\,du$.
+
+\item \emph{(Recall)} Evaluate $\displaystyle\int xe^x\,dx$.
+
+\textit{Solution.} Take $u = x$ and $dv = e^x\,dx$, so $du = dx$ and $v = e^x$. Then
+\[ \int xe^x\,dx = xe^x - \int e^x\,dx = xe^x - e^x + C. \]
+Check: $\dfrac{d}{dx}(xe^x - e^x) = e^x + xe^x - e^x = xe^x$.
+
+\item \emph{(Analysis)} A student integrates each factor separately: $\int xe^x\,dx = \dfrac{x^2}{2}\cdot e^x + C$. Use the product rule to show that this is wrong.
+
+\textit{Solution.} Differentiate the claimed answer: $\dfrac{d}{dx}\left[\dfrac{x^2}{2}e^x\right] = xe^x + \dfrac{x^2}{2}e^x$. This is not $xe^x$ (the extra term $\frac{x^2}{2}e^x$ does not vanish for $x\neq 0$). In general, if $F' = f$ and $G' = g$, then $(FG)' = fG + Fg$, which is not $fg$. So $\int fg\,dx \neq \int f\,dx\int g\,dx$; the product rule shows the correct relationship.
+\end{enumerate}
+
+\begin{notebox}
+\textbf{Picture 1: the growing rectangle (Session 1, right after deriving the formula).} Draw a rectangle with the lower-left corner at the origin, horizontal side labeled $u$ and vertical side labeled $v$; write $uv$ inside it as its area. Extend the rectangle by a thin strip on the right of width $du$ and a thin strip along the top of height $dv$. Shade the right strip and label its area $v\,du$; shade the top strip and label its area $u\,dv$; draw the tiny corner square and label it ``$du\,dv$, negligible.'' Caption: ``the change in area is $u\,dv + v\,du$,'' which is the product rule in differential form.
+
+\textbf{Picture 2 (optional, for the curious).} Draw axes with $v$ horizontal and $u$ vertical. Draw an increasing curve from the origin to a point $(V, U)$. Draw the rectangle with corners $(0,0)$, $(V,0)$, $(V,U)$, $(0,U)$. Shade the region below the curve and label it $\int u\,dv$; shade the region above the curve inside the rectangle and label it $\int v\,du$. Caption: ``the two areas fill the rectangle, so $\int u\,dv + \int v\,du = UV$'' (this is the formula when $u$ and $v$ both start at $0$).
+\end{notebox}
+
+%-----------------------------------------------------------------
+\subsection{Topic 2: Choosing \texorpdfstring{$u$ and $dv$}{u and dv}}
+
+\textbf{Concepts}
+\begin{itemize}
+\item Two requirements for a good choice: we must be able to integrate $dv$, and $\int v\,du$ must be simpler than $\int u\,dv$
+\item Which functions get simpler when differentiated (polynomials, logarithms, inverse trigonometric functions) and which do not get worse when integrated ($e^{ax}$, $\sin ax$, $\cos ax$)
+\item LIATE as a heuristic: what it says, why it usually works, and that it is a rule of thumb rather than a theorem
+\item Previewing $du$ and $v$ for both candidate choices before committing
+\item Computing $v$ sometimes requires undoing a chain rule (for example $\int\sin 3x\,dx$)
+\item The same integral with a bad choice becomes harder, not easier
+\end{itemize}
+
+\begin{defbox}
+\begin{itemize}
+\item \textbf{A good choice of $u$ and $dv$.} ``A choice is good if two things hold: first, we can integrate $dv$; second, the new integral $\int v\,du$ is simpler than the one we started with.''
+\item \textbf{LIATE.} ``LIATE orders function types: \textbf{L}ogarithmic, \textbf{I}nverse trigonometric, \textbf{A}lgebraic (powers and polynomials), \textbf{T}rigonometric, \textbf{E}xponential. As a heuristic, let $u$ be the factor whose type comes earliest in the list, and let $dv$ be the rest. It is a rule of thumb, not a theorem, and we will meet an integral where it fails.''
+\end{itemize}
+\end{defbox}
+
+\textbf{Learning objectives}
+\begin{enumerate}
+\item Explain the two criteria that make a choice of $u$ and $dv$ good.
+\item Apply LIATE to choose $u$ and $dv$ for products of two function types.
+\item Compare two choices for the same integral and evaluate which one leads to a simpler integral.
+\item Justify, in terms of what differentiation and integration do to each function type, why LIATE usually works.
+\end{enumerate}
+
+\textbf{Difficult concepts}
+\begin{itemize}
+\item \textbf{A poor choice produces a harder integral, and LIATE applied blindly hides why.} Students who cannot say \emph{why} $u=x$ beats $u=e^x$ cannot adapt when the heuristic fails. \emph{Mitigation:} the side-by-side comparison in Example Question 1, the ``would I rather differentiate this or integrate this?'' question, and the two-column chart in the instructor note below.
+\item \textbf{Hidden chain rule in $v$.} For $dv=\sin(3x)\,dx$, students write $v=-\cos(3x)$ and lose the factor $\tfrac13$. \emph{Mitigation:} require students to differentiate their $v$ mentally before continuing; connect it to the 7.1 substitution $w=3x$.
+\end{itemize}
+
+\textbf{Example questions with solutions}
+\begin{enumerate}
+\item \emph{(Analysis)} For $\int xe^x\,dx$, a student sets $u = e^x$ and $dv = x\,dx$. Carry out one step and explain why this choice is unproductive.
+
+\textit{Solution.} Then $du = e^x\,dx$ and $v = \dfrac{x^2}{2}$, so
+\[ \int xe^x\,dx = \frac{x^2}{2}e^x - \int \frac{x^2}{2}e^x\,dx. \]
+The new integral has a higher power of $x$ than the original, so it is harder. Differentiating $x$ lowers its power ($x\to 1$) while integrating it raises the power ($x\to x^2/2$); $e^x$ is unchanged by either. So $x$ belongs in $u$ and $e^x\,dx$ in $dv$, as in Topic 1.
+
+\item \emph{(Application)} Evaluate $\displaystyle\int x\ln x\,dx$ and explain why $u=x$, $dv=\ln x\,dx$ is not an available choice at this point in the course.
+
+\textit{Solution.} Take $u = \ln x$ and $dv = x\,dx$, so $du = \dfrac{1}{x}\,dx$ and $v = \dfrac{x^2}{2}$:
+\[ \int x\ln x\,dx = \frac{x^2}{2}\ln x - \int \frac{x^2}{2}\cdot\frac1x\,dx = \frac{x^2}{2}\ln x - \int \frac{x}{2}\,dx = \frac{x^2}{2}\ln x - \frac{x^2}{4} + C. \]
+The other choice fails the first criterion: it would require $v=\int\ln x\,dx$, which we cannot yet compute. It also makes the point that differentiating $\ln x$ removes the logarithm.
+
+\item \emph{(Application)} Evaluate $\displaystyle\int x\sin(3x)\,dx$.
+
+\textit{Solution.} Take $u = x$ and $dv = \sin(3x)\,dx$, so $du = dx$ and $v = -\tfrac13\cos(3x)$ (undo the chain rule; this is the 7.1 substitution $w=3x$). Then
+\[ \int x\sin(3x)\,dx = -\frac{x}{3}\cos(3x) + \frac13\int\cos(3x)\,dx = -\frac{x}{3}\cos(3x) + \frac19\sin(3x) + C. \]
+Check: the derivative of $-\frac{x}{3}\cos 3x$ is $-\frac13\cos 3x + x\sin 3x$, and the derivative of $\frac19\sin 3x$ is $\frac13\cos 3x$; the sum is $x\sin 3x$.
+\end{enumerate}
+
+\begin{notebox}
+\textbf{Chart 1: the same integral, two choices (for Example Question 1).} Draw a table with two columns headed ``Option A: $u=x$, $dv=e^x\,dx$'' and ``Option B: $u=e^x$, $dv=x\,dx$.'' Use five rows labeled $du$, $v$, ``new integral,'' ``simpler than the original?'', and ``verdict.'' Fill in Option A as $dx$, $e^x$, $\int e^x\,dx$, ``yes,'' ``good''; fill in Option B as $e^x\,dx$, $x^2/2$, $\int\frac{x^2}{2}e^x\,dx$, ``no, higher power,'' ``bad.'' Have students predict the last two rows before you write them.
+
+\textbf{Chart 2: what each LIATE type does under $d/dx$ and $\int$.} Draw a table with columns ``function type,'' ``after differentiating,'' ``after integrating,'' and ``goes in.'' Rows: $\ln x$ (becomes $1/x$, simpler; becomes $x\ln x - x$, more complex; $u$); $\arctan x$ (becomes $\frac{1}{1+x^2}$, algebraic; becomes $x\arctan x-\frac12\ln(1+x^2)$; $u$); $x^n$ (power drops; power rises; $u$ usually); $\sin x$ (same complexity; same complexity; $dv$); $e^x$ (unchanged; unchanged; $dv$). Fill the last column last and ask students to predict it. Caption: ``Put in $u$ what gets simpler when differentiated; put in $dv$ what is harmless to integrate.''
+\end{notebox}
+
+%-----------------------------------------------------------------
+\subsection{Topic 3: Repeated Integration by Parts and the Tabular Method}
+
+\textbf{Concepts}
+\begin{itemize}
+\item Repeated application: the leftover integral $\int v\,du$ is itself a product that needs parts again
+\item For a polynomial of degree $n$ times $e^{ax}$, $\sin ax$, or $\cos ax$, each pass lowers the polynomial degree by one, so $n$ passes are needed
+\item Bookkeeping: keep the leftover integral in brackets so the minus sign distributes correctly
+\item The tabular method: a derivative column, an antiderivative column, diagonal products, and alternating signs
+\item When the tabular method applies (a factor that differentiates to $0$) and when it does not (for example $x^2\ln x$)
+\item \emph{Optional extension:} cyclic integrals, where the original integral reappears and is solved for algebraically
+\end{itemize}
+
+\begin{defbox}
+\begin{itemize}
+\item \textbf{Repeated integration by parts.} ``Repeated integration by parts means applying the formula again to the integral $\int v\,du$ when that integral is itself a product of the same kind. For $x^n$ times $e^{ax}$, $\sin ax$, or $\cos ax$, we need $n$ passes.''
+\item \textbf{Tabular method.} ``The tabular method is a bookkeeping shortcut for repeated parts. Column D lists $u$ and its successive derivatives until we reach $0$. Column I lists $dv$ and its successive antiderivatives. Multiply each entry in D by the entry one row \emph{below} it in I, attach signs $+,-,+,-,\dots$, and add the products. Then add $+C$.''
+\item \textbf{Cyclic integral (optional).} ``An integral is cyclic under parts if, after two applications, the original integral reappears on the right-hand side. We then treat it as an unknown and solve for it algebraically.''
+\end{itemize}
+\end{defbox}
+
+\textbf{Learning objectives}
+\begin{enumerate}
+\item Apply integration by parts repeatedly to evaluate $\int x^n e^{ax}\,dx$ and $\int x^n\sin(ax)\,dx$ for $n=2,3$.
+\item Apply the tabular method and explain why it reproduces the repeated-parts computation.
+\item Evaluate whether the tabular method is appropriate for a given integrand.
+\item \emph{(Optional)} Evaluate a cyclic integral such as $\int e^x\sin x\,dx$ by solving for the integral.
+\end{enumerate}
+
+\textbf{Difficult concepts}
+\begin{itemize}
+\item \textbf{Sign distribution.} After the first pass the answer has the form $x^2e^x - \int 2xe^x\,dx$, and the second pass produces a bracket that must be multiplied by $-1$. Students routinely lose the sign or the factor $2$. \emph{Mitigation:} keep the leftover integral in brackets until it is finished; use the tabular method as a cross-check.
+\item \textbf{The tabular method as magic.} Students who use the table without understanding it apply it to $x^2\ln x$, where the derivative column never reaches $0$. \emph{Mitigation:} build the table for $\int x^2e^x\,dx$ side by side with the two-pass computation before introducing the shortcut, and state the condition ``one column must reach $0$.''
+\item \textbf{Cyclic integrals look like failure.} When the original integral reappears, students think they are going in circles. \emph{Mitigation:} announce in advance that if the original integral comes back, that is good news, because it can be treated as an unknown $I$; check by differentiating.
+\end{itemize}
+
+\textbf{Example questions with solutions}
+\begin{enumerate}
+\item \emph{(Application)} Evaluate $\displaystyle\int x^2e^x\,dx$ using integration by parts twice.
+
+\textit{Solution.} First pass: $u=x^2$, $dv=e^x\,dx$, so $du=2x\,dx$ and $v=e^x$:
+\[ \int x^2e^x\,dx = x^2e^x - \int 2xe^x\,dx. \]
+Second pass on $\int 2xe^x\,dx = 2\int xe^x\,dx = 2(xe^x - e^x)$ (Topic 1). Keeping the bracket:
+\[ \int x^2e^x\,dx = x^2e^x - 2\big(xe^x - e^x\big) + C = x^2e^x - 2xe^x + 2e^x + C. \]
+Check: the derivative is $2xe^x + x^2e^x - 2e^x - 2xe^x + 2e^x = x^2e^x$.
+
+\item \emph{(Application)} Evaluate $\displaystyle\int x^3e^{2x}\,dx$ using the tabular method.
+
+\textit{Solution.} Set up the table (signs are attached to the D entries; each D entry is multiplied by the I entry one row below it):
+
+\smallskip
+\begin{tabular}{cll}
+\toprule
+\textbf{Sign} & \textbf{D (differentiate)} & \textbf{I (integrate)} \\
+\midrule
+$+$ & $x^3$ & $e^{2x}$ \\
+$-$ & $3x^2$ & $\tfrac12 e^{2x}$ \\
+$+$ & $6x$ & $\tfrac14 e^{2x}$ \\
+$-$ & $6$ & $\tfrac18 e^{2x}$ \\
+ & $0$ & $\tfrac1{16} e^{2x}$ \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+The diagonal products are $+x^3\cdot\tfrac12e^{2x}$, $-3x^2\cdot\tfrac14e^{2x}$, $+6x\cdot\tfrac18e^{2x}$, and $-6\cdot\tfrac1{16}e^{2x}$. Therefore
+\[ \int x^3e^{2x}\,dx = e^{2x}\left(\frac{x^3}{2} - \frac{3x^2}{4} + \frac{3x}{4} - \frac38\right) + C. \]
+Check: if $P(x)$ is the polynomial in parentheses, the derivative is $e^{2x}\big(2P+P'\big)$, and $2P + P' = x^3$.
+
+\item \emph{(Optional extension: cyclic)} Evaluate $\displaystyle\int e^x\sin x\,dx$.
+
+\textit{Solution.} Let $I=\int e^x\sin x\,dx$. Take $u=\sin x$, $dv=e^x\,dx$: $I = e^x\sin x - \int e^x\cos x\,dx$. On the new integral take $u=\cos x$, $dv=e^x\,dx$: $\int e^x\cos x\,dx = e^x\cos x + \int e^x\sin x\,dx = e^x\cos x + I$. Substituting,
+\[ I = e^x\sin x - e^x\cos x - I \quad\Longrightarrow\quad 2I = e^x(\sin x - \cos x) \quad\Longrightarrow\quad I = \tfrac12e^x(\sin x - \cos x) + C. \]
+(Keep the same type of factor in $u$ on both passes; switching roles on the second pass undoes the first and returns $I=I$.)
+\end{enumerate}
+
+\begin{notebox}
+\textbf{Diagram: the tabular layout.} Draw three columns headed ``Sign,'' ``D,'' and ``I.'' Fill the D column from the top with $u$ and its successive derivatives, ending in $0$. Fill the I column from the top with $dv$ and its successive antiderivatives, one entry longer than D. Under Sign write $+,-,+,-,\dots$ next to the D entries. Draw a diagonal arrow from each D entry down and to the right to the I entry in the next row, and label each arrow with its sign. Stop when the D column hits $0$; circle the $0$ to show why the process ends. Next to it, write the two-pass calculation for $\int x^2e^x\,dx$ so students can see each diagonal product appear in it.
+\end{notebox}
+
+%-----------------------------------------------------------------
+\subsection{Topic 4: Logarithms and Inverse Trigonometric Functions by Parts}
+
+\textbf{Concepts}
+\begin{itemize}
+\item Integrands with a single factor that cannot be integrated directly: rewrite $\ln x$ as $1\cdot\ln x$ and take $dv=dx$, $v=x$
+\item Why $\ln x$ and $\arctan x$ work as $u$: their derivatives, $\frac1x$ and $\frac1{1+x^2}$, are algebraic (Section 4.10)
+\item Standard results: $\int\ln x\,dx$, $\int x^n\ln x\,dx$, $\int\arctan x\,dx$, $\int(\ln x)^2\,dx$
+\item Computing $du$ correctly with the chain rule when the argument is not $x$ (for example $\ln(5x)$)
+\item The leftover integral may need algebra or a 7.1 substitution to finish
+\end{itemize}
+
+\begin{defbox}
+\begin{itemize}
+\item \textbf{The $dv=dx$ move.} ``If the integrand is a single function $f(x)$ that we cannot integrate directly but can differentiate simply, such as $\ln x$ or $\arctan x$, write it as $1\cdot f(x)$. Take $u=f(x)$ and $dv=dx$. Then $v=x$.''
+\item \textbf{Derivatives that make it work (from Section 4.10).} ``$\dfrac{d}{dx}\ln x = \dfrac1x$ and $\dfrac{d}{dx}\arctan x = \dfrac1{1+x^2}$. Differentiating turns each of these transcendental functions into a rational function, and that is why they are placed first in LIATE.''
+\end{itemize}
+\end{defbox}
+
+\textbf{Learning objectives}
+\begin{enumerate}
+\item Explain why taking $dv=dx$ is legitimate for an integrand such as $\ln x$.
+\item Evaluate $\int\ln x\,dx$, $\int x^n\ln x\,dx$, $\int\arctan x\,dx$, and $\int(\ln x)^2\,dx$.
+\item Compute $du$ correctly when the argument of the logarithm or inverse trigonometric function is not simply $x$.
+\item Analyze why the derivatives of $\ln x$ and $\arctan x$ turn the leftover integral into an algebraic one.
+\end{enumerate}
+
+\textbf{Difficult concepts}
+\begin{itemize}
+\item \textbf{``There is only one factor.''} Taking $dv=dx$ feels like cheating, because students expect two factors. \emph{Mitigation:} write $\int 1\cdot\ln x\,dx$ explicitly and ask ``what is an antiderivative of $1$?''
+\item \textbf{The leftover integral needs more work.} For $\arctan x$ the second integral is $\int\frac{x}{1+x^2}\,dx$, which is not a parts problem; students conclude they made an error. \emph{Mitigation:} tell them in advance that the leftover integral may need substitution, and list it as an expected step.
+\item \textbf{Chain rule inside $du$.} For $\ln(5x)$ students write $du=\frac{1}{5x}\,dx$ instead of $\frac1x\,dx$. \emph{Mitigation:} recall the 4.10 Recall exercise ($\frac{d}{dx}\ln(5x)=\frac1x$) and require $du$ to be computed on its own line.
+\end{itemize}
+
+\textbf{Example questions with solutions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\int\ln x\,dx$.
+
+\textit{Solution.} Write the integrand as $1\cdot\ln x$ and take $u=\ln x$, $dv=dx$, so $du=\frac1x\,dx$ and $v=x$:
+\[ \int\ln x\,dx = x\ln x - \int x\cdot\frac1x\,dx = x\ln x - \int 1\,dx = x\ln x - x + C. \]
+
+\item \emph{(Application)} Evaluate $\displaystyle\int\arctan x\,dx$.
+
+\textit{Solution.} Take $u=\arctan x$, $dv=dx$, so $du=\dfrac{dx}{1+x^2}$ and $v=x$:
+\[ \int\arctan x\,dx = x\arctan x - \int\frac{x}{1+x^2}\,dx. \]
+For the leftover integral let $w=1+x^2$, $dw=2x\,dx$: $\int\frac{x}{1+x^2}\,dx=\frac12\int\frac{dw}{w}=\frac12\ln(1+x^2)$ (no absolute value is needed since $1+x^2>0$). Hence
+\[ \int\arctan x\,dx = x\arctan x - \tfrac12\ln(1+x^2) + C. \]
+
+\item \emph{(Application)} Evaluate $\displaystyle\int(\ln x)^2\,dx$.
+
+\textit{Solution.} Take $u=(\ln x)^2$, $dv=dx$, so $du=\dfrac{2\ln x}{x}\,dx$ and $v=x$:
+\[ \int(\ln x)^2\,dx = x(\ln x)^2 - \int x\cdot\frac{2\ln x}{x}\,dx = x(\ln x)^2 - 2\int\ln x\,dx. \]
+Using Question 1, $\int\ln x\,dx = x\ln x - x$, so
+\[ \int(\ln x)^2\,dx = x(\ln x)^2 - 2x\ln x + 2x + C. \]
+\end{enumerate}
+
+%-----------------------------------------------------------------
+\subsection{Topic 5: Definite Integrals by Parts and Applications}
+
+\textbf{Concepts}
+\begin{itemize}
+\item The definite formula $\int_a^b u\,dv = [uv]_a^b - \int_a^b v\,du$, obtained by applying FTC Part 2 to $(uv)'$
+\item The limits stay in terms of $x$; unlike substitution, there is no limit conversion
+\item The boundary term must be evaluated at \emph{both} endpoints, paying attention to the sign of the lower-limit contribution
+\item Interpretation: signed area under a curve, and accumulated change from a rate such as $te^{-kt}$
+\item Sanity checks: sign, magnitude, and a rough graph or estimate
+\end{itemize}
+
+\begin{defbox}
+\begin{itemize}
+\item \textbf{Definite integration by parts.} ``For differentiable $u$ and $v$ on $[a,b]$,
+\[ \int_a^b u(x)\,v'(x)\,dx \;=\; \big[u(x)v(x)\big]_a^b \;-\; \int_a^b v(x)\,u'(x)\,dx, \]
+where $\big[uv\big]_a^b = u(b)v(b) - u(a)v(a)$. The limits stay in terms of $x$; we do not change them.''
+\item \textbf{Accumulated change (reminder from Section 6.3).} ``If $R(t)$ is a rate of change, then $\int_a^b R(t)\,dt$ is the total change accumulated from time $a$ to time $b$.''
+\end{itemize}
+\end{defbox}
+
+\textbf{Learning objectives}
+\begin{enumerate}
+\item Derive the definite version of the formula from FTC Part 2 and the product rule.
+\item Evaluate definite integrals by parts, keeping the limits in $x$ and evaluating $[uv]_a^b$ at both endpoints.
+\item Interpret a definite integral computed by parts as a signed area or as accumulated change in a biological setting.
+\item Evaluate the reasonableness of a computed value using a sketch or a rough numerical estimate.
+\end{enumerate}
+
+\textbf{Difficult concepts}
+\begin{itemize}
+\item \textbf{Two opposite errors with the limits.} Some students evaluate $uv$ only at the upper limit; others carry over the 7.1 habit and convert the limits to a new variable. \emph{Mitigation:} write $[uv]_a^b$ on the first line, evaluate the boundary term on its own line, and use a two-row contrast table (7.1: convert the limits; 7.2: keep the limits).
+\item \textbf{Lower-limit sign.} In $\big[xe^x - e^x\big]_0^1$ the lower limit contributes $-1$, not $0$. \emph{Mitigation:} require each endpoint to be substituted in parentheses before simplifying.
+\item \textbf{Trusting algebra over sense.} Students report a negative area or an impossible magnitude without noticing. \emph{Mitigation:} require a one-line reasonableness check against a sketch or a trapezoid estimate.
+\end{itemize}
+
+\textbf{Example questions with solutions}
+\begin{enumerate}
+\item \emph{(Recall)} Evaluate $\displaystyle\int_0^1 xe^x\,dx$.
+
+\textit{Solution.} Take $u=x$, $dv=e^x\,dx$, so $du=dx$ and $v=e^x$ (limits stay in $x$):
+\[ \int_0^1xe^x\,dx = \big[xe^x\big]_0^1 - \int_0^1e^x\,dx = (e - 0) - (e-1) = 1. \]
+
+\item \emph{(Application)} Evaluate $\displaystyle\int_0^{\pi}x\sin x\,dx$ and interpret the value as an area.
+
+\textit{Solution.} Take $u=x$, $dv=\sin x\,dx$, so $du=dx$ and $v=-\cos x$:
+\[ \int_0^\pi x\sin x\,dx = \big[-x\cos x\big]_0^\pi + \int_0^\pi\cos x\,dx = \big(-\pi\cos\pi - 0\big) + \big[\sin x\big]_0^\pi = \pi + 0 = \pi. \]
+Since $x\sin x\ge0$ on $[0,\pi]$, the value $\pi\approx3.14$ is the (unsigned) area of the region under the curve. It is plausible: the curve peaks at about $1.82$, so the bounding rectangle has area about $\pi\cdot1.82\approx5.7$, and the region fills a bit more than half of it.
+
+\item \emph{(Application, biological)} A drug is absorbed into the bloodstream at rate $R(t)=te^{-t/2}$ mg/hr, $t$ hours after ingestion. How much is absorbed in the first 4 hours?
+
+\textit{Solution.} The total absorbed is $\int_0^4te^{-t/2}\,dt$. Take $u=t$, $dv=e^{-t/2}\,dt$, so $du=dt$ and $v=-2e^{-t/2}$:
+\begin{align*}
+\int_0^4te^{-t/2}\,dt &= \big[-2te^{-t/2}\big]_0^4 + 2\int_0^4e^{-t/2}\,dt \\
+&= -8e^{-2} + 2\big[-2e^{-t/2}\big]_0^4 = -8e^{-2} + 2\big(-2e^{-2}+2\big) = 4 - 12e^{-2}.
+\end{align*}
+So about $4-12(0.1353)\approx 2.38$ mg is absorbed. Reasonableness: on $[0,4]$ the rate stays between about $0.5$ and $0.74$ mg/hr (once it has left $0$), so a total near $4\times0.6\approx2.4$ mg fits.
+\end{enumerate}
+
+\begin{notebox}
+\textbf{Graph A: $y=x\sin x$ on $[0,\pi]$.} Draw a horizontal axis labeled $x$ from $0$ to about $3.5$, with a tick at $\pi\approx3.14$; draw a vertical axis labeled $y$ from $0$ to $2$. Sketch the curve starting at the origin (it leaves the origin flat, like a parabola), rising to a maximum of about $1.82$ near $x\approx2.03$, then falling steeply to hit the axis at $(\pi,0)$. Shade the region under the curve and label it $\int_0^\pi x\sin x\,dx=\pi\approx3.14$. Lightly outline the bounding rectangle $[0,\pi]\times[0,1.82]$ to show the area is a bit over half of it.
+
+\textbf{Graph B: the absorption rate $R(t)=te^{-t/2}$.} Draw a horizontal axis labeled ``$t$ (hours)'' from $0$ to $6$ and a vertical axis labeled ``$R$ (mg/hr)'' from $0$ to $0.8$. Plot the points $(0,0)$, $(1,0.61)$, $(2,0.74)$, $(3,0.67)$, $(4,0.54)$ and connect them with a smooth curve that peaks at $t=2$ and then decays slowly. Shade the region from $t=0$ to $t=4$ and label it ``total absorbed $=4-12e^{-2}\approx2.38$ mg.'' Emphasize that the shaded area, not the height of the curve, is the answer.
+
+\textbf{Contrast table (7.1 versus 7.2).} Draw a two-row table: ``Substitution: limits are converted to the new variable; $x$ disappears.'' and ``Parts: limits stay in $x$; the boundary term $[uv]_a^b$ is evaluated at both ends.''
+\end{notebox}
+
+%-----------------------------------------------------------------
+\subsection{Topic 6: Choosing Among Integration Techniques}
+
+\textbf{Concepts}
+\begin{itemize}
+\item Decision questions asked in a fixed order: direct antiderivative, then substitution, then parts
+\item Same ingredients, different technique: $\int xe^{x^2}\,dx$ (substitution) versus $\int xe^{x}\,dx$ (parts)
+\item Combined problems: substitution first, then parts (or parts with a better choice of $u$)
+\item LIATE is not always right: $\int x^3e^{x^2}\,dx$
+\item Substitution can beat parts even when parts \emph{works}: $\int\frac{\ln x}{x}\,dx$ versus $\int\frac{\ln x}{x^2}\,dx$
+\item Re-asking the decision questions after every step; recognizing when neither technique applies (forward pointer to 7.3)
+\end{itemize}
+
+\begin{defbox}
+\begin{itemize}
+\item \textbf{The decision questions.} ``Ask, in this order: (1) Can I integrate this directly from the antiderivative table? (2) Is one factor, up to a constant, the derivative of an inner function of the other? If so, use substitution. (3) Is the integrand a product of two unrelated factors, or a single function like $\ln x$ that I can differentiate simply, where one factor simplifies when differentiated and the other can be integrated? If so, use parts. After any step, ask the questions again about the new integral.''
+\end{itemize}
+\end{defbox}
+
+\textbf{Learning objectives}
+\begin{enumerate}
+\item Classify integrands as direct, substitution, parts, or combined, and justify each classification in one sentence.
+\item Design a solution path for an integral that requires both substitution and parts.
+\item Evaluate a worked solution for wasted effort (for example, parts on $\int\frac{\ln x}{x}\,dx$) and propose the more efficient technique.
+\item Solve a mixed set of integrals using appropriate techniques and verify each by differentiating.
+\end{enumerate}
+
+\textbf{Difficult concepts}
+\begin{itemize}
+\item \textbf{Defaulting to one technique.} Students use parts whenever they see a product, or substitution whenever they see a composition, and cannot tell $\int xe^{x^2}\,dx$ from $\int xe^{x}\,dx$. \emph{Mitigation:} classification-only drills with no computing, in the spirit of the 7.1 ``spot the inside function'' drills; the paired integrals in Example Question 1.
+\item \textbf{Mixed problems: order and bookkeeping.} In $\int x^3e^{x^2}\,dx$, students convert $x^2$ to $w$ but leave stray $x$'s in the integrand. \emph{Mitigation:} require that the substitution be completed so that no $x$ remains (write $\frac12\int we^{w}\,dw$) before parts begins.
+\item \textbf{LIATE as a law.} LIATE would say $u=x^3$ and $dv=e^{x^2}\,dx$, but $e^{x^2}$ cannot be integrated. \emph{Mitigation:} use this integral as the deliberate counterexample to the heuristic.
+\end{itemize}
+
+\textbf{Example questions with solutions}
+\begin{enumerate}
+\item \emph{(Classification)} Without computing, name the technique for each integral: (a) $\int xe^{x^2}\,dx$; (b) $\int xe^{x}\,dx$; (c) $\int x\cos(x^2)\,dx$; (d) $\int x\cos x\,dx$; (e) $\int x^3e^{x^2}\,dx$.
+
+\textit{Solution.} (a) Substitution, $w=x^2$: the factor $x$ is (half) the derivative of the inner function $x^2$. (b) Parts, $u=x$: no inner function whose derivative appears. (c) Substitution, $w=x^2$, for the same reason as (a). (d) Parts, $u=x$. (e) Combined: substitute $w=x^2$ (only one $x$ is absorbed by $dw$; the other $x^2$ becomes $w$), leaving $\frac12\int we^w\,dw$, which needs parts.
+
+\item \emph{(Application)} Evaluate $\displaystyle\int x^3e^{x^2}\,dx$.
+
+\textit{Solution.} Let $w=x^2$, $dw=2x\,dx$, and write $x^3\,dx = x^2\cdot x\,dx = w\cdot\frac12\,dw$:
+\[ \int x^3e^{x^2}\,dx = \frac12\int we^w\,dw. \]
+Now parts on $\int we^w\,dw$ (Topic 1): $=we^w - e^w$. So
+\[ \int x^3e^{x^2}\,dx = \tfrac12\big(we^w - e^w\big) + C = \tfrac12e^{x^2}(x^2-1) + C. \]
+\emph{Alternative route.} Parts directly with $u=x^2$, $dv=xe^{x^2}\,dx$ (so $v=\frac12e^{x^2}$) gives $\frac12x^2e^{x^2} - \int xe^{x^2}\,dx = \frac12x^2e^{x^2} - \frac12e^{x^2} + C$, the same answer. Note that the LIATE choice $u=x^3$, $dv=e^{x^2}\,dx$ would fail, since $dv$ cannot be integrated.
+
+\item \emph{(Analysis)} A student evaluates $\int\frac{\ln x}{x}\,dx$ by parts with $u=\ln x$ and $dv=\frac1x\,dx$ and reaches an equation containing the same integral again. Explain what happened, finish the computation, and give the faster method.
+
+\textit{Solution.} With $u=\ln x$, $du=\frac1x\,dx$, $dv=\frac1x\,dx$, $v=\ln x$, the formula gives $I=(\ln x)^2 - \int\frac{\ln x}{x}\,dx = (\ln x)^2 - I$. The original integral came back (a cyclic integral), so solve for it: $2I=(\ln x)^2$, hence $I=\frac12(\ln x)^2+C$. The faster method is substitution: with $w=\ln x$, $dw=\frac1x\,dx$, the integral is $\int w\,dw=\frac{w^2}{2}=\frac12(\ln x)^2+C$. Here the factor $\frac1x$ is the derivative of the inner function $\ln x$, so decision question (2) applies before question (3).
+\end{enumerate}
+
+\begin{notebox}
+\textbf{Flowchart: the decision questions.} Draw four boxes in a column, top to bottom, joined by downward arrows labeled ``no.'' Box 1: ``Can I integrate this directly (5.10 table)?'' with a sideways arrow labeled ``yes'' to a box ``done.'' Box 2: ``Is one factor (up to a constant) the derivative of an inner function of the other?'' with a sideways ``yes'' arrow to ``substitution (7.1).'' Box 3: ``Is it a product (or a lone $\ln x$ or $\arctan x$) where one piece simplifies when differentiated and the other can be integrated?'' with a sideways ``yes'' arrow to ``parts (choose $u$ with LIATE, then check with the two criteria).'' Box 4 (bottom): ``Other technique, such as partial fractions (7.3).'' Draw a long return arrow from the ``substitution,'' ``parts,'' and ``other'' boxes back up to the top of the column, labeled ``ask the questions again about the new integral.''
+\end{notebox}
+
+%=================================================================
+\section{Module Question Bank}
+
+\begin{enumerate}
+\item \textbf{[Easy]} \emph{(Topic 1)} A student writes $\displaystyle\int x\cos x\,dx = x\sin x + \int\sin x\,dx = x\sin x - \cos x + C$. Find the error and give the correct answer.
+
+\textit{Solution.} The formula is $uv - \int v\,du$, so the second term should be subtracted, not added. With $u=x$, $dv=\cos x\,dx$, $du=dx$, $v=\sin x$:
+\[ \int x\cos x\,dx = x\sin x - \int\sin x\,dx = x\sin x + \cos x + C. \]
+Differentiation exposes the student's answer: $\frac{d}{dx}(x\sin x-\cos x) = 2\sin x + x\cos x\neq x\cos x$, while $\frac{d}{dx}(x\sin x+\cos x)=x\cos x$.
+
+\item \textbf{[Medium]} \emph{(Topic 2)} Evaluate $\displaystyle\int x^4\ln x\,dx$, and explain in terms of $du$ and $v$ why $u=\ln x$ is the better choice.
+
+\textit{Solution.} Take $u=\ln x$, $dv=x^4\,dx$, so $du=\frac1x\,dx$ and $v=\frac{x^5}{5}$:
+\[ \int x^4\ln x\,dx = \frac{x^5}{5}\ln x - \int\frac{x^5}{5}\cdot\frac1x\,dx = \frac{x^5}{5}\ln x - \frac{x^5}{25} + C. \]
+Why: differentiating $\ln x$ removes the logarithm ($du=\frac1x\,dx$ is algebraic), so the leftover integral is a plain power. The alternative $u=x^4$, $dv=\ln x\,dx$ needs $v=x\ln x-x$ (itself a parts result), and the leftover integral $\int 4x^3(x\ln x-x)\,dx$ still contains a logarithm, so it is no simpler.
+
+\item \textbf{[Medium]} \emph{(Topic 3)} Evaluate $\displaystyle\int x^2e^{-3x}\,dx$.
+
+\textit{Solution.} Tabular method with D: $x^2,\,2x,\,2,\,0$ and I: $e^{-3x},\,-\frac13e^{-3x},\,\frac19e^{-3x},\,-\frac1{27}e^{-3x}$. The diagonal products with signs $+,-,+$ are
+\[ x^2\Big(-\tfrac13e^{-3x}\Big) - 2x\Big(\tfrac19e^{-3x}\Big) + 2\Big(-\tfrac1{27}e^{-3x}\Big), \]
+so
+\[ \int x^2e^{-3x}\,dx = -e^{-3x}\left(\frac{x^2}{3} + \frac{2x}{9} + \frac{2}{27}\right) + C. \]
+Check: with $P=\frac{x^2}{3}+\frac{2x}{9}+\frac2{27}$ the derivative is $e^{-3x}(3P-P')$, and $3P-P'=x^2$.
+
+\item \textbf{[Medium]} \emph{(Topic 4)} Evaluate $\displaystyle\int\ln(5x)\,dx$.
+
+\textit{Solution.} Take $u=\ln(5x)$ and $dv=dx$. By the chain rule $du=\frac{5}{5x}\,dx=\frac1x\,dx$, and $v=x$:
+\[ \int\ln(5x)\,dx = x\ln(5x) - \int x\cdot\frac1x\,dx = x\ln(5x) - x + C. \]
+Consistency check: $x\ln(5x)-x = x\ln x + (\ln5-1)x$, which agrees with integrating $\ln 5+\ln x$ term by term.
+
+\item \textbf{[Medium]} \emph{(Topic 5)} Evaluate $\displaystyle\int_1^e x\ln x\,dx$.
+
+\textit{Solution (rubric: correct choice of $u$; limits kept in $x$; both endpoints in the boundary term).} Take $u=\ln x$, $dv=x\,dx$, $du=\frac1x\,dx$, $v=\frac{x^2}{2}$:
+\[ \int_1^ex\ln x\,dx = \Big[\tfrac{x^2}{2}\ln x\Big]_1^e - \int_1^e\frac{x}{2}\,dx = \tfrac{e^2}{2}(1) - 0 - \Big[\tfrac{x^2}{4}\Big]_1^e = \frac{e^2}{2} - \left(\frac{e^2}{4}-\frac14\right) = \frac{e^2+1}{4}\approx2.10. \]
+
+\item \textbf{[Hard]} \emph{(Topic 5, graph-based)} A tracer is released into a stream at rate $r(t)=t^2e^{-t}$ mg/min, $t$ minutes after release. The graph of $r$ on $[0,3]$ is shown with the region under the curve shaded. (a) What does the shaded area represent? (b) Compute it exactly. (c) Use the graph to check that your value is reasonable.
+
+\textit{Instructor note: add the image yourself.} Draw the graph of $r(t)=t^2e^{-t}$ for $0\le t\le3$: horizontal axis $t$ (minutes), vertical axis $r$ (mg/min) from $0$ to $0.6$; plot $(0,0)$, $(1,0.37)$, $(2,0.54)$ (the peak), $(3,0.45)$; connect with a smooth curve; shade the region between the curve and the $t$-axis from $0$ to $3$.
+
+\textit{Solution.} (a) The total mass of tracer released during the first 3 minutes, in mg. (b) Take $u=t^2$, $dv=e^{-t}\,dt$, $du=2t\,dt$, $v=-e^{-t}$:
+\[ \int_0^3t^2e^{-t}\,dt = \big[-t^2e^{-t}\big]_0^3 + 2\int_0^3te^{-t}\,dt. \]
+For the second integral take $u=t$, $dv=e^{-t}\,dt$: $\int_0^3te^{-t}\,dt = \big[-te^{-t}\big]_0^3+\int_0^3e^{-t}\,dt = -3e^{-3} + \big[-e^{-t}\big]_0^3 = 1-4e^{-3}$. Therefore
+\[ \int_0^3t^2e^{-t}\,dt = -9e^{-3} + 2\big(1-4e^{-3}\big) = 2 - 17e^{-3}\approx 1.15\text{ mg}. \]
+(c) The curve stays below its peak of $0.54$ over a width of $3$, so the area is under $3\times0.54\approx1.62$; it fills roughly $70\%$ of that rectangle, and a trapezoid estimate from the four plotted points gives about $1.13$. Both agree with $1.15$.
+
+\item \textbf{[Medium]} \emph{(Topic 6)} Evaluate each integral and name the technique: (a) $\displaystyle\int\frac{\ln x}{x}\,dx$; (b) $\displaystyle\int\frac{\ln x}{x^2}\,dx$.
+
+\textit{Solution.} (a) Substitution: $w=\ln x$, $dw=\frac1x\,dx$, giving $\int w\,dw=\frac12(\ln x)^2+C$. (b) Parts: there is no inner function whose derivative appears, so take $u=\ln x$, $dv=x^{-2}\,dx$, $du=\frac1x\,dx$, $v=-\frac1x$:
+\[ \int\frac{\ln x}{x^2}\,dx = -\frac{\ln x}{x} + \int\frac{1}{x}\cdot\frac{1}{x}\,dx = -\frac{\ln x}{x} - \frac1x + C. \]
+The two integrals contain the same ingredients; only the presence or absence of a factor $\frac1x$ that is the derivative of $\ln x$ decides the technique.
+
+\item \textbf{[Hard]} \emph{(Topic 6, combined with Topic 5)} Evaluate $\displaystyle\int_0^1x^5e^{x^2}\,dx$.
+
+\textit{Solution (rubric: substitution completed before parts; limits converted once, at the substitution; two passes of parts done correctly).} Let $w=x^2$, $dw=2x\,dx$, so $x^5\,dx = x^4\cdot x\,dx = w^2\cdot\frac12\,dw$. The limits convert: $x=0\Rightarrow w=0$ and $x=1\Rightarrow w=1$. Then
+\[ \int_0^1x^5e^{x^2}\,dx = \frac12\int_0^1w^2e^w\,dw. \]
+Now parts twice (limits stay in $w$): $\int w^2e^w\,dw = w^2e^w - 2\int we^w\,dw = w^2e^w - 2\big(we^w-e^w\big) = e^w\big(w^2-2w+2\big)$. Evaluating,
+\[ \frac12\Big[e^w\big(w^2-2w+2\big)\Big]_0^1 = \frac12\big(e\cdot1 - 1\cdot2\big) = \frac{e-2}{2}\approx0.36. \]
+\end{enumerate}
+
+\end{document}
