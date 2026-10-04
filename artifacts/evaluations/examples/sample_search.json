@@ -1,0 +1,135 @@
+{
+  "question": "What is a Dedekind domain, and why do fractional ideals matter?",
+  "filters": {
+    "course_id": null,
+    "allowed_scopes": [
+      "pilot_course_or_general"
+    ],
+    "include_flagged": false
+  },
+  "models": [
+    "bge_base_en_v1_5",
+    "qwen3_embedding_0_6b"
+  ],
+  "channel_candidate_counts": {
+    "bge_base_en_v1_5": 40,
+    "qwen3_embedding_0_6b": 40,
+    "lexical_exact": 0,
+    "lexical_broad": 40
+  },
+  "total_distinct_candidate_passages": 20,
+  "results": [
+    {
+      "citation": "S1",
+      "passage_id": "pass_642e1c7e1d536f82",
+      "course_id": "number_theory_1",
+      "course_name": "Number Theory I",
+      "source_type": "textbook_reference",
+      "filename": "Number_Claude_Interactive.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Number_Claude_Interactive.tex",
+      "section_path": "Module 1: Dedekind Domains and Ramification > Fractional Ideals, Unique Factorization, and the Ideal Class Group",
+      "line_start": 71,
+      "line_end": 88,
+      "scope_status": "pilot_course_or_general",
+      "review_status": "unverified",
+      "known_issues": [],
+      "score": 0.055701,
+      "matched_record_ids": [
+        "concept:concept_05b6f1e6a952d298:0",
+        "concept:concept_6e8a066b96f133a6:0",
+        "concept:concept_73f1cfb9b4bd3fc3:0",
+        "concept:concept_805a3d9dd6450a5d:0",
+        "concept:concept_f61f0732f55893ac:0",
+        "passage:pass_642e1c7e1d536f82:0"
+      ],
+      "signals": [
+        "bge_base_en_v1_5",
+        "lexical_broad",
+        "qwen3_embedding_0_6b"
+      ],
+      "raw_latex": "\\textbf{Core concepts}\n\\begin{itemize}[noitemsep]\n  \\item Fractional ideals and their group structure under multiplication\n  \\item Unique factorization of ideals into primes (existence and uniqueness)\n  \\item The ideal class group $\\mathrm{Cl}(K) = $ fractional ideals modulo principal ideals\n  \\item Finiteness of $\\mathrm{Cl}(K)$ (stated here; proved in Module 2 via Minkowski theory)\n\\end{itemize}\n\\textbf{Learning objectives}\n\\begin{itemize}[noitemsep]\n  \\item Prove unique factorization of ideals in a Dedekind domain\n  \\item Compute the ideal class group in small examples\n  \\item Explain the relationship between class number one and unique factorization of elements\n\\end{itemize}\n\\textbf{Example questions}\n\\begin{enumerate}[noitemsep]\n  \\item[Q1 (foundational).] Show every nonzero fractional ideal of a Dedekind domain is invertible. \\emph{Rubric: prove local invertibility at each prime using the DVR structure, then glue.}\n  \\item[Q2 (advanced).] Compute $\\mathrm{Cl}(\\Q(\\sqrt{-5}))$ by exhibiting a non-principal ideal. \\emph{Rubric: factor $(2,1+\\sqrt{-5})$ as a prime above 2, show non-principal via a norm argument, show its square is principal; conclude $\\mathrm{Cl}(K)\\cong \\Z/2$.}\n\\end{enumerate}"
+    },
+    {
+      "citation": "S2",
+      "passage_id": "pass_87a5442afed01224",
+      "course_id": "number_theory_1",
+      "course_name": "Number Theory I",
+      "source_type": "textbook_reference",
+      "filename": "Number_Claude_Interactive.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Number_Claude_Interactive.tex",
+      "section_path": "Module 1: Dedekind Domains and Ramification > Dedekind Domains: Definitions and Characterizations",
+      "line_start": 50,
+      "line_end": 67,
+      "scope_status": "pilot_course_or_general",
+      "review_status": "unverified",
+      "known_issues": [],
+      "score": 0.051434,
+      "matched_record_ids": [
+        "concept:concept_0ad0888ad1cab2d2:0",
+        "concept:concept_85ef50817573b215:0",
+        "concept:concept_a6956c2cd99b7139:0",
+        "passage:pass_87a5442afed01224:0"
+      ],
+      "signals": [
+        "bge_base_en_v1_5",
+        "lexical_broad",
+        "qwen3_embedding_0_6b"
+      ],
+      "raw_latex": "\\textbf{Core concepts}\n\\begin{itemize}[noitemsep]\n  \\item Noetherian, integrally closed, Krull dimension one (every nonzero prime is maximal)\n  \\item Equivalent characterizations: localization at every prime is a DVR; every nonzero fractional ideal is invertible\n  \\item Examples: $\\OK$ for a number field $K$, coordinate rings of smooth affine curves, PIDs\n  \\item Non-example: non-maximal orders, e.g.\\ $\\Z[\\sqrt{-3}]$\n\\end{itemize}\n\\textbf{Learning objectives}\n\\begin{itemize}[noitemsep]\n  \\item Explain the equivalent characterizations of a Dedekind domain and prove their equivalence\n  \\item Derive that $\\OK$ is a Dedekind domain from integrality and finiteness properties\n  \\item Apply localization arguments to reduce global ring-theoretic questions to the DVR case\n\\end{itemize}\n\\textbf{Example questions}\n\\begin{enumerate}[noitemsep]\n  \\item[Q1 (foundational).] Show that a PID is a Dedekind domain. \\emph{Rubric: PID $\\Rightarrow$ Noetherian (ACC on ideals); UFD $\\Rightarrow$ integrally closed; nonzero primes in a PID are generated by irreducibles, hence maximal.}\n  \\item[Q2 (advanced).] Let $A = \\Z[\\sqrt{-3}]$. Exhibit an element of $\\mathrm{Frac}(A)$ integral over $A$ but not in $A$, and conclude $A$ is not Dedekind. \\emph{Answer: $\\tfrac{1+\\sqrt{-3}}{2}$ satisfies $x^2-x+1=0$ and lies in $\\mathcal{O}_{\\Q(\\sqrt{-3})}=\\Z[\\tfrac{1+\\sqrt{-3}}{2}]$, but not in $A$.}\n\\end{enumerate}"
+    },
+    {
+      "citation": "S3",
+      "passage_id": "pass_82491cef89faf92b",
+      "course_id": "number_theory_1",
+      "course_name": "Number Theory I",
+      "source_type": "context",
+      "filename": "Number_Content_Claude.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Number_Content_Claude.tex",
+      "section_path": "Semester I: Foundations, Local Fields, and the Adelic Framework > Unit 1: Dedekind Domains and the Arithmetic of Algebraic Integers",
+      "line_start": 145,
+      "line_end": 181,
+      "scope_status": "pilot_course_or_general",
+      "review_status": "unverified",
+      "known_issues": [],
+      "score": 0.051294,
+      "matched_record_ids": [
+        "concept:concept_df24901eb51309ed:0",
+        "passage:pass_82491cef89faf92b:0",
+        "passage:pass_82491cef89faf92b:1"
+      ],
+      "signals": [
+        "bge_base_en_v1_5",
+        "lexical_broad",
+        "qwen3_embedding_0_6b"
+      ],
+      "raw_latex": "\\labelline{Topics.}\n\\begin{itemize}[nosep]\n\\item Localization of rings and modules; integral closure and integrality criteria\n\\item Prime ideals and the Chinese Remainder Theorem\n\\item Dedekind rings: equivalent characterizations\n\\item Discrete valuation rings (DVRs) and unique factorization of ideals into primes\n\\item Explicit (Kummer--Dedekind) factorization of a rational prime in a number field\n\\item Projective modules over Dedekind rings; orders in algebras over $\\mathbb{Q}$\n\\end{itemize}\n\\labelline{Key Concepts.} integral extension, normalization, fractional ideal, ideal class group (preview), uniformizer, valuation ideal, Kummer's theorem, invertible module.\n\\labelline{Learning Objectives.} Students will be able to:\n\\begin{enumerate}[nosep]\n\\item Prove that the ring of integers $\\mathcal{O}_K$ of a number field $K$ is a Dedekind domain.\n\\item Establish the equivalence of the standard characterizations of a Dedekind domain (Noetherian + integrally closed + dimension 1 $\\Longleftrightarrow$ every nonzero fractional ideal is invertible $\\Longleftrightarrow$ unique factorization of ideals $\\Longleftrightarrow$ all localizations are DVRs).\n\\item Apply the Chinese Remainder Theorem to decompose quotients $\\mathcal{O}_K/\\mathfrak{a}$.\n\\item Use the Kummer--Dedekind theorem to factor a prime $p$ in $\\mathcal{O}_K$ explicitly from a minimal polynomial.\n\\item State the structure theorem for finitely generated projective modules over a Dedekind domain.\n\\end{enumerate}\n\\difficulttopics\n\\begin{itemize}[nosep]\n\\item Proving the equivalence of the several axiomatic characterizations of Dedekind domains --- the first significant abstraction barrier in the course.\n\\item Kummer--Dedekind factorization when $\\mathcal{O}_K$ is \\emph{not} monogenic over $\\mathbb{Z}$ (index divisibility subtleties).\n\\item The structure theorem for projective modules over Dedekind domains (the ``invariant factor'' analogue for non-PIDs).\n\\end{itemize}\n\\prereq\\ Noetherian rings, quotient rings, elementary field theory, basic module theory.\n\\sourcecorr\n\\begin{tabular}{@{}ll@{}}\n\\N & I \\S\\S1--3, 6--9, 11--12 \\\\\n\\Lg & I \\S\\S1--9 \\\\\n\\W & V \\S1 (orders --- brief preview) \\\\\n\\end{tabular}\n\\end{unitbox}"
+    },
+    {
+      "citation": "S4",
+      "passage_id": "pass_eb3af25e10a50c8d",
+      "course_id": "number_theory_1",
+      "course_name": "Number Theory I",
+      "source_type": "syllabus",
+      "filename": "Number_Syllabus_Claude.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Number_Syllabus_Claude.tex",
+      "section_path": "Detailed Module Breakdown > Module 1: Dedekind Domains and the Arithmetic of Number Rings",
+      "line_start": 90,
+      "line_end": 103,
+      "scope_status": "pilot_course_or_general",
+      "review_status": "unverified",
+      "known_issues": [],
+      "score": 0.045052,
+      "matched_record_ids": [
+        "concept:concept_8897c2ae852fe27b:0",
+        "passage:pass_eb3af25e10a50c8d:0"
+      ],
+      "signals": [
+        "bge_base_en_v1_5",
+        "lexical_broad",
+        "qwen3_embedding_0_6b"
+      ],
+      "raw_latex": "\\textbf{Topics.} Algebraic number fields and their rings of integers; Noetherian, integrally closed domains of Krull dimension~1; equivalent characterizations of a Dedekind domain; unique factorization of nonzero ideals into prime ideals; localization at a prime; fractional ideals; first look at the ideal class group.\n\\textbf{Key concepts.} Integral closure $\\cdot$ Noetherian ring $\\cdot$ discrete valuation ring (DVR) $\\cdot$ fractional ideal $\\cdot$ unique factorization of ideals $\\cdot$ ideal class group.\n\\textbf{Reference chapters.} Neukirch, \\emph{Algebraic Number Theory}, Ch.~I, \\S1--3; Lang, \\emph{Algebraic Number Theory}, Ch.~I; Cassels--Fröhlich, Ch.~I.\n\\textbf{Learning objectives.}\n\\begin{itemize}[leftmargin=*]\n  \\item State and prove the equivalence of the standard characterizations of a Dedekind domain (Noetherian + integrally closed + dimension~1 $\\iff$ every nonzero ideal factors uniquely into primes $\\iff$ localizations are DVRs).\n  \\item Factor concrete ideals in rings of integers of quadratic and cyclotomic fields.\n  \\item Distinguish factorization of ideals from (nonunique) factorization of elements.\n\\end{itemize}\n\\textbf{Difficult topics.} Proving the equivalence of the various characterizations of Dedekind domains in full generality; the localization/globalization dictionary; recognizing when a given ring of integers fails to be a PID while remaining a Dedekind domain."
+    }
+  ],
+  "context": "[S1] Course: Number Theory I (number_theory_1)\nSource: Number_Claude_Interactive.tex | type: textbook_reference | lines: 71-88\nSection: Module 1: Dedekind Domains and Ramification > Fractional Ideals, Unique Factorization, and the Ideal Class Group\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\textbf{Core concepts}\n\\begin{itemize}[noitemsep]\n  \\item Fractional ideals and their group structure under multiplication\n  \\item Unique factorization of ideals into primes (existence and uniqueness)\n  \\item The ideal class group $\\mathrm{Cl}(K) = $ fractional ideals modulo principal ideals\n  \\item Finiteness of $\\mathrm{Cl}(K)$ (stated here; proved in Module 2 via Minkowski theory)\n\\end{itemize}\n\\textbf{Learning objectives}\n\\begin{itemize}[noitemsep]\n  \\item Prove unique factorization of ideals in a Dedekind domain\n  \\item Compute the ideal class group in small examples\n  \\item Explain the relationship between class number one and unique factorization of elements\n\\end{itemize}\n\\textbf{Example questions}\n\\begin{enumerate}[noitemsep]\n  \\item[Q1 (foundational).] Show every nonzero fractional ideal of a Dedekind domain is invertible. \\emph{Rubric: prove local invertibility at each prime using the DVR structure, then glue.}\n  \\item[Q2 (advanced).] Compute $\\mathrm{Cl}(\\Q(\\sqrt{-5}))$ by exhibiting a non-principal ideal. \\emph{Rubric: factor $(2,1+\\sqrt{-5})$ as a prime above 2, show non-principal via a norm argument, show its square is principal; conclude $\\mathrm{Cl}(K)\\cong \\Z/2$.}\n\\end{enumerate}\n\n[S2] Course: Number Theory I (number_theory_1)\nSource: Number_Claude_Interactive.tex | type: textbook_reference | lines: 50-67\nSection: Module 1: Dedekind Domains and Ramification > Dedekind Domains: Definitions and Characterizations\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\textbf{Core concepts}\n\\begin{itemize}[noitemsep]\n  \\item Noetherian, integrally closed, Krull dimension one (every nonzero prime is maximal)\n  \\item Equivalent characterizations: localization at every prime is a DVR; every nonzero fractional ideal is invertible\n  \\item Examples: $\\OK$ for a number field $K$, coordinate rings of smooth affine curves, PIDs\n  \\item Non-example: non-maximal orders, e.g.\\ $\\Z[\\sqrt{-3}]$\n\\end{itemize}\n\\textbf{Learning objectives}\n\\begin{itemize}[noitemsep]\n  \\item Explain the equivalent characterizations of a Dedekind domain and prove their equivalence\n  \\item Derive that $\\OK$ is a Dedekind domain from integrality and finiteness properties\n  \\item Apply localization arguments to reduce global ring-theoretic questions to the DVR case\n\\end{itemize}\n\\textbf{Example questions}\n\\begin{enumerate}[noitemsep]\n  \\item[Q1 (foundational).] Show that a PID is a Dedekind domain. \\emph{Rubric: PID $\\Rightarrow$ Noetherian (ACC on ideals); UFD $\\Rightarrow$ integrally closed; nonzero primes in a PID are generated by irreducibles, hence maximal.}\n  \\item[Q2 (advanced).] Let $A = \\Z[\\sqrt{-3}]$. Exhibit an element of $\\mathrm{Frac}(A)$ integral over $A$ but not in $A$, and conclude $A$ is not Dedekind. \\emph{Answer: $\\tfrac{1+\\sqrt{-3}}{2}$ satisfies $x^2-x+1=0$ and lies in $\\mathcal{O}_{\\Q(\\sqrt{-3})}=\\Z[\\tfrac{1+\\sqrt{-3}}{2}]$, but not in $A$.}\n\\end{enumerate}\n\n[S3] Course: Number Theory I (number_theory_1)\nSource: Number_Content_Claude.tex | type: context | lines: 145-181\nSection: Semester I: Foundations, Local Fields, and the Adelic Framework > Unit 1: Dedekind Domains and the Arithmetic of Algebraic Integers\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\labelline{Topics.}\n\\begin{itemize}[nosep]\n\\item Localization of rings and modules; integral closure and integrality criteria\n\\item Prime ideals and the Chinese Remainder Theorem\n\\item Dedekind rings: equivalent characterizations\n\\item Discrete valuation rings (DVRs) and unique factorization of ideals into primes\n\\item Explicit (Kummer--Dedekind) factorization of a rational prime in a number field\n\\item Projective modules over Dedekind rings; orders in algebras over $\\mathbb{Q}$\n\\end{itemize}\n\\labelline{Key Concepts.} integral extension, normalization, fractional ideal, ideal class group (preview), uniformizer, valuation ideal, Kummer's theorem, invertible module.\n\\labelline{Learning Objectives.} Students will be able to:\n\\begin{enumerate}[nosep]\n\\item Prove that the ring of integers $\\mathcal{O}_K$ of a number field $K$ is a Dedekind domain.\n\\item Establish the equivalence of the standard characterizations of a Dedekind domain (Noetherian + integrally closed + dimension 1 $\\Longleftrightarrow$ every nonzero fractional ideal is invertible $\\Longleftrightarrow$ unique factorization of ideals $\\Longleftrightarrow$ all localizations are DVRs).\n\\item Apply the Chinese Remainder Theorem to decompose quotients $\\mathcal{O}_K/\\mathfrak{a}$.\n\\item Use the Kummer--Dedekind theorem to factor a prime $p$ in $\\mathcal{O}_K$ explicitly from a minimal polynomial.\n\\item State the structure theorem for finitely generated projective modules over a Dedekind domain.\n\\end{enumerate}\n\\difficulttopics\n\\begin{itemize}[nosep]\n\\item Proving the equivalence of the several axiomatic characterizations of Dedekind domains --- the first significant abstraction barrier in the course.\n\\item Kummer--Dedekind factorization when $\\mathcal{O}_K$ is \\emph{not} monogenic over $\\mathbb{Z}$ (index divisibility subtleties).\n\\item The structure theorem for projective modules over Dedekind domains (the ``invariant factor'' analogue for non-PIDs).\n\\end{itemize}\n\\prereq\\ Noetherian rings, quotient rings, elementary field theory, basic module theory.\n\\sourcecorr\n\\begin{tabular}{@{}ll@{}}\n\\N & I \\S\\S1--3, 6--9, 11--12 \\\\\n\\Lg & I \\S\\S1--9 \\\\\n\\W & V \\S1 (orders --- brief preview) \\\\\n\\end{tabular}\n\\end{unitbox}\n\n[S4] Course: Number Theory I (number_theory_1)\nSource: Number_Syllabus_Claude.tex | type: syllabus | lines: 90-103\nSection: Detailed Module Breakdown > Module 1: Dedekind Domains and the Arithmetic of Number Rings\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\textbf{Topics.} Algebraic number fields and their rings of integers; Noetherian, integrally closed domains of Krull dimension~1; equivalent characterizations of a Dedekind domain; unique factorization of nonzero ideals into prime ideals; localization at a prime; fractional ideals; first look at the ideal class group.\n\\textbf{Key concepts.} Integral closure $\\cdot$ Noetherian ring $\\cdot$ discrete valuation ring (DVR) $\\cdot$ fractional ideal $\\cdot$ unique factorization of ideals $\\cdot$ ideal class group.\n\\textbf{Reference chapters.} Neukirch, \\emph{Algebraic Number Theory}, Ch.~I, \\S1--3; Lang, \\emph{Algebraic Number Theory}, Ch.~I; Cassels--Fröhlich, Ch.~I.\n\\textbf{Learning objectives.}\n\\begin{itemize}[leftmargin=*]\n  \\item State and prove the equivalence of the standard characterizations of a Dedekind domain (Noetherian + integrally closed + dimension~1 $\\iff$ every nonzero ideal factors uniquely into primes $\\iff$ localizations are DVRs).\n  \\item Factor concrete ideals in rings of integers of quadratic and cyclotomic fields.\n  \\item Distinguish factorization of ideals from (nonunique) factorization of elements.\n\\end{itemize}\n\\textbf{Difficult topics.} Proving the equivalence of the various characterizations of Dedekind domains in full generality; the localization/globalization dictionary; recognizing when a given ring of integers fails to be a PID while remaining a Dedekind domain."
+}

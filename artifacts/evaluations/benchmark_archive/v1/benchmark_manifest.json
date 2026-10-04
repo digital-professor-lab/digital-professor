@@ -1,0 +1,11 @@
+{
+  "question_count": 50,
+  "distribution": {
+    "answerable": 46,
+    "scope_excluded": 2,
+    "absent": 2
+  },
+  "dataset_sha256": "b0151e5bfae7a36a444c5987b27a6577c2cd7ef4bd09ae634df637aab283cc0f",
+  "source_manifest_sha256": "d0b1b5cfdd46ab480ed5770213e8e39c7b43b016e4ede6d746108e866bd07e2d",
+  "status": "source_anchored_silver_labels_pending_instructor_review"
+}

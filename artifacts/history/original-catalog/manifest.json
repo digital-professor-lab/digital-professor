@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "status": "catalog_only_no_embeddings_no_retrieval",
+  "courses": {
+    "calc1": {
+      "name": "Calculus I for Biological and Social Sciences",
+      "note": "Provided files cover Calculus I; the context file also describes proposed Calculus II material."
+    },
+    "number_theory_1": {
+      "name": "Number Theory I",
+      "note": "Provided context describes a two-semester sequence; scope needs instructor confirmation."
+    }
+  },
+  "counts": {
+    "documents": 6,
+    "sections": 130,
+    "passages": 221,
+    "concepts": 216,
+    "concept_links": 216,
+    "review_issues": 1
+  },
+  "documents": [
+    {
+      "document_id": "calc1:syllabus",
+      "course_id": "calc1",
+      "source_type": "syllabus",
+      "filename": "Calc1_Syllabus_Claude.tex",
+      "source_path": "/Users/sunset/Desktop/entagile/resource/Calc1_Syllabus_Claude.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Syllabus_Claude.tex",
+      "sha256": "12ea3fe3ccb017e2485246261a90df2f213a74fd63fd94ddd73d44d082afbd12",
+      "line_count": 468,
+      "provenance": "AI-prepared syllabus/course guide; official adoption not established",
+      "review_status": "unverified"
+    },
+    {
+      "document_id": "calc1:context",
+      "course_id": "calc1",
+      "source_type": "context",
+      "filename": "Calc1_Content_Claude.tex",
+      "source_path": "/Users/sunset/Desktop/entagile/resource/Calc1_Content_Claude.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+      "sha256": "2af82a506643d4c866118e41c243f3c526ba26e2125eec2d36635e3ff1d7bf30",
+      "line_count": 756,
+      "provenance": "AI-prepared course context; not verified lecture record",
+      "review_status": "unverified"
+    },
+    {
+      "document_id": "calc1:textbook_reference",
+      "course_id": "calc1",
+      "source_type": "textbook_reference",
+      "filename": "Calc1_Book_Claude.tex",
+      "source_path": "/Users/sunset/Desktop/entagile/resource/Calc1_Book_Claude.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+      "sha256": "bac96a264f0c0ef76efa125d213d5eb500665220b3b2b3867e261d072ea94042",
+      "line_count": 771,
+      "provenance": "AI-prepared textbook-based course breakdown; original textbook full text not supplied",
+      "review_status": "unverified"
+    },
+    {
+      "document_id": "number_theory_1:syllabus",
+      "course_id": "number_theory_1",
+      "source_type": "syllabus",
+      "filename": "Number_Syllabus_Claude.tex",
+      "source_path": "/Users/sunset/Desktop/entagile/resource/Number_Syllabus_Claude.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Number_Syllabus_Claude.tex",
+      "sha256": "23367b74277a832944bb7097fefd9c928b2098f8c8e10dbdfcd0f5a4be04ab17",
+      "line_count": 224,
+      "provenance": "AI-prepared syllabus/course guide; official adoption not established",
+      "review_status": "unverified"
+    },
+    {
+      "document_id": "number_theory_1:context",
+      "course_id": "number_theory_1",
+      "source_type": "context",
+      "filename": "Number_Content_Claude.tex",
+      "source_path": "/Users/sunset/Desktop/entagile/resource/Number_Content_Claude.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Number_Content_Claude.tex",
+      "sha256": "b54346a87c77300108123b56c537217cc413efe1e833af97d883a179f53f9c41",
+      "line_count": 699,
+      "provenance": "AI-prepared course context; not verified lecture record",
+      "review_status": "unverified"
+    },
+    {
+      "document_id": "number_theory_1:textbook_reference",
+      "course_id": "number_theory_1",
+      "source_type": "textbook_reference",
+      "filename": "Number_Claude_Interactive.tex",
+      "source_path": "/Users/sunset/Desktop/entagile/resource/Number_Claude_Interactive.tex",
+      "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Number_Claude_Interactive.tex",
+      "sha256": "7ab1406609efc70bd585faa56f204cd7ef7ec5ea1053233266ad9a52761ab993",
+      "line_count": 521,
+      "provenance": "AI-prepared textbook-based course breakdown; original textbook full text not supplied",
+      "review_status": "unverified"
+    }
+  ]
+}

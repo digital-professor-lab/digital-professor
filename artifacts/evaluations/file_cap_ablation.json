@@ -1,0 +1,20 @@
+{
+  "dataset_sha256": "a0f8908504e01bbb0dbe76b1a630cc4e212e4091298ed10ca2414eb71b49bc32",
+  "change": "max_per_document: 2 -> 4; all other retrieval settings unchanged",
+  "baseline_complete_at6": 0.8696,
+  "alternative_complete_at6": 0.9565,
+  "baseline_group_recall_at6": 0.92,
+  "alternative_group_recall_at6": 0.9733,
+  "fixed_questions": [
+    "Q02",
+    "Q16",
+    "Q43",
+    "Q46"
+  ],
+  "regressed_questions": [],
+  "baseline_mean_context_characters": 10284,
+  "alternative_mean_context_characters": 9668,
+  "alternative_scope_or_issue_leaks": 0,
+  "alternative_integrity_failures": 0,
+  "alternative_context_budget_skips": 0
+}

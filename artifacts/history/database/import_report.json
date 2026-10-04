@@ -1,0 +1,26 @@
+{
+  "server_version": "17.11 (Debian 17.11-1.pgdg12+2)",
+  "pgvector_version": "0.8.6",
+  "database": "course_knowledge",
+  "host": "127.0.0.1",
+  "port": 55432,
+  "user": "coursekb",
+  "counts": {
+    "courses": 2,
+    "documents": 6,
+    "sections": 130,
+    "passages": 221,
+    "concepts": 216,
+    "concept_evidence": 216,
+    "review_issues": 1,
+    "embedding_inputs": 476,
+    "embedding_models": 2,
+    "embedding_bge": 476,
+    "embedding_qwen": 476
+  },
+  "model_revisions": {
+    "bge_base_en_v1_5": "a5beb1e3e68b9ab74eb54cfd186867f64f240e1a",
+    "qwen3_embedding_0_6b": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+  },
+  "input_sha256": "3814b665f44ccec215865a1f30ad370a621e3cdd9ffe59a2afb96d5124bfe500"
+}

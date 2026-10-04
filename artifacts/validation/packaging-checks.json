@@ -1,0 +1,39 @@
+{
+  "checked_date": "2026-10-04",
+  "python": "3.12.14",
+  "status": "passed_offline_packaging_checks",
+  "knowledge_catalog": {
+    "documents": 6,
+    "sections": 130,
+    "passages": 221,
+    "concepts": 216
+  },
+  "embedding_exports": {
+    "records": 476,
+    "bge_dimensions": 768,
+    "qwen_dimensions": 1024,
+    "normalized": true,
+    "hashes_checked": true
+  },
+  "behavior_tests": {
+    "passed": 13
+  },
+  "saved_output_verification": {
+    "mode": "offline_not_fresh_retrieval",
+    "questions": 50,
+    "complete_answerable": 46,
+    "not_found_challenges": 4,
+    "source_hits_checked": 276
+  },
+  "package_imports": "passed",
+  "live_database_and_model_rerun": "not_run_docker_unavailable",
+  "relocation_check": "passed_different_project_root_and_working_directory",
+  "documentation_links": "passed_current_entry_documents",
+  "bilingual_readme_pairs": "passed",
+  "excluded_files_and_token_patterns": "no_local_credentials_or_runtime_directories_found",
+  "limitations": [
+    "No fresh live database/model run during reorganization.",
+    "CI configuration has been prepared but not executed on GitHub.",
+    "Historical runs retain their original paths and hashes."
+  ]
+}

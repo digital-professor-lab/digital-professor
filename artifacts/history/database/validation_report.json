@@ -1,0 +1,37 @@
+{
+  "database": "course_knowledge",
+  "model_checks": {
+    "bge_base_en_v1_5": {
+      "rows": 476,
+      "dimensions": 768,
+      "maximum_absolute_vector_error": 0.0,
+      "self_query_top_match": "passage:pass_8548a143f709440f:0"
+    },
+    "qwen3_embedding_0_6b": {
+      "rows": 476,
+      "dimensions": 1024,
+      "maximum_absolute_vector_error": 0.0,
+      "self_query_top_match": "passage:pass_8548a143f709440f:0"
+    }
+  },
+  "counts": {
+    "courses": 2,
+    "embedding_inputs": 476,
+    "embedding_models": 2,
+    "documents": 6,
+    "sections": 130,
+    "passages": 221,
+    "concepts": 216,
+    "concept_evidence": 216,
+    "review_issues": 1,
+    "embedding_bge": 476,
+    "embedding_qwen": 476
+  },
+  "required_indexes": [
+    "embedding_bge_cosine_idx",
+    "embedding_inputs_text_idx",
+    "embedding_qwen_cosine_idx"
+  ],
+  "english_full_text_matches": 116,
+  "status": "passed"
+}

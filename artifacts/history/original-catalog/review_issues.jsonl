@@ -1,0 +1,1 @@
+{"description": "The draft states that 2 gives three unramified primes of residue degree 3 in Q(zeta_7). Since [Q(zeta_7):Q] = 6 and 2 has order 3 modulo 7, the expected number is 6/3 = 2, not 3.", "document_id": "number_theory_1:textbook_reference", "issue_id": "number_theory_cyclotomic_split_count", "severity": "high", "source_line": 171, "status": "needs_instructor_review"}

@@ -1,0 +1,222 @@
+[
+  {
+    "question": "How is the derivative used to model the growth of a biological population?",
+    "expected_course": "calc1",
+    "course_in_top_three": true,
+    "known_issue_excluded": true,
+    "citations_valid": true,
+    "top_sources": [
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Content_Claude.tex",
+        "line_start": 321,
+        "line_end": 362,
+        "section_path": "Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Book_Claude.tex",
+        "line_start": 509,
+        "line_end": 533,
+        "section_path": "Detailed Module Breakdown > Module 4 --- Applications of Differentiation (Chapter 5)"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Content_Claude.tex",
+        "line_start": 206,
+        "line_end": 235,
+        "section_path": "Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Book_Claude.tex",
+        "line_start": 372,
+        "line_end": 372,
+        "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Syllabus_Claude.tex",
+        "line_start": 219,
+        "line_end": 258,
+        "section_path": "Module 3: Derivatives"
+      }
+    ]
+  },
+  {
+    "question": "What does the Fundamental Theorem of Calculus say about accumulation and integration?",
+    "expected_course": "calc1",
+    "course_in_top_three": true,
+    "known_issue_excluded": true,
+    "citations_valid": true,
+    "top_sources": [
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Content_Claude.tex",
+        "line_start": 365,
+        "line_end": 398,
+        "section_path": "Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 6: Integration"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Syllabus_Claude.tex",
+        "line_start": 326,
+        "line_end": 368,
+        "section_path": "Module 5: Integration"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Book_Claude.tex",
+        "line_start": 553,
+        "line_end": 585,
+        "section_path": "Detailed Module Breakdown > Module 5 --- Integration (Chapter 6)"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Book_Claude.tex",
+        "line_start": 574,
+        "line_end": 574,
+        "section_path": "Detailed Module Breakdown > Module 5 --- Integration (Chapter 6)"
+      },
+      {
+        "course_id": "calc1",
+        "filename": "Calc1_Content_Claude.tex",
+        "line_start": 241,
+        "line_end": 275,
+        "section_path": "Semester 1: Calculus I > Module B --- Limits and Differential Calculus > Chapter 3: Limits and Continuity"
+      }
+    ]
+  },
+  {
+    "question": "What is a Dedekind domain, and why do fractional ideals matter?",
+    "expected_course": "number_theory_1",
+    "course_in_top_three": true,
+    "known_issue_excluded": true,
+    "citations_valid": true,
+    "top_sources": [
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Claude_Interactive.tex",
+        "line_start": 71,
+        "line_end": 88,
+        "section_path": "Module 1: Dedekind Domains and Ramification > Fractional Ideals, Unique Factorization, and the Ideal Class Group"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Claude_Interactive.tex",
+        "line_start": 50,
+        "line_end": 67,
+        "section_path": "Module 1: Dedekind Domains and Ramification > Dedekind Domains: Definitions and Characterizations"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Content_Claude.tex",
+        "line_start": 145,
+        "line_end": 181,
+        "section_path": "Semester I: Foundations, Local Fields, and the Adelic Framework > Unit 1: Dedekind Domains and the Arithmetic of Algebraic Integers"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Syllabus_Claude.tex",
+        "line_start": 90,
+        "line_end": 103,
+        "section_path": "Detailed Module Breakdown > Module 1: Dedekind Domains and the Arithmetic of Number Rings"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Syllabus_Claude.tex",
+        "line_start": 68,
+        "line_end": 84,
+        "section_path": "Course Structure at a Glance"
+      }
+    ]
+  },
+  {
+    "question": "How do ramification and residue degree describe primes in a number field extension?",
+    "expected_course": "number_theory_1",
+    "course_in_top_three": true,
+    "known_issue_excluded": true,
+    "citations_valid": true,
+    "top_sources": [
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Claude_Interactive.tex",
+        "line_start": 112,
+        "line_end": 128,
+        "section_path": "Module 1: Dedekind Domains and Ramification > Ramification Index, Residue Degree, and the Fundamental Identity"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Claude_Interactive.tex",
+        "line_start": 92,
+        "line_end": 108,
+        "section_path": "Module 1: Dedekind Domains and Ramification > Extensions of Dedekind Domains: Decomposition of Primes"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Syllabus_Claude.tex",
+        "line_start": 107,
+        "line_end": 120,
+        "section_path": "Detailed Module Breakdown > Module 2: Ramification Theory"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Content_Claude.tex",
+        "line_start": 270,
+        "line_end": 305,
+        "section_path": "Semester I: Foundations, Local Fields, and the Adelic Framework > Unit 4: Different, Discriminant, and Riemann--Roch for Number Fields"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Content_Claude.tex",
+        "line_start": 186,
+        "line_end": 223,
+        "section_path": "Semester I: Foundations, Local Fields, and the Adelic Framework > Unit 2: Galois Theory of Number Fields, Geometry of Numbers, and Cyclotomic Fields"
+      }
+    ]
+  },
+  {
+    "question": "How many prime ideals lie above 2 in the cyclotomic field Q(zeta_7)?",
+    "expected_course": "number_theory_1",
+    "course_in_top_three": true,
+    "known_issue_excluded": true,
+    "citations_valid": true,
+    "top_sources": [
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Content_Claude.tex",
+        "line_start": 186,
+        "line_end": 223,
+        "section_path": "Semester I: Foundations, Local Fields, and the Adelic Framework > Unit 2: Galois Theory of Number Fields, Geometry of Numbers, and Cyclotomic Fields"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Claude_Interactive.tex",
+        "line_start": 92,
+        "line_end": 108,
+        "section_path": "Module 1: Dedekind Domains and Ramification > Extensions of Dedekind Domains: Decomposition of Primes"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Claude_Interactive.tex",
+        "line_start": 180,
+        "line_end": 196,
+        "section_path": "Module 2: Global and Local Fields > Number Fields and Global Fields: Rings of Integers Revisited"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Content_Claude.tex",
+        "line_start": 145,
+        "line_end": 181,
+        "section_path": "Semester I: Foundations, Local Fields, and the Adelic Framework > Unit 1: Dedekind Domains and the Arithmetic of Algebraic Integers"
+      },
+      {
+        "course_id": "number_theory_1",
+        "filename": "Number_Syllabus_Claude.tex",
+        "line_start": 107,
+        "line_end": 120,
+        "section_path": "Detailed Module Breakdown > Module 2: Ramification Theory"
+      }
+    ]
+  }
+]

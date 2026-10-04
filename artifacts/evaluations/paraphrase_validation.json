@@ -1,0 +1,1881 @@
+{
+  "limits": "New wording of the same two known evidence cases, not independent-topic validation. No labels enter search.",
+  "cases": [
+    {
+      "question": "Which theorem helps evaluate limits of damped oscillations, and where does the course use it?",
+      "original_evidence_case": "Q11",
+      "report": {
+        "schema_version": "1.1",
+        "question": "Which theorem helps evaluate limits of damped oscillations, and where does the course use it?",
+        "status": "found",
+        "message": "",
+        "not_found_reason": null,
+        "scope_assessment": {
+          "decision": "retrieve",
+          "category": "within_selected_scope",
+          "reason_code": null,
+          "requested_scopes": [],
+          "required_source_types": [],
+          "available_source_types": [
+            "context",
+            "syllabus",
+            "textbook_reference"
+          ],
+          "matched_rules": [],
+          "next_action": "retrieve",
+          "explanation": "No explicit scope or source requirement blocks retrieval; evidence sufficiency is not assessed.",
+          "policy_version": "2",
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ]
+        },
+        "retrieval_queries": [
+          "Which theorem helps evaluate limits of damped oscillations, and where does the course use it?",
+          "Which theorem helps evaluate limits of damped oscillations?",
+          "Applications and examples: Which theorem helps evaluate limits of damped oscillations."
+        ],
+        "facet_candidate_counts": {
+          "Which theorem helps evaluate limits of damped oscillations?": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 0,
+            "lexical_broad": 40
+          },
+          "Applications and examples: Which theorem helps evaluate limits of damped oscillations.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 0,
+            "lexical_broad": 40
+          }
+        },
+        "evidence_assessment": {
+          "status": "not_assessed",
+          "next_action": "review_evidence"
+        },
+        "filters": {
+          "course_id": null,
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ],
+          "include_flagged": false
+        },
+        "models": [
+          "bge_base_en_v1_5",
+          "qwen3_embedding_0_6b"
+        ],
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 0,
+          "lexical_broad": 40
+        },
+        "use_lexical": true,
+        "max_per_document": 4,
+        "document_limit_mode": "soft",
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 8298,
+        "total_distinct_candidate_passages": 44,
+        "results": [
+          {
+            "citation": "S1",
+            "passage_id": "pass_ae947d97398aa4ae",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module B --- Limits and Differential Calculus > Chapter 3: Limits and Continuity",
+            "line_start": 241,
+            "line_end": 275,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.047997,
+            "selection_score": 0.047997,
+            "matched_record_ids": [
+              "concept:concept_ae22dcbe96760fa2:0",
+              "passage:pass_ae947d97398aa4ae:0",
+              "passage:pass_ae947d97398aa4ae:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Limits: an informal treatment, common pitfalls, and limit laws\n\\item Continuity: definition and combinations of continuous functions\n\\item Limits at infinity\n\\item Trigonometric limits and the Sandwich (Squeeze) Theorem\n\\item Properties of continuous functions: the Intermediate-Value Theorem and the bisection method\n\\item * A formal ($\\varepsilon$--$\\delta$) definition of limits\n\\end{itemize}\n\\KeyConcepts\nOne-sided and two-sided limits; limit laws; continuity at a point and on an\ninterval; removable, jump, and infinite discontinuities; horizontal and\nvertical asymptotes; the Sandwich Theorem; the Intermediate-Value Theorem\n(IVT); the bisection method for root-finding.\n\\LearnObj\n\\begin{enumerate}\n\\item Evaluate limits using direct substitution, algebraic manipulation, and limit laws.\n\\item Identify discontinuities of a function and classify their type.\n\\item Evaluate limits at infinity and identify horizontal and vertical asymptotes.\n\\item Apply the Sandwich Theorem to evaluate trigonometric limits.\n\\item Use the IVT to justify the existence of a root and approximate it with the bisection method.\n\\item * State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit.\n\\end{enumerate}\n\\PreReq Elementary functions and their graphs (Chapter 1); the intuitive notion of a sequence limit (Sec.\\ 2.2.3).\n\\Hard The formal $\\varepsilon$--$\\delta$ definition (Sec.\\ 3.6*) is the\nfirst rigor-heavy topic in the course and is genuinely difficult for a\nnon-math-major audience; trigonometric limits requiring the Sandwich\nTheorem require comfort manipulating inequalities, and students often\nconfuse ``the limit does not exist'' with ``the function is undefined.''\n\\bigskip",
+            "query_matches": [
+              "Which theorem helps evaluate limits of damped oscillations?",
+              "Applications and examples: Which theorem helps evaluate limits of damped oscillations."
+            ]
+          },
+          {
+            "citation": "S2",
+            "passage_id": "pass_f71cd171e2a80e28",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "syllabus",
+            "filename": "Calc1_Syllabus_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Syllabus_Claude.tex",
+            "section_path": "Module 2: Limits and Continuity",
+            "line_start": 169,
+            "line_end": 215,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.043035,
+            "selection_score": 0.043035,
+            "matched_record_ids": [
+              "concept:concept_eb0eed1546d710b6:0",
+              "passage:pass_f71cd171e2a80e28:0",
+              "passage:pass_f71cd171e2a80e28:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\label{mod:2}\n\\begin{modulebox}{Module 2 --- Limits, Continuity, and Limiting Behavior \\hfill (2 weeks)}\n\\textbf{Chapters/Sections:}\n\\begin{itemize}[nosep]\n  \\item 3.1 --- Limits (intuitive approach, with the formal $\\varepsilon$--$\\delta$ definition introduced via 3.6)\n  \\item 3.2 --- Continuity\n  \\item 3.3 --- Limits at Infinity (with the formal definition via 3.6)\n  \\item 3.4 --- Trigonometric Limits and the Sandwich (Squeeze) Theorem\n  \\item 3.5 --- Properties of Continuous Functions\n\\end{itemize}\n\\textbf{Core Concepts:}\n\\begin{itemize}[nosep]\n  \\item One-sided and two-sided limits; limit laws\n  \\item Formal $\\varepsilon$--$\\delta$ definition of a limit\n  \\item Continuity at a point and on an interval; types of discontinuities (removable, jump, infinite)\n  \\item Horizontal/vertical asymptotes and limits at infinity\n  \\item Squeeze (Sandwich) Theorem, especially applied to $\\lim_{\\theta \\to 0}\\frac{\\sin\\theta}{\\theta}$\n  \\item Intermediate Value Theorem (IVT) and Extreme Value Theorem groundwork\n\\end{itemize}\n\\loheader\n\\begin{itemize}[nosep]\n  \\item Evaluate limits algebraically (factoring, rationalizing), graphically, and numerically\n  \\item Write and interpret an $\\varepsilon$--$\\delta$ proof for a simple limit statement\n  \\item Classify discontinuities and determine continuity of piecewise functions\n  \\item Evaluate limits at infinity and identify horizontal/vertical asymptotes\n  \\item Apply the Squeeze Theorem to evaluate trigonometric limits\n  \\item Apply the IVT to justify the existence of roots or solutions\n\\end{itemize}\n\\end{modulebox}\n\\begin{diffbox}\n\\begin{itemize}[nosep]\n  \\item The formal $\\varepsilon$--$\\delta$ definition: translating a symbolic statement into a working proof\n  \\item Indeterminate forms ($0/0$, $\\infty - \\infty$) requiring algebraic manipulation before a limit can be evaluated\n  \\item Recognizing when/how to apply the Squeeze Theorem rather than direct substitution\n  \\item Distinguishing a removable discontinuity from a true break in continuity\n\\end{itemize}\n\\end{diffbox}\n\\begin{prereqbox}\nModule 1 (function behavior, graphing). Algebraic fluency: factoring, rationalizing\nradicals, trigonometric identities.\n\\end{prereqbox}",
+            "query_matches": [
+              "Which theorem helps evaluate limits of damped oscillations?",
+              "Applications and examples: Which theorem helps evaluate limits of damped oscillations."
+            ]
+          },
+          {
+            "citation": "S3",
+            "passage_id": "pass_1887ae1399f483e7",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)",
+            "line_start": 421,
+            "line_end": 421,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.043617,
+            "selection_score": 0.043617,
+            "matched_record_ids": [
+              "concept:concept_dda1da32ddf1af2d:0",
+              "passage:pass_1887ae1399f483e7:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\",
+            "query_matches": []
+          },
+          {
+            "citation": "S4",
+            "passage_id": "pass_23fdd4b2075dbfa8",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)",
+            "line_start": 396,
+            "line_end": 427,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.042432,
+            "selection_score": 0.042432,
+            "matched_record_ids": [
+              "passage:pass_23fdd4b2075dbfa8:0",
+              "passage:pass_23fdd4b2075dbfa8:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\addcontentsline{toc}{subsection}{Module 2 --- Limits and Continuity (Chapter 3)}\n\\begin{modulebox}{Module 2 at a Glance}{}\n\\textbf{Chapter:} 3 \\quad\\textbf{Sections:} 3.1--3.6\\opt \\quad\\textbf{Weeks:} 5--6 \\quad\n\\textbf{Overall difficulty:} \\diffM\\text{--}\\diffH \\quad\n\\textbf{Prerequisite:} Module 0 (elementary functions); informal limit intuition from\nModule 1\n\\end{modulebox}\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n3.1.1 & A Non-Rigorous Discussion of Limits & Estimate $\\lim_{x\\to c} f(x)$ numerically and graphically. & \\diffL \\\\\n3.1.2 & Pitfalls of Finding Limits & Recognize one-sided limits and oscillation as cases where a limit fails to exist. & \\diffM \\\\\n3.1.3 & Limit Laws & Apply the limit laws (sum, product, quotient, composition) to evaluate limits algebraically. & \\diffM \\\\\n3.2.1 & What Is Continuity? & Test continuity of a function at a point using the three-part definition. & \\diffM \\\\\n3.2.2 & Combinations of Continuous Functions & Determine continuity of sums, products, quotients, and compositions of continuous functions. & \\diffL \\\\\n3.3 & Limits at Infinity & Evaluate limits at infinity to find horizontal asymptotes and long-run model behavior. & \\diffM \\\\\n3.4.1 & Trigonometric Limits & Derive $\\lim_{x\\to 0}\\frac{\\sin x}{x}=1$ using a geometric argument. & \\diffM \\\\\n3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\\n3.5.1 & IVT and the Bisection Method & Use the Intermediate-Value Theorem to guarantee a root, and approximate it via bisection. & \\diffM \\\\\n3.5.2\\opt & Spreadsheet Bisection & Implement the bisection method numerically in a spreadsheet. & \\diffL \\\\\n3.5.3 & A Final Remark on Continuity & Summarize the practical consequences of continuity for graphing and modeling. & \\diffL \\\\\n3.6\\opt & Formal ($\\varepsilon$--$\\delta$) Definition of Limits & State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit. & \\diffH \\\\\n\\bottomrule\n\\end{longtable}",
+            "query_matches": []
+          },
+          {
+            "citation": "S5",
+            "passage_id": "pass_a6fa85dbbf37a4fe",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)",
+            "line_start": 415,
+            "line_end": 415,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.040442,
+            "selection_score": 0.040442,
+            "matched_record_ids": [
+              "concept:concept_e7f2e5e8c4ae4341:0",
+              "passage:pass_a6fa85dbbf37a4fe:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "3.1.2 & Pitfalls of Finding Limits & Recognize one-sided limits and oscillation as cases where a limit fails to exist. & \\diffM \\\\",
+            "query_matches": []
+          },
+          {
+            "citation": "S6",
+            "passage_id": "pass_6b55edae04865f1d",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation",
+            "line_start": 321,
+            "line_end": 362,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.036733,
+            "selection_score": 0.036733,
+            "matched_record_ids": [
+              "concept:concept_d17226c1ce12614f:0",
+              "passage:pass_6b55edae04865f1d:0",
+              "passage:pass_6b55edae04865f1d:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip",
+            "query_matches": []
+          }
+        ],
+        "context": "[S1] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 241-275\nSection: Semester 1: Calculus I > Module B --- Limits and Differential Calculus > Chapter 3: Limits and Continuity\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Limits: an informal treatment, common pitfalls, and limit laws\n\\item Continuity: definition and combinations of continuous functions\n\\item Limits at infinity\n\\item Trigonometric limits and the Sandwich (Squeeze) Theorem\n\\item Properties of continuous functions: the Intermediate-Value Theorem and the bisection method\n\\item * A formal ($\\varepsilon$--$\\delta$) definition of limits\n\\end{itemize}\n\\KeyConcepts\nOne-sided and two-sided limits; limit laws; continuity at a point and on an\ninterval; removable, jump, and infinite discontinuities; horizontal and\nvertical asymptotes; the Sandwich Theorem; the Intermediate-Value Theorem\n(IVT); the bisection method for root-finding.\n\\LearnObj\n\\begin{enumerate}\n\\item Evaluate limits using direct substitution, algebraic manipulation, and limit laws.\n\\item Identify discontinuities of a function and classify their type.\n\\item Evaluate limits at infinity and identify horizontal and vertical asymptotes.\n\\item Apply the Sandwich Theorem to evaluate trigonometric limits.\n\\item Use the IVT to justify the existence of a root and approximate it with the bisection method.\n\\item * State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit.\n\\end{enumerate}\n\\PreReq Elementary functions and their graphs (Chapter 1); the intuitive notion of a sequence limit (Sec.\\ 2.2.3).\n\\Hard The formal $\\varepsilon$--$\\delta$ definition (Sec.\\ 3.6*) is the\nfirst rigor-heavy topic in the course and is genuinely difficult for a\nnon-math-major audience; trigonometric limits requiring the Sandwich\nTheorem require comfort manipulating inequalities, and students often\nconfuse ``the limit does not exist'' with ``the function is undefined.''\n\\bigskip\n\n[S2] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Syllabus_Claude.tex | type: syllabus | lines: 169-215\nSection: Module 2: Limits and Continuity\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\label{mod:2}\n\\begin{modulebox}{Module 2 --- Limits, Continuity, and Limiting Behavior \\hfill (2 weeks)}\n\\textbf{Chapters/Sections:}\n\\begin{itemize}[nosep]\n  \\item 3.1 --- Limits (intuitive approach, with the formal $\\varepsilon$--$\\delta$ definition introduced via 3.6)\n  \\item 3.2 --- Continuity\n  \\item 3.3 --- Limits at Infinity (with the formal definition via 3.6)\n  \\item 3.4 --- Trigonometric Limits and the Sandwich (Squeeze) Theorem\n  \\item 3.5 --- Properties of Continuous Functions\n\\end{itemize}\n\\textbf{Core Concepts:}\n\\begin{itemize}[nosep]\n  \\item One-sided and two-sided limits; limit laws\n  \\item Formal $\\varepsilon$--$\\delta$ definition of a limit\n  \\item Continuity at a point and on an interval; types of discontinuities (removable, jump, infinite)\n  \\item Horizontal/vertical asymptotes and limits at infinity\n  \\item Squeeze (Sandwich) Theorem, especially applied to $\\lim_{\\theta \\to 0}\\frac{\\sin\\theta}{\\theta}$\n  \\item Intermediate Value Theorem (IVT) and Extreme Value Theorem groundwork\n\\end{itemize}\n\\loheader\n\\begin{itemize}[nosep]\n  \\item Evaluate limits algebraically (factoring, rationalizing), graphically, and numerically\n  \\item Write and interpret an $\\varepsilon$--$\\delta$ proof for a simple limit statement\n  \\item Classify discontinuities and determine continuity of piecewise functions\n  \\item Evaluate limits at infinity and identify horizontal/vertical asymptotes\n  \\item Apply the Squeeze Theorem to evaluate trigonometric limits\n  \\item Apply the IVT to justify the existence of roots or solutions\n\\end{itemize}\n\\end{modulebox}\n\\begin{diffbox}\n\\begin{itemize}[nosep]\n  \\item The formal $\\varepsilon$--$\\delta$ definition: translating a symbolic statement into a working proof\n  \\item Indeterminate forms ($0/0$, $\\infty - \\infty$) requiring algebraic manipulation before a limit can be evaluated\n  \\item Recognizing when/how to apply the Squeeze Theorem rather than direct substitution\n  \\item Distinguishing a removable discontinuity from a true break in continuity\n\\end{itemize}\n\\end{diffbox}\n\\begin{prereqbox}\nModule 1 (function behavior, graphing). Algebraic fluency: factoring, rationalizing\nradicals, trigonometric identities.\n\\end{prereqbox}\n\n[S3] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 421-421\nSection: Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\\n\n[S4] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 396-427\nSection: Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\addcontentsline{toc}{subsection}{Module 2 --- Limits and Continuity (Chapter 3)}\n\\begin{modulebox}{Module 2 at a Glance}{}\n\\textbf{Chapter:} 3 \\quad\\textbf{Sections:} 3.1--3.6\\opt \\quad\\textbf{Weeks:} 5--6 \\quad\n\\textbf{Overall difficulty:} \\diffM\\text{--}\\diffH \\quad\n\\textbf{Prerequisite:} Module 0 (elementary functions); informal limit intuition from\nModule 1\n\\end{modulebox}\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n3.1.1 & A Non-Rigorous Discussion of Limits & Estimate $\\lim_{x\\to c} f(x)$ numerically and graphically. & \\diffL \\\\\n3.1.2 & Pitfalls of Finding Limits & Recognize one-sided limits and oscillation as cases where a limit fails to exist. & \\diffM \\\\\n3.1.3 & Limit Laws & Apply the limit laws (sum, product, quotient, composition) to evaluate limits algebraically. & \\diffM \\\\\n3.2.1 & What Is Continuity? & Test continuity of a function at a point using the three-part definition. & \\diffM \\\\\n3.2.2 & Combinations of Continuous Functions & Determine continuity of sums, products, quotients, and compositions of continuous functions. & \\diffL \\\\\n3.3 & Limits at Infinity & Evaluate limits at infinity to find horizontal asymptotes and long-run model behavior. & \\diffM \\\\\n3.4.1 & Trigonometric Limits & Derive $\\lim_{x\\to 0}\\frac{\\sin x}{x}=1$ using a geometric argument. & \\diffM \\\\\n3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\\n3.5.1 & IVT and the Bisection Method & Use the Intermediate-Value Theorem to guarantee a root, and approximate it via bisection. & \\diffM \\\\\n3.5.2\\opt & Spreadsheet Bisection & Implement the bisection method numerically in a spreadsheet. & \\diffL \\\\\n3.5.3 & A Final Remark on Continuity & Summarize the practical consequences of continuity for graphing and modeling. & \\diffL \\\\\n3.6\\opt & Formal ($\\varepsilon$--$\\delta$) Definition of Limits & State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit. & \\diffH \\\\\n\\bottomrule\n\\end{longtable}\n\n[S5] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 415-415\nSection: Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n3.1.2 & Pitfalls of Finding Limits & Recognize one-sided limits and oscillation as cases where a limit fails to exist. & \\diffM \\\\\n\n[S6] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 321-362\nSection: Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip",
+        "retrieval_seconds": 0.12892000000283588
+      },
+      "evaluation": {
+        "id": "P1",
+        "course_id": "calc1",
+        "difficulty": "medium",
+        "kind": "answerable",
+        "result_count": 6,
+        "scope_or_issue_leaks": [],
+        "integrity_errors": {},
+        "retrieval_seconds": 0.12892000000283588,
+        "context_characters": 10214,
+        "passage_ids": [
+          "pass_ae947d97398aa4ae",
+          "pass_f71cd171e2a80e28",
+          "pass_1887ae1399f483e7",
+          "pass_23fdd4b2075dbfa8",
+          "pass_a6fa85dbbf37a4fe",
+          "pass_6b55edae04865f1d"
+        ],
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 8298,
+        "course_top3": true,
+        "group_first_ranks": [
+          1,
+          null
+        ],
+        "required_group_count": 2,
+        "any_evidence_at": {
+          "1": true,
+          "3": true,
+          "6": true
+        },
+        "complete_at": {
+          "1": false,
+          "3": false,
+          "6": false
+        },
+        "group_hits_at": {
+          "1": 1,
+          "3": 1,
+          "6": 1
+        },
+        "reciprocal_rank": 1.0,
+        "gold_groups": [
+          [
+            "pass_ae947d97398aa4ae",
+            "pass_1887ae1399f483e7"
+          ],
+          [
+            "pass_84fc39ffcbc6a7ce"
+          ]
+        ]
+      }
+    },
+    {
+      "question": "Which limit theorem handles oscillatory functions, and how is it applied to population models?",
+      "original_evidence_case": "Q11",
+      "report": {
+        "schema_version": "1.1",
+        "question": "Which limit theorem handles oscillatory functions, and how is it applied to population models?",
+        "status": "found",
+        "message": "",
+        "not_found_reason": null,
+        "scope_assessment": {
+          "decision": "retrieve",
+          "category": "within_selected_scope",
+          "reason_code": null,
+          "requested_scopes": [],
+          "required_source_types": [],
+          "available_source_types": [
+            "context",
+            "syllabus",
+            "textbook_reference"
+          ],
+          "matched_rules": [],
+          "next_action": "retrieve",
+          "explanation": "No explicit scope or source requirement blocks retrieval; evidence sufficiency is not assessed.",
+          "policy_version": "2",
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ]
+        },
+        "retrieval_queries": [
+          "Which limit theorem handles oscillatory functions, and how is it applied to population models?",
+          "Which limit theorem handles oscillatory functions?",
+          "Applications and examples: Which limit theorem handles oscillatory functions."
+        ],
+        "facet_candidate_counts": {
+          "Which limit theorem handles oscillatory functions?": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 0,
+            "lexical_broad": 40
+          },
+          "Applications and examples: Which limit theorem handles oscillatory functions.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 0,
+            "lexical_broad": 40
+          }
+        },
+        "evidence_assessment": {
+          "status": "not_assessed",
+          "next_action": "review_evidence"
+        },
+        "filters": {
+          "course_id": null,
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ],
+          "include_flagged": false
+        },
+        "models": [
+          "bge_base_en_v1_5",
+          "qwen3_embedding_0_6b"
+        ],
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 0,
+          "lexical_broad": 40
+        },
+        "use_lexical": true,
+        "max_per_document": 4,
+        "document_limit_mode": "soft",
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 10384,
+        "total_distinct_candidate_passages": 51,
+        "results": [
+          {
+            "citation": "S1",
+            "passage_id": "pass_c29f4b54a65141d6",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations",
+            "line_start": 206,
+            "line_end": 235,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.045263,
+            "selection_score": 0.045263,
+            "matched_record_ids": [
+              "concept:concept_f352e557c671ddbc:0",
+              "passage:pass_c29f4b54a65141d6:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.",
+            "query_matches": []
+          },
+          {
+            "citation": "S2",
+            "passage_id": "pass_ae947d97398aa4ae",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module B --- Limits and Differential Calculus > Chapter 3: Limits and Continuity",
+            "line_start": 241,
+            "line_end": 275,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.040779,
+            "selection_score": 0.040779,
+            "matched_record_ids": [
+              "concept:concept_ae22dcbe96760fa2:0",
+              "passage:pass_ae947d97398aa4ae:0",
+              "passage:pass_ae947d97398aa4ae:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Limits: an informal treatment, common pitfalls, and limit laws\n\\item Continuity: definition and combinations of continuous functions\n\\item Limits at infinity\n\\item Trigonometric limits and the Sandwich (Squeeze) Theorem\n\\item Properties of continuous functions: the Intermediate-Value Theorem and the bisection method\n\\item * A formal ($\\varepsilon$--$\\delta$) definition of limits\n\\end{itemize}\n\\KeyConcepts\nOne-sided and two-sided limits; limit laws; continuity at a point and on an\ninterval; removable, jump, and infinite discontinuities; horizontal and\nvertical asymptotes; the Sandwich Theorem; the Intermediate-Value Theorem\n(IVT); the bisection method for root-finding.\n\\LearnObj\n\\begin{enumerate}\n\\item Evaluate limits using direct substitution, algebraic manipulation, and limit laws.\n\\item Identify discontinuities of a function and classify their type.\n\\item Evaluate limits at infinity and identify horizontal and vertical asymptotes.\n\\item Apply the Sandwich Theorem to evaluate trigonometric limits.\n\\item Use the IVT to justify the existence of a root and approximate it with the bisection method.\n\\item * State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit.\n\\end{enumerate}\n\\PreReq Elementary functions and their graphs (Chapter 1); the intuitive notion of a sequence limit (Sec.\\ 2.2.3).\n\\Hard The formal $\\varepsilon$--$\\delta$ definition (Sec.\\ 3.6*) is the\nfirst rigor-heavy topic in the course and is genuinely difficult for a\nnon-math-major audience; trigonometric limits requiring the Sandwich\nTheorem require comfort manipulating inequalities, and students often\nconfuse ``the limit does not exist'' with ``the function is undefined.''\n\\bigskip",
+            "query_matches": [
+              "Which limit theorem handles oscillatory functions?",
+              "Applications and examples: Which limit theorem handles oscillatory functions."
+            ]
+          },
+          {
+            "citation": "S3",
+            "passage_id": "pass_f71cd171e2a80e28",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "syllabus",
+            "filename": "Calc1_Syllabus_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Syllabus_Claude.tex",
+            "section_path": "Module 2: Limits and Continuity",
+            "line_start": 169,
+            "line_end": 215,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.039151,
+            "selection_score": 0.039151,
+            "matched_record_ids": [
+              "concept:concept_eb0eed1546d710b6:0",
+              "passage:pass_f71cd171e2a80e28:0",
+              "passage:pass_f71cd171e2a80e28:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\label{mod:2}\n\\begin{modulebox}{Module 2 --- Limits, Continuity, and Limiting Behavior \\hfill (2 weeks)}\n\\textbf{Chapters/Sections:}\n\\begin{itemize}[nosep]\n  \\item 3.1 --- Limits (intuitive approach, with the formal $\\varepsilon$--$\\delta$ definition introduced via 3.6)\n  \\item 3.2 --- Continuity\n  \\item 3.3 --- Limits at Infinity (with the formal definition via 3.6)\n  \\item 3.4 --- Trigonometric Limits and the Sandwich (Squeeze) Theorem\n  \\item 3.5 --- Properties of Continuous Functions\n\\end{itemize}\n\\textbf{Core Concepts:}\n\\begin{itemize}[nosep]\n  \\item One-sided and two-sided limits; limit laws\n  \\item Formal $\\varepsilon$--$\\delta$ definition of a limit\n  \\item Continuity at a point and on an interval; types of discontinuities (removable, jump, infinite)\n  \\item Horizontal/vertical asymptotes and limits at infinity\n  \\item Squeeze (Sandwich) Theorem, especially applied to $\\lim_{\\theta \\to 0}\\frac{\\sin\\theta}{\\theta}$\n  \\item Intermediate Value Theorem (IVT) and Extreme Value Theorem groundwork\n\\end{itemize}\n\\loheader\n\\begin{itemize}[nosep]\n  \\item Evaluate limits algebraically (factoring, rationalizing), graphically, and numerically\n  \\item Write and interpret an $\\varepsilon$--$\\delta$ proof for a simple limit statement\n  \\item Classify discontinuities and determine continuity of piecewise functions\n  \\item Evaluate limits at infinity and identify horizontal/vertical asymptotes\n  \\item Apply the Squeeze Theorem to evaluate trigonometric limits\n  \\item Apply the IVT to justify the existence of roots or solutions\n\\end{itemize}\n\\end{modulebox}\n\\begin{diffbox}\n\\begin{itemize}[nosep]\n  \\item The formal $\\varepsilon$--$\\delta$ definition: translating a symbolic statement into a working proof\n  \\item Indeterminate forms ($0/0$, $\\infty - \\infty$) requiring algebraic manipulation before a limit can be evaluated\n  \\item Recognizing when/how to apply the Squeeze Theorem rather than direct substitution\n  \\item Distinguishing a removable discontinuity from a true break in continuity\n\\end{itemize}\n\\end{diffbox}\n\\begin{prereqbox}\nModule 1 (function behavior, graphing). Algebraic fluency: factoring, rationalizing\nradicals, trigonometric identities.\n\\end{prereqbox}",
+            "query_matches": [
+              "Which limit theorem handles oscillatory functions?",
+              "Applications and examples: Which limit theorem handles oscillatory functions."
+            ]
+          },
+          {
+            "citation": "S4",
+            "passage_id": "pass_23fdd4b2075dbfa8",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)",
+            "line_start": 396,
+            "line_end": 427,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.040978,
+            "selection_score": 0.040978,
+            "matched_record_ids": [
+              "passage:pass_23fdd4b2075dbfa8:0",
+              "passage:pass_23fdd4b2075dbfa8:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\addcontentsline{toc}{subsection}{Module 2 --- Limits and Continuity (Chapter 3)}\n\\begin{modulebox}{Module 2 at a Glance}{}\n\\textbf{Chapter:} 3 \\quad\\textbf{Sections:} 3.1--3.6\\opt \\quad\\textbf{Weeks:} 5--6 \\quad\n\\textbf{Overall difficulty:} \\diffM\\text{--}\\diffH \\quad\n\\textbf{Prerequisite:} Module 0 (elementary functions); informal limit intuition from\nModule 1\n\\end{modulebox}\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n3.1.1 & A Non-Rigorous Discussion of Limits & Estimate $\\lim_{x\\to c} f(x)$ numerically and graphically. & \\diffL \\\\\n3.1.2 & Pitfalls of Finding Limits & Recognize one-sided limits and oscillation as cases where a limit fails to exist. & \\diffM \\\\\n3.1.3 & Limit Laws & Apply the limit laws (sum, product, quotient, composition) to evaluate limits algebraically. & \\diffM \\\\\n3.2.1 & What Is Continuity? & Test continuity of a function at a point using the three-part definition. & \\diffM \\\\\n3.2.2 & Combinations of Continuous Functions & Determine continuity of sums, products, quotients, and compositions of continuous functions. & \\diffL \\\\\n3.3 & Limits at Infinity & Evaluate limits at infinity to find horizontal asymptotes and long-run model behavior. & \\diffM \\\\\n3.4.1 & Trigonometric Limits & Derive $\\lim_{x\\to 0}\\frac{\\sin x}{x}=1$ using a geometric argument. & \\diffM \\\\\n3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\\n3.5.1 & IVT and the Bisection Method & Use the Intermediate-Value Theorem to guarantee a root, and approximate it via bisection. & \\diffM \\\\\n3.5.2\\opt & Spreadsheet Bisection & Implement the bisection method numerically in a spreadsheet. & \\diffL \\\\\n3.5.3 & A Final Remark on Continuity & Summarize the practical consequences of continuity for graphing and modeling. & \\diffL \\\\\n3.6\\opt & Formal ($\\varepsilon$--$\\delta$) Definition of Limits & State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit. & \\diffH \\\\\n\\bottomrule\n\\end{longtable}",
+            "query_matches": []
+          },
+          {
+            "citation": "S5",
+            "passage_id": "pass_6b55edae04865f1d",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation",
+            "line_start": 321,
+            "line_end": 362,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.039602,
+            "selection_score": 0.039602,
+            "matched_record_ids": [
+              "concept:concept_d17226c1ce12614f:0",
+              "passage:pass_6b55edae04865f1d:0",
+              "passage:pass_6b55edae04865f1d:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip",
+            "query_matches": []
+          },
+          {
+            "citation": "S6",
+            "passage_id": "pass_84fc39ffcbc6a7ce",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)",
+            "line_start": 429,
+            "line_end": 441,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.038342,
+            "selection_score": 0.038342,
+            "matched_record_ids": [
+              "passage:pass_84fc39ffcbc6a7ce:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{appbox}\nPopulation-size models with a horizontal asymptote (carrying capacity), damped oscillatory\npopulation signals analyzed via the sandwich theorem, stimulus--response threshold\nfunctions (quorum sensing), root-finding for model equations via bisection.\n\\end{appbox}\n\\begin{diffbox}\n\\textbf{The $\\varepsilon$--$\\delta$ definition (\\S3.6)} is asterisked by the authors\nprecisely because it is not needed downstream in this book -- treat it as enrichment for\nstudents continuing toward a physical-science/engineering calculus track, and feel free to\nreplace class time on it with extra practice on limit laws and continuity, which\n\\emph{are} used throughout Chapters 4--8.\n\\end{diffbox}",
+            "query_matches": []
+          }
+        ],
+        "context": "[S1] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 206-235\nSection: Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.\n\n[S2] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 241-275\nSection: Semester 1: Calculus I > Module B --- Limits and Differential Calculus > Chapter 3: Limits and Continuity\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Limits: an informal treatment, common pitfalls, and limit laws\n\\item Continuity: definition and combinations of continuous functions\n\\item Limits at infinity\n\\item Trigonometric limits and the Sandwich (Squeeze) Theorem\n\\item Properties of continuous functions: the Intermediate-Value Theorem and the bisection method\n\\item * A formal ($\\varepsilon$--$\\delta$) definition of limits\n\\end{itemize}\n\\KeyConcepts\nOne-sided and two-sided limits; limit laws; continuity at a point and on an\ninterval; removable, jump, and infinite discontinuities; horizontal and\nvertical asymptotes; the Sandwich Theorem; the Intermediate-Value Theorem\n(IVT); the bisection method for root-finding.\n\\LearnObj\n\\begin{enumerate}\n\\item Evaluate limits using direct substitution, algebraic manipulation, and limit laws.\n\\item Identify discontinuities of a function and classify their type.\n\\item Evaluate limits at infinity and identify horizontal and vertical asymptotes.\n\\item Apply the Sandwich Theorem to evaluate trigonometric limits.\n\\item Use the IVT to justify the existence of a root and approximate it with the bisection method.\n\\item * State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit.\n\\end{enumerate}\n\\PreReq Elementary functions and their graphs (Chapter 1); the intuitive notion of a sequence limit (Sec.\\ 2.2.3).\n\\Hard The formal $\\varepsilon$--$\\delta$ definition (Sec.\\ 3.6*) is the\nfirst rigor-heavy topic in the course and is genuinely difficult for a\nnon-math-major audience; trigonometric limits requiring the Sandwich\nTheorem require comfort manipulating inequalities, and students often\nconfuse ``the limit does not exist'' with ``the function is undefined.''\n\\bigskip\n\n[S3] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Syllabus_Claude.tex | type: syllabus | lines: 169-215\nSection: Module 2: Limits and Continuity\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\label{mod:2}\n\\begin{modulebox}{Module 2 --- Limits, Continuity, and Limiting Behavior \\hfill (2 weeks)}\n\\textbf{Chapters/Sections:}\n\\begin{itemize}[nosep]\n  \\item 3.1 --- Limits (intuitive approach, with the formal $\\varepsilon$--$\\delta$ definition introduced via 3.6)\n  \\item 3.2 --- Continuity\n  \\item 3.3 --- Limits at Infinity (with the formal definition via 3.6)\n  \\item 3.4 --- Trigonometric Limits and the Sandwich (Squeeze) Theorem\n  \\item 3.5 --- Properties of Continuous Functions\n\\end{itemize}\n\\textbf{Core Concepts:}\n\\begin{itemize}[nosep]\n  \\item One-sided and two-sided limits; limit laws\n  \\item Formal $\\varepsilon$--$\\delta$ definition of a limit\n  \\item Continuity at a point and on an interval; types of discontinuities (removable, jump, infinite)\n  \\item Horizontal/vertical asymptotes and limits at infinity\n  \\item Squeeze (Sandwich) Theorem, especially applied to $\\lim_{\\theta \\to 0}\\frac{\\sin\\theta}{\\theta}$\n  \\item Intermediate Value Theorem (IVT) and Extreme Value Theorem groundwork\n\\end{itemize}\n\\loheader\n\\begin{itemize}[nosep]\n  \\item Evaluate limits algebraically (factoring, rationalizing), graphically, and numerically\n  \\item Write and interpret an $\\varepsilon$--$\\delta$ proof for a simple limit statement\n  \\item Classify discontinuities and determine continuity of piecewise functions\n  \\item Evaluate limits at infinity and identify horizontal/vertical asymptotes\n  \\item Apply the Squeeze Theorem to evaluate trigonometric limits\n  \\item Apply the IVT to justify the existence of roots or solutions\n\\end{itemize}\n\\end{modulebox}\n\\begin{diffbox}\n\\begin{itemize}[nosep]\n  \\item The formal $\\varepsilon$--$\\delta$ definition: translating a symbolic statement into a working proof\n  \\item Indeterminate forms ($0/0$, $\\infty - \\infty$) requiring algebraic manipulation before a limit can be evaluated\n  \\item Recognizing when/how to apply the Squeeze Theorem rather than direct substitution\n  \\item Distinguishing a removable discontinuity from a true break in continuity\n\\end{itemize}\n\\end{diffbox}\n\\begin{prereqbox}\nModule 1 (function behavior, graphing). Algebraic fluency: factoring, rationalizing\nradicals, trigonometric identities.\n\\end{prereqbox}\n\n[S4] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 396-427\nSection: Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\addcontentsline{toc}{subsection}{Module 2 --- Limits and Continuity (Chapter 3)}\n\\begin{modulebox}{Module 2 at a Glance}{}\n\\textbf{Chapter:} 3 \\quad\\textbf{Sections:} 3.1--3.6\\opt \\quad\\textbf{Weeks:} 5--6 \\quad\n\\textbf{Overall difficulty:} \\diffM\\text{--}\\diffH \\quad\n\\textbf{Prerequisite:} Module 0 (elementary functions); informal limit intuition from\nModule 1\n\\end{modulebox}\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n3.1.1 & A Non-Rigorous Discussion of Limits & Estimate $\\lim_{x\\to c} f(x)$ numerically and graphically. & \\diffL \\\\\n3.1.2 & Pitfalls of Finding Limits & Recognize one-sided limits and oscillation as cases where a limit fails to exist. & \\diffM \\\\\n3.1.3 & Limit Laws & Apply the limit laws (sum, product, quotient, composition) to evaluate limits algebraically. & \\diffM \\\\\n3.2.1 & What Is Continuity? & Test continuity of a function at a point using the three-part definition. & \\diffM \\\\\n3.2.2 & Combinations of Continuous Functions & Determine continuity of sums, products, quotients, and compositions of continuous functions. & \\diffL \\\\\n3.3 & Limits at Infinity & Evaluate limits at infinity to find horizontal asymptotes and long-run model behavior. & \\diffM \\\\\n3.4.1 & Trigonometric Limits & Derive $\\lim_{x\\to 0}\\frac{\\sin x}{x}=1$ using a geometric argument. & \\diffM \\\\\n3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\\n3.5.1 & IVT and the Bisection Method & Use the Intermediate-Value Theorem to guarantee a root, and approximate it via bisection. & \\diffM \\\\\n3.5.2\\opt & Spreadsheet Bisection & Implement the bisection method numerically in a spreadsheet. & \\diffL \\\\\n3.5.3 & A Final Remark on Continuity & Summarize the practical consequences of continuity for graphing and modeling. & \\diffL \\\\\n3.6\\opt & Formal ($\\varepsilon$--$\\delta$) Definition of Limits & State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit. & \\diffH \\\\\n\\bottomrule\n\\end{longtable}\n\n[S5] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 321-362\nSection: Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip\n\n[S6] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 429-441\nSection: Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{appbox}\nPopulation-size models with a horizontal asymptote (carrying capacity), damped oscillatory\npopulation signals analyzed via the sandwich theorem, stimulus--response threshold\nfunctions (quorum sensing), root-finding for model equations via bisection.\n\\end{appbox}\n\\begin{diffbox}\n\\textbf{The $\\varepsilon$--$\\delta$ definition (\\S3.6)} is asterisked by the authors\nprecisely because it is not needed downstream in this book -- treat it as enrichment for\nstudents continuing toward a physical-science/engineering calculus track, and feel free to\nreplace class time on it with extra practice on limit laws and continuity, which\n\\emph{are} used throughout Chapters 4--8.\n\\end{diffbox}",
+        "retrieval_seconds": 0.08134866600084933
+      },
+      "evaluation": {
+        "id": "P2",
+        "course_id": "calc1",
+        "difficulty": "medium",
+        "kind": "answerable",
+        "result_count": 6,
+        "scope_or_issue_leaks": [],
+        "integrity_errors": {},
+        "retrieval_seconds": 0.08134866600084933,
+        "context_characters": 12374,
+        "passage_ids": [
+          "pass_c29f4b54a65141d6",
+          "pass_ae947d97398aa4ae",
+          "pass_f71cd171e2a80e28",
+          "pass_23fdd4b2075dbfa8",
+          "pass_6b55edae04865f1d",
+          "pass_84fc39ffcbc6a7ce"
+        ],
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 10384,
+        "course_top3": true,
+        "group_first_ranks": [
+          2,
+          6
+        ],
+        "required_group_count": 2,
+        "any_evidence_at": {
+          "1": false,
+          "3": true,
+          "6": true
+        },
+        "complete_at": {
+          "1": false,
+          "3": false,
+          "6": true
+        },
+        "group_hits_at": {
+          "1": 0,
+          "3": 1,
+          "6": 2
+        },
+        "reciprocal_rank": 0.5,
+        "gold_groups": [
+          [
+            "pass_ae947d97398aa4ae",
+            "pass_1887ae1399f483e7"
+          ],
+          [
+            "pass_84fc39ffcbc6a7ce"
+          ]
+        ]
+      }
+    },
+    {
+      "question": "Identify the limit theorem for damped population signals and its course applications.",
+      "original_evidence_case": "Q11",
+      "report": {
+        "schema_version": "1.1",
+        "question": "Identify the limit theorem for damped population signals and its course applications.",
+        "status": "found",
+        "message": "",
+        "not_found_reason": null,
+        "scope_assessment": {
+          "decision": "retrieve",
+          "category": "within_selected_scope",
+          "reason_code": null,
+          "requested_scopes": [],
+          "required_source_types": [],
+          "available_source_types": [
+            "context",
+            "syllabus",
+            "textbook_reference"
+          ],
+          "matched_rules": [],
+          "next_action": "retrieve",
+          "explanation": "No explicit scope or source requirement blocks retrieval; evidence sufficiency is not assessed.",
+          "policy_version": "2",
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ]
+        },
+        "retrieval_queries": [
+          "Identify the limit theorem for damped population signals and its course applications."
+        ],
+        "facet_candidate_counts": {},
+        "evidence_assessment": {
+          "status": "not_assessed",
+          "next_action": "review_evidence"
+        },
+        "filters": {
+          "course_id": null,
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ],
+          "include_flagged": false
+        },
+        "models": [
+          "bge_base_en_v1_5",
+          "qwen3_embedding_0_6b"
+        ],
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 0,
+          "lexical_broad": 40
+        },
+        "use_lexical": true,
+        "max_per_document": 4,
+        "document_limit_mode": "soft",
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 8219,
+        "total_distinct_candidate_passages": 46,
+        "results": [
+          {
+            "citation": "S1",
+            "passage_id": "pass_6b55edae04865f1d",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation",
+            "line_start": 321,
+            "line_end": 362,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.044227,
+            "selection_score": 0.044227,
+            "matched_record_ids": [
+              "concept:concept_d17226c1ce12614f:0",
+              "passage:pass_6b55edae04865f1d:0",
+              "passage:pass_6b55edae04865f1d:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip",
+            "query_matches": []
+          },
+          {
+            "citation": "S2",
+            "passage_id": "pass_1887ae1399f483e7",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)",
+            "line_start": 421,
+            "line_end": 421,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.04183,
+            "selection_score": 0.04183,
+            "matched_record_ids": [
+              "concept:concept_dda1da32ddf1af2d:0",
+              "passage:pass_1887ae1399f483e7:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\",
+            "query_matches": []
+          },
+          {
+            "citation": "S3",
+            "passage_id": "pass_84fc39ffcbc6a7ce",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)",
+            "line_start": 429,
+            "line_end": 441,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.039125,
+            "selection_score": 0.039125,
+            "matched_record_ids": [
+              "passage:pass_84fc39ffcbc6a7ce:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{appbox}\nPopulation-size models with a horizontal asymptote (carrying capacity), damped oscillatory\npopulation signals analyzed via the sandwich theorem, stimulus--response threshold\nfunctions (quorum sensing), root-finding for model equations via bisection.\n\\end{appbox}\n\\begin{diffbox}\n\\textbf{The $\\varepsilon$--$\\delta$ definition (\\S3.6)} is asterisked by the authors\nprecisely because it is not needed downstream in this book -- treat it as enrichment for\nstudents continuing toward a physical-science/engineering calculus track, and feel free to\nreplace class time on it with extra practice on limit laws and continuity, which\n\\emph{are} used throughout Chapters 4--8.\n\\end{diffbox}",
+            "query_matches": []
+          },
+          {
+            "citation": "S4",
+            "passage_id": "pass_c29f4b54a65141d6",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations",
+            "line_start": 206,
+            "line_end": 235,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.038584,
+            "selection_score": 0.038584,
+            "matched_record_ids": [
+              "concept:concept_f352e557c671ddbc:0",
+              "passage:pass_c29f4b54a65141d6:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.",
+            "query_matches": []
+          },
+          {
+            "citation": "S5",
+            "passage_id": "pass_02b1aed7998fbcaa",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "4. Cross-Cutting Themes and the Hardest Topics in the Course",
+            "line_start": 704,
+            "line_end": 737,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.037876,
+            "selection_score": 0.037876,
+            "matched_record_ids": [
+              "passage:pass_02b1aed7998fbcaa:0",
+              "passage:pass_02b1aed7998fbcaa:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz's Rule proof of the FTC) sit in tension with the course's\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes' Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}",
+            "query_matches": []
+          },
+          {
+            "citation": "S6",
+            "passage_id": "pass_ae947d97398aa4ae",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module B --- Limits and Differential Calculus > Chapter 3: Limits and Continuity",
+            "line_start": 241,
+            "line_end": 275,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.03625,
+            "selection_score": 0.03625,
+            "matched_record_ids": [
+              "concept:concept_ae22dcbe96760fa2:0",
+              "passage:pass_ae947d97398aa4ae:0",
+              "passage:pass_ae947d97398aa4ae:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Limits: an informal treatment, common pitfalls, and limit laws\n\\item Continuity: definition and combinations of continuous functions\n\\item Limits at infinity\n\\item Trigonometric limits and the Sandwich (Squeeze) Theorem\n\\item Properties of continuous functions: the Intermediate-Value Theorem and the bisection method\n\\item * A formal ($\\varepsilon$--$\\delta$) definition of limits\n\\end{itemize}\n\\KeyConcepts\nOne-sided and two-sided limits; limit laws; continuity at a point and on an\ninterval; removable, jump, and infinite discontinuities; horizontal and\nvertical asymptotes; the Sandwich Theorem; the Intermediate-Value Theorem\n(IVT); the bisection method for root-finding.\n\\LearnObj\n\\begin{enumerate}\n\\item Evaluate limits using direct substitution, algebraic manipulation, and limit laws.\n\\item Identify discontinuities of a function and classify their type.\n\\item Evaluate limits at infinity and identify horizontal and vertical asymptotes.\n\\item Apply the Sandwich Theorem to evaluate trigonometric limits.\n\\item Use the IVT to justify the existence of a root and approximate it with the bisection method.\n\\item * State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit.\n\\end{enumerate}\n\\PreReq Elementary functions and their graphs (Chapter 1); the intuitive notion of a sequence limit (Sec.\\ 2.2.3).\n\\Hard The formal $\\varepsilon$--$\\delta$ definition (Sec.\\ 3.6*) is the\nfirst rigor-heavy topic in the course and is genuinely difficult for a\nnon-math-major audience; trigonometric limits requiring the Sandwich\nTheorem require comfort manipulating inequalities, and students often\nconfuse ``the limit does not exist'' with ``the function is undefined.''\n\\bigskip",
+            "query_matches": []
+          }
+        ],
+        "context": "[S1] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 321-362\nSection: Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip\n\n[S2] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 421-421\nSection: Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n3.4.2\\opt & The Sandwich Theorem & Apply the sandwich (squeeze) theorem to bound and evaluate limits of oscillating/damped functions. & \\diffM \\\\\n\n[S3] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 429-441\nSection: Detailed Module Breakdown > Module 2 --- Limits and Continuity (Chapter 3)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{appbox}\nPopulation-size models with a horizontal asymptote (carrying capacity), damped oscillatory\npopulation signals analyzed via the sandwich theorem, stimulus--response threshold\nfunctions (quorum sensing), root-finding for model equations via bisection.\n\\end{appbox}\n\\begin{diffbox}\n\\textbf{The $\\varepsilon$--$\\delta$ definition (\\S3.6)} is asterisked by the authors\nprecisely because it is not needed downstream in this book -- treat it as enrichment for\nstudents continuing toward a physical-science/engineering calculus track, and feel free to\nreplace class time on it with extra practice on limit laws and continuity, which\n\\emph{are} used throughout Chapters 4--8.\n\\end{diffbox}\n\n[S4] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 206-235\nSection: Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.\n\n[S5] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 704-737\nSection: 4. Cross-Cutting Themes and the Hardest Topics in the Course\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz's Rule proof of the FTC) sit in tension with the course's\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes' Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}\n\n[S6] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 241-275\nSection: Semester 1: Calculus I > Module B --- Limits and Differential Calculus > Chapter 3: Limits and Continuity\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Limits: an informal treatment, common pitfalls, and limit laws\n\\item Continuity: definition and combinations of continuous functions\n\\item Limits at infinity\n\\item Trigonometric limits and the Sandwich (Squeeze) Theorem\n\\item Properties of continuous functions: the Intermediate-Value Theorem and the bisection method\n\\item * A formal ($\\varepsilon$--$\\delta$) definition of limits\n\\end{itemize}\n\\KeyConcepts\nOne-sided and two-sided limits; limit laws; continuity at a point and on an\ninterval; removable, jump, and infinite discontinuities; horizontal and\nvertical asymptotes; the Sandwich Theorem; the Intermediate-Value Theorem\n(IVT); the bisection method for root-finding.\n\\LearnObj\n\\begin{enumerate}\n\\item Evaluate limits using direct substitution, algebraic manipulation, and limit laws.\n\\item Identify discontinuities of a function and classify their type.\n\\item Evaluate limits at infinity and identify horizontal and vertical asymptotes.\n\\item Apply the Sandwich Theorem to evaluate trigonometric limits.\n\\item Use the IVT to justify the existence of a root and approximate it with the bisection method.\n\\item * State and apply the formal $\\varepsilon$--$\\delta$ definition of a limit.\n\\end{enumerate}\n\\PreReq Elementary functions and their graphs (Chapter 1); the intuitive notion of a sequence limit (Sec.\\ 2.2.3).\n\\Hard The formal $\\varepsilon$--$\\delta$ definition (Sec.\\ 3.6*) is the\nfirst rigor-heavy topic in the course and is genuinely difficult for a\nnon-math-major audience; trigonometric limits requiring the Sandwich\nTheorem require comfort manipulating inequalities, and students often\nconfuse ``the limit does not exist'' with ``the function is undefined.''\n\\bigskip",
+        "retrieval_seconds": 0.01641412500248407
+      },
+      "evaluation": {
+        "id": "P3",
+        "course_id": "calc1",
+        "difficulty": "medium",
+        "kind": "answerable",
+        "result_count": 6,
+        "scope_or_issue_leaks": [],
+        "integrity_errors": {},
+        "retrieval_seconds": 0.01641412500248407,
+        "context_characters": 10236,
+        "passage_ids": [
+          "pass_6b55edae04865f1d",
+          "pass_1887ae1399f483e7",
+          "pass_84fc39ffcbc6a7ce",
+          "pass_c29f4b54a65141d6",
+          "pass_02b1aed7998fbcaa",
+          "pass_ae947d97398aa4ae"
+        ],
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 8219,
+        "course_top3": true,
+        "group_first_ranks": [
+          2,
+          3
+        ],
+        "required_group_count": 2,
+        "any_evidence_at": {
+          "1": false,
+          "3": true,
+          "6": true
+        },
+        "complete_at": {
+          "1": false,
+          "3": true,
+          "6": true
+        },
+        "group_hits_at": {
+          "1": 0,
+          "3": 2,
+          "6": 2
+        },
+        "reciprocal_rank": 0.5,
+        "gold_groups": [
+          [
+            "pass_ae947d97398aa4ae",
+            "pass_1887ae1399f483e7"
+          ],
+          [
+            "pass_84fc39ffcbc6a7ce"
+          ]
+        ]
+      }
+    },
+    {
+      "question": "Compare continuous population differential-equation models with the discrete logistic equation and its long-term behavior.",
+      "original_evidence_case": "Q18",
+      "report": {
+        "schema_version": "1.1",
+        "question": "Compare continuous population differential-equation models with the discrete logistic equation and its long-term behavior.",
+        "status": "found",
+        "message": "",
+        "not_found_reason": null,
+        "scope_assessment": {
+          "decision": "retrieve",
+          "category": "within_selected_scope",
+          "reason_code": null,
+          "requested_scopes": [],
+          "required_source_types": [],
+          "available_source_types": [
+            "context",
+            "syllabus",
+            "textbook_reference"
+          ],
+          "matched_rules": [],
+          "next_action": "retrieve",
+          "explanation": "No explicit scope or source requirement blocks retrieval; evidence sufficiency is not assessed.",
+          "policy_version": "2",
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ]
+        },
+        "retrieval_queries": [
+          "Compare continuous population differential-equation models with the discrete logistic equation and its long-term behavior.",
+          "continuous population differential-equation models.",
+          "the discrete logistic equation and its long-term behavior."
+        ],
+        "facet_candidate_counts": {
+          "continuous population differential-equation models.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 0,
+            "lexical_broad": 40
+          },
+          "the discrete logistic equation and its long-term behavior.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 1,
+            "lexical_broad": 40
+          }
+        },
+        "evidence_assessment": {
+          "status": "not_assessed",
+          "next_action": "review_evidence"
+        },
+        "filters": {
+          "course_id": null,
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ],
+          "include_flagged": false
+        },
+        "models": [
+          "bge_base_en_v1_5",
+          "qwen3_embedding_0_6b"
+        ],
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 0,
+          "lexical_broad": 40
+        },
+        "use_lexical": true,
+        "max_per_document": 4,
+        "document_limit_mode": "soft",
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 6403,
+        "total_distinct_candidate_passages": 41,
+        "results": [
+          {
+            "citation": "S1",
+            "passage_id": "pass_c29f4b54a65141d6",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations",
+            "line_start": 206,
+            "line_end": 235,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.052049,
+            "selection_score": 0.052049,
+            "matched_record_ids": [
+              "concept:concept_f352e557c671ddbc:0",
+              "passage:pass_c29f4b54a65141d6:0",
+              "passage:pass_c29f4b54a65141d6:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "lexical_exact",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.",
+            "query_matches": [
+              "continuous population differential-equation models.",
+              "the discrete logistic equation and its long-term behavior."
+            ]
+          },
+          {
+            "citation": "S2",
+            "passage_id": "pass_1918c4bce1a2d265",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 4 --- Applications of Differentiation (Chapter 5)",
+            "line_start": 530,
+            "line_end": 530,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.034093,
+            "selection_score": 0.034093,
+            "matched_record_ids": [
+              "concept:concept_bb842da19e8deb92:0",
+              "passage:pass_1918c4bce1a2d265:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "5.9\\opt & Modeling with Differential Equations (intro) & Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. & \\diffM \\\\",
+            "query_matches": [
+              "continuous population differential-equation models."
+            ]
+          },
+          {
+            "citation": "S3",
+            "passage_id": "pass_ca8208b6f1998122",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 370,
+            "line_end": 370,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.041386,
+            "selection_score": 0.041386,
+            "matched_record_ids": [
+              "concept:concept_037c34c8ff7daff0:0",
+              "passage:pass_ca8208b6f1998122:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\",
+            "query_matches": [
+              "the discrete logistic equation and its long-term behavior."
+            ]
+          },
+          {
+            "citation": "S4",
+            "passage_id": "pass_68edaab41e209872",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 374,
+            "line_end": 374,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.044072,
+            "selection_score": 0.044072,
+            "matched_record_ids": [
+              "concept:concept_7b3301afea97cf5e:0",
+              "passage:pass_68edaab41e209872:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\",
+            "query_matches": []
+          },
+          {
+            "citation": "S5",
+            "passage_id": "pass_4dbba13f0e9c77da",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 355,
+            "line_end": 383,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.043218,
+            "selection_score": 0.043218,
+            "matched_record_ids": [
+              "passage:pass_4dbba13f0e9c77da:0",
+              "passage:pass_4dbba13f0e9c77da:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\\n2.1.2 & Recurrence Equations & Solve simple linear recurrence equations for an explicit (closed-form) formula. & \\diffM \\\\\n2.1.3 & Visualizing Recurrence Equations & Use step/time-series plots to visualize the behavior of a recurrence equation. & \\diffL \\\\\n2.2.1 & What Are Sequences? & Distinguish an explicit formula for a sequence from a recursive definition. & \\diffL \\\\\n2.2.2\\opt & Spreadsheets for Recursive Sequences & Iterate a recurrence equation numerically in a spreadsheet. & \\diffL \\\\\n2.2.3 & Limits (of Sequences) & Determine convergence/divergence of a sequence and compute limits using limit laws. & \\diffH \\\\\n2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\\n2.2.5 & $\\Sigma$-Notation for Sums & Write and evaluate finite and infinite sums of sequence terms using sigma notation. & \\diffH \\\\\n2.3.1 & Density-Dependent Population Growth & Explain why per-capita growth typically declines with density; build a density-dependent model. & \\diffM \\\\\n2.3.2 & The Beverton--Holt Model & Analyze the Beverton--Holt recurrence equation and identify its equilibrium. & \\diffM \\\\\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n2.3.4\\opt & Modeling Drug Absorption & Build and iterate a discrete two-compartment model of drug absorption/elimination. & \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}",
+            "query_matches": []
+          },
+          {
+            "citation": "S6",
+            "passage_id": "pass_02b1aed7998fbcaa",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "4. Cross-Cutting Themes and the Hardest Topics in the Course",
+            "line_start": 704,
+            "line_end": 737,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.038331,
+            "selection_score": 0.038331,
+            "matched_record_ids": [
+              "passage:pass_02b1aed7998fbcaa:0",
+              "passage:pass_02b1aed7998fbcaa:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz's Rule proof of the FTC) sit in tension with the course's\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes' Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}",
+            "query_matches": []
+          }
+        ],
+        "context": "[S1] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 206-235\nSection: Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.\n\n[S2] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 530-530\nSection: Detailed Module Breakdown > Module 4 --- Applications of Differentiation (Chapter 5)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n5.9\\opt & Modeling with Differential Equations (intro) & Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. & \\diffM \\\\\n\n[S3] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 370-370\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\\n\n[S4] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 374-374\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n\n[S5] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 355-383\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\\n2.1.2 & Recurrence Equations & Solve simple linear recurrence equations for an explicit (closed-form) formula. & \\diffM \\\\\n2.1.3 & Visualizing Recurrence Equations & Use step/time-series plots to visualize the behavior of a recurrence equation. & \\diffL \\\\\n2.2.1 & What Are Sequences? & Distinguish an explicit formula for a sequence from a recursive definition. & \\diffL \\\\\n2.2.2\\opt & Spreadsheets for Recursive Sequences & Iterate a recurrence equation numerically in a spreadsheet. & \\diffL \\\\\n2.2.3 & Limits (of Sequences) & Determine convergence/divergence of a sequence and compute limits using limit laws. & \\diffH \\\\\n2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\\n2.2.5 & $\\Sigma$-Notation for Sums & Write and evaluate finite and infinite sums of sequence terms using sigma notation. & \\diffH \\\\\n2.3.1 & Density-Dependent Population Growth & Explain why per-capita growth typically declines with density; build a density-dependent model. & \\diffM \\\\\n2.3.2 & The Beverton--Holt Model & Analyze the Beverton--Holt recurrence equation and identify its equilibrium. & \\diffM \\\\\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n2.3.4\\opt & Modeling Drug Absorption & Build and iterate a discrete two-compartment model of drug absorption/elimination. & \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}\n\n[S6] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 704-737\nSection: 4. Cross-Cutting Themes and the Hardest Topics in the Course\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz's Rule proof of the FTC) sit in tension with the course's\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes' Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}",
+        "retrieval_seconds": 0.116658874998393
+      },
+      "evaluation": {
+        "id": "P4",
+        "course_id": "calc1",
+        "difficulty": "hard",
+        "kind": "answerable",
+        "result_count": 6,
+        "scope_or_issue_leaks": [],
+        "integrity_errors": {},
+        "retrieval_seconds": 0.116658874998393,
+        "context_characters": 8461,
+        "passage_ids": [
+          "pass_c29f4b54a65141d6",
+          "pass_1918c4bce1a2d265",
+          "pass_ca8208b6f1998122",
+          "pass_68edaab41e209872",
+          "pass_4dbba13f0e9c77da",
+          "pass_02b1aed7998fbcaa"
+        ],
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 6403,
+        "course_top3": true,
+        "group_first_ranks": [
+          4,
+          2
+        ],
+        "required_group_count": 2,
+        "any_evidence_at": {
+          "1": false,
+          "3": true,
+          "6": true
+        },
+        "complete_at": {
+          "1": false,
+          "3": false,
+          "6": true
+        },
+        "group_hits_at": {
+          "1": 0,
+          "3": 1,
+          "6": 2
+        },
+        "reciprocal_rank": 0.5,
+        "gold_groups": [
+          [
+            "pass_68edaab41e209872"
+          ],
+          [
+            "pass_1918c4bce1a2d265"
+          ]
+        ]
+      }
+    },
+    {
+      "question": "Contrast the discrete logistic map with introductory differential equations for population growth.",
+      "original_evidence_case": "Q18",
+      "report": {
+        "schema_version": "1.1",
+        "question": "Contrast the discrete logistic map with introductory differential equations for population growth.",
+        "status": "found",
+        "message": "",
+        "not_found_reason": null,
+        "scope_assessment": {
+          "decision": "retrieve",
+          "category": "within_selected_scope",
+          "reason_code": null,
+          "requested_scopes": [],
+          "required_source_types": [],
+          "available_source_types": [
+            "context",
+            "syllabus",
+            "textbook_reference"
+          ],
+          "matched_rules": [],
+          "next_action": "retrieve",
+          "explanation": "No explicit scope or source requirement blocks retrieval; evidence sufficiency is not assessed.",
+          "policy_version": "2",
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ]
+        },
+        "retrieval_queries": [
+          "Contrast the discrete logistic map with introductory differential equations for population growth.",
+          "the discrete logistic map.",
+          "introductory differential equations for population growth."
+        ],
+        "facet_candidate_counts": {
+          "the discrete logistic map.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 5,
+            "lexical_broad": 40
+          },
+          "introductory differential equations for population growth.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 1,
+            "lexical_broad": 40
+          }
+        },
+        "evidence_assessment": {
+          "status": "not_assessed",
+          "next_action": "review_evidence"
+        },
+        "filters": {
+          "course_id": null,
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ],
+          "include_flagged": false
+        },
+        "models": [
+          "bge_base_en_v1_5",
+          "qwen3_embedding_0_6b"
+        ],
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 0,
+          "lexical_broad": 40
+        },
+        "use_lexical": true,
+        "max_per_document": 4,
+        "document_limit_mode": "soft",
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 6186,
+        "total_distinct_candidate_passages": 43,
+        "results": [
+          {
+            "citation": "S1",
+            "passage_id": "pass_c29f4b54a65141d6",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations",
+            "line_start": 206,
+            "line_end": 235,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.051269,
+            "selection_score": 0.051269,
+            "matched_record_ids": [
+              "concept:concept_f352e557c671ddbc:0",
+              "passage:pass_c29f4b54a65141d6:0",
+              "passage:pass_c29f4b54a65141d6:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "lexical_exact",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.",
+            "query_matches": [
+              "the discrete logistic map."
+            ]
+          },
+          {
+            "citation": "S2",
+            "passage_id": "pass_68edaab41e209872",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 374,
+            "line_end": 374,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.044767,
+            "selection_score": 0.044767,
+            "matched_record_ids": [
+              "concept:concept_7b3301afea97cf5e:0",
+              "passage:pass_68edaab41e209872:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "lexical_exact",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\",
+            "query_matches": [
+              "the discrete logistic map."
+            ]
+          },
+          {
+            "citation": "S3",
+            "passage_id": "pass_6b55edae04865f1d",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation",
+            "line_start": 321,
+            "line_end": 362,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.037106,
+            "selection_score": 0.037106,
+            "matched_record_ids": [
+              "concept:concept_d17226c1ce12614f:0",
+              "passage:pass_6b55edae04865f1d:0",
+              "passage:pass_6b55edae04865f1d:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "lexical_exact",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip",
+            "query_matches": [
+              "introductory differential equations for population growth."
+            ]
+          },
+          {
+            "citation": "S4",
+            "passage_id": "pass_1918c4bce1a2d265",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 4 --- Applications of Differentiation (Chapter 5)",
+            "line_start": 530,
+            "line_end": 530,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.038403,
+            "selection_score": 0.038403,
+            "matched_record_ids": [
+              "concept:concept_bb842da19e8deb92:0",
+              "passage:pass_1918c4bce1a2d265:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "5.9\\opt & Modeling with Differential Equations (intro) & Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. & \\diffM \\\\",
+            "query_matches": [
+              "introductory differential equations for population growth."
+            ]
+          },
+          {
+            "citation": "S5",
+            "passage_id": "pass_4dbba13f0e9c77da",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 355,
+            "line_end": 383,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.043611,
+            "selection_score": 0.043611,
+            "matched_record_ids": [
+              "passage:pass_4dbba13f0e9c77da:0",
+              "passage:pass_4dbba13f0e9c77da:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\\n2.1.2 & Recurrence Equations & Solve simple linear recurrence equations for an explicit (closed-form) formula. & \\diffM \\\\\n2.1.3 & Visualizing Recurrence Equations & Use step/time-series plots to visualize the behavior of a recurrence equation. & \\diffL \\\\\n2.2.1 & What Are Sequences? & Distinguish an explicit formula for a sequence from a recursive definition. & \\diffL \\\\\n2.2.2\\opt & Spreadsheets for Recursive Sequences & Iterate a recurrence equation numerically in a spreadsheet. & \\diffL \\\\\n2.2.3 & Limits (of Sequences) & Determine convergence/divergence of a sequence and compute limits using limit laws. & \\diffH \\\\\n2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\\n2.2.5 & $\\Sigma$-Notation for Sums & Write and evaluate finite and infinite sums of sequence terms using sigma notation. & \\diffH \\\\\n2.3.1 & Density-Dependent Population Growth & Explain why per-capita growth typically declines with density; build a density-dependent model. & \\diffM \\\\\n2.3.2 & The Beverton--Holt Model & Analyze the Beverton--Holt recurrence equation and identify its equilibrium. & \\diffM \\\\\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n2.3.4\\opt & Modeling Drug Absorption & Build and iterate a discrete two-compartment model of drug absorption/elimination. & \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}",
+            "query_matches": []
+          },
+          {
+            "citation": "S6",
+            "passage_id": "pass_1f34b5012ca1e355",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 364,
+            "line_end": 364,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.041038,
+            "selection_score": 0.041038,
+            "matched_record_ids": [
+              "concept:concept_6d0ea87ecdad0c1f:0",
+              "passage:pass_1f34b5012ca1e355:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\",
+            "query_matches": []
+          }
+        ],
+        "context": "[S1] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 206-235\nSection: Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.\n\n[S2] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 374-374\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n\n[S3] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 321-362\nSection: Semester 1: Calculus I > Module C --- Applications of Differentiation and Integral Calculus > Chapter 5: Applications of Differentiation\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Extrema and the Mean-Value Theorem\n\\item Monotonicity and concavity\n\\item Extrema and inflection points\n\\item Optimization\n\\item L'Hopital's Rule\n\\item Graphing and asymptotes\n\\item * Stability of recurrence equations\n\\item * The Newton--Raphson method\n\\item * Modeling biological systems with differential equations\n\\item Antiderivatives\n\\end{itemize}\n\\KeyConcepts\nCritical points; local vs.\\ global extrema; the Extreme-Value Theorem and\nthe Mean-Value Theorem; the first- and second-derivative tests;\nconcavity and inflection points; constrained optimization; indeterminate\nforms; curve sketching; equilibrium stability; Newton--Raphson iteration;\nantiderivatives.\n\\LearnObj\n\\begin{enumerate}\n\\item Locate and classify local and global extrema using the first- and second-derivative tests.\n\\item Apply and interpret the Mean-Value Theorem.\n\\item Solve applied optimization problems (e.g.\\ resource allocation, foraging efficiency).\n\\item Evaluate indeterminate-form limits using L'Hopital's Rule.\n\\item Sketch a complete graph of a function, including asymptotes, extrema, and inflection points.\n\\item Compute basic antiderivatives.\n\\item * Determine the stability of equilibria of a discrete recurrence model; apply Newton--Raphson to approximate roots; set up an introductory differential-equation model of population growth.\n\\end{enumerate}\n\\PreReq Differentiation rules (Chapter 4); recurrence equations (Chapter 2, for the starred stability section).\n\\Hard Translating a word problem into an optimization objective function\nand constraint(s) is the single hardest recurring skill in this chapter;\nequilibrium/stability analysis of a nonlinear recurrence equation (Sec.\\\n5.7*) revisits Chapter 2 with new tools and is conceptually demanding;\nstudents often misapply L'Hopital's Rule to forms that are not actually\nindeterminate.\n\\bigskip\n\n[S4] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 530-530\nSection: Detailed Module Breakdown > Module 4 --- Applications of Differentiation (Chapter 5)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n5.9\\opt & Modeling with Differential Equations (intro) & Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. & \\diffM \\\\\n\n[S5] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 355-383\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\\n2.1.2 & Recurrence Equations & Solve simple linear recurrence equations for an explicit (closed-form) formula. & \\diffM \\\\\n2.1.3 & Visualizing Recurrence Equations & Use step/time-series plots to visualize the behavior of a recurrence equation. & \\diffL \\\\\n2.2.1 & What Are Sequences? & Distinguish an explicit formula for a sequence from a recursive definition. & \\diffL \\\\\n2.2.2\\opt & Spreadsheets for Recursive Sequences & Iterate a recurrence equation numerically in a spreadsheet. & \\diffL \\\\\n2.2.3 & Limits (of Sequences) & Determine convergence/divergence of a sequence and compute limits using limit laws. & \\diffH \\\\\n2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\\n2.2.5 & $\\Sigma$-Notation for Sums & Write and evaluate finite and infinite sums of sequence terms using sigma notation. & \\diffH \\\\\n2.3.1 & Density-Dependent Population Growth & Explain why per-capita growth typically declines with density; build a density-dependent model. & \\diffM \\\\\n2.3.2 & The Beverton--Holt Model & Analyze the Beverton--Holt recurrence equation and identify its equilibrium. & \\diffM \\\\\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n2.3.4\\opt & Modeling Drug Absorption & Build and iterate a discrete two-compartment model of drug absorption/elimination. & \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}\n\n[S6] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 364-364\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\",
+        "retrieval_seconds": 0.08210912499998813
+      },
+      "evaluation": {
+        "id": "P5",
+        "course_id": "calc1",
+        "difficulty": "hard",
+        "kind": "answerable",
+        "result_count": 6,
+        "scope_or_issue_leaks": [],
+        "integrity_errors": {},
+        "retrieval_seconds": 0.08210912499998813,
+        "context_characters": 8320,
+        "passage_ids": [
+          "pass_c29f4b54a65141d6",
+          "pass_68edaab41e209872",
+          "pass_6b55edae04865f1d",
+          "pass_1918c4bce1a2d265",
+          "pass_4dbba13f0e9c77da",
+          "pass_1f34b5012ca1e355"
+        ],
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 6186,
+        "course_top3": true,
+        "group_first_ranks": [
+          2,
+          4
+        ],
+        "required_group_count": 2,
+        "any_evidence_at": {
+          "1": false,
+          "3": true,
+          "6": true
+        },
+        "complete_at": {
+          "1": false,
+          "3": false,
+          "6": true
+        },
+        "group_hits_at": {
+          "1": 0,
+          "3": 1,
+          "6": 2
+        },
+        "reciprocal_rank": 0.5,
+        "gold_groups": [
+          [
+            "pass_68edaab41e209872"
+          ],
+          [
+            "pass_1918c4bce1a2d265"
+          ]
+        ]
+      }
+    },
+    {
+      "question": "Compare the long-run behavior of a discrete logistic model with continuous population growth modeled by differential equations.",
+      "original_evidence_case": "Q18",
+      "report": {
+        "schema_version": "1.1",
+        "question": "Compare the long-run behavior of a discrete logistic model with continuous population growth modeled by differential equations.",
+        "status": "found",
+        "message": "",
+        "not_found_reason": null,
+        "scope_assessment": {
+          "decision": "retrieve",
+          "category": "within_selected_scope",
+          "reason_code": null,
+          "requested_scopes": [],
+          "required_source_types": [],
+          "available_source_types": [
+            "context",
+            "syllabus",
+            "textbook_reference"
+          ],
+          "matched_rules": [],
+          "next_action": "retrieve",
+          "explanation": "No explicit scope or source requirement blocks retrieval; evidence sufficiency is not assessed.",
+          "policy_version": "2",
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ]
+        },
+        "retrieval_queries": [
+          "Compare the long-run behavior of a discrete logistic model with continuous population growth modeled by differential equations.",
+          "the long-run behavior of a discrete logistic model.",
+          "continuous population growth modeled by differential equations."
+        ],
+        "facet_candidate_counts": {
+          "the long-run behavior of a discrete logistic model.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 0,
+            "lexical_broad": 40
+          },
+          "continuous population growth modeled by differential equations.": {
+            "bge_base_en_v1_5": 40,
+            "qwen3_embedding_0_6b": 40,
+            "lexical_exact": 1,
+            "lexical_broad": 40
+          }
+        },
+        "evidence_assessment": {
+          "status": "not_assessed",
+          "next_action": "review_evidence"
+        },
+        "filters": {
+          "course_id": null,
+          "allowed_scopes": [
+            "pilot_course_or_general"
+          ],
+          "include_flagged": false
+        },
+        "models": [
+          "bge_base_en_v1_5",
+          "qwen3_embedding_0_6b"
+        ],
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 0,
+          "lexical_broad": 40
+        },
+        "use_lexical": true,
+        "max_per_document": 4,
+        "document_limit_mode": "soft",
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 6417,
+        "total_distinct_candidate_passages": 41,
+        "results": [
+          {
+            "citation": "S1",
+            "passage_id": "pass_c29f4b54a65141d6",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations",
+            "line_start": 206,
+            "line_end": 235,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.053073,
+            "selection_score": 0.053073,
+            "matched_record_ids": [
+              "concept:concept_f352e557c671ddbc:0",
+              "passage:pass_c29f4b54a65141d6:0",
+              "passage:pass_c29f4b54a65141d6:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.",
+            "query_matches": [
+              "the long-run behavior of a discrete logistic model.",
+              "continuous population growth modeled by differential equations."
+            ]
+          },
+          {
+            "citation": "S2",
+            "passage_id": "pass_68edaab41e209872",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 374,
+            "line_end": 374,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.043746,
+            "selection_score": 0.043746,
+            "matched_record_ids": [
+              "concept:concept_7b3301afea97cf5e:0",
+              "passage:pass_68edaab41e209872:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\",
+            "query_matches": [
+              "the long-run behavior of a discrete logistic model."
+            ]
+          },
+          {
+            "citation": "S3",
+            "passage_id": "pass_1918c4bce1a2d265",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 4 --- Applications of Differentiation (Chapter 5)",
+            "line_start": 530,
+            "line_end": 530,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.036753,
+            "selection_score": 0.036753,
+            "matched_record_ids": [
+              "concept:concept_bb842da19e8deb92:0",
+              "passage:pass_1918c4bce1a2d265:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "5.9\\opt & Modeling with Differential Equations (intro) & Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. & \\diffM \\\\",
+            "query_matches": [
+              "continuous population growth modeled by differential equations."
+            ]
+          },
+          {
+            "citation": "S4",
+            "passage_id": "pass_4dbba13f0e9c77da",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 355,
+            "line_end": 383,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.043757,
+            "selection_score": 0.043757,
+            "matched_record_ids": [
+              "passage:pass_4dbba13f0e9c77da:0",
+              "passage:pass_4dbba13f0e9c77da:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\\n2.1.2 & Recurrence Equations & Solve simple linear recurrence equations for an explicit (closed-form) formula. & \\diffM \\\\\n2.1.3 & Visualizing Recurrence Equations & Use step/time-series plots to visualize the behavior of a recurrence equation. & \\diffL \\\\\n2.2.1 & What Are Sequences? & Distinguish an explicit formula for a sequence from a recursive definition. & \\diffL \\\\\n2.2.2\\opt & Spreadsheets for Recursive Sequences & Iterate a recurrence equation numerically in a spreadsheet. & \\diffL \\\\\n2.2.3 & Limits (of Sequences) & Determine convergence/divergence of a sequence and compute limits using limit laws. & \\diffH \\\\\n2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\\n2.2.5 & $\\Sigma$-Notation for Sums & Write and evaluate finite and infinite sums of sequence terms using sigma notation. & \\diffH \\\\\n2.3.1 & Density-Dependent Population Growth & Explain why per-capita growth typically declines with density; build a density-dependent model. & \\diffM \\\\\n2.3.2 & The Beverton--Holt Model & Analyze the Beverton--Holt recurrence equation and identify its equilibrium. & \\diffM \\\\\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n2.3.4\\opt & Modeling Drug Absorption & Build and iterate a discrete two-compartment model of drug absorption/elimination. & \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}",
+            "query_matches": []
+          },
+          {
+            "citation": "S5",
+            "passage_id": "pass_1f34b5012ca1e355",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "textbook_reference",
+            "filename": "Calc1_Book_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+            "section_path": "Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)",
+            "line_start": 364,
+            "line_end": 364,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.040633,
+            "selection_score": 0.040633,
+            "matched_record_ids": [
+              "concept:concept_6d0ea87ecdad0c1f:0",
+              "passage:pass_1f34b5012ca1e355:0"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\",
+            "query_matches": []
+          },
+          {
+            "citation": "S6",
+            "passage_id": "pass_02b1aed7998fbcaa",
+            "course_id": "calc1",
+            "course_name": "Calculus I for Biological and Social Sciences",
+            "source_type": "context",
+            "filename": "Calc1_Content_Claude.tex",
+            "snapshot_path": "/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+            "section_path": "4. Cross-Cutting Themes and the Hardest Topics in the Course",
+            "line_start": 704,
+            "line_end": 737,
+            "scope_status": "pilot_course_or_general",
+            "review_status": "unverified",
+            "known_issues": [],
+            "score": 0.039832,
+            "selection_score": 0.039832,
+            "matched_record_ids": [
+              "passage:pass_02b1aed7998fbcaa:0",
+              "passage:pass_02b1aed7998fbcaa:1"
+            ],
+            "signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ],
+            "raw_latex": "\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz's Rule proof of the FTC) sit in tension with the course's\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes' Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}",
+            "query_matches": []
+          }
+        ],
+        "context": "[S1] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 206-235\nSection: Semester 1: Calculus I > Module A --- Foundations: Functions and Discrete-Time Models > Chapter 2: Discrete-Time Models, Sequences, and Difference Equations\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.\n\n[S2] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 374-374\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n\n[S3] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 530-530\nSection: Detailed Module Breakdown > Module 4 --- Applications of Differentiation (Chapter 5)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n5.9\\opt & Modeling with Differential Equations (intro) & Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. & \\diffM \\\\\n\n[S4] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 355-383\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\\n2.1.2 & Recurrence Equations & Solve simple linear recurrence equations for an explicit (closed-form) formula. & \\diffM \\\\\n2.1.3 & Visualizing Recurrence Equations & Use step/time-series plots to visualize the behavior of a recurrence equation. & \\diffL \\\\\n2.2.1 & What Are Sequences? & Distinguish an explicit formula for a sequence from a recursive definition. & \\diffL \\\\\n2.2.2\\opt & Spreadsheets for Recursive Sequences & Iterate a recurrence equation numerically in a spreadsheet. & \\diffL \\\\\n2.2.3 & Limits (of Sequences) & Determine convergence/divergence of a sequence and compute limits using limit laws. & \\diffH \\\\\n2.2.4 & Recurrence Equations (long-term behavior) & Determine the long-term (limiting) behavior of a recursively defined sequence. & \\diffM \\\\\n2.2.5 & $\\Sigma$-Notation for Sums & Write and evaluate finite and infinite sums of sequence terms using sigma notation. & \\diffH \\\\\n2.3.1 & Density-Dependent Population Growth & Explain why per-capita growth typically declines with density; build a density-dependent model. & \\diffM \\\\\n2.3.2 & The Beverton--Holt Model & Analyze the Beverton--Holt recurrence equation and identify its equilibrium. & \\diffM \\\\\n2.3.3 & The Discrete Logistic Equation & Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. & \\diffH \\\\\n2.3.4\\opt & Modeling Drug Absorption & Build and iterate a discrete two-compartment model of drug absorption/elimination. & \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}\n\n[S5] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 364-364\nSection: Detailed Module Breakdown > Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.1.1 & Modeling Population Growth in Discrete Time & Build a recurrence relation from a verbal ``word equation'' for reproduction and survival. & \\diffM \\\\\n\n[S6] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 704-737\nSection: 4. Cross-Cutting Themes and the Hardest Topics in the Course\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz's Rule proof of the FTC) sit in tension with the course's\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes' Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}",
+        "retrieval_seconds": 0.08345254199957708
+      },
+      "evaluation": {
+        "id": "P6",
+        "course_id": "calc1",
+        "difficulty": "hard",
+        "kind": "answerable",
+        "result_count": 6,
+        "scope_or_issue_leaks": [],
+        "integrity_errors": {},
+        "retrieval_seconds": 0.08345254199957708,
+        "context_characters": 8475,
+        "passage_ids": [
+          "pass_c29f4b54a65141d6",
+          "pass_68edaab41e209872",
+          "pass_1918c4bce1a2d265",
+          "pass_4dbba13f0e9c77da",
+          "pass_1f34b5012ca1e355",
+          "pass_02b1aed7998fbcaa"
+        ],
+        "selection_skip_reasons": {
+          "broad_lexical_only": 0,
+          "document_cap": 0,
+          "context_budget": 0
+        },
+        "raw_excerpt_characters": 6417,
+        "course_top3": true,
+        "group_first_ranks": [
+          2,
+          3
+        ],
+        "required_group_count": 2,
+        "any_evidence_at": {
+          "1": false,
+          "3": true,
+          "6": true
+        },
+        "complete_at": {
+          "1": false,
+          "3": true,
+          "6": true
+        },
+        "group_hits_at": {
+          "1": 0,
+          "3": 2,
+          "6": 2
+        },
+        "reciprocal_rank": 0.5,
+        "gold_groups": [
+          [
+            "pass_68edaab41e209872"
+          ],
+          [
+            "pass_1918c4bce1a2d265"
+          ]
+        ]
+      }
+    }
+  ]
+}
