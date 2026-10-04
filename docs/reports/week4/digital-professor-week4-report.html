@@ -1,0 +1,695 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Digital Professor — Week 4 Retrieval Schema Redesign</title><style>
+    :root {
+      --canvas: #f4f7f5;
+      --card: #ffffff;
+      --ink: #172b2b;
+      --muted: #5d7270;
+      --line: #dce5e1;
+      --green: #16865f;
+      --green-soft: #e7f5ee;
+      --blue: #416ac5;
+      --blue-soft: #edf2ff;
+      --amber: #b46916;
+      --amber-soft: #fff3e4;
+      --shadow: 0 12px 32px rgba(20, 47, 39, .055);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .topbar {
+      background: #18312e;
+      color: #fff;
+    }
+    .topbar-inner {
+      max-width: 1390px;
+      margin: auto;
+      padding: 17px 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand { font-size: 15px; font-weight: 750; letter-spacing: -.01em; }
+    .brand span { margin-left: 8px; color: #a9c3ba; font-weight: 500; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #b3f0d0;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #6fe0a5; }
+    main { max-width: 1390px; margin: auto; padding: 30px 38px 38px; }
+    .eyebrow { margin: 0 0 8px; color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3, p { margin: 0; }
+    button { font: inherit; }
+    h1 { max-width: 890px; font-size: clamp(31px, 3.3vw, 48px); line-height: 1.12; letter-spacing: -.045em; }
+    h2 { font-size: clamp(20px, 2vw, 27px); letter-spacing: -.025em; }
+    .subhead { margin-top: 10px; color: var(--muted); font-size: 17px; line-height: 1.4; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 27px 0 14px; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 17px;
+      align-items: stretch;
+    }
+    .step {
+      position: relative;
+      min-height: 168px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 19px 18px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .step:hover { transform: translateY(-3px); border-color: #a8d9be; }
+    .step:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+    .step[aria-pressed="true"] { border-color: var(--green); box-shadow: 0 0 0 3px #d7f1e4, var(--shadow); }
+    .step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      z-index: 2;
+      top: 43%;
+      right: -18px;
+      width: 18px;
+      color: var(--green);
+      font-size: 21px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .step .icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--green-soft);
+      color: var(--green);
+      margin-bottom: 13px;
+    }
+    .step:nth-child(3) .icon { background: var(--blue-soft); color: var(--blue); }
+    .step:nth-child(4) .icon { background: var(--amber-soft); color: var(--amber); }
+    .step svg { width: 21px; height: 21px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .step-number { margin-bottom: 6px; color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .step-title { display: block; font-size: 19px; font-weight: 750; letter-spacing: -.025em; line-height: 1.2; }
+    .step-summary { display: block; margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.4; }
+    .detail-stage { margin-top: 18px; }
+    .detail-view {
+      min-height: 214px;
+      display: grid;
+      grid-template-columns: minmax(220px, .64fr) minmax(0, 1.36fr);
+      gap: 28px;
+      padding: 24px 27px;
+      border: 1px solid #bedbc9;
+      border-radius: 17px;
+      background: linear-gradient(120deg, #edf7f0, #ffffff 57%);
+      box-shadow: var(--shadow);
+    }
+    .detail-view[hidden] { display: none; }
+    .detail-view:not([hidden]) { animation: reveal-detail .32s cubic-bezier(.2, .7, .2, 1) both; }
+    @keyframes reveal-detail { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .detail-kicker { color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .detail-intro h3 { margin-top: 8px; font-size: 26px; letter-spacing: -.03em; }
+    .detail-intro p { margin-top: 13px; color: #315348; font-size: 17px; line-height: 1.53; }
+    .detail-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-content: stretch; }
+    .detail-points.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .detail-point { padding: 17px 16px; border: 1px solid #deebe3; border-radius: 12px; background: #fff; }
+    .detail-point strong { display: block; margin-bottom: 8px; color: var(--ink); font-size: 16px; line-height: 1.25; }
+    .detail-point p { color: var(--muted); font-size: 15px; line-height: 1.43; }
+    .lower { display: grid; grid-template-columns: minmax(270px, .72fr) minmax(0, 1.28fr); gap: 18px; margin-top: 21px; }
+    .panel { border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: var(--shadow); }
+    .test-design { padding: 21px 23px; }
+    .test-design .eyebrow { margin-bottom: 7px; }
+    .test-design h2 { margin-bottom: 16px; }
+    .test-lines { display: grid; gap: 12px; }
+    .test-line { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 15px; }
+    .test-line b { min-width: 48px; color: var(--green); font-size: 23px; line-height: 1; letter-spacing: -.035em; }
+    .test-line:last-child b { font-size: 19px; }
+    .test-caption { margin-top: 16px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .outcome { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 24px; padding: 23px 25px; }
+    .big-number { color: var(--green); font-size: clamp(56px, 5.6vw, 78px); line-height: 1; letter-spacing: -.07em; font-weight: 780; }
+    .big-number small { display: block; margin-top: 8px; color: var(--muted); font-size: 14px; letter-spacing: 0; font-weight: 500; }
+    .outcome-copy h2 { margin: 0 0 13px; }
+    .outcome-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .outcome-list li { position: relative; padding-left: 18px; color: #435e57; font-size: 15px; line-height: 1.45; }
+    .outcome-list li::before { content: ""; position: absolute; left: 1px; top: .48em; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .outcome-list li:nth-child(2)::before { background: var(--amber); }
+    .outcome-list li strong { color: var(--ink); }
+    .meter { height: 9px; overflow: hidden; border-radius: 999px; background: #e8efeb; margin-top: 17px; }
+    .meter > span { display: block; height: 100%; width: 87%; border-radius: inherit; background: var(--green); }
+    .interesting { display: grid; grid-template-columns: minmax(250px, .95fr) repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 21px; padding: 24px; border-radius: 16px; background: #18312e; color: #fff; box-shadow: var(--shadow); }
+    .interesting .eyebrow { color: #8de0b4; }
+    .interesting h2 { color: #fff; font-size: 25px; }
+    .interesting p { color: #d7e8df; font-size: 15px; line-height: 1.46; }
+    .interesting-intro > p:last-child { margin-top: 11px; }
+    .interesting-card { display: flex; flex-direction: column; padding: 17px 18px; border: 1px solid #42685b; border-radius: 12px; background: #24443c; }
+    .interesting-card .card-type { color: #9ee7bf; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .interesting-card h3 { margin: 8px 0; color: #fff; font-size: 18px; letter-spacing: -.02em; }
+    .interesting-card p { flex: 1; }
+    .interesting-card a { width: fit-content; margin-top: 14px; color: #b8f4d4; font-size: 13px; font-weight: 700; text-decoration: none; }
+    .interesting-card a:hover, .interesting-card a:focus-visible { text-decoration: underline; }
+    @media (max-width: 1050px) {
+      .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .step:not(:last-child)::after { display: none; }
+      .step { min-height: 160px; }
+      .detail-view { grid-template-columns: 1fr; gap: 18px; }
+      .lower { grid-template-columns: 1fr; }
+      .interesting { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .interesting-intro { grid-column: 1 / -1; }
+    }
+    @media (max-width: 750px) {
+      .topbar-inner, main { padding-left: 19px; padding-right: 19px; }
+      .topbar-inner { align-items: flex-start; flex-direction: column; gap: 7px; }
+      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .detail-points, .detail-points.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lower { grid-template-columns: 1fr; }
+      .interesting { grid-template-columns: 1fr; }
+      .interesting-intro { grid-column: auto; }
+    }
+    @media (max-width: 480px) {
+      .flow { grid-template-columns: 1fr; }
+      .step { min-height: 0; }
+      .detail-view { padding: 20px; }
+      .detail-points, .detail-points.four { grid-template-columns: 1fr; }
+      .outcome { grid-template-columns: 1fr; gap: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .step { transition: none; } .detail-view:not([hidden]) { animation: none; } }
+    @media print {
+      @page { size: landscape; margin: 10mm; }
+      body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      main { max-width: none; padding: 19px 22px; }
+      .step { min-height: 155px; box-shadow: none; }
+      .detail-view { min-height: 205px; box-shadow: none; }
+      .panel { box-shadow: none; }
+    }
+  
+    .detail-view { min-height: 132px; display: block; padding: 22px 27px; }
+    .detail-intro { display: grid; grid-template-columns: 240px 1fr; gap: 26px; align-items: center; }
+    .detail-intro h3 { margin: 7px 0 0; font-size: 23px; }
+    .detail-intro p { margin: 0; font-size: 17px; line-height: 1.55; }
+    .section-note { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 470px; }
+    .handoff { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; margin: 28px 0 18px; padding: 22px 26px; border-radius: 16px; background: #18312e; color: white; }
+    .handoff h3 { margin: 7px 0; font-size: 21px; letter-spacing: -.025em; }
+    .handoff p { font-size: 14px; line-height: 1.55; color: #d0e3da; }
+    .handoff code { color: #b8f4d4; background: #24443c; }
+    .handoff .arrow { color: #8de0b4; font-size: 25px; }
+    .micro { color: var(--green); font-size: 12px; letter-spacing: .12em; font-weight: 800; text-transform: uppercase; }
+    .handoff .micro { color: #8de0b4; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .87em; background: #eef4f0; padding: 2px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+    .schema-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 17px 0; }
+    .schema-tabs button { padding: 12px 19px; border: 1px solid var(--line); background: white; border-radius: 10px; color: var(--muted); cursor: pointer; font-weight: 700; }
+    .schema-tabs button[aria-selected="true"] { background: var(--green); color: white; border-color: var(--green); }
+    button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+    .schema-panel { padding: 27px; }
+    .schema-panel[hidden] { display: none; }
+    .schema-lead { display: flex; align-items: start; justify-content: space-between; gap: 24px; margin-bottom: 23px; }
+    .schema-lead h2 { margin: 8px 0; }
+    .schema-lead p { max-width: 830px; color: var(--muted); font-size: 16px; line-height: 1.55; }
+    .tag { display: inline-flex; padding: 6px 10px; border-radius: 999px; color: var(--green); background: var(--green-soft); font-size: 12px; font-weight: 750; white-space: nowrap; }
+    .schema-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .85fr); gap: 27px; align-items: start; }
+    .field-group + .field-group { margin-top: 22px; }
+    .field-group h3 { color: #315348; font-size: 14px; margin-bottom: 7px; font-weight: 800; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    td, th { text-align: left; padding: 10px 9px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.5; }
+    th { color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+    td:first-child { width: 41%; }
+    td:last-child { color: var(--muted); }
+    .example { position: sticky; top: 20px; border: 1px solid var(--line); border-radius: 13px; background: #f7faf8; overflow: hidden; }
+    .example-head { padding: 17px 18px; border-bottom: 1px solid var(--line); }
+    .example-head h3 { font-size: 16px; margin: 6px 0; }
+    .example-head p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    pre { margin: 0; padding: 20px; max-height: 580px; overflow: auto; background: #18312e; color: #d4efdf; font-size: 12px; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; }
+    pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+    .example-foot { padding: 15px 18px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+    details { margin-top: 12px; border: 1px solid var(--line); border-radius: 11px; background: white; }
+    summary { padding: 14px 17px; cursor: pointer; color: #315348; font-size: 14px; font-weight: 750; }
+    .nested-content { padding: 0 16px 16px; }
+    .nested-content > p { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 10px; }
+    .nested-content .field-group { margin-top: 16px; }
+    .status-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; margin: 20px 0 0; }
+    .status-card { padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #f7faf8; }
+    .status-card h3 { margin-bottom: 10px; font-size: 15px; }
+    .status-card p { font-size: 14px; line-height: 1.55; color: var(--muted); }
+    .status-card:nth-child(2) { background: var(--amber-soft); }
+    .status-card:nth-child(3) { background: var(--blue-soft); }
+    .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 23px 0 13px; }
+    .readout article { padding: 21px 23px; }
+    .readout strong { display: block; color: var(--green); font-size: 34px; letter-spacing: -.035em; margin: 7px 0; }
+    .readout p { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .boundary { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 15px 0; }
+    footer { margin-top: 25px; padding-top: 17px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+    footer a { color: var(--green); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media(max-width: 1050px) { .schema-grid { grid-template-columns: 1fr; } .example { position: static; } pre { max-height: 400px; } }
+    @media(max-width: 750px) { .detail-intro { grid-template-columns: 1fr; gap: 12px; } .handoff { grid-template-columns: 1fr; gap: 13px; } .handoff .arrow { transform: rotate(90deg); width: 25px; } .schema-panel { padding: 20px; } .schema-lead { flex-direction: column; gap: 10px; } .status-grid, .readout { grid-template-columns: 1fr; } .section-head { align-items: start; flex-direction: column; } td { padding: 9px 5px; } td:first-child { width: 44%; } }
+    @media print { @page { size: A4 portrait; margin: 12mm; } .schema-panel[hidden] { display: block; margin-top: 20px; } .schema-tabs { display: none; } .schema-grid { grid-template-columns: 1fr; } .example { position: static; } pre { max-height: none; } .detail-view { min-height: 0; } .flow { gap: 8px; } .step { padding: 12px; min-height: 140px; } .step-title { font-size: 15px; } .step-summary { font-size: 12px; } .step:not(:last-child)::after { display: none; } .field-group, .status-card, .readout article { break-inside: avoid; } }
+
+.field-fold { margin-top: 0; margin-bottom: 12px; background: #f7faf8; }
+.field-fold summary { padding: 20px 18px; font-size: 15px; }
+.shape-label { margin: 0; padding: 12px 18px; font-size: 12px; color: var(--muted); }
+.json-fold { margin: 0; border: 0; border-radius: 0; }
+.example pre { max-height: 330px; }
+.schema-lead { margin-bottom: 16px; }
+@media print { details > .nested-content { display: block; } }
+
+.handoff { grid-template-columns: repeat(3,minmax(0,1fr)); align-items:start; }
+.handoff h3 { font-size:22px; } .handoff p { margin-bottom:0; }
+.schema-grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:22px; }
+.schema-box { min-width:0; border:1px solid var(--line); border-radius:13px; overflow:hidden; background:#f7faf8; }
+.field-scroll { height:440px; margin:0; padding:8px 20px 15px; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
+.field-scroll > div { padding:12px 0; border-bottom:1px solid var(--line); }
+.field-scroll dt { display:inline; font-size:14px; font-weight:700; line-height:1.7; }
+.field-scroll dd { display:inline; margin:0; color:var(--muted); font-size:14px; line-height:1.7; }
+.schema-box .run-scroll { height:440px; max-height:none; overflow:auto; box-sizing:border-box; overscroll-behavior:contain; scrollbar-gutter:stable; font-size:12px; }
+.field-scroll:focus-visible,.run-scroll:focus-visible { outline:3px solid var(--green); outline-offset:-3px; }
+.schema-lead { margin-bottom:20px; } .schema-lead p { max-width:850px; }
+@media(max-width:900px) { .schema-grid,.handoff { grid-template-columns:1fr; } .field-scroll,.schema-box .run-scroll { height:360px; } }
+@media print { .field-scroll,.schema-box .run-scroll { height:auto; overflow:visible; } .schema-grid { grid-template-columns:1fr; } }
+</style></head><body><header class="topbar"><div class="topbar-inner"><div class="brand">Digital Professor <span>/ Week 4 update</span></div><div class="status">Retrieval schema redesign · 2 October 2026</div></div></header><main>
+<p class="eyebrow">This week's work · input & output schemas</p><h1>Redesigning the retrieval system's schema.</h1><p class="subhead">Clear structures for stored knowledge, retrieved evidence, and the search report — so downstream steps know what they receive.</p>
+<div class="section-head"><div><p class="eyebrow">The flow</p><h2>The retrieval flow</h2></div><p class="section-note">Select a card for its key design or result.</p></div><section class="flow" aria-label="Course knowledge retrieval flow">
+      <button class="step" type="button" aria-pressed="true" aria-controls="detail-resources" data-detail="detail-resources">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5h7a3 3 0 0 1 3 3V20H7a3 3 0 0 0-3 1z"/><path d="M20 5.5h-6a3 3 0 0 0-3 3"/><path d="M14 20h3a3 3 0 0 1 3 1V5.5"/></svg></span>
+        <span class="step-number">01 · Resource framework</span>
+        <span class="step-title">Course resources</span>
+        <span class="step-summary">Three source types for each course.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-map" data-detail="detail-map">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3h6m6-3v3h-6m0 0v3"/></svg></span>
+        <span class="step-number">02 · Structured knowledge</span>
+        <span class="step-title">Knowledge map</span>
+        <span class="step-summary">Four linked levels and concept cards.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-embeddings" data-detail="detail-embeddings">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="12" cy="18" r="2"/><path d="m7 7 4 9m2 0 4-9M7 6h9"/></svg></span>
+        <span class="step-number">03 · Hugging Face models</span>
+        <span class="step-title">Two embeddings</span>
+        <span class="step-summary">BGE and Qwen3 index the same content.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-retrieval" data-detail="detail-retrieval">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6"/></svg></span>
+        <span class="step-number">04 · Hybrid search</span>
+        <span class="step-title">Question retrieval</span>
+        <span class="step-summary">Meaning + keywords + scope checks.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-evaluation" data-detail="detail-evaluation">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5h12M8 12h12M8 19h12M3.5 5l1 1 2-2M3.5 12l1 1 2-2M3.5 19l1 1 2-2"/></svg></span>
+        <span class="step-number">05 · Evaluation framework</span>
+        <span class="step-title">Retrieval evaluation</span>
+        <span class="step-summary">Measure evidence quality and reliability.</span>
+      </button>
+    </section>
+<div class="detail-stage" aria-live="polite"><section class="detail-view" id="detail-resources" aria-label="Source roles stay explicit"><div class="detail-intro"><div><span class="detail-kicker">01 · Resource framework</span><h3>Source roles stay explicit</h3></div><p>Six files cover Calculus I and Number Theory I. Each file keeps its course and source type.</p></div></section>
+<section class="detail-view" id="detail-map" aria-label="Every match has an address" hidden><div class="detail-intro"><div><span class="detail-kicker">02 · Structured knowledge</span><h3>Every match has an address</h3></div><p>221 passages and 216 concept cards link back to their source lines. Every match has an address.</p></div></section>
+<section class="detail-view" id="detail-embeddings" aria-label="Two models, one shared input" hidden><div class="detail-intro"><div><span class="detail-kicker">03 · Hugging Face models</span><h3>Two models, one shared input</h3></div><p>On the original test, BGE alone covered 38/46 questions and Qwen3 covered 41/46; both plus keywords covered 40/46. Two models add different candidates, but combining them does not automatically improve coverage.</p></div></section>
+<section class="detail-view" id="detail-retrieval" aria-label="A bounded evidence handoff" hidden><div class="detail-intro"><div><span class="detail-kicker">04 · Hybrid search</span><h3>A bounded evidence handoff</h3></div><p>Meaning and keywords work together to select up to six passages. Scope checks decide whether to search, stop, or ask for clarification.</p></div></section>
+<section class="detail-view" id="detail-evaluation" aria-label="Inspect each question and source" hidden><div class="detail-intro"><div><span class="detail-kicker">05 · Evaluation framework</span><h3>Inspect each question and source</h3></div><p>The current run covers all expected evidence for 46/46 answerable questions. Four scope and missing-source cases also return the expected decisions.</p></div></section>
+</div>
+
+<section class="handoff" aria-label="Three schemas and their uses"><div><span class="micro">01 · Input schema</span><h3>Stable knowledge</h3><p>Give the SQL knowledge base a consistent structure.</p></div><div><span class="micro">02 · Evidence schema</span><h3>Usable LLM input</h3><p>Identify each hit and pass its cited text to the LLM.</p></div><div><span class="micro">03 · Report schema</span><h3>Evaluation & validation</h3><p>Check search quality and decide whether to retrieve again.</p></div></section>
+<div class="section-head"><div><p class="eyebrow">The three schemas</p><h2>One structure for each job.</h2></div><p class="section-note">Full field definitions and complete examples.</p></div>
+<div class="schema-tabs" role="tablist" aria-label="Input and output schemas"><button id="tab-knowledge" role="tab" aria-selected="true" aria-controls="schema-knowledge" tabindex="0">01 · Knowledge input</button><button id="tab-hit" role="tab" aria-selected="false" aria-controls="schema-hit" tabindex="-1">02 · Retrieved evidence</button><button id="tab-report" role="tab" aria-selected="false" aria-controls="schema-report" tabindex="-1">03 · Retrieval report</button></div><section class="panel schema-panel" id="schema-knowledge" role="tabpanel" aria-labelledby="tab-knowledge">
+ <div class="schema-lead"><div><span class="micro">Input · knowledge schema</span><h2>Keep the knowledge base consistent.</h2><p>Store each source, section, and passage in linked SQL tables. A stable structure makes the knowledge easy to find and reuse.</p></div></div>
+ <div class="schema-grid"><article class="schema-box"><div class="example-head"><span class="micro">Schema · all fields</span><h3>Field : what it means</h3><p>Scroll to see the complete definition.</p></div><dl class="field-scroll" tabindex="0" aria-label="Complete field definitions"><div><dt><code>document.course_id</code><span aria-hidden="true"> : </span></dt><dd>Which course this file belongs to.</dd></div><div><dt><code>document.document_id</code><span aria-hidden="true"> : </span></dt><dd>Stable source-file ID.</dd></div><div><dt><code>document.filename</code><span aria-hidden="true"> : </span></dt><dd>The source file name.</dd></div><div><dt><code>document.line_count</code><span aria-hidden="true"> : </span></dt><dd>Number of lines in the file.</dd></div><div><dt><code>document.provenance</code><span aria-hidden="true"> : </span></dt><dd>Where the material came from.</dd></div><div><dt><code>document.review_status</code><span aria-hidden="true"> : </span></dt><dd>Whether the source has been reviewed.</dd></div><div><dt><code>document.sha256</code><span aria-hidden="true"> : </span></dt><dd>File fingerprint for version checks.</dd></div><div><dt><code>document.snapshot_path</code><span aria-hidden="true"> : </span></dt><dd>Preserved copy used by the knowledge base.</dd></div><div><dt><code>document.source_path</code><span aria-hidden="true"> : </span></dt><dd>Original file location.</dd></div><div><dt><code>document.source_type</code><span aria-hidden="true"> : </span></dt><dd>Syllabus, course context, or textbook reference.</dd></div><div><dt><code>section.document_id</code><span aria-hidden="true"> : </span></dt><dd>Stable source-file ID.</dd></div><div><dt><code>section.end_line</code><span aria-hidden="true"> : </span></dt><dd>Last source-file line.</dd></div><div><dt><code>section.heading_kind</code><span aria-hidden="true"> : </span></dt><dd>Type of heading.</dd></div><div><dt><code>section.level</code><span aria-hidden="true"> : </span></dt><dd>Depth in the section hierarchy.</dd></div><div><dt><code>section.parent_id</code><span aria-hidden="true"> : </span></dt><dd>Parent section, or null at the root.</dd></div><div><dt><code>section.section_id</code><span aria-hidden="true"> : </span></dt><dd>Stable section ID.</dd></div><div><dt><code>section.start_line</code><span aria-hidden="true"> : </span></dt><dd>First source-file line.</dd></div><div><dt><code>section.title</code><span aria-hidden="true"> : </span></dt><dd>Section heading.</dd></div><div><dt><code>passage.document_id</code><span aria-hidden="true"> : </span></dt><dd>Stable source-file ID.</dd></div><div><dt><code>passage.end_line</code><span aria-hidden="true"> : </span></dt><dd>Last source-file line.</dd></div><div><dt><code>passage.passage_id</code><span aria-hidden="true"> : </span></dt><dd>Stable passage ID.</dd></div><div><dt><code>passage.passage_kind</code><span aria-hidden="true"> : </span></dt><dd>How the passage was extracted.</dd></div><div><dt><code>passage.raw_latex</code><span aria-hidden="true"> : </span></dt><dd>Original source text.</dd></div><div><dt><code>passage.readable_text</code><span aria-hidden="true"> : </span></dt><dd>Mechanically cleaned text for search; not an AI summary.</dd></div><div><dt><code>passage.scope_status</code><span aria-hidden="true"> : </span></dt><dd>Course scope assigned to this passage.</dd></div><div><dt><code>passage.section_id</code><span aria-hidden="true"> : </span></dt><dd>Stable section ID.</dd></div><div><dt><code>passage.start_line</code><span aria-hidden="true"> : </span></dt><dd>First source-file line.</dd></div></dl></article>
+ <article class="schema-box"><div class="example-head"><span class="micro">Actual values · complete record</span><h3>Stored example · Q18 source</h3><p>Scroll to inspect every field. No fields or text are omitted.</p></div><pre class="run-scroll" tabindex="0" aria-label="Complete actual record"><code>{
+  &quot;document&quot;: {
+    &quot;course_id&quot;: &quot;calc1&quot;,
+    &quot;document_id&quot;: &quot;calc1:textbook_reference&quot;,
+    &quot;filename&quot;: &quot;Calc1_Book_Claude.tex&quot;,
+    &quot;line_count&quot;: 771,
+    &quot;provenance&quot;: &quot;AI-prepared textbook-based course breakdown; original textbook full text not supplied&quot;,
+    &quot;review_status&quot;: &quot;unverified&quot;,
+    &quot;sha256&quot;: &quot;bac96a264f0c0ef76efa125d213d5eb500665220b3b2b3867e261d072ea94042&quot;,
+    &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex&quot;,
+    &quot;source_path&quot;: &quot;/Users/sunset/Desktop/entagile/resource/Calc1_Book_Claude.tex&quot;,
+    &quot;source_type&quot;: &quot;textbook_reference&quot;
+  },
+  &quot;section&quot;: {
+    &quot;document_id&quot;: &quot;calc1:textbook_reference&quot;,
+    &quot;end_line&quot;: 551,
+    &quot;heading_kind&quot;: &quot;subsection&quot;,
+    &quot;level&quot;: 2,
+    &quot;parent_id&quot;: &quot;sec_6a34a521442a2841&quot;,
+    &quot;section_id&quot;: &quot;sec_18362152c232f5af&quot;,
+    &quot;start_line&quot;: 500,
+    &quot;title&quot;: &quot;Module 4 --- Applications of Differentiation (Chapter 5)&quot;
+  },
+  &quot;passage&quot;: {
+    &quot;document_id&quot;: &quot;calc1:textbook_reference&quot;,
+    &quot;end_line&quot;: 530,
+    &quot;passage_id&quot;: &quot;pass_1918c4bce1a2d265&quot;,
+    &quot;passage_kind&quot;: &quot;textbook_outline_row&quot;,
+    &quot;raw_latex&quot;: &quot;5.9\\opt &amp; Modeling with Differential Equations (intro) &amp; Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. &amp; \\diffM \\\\&quot;,
+    &quot;readable_text&quot;: &quot;5.9 Modeling with Differential Equations (intro). Learning objective: Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively.&quot;,
+    &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+    &quot;section_id&quot;: &quot;sec_18362152c232f5af&quot;,
+    &quot;start_line&quot;: 530
+  }
+}</code></pre></article></div>
+ <p class="boundary">Document → section → passage. Locations use source-file lines, not textbook pages. The current textbook-reference files are course breakdowns.</p></section><section class="panel schema-panel" id="schema-hit" role="tabpanel" aria-labelledby="tab-hit" hidden>
+ <div class="schema-lead"><div><span class="micro">Output · retrieved evidence</span><h2>Give the LLM evidence it can identify.</h2><p>Each hit carries the original text, source location, and search signals. Downstream code can read it consistently and pass cited evidence to the LLM.</p></div></div>
+ <div class="schema-grid"><article class="schema-box"><div class="example-head"><span class="micro">Schema · all fields</span><h3>Field : what it means</h3><p>Scroll to see the complete definition.</p></div><dl class="field-scroll" tabindex="0" aria-label="Complete field definitions"><div><dt><code>citation</code><span aria-hidden="true"> : </span></dt><dd>Short marker such as S1, used in the assembled context.</dd></div><div><dt><code>passage_id</code><span aria-hidden="true"> : </span></dt><dd>Stable identifier for the source passage; used to link and merge hits.</dd></div><div><dt><code>course_id</code><span aria-hidden="true"> : </span></dt><dd>Machine-readable course ID and display name.</dd></div><div><dt><code>course_name</code><span aria-hidden="true"> : </span></dt><dd>Machine-readable course ID and display name.</dd></div><div><dt><code>source_type</code><span aria-hidden="true"> : </span></dt><dd>Syllabus, course context, or textbook-reference role.</dd></div><div><dt><code>filename</code><span aria-hidden="true"> : </span></dt><dd>Source file name and the preserved local snapshot location.</dd></div><div><dt><code>snapshot_path</code><span aria-hidden="true"> : </span></dt><dd>Source file name and the preserved local snapshot location.</dd></div><div><dt><code>section_path</code><span aria-hidden="true"> : </span></dt><dd>Chapter and section hierarchy.</dd></div><div><dt><code>line_start</code><span aria-hidden="true"> : </span></dt><dd>Start and end lines in the source LaTeX file, not textbook page numbers.</dd></div><div><dt><code>line_end</code><span aria-hidden="true"> : </span></dt><dd>Start and end lines in the source LaTeX file, not textbook page numbers.</dd></div><div><dt><code>scope_status</code><span aria-hidden="true"> : </span></dt><dd>Whether the passage belongs to the pilot or an opt-in scope.</dd></div><div><dt><code>review_status</code><span aria-hidden="true"> : </span></dt><dd>Source review state; the current supplied files are unverified.</dd></div><div><dt><code>known_issues</code><span aria-hidden="true"> : </span></dt><dd>Recorded unresolved issues attached to this source span.</dd></div><div><dt><code>score</code><span aria-hidden="true"> : </span></dt><dd>Fusion ranking score. It is not an answer-confidence probability.</dd></div><div><dt><code>selection_score</code><span aria-hidden="true"> : </span></dt><dd>Selection value after focused reranking or the soft file preference; also not confidence.</dd></div><div><dt><code>selection_reason</code><span aria-hidden="true"> : </span></dt><dd>Selected through query coverage or ordinary ranking.</dd></div><div><dt><code>signals</code><span aria-hidden="true"> : </span></dt><dd>Search channels that matched, such as BGE, Qwen3, or keywords.</dd></div><div><dt><code>matched_record_ids</code><span aria-hidden="true"> : </span></dt><dd>Concept-card or passage-segment records mapped to this passage.</dd></div><div><dt><code>query_matches</code><span aria-hidden="true"> : </span></dt><dd>Focused subqueries that reserved evidence from this passage.</dd></div><div><dt><code>raw_latex</code><span aria-hidden="true"> : </span></dt><dd>The original source excerpt. Returned in full, without a newly generated summary.</dd></div></dl></article>
+ <article class="schema-box"><div class="example-head"><span class="micro">Actual values · complete record</span><h3>Run example · Q18 / S3</h3><p>Scroll to inspect every field. No fields or text are omitted.</p></div><pre class="run-scroll" tabindex="0" aria-label="Complete actual record"><code>{
+  &quot;citation&quot;: &quot;S3&quot;,
+  &quot;passage_id&quot;: &quot;pass_1918c4bce1a2d265&quot;,
+  &quot;course_id&quot;: &quot;calc1&quot;,
+  &quot;course_name&quot;: &quot;Calculus I for Biological and Social Sciences&quot;,
+  &quot;source_type&quot;: &quot;textbook_reference&quot;,
+  &quot;filename&quot;: &quot;Calc1_Book_Claude.tex&quot;,
+  &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex&quot;,
+  &quot;section_path&quot;: &quot;Detailed Module Breakdown &gt; Module 4 --- Applications of Differentiation (Chapter 5)&quot;,
+  &quot;line_start&quot;: 530,
+  &quot;line_end&quot;: 530,
+  &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+  &quot;review_status&quot;: &quot;unverified&quot;,
+  &quot;known_issues&quot;: [],
+  &quot;score&quot;: 0.034638,
+  &quot;selection_score&quot;: 0.034638,
+  &quot;selection_reason&quot;: &quot;query_coverage&quot;,
+  &quot;matched_record_ids&quot;: [
+    &quot;concept:concept_bb842da19e8deb92:0&quot;,
+    &quot;passage:pass_1918c4bce1a2d265:0&quot;
+  ],
+  &quot;signals&quot;: [
+    &quot;bge_base_en_v1_5&quot;,
+    &quot;lexical_broad&quot;,
+    &quot;qwen3_embedding_0_6b&quot;
+  ],
+  &quot;raw_latex&quot;: &quot;5.9\\opt &amp; Modeling with Differential Equations (intro) &amp; Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. &amp; \\diffM \\\\&quot;,
+  &quot;query_matches&quot;: [
+    &quot;the course&#x27;s introductory continuous population differential-equation models.&quot;
+  ]
+}</code></pre></article></div>
+ <p class="boundary"><code>score</code> and <code>selection_score</code> are ranking values, not certainty percentages.</p></section><section class="panel schema-panel" id="schema-report" role="tabpanel" aria-labelledby="tab-report" hidden>
+ <div class="schema-lead"><div><span class="micro">Output · retrieval report</span><h2>Let downstream steps check the search.</h2><p>Record the question, decision, evidence, and search process. Evaluation and validation can use this report to judge retrieval quality and decide whether to search again.</p></div></div>
+ <div class="schema-grid"><article class="schema-box"><div class="example-head"><span class="micro">Schema · all fields</span><h3>Field : what it means</h3><p>Scroll to see the complete definition.</p></div><dl class="field-scroll" tabindex="0" aria-label="Complete field definitions"><div><dt><code>schema_version</code><span aria-hidden="true"> : </span></dt><dd>Version of the output contract: 1.1.</dd></div><div><dt><code>question</code><span aria-hidden="true"> : </span></dt><dd>The original student or instructor question.</dd></div><div><dt><code>status</code><span aria-hidden="true"> : </span></dt><dd>found, not_found, or needs_clarification.</dd></div><div><dt><code>message</code><span aria-hidden="true"> : </span></dt><dd>Short readable label for an empty or clarification outcome.</dd></div><div><dt><code>not_found_reason</code><span aria-hidden="true"> : </span></dt><dd>Specific reason for Not found; null for found or clarification.</dd></div><div><dt><code>scope_assessment</code><span aria-hidden="true"> : </span></dt><dd>Structured request-scope and source-availability decision; expand below.</dd></div><div><dt><code>evidence_assessment</code><span aria-hidden="true"> : </span></dt><dd>Currently records not_assessed or no_selected_evidence, plus a next action.</dd></div><div><dt><code>filters</code><span aria-hidden="true"> : </span></dt><dd>Course filter, allowed scopes, and whether known-issue passages are included.</dd></div><div><dt><code>models</code><span aria-hidden="true"> : </span></dt><dd>The embedding models used by this request.</dd></div><div><dt><code>retrieval_queries</code><span aria-hidden="true"> : </span></dt><dd>Original question plus any focused subqueries.</dd></div><div><dt><code>use_lexical</code><span aria-hidden="true"> : </span></dt><dd>Whether keyword-search channels are enabled.</dd></div><div><dt><code>max_per_document</code><span aria-hidden="true"> : </span></dt><dd>Per-file preference (default four) and soft/hard selection mode.</dd></div><div><dt><code>document_limit_mode</code><span aria-hidden="true"> : </span></dt><dd>Per-file preference (default four) and soft/hard selection mode.</dd></div><div><dt><code>results</code><span aria-hidden="true"> : </span></dt><dd>Ordered array of the structured hit records in Output 01.</dd></div><div><dt><code>context</code><span aria-hidden="true"> : </span></dt><dd>Those source excerpts assembled with citation markers and source metadata.</dd></div><div><dt><code>channel_candidate_counts</code><span aria-hidden="true"> : </span></dt><dd>Candidate record counts from the original-query search channels.</dd></div><div><dt><code>facet_candidate_counts</code><span aria-hidden="true"> : </span></dt><dd>Candidate channel counts for each focused subquery, when used.</dd></div><div><dt><code>total_distinct_candidate_passages</code><span aria-hidden="true"> : </span></dt><dd>Distinct candidate passages in the merged selection pool.</dd></div><div><dt><code>selection_skip_reasons</code><span aria-hidden="true"> : </span></dt><dd>Counts skipped for broad-keyword-only support, a hard file cap, or budget.</dd></div><div><dt><code>raw_excerpt_characters</code><span aria-hidden="true"> : </span></dt><dd>Total characters of selected original excerpts; excludes added citation headers.</dd></div><div><dt><code>retrieval_seconds</code><span aria-hidden="true"> : </span></dt><dd>Search, selection, and assembly time; excludes question embedding and model loading.</dd></div><div><dt><code>scope_assessment.policy_version</code><span aria-hidden="true"> : </span></dt><dd>Version of the request decision rules.</dd></div><div><dt><code>scope_assessment.decision</code><span aria-hidden="true"> : </span></dt><dd>retrieve, not_found, or needs_clarification.</dd></div><div><dt><code>scope_assessment.category</code><span aria-hidden="true"> : </span></dt><dd>Within scope, out of scope, mixed/ambiguous scope, filter conflict, or source unavailable.</dd></div><div><dt><code>scope_assessment.reason_code</code><span aria-hidden="true"> : </span></dt><dd>Machine-readable explanation of a stop or clarification decision.</dd></div><div><dt><code>scope_assessment.requested_scopes</code><span aria-hidden="true"> : </span></dt><dd>What the question explicitly requests versus what this search permits.</dd></div><div><dt><code>scope_assessment.allowed_scopes</code><span aria-hidden="true"> : </span></dt><dd>What the question explicitly requests versus what this search permits.</dd></div><div><dt><code>scope_assessment.required_source_types</code><span aria-hidden="true"> : </span></dt><dd>Needed source roles versus those in the selected course catalog.</dd></div><div><dt><code>scope_assessment.available_source_types</code><span aria-hidden="true"> : </span></dt><dd>Needed source roles versus those in the selected course catalog.</dd></div><div><dt><code>scope_assessment.matched_rules</code><span aria-hidden="true"> : </span></dt><dd>Rule identifiers and matched question text, making the decision inspectable.</dd></div><div><dt><code>scope_assessment.next_action</code><span aria-hidden="true"> : </span></dt><dd>Retrieve, clarify scope, change/confirm scope, or request missing sources.</dd></div><div><dt><code>scope_assessment.explanation</code><span aria-hidden="true"> : </span></dt><dd>Readable explanation of the decision; not a model-confidence score.</dd></div><div><dt><code>filters.course_id</code><span aria-hidden="true"> : </span></dt><dd>Optional course restriction; null searches both courses.</dd></div><div><dt><code>filters.allowed_scopes</code><span aria-hidden="true"> : </span></dt><dd>Scope labels enabled for the request.</dd></div><div><dt><code>filters.include_flagged</code><span aria-hidden="true"> : </span></dt><dd>Whether unresolved known issues are allowed.</dd></div><div><dt><code>evidence_assessment.status</code><span aria-hidden="true"> : </span></dt><dd>not_assessed when semantic sufficiency has not been judged; no_selected_evidence when selection is empty.</dd></div><div><dt><code>evidence_assessment.next_action</code><span aria-hidden="true"> : </span></dt><dd>Review evidence, adjust the context budget, revise the query/sources, or follow the scope decision.</dd></div><div><dt><code>selection_skip_reasons.broad_lexical_only</code><span aria-hidden="true"> : </span></dt><dd>Candidate supported only by broad keyword search.</dd></div><div><dt><code>selection_skip_reasons.document_cap</code><span aria-hidden="true"> : </span></dt><dd>Candidate excluded by a hard file cap; a soft preference does not discard for this reason.</dd></div><div><dt><code>selection_skip_reasons.context_budget</code><span aria-hidden="true"> : </span></dt><dd>Candidate excerpt would exceed the remaining character budget.</dd></div><div><dt><code>scope_assessment.matched_rules[].rule</code><span aria-hidden="true"> : </span></dt><dd>Which decision rule matched.</dd></div><div><dt><code>scope_assessment.matched_rules[].matched_text</code><span aria-hidden="true"> : </span></dt><dd>Question text matched by that rule.</dd></div></dl></article>
+ <article class="schema-box"><div class="example-head"><span class="micro">Actual values · complete record</span><h3>Run example · Q18 / full report</h3><p>Scroll to inspect every field. No fields or text are omitted.</p></div><pre class="run-scroll" tabindex="0" aria-label="Complete actual record"><code>{
+  &quot;schema_version&quot;: &quot;1.1&quot;,
+  &quot;question&quot;: &quot;Compare the discrete logistic equation&#x27;s long-term behavior with the course&#x27;s introductory continuous population differential-equation models.&quot;,
+  &quot;status&quot;: &quot;found&quot;,
+  &quot;message&quot;: &quot;&quot;,
+  &quot;not_found_reason&quot;: null,
+  &quot;scope_assessment&quot;: {
+    &quot;decision&quot;: &quot;retrieve&quot;,
+    &quot;category&quot;: &quot;within_selected_scope&quot;,
+    &quot;reason_code&quot;: null,
+    &quot;requested_scopes&quot;: [],
+    &quot;required_source_types&quot;: [],
+    &quot;available_source_types&quot;: [
+      &quot;context&quot;,
+      &quot;syllabus&quot;,
+      &quot;textbook_reference&quot;
+    ],
+    &quot;matched_rules&quot;: [],
+    &quot;next_action&quot;: &quot;retrieve&quot;,
+    &quot;explanation&quot;: &quot;No explicit scope or source requirement blocks retrieval; evidence sufficiency is not assessed.&quot;,
+    &quot;policy_version&quot;: &quot;2&quot;,
+    &quot;allowed_scopes&quot;: [
+      &quot;pilot_course_or_general&quot;
+    ]
+  },
+  &quot;retrieval_queries&quot;: [
+    &quot;Compare the discrete logistic equation&#x27;s long-term behavior with the course&#x27;s introductory continuous population differential-equation models.&quot;,
+    &quot;the discrete logistic equation&#x27;s long-term behavior.&quot;,
+    &quot;the course&#x27;s introductory continuous population differential-equation models.&quot;
+  ],
+  &quot;facet_candidate_counts&quot;: {
+    &quot;the discrete logistic equation&#x27;s long-term behavior.&quot;: {
+      &quot;bge_base_en_v1_5&quot;: 40,
+      &quot;qwen3_embedding_0_6b&quot;: 40,
+      &quot;lexical_exact&quot;: 1,
+      &quot;lexical_broad&quot;: 40
+    },
+    &quot;the course&#x27;s introductory continuous population differential-equation models.&quot;: {
+      &quot;bge_base_en_v1_5&quot;: 40,
+      &quot;qwen3_embedding_0_6b&quot;: 40,
+      &quot;lexical_exact&quot;: 0,
+      &quot;lexical_broad&quot;: 40
+    }
+  },
+  &quot;evidence_assessment&quot;: {
+    &quot;status&quot;: &quot;not_assessed&quot;,
+    &quot;next_action&quot;: &quot;review_evidence&quot;
+  },
+  &quot;filters&quot;: {
+    &quot;course_id&quot;: null,
+    &quot;allowed_scopes&quot;: [
+      &quot;pilot_course_or_general&quot;
+    ],
+    &quot;include_flagged&quot;: false
+  },
+  &quot;models&quot;: [
+    &quot;bge_base_en_v1_5&quot;,
+    &quot;qwen3_embedding_0_6b&quot;
+  ],
+  &quot;channel_candidate_counts&quot;: {
+    &quot;bge_base_en_v1_5&quot;: 40,
+    &quot;qwen3_embedding_0_6b&quot;: 40,
+    &quot;lexical_exact&quot;: 0,
+    &quot;lexical_broad&quot;: 40
+  },
+  &quot;use_lexical&quot;: true,
+  &quot;max_per_document&quot;: 4,
+  &quot;document_limit_mode&quot;: &quot;soft&quot;,
+  &quot;selection_skip_reasons&quot;: {
+    &quot;broad_lexical_only&quot;: 0,
+    &quot;document_cap&quot;: 0,
+    &quot;context_budget&quot;: 0
+  },
+  &quot;raw_excerpt_characters&quot;: 6403,
+  &quot;total_distinct_candidate_passages&quot;: 42,
+  &quot;results&quot;: [
+    {
+      &quot;citation&quot;: &quot;S1&quot;,
+      &quot;passage_id&quot;: &quot;pass_c29f4b54a65141d6&quot;,
+      &quot;course_id&quot;: &quot;calc1&quot;,
+      &quot;course_name&quot;: &quot;Calculus I for Biological and Social Sciences&quot;,
+      &quot;source_type&quot;: &quot;context&quot;,
+      &quot;filename&quot;: &quot;Calc1_Content_Claude.tex&quot;,
+      &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex&quot;,
+      &quot;section_path&quot;: &quot;Semester 1: Calculus I &gt; Module A --- Foundations: Functions and Discrete-Time Models &gt; Chapter 2: Discrete-Time Models, Sequences, and Difference Equations&quot;,
+      &quot;line_start&quot;: 206,
+      &quot;line_end&quot;: 235,
+      &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+      &quot;review_status&quot;: &quot;unverified&quot;,
+      &quot;known_issues&quot;: [],
+      &quot;score&quot;: 0.051942,
+      &quot;selection_score&quot;: 0.051942,
+      &quot;selection_reason&quot;: &quot;query_coverage&quot;,
+      &quot;matched_record_ids&quot;: [
+        &quot;concept:concept_f352e557c671ddbc:0&quot;,
+        &quot;passage:pass_c29f4b54a65141d6:0&quot;,
+        &quot;passage:pass_c29f4b54a65141d6:1&quot;
+      ],
+      &quot;signals&quot;: [
+        &quot;bge_base_en_v1_5&quot;,
+        &quot;lexical_broad&quot;,
+        &quot;lexical_exact&quot;,
+        &quot;qwen3_embedding_0_6b&quot;
+      ],
+      &quot;raw_latex&quot;: &quot;\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.&quot;,
+      &quot;query_matches&quot;: [
+        &quot;the discrete logistic equation&#x27;s long-term behavior.&quot;,
+        &quot;the course&#x27;s introductory continuous population differential-equation models.&quot;
+      ]
+    },
+    {
+      &quot;citation&quot;: &quot;S2&quot;,
+      &quot;passage_id&quot;: &quot;pass_ca8208b6f1998122&quot;,
+      &quot;course_id&quot;: &quot;calc1&quot;,
+      &quot;course_name&quot;: &quot;Calculus I for Biological and Social Sciences&quot;,
+      &quot;source_type&quot;: &quot;textbook_reference&quot;,
+      &quot;filename&quot;: &quot;Calc1_Book_Claude.tex&quot;,
+      &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex&quot;,
+      &quot;section_path&quot;: &quot;Detailed Module Breakdown &gt; Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)&quot;,
+      &quot;line_start&quot;: 370,
+      &quot;line_end&quot;: 370,
+      &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+      &quot;review_status&quot;: &quot;unverified&quot;,
+      &quot;known_issues&quot;: [],
+      &quot;score&quot;: 0.041901,
+      &quot;selection_score&quot;: 0.041901,
+      &quot;selection_reason&quot;: &quot;query_coverage&quot;,
+      &quot;matched_record_ids&quot;: [
+        &quot;concept:concept_037c34c8ff7daff0:0&quot;,
+        &quot;passage:pass_ca8208b6f1998122:0&quot;
+      ],
+      &quot;signals&quot;: [
+        &quot;bge_base_en_v1_5&quot;,
+        &quot;lexical_broad&quot;,
+        &quot;qwen3_embedding_0_6b&quot;
+      ],
+      &quot;raw_latex&quot;: &quot;2.2.4 &amp; Recurrence Equations (long-term behavior) &amp; Determine the long-term (limiting) behavior of a recursively defined sequence. &amp; \\diffM \\\\&quot;,
+      &quot;query_matches&quot;: [
+        &quot;the discrete logistic equation&#x27;s long-term behavior.&quot;
+      ]
+    },
+    {
+      &quot;citation&quot;: &quot;S3&quot;,
+      &quot;passage_id&quot;: &quot;pass_1918c4bce1a2d265&quot;,
+      &quot;course_id&quot;: &quot;calc1&quot;,
+      &quot;course_name&quot;: &quot;Calculus I for Biological and Social Sciences&quot;,
+      &quot;source_type&quot;: &quot;textbook_reference&quot;,
+      &quot;filename&quot;: &quot;Calc1_Book_Claude.tex&quot;,
+      &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex&quot;,
+      &quot;section_path&quot;: &quot;Detailed Module Breakdown &gt; Module 4 --- Applications of Differentiation (Chapter 5)&quot;,
+      &quot;line_start&quot;: 530,
+      &quot;line_end&quot;: 530,
+      &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+      &quot;review_status&quot;: &quot;unverified&quot;,
+      &quot;known_issues&quot;: [],
+      &quot;score&quot;: 0.034638,
+      &quot;selection_score&quot;: 0.034638,
+      &quot;selection_reason&quot;: &quot;query_coverage&quot;,
+      &quot;matched_record_ids&quot;: [
+        &quot;concept:concept_bb842da19e8deb92:0&quot;,
+        &quot;passage:pass_1918c4bce1a2d265:0&quot;
+      ],
+      &quot;signals&quot;: [
+        &quot;bge_base_en_v1_5&quot;,
+        &quot;lexical_broad&quot;,
+        &quot;qwen3_embedding_0_6b&quot;
+      ],
+      &quot;raw_latex&quot;: &quot;5.9\\opt &amp; Modeling with Differential Equations (intro) &amp; Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. &amp; \\diffM \\\\&quot;,
+      &quot;query_matches&quot;: [
+        &quot;the course&#x27;s introductory continuous population differential-equation models.&quot;
+      ]
+    },
+    {
+      &quot;citation&quot;: &quot;S4&quot;,
+      &quot;passage_id&quot;: &quot;pass_68edaab41e209872&quot;,
+      &quot;course_id&quot;: &quot;calc1&quot;,
+      &quot;course_name&quot;: &quot;Calculus I for Biological and Social Sciences&quot;,
+      &quot;source_type&quot;: &quot;textbook_reference&quot;,
+      &quot;filename&quot;: &quot;Calc1_Book_Claude.tex&quot;,
+      &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex&quot;,
+      &quot;section_path&quot;: &quot;Detailed Module Breakdown &gt; Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)&quot;,
+      &quot;line_start&quot;: 374,
+      &quot;line_end&quot;: 374,
+      &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+      &quot;review_status&quot;: &quot;unverified&quot;,
+      &quot;known_issues&quot;: [],
+      &quot;score&quot;: 0.04411,
+      &quot;selection_score&quot;: 0.04411,
+      &quot;selection_reason&quot;: &quot;ranked&quot;,
+      &quot;matched_record_ids&quot;: [
+        &quot;concept:concept_7b3301afea97cf5e:0&quot;,
+        &quot;passage:pass_68edaab41e209872:0&quot;
+      ],
+      &quot;signals&quot;: [
+        &quot;bge_base_en_v1_5&quot;,
+        &quot;lexical_broad&quot;,
+        &quot;qwen3_embedding_0_6b&quot;
+      ],
+      &quot;raw_latex&quot;: &quot;2.3.3 &amp; The Discrete Logistic Equation &amp; Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. &amp; \\diffH \\\\&quot;,
+      &quot;query_matches&quot;: []
+    },
+    {
+      &quot;citation&quot;: &quot;S5&quot;,
+      &quot;passage_id&quot;: &quot;pass_4dbba13f0e9c77da&quot;,
+      &quot;course_id&quot;: &quot;calc1&quot;,
+      &quot;course_name&quot;: &quot;Calculus I for Biological and Social Sciences&quot;,
+      &quot;source_type&quot;: &quot;textbook_reference&quot;,
+      &quot;filename&quot;: &quot;Calc1_Book_Claude.tex&quot;,
+      &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Book_Claude.tex&quot;,
+      &quot;section_path&quot;: &quot;Detailed Module Breakdown &gt; Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)&quot;,
+      &quot;line_start&quot;: 355,
+      &quot;line_end&quot;: 383,
+      &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+      &quot;review_status&quot;: &quot;unverified&quot;,
+      &quot;known_issues&quot;: [],
+      &quot;score&quot;: 0.041886,
+      &quot;selection_score&quot;: 0.041886,
+      &quot;selection_reason&quot;: &quot;ranked&quot;,
+      &quot;matched_record_ids&quot;: [
+        &quot;passage:pass_4dbba13f0e9c77da:0&quot;,
+        &quot;passage:pass_4dbba13f0e9c77da:1&quot;
+      ],
+      &quot;signals&quot;: [
+        &quot;bge_base_en_v1_5&quot;,
+        &quot;lexical_broad&quot;,
+        &quot;qwen3_embedding_0_6b&quot;
+      ],
+      &quot;raw_latex&quot;: &quot;\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} &amp; \\textbf{Topic} &amp; \\textbf{Learning Objective} &amp; \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} &amp; \\textbf{Topic} &amp; \\textbf{Learning Objective} &amp; \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 &amp; Modeling Population Growth in Discrete Time &amp; Build a recurrence relation from a verbal ``word equation&#x27;&#x27; for reproduction and survival. &amp; \\diffM \\\\\n2.1.2 &amp; Recurrence Equations &amp; Solve simple linear recurrence equations for an explicit (closed-form) formula. &amp; \\diffM \\\\\n2.1.3 &amp; Visualizing Recurrence Equations &amp; Use step/time-series plots to visualize the behavior of a recurrence equation. &amp; \\diffL \\\\\n2.2.1 &amp; What Are Sequences? &amp; Distinguish an explicit formula for a sequence from a recursive definition. &amp; \\diffL \\\\\n2.2.2\\opt &amp; Spreadsheets for Recursive Sequences &amp; Iterate a recurrence equation numerically in a spreadsheet. &amp; \\diffL \\\\\n2.2.3 &amp; Limits (of Sequences) &amp; Determine convergence/divergence of a sequence and compute limits using limit laws. &amp; \\diffH \\\\\n2.2.4 &amp; Recurrence Equations (long-term behavior) &amp; Determine the long-term (limiting) behavior of a recursively defined sequence. &amp; \\diffM \\\\\n2.2.5 &amp; $\\Sigma$-Notation for Sums &amp; Write and evaluate finite and infinite sums of sequence terms using sigma notation. &amp; \\diffH \\\\\n2.3.1 &amp; Density-Dependent Population Growth &amp; Explain why per-capita growth typically declines with density; build a density-dependent model. &amp; \\diffM \\\\\n2.3.2 &amp; The Beverton--Holt Model &amp; Analyze the Beverton--Holt recurrence equation and identify its equilibrium. &amp; \\diffM \\\\\n2.3.3 &amp; The Discrete Logistic Equation &amp; Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. &amp; \\diffH \\\\\n2.3.4\\opt &amp; Modeling Drug Absorption &amp; Build and iterate a discrete two-compartment model of drug absorption/elimination. &amp; \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}&quot;,
+      &quot;query_matches&quot;: []
+    },
+    {
+      &quot;citation&quot;: &quot;S6&quot;,
+      &quot;passage_id&quot;: &quot;pass_02b1aed7998fbcaa&quot;,
+      &quot;course_id&quot;: &quot;calc1&quot;,
+      &quot;course_name&quot;: &quot;Calculus I for Biological and Social Sciences&quot;,
+      &quot;source_type&quot;: &quot;context&quot;,
+      &quot;filename&quot;: &quot;Calc1_Content_Claude.tex&quot;,
+      &quot;snapshot_path&quot;: &quot;/Users/sunset/Desktop/entagile/week3/knowledge_base/data/sources/Calc1_Content_Claude.tex&quot;,
+      &quot;section_path&quot;: &quot;4. Cross-Cutting Themes and the Hardest Topics in the Course&quot;,
+      &quot;line_start&quot;: 704,
+      &quot;line_end&quot;: 737,
+      &quot;scope_status&quot;: &quot;pilot_course_or_general&quot;,
+      &quot;review_status&quot;: &quot;unverified&quot;,
+      &quot;known_issues&quot;: [],
+      &quot;score&quot;: 0.041242,
+      &quot;selection_score&quot;: 0.041242,
+      &quot;selection_reason&quot;: &quot;ranked&quot;,
+      &quot;matched_record_ids&quot;: [
+        &quot;passage:pass_02b1aed7998fbcaa:0&quot;,
+        &quot;passage:pass_02b1aed7998fbcaa:1&quot;
+      ],
+      &quot;signals&quot;: [
+        &quot;bge_base_en_v1_5&quot;,
+        &quot;lexical_broad&quot;,
+        &quot;qwen3_embedding_0_6b&quot;
+      ],
+      &quot;raw_latex&quot;: &quot;\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz&#x27;s Rule proof of the FTC) sit in tension with the course&#x27;s\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes&#x27; Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}&quot;,
+      &quot;query_matches&quot;: []
+    }
+  ],
+  &quot;context&quot;: &quot;[S1] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 206-235\nSection: Semester 1: Calculus I &gt; Module A --- Foundations: Functions and Discrete-Time Models &gt; Chapter 2: Discrete-Time Models, Sequences, and Difference Equations\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\MajorTopics\n\\begin{itemize}\n\\item Exponential growth and decay: discrete-time population models, recurrence equations, visualization\n\\item Sequences: definitions, (optional) spreadsheet calculation, limits, recurrence equations, sigma notation\n\\item Modeling with recurrence equations: density-dependent growth, the Beverton--Holt model, the discrete logistic equation, (optional) drug absorption\n\\end{itemize}\n\\KeyConcepts\nRecurrence (difference) equations; discrete exponential growth\n$N_{t+1}=RN_t$; cobweb/stair-step diagrams; convergence of a sequence;\nsigma notation; density dependence and carrying capacity; the\nBeverton--Holt and discrete logistic maps.\n\\LearnObj\n\\begin{enumerate}\n\\item Formulate a recurrence equation that models discrete-time population growth or decay.\n\\item Iterate and visualize solutions of a recurrence equation using cobweb/stair-step diagrams.\n\\item Determine whether a sequence converges and, if so, find its limit.\n\\item Evaluate sums of sequences using sigma notation.\n\\item Compare density-independent and density-dependent growth models and interpret carrying capacity.\n\\item * Model drug absorption using a discrete recurrence equation.\n\\end{enumerate}\n\\PreReq Exponential and logarithmic functions (Sec.\\ 1.3.5, 1.3.7); comfort with algebraic manipulation of equations.\n\\Hard Predicting the long-term (equilibrium or oscillatory) behavior of a\n\\emph{nonlinear} recurrence equation is the first genuinely modeling-heavy\ntask in the course and is often harder than the algebra itself; students\nalso frequently struggle to set up a recurrence equation directly from a\nword problem rather than recognizing a pre-built formula.\n\n[S2] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 370-370\nSection: Detailed Module Breakdown &gt; Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.2.4 &amp; Recurrence Equations (long-term behavior) &amp; Determine the long-term (limiting) behavior of a recursively defined sequence. &amp; \\diffM \\\\\n\n[S3] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 530-530\nSection: Detailed Module Breakdown &gt; Module 4 --- Applications of Differentiation (Chapter 5)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n5.9\\opt &amp; Modeling with Differential Equations (intro) &amp; Set up simple differential-equation models (population growth, drug passage) and interpret them qualitatively. &amp; \\diffM \\\\\n\n[S4] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 374-374\nSection: Detailed Module Breakdown &gt; Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n2.3.3 &amp; The Discrete Logistic Equation &amp; Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. &amp; \\diffH \\\\\n\n[S5] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Book_Claude.tex | type: textbook_reference | lines: 355-383\nSection: Detailed Module Breakdown &gt; Module 1 --- Discrete-Time Models, Sequences, and Difference Equations (Chapter 2)\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} &amp; \\textbf{Topic} &amp; \\textbf{Learning Objective} &amp; \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} &amp; \\textbf{Topic} &amp; \\textbf{Learning Objective} &amp; \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n2.1.1 &amp; Modeling Population Growth in Discrete Time &amp; Build a recurrence relation from a verbal ``word equation&#x27;&#x27; for reproduction and survival. &amp; \\diffM \\\\\n2.1.2 &amp; Recurrence Equations &amp; Solve simple linear recurrence equations for an explicit (closed-form) formula. &amp; \\diffM \\\\\n2.1.3 &amp; Visualizing Recurrence Equations &amp; Use step/time-series plots to visualize the behavior of a recurrence equation. &amp; \\diffL \\\\\n2.2.1 &amp; What Are Sequences? &amp; Distinguish an explicit formula for a sequence from a recursive definition. &amp; \\diffL \\\\\n2.2.2\\opt &amp; Spreadsheets for Recursive Sequences &amp; Iterate a recurrence equation numerically in a spreadsheet. &amp; \\diffL \\\\\n2.2.3 &amp; Limits (of Sequences) &amp; Determine convergence/divergence of a sequence and compute limits using limit laws. &amp; \\diffH \\\\\n2.2.4 &amp; Recurrence Equations (long-term behavior) &amp; Determine the long-term (limiting) behavior of a recursively defined sequence. &amp; \\diffM \\\\\n2.2.5 &amp; $\\Sigma$-Notation for Sums &amp; Write and evaluate finite and infinite sums of sequence terms using sigma notation. &amp; \\diffH \\\\\n2.3.1 &amp; Density-Dependent Population Growth &amp; Explain why per-capita growth typically declines with density; build a density-dependent model. &amp; \\diffM \\\\\n2.3.2 &amp; The Beverton--Holt Model &amp; Analyze the Beverton--Holt recurrence equation and identify its equilibrium. &amp; \\diffM \\\\\n2.3.3 &amp; The Discrete Logistic Equation &amp; Iterate the discrete logistic map; interpret periodic and chaotic behavior across growth-parameter values. &amp; \\diffH \\\\\n2.3.4\\opt &amp; Modeling Drug Absorption &amp; Build and iterate a discrete two-compartment model of drug absorption/elimination. &amp; \\diffM \\\\\n\\bottomrule\n\\end{longtable}\n\\begin{appbox}\nDiscrete population growth, red-wolf conservation data, the Beverton--Holt and discrete\nlogistic (density-dependent) growth models, onset of chaotic dynamics, multi-dose drug\nabsorption/elimination.\n\\end{appbox}\n\n[S6] Course: Calculus I for Biological and Social Sciences (calc1)\nSource: Calc1_Content_Claude.tex | type: context | lines: 704-737\nSection: 4. Cross-Cutting Themes and the Hardest Topics in the Course\nReview: unverified | Scope: pilot_course_or_general\nKnown issues: none\nExcerpt (LaTeX):\n\\begin{itemize}\n\\item \\textbf{Discrete-to-continuous transitions.} Students build strong\ndiscrete-time intuition in Chapter 2, then must re-learn stability and\ngrowth concepts in continuous form in Chapters 5 and 8. Explicitly\ncross-referencing the discrete and continuous versions of the same idea\n(e.g.\\ discrete vs.\\ continuous exponential growth, equilibrium stability\nof a recurrence equation vs.\\ an ODE) shortens this transition.\n\\item \\textbf{Rigor vs.\\ intuition.} The starred rigorous topics\n($\\varepsilon$--$\\delta$ limits, the Riemann integral construction, the\nLeibniz&#x27;s Rule proof of the FTC) sit in tension with the course&#x27;s\nmodel-building emphasis. Treating them as optional deep dives, clearly\nseparated from the applied spine of the course, works better than\ninterleaving them.\n\\item \\textbf{Word-problem translation.} Related rates, optimization,\ncompartment/epidemic modeling, and Leslie-matrix demography all share the\nsame underlying difficulty: converting a verbal description into equations\nbefore any calculus or algebra is applied. This is best taught as an\nexplicit, repeated skill (define variables, state relationships, then\ncompute) rather than assumed.\n\\item \\textbf{Stacked symbolic technique.} The chain rule combined with\nimplicit differentiation, and partial fractions combined with\nsubstitution, both require executing several symbolic steps in the correct\norder; errors compound quickly, so scaffolded, partial-credit practice\nmatters more here than in single-step computations.\n\\item \\textbf{Eigenvalue-based qualitative reasoning.} Eigenvalues recur as\nthe organizing idea behind Leslie-matrix demography (Ch.\\ 9), linear\nsystems of ODEs (Ch.\\ 11), and linearization of nonlinear systems (Ch.\\\n10--11). Investing extra time in Sec.\\ 9.3.2 pays off across the rest of\nthe second semester.\n\\item \\textbf{Probabilistic reasoning.} Bayes&#x27; Theorem and the Central\nLimit Theorem are conceptually distinct from the calculus that precedes\nthem and often need to be taught with less reliance on procedural fluency\nand more reliance on worked examples and simulation.\n\\end{itemize}&quot;,
+  &quot;retrieval_seconds&quot;: 0.13430812500155298
+}</code></pre></article></div>
+ <p class="boundary"><code>found</code> means evidence was returned. Answer support still needs review; <code>evidence_assessment.status</code> currently says <code>not_assessed</code>.</p></section>
+<section class="test-results" aria-label="Retrieval test results">
+<div class="section-head"><div><p class="eyebrow">Test results</p><h2>50 / 50 retrieval tests passed.</h2></div></div>
+<div class="readout"><article class="panel"><span class="micro">Expected evidence</span><strong>46 / 46</strong><p>All expected evidence groups were retrieved for answerable questions.</p></article><article class="panel"><span class="micro">No available evidence</span><strong>4 / 4</strong><p>Out-of-scope or missing-source questions returned <code>not_found</code> with a clear reason.</p></article><article class="panel"><span class="micro">No invented evidence</span><strong>0 fabricated hits</strong><p>Those four cases returned empty results and context. The system did not fill the gaps with made-up retrieval content.</p></article></div>
+<p class="boundary">All 50 matched the benchmark's expected retrieval outcomes. These tests check evidence retrieval and stop decisions; generated answers were not evaluated.</p>
+</section>
+<footer><span>Sean · Entagile × JHU · Week 4 · 2 October 2026</span><span><a href="../../../contracts/retrieval_report.schema.json">Report contract ↗</a> · <a href="../../history/week3/retrieval/refinement_report.md">Evaluation record ↗</a></span></footer></main><script>
+const steps = [...document.querySelectorAll('.step')];
+const details = [...document.querySelectorAll('.detail-view')];
+steps.forEach(step => step.addEventListener('click', () => {
+  if (step.getAttribute('aria-pressed') === 'true') return;
+  const selected = document.getElementById(step.dataset.detail);
+  steps.forEach(item => item.setAttribute('aria-pressed', String(item === step)));
+  details.forEach(item => { item.hidden = item !== selected; });
+}));
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+function selectTab(tab) {
+  tabs.forEach(item => { item.setAttribute('aria-selected', String(item === tab)); item.tabIndex = item === tab ? 0 : -1; });
+  panels.forEach(panel => { panel.hidden = panel.id !== tab.getAttribute('aria-controls'); });
+}
+tabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectTab(tab));
+  tab.addEventListener('keydown', event => {
+    let target;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') target = tabs[(index + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    if (event.key === 'Home') target = tabs[0];
+    if (event.key === 'End') target = tabs[tabs.length - 1];
+    if (target) { event.preventDefault(); selectTab(target); target.focus(); }
+  });
+});
+</script></body></html>

@@ -1,0 +1,224 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+\hypersetup{colorlinks=true, linkcolor=blue!50!black, urlcolor=blue!50!black}
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\title{\textbf{Math 617: Number Theory I} \\ \large Course Breakdown and Study Guide}
+\author{Based on the syllabus of H.\ Li, Johns Hopkins University \\ Fall 2023}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Course Overview}
+Math 617 is a first-semester graduate course in algebraic number theory. It assumes familiarity with graduate algebra and analysis at the qualifying-exam level and proceeds from the arithmetic of Dedekind domains through local and global fields to adèles and idèles, with Tate's thesis as an optional capstone topic if time permits. The course meets twice weekly (Tuesday/Thursday, 75 minutes) over a 15-week semester, with several sessions reserved for homework discussion. Grading is 100\% homework, assigned weekly, with one or two randomly-selected problems graded for accuracy and the remainder for completion; the lowest homework score is dropped.
+
+This document expands the syllabus's four topic areas into a full breakdown: modules, chapters/reference correspondences, concepts, learning objectives, and difficult topics, together with the prerequisite background assumed at the outset.
+
+\section{Prerequisite Topics}
+
+\subsection{Algebra}
+\begin{itemize}[leftmargin=*]
+  \item Group theory: group actions, orbit-stabilizer, Sylow theorems (used later for decomposition/inertia groups)
+  \item Ring theory: Noetherian rings, PIDs, UFDs, localization, prime and maximal ideals, integral extensions and integral closure
+  \item Field and Galois theory: algebraic extensions, splitting fields, normal and separable extensions, the fundamental theorem of Galois theory, fixed fields
+  \item Module theory: finitely generated modules over a PID, tensor products, exact sequences
+\end{itemize}
+
+\subsection{Analysis and Topology}
+\begin{itemize}[leftmargin=*]
+  \item Point-set topology: compactness, connectedness, product and quotient topologies, metric spaces and completions
+  \item Basic real and complex analysis: convergent series, analytic continuation (relevant once zeta/L-functions appear)
+  \item Helpful but not assumed at the outset: Haar measure on locally compact groups and basic Fourier/harmonic analysis, needed only for the Tate's thesis module
+\end{itemize}
+
+\subsection{Helpful (not required) background}
+\begin{itemize}[leftmargin=*]
+  \item Undergraduate elementary number theory (congruences, quadratic reciprocity)
+  \item Prior exposure to a specific ring of integers (e.g.\ $\Z[i]$, $\Z[\omega]$) or to quadratic fields
+\end{itemize}
+
+\section{Overall Learning Objectives}
+By the end of the course, students should be able to:
+\begin{enumerate}[leftmargin=*]
+  \item Prove and apply the equivalent characterizations of Dedekind domains, and factor ideals uniquely in rings of integers.
+  \item Compute ramification indices and residue degrees for primes in extensions of number fields, and use decomposition/inertia groups and the Frobenius element in the Galois case.
+  \item Construct completions of a number field at a place and classify local fields, including applications of Hensel's Lemma.
+  \item Use Minkowski's geometry of numbers to prove finiteness of the class number and Dirichlet's Unit Theorem.
+  \item Construct the adèle ring and idèle group of a number field, work with their topology, and relate the idèle class group to classical arithmetic invariants.
+  \item (If time permits) Explain Tate's reinterpretation of the functional equation of zeta and $L$-functions via harmonic analysis on adèles.
+\end{enumerate}
+
+\section{Course Structure at a Glance}
+
+\begin{longtable}{@{}p{1.6cm}p{4.2cm}p{8.7cm}@{}}
+\toprule
+\textbf{Weeks} & \textbf{Module} & \textbf{Focus} \\
+\midrule
+\endhead
+1--2 & Dedekind Domains & Rings of integers, integral closure, characterizations of Dedekind domains, unique factorization of ideals, fractional ideals \\
+3--4 & Ramification Theory & $e$, $f$, $g$ and the fundamental identity; decomposition and inertia groups; Frobenius; different and discriminant; tame vs.\ wild ramification \\
+5 & Valuations \& Completions & Archimedean/non-archimedean absolute values, Ostrowski's theorem, completions, $p$-adic numbers \\
+6--7 & Local Fields & Classification of local fields, Hensel's Lemma, unramified vs.\ totally ramified extensions, unit filtration \\
+8 & Global Fields I & Places of a number field, the product formula \\
+9 & Global Fields II & Minkowski's geometry of numbers, finiteness of the class number, Dirichlet's Unit Theorem \\
+10--11 & Adèles \& Idèles I & Restricted direct products, construction of $\mathbb{A}_K$ and $I_K$, topology, discreteness/cocompactness of $K$ in $\mathbb{A}_K$ \\
+12 & Adèles \& Idèles II & Idèle class group $C_K$; relation to the ideal class group and unit group; statement of Artin reciprocity \\
+13--14 & Tate's Thesis (if time permits) & Characters and Fourier analysis on local fields; local zeta functions; adelic Poisson summation; functional equation of $\zeta(s)$ \\
+15 & Synthesis \& Review & Consolidation, additional exercises, connections across modules \\
+\bottomrule
+\end{longtable}
+
+\section{Detailed Module Breakdown}
+
+% ---------------- MODULE 1 ----------------
+\subsection*{Module 1: Dedekind Domains and the Arithmetic of Number Rings}
+\textbf{Topics.} Algebraic number fields and their rings of integers; Noetherian, integrally closed domains of Krull dimension~1; equivalent characterizations of a Dedekind domain; unique factorization of nonzero ideals into prime ideals; localization at a prime; fractional ideals; first look at the ideal class group.
+
+\textbf{Key concepts.} Integral closure $\cdot$ Noetherian ring $\cdot$ discrete valuation ring (DVR) $\cdot$ fractional ideal $\cdot$ unique factorization of ideals $\cdot$ ideal class group.
+
+\textbf{Reference chapters.} Neukirch, \emph{Algebraic Number Theory}, Ch.~I, \S1--3; Lang, \emph{Algebraic Number Theory}, Ch.~I; Cassels--Fröhlich, Ch.~I.
+
+\textbf{Learning objectives.}
+\begin{itemize}[leftmargin=*]
+  \item State and prove the equivalence of the standard characterizations of a Dedekind domain (Noetherian + integrally closed + dimension~1 $\iff$ every nonzero ideal factors uniquely into primes $\iff$ localizations are DVRs).
+  \item Factor concrete ideals in rings of integers of quadratic and cyclotomic fields.
+  \item Distinguish factorization of ideals from (nonunique) factorization of elements.
+\end{itemize}
+
+\textbf{Difficult topics.} Proving the equivalence of the various characterizations of Dedekind domains in full generality; the localization/globalization dictionary; recognizing when a given ring of integers fails to be a PID while remaining a Dedekind domain.
+
+% ---------------- MODULE 2 ----------------
+\subsection*{Module 2: Ramification Theory}
+\textbf{Topics.} Decomposition of primes in an extension $L/K$; ramification index $e$ and residue degree $f$; the fundamental identity $\sum e_i f_i = [L:K]$; behavior in Galois extensions; decomposition group and inertia group; the Frobenius element; the different and the discriminant; tame versus wild ramification; higher ramification groups.
+
+\textbf{Key concepts.} $e$, $f$, $g$ $\cdot$ decomposition group $\cdot$ inertia group $\cdot$ Frobenius automorphism $\cdot$ different ideal $\cdot$ discriminant $\cdot$ tame/wild ramification.
+
+\textbf{Reference chapters.} Neukirch, Ch.~I, \S4--8, Ch.~III (Frobenius, discriminant); Lang, Ch.~I--III; Cassels--Fröhlich, Ch.~I--II.
+
+\textbf{Learning objectives.}
+\begin{itemize}[leftmargin=*]
+  \item Determine how a rational prime splits in a Galois number field via the Frobenius element (e.g.\ using factorization of the minimal polynomial mod $p$).
+  \item Compute the discriminant of a number field and identify ramified primes from it.
+  \item Explain the relationship between the decomposition group, inertia group, and the Galois group of the residue extension.
+\end{itemize}
+
+\textbf{Difficult topics.} Wild ramification and the structure of higher ramification groups; the precise relationship between the different and the discriminant (conductor--discriminant considerations); ramification in non-Galois extensions.
+
+% ---------------- MODULE 3 ----------------
+\subsection*{Module 3: Valuations, Completions, and Local Fields}
+\textbf{Topics.} Archimedean and non-archimedean absolute values; Ostrowski's theorem classifying absolute values on $\Q$; completions of a field with respect to a valuation; construction of $\Q_p$; local fields and their classification; Hensel's Lemma and its applications; extensions of local fields; unramified versus totally ramified extensions; filtration of the unit group.
+
+\textbf{Key concepts.} Valuation $\cdot$ completion $\cdot$ $p$-adic numbers $\cdot$ Hensel's Lemma $\cdot$ local field $\cdot$ unramified extension $\cdot$ totally ramified extension $\cdot$ unit filtration.
+
+\textbf{Reference chapters.} Neukirch, Ch.~II; Lang, Ch.~II; Weil, \emph{Basic Number Theory}, Ch.~I--II.
+
+\textbf{Learning objectives.}
+\begin{itemize}[leftmargin=*]
+  \item Construct the completion of a number field at a given place and identify it explicitly for small examples.
+  \item Apply Hensel's Lemma to determine solvability of polynomial equations in $\Q_p$ or $\Z_p$.
+  \item Classify the extensions of $\Q_p$ of a given degree into unramified and (totally) ramified pieces.
+\end{itemize}
+
+\textbf{Difficult topics.} The structure theorem for local fields in the wildly ramified case; the filtration of principal units and its Galois-module structure; correctly relating local ramification data back to the global picture from Module~2.
+
+% ---------------- MODULE 4 ----------------
+\subsection*{Module 4: Global Fields and the Geometry of Numbers}
+\textbf{Topics.} Places (archimedean and non-archimedean) of a number field; the product formula; Minkowski's geometry of numbers (lattices, convex bodies); finiteness of the ideal class number; Dirichlet's Unit Theorem; the regulator.
+
+\textbf{Key concepts.} Place $\cdot$ product formula $\cdot$ lattice $\cdot$ Minkowski bound $\cdot$ class number finiteness $\cdot$ unit group rank $\cdot$ regulator.
+
+\textbf{Reference chapters.} Neukirch, Ch.~I, \S5--7; Lang, Ch.~V; Cassels--Fröhlich, Ch.~II.
+
+\textbf{Learning objectives.}
+\begin{itemize}[leftmargin=*]
+  \item Prove finiteness of the class number using Minkowski's convex body theorem.
+  \item State and use Dirichlet's Unit Theorem to determine the rank of the unit group of a ring of integers.
+  \item Compute Minkowski bounds and use them to determine class numbers of small number fields.
+\end{itemize}
+
+\textbf{Difficult topics.} The full proof of Dirichlet's Unit Theorem (logarithmic embedding into Euclidean space, lattice discreteness/cocompactness argument); correctly setting up Minkowski's theorem for a given signature $(r_1, r_2)$.
+
+% ---------------- MODULE 5 ----------------
+\subsection*{Module 5: Adèles and Idèles}
+\textbf{Topics.} Restricted direct products of topological groups; construction of the adèle ring $\mathbb{A}_K$ and the idèle group $I_K$; the topology on $\mathbb{A}_K$ and $I_K$; discreteness and cocompactness of $K$ in $\mathbb{A}_K$; the idèle class group $C_K = I_K/K^\times$; relating $C_K$ to the ideal class group and the unit group; brief statement of Artin reciprocity as a bridge to class field theory.
+
+\textbf{Key concepts.} Restricted direct product $\cdot$ adèle ring $\cdot$ idèle group $\cdot$ idèle class group $\cdot$ strong approximation.
+
+\textbf{Reference chapters.} Neukirch, Ch.~VI, \S1--3; Weil, \emph{Basic Number Theory}, Ch.~IV; Lang, Ch.~VII.
+
+\textbf{Learning objectives.}
+\begin{itemize}[leftmargin=*]
+  \item Construct the restricted direct product topology and verify $\mathbb{A}_K$ is a locally compact topological ring.
+  \item Prove that $K$ embeds discretely and cocompactly in $\mathbb{A}_K$.
+  \item Relate the structure of the idèle class group $C_K$ to the class number and unit group computed in Module~4.
+\end{itemize}
+
+\textbf{Difficult topics.} The restricted product topology (a genuinely new point-set topology construction for most students); the discreteness/cocompactness proof; the strong approximation theorem; keeping straight the several closely related but distinct objects ($\mathbb{A}_K^\times$, $I_K$, $C_K$).
+
+% ---------------- MODULE 6 ----------------
+\subsection*{Module 6 (Optional): Tate's Thesis}
+\textbf{Topics.} Additive and multiplicative characters of a local field; self-dual Haar measure and the local Fourier transform; local zeta functions and their functional equations; Schwartz--Bruhat functions on $\mathbb{A}_K$; the global zeta integral; Poisson summation on the adèles; the analytic continuation and functional equation of the Riemann zeta function (and, more generally, Hecke $L$-functions) recovered via Tate's method.
+
+\textbf{Key concepts.} Additive/multiplicative character $\cdot$ self-dual measure $\cdot$ local zeta function $\cdot$ Schwartz--Bruhat space $\cdot$ adelic Poisson summation $\cdot$ global functional equation.
+
+\textbf{Reference chapters.} J.\ Tate, \emph{Fourier Analysis in Number Fields and Hecke's Zeta-Functions} (1950 thesis); Lang, Ch.~XIV; Cassels--Fröhlich, Ch.~XV (Tate's article).
+
+\textbf{Learning objectives.}
+\begin{itemize}[leftmargin=*]
+  \item State and outline a proof of the local functional equation for the local zeta function at a place of $K$.
+  \item Derive the classical functional equation of $\zeta(s)$ as a special case of the global Tate zeta integral.
+  \item Explain, at a high level, how Tate's approach unifies the archimedean and non-archimedean cases via adelic harmonic analysis.
+\end{itemize}
+
+\textbf{Difficult topics.} Choosing compatible self-dual additive characters/measures across all places simultaneously; convergence and analytic continuation of the global zeta integral; the role of Poisson summation in producing the functional equation. This module is the most analytically demanding in the course and depends on comfort with basic Fourier analysis on locally compact abelian groups.
+
+\section{Difficult Topics: Cross-Course Summary}
+
+\begin{longtable}{@{}p{4.3cm}p{6.3cm}p{3.9cm}@{}}
+\toprule
+\textbf{Topic} & \textbf{Why it is difficult} & \textbf{Strategy} \\
+\midrule
+\endhead
+Equivalence of Dedekind domain characterizations & Requires simultaneously tracking Noetherian, integral closure, and dimension conditions & Work through the proof for $\Z[\sqrt{-5}]$ by hand before the general argument \\
+Wild ramification / higher ramification groups & Tame case intuition breaks down; requires careful filtration arguments & Start with $p=2$ examples in quadratic/cyclotomic fields \\
+Different vs.\ discriminant & Two related but distinct invariants, easy to conflate & Compute both explicitly for $\Q(\sqrt{d})$ and $\Q(\zeta_p)$ \\
+Structure of local fields (wild case) & Classification is subtler than the unramified/tame case & Focus first on $\Q_p(\zeta_p)/\Q_p$ as a worked example \\
+Dirichlet's Unit Theorem & Full proof combines Minkowski geometry with a nontrivial lattice argument & Master the logarithmic embedding step separately before the compactness argument \\
+Restricted direct product topology & A genuinely unfamiliar topological construction & Compare carefully with the (simpler) direct product and direct sum topologies \\
+Discreteness/cocompactness of $K$ in $\mathbb{A}_K$ & Combines algebra (product formula) with topology & Revisit the product formula from Module~4 before attempting the proof \\
+Tate's local functional equation & Requires fluency with Fourier analysis on local fields & Review Fourier analysis on $\mathbb{R}$ and $\Q_p$ separately first \\
+\bottomrule
+\end{longtable}
+
+\section{Assessment Structure}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Grading:} 100\% homework.
+  \item \textbf{Cadence:} A problem set is posted each Thursday and due at the start of class the following Thursday.
+  \item \textbf{Grading policy:} One or two problems per set (unannounced) are graded for accuracy; the rest are graded for completion. The lowest homework score is dropped.
+  \item \textbf{Collaboration:} Encouraged after an independent attempt, but write-ups must be individual and in the student's own words.
+\end{itemize}
+
+\section{Suggested Weekly Workflow}
+\begin{enumerate}[leftmargin=*]
+  \item Read the relevant reference chapter(s) before each pair of lectures, using Table~3 (Course Structure at a Glance) as a map.
+  \item Attempt the problem set independently before collaborating, per the course's academic-integrity policy.
+  \item Use the homework-discussion lectures to revisit whichever items from the Difficult Topics table (Section~5) are most relevant that week.
+  \item Before moving to a new module, revisit the corresponding learning objectives in Section~4 as a self-check.
+\end{enumerate}
+
+\end{document}

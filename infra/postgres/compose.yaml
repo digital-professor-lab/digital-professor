@@ -1,0 +1,18 @@
+services:
+  database:
+    image: pgvector/pgvector:pg17@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f
+    container_name: digital-professor-kb
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: coursekb
+      POSTGRES_DB: course_knowledge
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:${DP_DB_PORT:-55432}:5432"
+    volumes:
+      - ./docker_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U coursekb -d course_knowledge"]
+      interval: 5s
+      timeout: 3s
+      retries: 20

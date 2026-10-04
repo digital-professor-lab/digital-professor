@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Digital Professor — Week 3 Retrieval Update</title>
+  <style>
+    :root {
+      --canvas: #f4f7f5;
+      --card: #ffffff;
+      --ink: #172b2b;
+      --muted: #5d7270;
+      --line: #dce5e1;
+      --green: #16865f;
+      --green-soft: #e7f5ee;
+      --blue: #416ac5;
+      --blue-soft: #edf2ff;
+      --amber: #b46916;
+      --amber-soft: #fff3e4;
+      --shadow: 0 12px 32px rgba(20, 47, 39, .055);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .topbar {
+      background: #18312e;
+      color: #fff;
+    }
+    .topbar-inner {
+      max-width: 1390px;
+      margin: auto;
+      padding: 17px 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand { font-size: 15px; font-weight: 750; letter-spacing: -.01em; }
+    .brand span { margin-left: 8px; color: #a9c3ba; font-weight: 500; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #b3f0d0;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #6fe0a5; }
+    main { max-width: 1390px; margin: auto; padding: 30px 38px 38px; }
+    .eyebrow { margin: 0 0 8px; color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3, p { margin: 0; }
+    button { font: inherit; }
+    h1 { max-width: 890px; font-size: clamp(31px, 3.3vw, 48px); line-height: 1.12; letter-spacing: -.045em; }
+    h2 { font-size: clamp(20px, 2vw, 27px); letter-spacing: -.025em; }
+    .subhead { margin-top: 10px; color: var(--muted); font-size: 17px; line-height: 1.4; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 27px 0 14px; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 17px;
+      align-items: stretch;
+    }
+    .step {
+      position: relative;
+      min-height: 168px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 19px 18px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .step:hover { transform: translateY(-3px); border-color: #a8d9be; }
+    .step:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+    .step[aria-pressed="true"] { border-color: var(--green); box-shadow: 0 0 0 3px #d7f1e4, var(--shadow); }
+    .step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      z-index: 2;
+      top: 43%;
+      right: -18px;
+      width: 18px;
+      color: var(--green);
+      font-size: 21px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .step .icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--green-soft);
+      color: var(--green);
+      margin-bottom: 13px;
+    }
+    .step:nth-child(3) .icon { background: var(--blue-soft); color: var(--blue); }
+    .step:nth-child(4) .icon { background: var(--amber-soft); color: var(--amber); }
+    .step svg { width: 21px; height: 21px; stroke: currentColor; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .step-number { margin-bottom: 6px; color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .step-title { display: block; font-size: 19px; font-weight: 750; letter-spacing: -.025em; line-height: 1.2; }
+    .step-summary { display: block; margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.4; }
+    .detail-stage { margin-top: 18px; }
+    .detail-view {
+      min-height: 214px;
+      display: grid;
+      grid-template-columns: minmax(220px, .64fr) minmax(0, 1.36fr);
+      gap: 28px;
+      padding: 24px 27px;
+      border: 1px solid #bedbc9;
+      border-radius: 17px;
+      background: linear-gradient(120deg, #edf7f0, #ffffff 57%);
+      box-shadow: var(--shadow);
+    }
+    .detail-view[hidden] { display: none; }
+    .detail-view:not([hidden]) { animation: reveal-detail .32s cubic-bezier(.2, .7, .2, 1) both; }
+    @keyframes reveal-detail { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .detail-kicker { color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .detail-intro h3 { margin-top: 8px; font-size: 26px; letter-spacing: -.03em; }
+    .detail-intro p { margin-top: 13px; color: #315348; font-size: 17px; line-height: 1.53; }
+    .detail-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-content: stretch; }
+    .detail-points.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .detail-point { padding: 17px 16px; border: 1px solid #deebe3; border-radius: 12px; background: #fff; }
+    .detail-point strong { display: block; margin-bottom: 8px; color: var(--ink); font-size: 16px; line-height: 1.25; }
+    .detail-point p { color: var(--muted); font-size: 15px; line-height: 1.43; }
+    .lower { display: grid; grid-template-columns: minmax(270px, .72fr) minmax(0, 1.28fr); gap: 18px; margin-top: 21px; }
+    .panel { border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: var(--shadow); }
+    .test-design { padding: 21px 23px; }
+    .test-design .eyebrow { margin-bottom: 7px; }
+    .test-design h2 { margin-bottom: 16px; }
+    .test-lines { display: grid; gap: 12px; }
+    .test-line { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 15px; }
+    .test-line b { min-width: 48px; color: var(--green); font-size: 23px; line-height: 1; letter-spacing: -.035em; }
+    .test-line:last-child b { font-size: 19px; }
+    .test-caption { margin-top: 16px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .outcome { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 24px; padding: 23px 25px; }
+    .big-number { color: var(--green); font-size: clamp(56px, 5.6vw, 78px); line-height: 1; letter-spacing: -.07em; font-weight: 780; }
+    .big-number small { display: block; margin-top: 8px; color: var(--muted); font-size: 14px; letter-spacing: 0; font-weight: 500; }
+    .outcome-copy h2 { margin: 0 0 13px; }
+    .outcome-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .outcome-list li { position: relative; padding-left: 18px; color: #435e57; font-size: 15px; line-height: 1.45; }
+    .outcome-list li::before { content: ""; position: absolute; left: 1px; top: .48em; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .outcome-list li:nth-child(2)::before { background: var(--amber); }
+    .outcome-list li strong { color: var(--ink); }
+    .meter { height: 9px; overflow: hidden; border-radius: 999px; background: #e8efeb; margin-top: 17px; }
+    .meter > span { display: block; height: 100%; width: 87%; border-radius: inherit; background: var(--green); }
+    .interesting { display: grid; grid-template-columns: minmax(250px, .95fr) repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 21px; padding: 24px; border-radius: 16px; background: #18312e; color: #fff; box-shadow: var(--shadow); }
+    .interesting .eyebrow { color: #8de0b4; }
+    .interesting h2 { color: #fff; font-size: 25px; }
+    .interesting p { color: #d7e8df; font-size: 15px; line-height: 1.46; }
+    .interesting-intro > p:last-child { margin-top: 11px; }
+    .interesting-card { display: flex; flex-direction: column; padding: 17px 18px; border: 1px solid #42685b; border-radius: 12px; background: #24443c; }
+    .interesting-card .card-type { color: #9ee7bf; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .interesting-card h3 { margin: 8px 0; color: #fff; font-size: 18px; letter-spacing: -.02em; }
+    .interesting-card p { flex: 1; }
+    .interesting-card a { width: fit-content; margin-top: 14px; color: #b8f4d4; font-size: 13px; font-weight: 700; text-decoration: none; }
+    .interesting-card a:hover, .interesting-card a:focus-visible { text-decoration: underline; }
+    @media (max-width: 1050px) {
+      .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .step:not(:last-child)::after { display: none; }
+      .step { min-height: 160px; }
+      .detail-view { grid-template-columns: 1fr; gap: 18px; }
+      .lower { grid-template-columns: 1fr; }
+      .interesting { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .interesting-intro { grid-column: 1 / -1; }
+    }
+    @media (max-width: 750px) {
+      .topbar-inner, main { padding-left: 19px; padding-right: 19px; }
+      .topbar-inner { align-items: flex-start; flex-direction: column; gap: 7px; }
+      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .detail-points, .detail-points.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lower { grid-template-columns: 1fr; }
+      .interesting { grid-template-columns: 1fr; }
+      .interesting-intro { grid-column: auto; }
+    }
+    @media (max-width: 480px) {
+      .flow { grid-template-columns: 1fr; }
+      .step { min-height: 0; }
+      .detail-view { padding: 20px; }
+      .detail-points, .detail-points.four { grid-template-columns: 1fr; }
+      .outcome { grid-template-columns: 1fr; gap: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .step { transition: none; } .detail-view:not([hidden]) { animation: none; } }
+    @media print {
+      @page { size: landscape; margin: 10mm; }
+      body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      main { max-width: none; padding: 19px 22px; }
+      .step { min-height: 155px; box-shadow: none; }
+      .detail-view { min-height: 205px; box-shadow: none; }
+      .panel { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Digital Professor <span>/ Week 3 executive update</span></div>
+      <div class="status">Course evidence retrieval pilot complete</div>
+    </div>
+  </header>
+
+  <main>
+    <p class="eyebrow">What we built</p>
+    <h1>From course materials to cited evidence.</h1>
+    <p class="subhead">This week, I built and tested a way to find cited evidence across two courses before an AI model answers.</p>
+
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">The flow</p>
+        <h2>From course resources to measured retrieval</h2>
+      </div>
+    </div>
+
+    <section class="flow" aria-label="Course knowledge retrieval flow">
+      <button class="step" type="button" aria-pressed="true" aria-controls="detail-resources" data-detail="detail-resources">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5h7a3 3 0 0 1 3 3V20H7a3 3 0 0 0-3 1z"/><path d="M20 5.5h-6a3 3 0 0 0-3 3"/><path d="M14 20h3a3 3 0 0 1 3 1V5.5"/></svg></span>
+        <span class="step-number">01 · Resource framework</span>
+        <span class="step-title">Course resources</span>
+        <span class="step-summary">Three source types for each course.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-map" data-detail="detail-map">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3h6m6-3v3h-6m0 0v3"/></svg></span>
+        <span class="step-number">02 · Structured knowledge</span>
+        <span class="step-title">Knowledge map</span>
+        <span class="step-summary">Four linked levels and concept cards.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-embeddings" data-detail="detail-embeddings">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="12" cy="18" r="2"/><path d="m7 7 4 9m2 0 4-9M7 6h9"/></svg></span>
+        <span class="step-number">03 · Hugging Face models</span>
+        <span class="step-title">Two embeddings</span>
+        <span class="step-summary">BGE and Qwen3 index the same content.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-retrieval" data-detail="detail-retrieval">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6"/></svg></span>
+        <span class="step-number">04 · Hybrid search</span>
+        <span class="step-title">Question retrieval</span>
+        <span class="step-summary">Meaning + keywords + scope checks.</span>
+      </button>
+      <button class="step" type="button" aria-pressed="false" aria-controls="detail-evaluation" data-detail="detail-evaluation">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5h12M8 12h12M8 19h12M3.5 5l1 1 2-2M3.5 12l1 1 2-2M3.5 19l1 1 2-2"/></svg></span>
+        <span class="step-number">05 · Evaluation framework</span>
+        <span class="step-title">Retrieval evaluation</span>
+        <span class="step-summary">Measure evidence quality and reliability.</span>
+      </button>
+    </section>
+
+    <div class="detail-stage" aria-live="polite">
+      <section class="detail-view" id="detail-resources" aria-label="Course resources details">
+        <div class="detail-intro">
+          <span class="detail-kicker">01 · Resource framework</span>
+          <h3>Three source roles</h3>
+          <p>I organized the syllabus, course context, and textbook-based reference for each of our two courses. I kept them separate so the system knows what defines the course, what shows the teaching sequence, and where to find more detail.</p>
+        </div>
+        <div class="detail-points">
+          <div class="detail-point"><strong>Syllabus</strong><p>It defines learning goals and course scope.</p></div>
+          <div class="detail-point"><strong>Course context</strong><p>It shows the order of topics and prerequisites.</p></div>
+          <div class="detail-point"><strong>Textbook reference</strong><p>It adds detail from AI-prepared course breakdowns.</p></div>
+        </div>
+      </section>
+      <section class="detail-view" id="detail-map" aria-label="Knowledge map details" hidden>
+        <div class="detail-intro">
+          <span class="detail-kicker">02 · Structured knowledge</span>
+          <h3>Four linked layers</h3>
+          <p>I built a knowledge map like a library catalog, so every idea has an address: course, document, section, and original passage. I linked each AI-extracted concept card to its source, so a card match can lead us back to evidence we can cite.</p>
+        </div>
+        <div class="detail-points four">
+          <div class="detail-point"><strong>1 · Course</strong><p>Which class owns this idea?</p></div>
+          <div class="detail-point"><strong>2 · Document</strong><p>Which source did it come from?</p></div>
+          <div class="detail-point"><strong>3 · Section</strong><p>Which chapter covers it?</p></div>
+          <div class="detail-point"><strong>4 · Passage</strong><p>Where is the exact text we can cite?</p></div>
+        </div>
+      </section>
+      <section class="detail-view" id="detail-embeddings" aria-label="Embedding details" hidden>
+        <div class="detail-intro">
+          <span class="detail-kicker">03 · Hugging Face models</span>
+          <h3>Two semantic indexes</h3>
+          <p>I used two existing Hugging Face models, BGE and Qwen3, to turn the same concept cards and passages into searchable vectors. My goal was to compare how well each model finds related ideas in our own course materials.</p>
+        </div>
+        <div class="detail-points">
+          <div class="detail-point"><strong>Same input</strong><p>Both models encoded the same 476 cards and passage segments.</p></div>
+          <div class="detail-point"><strong>Two indexes</strong><p>I stored separate indexes in PostgreSQL with pgvector for a fair comparison.</p></div>
+          <div class="detail-point"><strong>Source links</strong><p>Each vector stays linked to its course and original passage.</p></div>
+        </div>
+      </section>
+      <section class="detail-view" id="detail-retrieval" aria-label="Retrieval details" hidden>
+        <div class="detail-intro">
+          <span class="detail-kicker">04 · Hybrid search</span>
+          <h3>Find, merge, filter</h3>
+          <p>I built a hybrid search that combines meaning-based and keyword matches, even when a student does not name a course. After checking course scope, it returns up to six passages with file and line numbers for the answer model.</p>
+        </div>
+        <div class="detail-points">
+          <div class="detail-point"><strong>Meaning</strong><p>Vectors find ideas close to the question in meaning.</p></div>
+          <div class="detail-point"><strong>Keywords</strong><p>Keywords catch exact terms; concept cards lead back to passages.</p></div>
+          <div class="detail-point"><strong>Evidence</strong><p>Scope checks leave up to six passages with file and line citations.</p></div>
+        </div>
+      </section>
+      <section class="detail-view" id="detail-evaluation" aria-label="Retrieval evaluation details" hidden>
+        <div class="detail-intro">
+          <span class="detail-kicker">05 · Evaluation framework</span>
+          <h3>How I judged retrieval</h3>
+          <p>I built an evaluation framework to check whether retrieval finds all the evidence a question needs, not just something related. I tested 50 questions across five setups, including easy, medium, hard, and missing-answer cases.</p>
+        </div>
+        <div class="detail-points">
+          <div class="detail-point"><strong>Complete evidence</strong><p>I check every passage needed for a full answer.</p></div>
+          <div class="detail-point"><strong>Trustworthy sources</strong><p>I verify the course, scope, and citation lines.</p></div>
+          <div class="detail-point"><strong>Hard cases</strong><p>I include difficult and missing-answer questions.</p></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="lower">
+      <section class="panel test-design" aria-label="Evaluation design">
+        <p class="eyebrow">How we tested</p>
+        <h2>I tested 50 questions in five setups</h2>
+        <div class="test-lines">
+          <div class="test-line"><b>25 + 25</b><span>I used 25 questions from each course.</span></div>
+          <div class="test-line"><b>8 / 9 / 8</b><span>Each course had 8 basic, 9 intermediate, and 8 advanced questions.</span></div>
+          <div class="test-line"><b>5 ways</b><span>I compared each model alone, each with keywords, and both together.</span></div>
+        </div>
+        <p class="test-caption">Of the 50 questions, 46 had supporting evidence in our materials. Four tested course scope or missing information. This measures retrieval, not final AI answers.</p>
+      </section>
+
+      <section class="panel outcome" aria-label="Headline result">
+        <div><div class="big-number">87%<small>40 of 46 answerable questions</small></div></div>
+        <div class="outcome-copy">
+          <p class="eyebrow">Retrieval result · current combined flow</p>
+          <h2>Complete evidence for 40 of 46 questions</h2>
+          <ul class="outcome-list">
+            <li><strong>What worked:</strong> The right course appeared in the top three for all 46 answerable questions, and every citation matched its source.</li>
+            <li><strong>Why six fell short:</strong> We found the needed passages at first, but our final rule kept only two passages per file. That left evidence out of the final six.</li>
+            <li><strong>What I tested next:</strong> Allowing four passages per file recovered four of those six in a diagnostic run. Simpler model setups also reached 41/46, so we will compare the options again.</li>
+            <li><strong>What remains:</strong> When the material has no answer, the system still returns related passages. We need an insufficient-evidence check and instructor review before student use.</li>
+          </ul>
+          <div class="meter" role="img" aria-label="87 percent of answerable questions had complete evidence"><span></span></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="interesting" aria-label="Interesting find and future experiment">
+      <div class="interesting-intro">
+        <p class="eyebrow">Interesting find · future idea</p>
+        <h2>Could Jev help us make better choices?</h2>
+        <p>Only days after its launch, Jev took off among AI developers. It is built for fast, structured decisions, and developers are already exploring it inside AI agents to guide what happens next. I think we could test it in our system too, especially for model routing and RAG evidence checks.</p>
+      </div>
+      <div class="interesting-card">
+        <span class="card-type">01 · Model routing</span>
+        <h3>Choose the right AI model</h3>
+        <p>It could send simple questions to a fast model and harder questions to a stronger one.</p>
+        <a href="https://docs.typesafe.ai/patterns/intent-routing" target="_blank" rel="noopener noreferrer">TypeSafe: intent routing ↗</a>
+      </div>
+      <div class="interesting-card">
+        <span class="card-type">02 · RAG evidence check</span>
+        <h3>Find the most useful passages</h3>
+        <p>It could check which retrieved passages really help answer the question before we send them to the answer model.</p>
+        <a href="https://docs.typesafe.ai/cookbooks/classifying_rag_passages" target="_blank" rel="noopener noreferrer">TypeSafe: classifying RAG passages ↗</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    const steps = [...document.querySelectorAll('.step')];
+    const details = [...document.querySelectorAll('.detail-view')];
+    steps.forEach(step => step.addEventListener('click', () => {
+      if (step.getAttribute('aria-pressed') === 'true') return;
+      const selected = document.getElementById(step.dataset.detail);
+      steps.forEach(item => item.setAttribute('aria-pressed', String(item === step)));
+      details.forEach(item => { item.hidden = item !== selected; });
+    }));
+  </script>
+</body>
+</html>

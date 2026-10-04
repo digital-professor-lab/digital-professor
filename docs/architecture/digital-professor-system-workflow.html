@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Professor · 端到端系统工作流</title>
+  <style>
+    :root { --navy:#17324d; --teal:#007e83; --teal-soft:#e8f3f4; --ink:#1f3345; --muted:#526879; --line:#cdd9df; --paper:#fff; --page:#f3f6f8; --gold:#fbf3dc; --gold-line:#d9bd71; --focus:#ffb547; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--page); color:var(--ink); font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+    button { font:inherit; }
+    .topbar { background:var(--navy); color:#fff; padding:14px max(24px,calc((100vw - 1180px)/2)); font-size:13px; font-weight:700; letter-spacing:.09em; }
+    .shell { width:min(1180px,calc(100% - 40px)); margin:0 auto; }
+    .hero { padding:42px 0 25px; }
+    .eyebrow { color:var(--teal); font-size:12px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; }
+    h1 { margin:8px 0 10px; color:var(--navy); font-size:clamp(28px,3.3vw,42px); line-height:1.18; }
+    .lead { margin:0; max-width:900px; color:var(--muted); font-size:17px; }
+    .meta { display:flex; gap:10px; flex-wrap:wrap; margin-top:19px; }
+    .chip { border:1px solid var(--line); border-radius:999px; padding:5px 11px; background:#fff; color:var(--muted); font-size:12px; font-weight:650; }
+    .chip.emphasis { border-color:#a7cfd1; background:var(--teal-soft); color:#075f64; }
+    .intro { display:grid; grid-template-columns:1.6fr 1fr; gap:18px; margin:0 0 28px; }
+    .intro > div { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:17px 19px; }
+    .intro strong { color:var(--navy); }
+    .intro p { margin:7px 0 0; color:var(--muted); font-size:14px; }
+    .workflow { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:25px clamp(16px,3vw,32px) 29px; box-shadow:0 15px 45px rgba(17,44,66,.06); }
+    .workflow-head { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:17px; }
+    .workflow-head h2 { margin:0; color:var(--navy); font-size:23px; line-height:1.25; }
+    .workflow-head p { margin:5px 0 0; color:var(--muted); font-size:13px; }
+    .legend { display:flex; flex-wrap:wrap; gap:13px; color:var(--muted); font-size:12px; white-space:nowrap; }
+    .legend span::before { content:""; display:inline-block; width:10px; height:10px; margin-right:6px; border-radius:2px; background:var(--teal-soft); border:1px solid #8ebec0; vertical-align:-1px; }
+    .legend .gate::before { background:var(--gold); border-color:var(--gold-line); }
+    .phase { margin-top:24px; }
+    .phase-title { display:flex; align-items:center; gap:11px; margin-bottom:11px; color:var(--muted); font-size:12px; font-weight:750; letter-spacing:.05em; text-transform:uppercase; }
+    .phase-title::after { content:""; height:1px; flex:1; background:var(--line); }
+    .flow-row { display:grid; grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr); gap:8px; align-items:stretch; }
+    .flow-row.single { grid-template-columns:minmax(0,1fr); max-width:590px; margin:auto; }
+    .arrow { display:flex; align-items:center; justify-content:center; color:var(--teal); font-size:21px; font-weight:800; user-select:none; }
+    .down { text-align:center; color:var(--teal); font-size:24px; line-height:1; margin:7px 0 1px; user-select:none; }
+    .node { width:100%; min-height:95px; border:1px solid var(--line); border-radius:9px; background:#f7f9fa; padding:13px 14px; text-align:left; color:var(--ink); cursor:pointer; transition:background .15s,border-color .15s,transform .15s,box-shadow .15s; }
+    .node:hover { transform:translateY(-2px); border-color:#77b6ba; box-shadow:0 5px 13px rgba(0,79,85,.09); }
+    .node:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+    .node[aria-pressed="true"] { background:var(--teal-soft); border-color:var(--teal); box-shadow:inset 0 0 0 1px var(--teal); }
+    .node.gate { background:#fffbef; border-color:var(--gold-line); }
+    .node.gate[aria-pressed="true"] { background:var(--gold); border-color:#b78b27; box-shadow:inset 0 0 0 1px #b78b27; }
+    .node .tag { display:block; color:var(--teal); font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+    .node.gate .tag { color:#8a651a; }
+    .node .name { display:block; margin:4px 0; color:var(--navy); font-size:16px; font-weight:760; line-height:1.3; }
+    .node .desc { display:block; color:var(--muted); font-size:12px; line-height:1.4; }
+    .route-intro { text-align:center; margin:1px 0 12px; font-size:13px; color:var(--muted); }
+    .branch-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; max-width:860px; margin:auto; }
+    .branch-row .node { min-height:112px; }
+    .loop { margin:18px auto 0; padding:10px 14px; max-width:760px; border-left:3px solid var(--teal); background:var(--teal-soft); color:#27575b; font-size:13px; }
+    .detail { scroll-margin-top:20px; margin:27px 0 25px; background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 15px 45px rgba(17,44,66,.06); }
+    .detail-head { display:flex; justify-content:space-between; gap:20px; align-items:flex-start; background:var(--navy); color:#fff; padding:22px 28px; }
+    .detail-head .tiny { color:#a9d7d8; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .detail-head h2 { margin:4px 0 4px; font-size:24px; line-height:1.25; }
+    .detail-head p { margin:0; color:#d7e4ea; font-size:14px; }
+    .owner { color:#cde2e4; border:1px solid #739ba3; border-radius:999px; white-space:nowrap; padding:5px 11px; font-size:12px; }
+    .detail-body { padding:24px 28px 28px; }
+    .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:21px 28px; }
+    .detail h3 { margin:0 0 7px; color:var(--teal); font-size:14px; }
+    .detail p { margin:0; }
+    .detail ul { margin:0; padding-left:20px; }
+    .detail li { margin:4px 0; }
+    .detail .wide { grid-column:1 / -1; }
+    .schema-wrap { overflow-x:auto; }
+    .schema { width:100%; border-collapse:collapse; font-size:13px; }
+    .schema th { text-align:left; background:#e9f0f3; color:var(--navy); padding:9px 10px; }
+    .schema td { border-bottom:1px solid var(--line); padding:9px 10px; vertical-align:top; }
+    .schema td:first-child { width:22%; color:var(--navy); font-weight:700; overflow-wrap:anywhere; }
+    .schema td:nth-child(2) { width:40%; }
+    .schema td:nth-child(3) { color:var(--muted); }
+    .example { padding:14px 16px; border-left:3px solid var(--teal); background:#f2f8f8; }
+    .example strong { color:var(--navy); }
+    .footer { color:var(--muted); font-size:12px; padding:0 0 34px; }
+    @media (max-width:820px) { .intro { grid-template-columns:1fr; } .workflow-head { display:block; } .legend { margin-top:12px; } .flow-row { grid-template-columns:1fr; gap:4px; } .arrow { transform:rotate(90deg); min-height:19px; } .branch-row { grid-template-columns:1fr; gap:9px; } .branch-row::before { content:"↘ 两条教学分支"; color:var(--teal); font-size:12px; font-weight:700; } .detail-grid { grid-template-columns:1fr; } .detail .wide { grid-column:auto; } }
+    @media (max-width:520px) { .shell { width:min(100% - 24px,1180px); } .topbar { padding:12px; } .hero { padding-top:27px; } .workflow { padding:18px 13px; } .detail-head { display:block; padding:19px; } .owner { display:inline-block; margin-top:11px; } .detail-body { padding:19px; } .schema { min-width:620px; } }
+    @media print { body { background:#fff; } .topbar { print-color-adjust:exact; } .node { break-inside:avoid; } .detail { break-before:page; } .workflow,.detail { box-shadow:none; } }
+  </style>
+</head>
+<body>
+  <div class="topbar">DIGITAL PROFESSOR / SYSTEM WORKFLOW REPORT</div>
+  <main class="shell" id="app">
+    <section class="hero">
+      <div class="eyebrow">基于小组积分辅导流程 · 可交互报告</div>
+      <h1>从学生输入到理解迁移：完整系统工作流</h1>
+      <p class="lead">点击流程图中的任意节点，下方会显示该步使用的方法、输入、结构化输出、判断标准和异常分支。示例贯穿 <strong>∫ x cos(x) dx</strong>：学生试过换元法或分部积分，但没有做出来。</p>
+      <div class="meta"><span class="chip emphasis">设计方案 · 尚未实现多轮系统</span><span class="chip">主线：学生证据 → 课程证据 → 状态 → 教学动作 → 新证据</span><span class="chip">本周基线：单轮 API + JSON 校验</span></div>
+    </section>
+    <section class="intro" aria-label="阅读说明">
+      <div><strong>这个图回答什么？</strong><p>每个框是一份明确的交接：它收到什么、用什么方法处理、输出哪些字段、什么情况下继续或改走另一条路。顶层看全貌，点击看具体。</p></div>
+      <div><strong>如何理解两条分支？</strong><p>换元法做不下去，重点查“方法选择”；分部积分做不下去，重点查“第一个执行错误”。两条路最终都要回到学生重试与迁移检查。</p></div>
+    </section>
+    <section class="workflow" aria-labelledby="workflow-title">
+      <div class="workflow-head"><div><h2 id="workflow-title">端到端流程图</h2><p>由上往下阅读；黄色框是需要作出继续、澄清或转人工决定的关口。</p></div><div class="legend"><span>处理步骤</span><span class="gate">判断关口</span></div></div>
+
+      <div class="phase"><div class="phase-title">0 · 课前课程准备</div><div class="flow-row single"><button class="node" data-step="prep" type="button" aria-pressed="false"><span class="tag">00 · Ovunc + Sean</span><span class="name">整理课程材料与来源权限</span><span class="desc">学习目标、两种积分方法、例题、来源版本</span></button></div></div>
+      <div class="down" aria-hidden="true">↓</div>
+
+      <div class="phase"><div class="phase-title">A · 理解学生提交的信息</div><div class="flow-row">
+        <button class="node" data-step="input" type="button" aria-pressed="false"><span class="tag">01 · Jonathan</span><span class="name">接收学生输入</span><span class="desc">题目、尝试步骤、理由、卡点</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node" data-step="extract" type="button" aria-pressed="false"><span class="tag">02 · Sean / LLM 任务 1</span><span class="name">抽取结构化信息</span><span class="desc">StudentInput：观察到什么、还缺什么</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node gate" data-step="inputGate" type="button" aria-pressed="false"><span class="tag">03 · 输入闸门</span><span class="name">信息足以继续吗？</span><span class="desc">缺步骤就追问；模糊或不可读就澄清</span></button>
+      </div></div><div class="down" aria-hidden="true">↓</div>
+
+      <div class="phase"><div class="phase-title">B · 按需取得课程依据</div><div class="flow-row">
+        <button class="node gate" data-step="retrieveDecision" type="button" aria-pressed="false"><span class="tag">04 · 检索闸门</span><span class="name">这一轮需要检索吗？</span><span class="desc">单纯追问步骤可跳过详细检索</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node" data-step="retrieval" type="button" aria-pressed="false"><span class="tag">05 · Sean + Ovunc</span><span class="name">检索课程证据</span><span class="desc">方法条件、对比例题、参考步骤、引用</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node gate" data-step="evidenceGate" type="button" aria-pressed="false"><span class="tag">06 · 证据闸门</span><span class="name">来源足以支持教学吗？</span><span class="desc">支持 / 部分 / 缺失 / 冲突</span></button>
+      </div></div><div class="down" aria-hidden="true">↓</div>
+
+      <div class="phase"><div class="phase-title">C · 判断学生状态并决定教学动作</div><div class="flow-row">
+        <button class="node" data-step="diagnosis" type="button" aria-pressed="false"><span class="tag">07 · Sean / 模型分析</span><span class="name">更新 StudentState</span><span class="desc">观察事实、第一处错误、原因假设</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node gate" data-step="stateGate" type="button" aria-pressed="false"><span class="tag">08 · 诊断闸门</span><span class="name">判断是否明确？</span><span class="desc">确定 / 模糊 / 证据不足 / 冲突</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node" data-step="policy" type="button" aria-pressed="false"><span class="tag">09 · 全组教学策略</span><span class="name">选择下一步教学动作</span><span class="desc">先决定追问、对比、提示或重试</span></button>
+      </div></div><div class="down" aria-hidden="true">↓</div>
+
+      <div class="phase"><div class="phase-title">D · 积分题中的两条教学分支</div><p class="route-intro">根据学生实际采用的方法与已确认的困难，进入其中一条；新回答可以改变分支。</p><div class="branch-row">
+        <button class="node" data-step="substitution" type="button" aria-pressed="false"><span class="tag">10A · 换元法分支</span><span class="name">比较方法结构</span><span class="desc">先做简单换元题 → 解释两题异同 → 再选方法</span></button>
+        <button class="node" data-step="parts" type="button" aria-pressed="false"><span class="tag">10B · 分部积分分支</span><span class="name">定位第一个执行错误</span><span class="desc">检查 u / dv 与公式 → 局部提示 → 学生重试</span></button>
+      </div></div><div class="down" aria-hidden="true">↓</div>
+
+      <div class="phase"><div class="phase-title">E · 生成、检查并交付一轮教学</div><div class="flow-row">
+        <button class="node" data-step="generate" type="button" aria-pressed="false"><span class="tag">11 · Sean / LLM 任务 2</span><span class="name">生成导师回复</span><span class="desc">按选定动作组织一句有效回应</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node gate" data-step="validate" type="button" aria-pressed="false"><span class="tag">12 · 回复闸门</span><span class="name">校验数学与教学内容</span><span class="desc">结构、来源、数学、提示深度、状态一致性</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node" data-step="deliver" type="button" aria-pressed="false"><span class="tag">13 · Jonathan</span><span class="name">展示回应并收集新作答</span><span class="desc">学生解释、修改步骤或继续尝试</span></button>
+      </div></div><div class="down" aria-hidden="true">↓</div>
+
+      <div class="phase"><div class="phase-title">F · 更新、迁移与结束</div><div class="flow-row">
+        <button class="node" data-step="update" type="button" aria-pressed="false"><span class="tag">14 · Sean</span><span class="name">保存并更新学生状态</span><span class="desc">记录给过的帮助和新证据</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node gate" data-step="mastery" type="button" aria-pressed="false"><span class="tag">15 · 理解闸门</span><span class="name">能解释并迁移吗？</span><span class="desc">相似题 + 对照题检验方法选择</span></button><span class="arrow" aria-hidden="true">→</span>
+        <button class="node" data-step="close" type="button" aria-pressed="false"><span class="tag">16 · 结束 / 转人工</span><span class="name">给出学习总结或交接</span><span class="desc">只根据已观察到的表现下结论</span></button>
+      </div><div class="loop">↶ 若仍未解决：带着更新后的 StudentState 回到下一轮输入理解；必要时换一种教学动作、补检索或交给人工导师。</div></div>
+      <div class="down" aria-hidden="true">↓</div>
+      <div class="phase"><div class="phase-title">G · 系统改进</div><div class="flow-row single"><button class="node" data-step="evaluation" type="button" aria-pressed="false"><span class="tag">17 · Sean + 全组</span><span class="name">记录、评估与改进</span><span class="desc">检索、诊断、动作、回复、学习结果、延迟和成本</span></button></div></div>
+    </section>
+
+    <section class="detail" id="detail" aria-live="polite" aria-label="选中步骤详情">
+      <div class="detail-head"><div><div class="tiny" id="detail-kicker"></div><h2 id="detail-title"></h2><p id="detail-summary"></p></div><div class="owner" id="detail-owner"></div></div>
+      <div class="detail-body"><div class="detail-grid">
+        <div><h3>这一环节要做什么</h3><p id="detail-method"></p></div>
+        <div><h3>输入</h3><ul id="detail-inputs"></ul></div>
+        <div class="wide"><h3>结构化输出 / 交给下一步的内容</h3><div class="schema-wrap"><table class="schema"><thead><tr><th>字段或结果</th><th>含义</th><th>积分案例中的值</th></tr></thead><tbody id="detail-output"></tbody></table></div></div>
+        <div><h3>判断标准</h3><ul id="detail-criteria"></ul></div>
+        <div><h3>异常分支 / 下一步</h3><ul id="detail-branches"></ul></div>
+        <div class="wide example"><strong>这一题里的具体例子：</strong> <span id="detail-example"></span></div>
+      </div></div>
+    </section>
+    <div class="footer">设计依据：小组成员的积分题教学流程图、Digital Professor 小组总体提案，以及 Week 2 单轮原型。页面中的课程资料 ID 和多轮模型交接均为拟议接口，不代表已完成的功能。</div>
+  </main>
+  <script>
+    const steps = {
+      prep: {kicker:'00 / 课前准备',title:'整理课程材料与来源权限',owner:'Ovunc + Sean',summary:'先定义系统能够依据什么课程资料教学。',method:'把课程大纲、讲义和教材整理成有稳定编号的学习目标、方法说明、完整例题和练习。公式与对应的解题步骤放在同一检索单元。先用小型人工整理的 lesson packet；资料量变大后再比较关键词与混合检索。',inputs:['课程大纲、教师确认的讲义、教材和练习','本课程的章节、学习目标与前置知识'],output:[['course_id / version','课程与资料版本，保证一次会话可追溯','Calculus I / integration methods / v1'],['objective_id','本题要学会的能力','区分换元法与分部积分'],['source_units','来源 ID、位置、类型、正文或例题','方法条件、完整例题、练习'],['source_authority','哪类来源能支持哪类说法','syllabus 管范围；讲义管课堂内容；教材管方法']],criteria:['公式、例题和答案应由课程负责人核对。','来源要能定位到文件和具体章节。','课程内容不足时标记缺口，不让模型编造“老师讲过”的例子。'],branches:['已批准资料 → 进入可检索课程目录。','缺少对比例题或参考解法 → 先补材料，或在相应教学动作上转人工。'],example:'为 ∫ x cos(x) dx 准备换元法适用条件、分部积分公式、一题简单换元对照题，以及一题相似和一题不同的迁移题。'},
+      input: {kicker:'01 / 学生输入',title:'接收学生输入',owner:'Jonathan',summary:'收集真实作答，保留原话与步骤。',method:'让学生提供题目、已尝试的方法、具体计算步骤、为什么这样做和卡住的位置。文字版原型可以从这些字段开始；如果只收到一句“不会”，通过界面或对话补问。原文保留，不由系统替学生补全推导。',inputs:['学生本轮文字、公式或上传材料','当前会话 ID、题目 ID、上一轮导师提问'],output:[['raw_problem','原始题目与符号','∫ x cos(x) dx'],['raw_attempt','学生原样提交的步骤','“我令 u = sin(x)，但还剩 x”'],['stated_reason','学生自己说的方法理由；可为空','未说明'],['stuck_point','学生指出的卡点','换元后仍有 x'],['artifact_ref','图片或手写材料的引用；文字版可为空','空']],criteria:['原始符号可读，步骤次序清楚。','明确区分学生写过的步骤与界面提示给出的内容。'],branches:['只有题目、没有尝试 → 询问学生试过什么。','图片关键公式不可读 → 请学生确认或改用文字输入。'],example:'学生说“我试了换元法，但算不下去”。系统先保存这句话；它还不能由此断定学生不懂换元法。'},
+      extract: {kicker:'02 / 模型理解任务 1',title:'抽取结构化信息',owner:'Sean / LLM',summary:'把杂乱输入变成可核对的 StudentInput。',method:'用一个受字段约束的 LLM 调用抽取意图、题目、方法、实际步骤和缺失信息；再由确定性规则核对字段和课程编号。第一版无需单独训练 NLP 分类器。模型可以提出“可能的困难”，但必须标记为假设，并附对应的学生原话。',inputs:['raw_problem、raw_attempt、stated_reason','上一轮 StudentState 摘要','课程章节目录（只包含元信息）'],output:[['intent','诊断、练习、课程范围、讲解或不明确','diagnose'],['attempted_method','substitution / integration_by_parts / other / unknown','substitution'],['observed_steps','逐步记录真正出现的式子','u = sin(x)'],['topic_candidates','课程与章节候选 ID','Calculus I / integration methods'],['missing_information','要判定下一步还缺什么','为什么选 u；具体卡在哪里'],['retrieval_request','是否需要课程证据及查询目标','此刻先追问步骤，可暂不检索'],['input_status','ready / needs_steps / ambiguous_method / unreadable / out_of_scope','needs_steps']],criteria:['每个“观察事实”都能指回学生输入。','数学式子与原文一致，不改写成模型认为正确的步骤。','字段值属于固定枚举；章节 ID 能匹配课程目录。'],branches:['字段不齐或方法不明 → 进入输入闸门追问。','模型输出格式不合法 → 修复一次；仍失败则要求人工检查。'],example:'“换元法没成功”可抽取为 attempted_method=substitution；不能自动写入 suspected_cause=不会换元法。'},
+      inputGate: {kicker:'03 / 输入闸门',title:'信息足以继续吗？',owner:'Sean / 规则',summary:'决定继续、向学生补问，还是停止处理。',method:'先检查题目与尝试是否可读，再检查是否有足够信息定位教学分支。这里判断的是“能否进入下一步”，不是“已经知道学生的误解”。缺关键步骤时生成一个最小追问，让新回答回到输入节点。',inputs:['StudentInput','课程目录匹配结果'],output:[['input_status','READY / NEEDS_STEPS / AMBIGUOUS_METHOD / UNREADABLE / OUT_OF_SCOPE','NEEDS_STEPS'],['clarification_question','最能补齐缺口的一个问题','“你选择的 u 和算出的 du 分别是什么？”'],['next_route','CONTINUE / ASK_STUDENT / HUMAN_REVIEW','ASK_STUDENT']],criteria:['READY：题目和足够的尝试步骤清晰，可进入当前方法分支。','NEEDS_STEPS：只说尝试了某方法，没有可检查的运算。','AMBIGUOUS_METHOD：多个方法或说法无法区分先后。','UNREADABLE / OUT_OF_SCOPE：关键内容无法辨认或不属课程范围。'],branches:['READY → 判断本轮是否需要检索。','NEEDS_STEPS / AMBIGUOUS_METHOD → 请学生补充，随后回到 01。','UNREADABLE → 请求更清楚的输入；OUT_OF_SCOPE → 说明边界或转人工。'],example:'学生只有“分部积分算不出来”，系统问“你选的 u、dv 是什么？把算到的那一步发给我。”'},
+      retrieveDecision: {kicker:'04 / 检索闸门',title:'这一轮需要检索吗？',owner:'Sean / 规则 + 模型建议',summary:'课程元信息可常驻；详细材料按需调取。',method:'根据即将采取的动作判断是否要找课程资料。仅问“请展示你那一步”通常无需详细检索；若要比较方法、核对公式、给课程例题或检查数学答案，则需要授权来源。查询请求应写明目的，而不是只搜索整句学生话。',inputs:['StudentInput','上一轮 StudentState','候选教学动作与课程元信息'],output:[['retrieval_needed','YES / NO / USE_CACHED','YES'],['retrieval_goal','为何查资料','找到换元法适用条件和对照例题'],['query_spec','课程/主题/知识点/所需材料类型','Calculus I；substitution vs parts；worked example'],['next_route','RETRIEVE / SKIP_TO_STATE','RETRIEVE']],criteria:['下一步只是在收集学生缺失步骤 → 不必为这个追问检索。','下一步包含数学判断、课程例子或资料引用 → 检索。','缓存资料必须与本轮课程版本、题目及目标一致。'],branches:['NO / USE_CACHED → 直接进入状态判断，并记录跳过原因。','YES → 检索课程证据。'],example:'当学生未给出 u 和 du 时先追问；当要拿一道有效换元题让他比较时，检索教师批准的对照例题。'},
+      retrieval: {kicker:'05 / 检索课程证据',title:'检索课程证据',owner:'Sean + Ovunc',summary:'取得可定位、可引用、足以支持下一教学动作的材料。',method:'先按课程、章节、学习目标和来源权限过滤。小范围原型可用人工映射的 lesson packet；材料扩大后以关键词检索作基线，再用真实问题评估语义或混合检索、重排是否有收益。不要预设固定 chunk 大小或 top-k；按“方法、例题、步骤”保持语义完整。',inputs:['retrieval_goal 与 query_spec','Ovunc 的课程资料目录与版本'],output:[['objective_id','当前学习目标','区分换元法与分部积分'],['retrieved_units','每项包含 source_id、章节、片段、来源类型、版本','换元法条件；分部积分公式；对比例题'],['reference_steps','经核对的正确步骤，供后续检查，不自动展示','u=x, dv=cos(x)dx → x sin(x)+cos(x)+C'],['comparison_items','用于教学对比的例题','∫ 2x cos(x²) dx'],['source_rationale','为什么这段资料支持当前动作','对照换元时是否出现内层导数']],criteria:['范围：同一课程和批准版本。','相关：能直接帮助判断该方法或步骤。','充分：所取材料足以支持下一步要说的话。','权威：课堂覆盖由真实讲义支持，数学方法由教材或批准材料支持。'],branches:['找到证据 → 进入证据闸门。','没有相关材料 → 改查询、缩小主张或转人工。'],example:'对“u=sin(x) 后仍剩 x”的情况，检索换元法匹配条件、一个有效换元例题和分部积分方法条件。'},
+      evidenceGate: {kicker:'06 / 证据闸门',title:'来源足以支持教学吗？',owner:'Sean / 检索评估',summary:'把课程资料是否足够与学生信息是否足够分开判断。',method:'对每段材料检查相关性、来源权限、版本与冲突；对整包材料检查能否支撑拟采取的动作。检索分数只能作为信号。阈值应通过带人工相关性标注的正反例校准；运行时还需记录具体缺口。',inputs:['EvidenceBundle 候选材料','本轮 retrieval_goal','StudentInput'],output:[['course_evidence_status','SUPPORTED / PARTIAL / MISSING / CONFLICT','SUPPORTED（若对比例题获批准）'],['student_evidence_status','ENOUGH / INSUFFICIENT；独立于课程状态','INSUFFICIENT：尚不知道为什么选换元'],['citations','仅包含实际取回且可能用到的来源 ID 和位置','例题来源、方法来源'],['missing_evidence','尚缺的具体资料或学生回答','学生选择 u 的理由'],['next_route','CONTINUE / SEARCH_AGAIN / ASK_STUDENT / REVIEW','CONTINUE 并在后续追问原因']],criteria:['SUPPORTED：课程材料能支撑选定教学动作。','PARTIAL：能支撑一部分，但不能支撑全部主张。','MISSING：没有可用证据。','CONFLICT：不同权威材料给出不一致的结论。'],branches:['课程证据不足 → 继续检索或缩小回应内容。','学生证据不足 → 可以提出有针对性的教学追问，不能假装已确认误解。','来源冲突 → 报告冲突并转人工。'],example:'已找到对照例题，但学生仍没说明选换元的理由：course_evidence_status=SUPPORTED，student_evidence_status=INSUFFICIENT。'},
+      diagnosis: {kicker:'07 / StudentState',title:'更新学生状态',owner:'Sean / 模型分析',summary:'判断“看见了什么”和“可能意味着什么”。',method:'将学生的实际步骤与课程中的方法条件、参考推导比较，定位第一处有意义的分歧。模型提出原因假设；可用确定性数学检查核对窄范围的运算，但不能把数学验证直接等同于理解判断。上一轮已确认的能力和给过的帮助必须带入。',inputs:['StudentInput 与原始步骤','EvidenceBundle 或已有批准资料','上一轮 StudentState'],output:[['observed_approach','学生确实使用的方法和步骤','令 u=sin(x)；剩余 x'],['correct_components','已被作答证明的正确部分','能求出 du=cos(x)dx（如学生确实写出）'],['first_meaningful_error','第一处错误或 unknown','尚不能断言方法概念错误'],['suspected_cause','执行失误 / 方法选择 / 前置知识 / unknown','方法选择可能有问题'],['evidence_for_cause','学生步骤及来源条件','学生还未解释选择理由'],['alternatives','仍然可能的其他原因','知道不适用，只是试了一次'],['prior_interventions','此前提示及效果','无'],['understanding_evidence','识别、辅助执行、独立执行、解释、迁移','尚未验证解释能力']],criteria:['“他写了什么”与“我们推测什么”分别记录。','没有展示的步骤不补写。','先找第一处关键错误，再判断原因。','做对结果、能解释原因和能做新题是不同的证据。'],branches:['状态可支持具体诊断 → 进入诊断闸门。','原因不明 → 标记 ambiguity，后续选能区分原因的提问。'],example:'学生说“u=sin(x) 以后还剩 x”：可确认换元遇到不匹配；尚不能确认他以为“看到乘积就应该换元”。'},
+      stateGate: {kicker:'08 / 诊断闸门',title:'判断是否明确？',owner:'Sean / 规则 + 证据检查',summary:'确定程度取决于证据，而非模型自评的数字。',method:'根据缺少步骤、课程证据覆盖、数学检查、候选解释是否冲突来确定诊断状态。保留不确定原因和可证伪的下一问。错误位置可确定而错误原因仍模糊，两者允许同时存在。',inputs:['StudentState 候选更新','StudentInput、EvidenceBundle','可用的数学核对结果'],output:[['diagnosis_status','SUPPORTED / AMBIGUOUS / INSUFFICIENT / CONFLICTING','AMBIGUOUS'],['confirmed_error','已经有直接证据支持的错误','这次换元后仍有 x'],['unknown_cause','尚不能确定的原因','为什么选择 u=sin(x)'],['discriminating_question','区分候选原因的最小问题','“你为什么选择这个 u？”'],['next_route','TARGETED_HELP / PROBE / ELICIT / REVIEW','PROBE']],criteria:['SUPPORTED：步骤与理由共同支持特定判断。','AMBIGUOUS：同一错误可由两种以上原因解释。','INSUFFICIENT：缺少关键步骤或说明。','CONFLICTING：学生步骤、来源或核对结果冲突。'],branches:['SUPPORTED → 选择针对性动作。','AMBIGUOUS → 追问理由或用对比题探查。','INSUFFICIENT → 索取具体步骤。','CONFLICTING → 澄清或人工复核。'],example:'第一个“卡点”可以确定；“学生是否不会选择方法”仍模糊，因此优先提问或对比。'},
+      policy: {kicker:'09 / 教学决策',title:'选择下一步教学动作',owner:'全组定义 · Sean 执行',summary:'先选择动作，再决定模型怎样措辞。',method:'全组确定动作词表及可接受的帮助程度；系统用明确规则约束模型提出的候选动作。动作必须写出针对的学生证据、教学理由、下一轮要观察的表现和失败后的升级路线。Yining 的导师研究提供提示与脚手架策略。',inputs:['StudentState 与 diagnosis_status','课程学习目标和 EvidenceBundle','已经尝试过的动作'],output:[['action','ELICIT / PROBE / HINT / CONTRAST / EXPLAIN / DEMONSTRATE / RETRY / VERIFY / TRANSFER','CONTRAST'],['target_gap','这次要解决的具体缺口','能否区分适用换元的结构'],['reason','选动作所据的证据','学生的换元留下 x，原因尚未说明'],['help_level','只问问题 / 定向提示 / 明确解释 / 示范','对比提问'],['expected_next_evidence','学生接下来要展示什么','说出有效换元题与原题区别'],['fallback_action','本动作失败后如何改变','改用更简单例题或直接解释']],criteria:['信息不足 → 追问；方法正确但计算错 → 局部提示。','方法选择有误且原因明确 → 对比或解释。','答案正确但理由不明 → 检查理解。','能解释后 → 用相似与不同题检查迁移。'],branches:['选中换元分支 → 10A。','选中分部积分执行分支 → 10B。','重复失败 → 换教学动作或提高帮助程度。'],example:'学生能识别换元后 x 没被消去，但还未说明为何选择换元。动作可为“比较一道有效换元题并解释不同”。'},
+      substitution: {kicker:'10A / 换元法分支',title:'比较换元法的适用结构',owner:'教学策略 + Sean',summary:'沿用成员图中的“简单换元题 → 对比 → 再选方法”。',method:'先让学生完成一题简单有效的换元题；请他比较该题与 ∫ x cos(x) dx。若他说两题相同或理由错误，解释关键区别并再问；若能正确说出不相同，就请他提出其他积分方法并解释为何适用。',inputs:['学生尝试的 u、du 和理由','获批准的简单换元对照题','StudentState 与先前回答'],output:[['comparison_response','学生认为相同/不同及其理由','“第一题有内层导数；原题没有”'],['distinction_status','CORRECT / INCORRECT / UNCLEAR','CORRECT'],['new_method_candidate','学生提出的其他方法','integration_by_parts'],['next_action','继续对比 / 追问其他方法 / 转 10B','转 10B']],criteria:['理由是判断依据，不以“答对一个词”代替理解。','学生若已经会区分换元结构，不重复教授换元。','提出分部积分后，仍要核对为何合适。'],branches:['理由错误 → 解释差异，再让学生比较。','理由正确但未想到分部积分 → 问见过哪些其他方法。','提出分部积分 → 进入 10B 的实际步骤检查。'],example:'对照题可为 ∫ 2x cos(x²) dx；请学生指出 2x dx 与 u=x² 的导数关系，再比较原题为什么仍留有 x。'},
+      parts: {kicker:'10B / 分部积分分支',title:'定位第一个执行错误',owner:'教学策略 + Sean',summary:'方法已合适时，检查具体哪一步出错。',method:'请学生逐步展示 u、dv、du、v，如何代入分部积分公式，以及后续积分与符号。验证每个相邻步骤，定位第一处错误；先给局部提示，再让学生自己重新求解。若仍失败，增加帮助或转人工。',inputs:['学生的分部积分步骤','分部积分公式与批准的参考解','此前给过的提示'],output:[['setup','学生选的 u、dv、du、v','u=x, dv=cos(x)dx'],['first_error_step','第一处错误的行号与内容','公式减号或后续 ∫sin(x)dx 的符号'],['error_category','SETUP / DERIVATIVE / ANTIDERIVATIVE / SIGN / ALGEBRA','SIGN'],['local_hint','只针对当前错误的提示','“核对公式中的减号和剩余积分”'],['retry_result','学生修改后是否正确','等待新作答']],criteria:['方法正确不等于步骤正确。','按步骤检查，优先处理第一处错误。','提示不能直接把最终答案完整给出。'],branches:['学生改正 → 请其完成全题并解释方法选择。','仍在同一处出错 → 更明确解释或示范。','出现新错误 → 更新状态并处理新第一错误。'],example:'若学生选 u=x、dv=cos(x)dx，但把 ∫sin(x)dx 的符号处理错，系统只指向这一行，不重新讲换元法。'},
+      generate: {kicker:'11 / 模型教学任务 2',title:'生成导师回复',owner:'Sean / LLM',summary:'把已选动作变成一句清晰的学生可见回应。',method:'模型收到 DecisionRecord、必要的 EvidenceBundle、精简的 StudentState 和教学约束。它负责措辞与例题呈现，不可自行改变动作或引用未检索的材料。若预计学生需要自己发现方法，回复只给相应程度的提示。',inputs:['选定 action、target_gap、help_level','可引用课程片段与来源 ID','学生最近一轮原话及状态摘要'],output:[['student_message','实际准备发给学生的话','“你选的 u 是什么？它的导数在哪里出现？”'],['action_executed','回复执行的动作','PROBE'],['sources_used','实际引用或依赖的来源 ID','对照例题的来源 ID'],['expected_reply','期待学生展示的新证据','说明两题结构差异'],['review_flag','是否需要人工复核','false']],criteria:['回复确实执行选定动作。','只使用已取回的课程材料。','追问、提示与完整讲解遵守 help_level。','输出字段齐全，措辞能被学生理解。'],branches:['回复偏离动作 → 重新生成一次。','数学或来源不确定 → 交给验证闸门处理。'],example:'若 DecisionRecord 是 CONTRAST，导师回复应要求学生比较两题及理由，而不是直接写出分部积分完整解。'},
+      validate: {kicker:'12 / 回复闸门',title:'校验数学与教学内容',owner:'Sean / 校验 + 必要时人工',summary:'把模型候选结果变成可发送的回复。',method:'逐项检查结构、来源、数学、教学动作、泄露答案的程度以及状态一致性。可验证的计算使用独立数学核对；复杂或不确定内容进入人工复核。可机械修复的格式问题重试一次；实质性错误不靠反复润色掩盖。',inputs:['候选 student_message','DecisionRecord、StudentState、EvidenceBundle','参考解或数学检查结果'],output:[['validation_status','PASS / REPAIR / CLARIFY / HUMAN_REVIEW','PASS'],['checks','各项检查通过或失败的理由','来源通过；数学通过；提示深度通过'],['approved_message','实际允许发出的内容','经校验的比较问题'],['failure_reason','未通过时的明确原因','若无则为空']],criteria:['引用能追溯到真实检索结果。','数学公式及参考步骤正确。','提示没有过早给完整答案。','给出的回应针对当前卡点而非泛泛讲课。'],branches:['PASS → 展示给学生。','REPAIR → 按错误原因修一次后重验。','CLARIFY → 向学生要信息。','HUMAN_REVIEW → 暂停自动教学并交接。'],example:'如果模型把 ∫x cos(x)dx 的参考答案写错，不能把这段提示发出；要核对或转人工。'},
+      deliver: {kicker:'13 / 交互回收',title:'展示回应并收集新作答',owner:'Jonathan',summary:'把新回答作为下一轮学生证据。',method:'界面展示经过校验的问题或提示，并让学生继续写步骤或说明理由。界面保留“导师刚才问了什么”，以便把回答与具体动作关联。不要仅用“懂了/没懂”按钮替代学生的实际推理。',inputs:['approved_message','action 与 expected_reply'],output:[['student_response','学生对这次动作的原始回答','“这题没有与 cos(x) 匹配的内层导数”'],['response_to_action','回应的是哪一个导师动作','CONTRAST'],['revised_steps','学生修改过的解题步骤','提出用分部积分'],['timestamp / artifact','提交时间与可能的附件引用','本轮文字作答']],criteria:['回答与当前动作正确关联。','学生的修改和解释分别保存。'],branches:['学生给出新步骤 → 回到状态更新。','学生只说“还是不会” → 记录反馈，下一轮考虑换动作或增加帮助。','学生结束会话 → 生成已证实内容的总结。'],example:'学生在对比后说“有效换元题有 2x dx；原题没有”，这条解释比只说“我会了”更能说明理解。'},
+      update: {kicker:'14 / 会话状态',title:'保存并更新学生状态',owner:'Sean',summary:'记录这一轮教了什么、学生实际表现了什么。',method:'把原始回答、状态版本、已给动作、课程来源、最终发出的文字和学生新表现一起保存。下一轮仅使用必要的近期原话与结构化状态。允许新证据推翻旧假设，不把一次模型猜测固化为事实。',inputs:['student_response 与 revised_steps','上一版 StudentState 与 DecisionRecord','使用的来源 ID、验证结果'],output:[['state_version','更新后的状态版本','v4'],['verified_progress','学生实际证明会做的部分','能解释换元结构差异'],['remaining_gap','还未被证明的能力','能否独立完成分部积分'],['assistance_history','每个动作及学生回应','对照例题、局部符号提示'],['next_evidence_needed','下一轮应收集的证据','独立完成同类题']],criteria:['观察事实附原始回答引用。','“靠提示做出”与“独立做出”分开记录。','状态不与之前确认过的学生步骤矛盾。'],branches:['还存在未解决缺口 → 带状态回到 02。','结果看似正确 → 进入理解与迁移闸门。'],example:'学生在提示下算对原题，记录为 assisted_execution；还不能写 mastery=complete。'},
+      mastery: {kicker:'15 / 理解闸门',title:'能解释并迁移吗？',owner:'全组策略 + Sean',summary:'正确答案之后继续检查“为什么”和“会不会选方法”。',method:'把理解分成可观察的证据：认识方法、在帮助下执行、独立执行、解释理由、迁移到新题。先让学生说明为什么这题适用分部积分；再给一题相似和一题不同的积分，要求选择方法并说明理由。',inputs:['更新后的 StudentState','原题解决过程与给过的帮助','相似题和对照题'],output:[['learning_stage','0 未知 → 1 识别 → 2 辅助执行 → 3 独立执行 → 4 解释 → 5 迁移','目前 2 或 4，视回答而定'],['explanation_evidence','能否解释方法为何适用','“x 求导会简化，cos(x) 可积分”'],['transfer_evidence','是否能正确处理相似与不同问题','相似：∫x eˣ dx；对照：∫2x cos(x²)dx'],['mastery_route','CONTINUE / RETRY_INDEPENDENT / TRANSFER / COMPLETE / HANDOFF','TRANSFER']],criteria:['只答出原题不能判定完全理解。','靠提示修复与独立解题分别记录。','迁移题要测试“何时用/何时不用”这种方法。'],branches:['解释不足 → 针对原因追问。','独立性不足 → 新题让其不依赖提示重试。','迁移正确 → 可结束并总结。','持续失败 → 更明确讲解或转人工。'],example:'学生不仅算出 x sin(x)+cos(x)+C，还能说明为什么原题用分部积分，并能区别 ∫x eˣ dx 与 ∫2x cos(x²)dx。'},
+      close: {kicker:'16 / 会话出口',title:'给出学习总结或交接',owner:'Sean + Jonathan',summary:'结束状态要说明有证据的进展和仍未知的部分。',method:'当学生独立完成、能解释并通过迁移检查时，给出简短学习总结。若学生主动停止，照实总结到当前为止的证据。来源冲突、反复无法诊断或高风险数学错误时，交给人工导师，并附上题目、状态卡、已尝试动作与来源。',inputs:['最终 StudentState','学习目标与迁移表现','失败或人工复核标记'],output:[['session_status','COMPLETE / STUDENT_STOP / HUMAN_HANDOFF','COMPLETE'],['demonstrated_skills','有作答证据支持的能力','区分两种方法，正确完成分部积分'],['uncertainties','尚未验证或仍薄弱的部分','无 / 仍需更多独立练习'],['handoff_packet','人工所需的题目、步骤、提示与来源','仅转人工时生成']],criteria:['总结仅覆盖学生实际展示过的能力。','不要把模型判断写成教师最终评分。'],branches:['COMPLETE → 结束并记录。','STUDENT_STOP → 保存当前状态供之后继续。','HUMAN_HANDOFF → 暂停自动回复并交接。'],example:'学生通过迁移题时，系统总结“能解释什么时候使用分部积分，并在新题中正确选择方法”；若只在提示下完成原题则继续练习。'},
+      evaluation: {kicker:'17 / 离线评估',title:'记录、评估与改进',owner:'Sean + 全组',summary:'找出系统到底在哪一步失败，而不是只看最终答案。',method:'把成员流程图作为首批人工参考路径，补充“步骤缺失、方法理由错误、分部积分符号错、提示后仍失败、答案对但理由错”等变体。人类导师标注可接受的诊断与下一步动作。分别评估输入抽取、检索、诊断、教学选择、回复、状态更新和完整会话。',inputs:['逐轮日志、来源版本、模型调用与耗时','人工标注的学生错误、可接受动作与迁移结果'],output:[['retrieval_metrics','相关课程片段是否被找到','Recall@k、Precision@k、排序质量'],['decision_quality','诊断与动作是否符合导师判断','第一错误识别、动作一致性'],['pedagogical_quality','回复是否清楚、正确且不给过多答案','正确率、过早泄露率、复核率'],['session_outcome','学生能否解释并迁移','迁移表现、完成轮数'],['operations','每轮和每次会话代价','延迟、成本、失败率']],criteria:['同一组案例和来源版本比较模型与检索方案。','检索质量与最终回复质量分开测。','自动评估需要与人工导师判断校准。'],branches:['发现抽取失败 → 修订字段或输入交互。','检索失败 → 调整来源、切分、查询或排序。','动作选错 → 修订教学策略及状态定义。','成本/延迟过高 → 减少不必要的检索或模型调用。'],example:'若系统总把“换元留下 x”当成“学生不会换元”，即使最终答案正确，诊断评估也应判失败。'}
+    };
+    const $ = id => document.getElementById(id);
+    const setList = (id, items) => { const target=$(id); target.replaceChildren(); items.forEach(item=>{const li=document.createElement('li');li.textContent=item;target.appendChild(li);}); };
+    function showStep(key, scroll) {
+      const step=steps[key]; if(!step) return;
+      document.querySelectorAll('.node').forEach(node=>node.setAttribute('aria-pressed',String(node.dataset.step===key)));
+      $('detail-kicker').textContent=step.kicker;
+      $('detail-title').textContent=step.title;
+      $('detail-summary').textContent=step.summary;
+      $('detail-owner').textContent=step.owner;
+      $('detail-method').textContent=step.method;
+      $('detail-example').textContent=step.example;
+      setList('detail-inputs',step.inputs);
+      setList('detail-criteria',step.criteria);
+      setList('detail-branches',step.branches);
+      const body=$('detail-output');body.replaceChildren();
+      step.output.forEach(row=>{const tr=document.createElement('tr');row.forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td);});body.appendChild(tr);});
+      if(scroll) $('detail').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    document.querySelectorAll('.node').forEach(node=>node.addEventListener('click',()=>showStep(node.dataset.step,true)));
+    showStep('input',false);
+  </script>
+</body>
+</html>

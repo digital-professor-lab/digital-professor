@@ -1,0 +1,32 @@
+{
+  "status": "prepared_for_embedding",
+  "models": {
+    "bge_base_en_v1_5": {
+      "repository": "BAAI/bge-base-en-v1.5",
+      "revision": "a5beb1e3e68b9ab74eb54cfd186867f64f240e1a"
+    },
+    "qwen3_embedding_0_6b": {
+      "repository": "Qwen/Qwen3-Embedding-0.6B",
+      "revision": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3"
+    }
+  },
+  "shared_input_file": "data/embeddings/embedding_inputs.jsonl",
+  "shared_input_sha256": "3814b665f44ccec215865a1f30ad370a621e3cdd9ffe59a2afb96d5124bfe500",
+  "max_bge_tokens": 384,
+  "overlap_words": 25,
+  "record_count": 476,
+  "concept_record_count": 216,
+  "passage_record_count": 260,
+  "skipped": [
+    {
+      "entity_type": "passage",
+      "entity_id": "pass_705098b3fdadd2aa",
+      "reason": "non-content front matter"
+    },
+    {
+      "entity_type": "passage",
+      "entity_id": "pass_64b506d0aa65af91",
+      "reason": "non-content front matter"
+    }
+  ]
+}

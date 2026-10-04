@@ -1,0 +1,468 @@
+\documentclass[11pt]{article}
+
+% ---------- PACKAGES ----------
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+
+% ---------- COLORS ----------
+\definecolor{jhublue}{RGB}{0,45,114}
+\definecolor{jhulight}{RGB}{232,238,247}
+\definecolor{diffred}{RGB}{155,28,28}
+\definecolor{diffbg}{RGB}{253,235,235}
+\definecolor{prereqgreen}{RGB}{31,94,58}
+\definecolor{prereqbg}{RGB}{232,245,237}
+
+% ---------- SECTION STYLING ----------
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{jhublue}}
+  {\thesection}{0.6em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{jhublue}}
+  {\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+\titlespacing*{\subsection}{0pt}{14pt}{6pt}
+
+% ---------- HEADER/FOOTER ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\small AS.110.106 --- Calculus I (Bio.\ \& Soc.\ Sci.)}
+\rhead{\small Course Breakdown}
+\cfoot{\thepage}
+
+% ---------- CUSTOM BOXES ----------
+\newtcolorbox{modulebox}[1]{
+  colback=jhulight, colframe=jhublue, coltitle=white,
+  fonttitle=\bfseries, breakable, boxrule=0.8pt, arc=2pt,
+  title={#1}
+}
+\newtcolorbox{diffbox}[1][]{
+  colback=diffbg, colframe=diffred, coltitle=white,
+  fonttitle=\bfseries\small, breakable, boxrule=0.6pt, arc=1pt,
+  title=Difficult / High-Friction Topics, left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{prereqbox}[1][]{
+  colback=prereqbg, colframe=prereqgreen, coltitle=white,
+  fonttitle=\bfseries\small, breakable, boxrule=0.6pt, arc=1pt,
+  title=Prerequisite Knowledge, left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\newcommand{\loheader}{\textbf{Learning Objectives.} By the end of this module, students will be able to:}
+
+% ---------- TITLE ----------
+\title{\vspace{-1.5cm}\textcolor{jhublue}{\Huge\bfseries AS.110.106 Calculus I}\\[4pt]
+\Large (Biology \& Social Sciences)\\[2pt]
+\large Full Course Breakdown: Structure, Modules, Objectives, and Difficulty Map}
+\author{Department of Mathematics \\ Johns Hopkins University}
+\date{Text: \emph{Calculus for Biology and Medicine}, 4th ed., Neuhauser \& Roper \\ Pearson, 2018 --- ISBN-13: 978-0134070049}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent This document reorganizes the official AS.110.106 syllabus into a structured
+course map: six sequential modules spanning approximately 12--14 weeks, each broken into
+chapters/sections, core concepts, explicit learning objectives, historically difficult
+topics, and the prerequisite knowledge each module assumes. It is intended as a planning
+and study reference that mirrors the syllabus's official topic list while adding
+pedagogical structure.
+\end{abstract}
+
+\tableofcontents
+\vspace{0.5cm}
+
+% =========================================================
+\section{Course Structure at a Glance}
+% =========================================================
+
+The course is organized into six sequential modules that build on one another. Total
+pacing is approximately 12--14 weeks, consistent with a standard semester.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{@{}c l c c@{}}
+\toprule
+\textbf{\#} & \textbf{Module} & \textbf{Duration} & \textbf{Syllabus \S\S} \\
+\midrule
+\endhead
+1 & Review of Basic Properties of Functions & 2$^-$ weeks & Ch.\,1, 2.1--2.2 \\
+2 & Limits and Continuity & 2 weeks & 3.1--3.5 \\
+3 & Derivatives & 3$^-$ weeks & 4.1--4.11 \\
+4 & Applications of Differentiation & 2$^+$ weeks & 5.1--5.5 \\
+5 & Integration & 2 weeks & 5.10, 6.1--6.3 \\
+6 & Applications of the Integral & 1$^+$ week & 7.1--7.3 \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\noindent\textbf{Overall course prerequisite (entry-level).} Solid precalculus /
+college algebra \& trigonometry: function notation and graphing, exponent and
+logarithm rules, trigonometric identities and the unit circle, polynomial
+factoring, and algebraic manipulation of rational expressions. These are assumed
+on day one and are only briefly reviewed in Module 1.
+
+\noindent\textbf{Course-level learning arc.} Functions $\rightarrow$ limiting behavior
+$\rightarrow$ instantaneous rate of change (derivatives) $\rightarrow$ using derivatives
+to analyze behavior $\rightarrow$ accumulation (integrals) $\rightarrow$ techniques to
+evaluate integrals. Each module is the conceptual prerequisite for the next.
+
+% =========================================================
+\section{Module 1: Review of Basic Properties of Functions}
+\label{mod:1}
+% =========================================================
+\begin{modulebox}{Module 1 --- Functions, Exponential Growth \& Decay, Sequences \hfill (2$^-$ weeks)}
+
+\textbf{Chapters/Sections:}
+\begin{itemize}[nosep]
+  \item Chapter 1 --- Preliminaries: functions, domain/range, function types, graph transformations, composition and inverses
+  \item 2.1 --- Exponential Growth and Decay
+  \item 2.2 --- Sequences
+\end{itemize}
+
+\textbf{Core Concepts:}
+\begin{itemize}[nosep]
+  \item Function definitions: polynomial, rational, power, trigonometric, exponential, logarithmic, piecewise
+  \item Domain, range, and graphical behavior; even/odd symmetry; increasing/decreasing behavior
+  \item Composition of functions and inverse functions
+  \item Exponential models $N(t) = N_0 e^{kt}$; growth vs.\ decay; doubling time and half-life
+  \item Sequences: explicit vs.\ recursive definitions; convergence, divergence, and limits of a sequence
+\end{itemize}
+
+\loheader
+\begin{itemize}[nosep]
+  \item Classify a function by type and determine its domain and range algebraically and graphically
+  \item Compose and invert functions, and interpret inverses in applied contexts
+  \item Construct exponential growth/decay models from word problems and solve for rate, time, or initial quantity
+  \item Compute and interpret half-life and doubling time
+  \item Determine whether a sequence converges or diverges, and find its limit when it exists
+\end{itemize}
+\end{modulebox}
+
+\begin{diffbox}
+\begin{itemize}[nosep]
+  \item Translating a word problem into an exponential model (identifying $N_0$ and $k$ correctly, including sign of $k$)
+  \item Distinguishing sequence convergence from the behavior of a related continuous function
+  \item Working fluently with logarithm and exponent rules under time pressure
+\end{itemize}
+\end{diffbox}
+
+\begin{prereqbox}
+Algebra I/II: function notation, graphing, solving equations. Precalculus: exponent
+and logarithm laws, interpreting graphs of $e^x$ and $\ln x$.
+\end{prereqbox}
+
+% =========================================================
+\section{Module 2: Limits and Continuity}
+\label{mod:2}
+% =========================================================
+\begin{modulebox}{Module 2 --- Limits, Continuity, and Limiting Behavior \hfill (2 weeks)}
+
+\textbf{Chapters/Sections:}
+\begin{itemize}[nosep]
+  \item 3.1 --- Limits (intuitive approach, with the formal $\varepsilon$--$\delta$ definition introduced via 3.6)
+  \item 3.2 --- Continuity
+  \item 3.3 --- Limits at Infinity (with the formal definition via 3.6)
+  \item 3.4 --- Trigonometric Limits and the Sandwich (Squeeze) Theorem
+  \item 3.5 --- Properties of Continuous Functions
+\end{itemize}
+
+\textbf{Core Concepts:}
+\begin{itemize}[nosep]
+  \item One-sided and two-sided limits; limit laws
+  \item Formal $\varepsilon$--$\delta$ definition of a limit
+  \item Continuity at a point and on an interval; types of discontinuities (removable, jump, infinite)
+  \item Horizontal/vertical asymptotes and limits at infinity
+  \item Squeeze (Sandwich) Theorem, especially applied to $\lim_{\theta \to 0}\frac{\sin\theta}{\theta}$
+  \item Intermediate Value Theorem (IVT) and Extreme Value Theorem groundwork
+\end{itemize}
+
+\loheader
+\begin{itemize}[nosep]
+  \item Evaluate limits algebraically (factoring, rationalizing), graphically, and numerically
+  \item Write and interpret an $\varepsilon$--$\delta$ proof for a simple limit statement
+  \item Classify discontinuities and determine continuity of piecewise functions
+  \item Evaluate limits at infinity and identify horizontal/vertical asymptotes
+  \item Apply the Squeeze Theorem to evaluate trigonometric limits
+  \item Apply the IVT to justify the existence of roots or solutions
+\end{itemize}
+\end{modulebox}
+
+\begin{diffbox}
+\begin{itemize}[nosep]
+  \item The formal $\varepsilon$--$\delta$ definition: translating a symbolic statement into a working proof
+  \item Indeterminate forms ($0/0$, $\infty - \infty$) requiring algebraic manipulation before a limit can be evaluated
+  \item Recognizing when/how to apply the Squeeze Theorem rather than direct substitution
+  \item Distinguishing a removable discontinuity from a true break in continuity
+\end{itemize}
+\end{diffbox}
+
+\begin{prereqbox}
+Module 1 (function behavior, graphing). Algebraic fluency: factoring, rationalizing
+radicals, trigonometric identities.
+\end{prereqbox}
+
+% =========================================================
+\section{Module 3: Derivatives}
+\label{mod:3}
+% =========================================================
+\begin{modulebox}{Module 3 --- Differentiation Rules and Techniques \hfill (3$^-$ weeks)}
+
+\textbf{Chapters/Sections:}
+\begin{itemize}[nosep]
+  \item 4.1 --- Formal Definition of the Derivative
+  \item 4.2 --- Basic Rules of Derivatives
+  \item 4.3 --- Power Rule and the Rules of Differentiation
+  \item 4.4 --- Product and Quotient Rules
+  \item 4.5 --- The Chain Rule
+  \item 4.6 --- Implicit Functions and Implicit Differentiation
+  \item 4.7 --- Higher Derivatives
+  \item 4.8 --- Derivatives of Trigonometric Functions
+  \item 4.9 --- Derivatives of Exponential Functions
+  \item 4.10 --- Derivatives of Inverse Functions
+  \item 4.11 --- Linear Approximation
+\end{itemize}
+
+\textbf{Core Concepts:}
+\begin{itemize}[nosep]
+  \item Derivative as a limit of a difference quotient; derivative as instantaneous rate of change and slope of tangent line
+  \item Differentiability vs.\ continuity
+  \item Sum, constant multiple, power, product, quotient, and chain rules
+  \item Implicit differentiation for curves not expressed as $y = f(x)$
+  \item Second and higher-order derivatives; notation ($f''$, $\frac{d^2y}{dx^2}$)
+  \item Derivatives of $\sin x$, $\cos x$, $\tan x$, $e^x$, and inverse functions (including logarithmic and inverse trig)
+  \item Linear approximation / tangent line approximation, $L(x) = f(a) + f'(a)(x-a)$
+\end{itemize}
+
+\loheader
+\begin{itemize}[nosep]
+  \item Compute a derivative directly from the limit definition
+  \item Apply the power, product, quotient, and chain rules fluently, including in combination
+  \item Perform implicit differentiation and find slopes of tangent lines to implicit curves
+  \item Compute higher-order derivatives and interpret their meaning (e.g., concavity, acceleration)
+  \item Differentiate trigonometric, exponential, logarithmic, and inverse functions
+  \item Use linear approximation to estimate function values near a point
+\end{itemize}
+\end{modulebox}
+
+\begin{diffbox}
+\begin{itemize}[nosep]
+  \item Chain rule with nested/multiple compositions (``chain rule of chain rules'')
+  \item Combining rules correctly in a single problem (e.g., quotient rule containing a chain-rule term)
+  \item Implicit differentiation: correctly applying $\frac{d}{dx}$ to both sides and solving for $\frac{dy}{dx}$
+  \item Derivatives of inverse functions (formula involving $1/f'(f^{-1}(x))$) and inverse trig derivatives
+  \item Keeping track of higher derivatives without sign/simplification errors
+\end{itemize}
+\end{diffbox}
+
+\begin{prereqbox}
+Module 2 (limits, continuity). Trigonometric identities, exponential/logarithm
+rules, and strong algebraic manipulation (fractions, radicals, expanding/factoring).
+\end{prereqbox}
+
+% =========================================================
+\section{Module 4: Applications of Differentiation}
+\label{mod:4}
+% =========================================================
+\begin{modulebox}{Module 4 --- Using Derivatives to Analyze Functions \hfill (2$^+$ weeks)}
+
+\textbf{Chapters/Sections:}
+\begin{itemize}[nosep]
+  \item 5.1 --- Extreme and Mean Value Theorems
+  \item 5.2 --- Monotonicity and Concavity
+  \item 5.3 --- Extrema and Inflection Points
+  \item 5.4 --- Optimization
+  \item 5.5 --- L'H\^{o}pital's Rule
+\end{itemize}
+
+\textbf{Core Concepts:}
+\begin{itemize}[nosep]
+  \item Extreme Value Theorem (EVT) and Mean Value Theorem (MVT); Rolle's Theorem as a special case
+  \item First derivative test: increasing/decreasing intervals from the sign of $f'$
+  \item Second derivative test: concavity and inflection points from the sign of $f''$
+  \item Local vs.\ global (absolute) extrema; critical points
+  \item Constrained optimization: translating a real-world scenario into an objective function and constraint
+  \item L'H\^{o}pital's Rule for indeterminate forms $\frac{0}{0}$ and $\frac{\infty}{\infty}$ (and reducible forms)
+\end{itemize}
+
+\loheader
+\begin{itemize}[nosep]
+  \item State and apply the EVT and MVT, and interpret their geometric meaning
+  \item Find critical points and classify them using the first- and/or second-derivative tests
+  \item Sketch a function's graph using information about increasing/decreasing behavior and concavity
+  \item Set up and solve applied optimization problems, including biology/social-science contexts
+  \item Recognize indeterminate forms and apply L'H\^{o}pital's Rule appropriately (including after algebraic rewriting)
+\end{itemize}
+\end{modulebox}
+
+\begin{diffbox}
+\begin{itemize}[nosep]
+  \item Optimization word problems: identifying the correct objective function and constraint, and justifying a max/min with the correct test
+  \item Distinguishing critical points that are extrema from those that are neither (e.g., $f(x) = x^3$ at $x=0$)
+  \item Rewriting non-standard indeterminate forms ($0 \cdot \infty$, $\infty - \infty$, $0^0$, $1^\infty$) into a form usable by L'H\^{o}pital's Rule
+  \item Full curve-sketching problems that require synthesizing first- and second-derivative information simultaneously
+\end{itemize}
+\end{diffbox}
+
+\begin{prereqbox}
+Module 3 (all differentiation rules). Comfort setting up equations from verbal
+descriptions (algebra word-problem skills).
+\end{prereqbox}
+
+% =========================================================
+\section{Module 5: Integration}
+\label{mod:5}
+% =========================================================
+\begin{modulebox}{Module 5 --- Antiderivatives, the Definite Integral, and the FTC \hfill (2 weeks)}
+
+\textbf{Chapters/Sections:}
+\begin{itemize}[nosep]
+  \item 5.10 --- Antiderivatives
+  \item 6.1 --- The Definite Integral
+  \item 6.2 --- The Fundamental Theorem of Calculus
+  \item 6.3 --- Applications of Integration
+\end{itemize}
+
+\textbf{Core Concepts:}
+\begin{itemize}[nosep]
+  \item Antiderivatives and indefinite integrals; the constant of integration
+  \item Riemann sums (left, right, midpoint) as approximations of area
+  \item The definite integral as a limit of Riemann sums
+  \item Fundamental Theorem of Calculus, Parts 1 and 2 --- linking differentiation and integration
+  \item Applications: area between curves, average value of a function, accumulated change from a rate
+\end{itemize}
+
+\loheader
+\begin{itemize}[nosep]
+  \item Compute basic antiderivatives using reverse differentiation rules
+  \item Set up and approximate a definite integral using Riemann sums
+  \item State and apply both parts of the Fundamental Theorem of Calculus
+  \item Evaluate definite integrals and interpret them as net accumulated change
+  \item Apply integrals to compute area between curves and the average value of a function
+\end{itemize}
+\end{modulebox}
+
+\begin{diffbox}
+\begin{itemize}[nosep]
+  \item Conceptually connecting Riemann sums (a discrete process) to the definite integral (a continuous limit)
+  \item Correctly applying FTC Part 1 when the integrand's upper limit is itself a function (requires the chain rule)
+  \item Interpreting the definite integral in applied/contextual problems (net change vs.\ total distance, signed area)
+\end{itemize}
+\end{diffbox}
+
+\begin{prereqbox}
+Module 3--4 (derivatives and their behavior). Summation notation and basic limit
+concepts from Module 2 are used when introducing Riemann sums.
+\end{prereqbox}
+
+% =========================================================
+\section{Module 6: Applications of the Integral}
+\label{mod:6}
+% =========================================================
+\begin{modulebox}{Module 6 --- Integration Techniques \hfill (1$^+$ week)}
+
+\textbf{Chapters/Sections:}
+\begin{itemize}[nosep]
+  \item 7.1 --- The Substitution Rule
+  \item 7.2 --- Integration by Parts and Practicing Integration
+  \item 7.3 --- Rational Functions and Partial Fractions
+\end{itemize}
+
+\textbf{Core Concepts:}
+\begin{itemize}[nosep]
+  \item $u$-substitution as the reverse of the chain rule; adjusting bounds for definite integrals
+  \item Integration by parts, $\int u\,dv = uv - \int v\,du$, and choosing $u$ vs.\ $dv$ (e.g., via LIATE)
+  \item Strategic selection between substitution, parts, and algebraic manipulation
+  \item Partial fraction decomposition for rational integrands: distinct linear factors, repeated factors, irreducible quadratics
+\end{itemize}
+
+\loheader
+\begin{itemize}[nosep]
+  \item Apply $u$-substitution to evaluate indefinite and definite integrals, adjusting limits correctly
+  \item Apply integration by parts, including cases requiring repeated application or a tabular method
+  \item Decompose a rational function into partial fractions and integrate each term
+  \item Select an appropriate integration technique (or combination of techniques) for a given integrand
+\end{itemize}
+\end{modulebox}
+
+\begin{diffbox}
+\begin{itemize}[nosep]
+  \item Recognizing which technique applies (substitution vs.\ parts vs.\ partial fractions) when the problem gives no hint
+  \item Integration by parts requiring two or more repeated applications (e.g., $\int x^2 e^x\,dx$) without sign errors
+  \item Setting up partial fraction decomposition correctly for repeated linear factors or irreducible quadratic factors
+  \item Adjusting the limits of integration correctly when using substitution on a definite integral
+\end{itemize}
+\end{diffbox}
+
+\begin{prereqbox}
+Module 5 (antiderivatives, definite integral). Module 3 (chain rule, product rule ---
+mirrored by substitution and by-parts). Polynomial factoring and long division from
+algebra.
+\end{prereqbox}
+
+% =========================================================
+\section{Cross-Course Difficulty Map}
+% =========================================================
+
+The table below consolidates the topics most commonly associated with student
+difficulty across the whole course, ranked roughly by where they occur.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{@{}p{4.3cm}p{4.6cm}p{5.3cm}@{}}
+\toprule
+\textbf{Module} & \textbf{Difficult Topic} & \textbf{Why It's Difficult} \\
+\midrule
+\endhead
+1. Functions & Building exponential models from word problems & Requires translating verbal rate information into $N_0$ and $k$ \\
+2. Limits \& Continuity & $\varepsilon$--$\delta$ definition of a limit & First fully rigorous proof structure students encounter \\
+2. Limits \& Continuity & Indeterminate forms before simplification & Requires algebraic insight, not just substitution \\
+3. Derivatives & Chain rule with nested compositions & Multiple layers must be differentiated in the correct order \\
+3. Derivatives & Implicit differentiation & Non-intuitive treatment of $y$ as a function of $x$ mid-equation \\
+4. Applications & Optimization word problems & Requires modeling before any calculus is applied \\
+4. Applications & Non-standard indeterminate forms ($0^0$, $1^\infty$, etc.) & Must be algebraically rewritten before L'H\^{o}pital applies \\
+5. Integration & Riemann sum $\to$ definite integral connection & Abstract limiting process linking discrete sums to a continuous quantity \\
+6. Integral Applications & Choosing substitution vs.\ parts vs.\ partial fractions & No single rule; requires pattern recognition built from practice \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+% =========================================================
+\section{Prerequisite Map}
+% =========================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{@{}p{4.3cm}p{9.9cm}@{}}
+\toprule
+\textbf{Module} & \textbf{Depends On} \\
+\midrule
+\endhead
+1. Functions, Growth, Sequences & Algebra I/II; Precalculus (exponents, logs, graphing) \\
+2. Limits \& Continuity & Module 1; algebraic factoring/rationalizing; trig identities \\
+3. Derivatives & Module 2; trig identities; exponential/log rules \\
+4. Applications of Differentiation & Module 3 in full \\
+5. Integration & Modules 3--4; limit concepts and summation notation from Module 2 \\
+6. Applications of the Integral & Module 5; chain and product rules from Module 3; polynomial factoring/division \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\vfill
+\begin{center}
+\small\textit{Compiled from the official AS.110.106 syllabus, Johns Hopkins University Department of Mathematics.}
+\end{center}
+
+\end{document}

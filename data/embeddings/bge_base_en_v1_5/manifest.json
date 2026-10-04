@@ -1,0 +1,19 @@
+{
+  "model_repository": "BAAI/bge-base-en-v1.5",
+  "model_revision": "a5beb1e3e68b9ab74eb54cfd186867f64f240e1a",
+  "device": "mps",
+  "sentence_transformers_version": "5.7.0",
+  "transformers_version": "4.57.6",
+  "torch_version": "2.14.0",
+  "input_sha256": "3814b665f44ccec215865a1f30ad370a621e3cdd9ffe59a2afb96d5124bfe500",
+  "vectors_sha256": "1b5ae132753ef122a41cde7382cbeb2a986114e1c9055aa944d6cbddb302b214",
+  "rows_sha256": "4ab36e1a82f59a6ae388d8ee7b381204a627debe04abc5557042ad6fd6d176c8",
+  "shape": [
+    476,
+    768
+  ],
+  "dtype": "float32",
+  "normalized": true,
+  "encoding": "SentenceTransformer.encode with model-specific document defaults",
+  "batch_size": 16
+}

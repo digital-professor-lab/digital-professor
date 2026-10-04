@@ -1,0 +1,546 @@
+[
+  {
+    "original": "resource/Calc1_Syllabus_Claude.tex",
+    "organized": "data/sources/Calc1_Syllabus_Claude.tex"
+  },
+  {
+    "original": "resource/Calc1_Content_Claude.tex",
+    "organized": "data/sources/Calc1_Content_Claude.tex"
+  },
+  {
+    "original": "resource/Calc1_Book_Claude.tex",
+    "organized": "data/sources/Calc1_Book_Claude.tex"
+  },
+  {
+    "original": "resource/Number_Syllabus_Claude.tex",
+    "organized": "data/sources/Number_Syllabus_Claude.tex"
+  },
+  {
+    "original": "resource/Number_Content_Claude.tex",
+    "organized": "data/sources/Number_Content_Claude.tex"
+  },
+  {
+    "original": "resource/Number_Claude_Interactive.tex",
+    "organized": "data/sources/Number_Claude_Interactive.tex"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/input_manifest.json",
+    "organized": "data/embeddings/input_manifest.json"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/embedding_report.md",
+    "organized": "data/embeddings/embedding_report.md"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/embedding_inputs.jsonl",
+    "organized": "data/embeddings/embedding_inputs.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/qwen3_embedding_0_6b/rows.jsonl",
+    "organized": "data/embeddings/qwen3_embedding_0_6b/rows.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/qwen3_embedding_0_6b/vectors.npy",
+    "organized": "data/embeddings/qwen3_embedding_0_6b/vectors.npy"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/qwen3_embedding_0_6b/manifest.json",
+    "organized": "data/embeddings/qwen3_embedding_0_6b/manifest.json"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/bge_base_en_v1_5/rows.jsonl",
+    "organized": "data/embeddings/bge_base_en_v1_5/rows.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/bge_base_en_v1_5/vectors.npy",
+    "organized": "data/embeddings/bge_base_en_v1_5/vectors.npy"
+  },
+  {
+    "original": "week3/knowledge_base/embeddings/bge_base_en_v1_5/manifest.json",
+    "organized": "data/embeddings/bge_base_en_v1_5/manifest.json"
+  },
+  {
+    "original": "week3/knowledge_base/data/knowledge_base.sqlite",
+    "organized": "artifacts/history/original-catalog/knowledge_base.sqlite"
+  },
+  {
+    "original": "week3/knowledge_base/data/concept_evidence.jsonl",
+    "organized": "artifacts/history/original-catalog/concept_evidence.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/data/review_issues.jsonl",
+    "organized": "artifacts/history/original-catalog/review_issues.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/data/passages.jsonl",
+    "organized": "artifacts/history/original-catalog/passages.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/data/concept_cards.md",
+    "organized": "artifacts/history/original-catalog/concept_cards.md"
+  },
+  {
+    "original": "week3/knowledge_base/data/quality_report.md",
+    "organized": "artifacts/history/original-catalog/quality_report.md"
+  },
+  {
+    "original": "week3/knowledge_base/data/concepts.jsonl",
+    "organized": "artifacts/history/original-catalog/concepts.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/data/catalog.md",
+    "organized": "artifacts/history/original-catalog/catalog.md"
+  },
+  {
+    "original": "week3/knowledge_base/data/manifest.json",
+    "organized": "artifacts/history/original-catalog/manifest.json"
+  },
+  {
+    "original": "week3/knowledge_base/data/sections.jsonl",
+    "organized": "artifacts/history/original-catalog/sections.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/data/documents.jsonl",
+    "organized": "artifacts/history/original-catalog/documents.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/data/sources/Calc1_Syllabus_Claude.tex",
+    "organized": "artifacts/history/original-catalog/sources/Calc1_Syllabus_Claude.tex"
+  },
+  {
+    "original": "week3/knowledge_base/data/sources/Calc1_Content_Claude.tex",
+    "organized": "artifacts/history/original-catalog/sources/Calc1_Content_Claude.tex"
+  },
+  {
+    "original": "week3/knowledge_base/data/sources/Calc1_Book_Claude.tex",
+    "organized": "artifacts/history/original-catalog/sources/Calc1_Book_Claude.tex"
+  },
+  {
+    "original": "week3/knowledge_base/data/sources/Number_Syllabus_Claude.tex",
+    "organized": "artifacts/history/original-catalog/sources/Number_Syllabus_Claude.tex"
+  },
+  {
+    "original": "week3/knowledge_base/data/sources/Number_Content_Claude.tex",
+    "organized": "artifacts/history/original-catalog/sources/Number_Content_Claude.tex"
+  },
+  {
+    "original": "week3/knowledge_base/data/sources/Number_Claude_Interactive.tex",
+    "organized": "artifacts/history/original-catalog/sources/Number_Claude_Interactive.tex"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_results.json",
+    "organized": "artifacts/evaluations/policy_update_results.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/evaluation_results.json",
+    "organized": "artifacts/evaluations/evaluation_results.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/paraphrase_validation.json",
+    "organized": "artifacts/evaluations/paraphrase_validation.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_manifest.json",
+    "organized": "data/benchmark/benchmark_manifest.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/file_cap_ablation.json",
+    "organized": "artifacts/evaluations/file_cap_ablation.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/failure_diagnostics.md",
+    "organized": "docs/history/week3/retrieval/failure_diagnostics.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/evaluation_report.md",
+    "organized": "docs/history/week3/retrieval/evaluation_report.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/refinement_report.md",
+    "organized": "docs/history/week3/retrieval/refinement_report.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/refinement_results.json",
+    "organized": "artifacts/evaluations/refinement_results.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/README.md",
+    "organized": "docs/history/week3/retrieval/README.original.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_report.md",
+    "organized": "docs/history/week3/retrieval/benchmark_report.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/retrieval_report.schema.json",
+    "organized": "contracts/retrieval_report.schema.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/evaluation_framework.md",
+    "organized": "docs/history/week3/retrieval/evaluation_framework.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/file_cap_ablation.md",
+    "organized": "docs/history/week3/retrieval/file_cap_ablation.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_report.md",
+    "organized": "docs/history/week3/retrieval/policy_update_report.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_results.json",
+    "organized": "artifacts/evaluations/benchmark_results.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_50.jsonl",
+    "organized": "data/benchmark/benchmark_50.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_runs/hard_2.jsonl",
+    "organized": "artifacts/evaluations/policy_update_runs/hard_2.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_runs/soft_4.jsonl",
+    "organized": "artifacts/evaluations/policy_update_runs/soft_4.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_runs/hard_4.jsonl",
+    "organized": "artifacts/evaluations/policy_update_runs/hard_4.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_runs/soft_2.jsonl",
+    "organized": "artifacts/evaluations/policy_update_runs/soft_2.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_runs/soft_5.jsonl",
+    "organized": "artifacts/evaluations/policy_update_runs/soft_5.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/policy_update_runs/hard_5.jsonl",
+    "organized": "artifacts/evaluations/policy_update_runs/hard_5.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_runs/qwen_hybrid.jsonl",
+    "organized": "artifacts/evaluations/benchmark_runs/qwen_hybrid.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_runs/two_model_hybrid.jsonl",
+    "organized": "artifacts/evaluations/benchmark_runs/two_model_hybrid.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_runs/bge_vector.jsonl",
+    "organized": "artifacts/evaluations/benchmark_runs/bge_vector.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_runs/bge_hybrid.jsonl",
+    "organized": "artifacts/evaluations/benchmark_runs/bge_hybrid.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_runs/qwen_vector.jsonl",
+    "organized": "artifacts/evaluations/benchmark_runs/qwen_vector.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/examples/sample_search.json",
+    "organized": "artifacts/evaluations/examples/sample_search.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/examples/sample_llm_prompt.txt",
+    "organized": "artifacts/evaluations/examples/sample_llm_prompt.txt"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_manifest.json",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_manifest.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/README.md",
+    "organized": "docs/history/week3/retrieval/benchmark_archive/v1/README.original.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_report.md",
+    "organized": "docs/history/week3/retrieval/benchmark_archive/v1/benchmark_report.md"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_results.json",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_results.json"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_50.jsonl",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_50.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_runs/qwen_hybrid.jsonl",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_runs/qwen_hybrid.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_runs/two_model_hybrid.jsonl",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_runs/two_model_hybrid.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_runs/bge_vector.jsonl",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_runs/bge_vector.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_runs/bge_hybrid.jsonl",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_runs/bge_hybrid.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/benchmark_archive/v1/benchmark_runs/qwen_vector.jsonl",
+    "organized": "artifacts/evaluations/benchmark_archive/v1/benchmark_runs/qwen_vector.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/refinement_runs/full_8.jsonl",
+    "organized": "artifacts/evaluations/refinement_runs/full_8.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/refinement_runs/full_6.jsonl",
+    "organized": "artifacts/evaluations/refinement_runs/full_6.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/refinement_runs/facets_6.jsonl",
+    "organized": "artifacts/evaluations/refinement_runs/facets_6.jsonl"
+  },
+  {
+    "original": "week3/knowledge_base/postgres/schema.sql",
+    "organized": "infra/postgres/schema.sql"
+  },
+  {
+    "original": "week3/knowledge_base/postgres/compose.yaml",
+    "organized": "infra/postgres/compose.yaml"
+  },
+  {
+    "original": "week3/knowledge_base/postgres/import_report.json",
+    "organized": "artifacts/history/database/import_report.json"
+  },
+  {
+    "original": "week3/knowledge_base/postgres/validation_report.json",
+    "organized": "artifacts/history/database/validation_report.json"
+  },
+  {
+    "original": "week3/knowledge_base/requirements-embeddings.lock.txt",
+    "organized": "requirements.lock.txt"
+  },
+  {
+    "original": "week3/knowledge_base/README.md",
+    "organized": "docs/history/week3/knowledge-base.md"
+  },
+  {
+    "original": "week3/knowledge_base/postgres/README.md",
+    "organized": "docs/history/week3/database.md"
+  },
+  {
+    "original": "week2/Calc1_Syllabus_Claude.tex",
+    "organized": "archive/week2/Calc1_Syllabus_Claude.tex"
+  },
+  {
+    "original": "week2/requirements.txt",
+    "organized": "archive/week2/requirements.txt"
+  },
+  {
+    "original": "week2/Calc1_Content_Claude.tex",
+    "organized": "archive/week2/Calc1_Content_Claude.tex"
+  },
+  {
+    "original": "week2/Calc1_Book_Claude.tex",
+    "organized": "archive/week2/Calc1_Book_Claude.tex"
+  },
+  {
+    "original": "week2/digital-professor-week2-flow.html",
+    "organized": "archive/week2/digital-professor-week2-flow.html"
+  },
+  {
+    "original": "week2/gemini_smoke_test.py",
+    "organized": "archive/week2/gemini_smoke_test.py"
+  },
+  {
+    "original": "week2/EXTERNAL_MODELS.md",
+    "organized": "archive/week2/EXTERNAL_MODELS.md"
+  },
+  {
+    "original": "week2/digital-professor-week2-flow.backup.html",
+    "organized": "archive/week2/digital-professor-week2-flow.backup.html"
+  },
+  {
+    "original": "week2/demo/run_demo.py",
+    "organized": "archive/week2/demo/run_demo.py"
+  },
+  {
+    "original": "week2/demo/README.md",
+    "organized": "archive/week2/demo/README.original.md"
+  },
+  {
+    "original": "week2/demo/run_external_demo.py",
+    "organized": "archive/week2/demo/run_external_demo.py"
+  },
+  {
+    "original": "week2/demo/lesson_chain_rule/lesson_packet.json",
+    "organized": "archive/week2/demo/lesson_chain_rule/lesson_packet.json"
+  },
+  {
+    "original": "week2/results/gemini_diagnose.json",
+    "organized": "archive/week2/results/gemini_diagnose.json"
+  },
+  {
+    "original": "week2/results/deepseek_diagnose.json",
+    "organized": "archive/week2/results/deepseek_diagnose.json"
+  },
+  {
+    "original": "week3/course_knowledge_retrieval_plan.md",
+    "organized": "docs/history/week3/course_knowledge_retrieval_plan.md"
+  },
+  {
+    "original": "week3/week3-report-preview.png",
+    "organized": "docs/reports/week3/week3-report-preview.png"
+  },
+  {
+    "original": "week3/week3-report-mobile-preview.png",
+    "organized": "docs/reports/week3/week3-report-mobile-preview.png"
+  },
+  {
+    "original": "week3/digital-professor-week3-report.html",
+    "organized": "docs/reports/week3/digital-professor-week3-report.html"
+  },
+  {
+    "original": "week4/github-upload-checklist.md",
+    "organized": "docs/history/week4/github-upload-checklist.md"
+  },
+  {
+    "original": "week4/digital-professor-week4-report.html",
+    "organized": "docs/reports/week4/digital-professor-week4-report.html"
+  },
+  {
+    "original": "week4/Digital_Professor_Integration_Ideas_main.pdf",
+    "organized": "docs/research/week4/Digital_Professor_Integration_Ideas_main.pdf"
+  },
+  {
+    "original": "week4/Digital_Professor_Integration_Ideas.pdf",
+    "organized": "docs/research/week4/Digital_Professor_Integration_Ideas.pdf"
+  },
+  {
+    "original": "week4/Digital_Professor_Integration_Ideas (1).pdf",
+    "organized": "docs/research/week4/Digital_Professor_Integration_Ideas (1).pdf"
+  },
+  {
+    "original": "week4/output/digital-professor-system-workflow-en.html",
+    "organized": "docs/reports/week4/output/digital-professor-system-workflow-en.html"
+  },
+  {
+    "original": "week1_summary.html",
+    "organized": "docs/reports/week1/week1_summary.html"
+  },
+  {
+    "original": "draft/week1_demo_comparison_v2.html",
+    "organized": "archive/week1-drafts/week1_demo_comparison_v2.html"
+  },
+  {
+    "original": "draft/week1 demo.html",
+    "organized": "archive/week1-drafts/week1 demo.html"
+  },
+  {
+    "original": "draft/week 1.html",
+    "organized": "archive/week1-drafts/week 1.html"
+  },
+  {
+    "original": "output/digital-professor-system-workflow.html",
+    "organized": "docs/architecture/digital-professor-system-workflow.html"
+  },
+  {
+    "original": "output/week3-retrieval-refinement-2026-10-01.md",
+    "organized": "docs/history/progress/week3-retrieval-refinement-2026-10-01.md"
+  },
+  {
+    "original": "output/project-progress-2026-10-01.md",
+    "organized": "docs/history/progress/project-progress-2026-10-01.md"
+  },
+  {
+    "original": "output/pdf/Digital_Professor_End_to_End_Workflow_Report.pdf",
+    "organized": "docs/architecture/pdf/Digital_Professor_End_to_End_Workflow_Report.pdf"
+  },
+  {
+    "original": "week3/knowledge_base/build_kb.py",
+    "organized": "src/digital_professor/knowledge/build_kb.py"
+  },
+  {
+    "original": "week3/knowledge_base/validate_kb.py",
+    "organized": "src/digital_professor/knowledge/validate_kb.py"
+  },
+  {
+    "original": "week3/knowledge_base/prepare_embedding_inputs.py",
+    "organized": "src/digital_professor/embeddings/prepare_embedding_inputs.py"
+  },
+  {
+    "original": "week3/knowledge_base/generate_embeddings.py",
+    "organized": "src/digital_professor/embeddings/generate_embeddings.py"
+  },
+  {
+    "original": "week3/knowledge_base/validate_embeddings.py",
+    "organized": "src/digital_professor/embeddings/validate_embeddings.py"
+  },
+  {
+    "original": "week3/knowledge_base/postgres/import_data.py",
+    "organized": "src/digital_professor/database/import_data.py"
+  },
+  {
+    "original": "week3/knowledge_base/postgres/validate_deployment.py",
+    "organized": "src/digital_professor/database/validate_deployment.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/search.py",
+    "organized": "src/digital_professor/retrieval/search.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/request_policy.py",
+    "organized": "src/digital_professor/retrieval/request_policy.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/report_contract.py",
+    "organized": "src/digital_professor/retrieval/report_contract.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/build_benchmark.py",
+    "organized": "src/digital_professor/evaluation/build_benchmark.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/run_benchmark.py",
+    "organized": "src/digital_professor/evaluation/run_benchmark.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/evaluate_retrieval.py",
+    "organized": "src/digital_professor/evaluation/evaluate_retrieval.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/ablate_file_cap.py",
+    "organized": "src/digital_professor/evaluation/ablate_file_cap.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/diagnose_failures.py",
+    "organized": "src/digital_professor/evaluation/diagnose_failures.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/evaluate_policy_update.py",
+    "organized": "src/digital_professor/evaluation/evaluate_policy_update.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/evaluate_refinement.py",
+    "organized": "src/digital_professor/evaluation/evaluate_refinement.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/evaluate_paraphrases.py",
+    "organized": "src/digital_professor/evaluation/evaluate_paraphrases.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/test_request_policy.py",
+    "organized": "tests/test_request_policy.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/test_search_policy.py",
+    "organized": "tests/test_search_policy.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/__init__.py",
+    "organized": "src/digital_professor/retrieval/__init__.py"
+  },
+  {
+    "original": "week3/knowledge_base/retrieval/__init__.py",
+    "organized": "src/digital_professor/retrieval/__init__.py"
+  }
+]

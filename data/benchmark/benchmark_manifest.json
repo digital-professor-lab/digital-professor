@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "question_count": 50,
+  "revision_reason": "Rebalanced syllabus and context evidence after version-1 source-role coverage audit; retrieval code and settings unchanged.",
+  "previous_dataset_sha256": "b0151e5bfae7a36a444c5987b27a6577c2cd7ef4bd09ae634df637aab283cc0f",
+  "distribution": {
+    "answerable": 46,
+    "scope_excluded": 2,
+    "absent": 2
+  },
+  "dataset_sha256": "a0f8908504e01bbb0dbe76b1a630cc4e212e4091298ed10ca2414eb71b49bc32",
+  "source_manifest_sha256": "329b2a8d5edae551e0e41d85217bc55792dc960299edbbdaffe711b9aebb04ca",
+  "status": "source_anchored_silver_labels_pending_instructor_review"
+}
