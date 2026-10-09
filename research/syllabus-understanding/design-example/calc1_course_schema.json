@@ -1,309 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Designing the Digital Professor | Digital Professor</title>
-<style>
-  :root{
-    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
-    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
-    --line:#E4DFD3; --cream:#F0EEE6;
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
-  }
-  header.hero{
-    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
-    padding:48px 24px 40px; text-align:center;
-  }
-  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
-  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
-  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
-  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
-    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
-  .backlink:hover{opacity:1}
-  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
-  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
-    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
-  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
-  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
-    display:inline-flex; align-items:center; justify-content:center; flex:none}
-  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
-  .lead{color:var(--muted); margin-top:0}
-  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
-  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
-  th{background:var(--soft); color:var(--navy); font-weight:600}
-  tbody tr:nth-child(even){background:#F6F1E9}
-  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
-  .p-under{background:#EFE4D5; color:#8A5A2A}
-  .p-mast{background:#EADFD7; color:#9A5030}
-  .p-phd{background:#F4DED3; color:#B0472E}
-  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
-  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
-  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
-  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
-  .yes{color:var(--green); font-weight:700}
-  .no{color:var(--red); font-weight:700}
-  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
-  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
-  .flow .step h4{margin:0 0 6px; font-size:1rem}
-  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
-  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
-  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
-  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
-  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
-  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
-  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
-  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
-  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
-  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
-  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
-  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
-  .card ul{margin:8px 0 0; padding-left:18px}
-  .card li{margin:4px 0; font-size:.9rem}
-  .stars{color:var(--amber); letter-spacing:2px}
-  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
-  .callout.warn{border-color:var(--red); background:#F6E7DE}
-  .callout.good{border-color:var(--green); background:var(--softgreen)}
-  .callout strong{color:var(--navy)}
-  ul.clean{list-style:none; padding-left:0}
-  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
-  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
-  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
-  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
-    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
-  .btn:hover{background:var(--navy)}
-  .exlink-wrap{margin-top:18px}
-  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
-  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
-  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
-    border-radius:20px; font-size:.82rem; transition:.15s}
-  .toc a:hover{background:rgba(255,255,255,.18)}
-  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
-
-  /* ---- Example-output rendering ---- */
-  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
-  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
-  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
-  .exhead p{margin:0; opacity:.85; font-size:.85rem}
-  .exbody{padding:22px 24px; background:var(--paper)}
-  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
-  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
-  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
-  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
-  .exdoc li{margin:3px 0; font-size:.92rem}
-  .exdoc table{font-size:.86rem}
-  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
-  .diffcard .dt{color:var(--red); font-weight:700}
-  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
-  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
-  .qa .ans{color:var(--muted); display:block; margin-top:3px}
-  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
-  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
-  @media(max-width:720px){.pdfbox iframe{height:520px}}
-  .promptbox{border:1px solid var(--line); border-left:4px solid var(--steel); border-radius:0 10px 10px 0; background:var(--soft); padding:18px 22px; margin-top:16px}
-  .promptbox .ph{font-weight:700; color:var(--navy); font-size:1.05rem; margin:0 0 4px}
-  .promptbox .pmeta{font-size:.82rem; color:var(--muted); margin:0 0 12px}
-  .promptbox .ptext{font-size:.9rem; line-height:1.5}
-  .promptbox ol{padding-left:20px; margin:8px 0}
-  .promptbox ol>li{margin:7px 0}
-  .promptbox ul{padding-left:20px; margin:4px 0}
-  .promptbox .ctx{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:.87rem}
-  .promptbox code{background:var(--paper)}
-  .promptbox .rules{margin-top:12px; padding-top:10px; border-top:1px dashed #D8CFBF}
-  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
-
-  .statgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin:16px 0}
-  .statgrid .stat{border:1px solid var(--line); border-radius:10px; padding:14px 10px; text-align:center; background:var(--soft)}
-  .statgrid .stat .num{font-size:1.7rem; font-weight:800; color:var(--navy); line-height:1}
-  .statgrid .stat .lbl2{font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-top:5px}
-  @media(max-width:720px){.statgrid{grid-template-columns:repeat(3,1fr)}}
-  .qbox{border:1px solid #b9c7e6; background:#eef3fb; border-left:4px solid #2f4f8f; border-radius:0 8px 8px 0; padding:12px 16px; margin:10px 0}
-  .qbox .t,.sbox .t{font-weight:700; display:block; margin-bottom:6px}
-  .qbox .t{color:#2f4f8f}
-  .sbox{border:1px solid #e6c7a8; background:#fbf1e6; border-left:4px solid #b8860b; border-radius:0 8px 8px 0; padding:12px 16px; margin:10px 0}
-  .sbox .t{color:#8a5a08}
-  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:16px}
-  @media(max-width:760px){.twocol{grid-template-columns:1fr}}
-  .chips{display:flex; flex-wrap:wrap; gap:7px; margin:10px 0}
-  .chips span{background:var(--soft); border:1px solid var(--line); color:var(--navy); border-radius:20px; padding:3px 11px; font-size:.8rem; font-weight:600}
-  .diagram{border:1px solid var(--line); border-radius:10px; background:#fff; padding:14px; overflow:auto; margin-top:12px}
-  .diagram img{width:100%; min-width:680px; display:block}
-  .turn{border:1px solid var(--line); border-radius:10px; padding:12px 14px 14px; margin:12px 0; background:#fcfbf9}
-  .thead{display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap}
-  .thead .tn{font-size:.72rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em}
-  .thead .tact{background:var(--navy); color:#fff; border-radius:20px; padding:3px 12px; font-size:.78rem; font-weight:700}
-  .thead .tact em{font-weight:400; opacity:.85; text-transform:none; letter-spacing:0}
-  .tmsg{display:flex; flex-direction:column; margin:7px 0}
-  .tmsg .who{font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; font-weight:700; margin-bottom:3px; color:var(--muted)}
-  .tmsg .bubble{padding:9px 13px; border-radius:13px; font-size:.9rem; line-height:1.5; max-width:85%}
-  .tmsg.dp{align-items:flex-start}
-  .tmsg.dp .bubble{background:var(--soft); border:1px solid var(--line); border-bottom-left-radius:3px}
-  .tmsg.stu{align-items:flex-end}
-  .tmsg.stu .who{align-self:flex-end}
-  .tmsg.stu .bubble{background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff; border-bottom-right-radius:3px}
-  .tinternal{font-size:.86rem; color:var(--muted); font-style:italic; background:#f3eee6; border:1px dashed var(--line); border-radius:8px; padding:8px 12px; margin:7px 0}
-  .tupdate{margin-top:9px; font-size:.85rem; border-left:3px solid var(--green); background:var(--softgreen); border-radius:0 6px 6px 0; padding:7px 12px}
-  .tupdate strong{color:var(--green)}
-  .tupdate code{background:#fff}
-  .jsonbox{margin-top:12px; border:1px solid var(--line); border-radius:8px; background:#0f2438; overflow:auto; max-height:520px}
-  .jsonbox pre{margin:0; padding:14px 16px; white-space:pre; color:#d6e4f0; font-size:.76rem; line-height:1.45; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-  .schemapane{border:1px solid var(--line); border-radius:10px; overflow:hidden; display:flex; flex-direction:column}
-  .schemapane .sphead{padding:9px 14px; font-weight:700; font-size:.88rem; color:#fff}
-  .schemapane.q .sphead{background:#2f4f8f}
-  .schemapane.s .sphead{background:#b8860b}
-  .schemapane .spbody{padding:10px 14px; overflow:auto; max-height:360px; background:var(--paper)}
-  .schemapane .spbody .row{margin:0 0 9px; padding-bottom:9px; border-bottom:1px dashed var(--line); font-size:.84rem}
-  .schemapane .spbody .row:last-child{border-bottom:0; margin-bottom:0}
-  .schemapane .spbody .fn{font-weight:700; display:block; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.78rem; margin-bottom:2px}
-  .schemapane.q .spbody .fn{color:#2f4f8f}
-  .schemapane.s .spbody .fn{color:#8a5a08}
-  .schemapane.g .sphead{background:#B0472E}
-  .schemapane.a .sphead{background:#5E7B4E}
-  .schemapane.g .spbody .fn{color:#B0472E}
-  .schemapane.a .spbody .fn{color:#5E7B4E}
-  .schemapane .spbody .empty{color:var(--muted); font-style:italic}
-</style>
-<script>
-  window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] } };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-</head>
-<body>
-
-<header class="hero">
-  <p class="kicker">Digital Professor · Design</p>
-  <h1>Designing the Digital Professor</h1>
-  <p>How the course-breakdown work becomes a tutor: a structured course knowledge base, a target "Question Schema" retrieved from it, and a Socratic tutoring loop that, each turn, turns the gap between the target and a running "Student-State" into the next tutoring action — until every target gap is closed.</p>
-  <div class="toc">
-    <a href="#picture">Big Picture</a>
-    <a href="#kb">Knowledge Base</a>
-    <a href="#schemas">The Shared Schemas</a>
-    <a href="#flow">Tutoring Flow</a>
-    <a href="#trace">Worked Trace</a>
-  </div>
-</header>
-
-<section id="picture">
-  <h2><span class="n">1</span>The Big Picture</h2>
-  <p class="lead">Everything from the breakdown research feeds one goal: a tutor that knows the course and meets the student where they are.</p>
-  <p>The syllabus- and module-breakdown work produces structured course content. This design turns that content into a <strong>retrievable knowledge base</strong>, then defines a tutoring loop on top of it. For any question, the system retrieves a <strong>target</strong> (what a correct solution requires) and maintains an <strong>estimate</strong> of the student; tutoring is the process of closing the gap between the two.</p>
-  <div class="flow">
-    <div class="step s1"><h4>1 · Course Knowledge Base</h4><p style="margin:.3rem 0 0; font-size:.9rem">The breakdown, stored as linked records: Course → Module → Concept → Objectives, Sources, Questions.</p></div>
-    <div class="arrow">→</div>
-    <div class="step s3"><h4>2 · Question Schema (target)</h4><p style="margin:.3rem 0 0; font-size:.9rem">For one question: prerequisites, objectives, the correct approach &amp; why, and the misconceptions it triggers — all retrieved, not hand-written.</p></div>
-    <div class="arrow">→</div>
-    <div class="step s2" style="background:#fbf1e6; border-color:#e6c7a8"><h4>3 · Student-State + Gap Record</h4><p style="margin:.3rem 0 0; font-size:.9rem">Each turn, new evidence updates the Student-State; comparing it to the target records the <strong>gaps</strong> still open.</p></div>
-    <div class="arrow">→</div>
-    <div class="step s1"><h4>4 · Tutoring Action</h4><p style="margin:.3rem 0 0; font-size:.9rem">The decision layer turns the top open gap into an action (hint, explain, retry…) with a goal and constraints — then loops. Done when no target gap is left.</p></div>
-  </div>
-  <div class="callout"><strong>The core idea: close the gaps.</strong> The target and the student-estimate share slot names, so comparing them yields a concrete list of <em>open gaps</em> — not a fresh "is the student done?" judgment each time. The Student-State also holds slots with no target counterpart (attempts, intervention history, confidence); those are context, never something to "match." So the loop isn't "make the Student-State converge to the Question Schema" — it's <strong>close the open gaps</strong> on the slots that do have a target, one action at a time.</div>
-  <p class="exnote">This page summarizes the design artifacts in <code>design-example/</code>: the course-context schema (<code>syllabus_breakdown_template.json</code>), the extraction prompt that fills it (<code>syllabus-to-json-prompt.md</code>), a populated instance generated <strong>directly from the syllabus</strong> by that prompt (<code>calc1_course_schema.json</code>), the two tutoring schemas with a worked trace (<code>question-student-state-schema-example.tex</code>), and the tutoring-flow diagram (<code>ovunc_tutor.tex</code>).</p>
-</section>
-
-<section id="kb">
-  <h2><span class="n">2</span>The Course Knowledge Base</h2>
-  <p class="lead">A schema for course content, plus a complete worked instance for Calculus I.</p>
-
-  <h3>The schema (six linked record types)</h3>
-  <table>
-    <thead><tr><th>Record</th><th>Key fields</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Course</strong></td><td>id, title, level, duration_weeks, assumed_background, module_ids[]</td></tr>
-      <tr><td><strong>Module</strong></td><td>id, course_id, title, goal, weeks, concept_ids[]</td></tr>
-      <tr><td><strong>Concept</strong></td><td>id, module_id, name, summary, key_definitions[], prerequisite_ids[], objective_ids[], <em>difficulty_notes[{misconception, mitigation}]</em>, source_ids[], question_ids[]</td></tr>
-      <tr><td><strong>LearningObjective</strong></td><td>id, concept_id, text, bloom_level</td></tr>
-      <tr><td><strong>Source</strong></td><td>id, type, citation, section, text_chunk</td></tr>
-      <tr><td><strong>AssessmentQuestion</strong></td><td>id, concept_ids[], objective_ids[], type, difficulty, prompt, solution, rubric, common_wrong_answers[], requires_figure</td></tr>
-    </tbody>
-  </table>
-  <p>The records link by id, so the whole context around any item is one lookup plus a few link-follows — exactly what the tutor needs to assemble a target on demand.</p>
-
-  <h3>The populated instance — AS.110.106 Calculus I</h3>
-  <div class="callout good"><strong>Generated directly from the syllabus.</strong> This instance is <em>not</em> a hand-written course breakdown. It was produced in one pass by running the extraction prompt below over the raw Calculus I syllabus — the LLM reads the syllabus once and emits the full structured JSON, inferring anything the syllabus leaves implicit and logging each inference.</div>
-  <div class="statgrid">
-    <div class="stat"><div class="num">6</div><div class="lbl2">Modules</div></div>
-    <div class="stat"><div class="num">33</div><div class="lbl2">Concepts</div></div>
-    <div class="stat"><div class="num">33</div><div class="lbl2">Objectives</div></div>
-    <div class="stat"><div class="num">32</div><div class="lbl2">Sources</div></div>
-    <div class="stat"><div class="num">66</div><div class="lbl2">Questions</div></div>
-    <div class="stat"><div class="num">14</div><div class="lbl2">Weeks</div></div>
-  </div>
-  <table>
-    <thead><tr><th>Module</th><th>Title</th><th>Weeks</th><th>Concepts</th></tr></thead>
-    <tbody>
-      <tr><td>01</td><td>Review Basic Properties of Functions</td><td>1–2</td><td>4</td></tr>
-      <tr><td>02</td><td>Limits and Continuity</td><td>3–4</td><td>6</td></tr>
-      <tr><td>03</td><td>Derivatives</td><td>5–7</td><td>11</td></tr>
-      <tr><td>04</td><td>Applications of Differentiation</td><td>8–10</td><td>5</td></tr>
-      <tr><td>05</td><td>Integration</td><td>11–12</td><td>4</td></tr>
-      <tr><td>06</td><td>Applications of the Integral</td><td>13–14</td><td>3</td></tr>
-    </tbody>
-  </table>
-  <p class="exnote">The 33 objectives are tagged by Bloom level (29 apply, 3 analyze, 1 evaluate); the 66 questions are typed by assessment form (30 homework, 31 quiz, 5 midterm) and difficulty (31 recall / 29 application / 6 analysis). Every one of the 33 concepts carries two <em>difficulty notes</em> as {misconception, mitigation} pairs — e.g. the $\varepsilon$–$\delta$ definition of a limit, whose mitigation reframes it as a game ("the challenger names $\varepsilon$, then you must produce $\delta$"). Because the file is generated, it also carries an <code>assumptions</code> array — 19 logged inferences the model made where the syllabus was silent, rather than leaving any field blank.</p>
-
-  <h3>How it was built — directly from the syllabus</h3>
-  <p>The instance above was produced by a single non-interactive prompt. You hand the model the raw syllabus (and any other course materials you have); it reads them once and emits the whole JSON object, inferring what the syllabus doesn't state outright and recording each inference in <code>assumptions</code>. Nothing here was authored by hand from a prior course breakdown — the structure <em>is</em> the model's reading of the syllabus.</p>
-  <div class="promptbox">
-    <p class="ph">Syllabus → Course-Context JSON (non-interactive)</p>
-    <p class="pmeta">Source: <code>syllabus-to-json-prompt.md</code></p>
-    <div class="ptext">
-      <p>You are an expert instructional designer and curriculum architect. I will give you a syllabus and/or other course materials (a topic list, lecture notes, a reading list, a notebook — whatever I have). Read them once, fully, then output a single JSON object that populates the course-context schema below. Do not ask me anything — infer what you can from the material, and where you can't, make your best single inference and log it. Never ask, never leave a field blank or <code>"TBD"</code>.</p>
-
-      <p class="lbl" style="font-weight:700; color:var(--navy); margin:10px 0 3px">Schema contract</p>
-      <div class="jsonbox" style="max-height:none"><pre>{
-  "schema_version": "1.0",
-  "Course":   { "id", "title", "level", "duration_weeks", "assumed_background", "module_ids[]" },
-  "Module":   { "id", "course_id", "title", "goal", "weeks", "concept_ids[]" },
-  "Concept":  { "id", "module_id", "name", "summary", "key_definitions[]",
-                "prerequisite_ids[]", "objective_ids[]",
-                "difficulty_notes[{ misconception, mitigation }]",
-                "source_ids[]", "question_ids[]" },
-  "LearningObjective": { "id", "concept_id", "text", "bloom_level" },
-  "Source":   { "id", "type", "citation", "section", "text_chunk" },
-  "AssessmentQuestion": { "id", "concept_ids[]", "objective_ids[]", "type",
-                          "difficulty", "prompt", "solution", "rubric",
-                          "common_wrong_answers[]", "requires_figure" }
-}</pre></div>
-      <p>Your output is one JSON object with these keys: <code>schema_version</code>, <code>Course</code> (one object), and <code>Module</code>, <code>Concept</code>, <code>LearningObjective</code>, <code>Source</code>, <code>AssessmentQuestion</code> (each an array) — plus one deliberate addition, <code>assumptions</code>. Never add any other field, and never drop a listed field even when you're only giving your best guess.</p>
-
-      <p class="lbl" style="font-weight:700; color:var(--navy); margin:10px 0 3px">ID convention</p>
-      <ul>
-        <li><code>Course.id</code>: a short slug from the title (e.g. <code>"calc1"</code>).</li>
-        <li><code>Module.id</code>: <code>&lt;Course.id&gt;.&lt;2-digit index&gt;-&lt;slug&gt;</code>, in teaching order (e.g. <code>"calc1.01-functions"</code>).</li>
-        <li><code>Concept.id</code>: <code>&lt;Module.id&gt;.&lt;slug&gt;</code> (e.g. <code>"calc1.03-derivatives.chain-rule"</code>).</li>
-        <li><code>LearningObjective.id</code>: <code>&lt;Concept.id&gt;.lo&lt;n&gt;</code>; <code>AssessmentQuestion.id</code>: <code>&lt;Concept.id&gt;.q&lt;n&gt;</code>.</li>
-        <li><code>Source.id</code>: <code>&lt;author-or-source-slug&gt;.&lt;locator&gt;</code> (e.g. <code>"neuhauser.ch4-5"</code>) — one source can back several concepts.</li>
-      </ul>
-
-      <div class="rules">
-      <p class="lbl" style="font-weight:700; color:var(--navy); margin:10px 0 3px">The six phases</p>
-      <ol>
-        <li><strong>Course-level facts → <code>Course</code>.</strong> Infer <code>title</code>, <code>level</code>, <code>duration_weeks</code>, <code>assumed_background</code> directly from the material. Fold structure/format (lecture vs. seminar) into how you shape each <code>Concept</code>, and assessment philosophy into the <code>type</code> values you choose for questions. Log anything not stated in <code>assumptions</code>.</li>
-        <li><strong>Modules → <code>Module</code>.</strong> One module per unit, mapped to weeks/sessions in teaching order, with a one-sentence <code>goal</code>.</li>
-        <li><strong>Concepts &amp; objectives → <code>Concept</code>, <code>LearningObjective</code>.</strong> Break each topic into one <code>Concept</code> per independently right-or-wrong idea; give a short <code>summary</code>, the <code>key_definitions</code> that truly need stating, and Bloom-verb objectives (computational verbs for technical material, discussion verbs for seminar material).</li>
-        <li><strong>Prerequisites &amp; difficulty.</strong> Point <code>prerequisite_ids</code> at earlier concepts taught in this course; otherwise record the assumed-background item in <code>assumptions</code>. For historically hard concepts, add specific <code>{misconception, mitigation}</code> pairs.</li>
-        <li><strong>Sources &amp; questions → <code>Source</code>, <code>AssessmentQuestion</code>.</strong> One <code>Source</code> per distinct reading/section; 2–3 questions per concept spanning at least two of <code>recall</code> / <code>application</code> / <code>analysis</code>, each with <code>prompt</code>, worked <code>solution</code>, <code>rubric</code>, and <code>common_wrong_answers</code>. Figures are described in the prompt with <code>requires_figure: true</code> — never embed an image.</li>
-        <li><strong>Assumptions &amp; assembly.</strong> Back-fill every reverse-reference array (<code>module_ids</code>, <code>concept_ids</code>, <code>objective_ids</code>, <code>source_ids</code>, <code>question_ids</code>), then collect every inference as <code>assumptions</code>: <code>{entity, id, field, assumption, reason}</code>. Verify every <code>*_ids</code> resolves and every record has every field before outputting.</li>
-      </ol>
-      <p class="lbl" style="font-weight:700; color:var(--navy); margin:10px 0 3px">Rules</p>
-      <ul>
-        <li>Output ONLY the JSON object — no prose before or after.</li>
-        <li>Never invent a field outside the contract, besides <code>assumptions</code>.</li>
-        <li>Never leave a required field null or <code>"TBD"</code> — infer a value and log the inference instead.</li>
-        <li>Don't force a lecture-course template onto seminar/PhD material — branch silently on what the material actually is.</li>
-      </ul>
-      </div>
-    </div>
-  </div>
-
-  <h3>The full data file</h3>
-  <p class="exnote">The complete instance, <code>calc1_course_schema.json</code> — generated directly from the syllabus by the prompt above — in its original JSON format &mdash; scroll within the box.</p>
-  <div class="jsonbox"><pre>{
+{
   "schema_version": "1.0",
   "Course": {
     "id": "calc1",
@@ -357,7 +52,7 @@
     },
     {
       "id": "calc1.01-functions.exp-growth", "module_id": "calc1.01-functions", "name": "Exponential growth and decay",
-      "summary": "Quantities whose rate of change is proportional to their size follow N(t) = N0·e^(rt); r &gt; 0 gives growth and r &lt; 0 gives decay. Doubling times and half-lives summarize the rate.",
+      "summary": "Quantities whose rate of change is proportional to their size follow N(t) = N0·e^(rt); r > 0 gives growth and r < 0 gives decay. Doubling times and half-lives summarize the rate.",
       "key_definitions": ["Exponential model N(t) = N0 e^(rt)", "Doubling time T = ln(2)/r", "Half-life: time for a quantity to fall to half its value", "Growth rate r versus growth factor b per time step"],
       "prerequisite_ids": ["calc1.01-functions.families"],
       "objective_ids": ["calc1.01-functions.exp-growth.lo1"],
@@ -396,12 +91,12 @@
     },
     {
       "id": "calc1.02-limits.epsilon-delta", "module_id": "calc1.02-limits", "name": "Formal (epsilon-delta) definition of a limit",
-      "summary": "lim_{x→a} f(x) = L if for every ε &gt; 0 there is a δ &gt; 0 such that 0 &lt; |x - a| &lt; δ implies |f(x) - L| &lt; ε. This makes 'arbitrarily close' precise and supports rigorous proofs of limits.",
-      "key_definitions": ["Epsilon-delta definition of lim_{x→a} f(x) = L", "Punctured neighborhood 0 &lt; |x - a| &lt; δ", "δ as a function of ε"],
+      "summary": "lim_{x→a} f(x) = L if for every ε > 0 there is a δ > 0 such that 0 < |x - a| < δ implies |f(x) - L| < ε. This makes 'arbitrarily close' precise and supports rigorous proofs of limits.",
+      "key_definitions": ["Epsilon-delta definition of lim_{x→a} f(x) = L", "Punctured neighborhood 0 < |x - a| < δ", "δ as a function of ε"],
       "prerequisite_ids": ["calc1.02-limits.limits"],
       "objective_ids": ["calc1.02-limits.epsilon-delta.lo1"],
       "difficulty_notes": [
-        {"misconception": "Picking δ first, or believing one δ works for every ε; the quantifier order is reversed.", "mitigation": "Present it as a game: the challenger names ε, then you must produce δ; do scratch work backward from |f(x) - L| &lt; ε."},
+        {"misconception": "Picking δ first, or believing one δ works for every ε; the quantifier order is reversed.", "mitigation": "Present it as a game: the challenger names ε, then you must produce δ; do scratch work backward from |f(x) - L| < ε."},
         {"misconception": "Thinking that checking a few specific values of ε proves the limit.", "mitigation": "Emphasize that the proof must work for an arbitrary ε, by writing δ as a formula in ε."}
       ],
       "source_ids": ["neuhauser.s3-6"],
@@ -423,7 +118,7 @@
     {
       "id": "calc1.02-limits.limits-infinity", "module_id": "calc1.02-limits", "name": "Limits at infinity and horizontal asymptotes",
       "summary": "lim_{x→∞} f(x) = L means f(x) stays within any ε of L once x is large enough. Comparing dominant terms evaluates rational functions, and the limit describes the long-run behavior of biological models.",
-      "key_definitions": ["Limit at infinity (formal): for each ε &gt; 0 there is M such that x &gt; M implies |f(x) - L| &lt; ε", "Horizontal asymptote y = L", "Dominant term of a polynomial"],
+      "key_definitions": ["Limit at infinity (formal): for each ε > 0 there is M such that x > M implies |f(x) - L| < ε", "Horizontal asymptote y = L", "Dominant term of a polynomial"],
       "prerequisite_ids": ["calc1.02-limits.limits", "calc1.02-limits.epsilon-delta", "calc1.01-functions.sequences"],
       "objective_ids": ["calc1.02-limits.limits-infinity.lo1"],
       "difficulty_notes": [
@@ -618,7 +313,7 @@
     {
       "id": "calc1.04-diff-applications.monotone-concave", "module_id": "calc1.04-diff-applications", "name": "Monotonicity and concavity",
       "summary": "The sign of f' tells where f increases or decreases, and the sign of f'' tells where its graph is concave up or down. Sign charts organize this information to sketch a graph.",
-      "key_definitions": ["Increasing and decreasing function", "Concave up (f'' &gt; 0) and concave down (f'' &lt; 0)", "Sign chart"],
+      "key_definitions": ["Increasing and decreasing function", "Concave up (f'' > 0) and concave down (f'' < 0)", "Sign chart"],
       "prerequisite_ids": ["calc1.04-diff-applications.evt-mvt", "calc1.03-derivatives.higher"],
       "objective_ids": ["calc1.04-diff-applications.monotone-concave.lo1"],
       "difficulty_notes": [
@@ -795,52 +490,52 @@
     {"id": "calc1.06-integral-applications.partial-fractions.lo1", "concept_id": "calc1.06-integral-applications.partial-fractions", "text": "Decompose rational functions into partial fractions, using long division when needed, and integrate them.", "bloom_level": "apply"}
   ],
   "Source": [
-    {"id": "neuhauser.ch1", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Chapter 1", "text_chunk": "Syllabus entry: Chapter 1 (Review Basic Properties of Functions)"},
-    {"id": "neuhauser.s2-1", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 2.1", "text_chunk": "Syllabus entry: 2.1 Exponential Growth and Decay"},
-    {"id": "neuhauser.s2-2", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 2.2", "text_chunk": "Syllabus entry: 2.2 Sequences"},
-    {"id": "neuhauser.s3-1", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.1", "text_chunk": "Syllabus entry: 3.1 Limits (with formal definition from 3.6)"},
-    {"id": "neuhauser.s3-2", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.2", "text_chunk": "Syllabus entry: 3.2 Continuity"},
-    {"id": "neuhauser.s3-3", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.3", "text_chunk": "Syllabus entry: 3.3 Limits at Infinity (with formal definition from 3.6)"},
-    {"id": "neuhauser.s3-4", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.4", "text_chunk": "Syllabus entry: 3.4 Trigonometric Limits and The Sandwich Theorem"},
-    {"id": "neuhauser.s3-5", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.5", "text_chunk": "Syllabus entry: 3.5 Properties of Continuous Functions"},
-    {"id": "neuhauser.s3-6", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.6 (formal definition of limits)", "text_chunk": "Syllabus reference: formal definition of limits, cited from 3.1 and 3.3"},
-    {"id": "neuhauser.s4-1", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.1", "text_chunk": "Syllabus entry: 4.1 Formal Definition of the Derivative"},
-    {"id": "neuhauser.s4-2", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.2", "text_chunk": "Syllabus entry: 4.2 Basic Rules of Derivatives"},
-    {"id": "neuhauser.s4-3", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.3", "text_chunk": "Syllabus entry: 4.3 Power Rule and the Rules of Differentiation"},
-    {"id": "neuhauser.s4-4", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.4", "text_chunk": "Syllabus entry: 4.4 Product and Quotient Rules"},
-    {"id": "neuhauser.s4-5", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.5", "text_chunk": "Syllabus entry: 4.5 The Chain Rule"},
-    {"id": "neuhauser.s4-6", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.6", "text_chunk": "Syllabus entry: 4.6 Implicit Functions and Implicit Differentiation"},
-    {"id": "neuhauser.s4-7", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.7", "text_chunk": "Syllabus entry: 4.7 Higher Derivatives"},
-    {"id": "neuhauser.s4-8", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.8", "text_chunk": "Syllabus entry: 4.8 Derivative of Trigonometric Functions"},
-    {"id": "neuhauser.s4-9", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.9", "text_chunk": "Syllabus entry: 4.9 Derivatives of Exponential Functions"},
-    {"id": "neuhauser.s4-10", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.10", "text_chunk": "Syllabus entry: 4.10 Derivatives of Inverse Functions"},
-    {"id": "neuhauser.s4-11", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.11", "text_chunk": "Syllabus entry: 4.11 Linear Approximation"},
-    {"id": "neuhauser.s5-1", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.1", "text_chunk": "Syllabus entry: 5.1 Extreme and Mean Value Theorems"},
-    {"id": "neuhauser.s5-2", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.2", "text_chunk": "Syllabus entry: 5.2 Monotonicity and Concavity"},
-    {"id": "neuhauser.s5-3", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.3", "text_chunk": "Syllabus entry: 5.3 Extrema and Inflection Points"},
-    {"id": "neuhauser.s5-4", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.4", "text_chunk": "Syllabus entry: 5.4 Optimization"},
-    {"id": "neuhauser.s5-5", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.5", "text_chunk": "Syllabus entry: 5.5 L'Hopital's Rule"},
-    {"id": "neuhauser.s5-10", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.10", "text_chunk": "Syllabus entry: 5.10 Antiderivatives"},
-    {"id": "neuhauser.s6-1", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 6.1", "text_chunk": "Syllabus entry: 6.1 The Definite Integral"},
-    {"id": "neuhauser.s6-2", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 6.2", "text_chunk": "Syllabus entry: 6.2 The Fundamental Theorem of Calculus"},
-    {"id": "neuhauser.s6-3", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 6.3", "text_chunk": "Syllabus entry: 6.3 Applications of Integration"},
-    {"id": "neuhauser.s7-1", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 7.1", "text_chunk": "Syllabus entry: 7.1 The Substitution Rule"},
-    {"id": "neuhauser.s7-2", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 7.2", "text_chunk": "Syllabus entry: 7.2 Integration by Parts and Practicing Integration"},
-    {"id": "neuhauser.s7-3", "type": "textbook", "citation": "Neuhauser, C. &amp; Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 7.3", "text_chunk": "Syllabus entry: 7.3 Rational Functions and Partial Fractions"}
+    {"id": "neuhauser.ch1", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Chapter 1", "text_chunk": "Syllabus entry: Chapter 1 (Review Basic Properties of Functions)"},
+    {"id": "neuhauser.s2-1", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 2.1", "text_chunk": "Syllabus entry: 2.1 Exponential Growth and Decay"},
+    {"id": "neuhauser.s2-2", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 2.2", "text_chunk": "Syllabus entry: 2.2 Sequences"},
+    {"id": "neuhauser.s3-1", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.1", "text_chunk": "Syllabus entry: 3.1 Limits (with formal definition from 3.6)"},
+    {"id": "neuhauser.s3-2", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.2", "text_chunk": "Syllabus entry: 3.2 Continuity"},
+    {"id": "neuhauser.s3-3", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.3", "text_chunk": "Syllabus entry: 3.3 Limits at Infinity (with formal definition from 3.6)"},
+    {"id": "neuhauser.s3-4", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.4", "text_chunk": "Syllabus entry: 3.4 Trigonometric Limits and The Sandwich Theorem"},
+    {"id": "neuhauser.s3-5", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.5", "text_chunk": "Syllabus entry: 3.5 Properties of Continuous Functions"},
+    {"id": "neuhauser.s3-6", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 3.6 (formal definition of limits)", "text_chunk": "Syllabus reference: formal definition of limits, cited from 3.1 and 3.3"},
+    {"id": "neuhauser.s4-1", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.1", "text_chunk": "Syllabus entry: 4.1 Formal Definition of the Derivative"},
+    {"id": "neuhauser.s4-2", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.2", "text_chunk": "Syllabus entry: 4.2 Basic Rules of Derivatives"},
+    {"id": "neuhauser.s4-3", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.3", "text_chunk": "Syllabus entry: 4.3 Power Rule and the Rules of Differentiation"},
+    {"id": "neuhauser.s4-4", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.4", "text_chunk": "Syllabus entry: 4.4 Product and Quotient Rules"},
+    {"id": "neuhauser.s4-5", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.5", "text_chunk": "Syllabus entry: 4.5 The Chain Rule"},
+    {"id": "neuhauser.s4-6", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.6", "text_chunk": "Syllabus entry: 4.6 Implicit Functions and Implicit Differentiation"},
+    {"id": "neuhauser.s4-7", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.7", "text_chunk": "Syllabus entry: 4.7 Higher Derivatives"},
+    {"id": "neuhauser.s4-8", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.8", "text_chunk": "Syllabus entry: 4.8 Derivative of Trigonometric Functions"},
+    {"id": "neuhauser.s4-9", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.9", "text_chunk": "Syllabus entry: 4.9 Derivatives of Exponential Functions"},
+    {"id": "neuhauser.s4-10", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.10", "text_chunk": "Syllabus entry: 4.10 Derivatives of Inverse Functions"},
+    {"id": "neuhauser.s4-11", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 4.11", "text_chunk": "Syllabus entry: 4.11 Linear Approximation"},
+    {"id": "neuhauser.s5-1", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.1", "text_chunk": "Syllabus entry: 5.1 Extreme and Mean Value Theorems"},
+    {"id": "neuhauser.s5-2", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.2", "text_chunk": "Syllabus entry: 5.2 Monotonicity and Concavity"},
+    {"id": "neuhauser.s5-3", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.3", "text_chunk": "Syllabus entry: 5.3 Extrema and Inflection Points"},
+    {"id": "neuhauser.s5-4", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.4", "text_chunk": "Syllabus entry: 5.4 Optimization"},
+    {"id": "neuhauser.s5-5", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.5", "text_chunk": "Syllabus entry: 5.5 L'Hopital's Rule"},
+    {"id": "neuhauser.s5-10", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 5.10", "text_chunk": "Syllabus entry: 5.10 Antiderivatives"},
+    {"id": "neuhauser.s6-1", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 6.1", "text_chunk": "Syllabus entry: 6.1 The Definite Integral"},
+    {"id": "neuhauser.s6-2", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 6.2", "text_chunk": "Syllabus entry: 6.2 The Fundamental Theorem of Calculus"},
+    {"id": "neuhauser.s6-3", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 6.3", "text_chunk": "Syllabus entry: 6.3 Applications of Integration"},
+    {"id": "neuhauser.s7-1", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 7.1", "text_chunk": "Syllabus entry: 7.1 The Substitution Rule"},
+    {"id": "neuhauser.s7-2", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 7.2", "text_chunk": "Syllabus entry: 7.2 Integration by Parts and Practicing Integration"},
+    {"id": "neuhauser.s7-3", "type": "textbook", "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.", "section": "Section 7.3", "text_chunk": "Syllabus entry: 7.3 Rational Functions and Partial Fractions"}
   ],
   "AssessmentQuestion": [
-    {"id": "calc1.01-functions.graphs.q1", "concept_ids": ["calc1.01-functions.graphs"], "objective_ids": ["calc1.01-functions.graphs.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "State the domain of f(x) = sqrt(x - 3)/(x - 5).", "solution": "The square root requires x - 3 ≥ 0, so x ≥ 3. The denominator requires x ≠ 5. Domain: [3, 5) ∪ (5, ∞).", "rubric": "1 pt for x ≥ 3; 1 pt for excluding x = 5; correct interval notation.", "common_wrong_answers": ["x ≠ 5 only", "x &gt; 3 (strict inequality at the square-root condition)"], "requires_figure": false},
+    {"id": "calc1.01-functions.graphs.q1", "concept_ids": ["calc1.01-functions.graphs"], "objective_ids": ["calc1.01-functions.graphs.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "State the domain of f(x) = sqrt(x - 3)/(x - 5).", "solution": "The square root requires x - 3 ≥ 0, so x ≥ 3. The denominator requires x ≠ 5. Domain: [3, 5) ∪ (5, ∞).", "rubric": "1 pt for x ≥ 3; 1 pt for excluding x = 5; correct interval notation.", "common_wrong_answers": ["x ≠ 5 only", "x > 3 (strict inequality at the square-root condition)"], "requires_figure": false},
     {"id": "calc1.01-functions.graphs.q2", "concept_ids": ["calc1.01-functions.graphs"], "objective_ids": ["calc1.01-functions.graphs.lo1"], "type": "homework", "difficulty": "application", "prompt": "Let f(x) = 2x + 1 and g(x) = x^2. Compute f(g(x)) and g(f(x)), and find f^-1(x).", "solution": "f(g(x)) = 2x^2 + 1. g(f(x)) = (2x + 1)^2 = 4x^2 + 4x + 1. To invert, set y = 2x + 1 and solve: x = (y - 1)/2, so f^-1(x) = (x - 1)/2.", "rubric": "1 pt each composition; 1 pt for correct inverse; note the compositions differ.", "common_wrong_answers": ["f(g(x)) = g(f(x)) = 2x^3", "f^-1(x) = 1/(2x + 1)"], "requires_figure": false},
-    {"id": "calc1.01-functions.families.q1", "concept_ids": ["calc1.01-functions.families"], "objective_ids": ["calc1.01-functions.families.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "For x &gt; 0, simplify ln(e^3 · x^2) in terms of ln x.", "solution": "ln(e^3 · x^2) = ln(e^3) + ln(x^2) = 3 + 2 ln x.", "rubric": "1 pt for splitting the product into a sum; 1 pt for each correct term.", "common_wrong_answers": ["6 ln x", "3 · 2 ln x"], "requires_figure": false},
+    {"id": "calc1.01-functions.families.q1", "concept_ids": ["calc1.01-functions.families"], "objective_ids": ["calc1.01-functions.families.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "For x > 0, simplify ln(e^3 · x^2) in terms of ln x.", "solution": "ln(e^3 · x^2) = ln(e^3) + ln(x^2) = 3 + 2 ln x.", "rubric": "1 pt for splitting the product into a sum; 1 pt for each correct term.", "common_wrong_answers": ["6 ln x", "3 · 2 ln x"], "requires_figure": false},
     {"id": "calc1.01-functions.families.q2", "concept_ids": ["calc1.01-functions.families"], "objective_ids": ["calc1.01-functions.families.lo1"], "type": "homework", "difficulty": "application", "prompt": "Solve 5e^(0.2t) = 40 for t.", "solution": "Divide by 5: e^(0.2t) = 8. Take logs: 0.2t = ln 8, so t = ln(8)/0.2 = 5 ln 8 ≈ 10.40.", "rubric": "1 pt for isolating the exponential; 1 pt for applying ln; 1 pt for the correct value.", "common_wrong_answers": ["t = 8/0.2 = 40", "t = ln(35)/0.2 (subtracting 5 instead of dividing)"], "requires_figure": false},
     {"id": "calc1.01-functions.exp-growth.q1", "concept_ids": ["calc1.01-functions.exp-growth"], "objective_ids": ["calc1.01-functions.exp-growth.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "A bacterial population satisfies N(t) = 500 e^(0.3t), with t in hours. Find the doubling time.", "solution": "Set e^(0.3T) = 2, so T = ln(2)/0.3 ≈ 2.31 hours.", "rubric": "1 pt for setting up e^(0.3T) = 2; 1 pt for the correct answer with units.", "common_wrong_answers": ["2/0.3 ≈ 6.67 hours", "0.3/ln 2 ≈ 0.43 hours"], "requires_figure": false},
     {"id": "calc1.01-functions.exp-growth.q2", "concept_ids": ["calc1.01-functions.exp-growth"], "objective_ids": ["calc1.01-functions.exp-growth.lo1"], "type": "homework", "difficulty": "application", "prompt": "A drug has a half-life of 6 hours. At t = 0, 80 mg is in the body. How much remains after 15 hours? When will 10 mg remain?", "solution": "A(t) = 80·(1/2)^(t/6). At t = 15: 80·2^(-2.5) = 80/5.657 ≈ 14.1 mg. For 10 mg: (1/2)^(t/6) = 1/8 = (1/2)^3, so t/6 = 3 and t = 18 hours.", "rubric": "2 pts for the model; 1 pt for each part answered correctly with units.", "common_wrong_answers": ["80·(1/2)^15 (treating hours as half-lives)", "80 - 15·(80/12) (linear decay)"], "requires_figure": false},
     {"id": "calc1.01-functions.sequences.q1", "concept_ids": ["calc1.01-functions.sequences"], "objective_ids": ["calc1.01-functions.sequences.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Find lim_{n→∞} (3n^2 + 1)/(n^2 + 5n).", "solution": "Divide numerator and denominator by n^2: (3 + 1/n^2)/(1 + 5/n) → 3/1 = 3.", "rubric": "1 pt for dividing by the highest power; 1 pt for the correct limit.", "common_wrong_answers": ["∞", "0"], "requires_figure": false},
-    {"id": "calc1.01-functions.sequences.q2", "concept_ids": ["calc1.01-functions.sequences"], "objective_ids": ["calc1.01-functions.sequences.lo1"], "type": "homework", "difficulty": "analysis", "prompt": "A population satisfies a_(n+1) = 0.5 a_n + 10 with a_0 = 4. Find the equilibrium and decide whether a_n converges to it. Justify.", "solution": "Set a* = 0.5a* + 10, so 0.5a* = 10 and a* = 20. Let b_n = a_n - 20. Then b_(n+1) = 0.5 b_n, so b_n = 0.5^n (4 - 20) = -16·0.5^n → 0. Hence a_n → 20.", "rubric": "1 pt for a* = 20; 2 pts for a valid convergence argument (explicit solution or contraction factor 0.5 &lt; 1).", "common_wrong_answers": ["a* = 10", "The sequence diverges because 10 is added at every step"], "requires_figure": false},
+    {"id": "calc1.01-functions.sequences.q2", "concept_ids": ["calc1.01-functions.sequences"], "objective_ids": ["calc1.01-functions.sequences.lo1"], "type": "homework", "difficulty": "analysis", "prompt": "A population satisfies a_(n+1) = 0.5 a_n + 10 with a_0 = 4. Find the equilibrium and decide whether a_n converges to it. Justify.", "solution": "Set a* = 0.5a* + 10, so 0.5a* = 10 and a* = 20. Let b_n = a_n - 20. Then b_(n+1) = 0.5 b_n, so b_n = 0.5^n (4 - 20) = -16·0.5^n → 0. Hence a_n → 20.", "rubric": "1 pt for a* = 20; 2 pts for a valid convergence argument (explicit solution or contraction factor 0.5 < 1).", "common_wrong_answers": ["a* = 10", "The sequence diverges because 10 is added at every step"], "requires_figure": false},
     {"id": "calc1.02-limits.limits.q1", "concept_ids": ["calc1.02-limits.limits"], "objective_ids": ["calc1.02-limits.limits.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Evaluate lim_{x→2} (x^2 - 4)/(x - 2).", "solution": "Substituting gives 0/0, so factor: (x - 2)(x + 2)/(x - 2) = x + 2 for x ≠ 2. The limit is 4.", "rubric": "1 pt for recognizing 0/0; 1 pt for factoring and cancelling; 1 pt for 4.", "common_wrong_answers": ["Does not exist because of 0/0", "0"], "requires_figure": false},
-    {"id": "calc1.02-limits.limits.q2", "concept_ids": ["calc1.02-limits.limits"], "objective_ids": ["calc1.02-limits.limits.lo1"], "type": "homework", "difficulty": "application", "prompt": "Let f(x) = |x|/x for x ≠ 0. Find lim_{x→0-} f(x), lim_{x→0+} f(x), and lim_{x→0} f(x).", "solution": "For x &lt; 0, |x| = -x, so f(x) = -1. For x &gt; 0, f(x) = 1. The one-sided limits are -1 and 1; since they disagree, lim_{x→0} f(x) does not exist.", "rubric": "1 pt per one-sided limit; 1 pt for concluding the two-sided limit does not exist.", "common_wrong_answers": ["0", "1 (using only the right side)"], "requires_figure": false},
-    {"id": "calc1.02-limits.epsilon-delta.q1", "concept_ids": ["calc1.02-limits.epsilon-delta"], "objective_ids": ["calc1.02-limits.epsilon-delta.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "State the epsilon-delta definition of lim_{x→a} f(x) = L.", "solution": "For every ε &gt; 0 there exists δ &gt; 0 such that if 0 &lt; |x - a| &lt; δ then |f(x) - L| &lt; ε.", "rubric": "1 pt for the correct quantifier order; 1 pt for 0 &lt; |x - a| &lt; δ; 1 pt for |f(x) - L| &lt; ε.", "common_wrong_answers": ["For every δ there exists ε such that ...", "Omitting the 0 &lt; condition so that x = a is included"], "requires_figure": false},
-    {"id": "calc1.02-limits.epsilon-delta.q2", "concept_ids": ["calc1.02-limits.epsilon-delta"], "objective_ids": ["calc1.02-limits.epsilon-delta.lo1"], "type": "homework", "difficulty": "application", "prompt": "Prove using the definition that lim_{x→3} (2x + 1) = 7.", "solution": "Let ε &gt; 0 and choose δ = ε/2. If 0 &lt; |x - 3| &lt; δ, then |(2x + 1) - 7| = |2x - 6| = 2|x - 3| &lt; 2δ = ε. Hence the limit is 7.", "rubric": "1 pt for scratch-work-derived δ; 1 pt for stating δ in terms of ε; 2 pts for the verification chain.", "common_wrong_answers": ["δ = 2ε", "Choosing δ = ε without verifying the inequality"], "requires_figure": false},
+    {"id": "calc1.02-limits.limits.q2", "concept_ids": ["calc1.02-limits.limits"], "objective_ids": ["calc1.02-limits.limits.lo1"], "type": "homework", "difficulty": "application", "prompt": "Let f(x) = |x|/x for x ≠ 0. Find lim_{x→0-} f(x), lim_{x→0+} f(x), and lim_{x→0} f(x).", "solution": "For x < 0, |x| = -x, so f(x) = -1. For x > 0, f(x) = 1. The one-sided limits are -1 and 1; since they disagree, lim_{x→0} f(x) does not exist.", "rubric": "1 pt per one-sided limit; 1 pt for concluding the two-sided limit does not exist.", "common_wrong_answers": ["0", "1 (using only the right side)"], "requires_figure": false},
+    {"id": "calc1.02-limits.epsilon-delta.q1", "concept_ids": ["calc1.02-limits.epsilon-delta"], "objective_ids": ["calc1.02-limits.epsilon-delta.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "State the epsilon-delta definition of lim_{x→a} f(x) = L.", "solution": "For every ε > 0 there exists δ > 0 such that if 0 < |x - a| < δ then |f(x) - L| < ε.", "rubric": "1 pt for the correct quantifier order; 1 pt for 0 < |x - a| < δ; 1 pt for |f(x) - L| < ε.", "common_wrong_answers": ["For every δ there exists ε such that ...", "Omitting the 0 < condition so that x = a is included"], "requires_figure": false},
+    {"id": "calc1.02-limits.epsilon-delta.q2", "concept_ids": ["calc1.02-limits.epsilon-delta"], "objective_ids": ["calc1.02-limits.epsilon-delta.lo1"], "type": "homework", "difficulty": "application", "prompt": "Prove using the definition that lim_{x→3} (2x + 1) = 7.", "solution": "Let ε > 0 and choose δ = ε/2. If 0 < |x - 3| < δ, then |(2x + 1) - 7| = |2x - 6| = 2|x - 3| < 2δ = ε. Hence the limit is 7.", "rubric": "1 pt for scratch-work-derived δ; 1 pt for stating δ in terms of ε; 2 pts for the verification chain.", "common_wrong_answers": ["δ = 2ε", "Choosing δ = ε without verifying the inequality"], "requires_figure": false},
     {"id": "calc1.02-limits.continuity.q1", "concept_ids": ["calc1.02-limits.continuity"], "objective_ids": ["calc1.02-limits.continuity.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Figure: the graph of f has an open circle at (1, 2) and no filled point at x = 1; at x = 3 the left-hand limit is 1, the right-hand limit is 3, and the filled point is (3, 3); and there is a vertical asymptote at x = 5. Classify the discontinuity at x = 1, x = 3, and x = 5.", "solution": "x = 1: removable (the limit exists but f(1) is undefined). x = 3: jump (the one-sided limits differ). x = 5: infinite (vertical asymptote).", "rubric": "1 pt per correct classification.", "common_wrong_answers": ["x = 1 is a jump discontinuity", "x = 3 is removable because f(3) is defined"], "requires_figure": true},
     {"id": "calc1.02-limits.continuity.q2", "concept_ids": ["calc1.02-limits.continuity"], "objective_ids": ["calc1.02-limits.continuity.lo1"], "type": "homework", "difficulty": "application", "prompt": "Find the value of c that makes f continuous at x = 1, where f(x) = (x^2 - 1)/(x - 1) for x ≠ 1 and f(1) = c.", "solution": "For x ≠ 1, f(x) = x + 1, so lim_{x→1} f(x) = 2. Continuity requires f(1) = c = 2.", "rubric": "1 pt for simplifying; 1 pt for the limit; 1 pt for c = 2.", "common_wrong_answers": ["c = 0", "c = 1"], "requires_figure": false},
     {"id": "calc1.02-limits.limits-infinity.q1", "concept_ids": ["calc1.02-limits.limits-infinity"], "objective_ids": ["calc1.02-limits.limits-infinity.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Find lim_{x→∞} (4x^3 - x)/(2x^3 + 7).", "solution": "Divide through by x^3: (4 - 1/x^2)/(2 + 7/x^3) → 4/2 = 2.", "rubric": "1 pt for dividing by x^3; 1 pt for the answer 2.", "common_wrong_answers": ["1 (using ∞/∞ = 1)", "4"], "requires_figure": false},
@@ -848,7 +543,7 @@
     {"id": "calc1.02-limits.trig-sandwich.q1", "concept_ids": ["calc1.02-limits.trig-sandwich"], "objective_ids": ["calc1.02-limits.trig-sandwich.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Evaluate lim_{x→0} sin(5x)/x.", "solution": "Write sin(5x)/x = 5·sin(5x)/(5x) and let u = 5x → 0. The limit is 5·1 = 5.", "rubric": "1 pt for rescaling; 1 pt for the answer 5.", "common_wrong_answers": ["1", "0"], "requires_figure": false},
     {"id": "calc1.02-limits.trig-sandwich.q2", "concept_ids": ["calc1.02-limits.trig-sandwich"], "objective_ids": ["calc1.02-limits.trig-sandwich.lo1"], "type": "midterm", "difficulty": "analysis", "prompt": "Use the Sandwich Theorem to show lim_{x→0} x^2 sin(1/x) = 0.", "solution": "Since -1 ≤ sin(1/x) ≤ 1, multiplying by x^2 ≥ 0 gives -x^2 ≤ x^2 sin(1/x) ≤ x^2 for x ≠ 0. Both bounds tend to 0, so the middle expression tends to 0.", "rubric": "1 pt for the bounds on sin; 1 pt for the inequality with x^2; 1 pt for invoking the theorem with both limits equal.", "common_wrong_answers": ["The limit does not exist because sin(1/x) has no limit", "Substituting x = 0 to get 0·sin(1/0)"], "requires_figure": false},
     {"id": "calc1.02-limits.continuous-props.q1", "concept_ids": ["calc1.02-limits.continuous-props"], "objective_ids": ["calc1.02-limits.continuous-props.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "State the Intermediate Value Theorem.", "solution": "If f is continuous on [a, b] and N is any number between f(a) and f(b), then there exists c in [a, b] with f(c) = N.", "rubric": "1 pt for continuity on a closed interval; 1 pt for N between f(a) and f(b); 1 pt for the conclusion.", "common_wrong_answers": ["Omitting the continuity hypothesis", "Saying f takes every x-value between a and b"], "requires_figure": false},
-    {"id": "calc1.02-limits.continuous-props.q2", "concept_ids": ["calc1.02-limits.continuous-props"], "objective_ids": ["calc1.02-limits.continuous-props.lo1"], "type": "homework", "difficulty": "application", "prompt": "Show that x^3 + x - 1 = 0 has a solution in (0, 1).", "solution": "Let f(x) = x^3 + x - 1, a polynomial and hence continuous. f(0) = -1 &lt; 0 and f(1) = 1 &gt; 0. By the IVT there is c in (0, 1) with f(c) = 0.", "rubric": "1 pt for continuity; 1 pt for endpoint values; 1 pt for the IVT conclusion.", "common_wrong_answers": ["Claiming the root is 0.5 after evaluating f(0.5)", "Checking only one endpoint"], "requires_figure": false},
+    {"id": "calc1.02-limits.continuous-props.q2", "concept_ids": ["calc1.02-limits.continuous-props"], "objective_ids": ["calc1.02-limits.continuous-props.lo1"], "type": "homework", "difficulty": "application", "prompt": "Show that x^3 + x - 1 = 0 has a solution in (0, 1).", "solution": "Let f(x) = x^3 + x - 1, a polynomial and hence continuous. f(0) = -1 < 0 and f(1) = 1 > 0. By the IVT there is c in (0, 1) with f(c) = 0.", "rubric": "1 pt for continuity; 1 pt for endpoint values; 1 pt for the IVT conclusion.", "common_wrong_answers": ["Claiming the root is 0.5 after evaluating f(0.5)", "Checking only one endpoint"], "requires_figure": false},
     {"id": "calc1.03-derivatives.definition.q1", "concept_ids": ["calc1.03-derivatives.definition"], "objective_ids": ["calc1.03-derivatives.definition.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Write the limit definition of f'(a) and say what it measures.", "solution": "f'(a) = lim_{h→0} (f(a + h) - f(a))/h. It is the instantaneous rate of change of f at a and the slope of the tangent line there.", "rubric": "1 pt for the correct quotient; 1 pt for the limit; 1 pt for the interpretation.", "common_wrong_answers": ["(f(a + h) - f(a))·h", "The average rate over [a, a + h], without taking the limit"], "requires_figure": false},
     {"id": "calc1.03-derivatives.definition.q2", "concept_ids": ["calc1.03-derivatives.definition"], "objective_ids": ["calc1.03-derivatives.definition.lo1"], "type": "homework", "difficulty": "application", "prompt": "Use the limit definition to find f'(x) for f(x) = x^2 + 3x.", "solution": "(f(x + h) - f(x))/h = (2xh + h^2 + 3h)/h = 2x + h + 3. As h → 0 this tends to 2x + 3.", "rubric": "1 pt for expanding; 1 pt for cancelling h; 1 pt for taking the limit.", "common_wrong_answers": ["2x", "2x + h + 3 (limit not taken)"], "requires_figure": false},
     {"id": "calc1.03-derivatives.basic-rules.q1", "concept_ids": ["calc1.03-derivatives.basic-rules"], "objective_ids": ["calc1.03-derivatives.basic-rules.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Differentiate f(x) = 4x + 9 - π.", "solution": "The derivative of 4x is 4, and the derivative of every constant (9 and π) is 0. So f'(x) = 4.", "rubric": "1 pt for 4; 1 pt for treating π as a constant.", "common_wrong_answers": ["4 - 1", "4x"], "requires_figure": false},
@@ -873,12 +568,12 @@
     {"id": "calc1.03-derivatives.linear-approx.q2", "concept_ids": ["calc1.03-derivatives.linear-approx"], "objective_ids": ["calc1.03-derivatives.linear-approx.lo1"], "type": "homework", "difficulty": "application", "prompt": "Use the linearization of sqrt(x) at a = 9 to approximate sqrt(9.3), and say whether it is an over- or underestimate.", "solution": "L(9.3) = 3 + 0.3/6 = 3.05. Since sqrt(x) is concave down, the tangent line lies above the curve, so 3.05 is an overestimate (the true value is about 3.0496).", "rubric": "1 pt for 3.05; 1 pt for the concavity argument; 1 pt for the correct direction of error.", "common_wrong_answers": ["3.3", "Underestimate"], "requires_figure": false},
     {"id": "calc1.04-diff-applications.evt-mvt.q1", "concept_ids": ["calc1.04-diff-applications.evt-mvt"], "objective_ids": ["calc1.04-diff-applications.evt-mvt.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "State the hypotheses and conclusion of the Mean Value Theorem.", "solution": "If f is continuous on [a, b] and differentiable on (a, b), then there exists c in (a, b) with f'(c) = (f(b) - f(a))/(b - a).", "rubric": "1 pt for continuity on [a, b]; 1 pt for differentiability on (a, b); 1 pt for the conclusion.", "common_wrong_answers": ["Requiring only continuity on (a, b)", "Concluding f(c) = (f(b) - f(a))/(b - a)"], "requires_figure": false},
     {"id": "calc1.04-diff-applications.evt-mvt.q2", "concept_ids": ["calc1.04-diff-applications.evt-mvt"], "objective_ids": ["calc1.04-diff-applications.evt-mvt.lo1"], "type": "homework", "difficulty": "application", "prompt": "Verify the Mean Value Theorem for f(x) = x^3 on [0, 2] and find the value(s) of c.", "solution": "f is a polynomial, hence continuous and differentiable. The average rate is (8 - 0)/2 = 4. Set 3c^2 = 4, so c = ±2/sqrt(3) and only c = 2/sqrt(3) ≈ 1.155 lies in (0, 2).", "rubric": "1 pt for the hypotheses; 1 pt for the average rate; 1 pt for solving; 1 pt for rejecting the negative root.", "common_wrong_answers": ["c = 1 (the midpoint)", "c = ±2/sqrt(3) without checking the interval"], "requires_figure": false},
-    {"id": "calc1.04-diff-applications.monotone-concave.q1", "concept_ids": ["calc1.04-diff-applications.monotone-concave"], "objective_ids": ["calc1.04-diff-applications.monotone-concave.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "What does f'(x) &lt; 0 on an interval tell you about f? What does f''(x) &gt; 0 tell you?", "solution": "f'(x) &lt; 0 means f is decreasing on the interval. f''(x) &gt; 0 means the graph of f is concave up (f' is increasing).", "rubric": "1 pt each.", "common_wrong_answers": ["f' &lt; 0 means concave down", "f'' &gt; 0 means f is increasing"], "requires_figure": false},
-    {"id": "calc1.04-diff-applications.monotone-concave.q2", "concept_ids": ["calc1.04-diff-applications.monotone-concave"], "objective_ids": ["calc1.04-diff-applications.monotone-concave.lo1"], "type": "homework", "difficulty": "application", "prompt": "For f(x) = x^3 - 3x, find the intervals where f is increasing or decreasing and where it is concave up or down.", "solution": "f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1): f is increasing on (-∞, -1) and (1, ∞), decreasing on (-1, 1). f''(x) = 6x: concave down for x &lt; 0, concave up for x &gt; 0.", "rubric": "1 pt for f'; 1 pt for the sign chart; 1 pt for f''; 1 pt for concavity intervals.", "common_wrong_answers": ["Increasing on (-1, 1)", "Concave up for x &lt; 0"], "requires_figure": false},
-    {"id": "calc1.04-diff-applications.extrema-inflection.q1", "concept_ids": ["calc1.04-diff-applications.extrema-inflection"], "objective_ids": ["calc1.04-diff-applications.extrema-inflection.lo1"], "type": "homework", "difficulty": "application", "prompt": "Find and classify the local extrema and inflection point of f(x) = x^3 - 6x^2 + 9x + 1.", "solution": "f'(x) = 3(x - 1)(x - 3), so critical points x = 1, 3. f''(x) = 6x - 12. f''(1) = -6 &lt; 0, so a local maximum at (1, 5). f''(3) = 6 &gt; 0, so a local minimum at (3, 1). f'' changes sign at x = 2, so the inflection point is (2, 3).", "rubric": "1 pt for critical points; 2 pts for classification; 1 pt for the inflection point.", "common_wrong_answers": ["Swapping maximum and minimum", "Calling x = 1 and x = 3 inflection points"], "requires_figure": false},
+    {"id": "calc1.04-diff-applications.monotone-concave.q1", "concept_ids": ["calc1.04-diff-applications.monotone-concave"], "objective_ids": ["calc1.04-diff-applications.monotone-concave.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "What does f'(x) < 0 on an interval tell you about f? What does f''(x) > 0 tell you?", "solution": "f'(x) < 0 means f is decreasing on the interval. f''(x) > 0 means the graph of f is concave up (f' is increasing).", "rubric": "1 pt each.", "common_wrong_answers": ["f' < 0 means concave down", "f'' > 0 means f is increasing"], "requires_figure": false},
+    {"id": "calc1.04-diff-applications.monotone-concave.q2", "concept_ids": ["calc1.04-diff-applications.monotone-concave"], "objective_ids": ["calc1.04-diff-applications.monotone-concave.lo1"], "type": "homework", "difficulty": "application", "prompt": "For f(x) = x^3 - 3x, find the intervals where f is increasing or decreasing and where it is concave up or down.", "solution": "f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1): f is increasing on (-∞, -1) and (1, ∞), decreasing on (-1, 1). f''(x) = 6x: concave down for x < 0, concave up for x > 0.", "rubric": "1 pt for f'; 1 pt for the sign chart; 1 pt for f''; 1 pt for concavity intervals.", "common_wrong_answers": ["Increasing on (-1, 1)", "Concave up for x < 0"], "requires_figure": false},
+    {"id": "calc1.04-diff-applications.extrema-inflection.q1", "concept_ids": ["calc1.04-diff-applications.extrema-inflection"], "objective_ids": ["calc1.04-diff-applications.extrema-inflection.lo1"], "type": "homework", "difficulty": "application", "prompt": "Find and classify the local extrema and inflection point of f(x) = x^3 - 6x^2 + 9x + 1.", "solution": "f'(x) = 3(x - 1)(x - 3), so critical points x = 1, 3. f''(x) = 6x - 12. f''(1) = -6 < 0, so a local maximum at (1, 5). f''(3) = 6 > 0, so a local minimum at (3, 1). f'' changes sign at x = 2, so the inflection point is (2, 3).", "rubric": "1 pt for critical points; 2 pts for classification; 1 pt for the inflection point.", "common_wrong_answers": ["Swapping maximum and minimum", "Calling x = 1 and x = 3 inflection points"], "requires_figure": false},
     {"id": "calc1.04-diff-applications.extrema-inflection.q2", "concept_ids": ["calc1.04-diff-applications.extrema-inflection"], "objective_ids": ["calc1.04-diff-applications.extrema-inflection.lo1"], "type": "midterm", "difficulty": "analysis", "prompt": "For f(x) = x^4, f''(0) = 0. Is x = 0 an inflection point? Does f have an extremum there? Justify.", "solution": "f''(x) = 12x^2 ≥ 0 never changes sign, so there is no inflection point. The second-derivative test is inconclusive, but f'(x) = 4x^3 changes from negative to positive at 0, so by the first-derivative test x = 0 is a local (indeed global) minimum.", "rubric": "1 pt for f''; 1 pt for no sign change; 2 pts for the first-derivative test conclusion.", "common_wrong_answers": ["Inflection point because f''(0) = 0", "No extremum because the second-derivative test failed"], "requires_figure": false},
-    {"id": "calc1.04-diff-applications.optimization.q1", "concept_ids": ["calc1.04-diff-applications.optimization"], "objective_ids": ["calc1.04-diff-applications.optimization.lo1"], "type": "homework", "difficulty": "application", "prompt": "A rectangular pen is built against a long barn wall using 100 m of fencing on the other three sides. What dimensions maximize the enclosed area?", "solution": "Let x be the width of each of the two sides perpendicular to the wall and y the side parallel to it, so 2x + y = 100 and y = 100 - 2x. Area A(x) = x(100 - 2x) = 100x - 2x^2 for 0 ≤ x ≤ 50. A' = 100 - 4x = 0 gives x = 25, y = 50, A = 1250 m^2. A'' = -4 &lt; 0 and the endpoints give A = 0, so this is the global maximum.", "rubric": "1 pt for the constraint; 1 pt for the objective in one variable; 1 pt for the critical point; 1 pt for justification and answer in context.", "common_wrong_answers": ["x = y = 33.3 m (fencing all four sides)", "x = 50 m"], "requires_figure": false},
-    {"id": "calc1.04-diff-applications.optimization.q2", "concept_ids": ["calc1.04-diff-applications.optimization"], "objective_ids": ["calc1.04-diff-applications.optimization.lo1"], "type": "midterm", "difficulty": "analysis", "prompt": "Find the point on the curve y = sqrt(x) that is closest to (4, 0).", "solution": "Minimize the squared distance D(x) = (x - 4)^2 + x for x ≥ 0. D'(x) = 2(x - 4) + 1 = 0 gives x = 3.5. D'' = 2 &gt; 0, so it is a minimum, and D(0) = 16 &gt; D(3.5) = 3.75. The closest point is (3.5, sqrt(3.5)).", "rubric": "1 pt for the squared distance; 1 pt for the derivative; 1 pt for x = 3.5; 1 pt for justification including the endpoint.", "common_wrong_answers": ["x = 4 (matching the x-coordinate)", "Reporting x = 3.5 without the y-coordinate"], "requires_figure": false},
+    {"id": "calc1.04-diff-applications.optimization.q1", "concept_ids": ["calc1.04-diff-applications.optimization"], "objective_ids": ["calc1.04-diff-applications.optimization.lo1"], "type": "homework", "difficulty": "application", "prompt": "A rectangular pen is built against a long barn wall using 100 m of fencing on the other three sides. What dimensions maximize the enclosed area?", "solution": "Let x be the width of each of the two sides perpendicular to the wall and y the side parallel to it, so 2x + y = 100 and y = 100 - 2x. Area A(x) = x(100 - 2x) = 100x - 2x^2 for 0 ≤ x ≤ 50. A' = 100 - 4x = 0 gives x = 25, y = 50, A = 1250 m^2. A'' = -4 < 0 and the endpoints give A = 0, so this is the global maximum.", "rubric": "1 pt for the constraint; 1 pt for the objective in one variable; 1 pt for the critical point; 1 pt for justification and answer in context.", "common_wrong_answers": ["x = y = 33.3 m (fencing all four sides)", "x = 50 m"], "requires_figure": false},
+    {"id": "calc1.04-diff-applications.optimization.q2", "concept_ids": ["calc1.04-diff-applications.optimization"], "objective_ids": ["calc1.04-diff-applications.optimization.lo1"], "type": "midterm", "difficulty": "analysis", "prompt": "Find the point on the curve y = sqrt(x) that is closest to (4, 0).", "solution": "Minimize the squared distance D(x) = (x - 4)^2 + x for x ≥ 0. D'(x) = 2(x - 4) + 1 = 0 gives x = 3.5. D'' = 2 > 0, so it is a minimum, and D(0) = 16 > D(3.5) = 3.75. The closest point is (3.5, sqrt(3.5)).", "rubric": "1 pt for the squared distance; 1 pt for the derivative; 1 pt for x = 3.5; 1 pt for justification including the endpoint.", "common_wrong_answers": ["x = 4 (matching the x-coordinate)", "Reporting x = 3.5 without the y-coordinate"], "requires_figure": false},
     {"id": "calc1.04-diff-applications.lhopital.q1", "concept_ids": ["calc1.04-diff-applications.lhopital"], "objective_ids": ["calc1.04-diff-applications.lhopital.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Evaluate lim_{x→0} (e^x - 1)/x.", "solution": "The form is 0/0. By L'Hopital's rule the limit equals lim e^x/1 = 1.", "rubric": "1 pt for verifying 0/0; 1 pt for differentiating numerator and denominator separately; 1 pt for 1.", "common_wrong_answers": ["0", "Using the quotient rule on (e^x - 1)/x"], "requires_figure": false},
     {"id": "calc1.04-diff-applications.lhopital.q2", "concept_ids": ["calc1.04-diff-applications.lhopital"], "objective_ids": ["calc1.04-diff-applications.lhopital.lo1"], "type": "homework", "difficulty": "application", "prompt": "Evaluate lim_{x→∞} x^2 e^(-x).", "solution": "Rewrite as x^2/e^x, a ∞/∞ form. Applying L'Hopital: 2x/e^x, still ∞/∞. Applying again: 2/e^x → 0.", "rubric": "1 pt for rewriting as a quotient; 1 pt for the first application; 1 pt for the second and the answer 0.", "common_wrong_answers": ["∞·0 = 0 directly, without justification", "∞"], "requires_figure": false},
     {"id": "calc1.05-integration.antiderivatives.q1", "concept_ids": ["calc1.05-integration.antiderivatives"], "objective_ids": ["calc1.05-integration.antiderivatives.lo1"], "type": "quiz", "difficulty": "recall", "prompt": "Find ∫ (3x^2 - 4/x + e^(2x)) dx.", "solution": "x^3 - 4 ln|x| + (1/2)e^(2x) + C.", "rubric": "1 pt per term; 1 pt for +C.", "common_wrong_answers": ["Omitting +C", "x^3 - 4x^0/0 + e^(2x) + C"], "requires_figure": false},
@@ -917,277 +612,4 @@
     {"entity": "AssessmentQuestion", "id": "calc1.*", "field": "type", "assumption": "Recall questions are typed 'quiz', application questions 'homework', and analysis questions 'midterm'.", "reason": "The syllabus does not describe assessment forms; these types match common practice in a lecture-based calculus course."},
     {"entity": "AssessmentQuestion", "id": "calc1.*", "field": "solution", "assumption": "Worked solutions and common wrong answers were written for each question from standard calculus content.", "reason": "No problem sets or exams were supplied with the syllabus."}
   ]
-}</pre></div>
-</section>
-
-<section id="schemas">
-  <h2><span class="n">3</span>The Shared Schemas</h2>
-  <p class="lead">Tutoring runs on a small set of shared records: two that get compared, a running diff between them, and the action that diff produces.</p>
-  <div class="twocol">
-    <div>
-      <div class="qbox">
-        <span class="t">Question Schema — the target (static, retrieved)</span>
-        <div style="font-size:.9rem">What a fully correct solution requires:</div>
-        <ul style="font-size:.88rem; margin:6px 0 0">
-          <li><code>prompt</code>, <code>course_id</code>, <code>module_id</code></li>
-          <li><code>learning_objectives</code>, <code>prerequisite_concepts</code></li>
-          <li><code>correct_approach</code> {technique, <em>justification</em>}</li>
-          <li><code>common_misconceptions</code> [{description, cue}]</li>
-          <li><code>source_reference</code></li>
-        </ul>
-      </div>
-    </div>
-    <div>
-      <div class="sbox">
-        <span class="t">Student-State Schema — the estimate (evolving)</span>
-        <div style="font-size:.9rem">The system's current model of the student:</div>
-        <ul style="font-size:.88rem; margin:6px 0 0">
-          <li><code>observed_approach</code>, <code>stated_reasoning</code></li>
-          <li><code>prerequisite_status</code> [{concept, status, evidence}]</li>
-          <li><code>components_correct</code>, <code>suspected_misconception</code> {desc, confidence}</li>
-          <li><code>interventions_attempted</code>, <code>evidence_of_understanding_level</code> (0–5)</li>
-          <li><code>gap_notes</code></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <p>The Question Schema is <strong>not written by hand</strong> — every field is a lookup against the knowledge base: <code>correct_approach</code> comes from the question's solution plus the concept summary; <code>common_misconceptions</code> from the concept's difficulty notes; prerequisites and objectives by following link ids. Only the <em>target-relevant</em> Student-State slots are compared against it — <code>observed_approach</code> vs. <code>correct_approach.technique</code>, and <code>prerequisite_status</code> vs. <code>prerequisite_concepts</code>.</p>
-  <div class="callout good"><strong>Closing the gaps, not "converging."</strong> The other Student-State slots — <code>interventions_attempted</code>, attempt counts, <code>suspected_misconception</code> confidence — have <em>no counterpart</em> in the target; they're session context the tutor needs, never something to "match." So the goal isn't to make the whole Student-State converge to the Question Schema (it never will — it deliberately holds more). The goal is to <strong>close the open gaps</strong> on the slots that do have a target.</div>
-
-  <h3>The Gap Record — the running diff</h3>
-  <p>Each turn, after new evidence updates the Student-State, the system re-compares the two and writes a <strong>Gap Record</strong>: the target requirements still unresolved, each with a status and the evidence so far. It's the running, inspectable answer to "what's left?" — carried across turns, not re-judged from scratch each time. The decision layer then reads the top open gap and emits a <strong>Tutoring Action</strong>.</p>
-  <div class="twocol">
-    <div>
-      <div class="schemapane g">
-        <div class="sphead">Gap Record — the running diff (derived each turn)</div>
-        <div class="spbody">
-          <div class="row"><span class="fn">question_id</span>the question being worked</div>
-          <div class="row"><span class="fn">open_gaps[]</span>{ target_slot, requirement, status: <em>open / partial / closed</em>, evidence }</div>
-          <div class="row"><span class="fn">closed_gaps[]</span>requirements already met, with the turn that closed each</div>
-          <div class="row"><span class="fn">off_target_context</span>Student-State slots with no target counterpart — carried, never scored</div>
-          <div class="row"><span class="fn">resolved_when</span><code>open_gaps</code> is empty — every target slot closed</div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="schemapane a">
-        <div class="sphead">Tutoring Action Schema — the decision-layer output</div>
-        <div class="spbody">
-          <div class="row"><span class="fn">action</span>one of the vocabulary below (hint, explain, retry, …)</div>
-          <div class="row"><span class="fn">target_gap</span>which open gap this action is meant to close</div>
-          <div class="row"><span class="fn">goal</span>the evidence this action is trying to elicit or produce</div>
-          <div class="row"><span class="fn">constraints[]</span>e.g. don't reveal the answer, one hint at a time, stay Socratic</div>
-          <div class="row"><span class="fn">rationale</span>why this action, given the current gap and history</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <p>That closes the loop: <em>student evidence → Student-State update → Gap Record → Tutoring Action → interaction layer → student → …</em> The decision layer never re-derives "what should I do?" from the raw transcript; it reads the open gap and chooses an action with a goal and constraints the interaction layer can render directly.</p>
-  <div class="callout"><strong>These are shared contracts, not one team's internal format.</strong> The same records are consumed well beyond retrieval: the <strong>retrieval layer</strong> populates the Question Schema from the knowledge base; the <strong>student-evidence layer</strong> reads the question/concept context to interpret each response into Student-State updates; the <strong>decision layer</strong> consumes the Gap Record directly to choose an action; and the <strong>interaction/presentation layer</strong> reads the Tutoring Action to present it. Each stays decoupled behind the same schemas.</div>
-
-  <h3>The pedagogical action vocabulary</h3>
-  <p>The <code>action</code> field of a Tutoring Action is one of:</p>
-  <div class="chips">
-    <span>elicit</span><span>probe</span><span>inspect</span><span>diagnose</span><span>hint</span><span>contrast</span><span>explain</span><span>demonstrate</span><span>retry</span><span>verify</span><span>check understanding</span><span>transfer</span>
-  </div>
-</section>
-
-<section id="flow">
-  <h2><span class="n">4</span>The Tutoring Flow</h2>
-  <p class="lead">A Socratic decision tree, worked out on $\displaystyle\int x\cos x\,dx$ — a problem that <em>looks</em> like substitution but needs integration by parts.</p>
-  <p>The tutor opens by asking the student's approach and where they got stuck, then branches on whether that approach was <strong>wrong</strong> (reached for u-substitution) or <strong>correct</strong> (integration by parts). The wrong branch doesn't just correct — it hands the student an easy u-sub problem to contrast against, makes them articulate the structural difference, then converges on the right technique. Loops send the student back to re-attempt until they resolve it, ending in two transfer problems (one similar, one different). The red nodes are <strong>retrieval from the course breakdown</strong> — the flow is driven by the knowledge base, not improvised.</p>
-  <div class="diagram">
-    <img src="ovunc_tutor.svg" alt="Tutoring-flow decision tree for the integral of x cos x">
-  </div>
-  <p class="exnote">Source: <code>ovunc_tutor.tex</code> · <a href="ovunc_tutor.pdf" target="_blank" rel="noopener">open the diagram as a PDF</a>.</p>
-</section>
-
-<section id="trace">
-  <h2><span class="n">5</span>Worked Trace — Closing the Gaps</h2>
-  <p class="lead">A 13-turn tutoring session on $\displaystyle\int x\cos x\,dx$. Each turn is one trip through the loop: a <strong>Tutoring Action</strong> is emitted from the current <strong>Gap Record</strong>, and the student's response produces a <strong>Student-State update</strong> that re-computes which gaps are still open.</p>
-  <p class="exnote"><strong>Before the session.</strong> The Question Schema is fully populated by retrieval from the knowledge base; the Student-State starts empty, so every target slot is an open gap. Each pane scrolls independently.</p>
-  <div class="twocol">
-    <div class="schemapane q">
-      <div class="sphead">Question Schema — target (fully retrieved)</div>
-      <div class="spbody">
-      <div class="row"><span class="fn">question_id</span>calc1.module-F.q-xcosx-01</div>
-      <div class="row"><span class="fn">course_id</span>calc1 (Calculus I)</div>
-      <div class="row"><span class="fn">module_id</span>calc1.module-F — Applications of the Integral</div>
-      <div class="row"><span class="fn">prompt</span>$\displaystyle\int x\cos x\,dx$</div>
-      <div class="row"><span class="fn">learning_objectives</span><strong>LO1:</strong> select the appropriate integration technique from the structural form of the integrand. <strong>LO2:</strong> correctly apply integration by parts, including the choice of $u$ and $dv$.</div>
-      <div class="row"><span class="fn">prerequisite_concepts</span><strong>P1:</strong> u-substitution mechanics (reversing the chain rule). <strong>P2:</strong> the structural test for u-substitution — the integrand must contain a constant multiple of the derivative of some “inner” function. <strong>P3:</strong> the integration-by-parts formula $\int u\,dv = uv - \int v\,du$ and a method for choosing $u$ and $dv$.</div>
-      <div class="row"><span class="fn">correct_approach</span><em>technique:</em> integration by parts, with $u=x$, $dv=\cos x\,dx$. <em>justification:</em> $x$ and $\cos x$ are structurally unrelated (an algebraic factor and a trig factor with no derivative relationship), so the u-substitution test fails; a product of two unrelated, repeatedly differentiable/integrable functions is the signature case for parts.</div>
-      <div class="row"><span class="fn">common_misconceptions</span><strong>M1:</strong> seeing “an $x$ next to a trig or exponential function” gets pattern-matched to chain-rule / u-substitution without checking whether $x$ is actually a multiple of the derivative of anything in the integrand.</div>
-      <div class="row"><span class="fn">source_reference</span>Calc I course breakdown, Module F (Applications of the Integral), difficulty note on technique-selection confusion.</div>
-      </div>
-    </div>
-    <div class="schemapane s">
-      <div class="sphead">Student-State — initial (empty)</div>
-      <div class="spbody">
-      <div class="row"><span class="fn">question_id</span>calc1.module-F.q-xcosx-01</div>
-      <div class="row"><span class="fn">observed_approach</span><span class="empty">— unknown</span></div>
-      <div class="row"><span class="fn">stated_reasoning</span><span class="empty">— unknown</span></div>
-      <div class="row"><span class="fn">prerequisite_status</span>P1: <span class="empty">unknown</span>; P2: <span class="empty">unknown</span>; P3: <span class="empty">unknown</span> <span class="empty">(no evidence yet)</span></div>
-      <div class="row"><span class="fn">components_correct</span><span class="empty">— none yet</span></div>
-      <div class="row"><span class="fn">suspected_misconception</span><span class="empty">— none (confidence —)</span></div>
-      <div class="row"><span class="fn">interventions_attempted</span><span class="empty">— none</span></div>
-      <div class="row"><span class="fn">evidence_of_understanding_level</span>0</div>
-      <div class="row"><span class="fn">gap_notes</span><span class="empty">nothing compared yet</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 1</span> <span class="tact">Elicit</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Can you walk me through what you tried on $\int x\cos x\,dx$, and where you got stuck?</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">I tried u-substitution, but it didn't simplify into something I could integrate.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>observed_approach</code> &larr; u-substitution; <code>stated_reasoning</code> &larr; attempted u-sub, got stuck.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 2</span> <span class="tact">Diagnose <em>(internal &mdash; retrieval vs. Question Schema)</em></span></div>
-    <div class="tinternal"><code>observed_approach</code> is compared to <code>correct_approach.technique</code> &rArr; mismatch. Checked against <code>common_misconceptions</code> &rArr; matches the M1 surface-feature pattern.</div>
-    <div class="tupdate"><strong>State update:</strong> <code>suspected_misconception</code> &larr; {M1 pattern-match, confidence: tentative}.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 3</span> <span class="tact">Contrast</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Here's a similar-looking integral: $\int x e^{x^2}\,dx$. Can you solve this one?</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">$u=x^2$, $du=2x\,dx$, so $\int x e^{x^2}\,dx = \tfrac12 e^{x^2}+C$.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>prerequisite_status[P1]</code> &larr; confirmed; <code>components_correct</code> += u-substitution mechanics.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 4</span> <span class="tact">Probe</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Do you think $\int x\cos x\,dx$ and $\int x e^{x^2}\,dx$ are structurally the same? Why or why not?</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">No, I don't think they're the same&hellip; maybe because $\cos x$ isn't like $e^{x^2}$?</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>components_correct</code> += senses the integrals differ; <code>prerequisite_status[P2]</code> &larr; partially demonstrated (right instinct, no structural reason yet).</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 5</span> <span class="tact">Explain</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Look at the derivative relationship. In $\int x e^{x^2}\,dx$, $\frac{d}{dx}(x^2)=2x$, and $x$ is a constant multiple of that &mdash; exactly what u-substitution undoes. In $\int x\cos x\,dx$, $x$ is not the derivative of anything inside $\cos x$; there's no composition to undo. The test: is one factor a multiple of the derivative of what's &lsquo;inside&rsquo; the other? Here, no.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>prerequisite_status[P2]</code> &larr; confirmed (assisted &mdash; given by explanation, not yet independently re-applied).</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 6</span> <span class="tact">Probe</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Given there's no derivative relationship to exploit here, what other technique might work?</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">Maybe integration by parts? Or&hellip; could trig substitution work?</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>observed_approach</code> &larr; integration by parts (tentative), alongside an incorrect alternative.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 7</span> <span class="tact">Probe + Explain</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Why would trig substitution apply here?</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">I guess because there's a $\cos x$ in it?</div></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Trig substitution is for integrands with $\sqrt{a^2-x^2}$-type expressions &mdash; having a trig function present isn't itself the trigger, so that one doesn't apply. But you're right about integration by parts: a product of an algebraic factor and a function with no derivative relationship to it is the signature case for parts.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>suspected_misconception</code> &larr; resolved; <code>observed_approach</code> &larr; integration by parts (confirmed); <code>evidence_of_understanding_level</code> &larr; 1 (recognizes the approach &mdash; not yet executed).</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 8</span> <span class="tact">Retry</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Now that we've settled on integration by parts, go ahead and try it on $\int x\cos x\,dx$.</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">I'll take $u=\cos x$, $dv=x\,dx$, so $du=-\sin x\,dx$, $v=\tfrac{x^2}{2}$: $\int x\cos x\,dx = \tfrac{x^2}{2}\cos x + \int \tfrac{x^2}{2}\sin x\,dx$&hellip; but this looks more complicated than what I started with.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>prerequisite_status[P3]</code> &larr; partially demonstrated (applies the formula correctly, but the choice of $u,dv$ is backwards).</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 9</span> <span class="tact">Hint</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Look at the new integral you ended up with &mdash; is it simpler or more complicated than the one you started with?</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">&hellip;more complicated.</div></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Right. A correct choice of $u,dv$ should usually make things easier, not harder &mdash; that's your signal the choice is backwards. What happens if you swap them?</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>suspected_misconception</code> &larr; refined: formula mechanics are fine, but there's no check yet for whether a $u,dv$ choice is making progress.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 10</span> <span class="tact">Retry</span></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">$u=x$, $dv=\cos x\,dx$, so $du=dx$, $v=\sin x$. $\int x\cos x\,dx = x\sin x - \int\sin x\,dx = x\sin x + \cos x + C$.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>prerequisite_status[P3]</code> &larr; confirmed (assisted &mdash; reached correctly, but only after the Turn-9 hint); <code>components_correct</code> += executes IBP correctly once $u,dv$ is chosen well.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 11</span> <span class="tact">Verify</span></div>
-    <div class="tinternal">The tutor checks the answer by differentiating: $\frac{d}{dx}(x\sin x+\cos x) = \sin x + x\cos x - \sin x = x\cos x$, which matches the integrand.</div>
-    <div class="tupdate"><strong>State update:</strong> <code>components_correct</code> += final answer verified correct.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 12</span> <span class="tact">Check understanding</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Why did swapping $u$ and $dv$ make this work?</div></div>
-    <div class="tmsg stu"><span class="who">Student</span><div class="bubble">If $u=x$, differentiating it only takes one step to get to $1$. If I'd kept $u=\cos x$, differentiating it just cycles through trig functions and never simplifies, and integrating powers of $x$ keeps raising the degree instead of lowering it.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>evidence_of_understanding_level</code> &larr; 4 (explains <em>why</em> the approach works); <code>components_correct</code> += states the $u,dv$ selection heuristic in general terms.</div>
-  </div>
-  <div class="turn">
-    <div class="thead"><span class="tn">Turn 13</span> <span class="tact">Transfer</span></div>
-    <div class="tmsg dp"><span class="who">Digital Professor</span><div class="bubble">Try these two on your own: (1) $\int x\sin x\,dx$, and (2) $\int x\,e^{-x^2}\,dx$.</div></div>
-    <div class="tupdate"><strong>State update:</strong> <code>interventions_attempted</code> += Transfer (one same-technique problem, one that actually needs u-substitution). <code>evidence_of_understanding_level</code> can only reach 5 once these two come back &mdash; the example stops here.</div>
-  </div>
-
-  <p class="exnote"><strong>After the session.</strong> The same Question Schema, now beside the Student-State as it stands after Turn 13 — filled in, turn by turn, through the conversation above.</p>
-  <div class="twocol">
-    <div class="schemapane q">
-      <div class="sphead">Question Schema — target (fully retrieved)</div>
-      <div class="spbody">
-      <div class="row"><span class="fn">question_id</span>calc1.module-F.q-xcosx-01</div>
-      <div class="row"><span class="fn">course_id</span>calc1 (Calculus I)</div>
-      <div class="row"><span class="fn">module_id</span>calc1.module-F — Applications of the Integral</div>
-      <div class="row"><span class="fn">prompt</span>$\displaystyle\int x\cos x\,dx$</div>
-      <div class="row"><span class="fn">learning_objectives</span><strong>LO1:</strong> select the appropriate integration technique from the structural form of the integrand. <strong>LO2:</strong> correctly apply integration by parts, including the choice of $u$ and $dv$.</div>
-      <div class="row"><span class="fn">prerequisite_concepts</span><strong>P1:</strong> u-substitution mechanics (reversing the chain rule). <strong>P2:</strong> the structural test for u-substitution — the integrand must contain a constant multiple of the derivative of some “inner” function. <strong>P3:</strong> the integration-by-parts formula $\int u\,dv = uv - \int v\,du$ and a method for choosing $u$ and $dv$.</div>
-      <div class="row"><span class="fn">correct_approach</span><em>technique:</em> integration by parts, with $u=x$, $dv=\cos x\,dx$. <em>justification:</em> $x$ and $\cos x$ are structurally unrelated (an algebraic factor and a trig factor with no derivative relationship), so the u-substitution test fails; a product of two unrelated, repeatedly differentiable/integrable functions is the signature case for parts.</div>
-      <div class="row"><span class="fn">common_misconceptions</span><strong>M1:</strong> seeing “an $x$ next to a trig or exponential function” gets pattern-matched to chain-rule / u-substitution without checking whether $x$ is actually a multiple of the derivative of anything in the integrand.</div>
-      <div class="row"><span class="fn">source_reference</span>Calc I course breakdown, Module F (Applications of the Integral), difficulty note on technique-selection confusion.</div>
-      </div>
-    </div>
-    <div class="schemapane s">
-      <div class="sphead">Student-State — after Turn 13 (filled)</div>
-      <div class="spbody">
-      <div class="row"><span class="fn">question_id</span>calc1.module-F.q-xcosx-01</div>
-      <div class="row"><span class="fn">observed_approach</span>integration by parts, executed correctly with $u=x$, $dv=\cos x\,dx$ <strong>(confirmed)</strong></div>
-      <div class="row"><span class="fn">stated_reasoning</span>attempted u-sub, stuck → senses $\cos x$ differs from $e^{x^2}$ → identifies the missing derivative relationship and proposes parts → first tries $u=\cos x$ and notices the result got harder → swaps to $u=x$ and solves it → explains the $u,dv$ choice in general terms.</div>
-      <div class="row"><span class="fn">prerequisite_status</span>P1 (u-sub mechanics): <strong>confirmed</strong>. P2 (structural test): <strong>confirmed (assisted)</strong>. P3 (IBP formula &amp; $u,dv$ choice): <strong>confirmed (assisted)</strong> — formula fine on the first attempt; the $u,dv$ choice needed one hint (Turn 9) before it was independent.</div>
-      <div class="row"><span class="fn">components_correct</span>u-substitution mechanics; senses the two integrals differ; correctly names integration by parts; executes it correctly once $u,dv$ is chosen well; final answer verified; states the $u,dv$ selection heuristic in general terms.</div>
-      <div class="row"><span class="fn">suspected_misconception</span>M1 (surface-feature pattern-matching) — <strong>resolved</strong>, confidence high. A narrower one also surfaced and was resolved: applying the IBP formula without checking whether the resulting integral is actually simpler.</div>
-      <div class="row"><span class="fn">interventions_attempted</span>Elicit (T1), Diagnose (T2), Contrast (T3), Probe (T4), Explain (T5), Probe (T6), Probe+Explain (T7), Retry (T8), Hint (T9), Retry (T10), Verify (T11), Check understanding (T12), Transfer (T13).</div>
-      <div class="row"><span class="fn">evidence_of_understanding_level</span>4 — explains <em>why</em> the approach works. Not yet 5: that needs the two transfer questions from Turn 13.</div>
-      <div class="row"><span class="fn">gap_notes</span><code>observed_approach</code> and P1–P3 now match the Question Schema. The only thing still open is Level 5 (transfer), pending the student's Turn-13 responses.</div>
-      </div>
-    </div>
-  </div>
-  <h3>Behind one turn — the Gap Record and the Tutoring Action</h3>
-  <p class="exnote">The turns above show the dialogue and the Student-State update. Underneath each one sits the same two-step machinery: the <strong>Gap Record</strong> entering the turn, and the <strong>Tutoring Action</strong> the decision layer emits from it. Here is that machinery for <strong>Turn 9 (Hint)</strong> — the student has just produced a correct-but-backwards integration-by-parts attempt.</p>
-  <div class="twocol">
-    <div class="schemapane g">
-      <div class="sphead">Gap Record — entering Turn 9</div>
-      <div class="spbody">
-      <div class="row"><span class="fn">open_gaps[0]</span><strong>P3 — IBP formula &amp; $u,dv$ choice.</strong> status: <em>partial</em>. evidence: applies the formula correctly, but chose $u=\cos x$, $dv=x\,dx$ (backwards) and the resulting integral got <em>more</em> complex, not less.</div>
-      <div class="row"><span class="fn">open_gaps[1]</span><strong>evidence_of_understanding_level → 5 (transfer).</strong> status: <em>open</em>. evidence: recognizes and is executing the technique, but hasn't transferred it.</div>
-      <div class="row"><span class="fn">closed_gaps</span>technique = integration by parts (T7); M1 surface-pattern misconception (T7); P1 u-sub mechanics (T3); P2 structural test (T5, assisted).</div>
-      <div class="row"><span class="fn">off_target_context</span><code>interventions_attempted</code> = [Elicit, Diagnose, Contrast, Probe, Explain, Probe, Probe+Explain, Retry] — history, not scored against the target.</div>
-      </div>
-    </div>
-    <div class="schemapane a">
-      <div class="sphead">Tutoring Action — emitted for Turn 9</div>
-      <div class="spbody">
-      <div class="row"><span class="fn">action</span>hint</div>
-      <div class="row"><span class="fn">target_gap</span>open_gaps[0] — the backwards $u,dv$ choice (P3)</div>
-      <div class="row"><span class="fn">goal</span>get the student to notice the new integral is more complex than the original, and infer <em>on their own</em> that the $u,dv$ choice is backwards.</div>
-      <div class="row"><span class="fn">constraints</span>don't reveal the correct $u,dv$; one hint only; keep it a question (Socratic).</div>
-      <div class="row"><span class="fn">rationale</span>the formula mechanics are already sound — don't re-teach them; the gap is specifically the selection heuristic, so prompt self-correction rather than explain.</div>
-      </div>
-    </div>
-  </div>
-  <p class="exnote">That action is exactly what the tutor says in Turn 9 above. Every other turn is produced the same way — this is just the one place the intermediate records are drawn out.</p>
-
-  <h3>Final Gap Record</h3>
-  <p class="exnote">The session is resolved when no target slot has an open gap. This is the Gap Record at the end of Turn 13 — the comparable slots only.</p>
-  <table>
-    <thead><tr><th>Field</th><th>Target (Question Schema)</th><th>Student-State (final)</th><th>Gap closed?</th></tr></thead>
-    <tbody>
-      <tr><td>technique</td><td>integration by parts</td><td>integration by parts, executed</td><td class="yes">Yes</td></tr>
-      <tr><td>P1 u-sub mechanics</td><td>required</td><td>confirmed</td><td class="yes">Yes</td></tr>
-      <tr><td>P2 structural test</td><td>required</td><td>confirmed (assisted)</td><td>Partial — not yet independent</td></tr>
-      <tr><td>P3 IBP formula &amp; $u,dv$</td><td>required</td><td>confirmed (assisted)</td><td>Partial — choice needed a hint</td></tr>
-      <tr><td>M1 misconception</td><td>watch for it</td><td>resolved</td><td class="yes">Yes</td></tr>
-      <tr><td>evidence level</td><td>5 (transfer)</td><td>4 (explains why)</td><td>Partial — awaiting Turn 13</td></tr>
-    </tbody>
-  </table>
-</section>
-
-<footer>
-  Digital Professor · Research / Syllabus Understanding · Design example<br>
-  Summarizing the course-context schema, the Calculus I knowledge base, the Question / Student-State / Gap Record / Tutoring Action schemas, and the tutoring-flow diagram.
-</footer>
-
-</body>
-</html>
+}
