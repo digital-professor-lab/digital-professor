@@ -8,7 +8,7 @@
 
 The Student Interaction and Evidence module is the entry and return point for each tutoring turn. It captures student input, routes it through the appropriate recognition path, confirms meaning-changing ambiguity, and produces validated `StudentEvidence` for the Learner State/Tutoring Engine.
 
-It also coordinates the handoffs around a turn: receiving Course/Question Context, requesting course grounding when required, forwarding evidence, receiving a `TutoringAction`, sending it to Delivery, and linking the student's next response to the action that prompted it.
+It also coordinates the handoffs around a turn: receiving Course Context / Question Schema, requesting course grounding when required, forwarding evidence, receiving a `TutoringAction`, sending it to Delivery, and linking the student's next response to the action that prompted it.
 
 ## 2. Responsibilities
 
@@ -57,7 +57,7 @@ This V1 supports the main ways a student expresses mathematical work while limit
 
 ### Required
 
-- `CourseContext` and `QuestionContext` from Course Context/Ingestion.
+- `CourseContext` and `QuestionSchema` from Course Context/Ingestion.
 - Session/identity service for stable identifiers and authorization.
 - Shared schema validation from `interfaces.md`.
 - Artifact storage for original input and permitted derived artifacts.
@@ -83,7 +83,7 @@ This V1 supports the main ways a student expresses mathematical work while limit
 | Input | Producer | Required behavior |
 |---|---|---|
 | Raw student input | Student/client | Preserve as `StudentSubmission.original_artifact_ref` before recognition. |
-| Course and Question Context | Ovunc's component | Validate course/question/version identifiers and retain references. |
+| Course Context and Question Schema | Ovunc's component | Validate course/question/version identifiers and retain references. |
 | Recognition response | Selected recognizer | Store best candidate, alternatives, ambiguity regions, provenance, and status. |
 | Student confirmation/edit | Student through Delivery/UI | Create `RecognitionCorrection`; never overwrite the original output. |
 | Grounding result | Sean's retrieval component | Preserve passage IDs, page/line references, version, and status. |
@@ -320,7 +320,7 @@ Interaction requires:
 
 - Valid `course_id` and `question_id`.
 - Question prompt and expected response modes.
-- Topic/objective references used for routing.
+- Concept/objective references used for routing.
 - Source/content versions allowed for grounding.
 - Question constraints relevant to help or attempts.
 
@@ -343,7 +343,7 @@ Sean should confirm supported filters, query fields, ranking metadata, and line/
 Interaction sends:
 
 - Valid or explicitly allowed partial `StudentEvidence`.
-- `CourseContext`/`QuestionContext` references and versions.
+- `CourseContext`/`QuestionSchema` references and versions.
 - `GroundingBundle` reference if the agreed routing sequence retrieves first.
 - Prior action/evidence links needed for the current turn.
 
@@ -452,7 +452,7 @@ The trace should make these later measurements possible:
 ## 19. Open questions for team review
 
 1. Should Interaction or the Tutoring Engine own `RetrievalRequest` generation?
-2. What exact Question Context fields will Ovunc guarantee before interaction starts?
+2. What exact Question Schema fields will Ovunc guarantee before interaction starts?
 3. What passage and filter fields does Sean require for useful retrieval?
 4. Does every handwriting/voice transcript require a review screen, or only meaning-changing ambiguity?
 5. Who defines the threshold/policy for allowing partial evidence into the Tutoring Engine?
@@ -466,7 +466,7 @@ The trace should make these later measurements possible:
 
 ### Ovunc
 
-- Verify the expected Course/Question Context fields.
+- Verify the expected Course Context / Question Schema fields.
 - Identify missing inputs needed to connect evidence to a question, objective, or rubric.
 - Confirm how source versions and page/line mappings are exposed.
 

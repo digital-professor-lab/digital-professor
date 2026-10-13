@@ -15,7 +15,7 @@ The architecture should remain reusable across courses. The initial implementati
 2. **Separate evidence from interpretation.** Student Evidence records observable submissions. Learner State records the Tutoring Engine's interpretation.
 3. **Ground course claims.** Course-specific explanations and decisions should resolve to versioned passages with page and line locations.
 4. **Use explicit contracts.** Every handoff has a producer, consumer, schema version, status, and failure behavior.
-5. **Keep decisions traceable.** A tutoring action should be traceable to Student Evidence, Course/Question Context, Learner State, and grounding passages.
+5. **Keep decisions traceable.** A tutoring action should be traceable to Student Evidence, Course Context / Question Schema, Learner State, and grounding passages.
 6. **Make diagnostics configurable.** Required session state remains available while optional diagnostic logging can be turned on or off.
 
 ## 3. High-level architecture
@@ -23,7 +23,7 @@ The architecture should remain reusable across courses. The initial implementati
 ```mermaid
 flowchart LR
     U[Student] --> I[Interaction and Recognition]
-    CQ[Course and Question Context] --> I
+    CQ[Course Context and Question Schema] --> I
     CQ --> T[Learner State and Tutoring Engine]
     I -->|RetrievalRequest| R[Course Knowledge Retrieval]
     R -->|GroundingBundle| T
@@ -41,10 +41,10 @@ flowchart LR
 
 | Component | Owns | Receives | Produces | Does not own |
 |---|---|---|---|---|
-| Course Context and Ingestion | Document classification, parsing, normalized page text, course structure, Question Context, preparation for indexing | Syllabi, lecture notes, textbooks, instructor questions, ingestion configuration | `CourseContext`, `QuestionContext`, versioned source pages/chunks | Student diagnosis or tutoring-action selection |
+| Course Context and Ingestion | Document classification, parsing, normalized page text, course structure, Question Schema, preparation for indexing | Syllabi, lecture notes, textbooks, instructor questions, ingestion configuration | `CourseContext`, `QuestionSchema`, versioned source pages/chunks | Student diagnosis or tutoring-action selection |
 | Course Knowledge Retrieval | Indexing, search, ranking, source-location resolution, grounding status | Versioned chunks and `RetrievalRequest` | `GroundingBundle` containing passage-level citations | Deciding what the student knows or which intervention to use |
-| Interaction and Recognition | Input capture, modality routing, recognition, ambiguity confirmation, Student Evidence construction, turn coordination | Student input, `CourseContext`, `QuestionContext`, `DeliveryResult` | `StudentSubmission`, `StudentEvidence`, `RetrievalRequest`, `InteractionTraceEvent` records | Diagnosing knowledge gaps or choosing pedagogy |
-| Learner State and Tutoring Engine | Evidence interpretation, learner-state update, gap identification, action selection | `StudentEvidence`, `QuestionContext`, `CourseContext`, `GroundingBundle`, prior `LearnerState` | Updated `LearnerState` and `TutoringAction` | Input recognition or user-interface presentation |
+| Interaction and Recognition | Input capture, modality routing, recognition, ambiguity confirmation, Student Evidence construction, turn coordination | Student input, `CourseContext`, `QuestionSchema`, `DeliveryResult` | `StudentSubmission`, `StudentEvidence`, `RetrievalRequest`, `InteractionTraceEvent` records | Diagnosing knowledge gaps or choosing pedagogy |
+| Learner State and Tutoring Engine | Evidence interpretation, learner-state update, gap identification, action selection | `StudentEvidence`, `QuestionSchema`, `CourseContext`, `GroundingBundle`, prior `LearnerState` | Updated `LearnerState` and `TutoringAction` | Input recognition or user-interface presentation |
 | Delivery Layer | Rendering and presenting the approved action through an available channel | `TutoringAction`, channel capabilities, accessibility/preferences | `DeliveryResult` and the next student interaction | Changing the pedagogical action without returning a failure or adaptation request |
 | Session State and Trace | Required tutoring continuity, record versions, configurable diagnostics | Events and records from all components | Current session view, audit/diagnostic trace when enabled | Making tutoring decisions |
 
@@ -65,7 +65,7 @@ Provider-specific tools are implementation choices and should not appear as requ
 
 | Stage | Producer → consumer | Input | Output | Expected behavior |
 |---|---|---|---|---|
-| 1. Establish context | Course Context → Interaction and Tutoring Engine | Selected course and question | `CourseContextRef` and `QuestionContext` | Both components use the same versioned question and course identifiers. |
+| 1. Establish context | Course Context → Interaction and Tutoring Engine | Selected course and question | `CourseContextRef` and `QuestionSchema` | Both components use the same versioned question and course identifiers. |
 | 2. Capture submission | Student → Interaction | Text, TeX, uploaded writing, stylus canvas, or recorded voice | `StudentSubmission` | Preserve the original artifact and identify the modality. |
 | 3. Recognize content | Interaction → recognizer → Interaction | Original artifact | `RecognitionResult` | Return recognized content, alternatives, and uncertainty without repairing student math. |
 | 4. Resolve ambiguity | Interaction ↔ Delivery ↔ Student | Meaning-changing recognition uncertainty | `RecognitionCorrection` or unresolved status | Ask a narrow confirmation question only when the ambiguity could change interpretation. |
@@ -144,7 +144,7 @@ The ingestion component must create stable normalized page text and line mapping
 ## 12. Open decisions for team review
 
 1. Does Interaction or the Tutoring Engine produce the final `RetrievalRequest`?
-2. Which component owns the canonical `QuestionContext` schema and version?
+2. Which component owns the canonical `QuestionSchema` schema and version?
 3. What minimum evidence is required before the Tutoring Engine may update mastery-related state?
 4. Which recognition uncertainties require confirmation, and can thresholds differ by modality?
 5. How are normalized page line numbers generated and kept stable after re-ingestion?
@@ -154,7 +154,7 @@ The ingestion component must create stable normalized page text and line mapping
 
 ## 13. Review checklist
 
-- [ ] Ovunc verifies Course/Question Context responsibilities and source-line mapping.
+- [ ] Ovunc verifies Course Context / Question Schema responsibilities and source-line mapping.
 - [ ] Sean verifies retrieval inputs, outputs, status values, and highlight-link feasibility.
 - [ ] Jonathan verifies interaction, evidence, ambiguity, and routing behavior.
 - [ ] The team assigns the shared Tutoring Engine boundary.

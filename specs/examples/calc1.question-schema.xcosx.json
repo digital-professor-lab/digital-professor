@@ -1,0 +1,92 @@
+{
+  "question_schema_version": "1.0",
+  "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+  "origin": "runtime",
+  "course_id": "calc1",
+  "module_id": "calc1.06-integral-applications",
+  "concept_ids": [
+    "calc1.06-integral-applications.by-parts"
+  ],
+  "prompt": "\\int x\\cos(x) dx",
+  "question_type": "worked_problem",
+  "expected_response_modes": [
+    "steps",
+    "equation"
+  ],
+  "learning_objectives": [
+    {
+      "id": "calc1.06-integral-applications.by-parts.lo1",
+      "text": "Choose u and dv sensibly and evaluate integrals using integration by parts.",
+      "bloom_level": "apply"
+    }
+  ],
+  "prerequisite_concepts": [
+    {
+      "concept_id": "calc1.06-integral-applications.substitution",
+      "name": "The substitution rule",
+      "relevance": "Needed to rule substitution out: the student must be able to test whether one factor of the integrand is a constant multiple of the derivative of an inner function.",
+      "provenance": "ai_inferred",
+      "derived_from": "runtime"
+    },
+    {
+      "concept_id": "calc1.03-derivatives.product-quotient",
+      "name": "Product and quotient rules",
+      "relevance": "Integration by parts reverses the product rule, and the answer can be checked by differentiating with it.",
+      "provenance": "ai_inferred",
+      "derived_from": "runtime"
+    }
+  ],
+  "correct_approach": {
+    "technique": "Integration by parts with u = x and dv = cos(x) dx",
+    "justification": "The integrand is a product of an algebraic factor and a trigonometric factor with no derivative relationship between them, so the substitution test fails. Taking u = x lets differentiation simplify it (du = dx) while dv = cos(x) dx integrates cleanly (v = sin(x)), which is the LIATE choice for this concept."
+  },
+  "alternative_approaches": [
+    {
+      "technique": "Integration by parts, tabular (DI) bookkeeping: D column x, 1, 0; I column cos(x), sin(x), -cos(x)",
+      "justification": "Same technique with different bookkeeping. The D column reaches 0 after one step, so the table terminates.",
+      "provenance": "ai_inferred",
+      "derived_from": "runtime"
+    }
+  ],
+  "reference_answer": "Take u = x and dv = cos(x) dx, so du = dx and v = sin(x). Then the integral of x cos(x) dx = x sin(x) - integral of sin(x) dx = x sin(x) + cos(x) + C. Check: d/dx[x sin(x) + cos(x)] = sin(x) + x cos(x) - sin(x) = x cos(x).",
+  "common_misconceptions": [
+    {
+      "description": "Choosing u and dv so the new integral is harder than the original.",
+      "cue": "The student sets u = cos(x) and dv = x dx, and the new integral of (x^2/2) sin(x) dx is more complicated than the one they started with.",
+      "mitigation": "Use LIATE and test both choices on a simple case like ∫ x e^x dx.",
+      "provenance": "ai_inferred",
+      "derived_from": "calc1.06-integral-applications.by-parts#difficulty_notes[0]"
+    },
+    {
+      "description": "Sign errors or forgetting to integrate dv to get v.",
+      "cue": "The student reports x sin(x) - cos(x) + C, or writes v = cos(x) or v = -sin(x) when dv = cos(x) dx.",
+      "mitigation": "Tabulate u, du, dv, v in a 2x2 grid before substituting.",
+      "provenance": "ai_inferred",
+      "derived_from": "calc1.06-integral-applications.by-parts#difficulty_notes[1]"
+    },
+    {
+      "description": "Reaching for u-substitution because an x sits next to a trigonometric factor, without checking whether x is a constant multiple of the derivative of an inner function.",
+      "cue": "The student says they tried u-substitution (for example u = cos(x) or u = x^2) and it did not simplify.",
+      "provenance": "ai_inferred",
+      "derived_from": "runtime"
+    }
+  ],
+  "source_reference": {
+    "concept_ids": [
+      "calc1.06-integral-applications.by-parts"
+    ],
+    "source_ids": [
+      "neuhauser.s7-2"
+    ],
+    "sibling_question_ids": [
+      "calc1.06-integral-applications.by-parts.q1"
+    ],
+    "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018. Section 7.2",
+    "grounding": "reference_only"
+  },
+  "provenance": "ai_inferred",
+  "built_from": {
+    "course_context_schema_version": "1.1",
+    "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+  }
+}

@@ -59,39 +59,50 @@ Records that require validation should include:
 **Producer:** Course Context and Ingestion  
 **Consumers:** Interaction, Retrieval, Tutoring Engine, Delivery
 
-Minimum fields:
+CourseContext is the full structured description of one course. Its complete record set — `Course`, `Module`, `Concept`, `LearningObjective`, `Source`, `AssessmentQuestion`, plus `assumptions` and per-record `provenance` — is defined in [`course-context.md`](course-context.md) sections 1–2. This table lists the `Course`-level fields; the richer structure (modules, concepts, the prerequisite graph, the question bank, and source page/line mappings) lives in that document.
+
+The `Course`-level fields are exactly those in [`course-context.md`](course-context.md) §1.2:
 
 | Field | Type | Required | Meaning |
 |---|---|---:|---|
-| `course_id` | string | Yes | Course instance identifier. |
-| `course_name` | string | Yes | Human-readable course title. |
-| `course_number` | string | No | Institutional course number. |
-| `term` | string | No | Term/semester. |
-| `course_overview` | string | No | Concise description from approved material. |
-| `learning_objectives` | array[string] | No | Course-level objectives. |
-| `topic_ids` | array[string] | No | Stable topic identifiers. |
-| `source_versions` | array[object] | Yes | Approved document/content versions available to retrieval. |
+| `course_id` | string | Yes | Course instance identifier (stored as `Course.id` in the file). |
+| `title` | string | Yes | Human-readable course title. |
+| `level` | string | Yes | e.g. `undergraduate introductory`. |
+| `duration_weeks` | integer | Yes | Planned length in weeks. |
+| `assumed_background` | string | Yes | What students are expected to know on arrival. |
+| `module_ids` | array[string] | Yes | Modules in teaching order; each expands to concepts (see course-context.md). |
 
-Open owner decision: Ovunc should confirm whether policies, prerequisite concepts, and assessment rules belong in this record or separate records.
+Concepts, learning objectives, sources, prerequisite links, difficulty notes, and assessment questions live in the Course/Module/Concept structure defined in course-context.md, not as loose fields on this record.
 
-## 3. QuestionContext
+## 3. QuestionSchema
 
 **Producer:** Course Context and Ingestion / question-authoring workflow  
 **Consumers:** Interaction, Retrieval, Tutoring Engine, Delivery
 
+The per-question target. It carries the common envelope (section 1.1) plus the fields below. Full build rules and semantics are in [`course-context.md`](course-context.md) section 3; this table is the canonical field list.
+
 | Field | Type | Required | Meaning |
 |---|---|---:|---|
-| `question_id` | string | Yes | Stable question identity. |
+| `question_schema_version` | string | Yes | Version of the Question Schema contract. |
+| `question_id` | string | Yes | Stable assigned ID, or an ad-hoc ID for a student-provided question. |
+| `origin` | enum | Yes | `bank` or `runtime`. |
 | `course_id` | string | Yes | Owning course. |
+| `module_id` | string | Yes | Module of the primary concept. |
+| `concept_ids` | array[string] | Yes | Concepts this question tests, primary first. |
 | `prompt` | rich text | Yes | Student-visible question. |
-| `question_type` | enum | Yes | For example `worked_problem`, `conceptual`, `proof`, `open_question`. |
-| `topic_ids` | array[string] | Yes | Concepts assessed or discussed. |
-| `learning_objective_ids` | array[string] | No | Related objectives. |
+| `question_type` | enum | Yes | e.g. `worked_problem`, `conceptual`, `proof`, `open_question`. |
 | `expected_response_modes` | array[string] | No | Text, equation, steps, diagram, explanation, etc. |
-| `reference_answer` | controlled reference | No | Instructor-approved answer or rubric reference; access may be restricted. |
+| `learning_objectives` | array[{`id`,`text`,`bloom_level`}] | Yes | Objectives of `concept_ids`, copied verbatim. |
+| `prerequisite_concepts` | array[{`concept_id`,`name`,`relevance`,`provenance`,`derived_from`}] | No | Direct prerequisites of `concept_ids`. |
+| `correct_approach` | {`technique`,`justification`} | Yes | The canonical approach. |
+| `alternative_approaches` | array[{`technique`,`justification`,`provenance`,`derived_from`}] | No | Other valid approaches. |
+| `reference_answer` | controlled reference | Yes | Full worked answer / rubric reference; access restricted; MUST NOT be shown to the student. |
 | `rubric` | object/reference | No | Criteria used by the Tutoring Engine. |
-| `source_refs` | array[object] | No | Course passages or document regions associated with the question. |
+| `common_misconceptions` | array[{`description`,`cue`,`mitigation`?,`provenance`,`derived_from`}] | No | Misconceptions to watch for, with observable cues. |
+| `source_reference` | {`concept_ids`,`source_ids`,`sibling_question_ids`,`citation`,`grounding`} | Yes | Where the question is grounded (subsumes the team's earlier `source_refs`). |
 | `constraints` | object | No | Allowed help, tools, attempts, or disclosure level. |
+| `provenance` | enum | Yes | `source_backed` or `ai_inferred` (weakest link over all elements). |
+| `built_from` | {`course_context_schema_version`,`content_sha256`} | Yes | The exact Course Context used, for reproducibility. |
 
 ## 4. StudentSubmission
 
@@ -192,7 +203,7 @@ Student Evidence is factual and provenance-preserving. It may identify observabl
 | `course_id` and `question_id` | strings | Yes | Scope. |
 | `turn_id` | string | Yes | Tutoring turn. |
 | `query` | string | Yes | Search expression derived from question/evidence needs. |
-| `topic_ids` | array[string] | No | Structured topical filters. |
+| `concept_ids` | array[string] | No | Structured topical filters. |
 | `document_filters` | object | No | Allowed document IDs/types/versions/pages. |
 | `evidence_summary` | string/object | No | Minimum student context needed to retrieve relevant support. |
 | `purpose` | enum | Yes | `answer_grounding`, `diagnosis_support`, `hint_support`, `citation_check`, etc. |
@@ -247,8 +258,12 @@ A missing source must return `no_support_found`. It must never result in a fabri
 | `diagnostic_hypotheses` | array[object] | Yes | Possible gaps/misconceptions with confidence and evidence refs. |
 | `assistance_history_summary` | object | Yes | Help already provided. |
 | `state_confidence` | object | Yes | Confidence and limitations of the interpretation. |
+| `open_gaps` | array[{`target_slot`,`requirement`,`status`,`evidence`}] | Yes | Question Schema requirements not yet met; `status` ∈ `open`/`partial`/`closed`. |
+| `closed_gaps` | array[{`target_slot`,`requirement`,`status`,`evidence`}] | Yes | Requirements already satisfied, with how/when each closed. |
+| `off_target_context` | array[string] | No | State the student carries that has no Question Schema counterpart; never scored. |
+| `resolved_when` | string | Yes | Resolution rule; by default `open_gaps is empty`. |
 
-This record may contain interpretation. It must cite the Student Evidence used and must not rewrite that evidence.
+LearnerState is the Tutoring Engine's running interpretation of the student **and** the running diff against the Question Schema target — the former "Gap Record" (`open_gaps`, `closed_gaps`, `off_target_context`, `resolved_when`) is merged in here. It may contain interpretation; it must cite the Student Evidence used and must not rewrite that evidence. A question is resolved when `open_gaps` is empty.
 
 ## 11. TutoringAction
 
@@ -260,7 +275,7 @@ This record may contain interpretation. It must cite the Student Evidence used a
 | `action_id` | string | Yes | Action identity. |
 | `session_id`, `question_id`, `turn_id` | strings | Yes | Scope. |
 | `learner_state_id` | string | Yes | State that motivated the action. |
-| `action_type` | enum | Yes | `question`, `hint`, `explanation`, `retry_request`, `comprehension_check`, or `transfer_problem`. |
+| `action_type` | enum | Yes | One of `elicit`, `probe`, `inspect`, `diagnose`, `hint`, `contrast`, `explain`, `demonstrate`, `retry`, `verify`, `check_understanding`, `transfer`. |
 | `pedagogical_goal` | string | Yes | Intended learning effect. |
 | `content` | structured rich text | Yes | Approved student-facing content or generation instructions. |
 | `grounding_refs` | array[string] | Yes | Passage IDs supporting course-specific claims. |
@@ -411,7 +426,7 @@ The correction record explains which handwritten symbol was confirmed. The evide
 
 ### Ovunc
 
-- Confirm `CourseContext` and `QuestionContext` fields and ownership.
+- Confirm `CourseContext` and `QuestionSchema` fields and ownership.
 - Define source-page normalization and stable line mapping.
 - Confirm which question/rubric information may be sent to each downstream component.
 

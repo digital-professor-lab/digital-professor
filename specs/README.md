@@ -23,7 +23,7 @@ The system should remain course-agnostic at the architectural level. Concrete co
 | `architecture.md` | Overall component map, ownership boundaries, tutoring-turn workflow, and system-wide dependencies | Shared |
 | `interfaces.md` | Canonical shared records, field meanings, versioning, and producer-to-consumer contracts | Shared |
 | `student-interaction.md` | V1 input methods, recognition, ambiguity handling, Student Evidence, routing, and interaction logging | Jonathan |
-| `course-context-ingestion.md` | Syllabus and lecture-note ingestion, structured Course/Question Context, and preparation for retrieval | Ovunc |
+| `course-context.md` | Syllabus and lecture-note ingestion, structured Course Context / Question Schema, and preparation for retrieval | Ovunc |
 | `knowledge-retrieval.md` | Indexing, retrieval, passage-level grounding, citations, and retrieval status | Sean |
 | `tutoring-engine.md` | Learner State, diagnosis, and selection of a structured Tutoring Action | Shared boundary specification |
 | `delivery.md` | Presentation of questions, hints, explanations, and reassessment through supported interfaces | Delivery owner / shared boundary specification |
@@ -74,7 +74,7 @@ flowchart LR
     A[Student input] --> B[Interaction and recognition]
     B -->|StudentEvidence| C[Learner State / Tutoring Engine]
     B -->|RetrievalRequest| D[Course retrieval]
-    E[Course and Question Context] --> B
+    E[Course Context and Question Schema] --> B
     E --> C
     D -->|Grounding passages| C
     C -->|TutoringAction| F[Delivery]
@@ -85,7 +85,7 @@ flowchart LR
 The shared `interfaces.md` document should eventually define at least:
 
 - `CourseContext`
-- `QuestionContext` or `QuestionSchema`
+- `QuestionSchema`
 - `StudentSubmission`
 - `RecognitionResult`
 - `RecognitionCorrection`
@@ -153,7 +153,7 @@ This scope validates the main evidence and handoff contracts without requiring m
 - Rules for uncertain handwriting, equations, and speech.
 - The point at which student confirmation is required.
 - Failure behavior when recognition cannot produce a reliable interpretation.
-- Contracts with Course/Question Context, retrieval, the Tutoring Engine, and delivery.
+- Contracts with Course Context / Question Schema, retrieval, the Tutoring Engine, and delivery.
 - A clear distinction between factual Student Evidence and interpreted Learner State.
 - Logging controls and records for raw recognition, corrections, confirmed content, timing, and status.
 - Open interface conflicts that require team discussion.
