@@ -1,0 +1,7 @@
+{
+  "action": "<one of: elicit | probe | inspect | diagnose | hint | contrast | explain | demonstrate | retry | verify | check understanding | transfer>",
+  "target_gap": "<the open gap this action is meant to close (a Gap Record open_gaps[].target_slot)>",
+  "goal": "<the evidence this action is trying to elicit or produce>",
+  "constraints": ["<a constraint, e.g. do not reveal the answer | one hint at a time | stay Socratic>"],
+  "rationale": "<why this action, given the current gap and history>"
+}

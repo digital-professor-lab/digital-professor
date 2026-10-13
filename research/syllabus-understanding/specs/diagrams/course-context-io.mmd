@@ -1,0 +1,46 @@
+flowchart TB
+    classDef input fill:#EAF1FB,stroke:#3B6FB6,color:#12263F
+    classDef cc fill:#EAF6EE,stroke:#2E7D4F,color:#10301F,stroke-width:2px
+    classDef team fill:#FFF4E0,stroke:#B7791F,color:#3A2A08
+    classDef store fill:#E6F3EA,stroke:#2E7D4F,color:#10301F,stroke-width:2px
+    classDef human fill:#FDECEC,stroke:#B3413F,color:#3F1514
+
+    SYL["Syllabus<br/>REQUIRED in V1"]:::input
+    NOTES["Lecture notes / textbook text<br/>not in V1"]:::input
+    GEN["Syllabus-to-JSON prompt<br/>one pass, emits provenance"]:::cc
+    VAL{"Validator<br/>regenerate on error"}:::cc
+    FLAG["Review Flagger<br/>builds review worklist"]:::cc
+    INSTR(["Instructor review"]):::human
+    KB[("Course Context JSON<br/>Course, Module, Concept, LearningObjective,<br/>Source, AssessmentQuestion<br/>+ provenance, assumptions")]:::store
+
+    SEAN["Sean<br/>retrieval and indexing"]:::team
+    STU(["Student asks a question"]):::input
+    BLD["Question Schema builder<br/>specified here, host still open"]:::cc
+    QS[/"Question Schema<br/>read-only snapshot, one per question"/]:::store
+
+    JON["Jonathan<br/>student evidence"]:::team
+    ENG{{"Tutoring Engine (decision layer)<br/>Student-State, Gap Record, Tutoring Action"}}:::team
+    YIN["Yining<br/>presentation"]:::team
+    OUT(["Student sees the reply"]):::input
+
+    SYL --> GEN
+    NOTES -.-> GEN
+    GEN --> VAL
+    VAL -- "errors: regenerate" --> GEN
+    VAL -- "0 errors" --> FLAG
+    FLAG -- "review worklist" --> INSTR
+    INSTR -- "review and edit" --> KB
+
+    KB -- "course IDs, concept IDs,<br/>source refs, scope" --> SEAN
+    KB -- "records" --> BLD
+    STU --> BLD
+    SEAN -- "concept and sibling-question match" --> BLD
+    BLD --> QS
+
+    QS -- "target objectives, prerequisites,<br/>valid approaches" --> ENG
+    QS -- "question + context" --> JON
+    JON -- "Student-State updates" --> ENG
+    ENG -- "Tutoring Action" --> YIN
+    QS -- "names, citation, prompt" --> YIN
+    YIN --> OUT
+    ENG -. "runtime-inferred items proposed for the KB" .-> INSTR
