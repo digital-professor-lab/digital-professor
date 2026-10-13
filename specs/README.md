@@ -30,6 +30,26 @@ The system should remain course-agnostic at the architectural level. Concrete co
 
 Additional module files should be added only when a responsibility cannot be stated clearly in one of these documents.
 
+## Current integration status
+
+Ovunc's first Course Context draft has been incorporated into the shared contracts:
+
+| Decision | Current specification |
+|---|---|
+| Per-question record | `QuestionSchema` replaces the earlier `QuestionContext` name. |
+| Ownership | Course Context owns `CourseContext` and the content/build rules for `QuestionSchema`. |
+| Course structure | Course → Module → Concept, with linked objectives, sources, prerequisites, and assessment questions. |
+| Interaction access | Interaction receives only the display-safe Question Schema fields; solution, approach, rubric, and misconception cues remain restricted to the Tutoring Engine. |
+| Learner interpretation | `LearnerState` includes the running open/partial/closed gap comparison against the Question Schema. |
+| V1 Course Context input | One syllabus. Lecture-note/textbook ingestion and passage-level page/line mapping remain integration work. |
+
+Two flows must be supported:
+
+1. **Assigned question:** a frozen Question Schema exists before the student answers.
+2. **Student-originated question:** Interaction captures and confirms the question first, then requests a runtime Question Schema before creating answer evidence.
+
+The second flow still needs agreement with the Course Context owner because handwritten or spoken questions produce confirmed recognized content rather than text typed directly by the student.
+
 ## Required sections for each module
 
 Each module specification should use the following structure:

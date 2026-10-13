@@ -57,7 +57,7 @@ This V1 supports the main ways a student expresses mathematical work while limit
 
 ### Required
 
-- `CourseContext` and `QuestionSchema` from Course Context/Ingestion.
+- `CourseContext` and a display-safe `QuestionSchema` subset from Course Context/Ingestion.
 - Session/identity service for stable identifiers and authorization.
 - Shared schema validation from `interfaces.md`.
 - Artifact storage for original input and permitted derived artifacts.
@@ -83,7 +83,7 @@ This V1 supports the main ways a student expresses mathematical work while limit
 | Input | Producer | Required behavior |
 |---|---|---|
 | Raw student input | Student/client | Preserve as `StudentSubmission.original_artifact_ref` before recognition. |
-| Course Context and Question Schema | Ovunc's component | Validate course/question/version identifiers and retain references. |
+| Course Context and Question Schema | Ovunc's component | Validate course/question/version identifiers. Interaction may read only the display-safe fields listed in section 14. |
 | Recognition response | Selected recognizer | Store best candidate, alternatives, ambiguity regions, provenance, and status. |
 | Student confirmation/edit | Student through Delivery/UI | Create `RecognitionCorrection`; never overwrite the original output. |
 | Grounding result | Sean's retrieval component | Preserve passage IDs, page/line references, version, and status. |
@@ -113,6 +113,7 @@ These names are conceptual and may become service methods, functions, or endpoin
 | Function | Receives | Returns | Expected behavior |
 |---|---|---|---|
 | `capture_submission` | Client payload and context refs | `StudentSubmission` | Validate modality/size/type, persist original input, and assign IDs. |
+| `establish_question` | Confirmed student question or bank question ID | `QuestionSchema` reference | Use an existing bank schema or request a frozen runtime schema after recognition/confirmation. |
 | `select_recognition_path` | `StudentSubmission` | Recognizer request | Use no recognizer for direct text; route visual and audio inputs appropriately. |
 | `recognize_submission` | Submission/artifact reference | `RecognitionResult` | Preserve observed work and expose alternatives/uncertainty. |
 | `assess_ambiguity` | Recognition result and question context | Confirmation decision | Identify whether uncertainty could change mathematical or instructional meaning. |
@@ -152,6 +153,8 @@ flowchart TD
     Q --> R[Capture and link next student response]
     R --> A
 ```
+
+The diagram shows the response path after a question has been established. A student-originated question first follows the same capture, recognition, and confirmation steps with `submission_role = question_intake`. Interaction then requests a runtime `QuestionSchema`, receives its `question_id`, creates an attempt, and begins the response path. Question intake is not itself `StudentEvidence` about the student's understanding.
 
 ## 9. Recognition behavior by modality
 
@@ -252,6 +255,7 @@ Failure messages should describe the recoverable problem without blaming the stu
 ### Attempts and revisions
 
 - An `attempt_id` groups work aimed at answering the same question before the team-defined attempt boundary.
+- A question-intake submission has no `attempt_id` until the runtime Question Schema has been created.
 - A revision creates a new submission and new evidence record.
 - `parent_submission_id` and `parent_evidence_id` point to the work being revised or followed up.
 - `response_to_action_id` records which hint/question/explanation prompted the new response.
@@ -318,13 +322,14 @@ Expected behavior:
 
 Interaction requires:
 
-- Valid `course_id` and `question_id`.
-- Question prompt and expected response modes.
-- Concept/objective references used for routing.
-- Source/content versions allowed for grounding.
-- Question constraints relevant to help or attempts.
+- A valid `course_id`.
+- For an assigned/bank question: `question_id`, `prompt`, `question_type`, `expected_response_modes`, `concept_ids`, `learning_objectives`, and applicable `constraints`.
+- For a student-originated question: `build_question_schema(course_id, confirmed_question)`, followed by the same display-safe fields from the frozen runtime schema.
+- The Course Context version and Question Schema `built_from` reference needed for traceability.
 
-Ovunc should confirm which fields are guaranteed before the first student submission.
+Interaction must not receive or inspect `correct_approach`, `alternative_approaches`, `reference_answer`, `rubric`, or misconception cues. Those fields are restricted to the Tutoring Engine so recognition and evidence construction cannot be biased toward the expected solution.
+
+For a bank question, these fields are available before the first answer submission. For a student-originated handwritten or spoken question, Interaction first captures and confirms the question with `submission_role = question_intake`; `question_id` may remain null until Ovunc's builder returns the runtime `QuestionSchema`. Answer evidence is not created until that ID exists.
 
 ### With Course Knowledge Retrieval
 
@@ -452,7 +457,7 @@ The trace should make these later measurements possible:
 ## 19. Open questions for team review
 
 1. Should Interaction or the Tutoring Engine own `RetrievalRequest` generation?
-2. What exact Question Schema fields will Ovunc guarantee before interaction starts?
+2. Will the runtime Question Schema builder accept confirmed recognized questions, or only directly typed text?
 3. What passage and filter fields does Sean require for useful retrieval?
 4. Does every handwriting/voice transcript require a review screen, or only meaning-changing ambiguity?
 5. Who defines the threshold/policy for allowing partial evidence into the Tutoring Engine?
@@ -466,9 +471,9 @@ The trace should make these later measurements possible:
 
 ### Ovunc
 
-- Verify the expected Course Context / Question Schema fields.
-- Identify missing inputs needed to connect evidence to a question, objective, or rubric.
-- Confirm how source versions and page/line mappings are exposed.
+- Confirm that Interaction receives only the display-safe Question Schema subset in section 14.
+- Confirm how `build_question_schema` accepts a recognized-and-confirmed handwritten or spoken question.
+- Coordinate source versions and page/line mappings with Retrieval before lecture-note/textbook grounding.
 
 ### Sean
 
@@ -482,4 +487,3 @@ The trace should make these later measurements possible:
 - Check that each input/output has one producer and at least one consumer.
 - Walk through the four V1 modalities and one failed recognition.
 - Approve or revise the V1 modality scope before implementation.
-

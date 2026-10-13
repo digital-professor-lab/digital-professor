@@ -112,8 +112,10 @@ The per-question target. It carries the common envelope (section 1.1) plus the f
 | Field | Type | Required | Meaning |
 |---|---|---:|---|
 | `submission_id` | string | Yes | Submission identity. |
-| `user_id`, `course_id`, `session_id`, `question_id`, `turn_id` | strings | Yes | Context identifiers. |
-| `attempt_id` | string | Yes | Attempt being created or continued. |
+| `user_id`, `course_id`, `session_id`, `turn_id` | strings | Yes | Context identifiers. |
+| `question_id` | string/null | Conditional | Required for a response to an existing question; null while a student-originated question is being recognized and matched to a runtime `QuestionSchema`. |
+| `submission_role` | enum | Yes | `question_intake` or `question_response`. |
+| `attempt_id` | string/null | Conditional | Required for `question_response`; null during `question_intake` before the runtime Question Schema exists. |
 | `parent_submission_id` | string/null | No | Prior submission directly answered or revised. |
 | `response_to_action_id` | string/null | No | Tutoring Action that elicited this response. |
 | `modality` | enum | Yes | `text`, `handwriting_upload`, `stylus_canvas`, or `recorded_voice` in V1. |
@@ -176,7 +178,7 @@ Student Evidence is factual and provenance-preserving. It may identify observabl
 | Field | Type | Required | Meaning |
 |---|---|---:|---|
 | `evidence_id` | string | Yes | Evidence record identity. |
-| `user_id`, `course_id`, `session_id`, `question_id`, `turn_id` | strings | Yes | Context identifiers. |
+| `user_id`, `course_id`, `session_id`, `question_id`, `turn_id` | strings | Yes | Context identifiers. Evidence is created only after a question ID exists. |
 | `attempt_id` and `submission_id` | strings | Yes | Attempt and source submission. |
 | `evidence_kind` | enum | Yes | `initial_attempt`, `revision`, `follow_up`, `explanation`, or `clarification`. |
 | `original_artifact_ref` | reference | Yes | Immutable original student input. |
@@ -363,6 +365,7 @@ Operational records required to run the tutoring session are not optional logs a
   "session_id": "session-20",
   "question_id": "q-derivative-4",
   "turn_id": "turn-3",
+  "submission_role": "question_response",
   "attempt_id": "attempt-2",
   "parent_submission_id": "sub-088",
   "response_to_action_id": "action-12",

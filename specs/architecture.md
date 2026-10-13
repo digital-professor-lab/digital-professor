@@ -41,7 +41,7 @@ flowchart LR
 
 | Component | Owns | Receives | Produces | Does not own |
 |---|---|---|---|---|
-| Course Context and Ingestion | Document classification, parsing, normalized page text, course structure, Question Schema, preparation for indexing | Syllabi, lecture notes, textbooks, instructor questions, ingestion configuration | `CourseContext`, `QuestionSchema`, versioned source pages/chunks | Student diagnosis or tutoring-action selection |
+| Course Context and Ingestion | Syllabus parsing in V1, course structure, Question Schema construction, and preparation for later source ingestion/indexing | One syllabus in V1; bank or confirmed runtime questions; ingestion configuration | `CourseContext`, `QuestionSchema`; later, versioned lecture-note/textbook pages and chunks | Student diagnosis or tutoring-action selection |
 | Course Knowledge Retrieval | Indexing, search, ranking, source-location resolution, grounding status | Versioned chunks and `RetrievalRequest` | `GroundingBundle` containing passage-level citations | Deciding what the student knows or which intervention to use |
 | Interaction and Recognition | Input capture, modality routing, recognition, ambiguity confirmation, Student Evidence construction, turn coordination | Student input, `CourseContext`, `QuestionSchema`, `DeliveryResult` | `StudentSubmission`, `StudentEvidence`, `RetrievalRequest`, `InteractionTraceEvent` records | Diagnosing knowledge gaps or choosing pedagogy |
 | Learner State and Tutoring Engine | Evidence interpretation, learner-state update, gap identification, action selection | `StudentEvidence`, `QuestionSchema`, `CourseContext`, `GroundingBundle`, prior `LearnerState` | Updated `LearnerState` and `TutoringAction` | Input recognition or user-interface presentation |
@@ -65,7 +65,8 @@ Provider-specific tools are implementation choices and should not appear as requ
 
 | Stage | Producer → consumer | Input | Output | Expected behavior |
 |---|---|---|---|---|
-| 1. Establish context | Course Context → Interaction and Tutoring Engine | Selected course and question | `CourseContextRef` and `QuestionSchema` | Both components use the same versioned question and course identifiers. |
+| 1a. Assigned question | Course Context → Interaction and Tutoring Engine | Selected course and bank question | `CourseContext` reference and `QuestionSchema` | Both components use the same frozen schema and course version. |
+| 1b. Student-originated question | Student → Interaction → Question Schema builder | Typed or recognized-and-confirmed question | Runtime `QuestionSchema` | Interaction confirms the question first; the builder assigns its ad-hoc `question_id`; subsequent answer evidence uses that ID. |
 | 2. Capture submission | Student → Interaction | Text, TeX, uploaded writing, stylus canvas, or recorded voice | `StudentSubmission` | Preserve the original artifact and identify the modality. |
 | 3. Recognize content | Interaction → recognizer → Interaction | Original artifact | `RecognitionResult` | Return recognized content, alternatives, and uncertainty without repairing student math. |
 | 4. Resolve ambiguity | Interaction ↔ Delivery ↔ Student | Meaning-changing recognition uncertainty | `RecognitionCorrection` or unresolved status | Ask a narrow confirmation question only when the ambiguity could change interpretation. |
@@ -144,17 +145,19 @@ The ingestion component must create stable normalized page text and line mapping
 ## 12. Open decisions for team review
 
 1. Does Interaction or the Tutoring Engine produce the final `RetrievalRequest`?
-2. Which component owns the canonical `QuestionSchema` schema and version?
-3. What minimum evidence is required before the Tutoring Engine may update mastery-related state?
-4. Which recognition uncertainties require confirmation, and can thresholds differ by modality?
-5. How are normalized page line numbers generated and kept stable after re-ingestion?
-6. What should `highlight_url` target in V1: an internal document viewer, a stored PDF viewer, or a source-system link?
-7. Which operational records remain when optional logging is disabled, and for how long?
-8. Can Delivery request a presentation adaptation directly, or must all changes return through the Tutoring Engine?
+2. What minimum evidence is required before the Tutoring Engine may update mastery-related state?
+3. Which recognition uncertainties require confirmation, and can thresholds differ by modality?
+4. How are normalized page line numbers generated and kept stable after lecture notes/textbooks are added?
+5. What should `highlight_url` target: an internal document viewer, a stored PDF viewer, or a source-system link?
+6. Which operational records remain when optional logging is disabled, and for how long?
+7. Can Delivery request a presentation adaptation directly, or must all changes return through the Tutoring Engine?
+8. Should the runtime Question Schema builder accept confirmed recognized content in addition to text typed directly by the student?
 
 ## 13. Review checklist
 
-- [ ] Ovunc verifies Course Context / Question Schema responsibilities and source-line mapping.
+- [x] Ovunc defines Course Context / Question Schema ownership and V1 syllabus behavior in `course-context.md`.
+- [ ] Ovunc and Jonathan align runtime Question Schema creation for typed, handwritten, and spoken questions.
+- [ ] Ovunc and Sean define source-line mapping before lecture-note/textbook grounding is implemented.
 - [ ] Sean verifies retrieval inputs, outputs, status values, and highlight-link feasibility.
 - [ ] Jonathan verifies interaction, evidence, ambiguity, and routing behavior.
 - [ ] The team assigns the shared Tutoring Engine boundary.
