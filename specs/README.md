@@ -65,7 +65,7 @@ The first specification pass should preserve these boundaries:
 - The **Tutoring Engine** interprets Student Evidence as Learner State, identifies gaps, and selects the next Tutoring Action.
 - The **Delivery layer** presents the approved action and returns the student's next response to the Interaction module.
 
-Student Evidence must remain distinct from Student State. Evidence records what the student submitted, confirmed, explained, or revised. State is the Tutoring Engine's interpretation of what that evidence suggests about the student's knowledge.
+Student Evidence must remain distinct from Learner State. Evidence records what the student submitted, confirmed, explained, or revised. Learner State is the Tutoring Engine's interpretation of what that evidence suggests about the student's knowledge.
 
 ## Shared interface flow
 
@@ -180,4 +180,3 @@ The first specification version is ready for team review when:
 4. Have Ovunc and Sean add their module specifications and identify the records they produce or consume.
 5. Walk through one tutoring turn together and record missing fields, conflicting assumptions, and unclear ownership.
 6. Revise the specifications before implementing new system behavior.
-
