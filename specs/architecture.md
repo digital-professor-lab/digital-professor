@@ -44,7 +44,7 @@ flowchart LR
 
 | Component | Owns | Receives | Produces | Does not own |
 |---|---|---|---|---|
-| Course Context and Ingestion | **Stage A:** syllabus parsing, course structure, Question Schema construction. **Stage B (post-V1) — the ingestion layer:** document ingestion producing normalized page text + stable line mappings + versioned chunks | One syllabus in V1; bank or confirmed runtime questions. **Stage B:** the Course Context + approved documents (lecture notes, textbook, slides) + ingestion config | `CourseContext`, `QuestionSchema`. **Stage B:** `IngestedSource` — normalized pages, stable line maps, and versioned chunks for retrieval | Student diagnosis or tutoring-action selection |
+| Course Context and Ingestion | Pre-student provisioning. **Stage A:** syllabus parsing, course structure, and Question Schema construction. **Stage B (post-V1):** structural analysis and document ingestion producing normalized page text, stable line mappings, and versioned chunks | Professor-approved syllabus/materials; bank or confirmed runtime questions; ingestion configuration | `CourseContext`, `QuestionSchema`; Stage B `IngestedSource` records with structural metadata, normalized pages, stable line maps, and versioned chunks | Student diagnosis or tutoring-action selection |
 | Course Knowledge Retrieval | Indexing, search, ranking, source-location resolution, grounding status | Versioned chunks and `RetrievalRequest` | `GroundingBundle` containing passage-level citations | Deciding what the student knows or which intervention to use |
 | Interaction and Recognition | Input capture, modality routing, recognition, ambiguity confirmation, Student Evidence construction, turn coordination | Student input, `CourseContext`, `QuestionSchema`, `DeliveryResult` | `StudentSubmission`, `StudentEvidence`, `RetrievalRequest`, `InteractionTraceEvent` records | Diagnosing knowledge gaps or choosing pedagogy |
 | Learner State and Tutoring Engine | Evidence interpretation, learner-state update, gap identification, action selection | `StudentEvidence`, `QuestionSchema`, `CourseContext`, `GroundingBundle`, prior `LearnerState` | Updated `LearnerState` and `TutoringAction` | Input recognition or user-interface presentation |
@@ -64,7 +64,44 @@ flowchart LR
 
 Provider-specific tools are implementation choices and should not appear as required interface fields unless a consumer needs that information for behavior or audit.
 
-## 6. End-to-end tutoring turn
+## 6. When course ingestion runs
+
+Course ingestion and question-time retrieval are separate operations. The normal workflow assumes that a professor or course administrator provisions the course before any student can access it.
+
+### Instructor setup: ingest before student access
+
+The professor/course administrator creates the workspace and uploads the syllabus, lecture notes, textbook material, and other approved sources. The workspace is not marked student-ready until the required provisioning pipeline succeeds:
+
+1. Store the uploaded source and assign a document/content version.
+2. Parse or OCR it into normalized page text.
+3. Inspect PDF bookmarks, metadata, and opening pages for an explicit table of contents.
+4. Scan the full normalized document for repeated headers, numbered sections, page titles, and layout/font changes.
+5. Build a structural outline and map sections to syllabus-derived modules/concepts where confidence is sufficient.
+6. Create stable page/line mappings.
+7. Chunk within detected section boundaries and retain heading ancestry; if structure is unreliable, use page-aware/token chunking and flag the structure as inferred.
+8. Validate and flag uncertain or AI-inferred fields for instructor review.
+9. Build or update retrieval indexes.
+10. Publish the version and enable student access only after required validation, review, and indexing succeed.
+
+The syllabus establishes the Course Context. Lecture notes and textbooks provide the detailed searchable content used to ground question schemas and tutoring. Ingestion is relatively expensive and should not run for every question.
+
+### Question time: select, build, and retrieve
+
+When a question is selected or asked, the system should:
+
+1. Reuse the published Course Context and indexed source versions.
+2. Load an existing Question Schema or build one runtime schema for a confirmed student-originated question.
+3. Retrieve only the passages relevant to the current question and tutoring decision.
+
+Question time should perform retrieval, not full document ingestion.
+
+### Incremental updates
+
+An instructor may add or replace a document after launch, but the new version remains `processing` and unavailable for grounded claims until ingestion, indexing, and required review complete. The active turn continues against its recorded published version. A later turn may opt into the newly published version; versions must not switch silently inside a turn.
+
+If no published course version exists, the workspace should not be offered to students. If a readiness check fails after access has already been granted, return `course_not_ready` and block course-grounded tutoring until a published version is restored.
+
+## 7. End-to-end tutoring turn
 
 | Stage | Producer → consumer | Input | Output | Expected behavior |
 |---|---|---|---|---|
@@ -81,13 +118,13 @@ Provider-specific tools are implementation choices and should not appear as requ
 | 10. Present action | Delivery → Student | `TutoringAction` and channel settings | `DeliveryResult` | Preserve action intent while adapting presentation to the channel. |
 | 11. Continue loop | Student → Interaction | Follow-up or revised answer | New `StudentSubmission` | Link the response to the prior attempt and action; do not overwrite history. |
 
-## 7. Routing and coordination
+## 8. Routing and coordination
 
 V0.1 proposes that the Interaction module coordinates a tutoring turn because every turn begins and ends with student interaction. Coordination means validating records, invoking the next component, and recording handoff status. It does not mean interpreting Learner State or selecting the Tutoring Action.
 
 A later orchestration service may assume this routing role if coordination becomes too broad for the Interaction module. The record contracts should remain unchanged if ownership moves.
 
-## 8. State and logging
+## 9. State and logging
 
 ### Required operational state
 
@@ -112,7 +149,7 @@ When enabled, diagnostic logging may also capture:
 
 The logging configuration must be recorded at session or request level. Turning logging off must stop optional diagnostic persistence, not simply hide it from the interface.
 
-## 9. Grounding and source navigation
+## 10. Grounding and source navigation
 
 Retrieval should not copy an entire source document into the tutoring record. It should return the passage used plus a stable location:
 
@@ -125,10 +162,15 @@ Retrieval should not copy an entire source document into the tutoring record. It
 
 Ingestion (Stage B of Course Context and Ingestion) owns the **normalized page text and stable line mappings** — the source of truth for locations — and hands them to retrieval as the proposed `IngestedSource` record (interfaces.md §9), each under a `content_version`. Retrieval indexes, searches, ranks, and resolves locations; whichever component performs the chunking MUST preserve ingestion's page/line mapping. Who owns chunking is an open decision (§12, item 9).
 
-## 10. Failure behavior
+## 11. Failure behavior
 
 | Failure | Responsible component | Expected result |
 |---|---|---|
+| Uploaded course document is unsupported or unreadable | Course Context/Ingestion | Return `ingestion_failed` with a reason; do not publish or index the failed version. |
+| Required syllabus structure cannot be extracted | Course Context/Ingestion | Return `insufficient_input` or a review-required result; do not invent required course structure. |
+| A document version is still processing | Course Context/Ingestion / coordinator | Return `course_not_ready` for requests requiring that version; preserve or queue the question according to policy. |
+| Re-ingestion creates a new version | Course Context/Ingestion | Keep the previous published version available; publish the new version atomically after validation/indexing. |
+| Retrieval index does not match the requested content version | Retrieval | Return `version_mismatch`; do not combine passages from another version silently. |
 | Unsupported or unreadable input | Interaction | Preserve the submission, return `recognition_failed`, and ask for a supported retry. |
 | Meaning-changing ambiguity remains unresolved | Interaction | Produce partial evidence marked `unconfirmed`; block diagnosis that depends on the ambiguous content. |
 | Course/question context is missing | Coordinator | Stop the grounded tutoring path and request context selection or repair. |
@@ -137,7 +179,7 @@ Ingestion (Stage B of Course Context and Ingestion) owns the **normalized page t
 | Delivery channel cannot render the action | Delivery | Return `unsupported_presentation` and request an allowed alternative representation. |
 | A component times out | Coordinator | Record timeout, apply configured retry policy, and return a recoverable status to the user. |
 
-## 11. Security and privacy assumptions
+## 12. Security and privacy assumptions
 
 - Student artifacts and diagnostic logs may contain educational records and must use controlled identifiers and access.
 - Logs must not contain API keys or provider secrets.
@@ -145,7 +187,7 @@ Ingestion (Stage B of Course Context and Ingestion) owns the **normalized page t
 - Highlight links must enforce the same authorization as their source documents.
 - Component specifications must identify data retained beyond the active session.
 
-## 12. Open decisions for team review
+## 13. Open decisions for team review
 
 1. Does Interaction or the Tutoring Engine produce the final `RetrievalRequest`?
 2. What minimum evidence is required before the Tutoring Engine may update mastery-related state?
@@ -157,7 +199,7 @@ Ingestion (Stage B of Course Context and Ingestion) owns the **normalized page t
 8. Should the runtime Question Schema builder accept confirmed recognized content in addition to text typed directly by the student?
 9. Does ingestion (Stage B) or retrieval perform chunking? Ingestion owns normalized pages + stable line maps either way; see the proposed `IngestedSource` record (interfaces.md §9).
 
-## 13. Review checklist
+## 14. Review checklist
 
 - [x] Ovunc defines Course Context / Question Schema ownership and V1 syllabus behavior in `course-context.md`.
 - [ ] Ovunc and Jonathan align runtime Question Schema creation for typed, handwritten, and spoken questions.

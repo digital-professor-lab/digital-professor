@@ -41,7 +41,9 @@ Ovunc's first Course Context draft has been incorporated into the shared contrac
 | Course structure | Course → Module → Concept, with linked objectives, sources, prerequisites, and assessment questions. |
 | Interaction access | Interaction receives only the display-safe Question Schema fields; solution, approach, rubric, and misconception cues remain restricted to the Tutoring Engine. |
 | Learner interpretation | `LearnerState` includes the running open/partial/closed gap comparison against the Question Schema. |
-| V1 Course Context input | One syllabus. Lecture-note/textbook ingestion and passage-level page/line mapping remain integration work. |
+| Course provisioning | A professor/course administrator uploads the syllabus and approved course materials before students can access the course workspace. |
+| V1 Course Context input | The syllabus creates the first Course Context. Lecture-note/textbook structural ingestion and passage-level page/line mapping remain integration work. |
+| Structural preparation | Uploaded materials are checked for bookmarks, a table of contents, and document-wide heading patterns before section-aware chunking and indexing. |
 
 Two flows must be supported:
 
@@ -65,15 +67,19 @@ Each module specification should use the following structure:
 4. **Inputs**
    - Record names, required and optional fields, validation rules, and producer.
 5. **Functions and expected behavior**
-   - Main operations, normal flow, ambiguity handling, and failure behavior.
+   - Main operations, normal flow, state transitions, and behavior under partial input.
 6. **Outputs**
    - Record names, required and optional fields, status values, and downstream consumer.
-7. **Logging and observability**
+7. **Expected failures**
+   - Known failure conditions, which component detects each one, structured status/error returned, retry or fallback behavior, and whether downstream processing is allowed.
+8. **Logging and observability**
    - Events, corrections, provenance, timing, and logging controls.
-8. **Examples**
-   - At least one normal handoff and one uncertain or failed handoff.
-9. **Open questions**
+9. **Examples**
+   - At least one normal handoff, one partial/uncertain handoff, and one failed handoff.
+10. **Open questions**
    - Unresolved ownership, schema, or behavioral conflicts requiring team agreement.
+
+Each module must state its ownership in testable terms. “Owns” means that the module validates the input, performs the behavior, creates the canonical output/status, and reports its failures. A module may call another service without taking ownership of that service's internal behavior.
 
 ## Shared architecture boundaries
 

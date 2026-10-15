@@ -200,6 +200,22 @@ A separate stage of this module turns approved documents into content that retri
 
 **Normalized page text + stable line mappings** mean: each page is parsed into one clean, canonical text (consistent whitespace, headers/footers stripped, hyphenation rejoined) and its lines are numbered, so a citation `(document_id, content_version, page_number, line_start, line_end)` always resolves to the same passage and a `highlight_url` can open and highlight it. The mapping MUST stay stable across re-ingestion, or be regenerated under a new `content_version`. In V1 (Stage A only) no document text exists yet, so `Source.text_chunk` is reference-only and the page/line fields are deferred (open questions 2, 12, 13).
 
+### 1.6 Provisioning and structural analysis
+
+The professor or course administrator supplies the syllabus and approved course materials before students receive access to the course workspace. Students do not normally create the shared course knowledge base.
+
+The syllabus is processed first to establish modules, concepts, objectives, and source references. Lecture notes and textbook materials then receive a structural pass before retrieval chunking:
+
+1. Read bookmarks and document metadata.
+2. Inspect opening pages for a table of contents.
+3. Scan the full document for numbered headings, repeated headers, page titles, and layout/font changes.
+4. Construct an outline and associate sections with Course Context concepts when supported.
+5. Normalize page text and assign stable page/line ranges.
+6. Chunk within section boundaries while preserving heading ancestry.
+7. Fall back to page-aware/token chunking when no reliable structure exists, and mark the outline/chunks as inferred.
+
+The course becomes student-ready only after the required Course Context, structural metadata, page/line mappings, and retrieval index have passed validation and any required instructor review. Later instructor uploads are versioned and remain unavailable to active tutoring turns until their new version is published.
+
 ---
 
 ## 2. Syllabus-to-JSON workflow *(Normative)*
