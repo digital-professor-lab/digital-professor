@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Course Context Module | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:780px; opacity:.92; font-size:1.02rem}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:150px; border:1px solid var(--line); border-radius:10px; padding:14px 16px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:.98rem}
+  .flow .step p{margin:0; font-size:.86rem; color:var(--muted)}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.5rem; color:var(--muted); flex:none}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 6px; font-size:1.08rem}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+  .statgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin:16px 0}
+  .statgrid .stat{border:1px solid var(--line); border-radius:10px; padding:14px 10px; text-align:center; background:var(--soft)}
+  .statgrid .stat .num{font-size:1.7rem; font-weight:800; color:var(--navy); line-height:1}
+  .statgrid .stat .lbl2{font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-top:5px}
+  @media(max-width:720px){.statgrid{grid-template-columns:repeat(3,1fr)}}
+  .chips{display:flex; flex-wrap:wrap; gap:7px; margin:10px 0}
+  .chips span{background:var(--soft); border:1px solid var(--line); color:var(--navy); border-radius:20px; padding:3px 11px; font-size:.8rem; font-weight:600}
+  .diagram{border:1px solid var(--line); border-radius:10px; background:#fff; padding:14px; overflow:auto; margin-top:12px; text-align:center}
+  .diagram img{max-width:420px; width:100%; display:inline-block}
+  .diagram .cap{font-size:.82rem; color:var(--muted); margin-top:8px}
+  .jsonbox{margin-top:12px; border:1px solid var(--line); border-radius:8px; background:#0f2438; overflow:auto; max-height:460px}
+  .jsonbox pre{margin:0; padding:14px 16px; white-space:pre; color:#d6e4f0; font-size:.78rem; line-height:1.45; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media(max-width:760px){.twocol{grid-template-columns:1fr}}
+  .qbox{border:1px solid #b9c7e6; background:#eef3fb; border-left:4px solid #2f4f8f; border-radius:0 8px 8px 0; padding:12px 16px; margin:10px 0}
+  .qbox .t,.sbox .t{font-weight:700; display:block; margin-bottom:6px}
+  .qbox .t{color:#2f4f8f}
+  .sbox{border:1px solid #e6c7a8; background:#fbf1e6; border-left:4px solid #b8860b; border-radius:0 8px 8px 0; padding:12px 16px; margin:10px 0}
+  .sbox .t{color:#8a5a08}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.72rem; font-weight:700}
+  .p-norm{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .p-prop{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Digital Professor · Ovunc's part</p>
+  <h1>The Course Context Module</h1>
+  <p>Turning a course syllabus into a structured, linked <strong>course knowledge base</strong> and a per-question <strong>target</strong> the tutor can teach against &mdash; with a validation pipeline, a provenance/trust model, and a worked Calculus I example.</p>
+  <div class="toc">
+    <a href="#picture">Big Picture</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#schema">Course Context</a>
+    <a href="#provenance">Provenance</a>
+    <a href="#validation">Validation &amp; Flagging</a>
+    <a href="#qschema">Question Schema</a>
+    <a href="#lifecycle">Material Lifecycle</a>
+    <a href="#example">Worked Example</a>
+  </div>
+</header>
+
+<section id="picture">
+  <h2><span class="n">1</span>The big picture</h2>
+  <p class="lead">What the Course Context module is responsible for, and what it hands to the rest of the system.</p>
+  <p><strong>Course Context</strong> is the structured, linked description of <em>one course</em> that the rest of the Digital Professor reads. It is produced <strong>once per course</strong> from course materials, reviewed by a human, and then consumed read-only. The module owns two outputs:</p>
+  <div class="cards">
+    <div class="card pro">
+      <h4>CourseContext &mdash; the knowledge base</h4>
+      <ul>
+        <li>Course &rarr; Module &rarr; Concept &rarr; objectives, sources, questions</li>
+        <li>The prerequisite graph between concepts</li>
+        <li>Difficulty notes (misconception &rarr; mitigation) per concept</li>
+        <li>Per-record <code>provenance</code> + a logged <code>assumptions</code> list</li>
+      </ul>
+    </div>
+    <div class="card pro">
+      <h4>QuestionSchema &mdash; the per-question target</h4>
+      <ul>
+        <li>Everything a <em>correct solution</em> to one question requires</li>
+        <li>The valid approach(es), reference answer, prerequisites</li>
+        <li>The misconceptions the question tends to trigger</li>
+        <li>Built on demand, handed to the Tutoring Engine read-only</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout good"><strong>The core idea.</strong> The syllabus defines <em>what</em> is taught and in what order; the module turns that into a retrievable knowledge base, and for any question retrieves a concrete <em>target</em>. Tutoring then becomes "close the gap between the target and the student."</div>
+  <p class="exnote">Documented across three files: <code>course-context.md</code> (the spec), <code>course-context.validation-and-flagging.md</code> (the tools), and <code>course-context.example-calc1.md</code> (the worked example).</p>
+</section>
+
+<section id="pipeline">
+  <h2><span class="n">2</span>How a course is built &mdash; the pipeline</h2>
+  <p class="lead">One syllabus in, one reviewed knowledge base out, plus the per-question targets and the (post-V1) ingestion layer that feeds retrieval.</p>
+  <div class="flow">
+    <div class="step s1"><h4>1 · Intake</h4><p>a syllabus (PDF or pasted text)</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s1"><h4>2 · Generate</h4><p>one JSON object in a single pass; emits provenance</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s2"><h4>3 · Validate</h4><p>conformance rules; regenerate on error</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s2"><h4>4 · Flag</h4><p>build a human review worklist</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s3"><h4>5 · Review &amp; Publish</h4><p>human checks, then read-only</p></div>
+  </div>
+  <div class="diagram">
+    <img src="course-context-io.png" alt="Course Context inputs, outputs, and dependency diagram">
+    <div class="cap">Inputs, outputs, and handoffs. Green = Course Context module (Ovunc's part); blue = inputs; red = instructor; grey = handoff contents; orange = other teammates (Sean, Jonathan, Yining).</div>
+  </div>
+  <p class="exnote">The <strong>QuestionSchema builder</strong> runs separately, per student question, against the published knowledge base. The <strong>Ingestion (Stage B)</strong> layer &mdash; lecture notes/textbook &rarr; normalized pages + line maps + chunks &mdash; feeds Sean's retrieval (see §8).</p>
+</section>
+
+<section id="schema">
+  <h2><span class="n">3</span>The Course Context schema</h2>
+  <p class="lead">Six linked record types. <strong>Concept is the hub.</strong></p>
+  <p>The chain Course &rarr; Module &rarr; Concept &rarr; LearningObjective / Source / AssessmentQuestion is a <em>reading order</em>, not the storage layout. Objectives, sources and questions all attach to a Concept; a question reaches its sources only through its concepts; prerequisites are Concept&rarr;Concept links (acyclic).</p>
+  <table>
+    <thead><tr><th>Record</th><th>Key fields</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Course</strong></td><td>id, title, level, duration_weeks, assumed_background, module_ids[]</td></tr>
+      <tr><td><strong>Module</strong></td><td>id, course_id, title, goal, weeks, concept_ids[]</td></tr>
+      <tr><td><strong>Concept</strong></td><td>id, module_id, name, summary, key_definitions[], prerequisite_ids[], objective_ids[], <em>difficulty_notes[{misconception, mitigation}]</em>, source_ids[], question_ids[]</td></tr>
+      <tr><td><strong>LearningObjective</strong></td><td>id, concept_id, text, bloom_level</td></tr>
+      <tr><td><strong>Source</strong></td><td>id, type, citation, section, text_chunk</td></tr>
+      <tr><td><strong>AssessmentQuestion</strong></td><td>id, concept_ids[], objective_ids[], type, difficulty, prompt, solution, rubric, common_wrong_answers[], requires_figure</td></tr>
+    </tbody>
+  </table>
+  <p>Records link by id, so the whole context around any item is one lookup plus a few link-follows &mdash; exactly what the builder needs to assemble a target on demand. A small additive field, <code>provenance</code>, rides on every record (schema&nbsp;1.1).</p>
+</section>
+
+<section id="provenance">
+  <h2><span class="n">4</span>Provenance &mdash; where the trust comes from</h2>
+  <p class="lead">A syllabus-only file is a skeleton with <em>plausible</em> content on it. Provenance makes the difference explicit.</p>
+  <div class="twocol">
+    <div class="card">
+      <h4><code>source_backed</code></h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0">Every non-structural value on the record is stated in, or mechanically copied from, the supplied material.</p>
+    </div>
+    <div class="card">
+      <h4><code>ai_inferred</code></h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0">At least one value was generated by the model beyond what the material states.</p>
+    </div>
+  </div>
+  <p><strong>Weakest-link rule.</strong> A record's provenance is the weakest of its non-structural fields. In a syllabus-only file, <strong>structure, order and citations are source-backed</strong>; summaries, definitions, objectives, prerequisites, difficulty notes, questions and solutions are not.</p>
+  <div class="callout"><strong>So what carries the trust?</strong> The <code>provenance</code> field, the <code>assumptions</code> log (one entry per inference &mdash; <em>what</em> was inferred, on which field, and <em>why</em>), and the human review checklist. The model never leaves a field blank or <code>"TBD"</code> &mdash; it infers a value and logs the inference.</div>
+</section>
+
+<section id="validation">
+  <h2><span class="n">5</span>Validation &amp; Review Flagging</h2>
+  <p class="lead">Two tools sit between generation and publishing &mdash; specified in <code>course-context.validation-and-flagging.md</code>.</p>
+  <div class="flow">
+    <div class="step s1"><h4>Generate</h4><p>the prompt emits JSON</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s2"><h4>Validator</h4><p>0 errors? else discard &amp; regenerate (capped)</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s3"><h4>Review Flagger</h4><p>builds a per-file review worklist</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s1"><h4>Human review</h4><p>check, edit, publish</p></div>
+  </div>
+  <div class="twocol">
+    <div class="qbox">
+      <span class="t">Validator &mdash; the gate</span>
+      <div style="font-size:.9rem">Is the file <em>well-formed</em>? A file with any error is regenerated, not hand-patched. Checks include:</div>
+      <ul style="font-size:.88rem;margin:6px 0 0">
+        <li>structure, required fields, enums (V-01&ndash;V-03)</li>
+        <li>unique IDs that follow the patterns (V-04)</li>
+        <li>every link resolves; forward/reverse links agree (V-05&ndash;V-06)</li>
+        <li>prerequisites acyclic, never point to a later module (V-07)</li>
+        <li>no null / empty / <code>"TBD"</code>; assumptions resolve (V-09&ndash;V-11)</li>
+      </ul>
+    </div>
+    <div class="sbox">
+      <span class="t">Review Flagger &mdash; the worklist</span>
+      <div style="font-size:.9rem">Which <em>content</em> should a human look at? It does not block; it produces a report:</div>
+      <ul style="font-size:.88rem;margin:6px 0 0">
+        <li>every record named by an <code>assumptions</code> entry</li>
+        <li>the "check first" fields on AI-inferred records: solutions, rubrics, prerequisites, difficulty notes, assumed background</li>
+        <li>wildcard (blanket) assumptions as global notes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="qschema">
+  <h2><span class="n">6</span>The Question Schema</h2>
+  <p class="lead">The <strong>target</strong> for one question: what a fully correct solution requires. Built from Course Context + the specific question, then frozen and handed to the Tutoring Engine.</p>
+  <table>
+    <thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>concept_ids</code>, <code>learning_objectives</code></td><td>which concept(s) the question tests, and their objectives (copied verbatim)</td></tr>
+      <tr><td><code>prerequisite_concepts</code></td><td>the direct prerequisites a student must already be able to use</td></tr>
+      <tr><td><code>correct_approach</code> + <code>alternative_approaches</code></td><td>the canonical technique (+ justification), plus other valid ones</td></tr>
+      <tr><td><code>reference_answer</code></td><td>the full worked answer &mdash; access-restricted, never shown to the student</td></tr>
+      <tr><td><code>common_misconceptions</code></td><td>misconceptions to watch for, each with an observable <em>cue</em></td></tr>
+      <tr><td><code>source_reference</code></td><td>where the question is grounded in the course material</td></tr>
+      <tr><td><code>provenance</code>, <code>built_from</code></td><td>trust level + the exact Course Context (SHA-256) used, for replay</td></tr>
+    </tbody>
+  </table>
+  <p>The schema is <strong>not hand-written</strong> &mdash; every field is a lookup or a machine-checked build against the knowledge base. A <code>bank</code> question copies its fields; a <code>runtime</code> (student-typed) question gets an ad-hoc id and the builder writes &amp; <em>checks</em> the solution (e.g. for an integral, by differentiating it back).</p>
+</section>
+
+<section id="lifecycle">
+  <h2><span class="n">7</span>Material lifecycle &amp; the ingestion layer</h2>
+  <p class="lead">Course materials play two roles, and enter at two different stages.</p>
+  <table>
+    <thead><tr><th>Role</th><th>Materials</th><th>Stage</th><th>Produces</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Structural input</strong></td><td>syllabus / course breakdown</td><td>A &mdash; structure build <span class="pill p-norm">V1</span></td><td>the Course Context skeleton + <code>Source</code> <em>references</em></td></tr>
+      <tr><td><strong>Content input</strong></td><td>lecture notes, textbook, slides</td><td>B &mdash; content ingestion <span class="pill p-prop">post-V1</span></td><td>normalized pages + stable line maps + versioned chunks</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>Key point.</strong> Building the course <em>structure</em> only needs the syllabus. Lecture notes and textbooks are <em>not</em> needed for that &mdash; they enter later, at an <strong>ingestion layer</strong> that fills in the real material behind the <code>Source</code> references so Sean's retrieval can ground on it.</div>
+  <h3>The ingestion layer (Stage B)</h3>
+  <ul class="clean">
+    <li><strong>Input:</strong> the Course Context (to link content to the right Concept/Source) + raw approved documents + ingestion config.</li>
+    <li><strong>Output (handoff to retrieval):</strong> per document version &mdash; normalized page text, stable <code>page/line</code> mappings under a <code>content_version</code>, and versioned chunks linked back to <code>Source</code>/<code>Concept</code> (proposed as the <code>IngestedSource</code> record).</li>
+  </ul>
+  <div class="callout good"><strong>Normalized pages &amp; stable line mappings.</strong> Each page is parsed into one clean, canonical text (consistent whitespace, headers/footers stripped, hyphenation rejoined) and its lines are numbered, so a citation <code>(document, version, page, line_start&ndash;line_end)</code> always resolves to the same passage and a highlight link can open and highlight it &mdash; even after the document is re-ingested. Think "line numbers pinned to a commit."</div>
+</section>
+
+<section id="example">
+  <h2><span class="n">8</span>Worked example: Calculus I</h2>
+  <p class="lead">A real course generated directly from a one-page syllabus (AS.110.106), in <code>course-context.example-calc1.md</code>.</p>
+  <div class="statgrid">
+    <div class="stat"><div class="num">6</div><div class="lbl2">Modules</div></div>
+    <div class="stat"><div class="num">33</div><div class="lbl2">Concepts</div></div>
+    <div class="stat"><div class="num">33</div><div class="lbl2">Objectives</div></div>
+    <div class="stat"><div class="num">32</div><div class="lbl2">Sources</div></div>
+    <div class="stat"><div class="num">66</div><div class="lbl2">Questions</div></div>
+    <div class="stat"><div class="num">19</div><div class="lbl2">Assumptions</div></div>
+  </div>
+
+  <h3>A Question Schema for a student's question</h3>
+  <p>A student types <strong>$\int x\cos(x)\,dx$</strong>. It's not in the bank, so the builder runs the runtime path: match the concept (<code>integration by parts</code>), copy objectives &amp; misconceptions, write and <em>differentiate-check</em> the answer.</p>
+  <div class="jsonbox"><pre>{
+  "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+  "origin": "runtime",
+  "concept_ids": ["calc1.06-integral-applications.by-parts"],
+  "prompt": "\\int x\\cos(x) dx",
+  "correct_approach": {
+    "technique": "Integration by parts with u = x and dv = cos(x) dx",
+    "justification": "x and cos(x) have no derivative relationship, so the
+       substitution test fails; u = x simplifies under differentiation (LIATE)."
+  },
+  "reference_answer": "x sin(x) + cos(x) + C.  Check: d/dx[...] = x cos(x). ",
+  "common_misconceptions": [
+    { "description": "Choosing u, dv so the new integral is harder.",
+      "cue": "Sets u = cos(x), dv = x dx; the new integral gets worse." },
+    { "description": "Reaching for u-substitution because an x sits next to a
+        trig factor, without the derivative-relationship check.",
+      "cue": "Tried u = cos(x) or u = x^2 and it did not simplify." }
+  ],
+  "prerequisite_concepts": ["substitution", "product-quotient"],
+  "provenance": "ai_inferred",
+  "built_from": { "course_context_schema_version": "1.1", "content_sha256": "617281d1…" }
+}</pre></div>
+
+  <h3>What the target drives in a session</h3>
+  <p>Handed to the Tutoring Engine, this one record is enough to run a Socratic session: compare the student's approach to <code>correct_approach</code>, probe the <code>prerequisite_concepts</code>, and watch for each misconception's <code>cue</code>. The worked example traces a 13-turn session on this exact integral &mdash; a problem that <em>looks</em> like substitution but needs integration by parts.</p>
+  <div class="chips">
+    <span>elicit</span><span>probe</span><span>diagnose</span><span>contrast</span><span>explain</span><span>hint</span><span>retry</span><span>verify</span><span>check understanding</span><span>transfer</span>
+  </div>
+</section>
+
+<footer>
+  Digital Professor · Research / Syllabus Understanding &mdash; Course Context (Ovunc)<br>
+  Sources: <code>course-context.md</code> · <code>course-context.validation-and-flagging.md</code> · <code>course-context.example-calc1.md</code>
+</footer>
+
+</body>
+</html>

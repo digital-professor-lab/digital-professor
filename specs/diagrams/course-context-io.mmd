@@ -5,9 +5,10 @@ flowchart TB
     classDef store fill:#E6F3EA,stroke:#2E7D4F,color:#10301F,stroke-width:2px
     classDef human fill:#FDECEC,stroke:#B3413F,color:#3F1514
 
-    SYL["Syllabus<br/>REQUIRED in V1"]:::input
-    NOTES["Lecture notes / textbook text<br/>not in V1"]:::input
+    SYL["Syllabus<br/>REQUIRED in V1 (Stage A)"]:::input
+    MAT["Course materials<br/>lecture notes, textbook, slides<br/>(Stage B, post-V1)"]:::input
     GEN["Syllabus-to-JSON prompt<br/>one pass, emits provenance"]:::cc
+    ING["Ingestion (Stage B)<br/>normalize pages, stable line maps, chunk"]:::cc
     VAL{"Validator<br/>regenerate on error"}:::cc
     FLAG["Review Flagger<br/>builds review worklist"]:::cc
     INSTR(["Instructor review"]):::human
@@ -24,7 +25,6 @@ flowchart TB
     OUT(["Student sees the reply"]):::input
 
     SYL --> GEN
-    NOTES -.-> GEN
     GEN --> VAL
     VAL -- "errors: regenerate" --> GEN
     VAL -- "0 errors" --> FLAG
@@ -32,6 +32,9 @@ flowchart TB
     INSTR -- "review and edit" --> KB
 
     KB -- "course IDs, concept IDs,<br/>source refs, scope" --> SEAN
+    MAT --> ING
+    KB -- "course schema<br/>(link content to concepts)" --> ING
+    ING -- "IngestedSource:<br/>normalized pages + line maps + chunks" --> SEAN
     KB -- "records" --> BLD
     STU --> BLD
     SEAN -- "concept and sibling-question match" --> BLD

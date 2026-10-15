@@ -213,12 +213,32 @@ Student Evidence is factual and provenance-preserving. It may identify observabl
 
 Do not include an unrestricted full student history when a smaller evidence summary is sufficient.
 
-## 9. GroundingPassage and GroundingBundle
+## 9. Ingestion → Retrieval records
+
+### IngestedSource *(proposed — needs Sean's sign-off)*
+
+**Producer:** Course Context and Ingestion (Stage B — the ingestion layer)  
+**Consumer:** Course Knowledge Retrieval
+
+The handoff from content ingestion to retrieval: one approved document, normalized and line-mapped, ready to index. It is the substrate that `GroundingPassage` locations resolve against. Post-V1 (V1 is syllabus-only); see `course-context.md` §1.5 and open question 13 for who owns chunking.
+
+| Field | Type | Required | Meaning |
+|---|---|---:|---|
+| `document_id` | string | Yes | Logical source document. |
+| `content_version` | string | Yes | Version these page/line numbers are valid for. |
+| `source_ids` | array[string] | Yes | `Source` records this document backs (link into Course Context). |
+| `concept_ids` | array[string] | No | Concepts this document covers, when known. |
+| `pages` | array[{`page_number`,`normalized_text`,`line_count`}] | Yes | Canonical per-page text with stable line numbering. |
+| `chunks` | array[{`chunk_id`,`page_number`,`line_start`,`line_end`,`text`,`concept_ids`}] | No | Retrievable units — present only if ingestion chunks (open decision: architecture.md §12 item 9). |
+| `ingest_status` | enum | Yes | `ingested`, `partial`, or `failed`. |
+| `warnings` | array[object] | No | OCR quality, missing pages, broken line map, etc. |
+
+Chunking ownership (ingestion vs. retrieval) is unresolved; either way the `page_number`/`line_start`/`line_end` mapping in `pages` is the source of truth that `GroundingPassage` must preserve.
+
+### GroundingPassage
 
 **Producer:** Course Knowledge Retrieval  
 **Consumers:** Tutoring Engine and, for citation display, Delivery
-
-### GroundingPassage
 
 | Field | Type | Required | Meaning |
 |---|---|---:|---|
@@ -436,6 +456,7 @@ The correction record explains which handwritten symbol was confirmed. The evide
 ### Sean
 
 - Confirm `RetrievalRequest`, `GroundingPassage`, and `GroundingBundle`.
+- Confirm the proposed `IngestedSource` handoff (§9) and decide whether ingestion or retrieval performs chunking (architecture.md §12, item 9).
 - Decide whether scores are comparable enough to expose and how `highlight_url` will resolve.
 - Specify chunk identifiers, indexing versions, and behavior when no support is found.
 

@@ -25,7 +25,10 @@ flowchart LR
     U[Student] --> I[Interaction and Recognition]
     CQ[Course Context and Question Schema] --> I
     CQ --> T[Learner State and Tutoring Engine]
-    I -->|RetrievalRequest| R[Course Knowledge Retrieval]
+    MAT[Course materials<br/>notes, textbook, slides] --> ING[Ingestion Stage B<br/>normalized pages + line maps + chunks]
+    CQ -->|course schema| ING
+    ING -->|IngestedSource| R[Course Knowledge Retrieval]
+    I -->|RetrievalRequest| R
     R -->|GroundingBundle| T
     I -->|StudentEvidence| T
     T -->|TutoringAction| D[Delivery Layer]
@@ -41,7 +44,7 @@ flowchart LR
 
 | Component | Owns | Receives | Produces | Does not own |
 |---|---|---|---|---|
-| Course Context and Ingestion | Syllabus parsing in V1, course structure, Question Schema construction, and preparation for later source ingestion/indexing | One syllabus in V1; bank or confirmed runtime questions; ingestion configuration | `CourseContext`, `QuestionSchema`; later, versioned lecture-note/textbook pages and chunks | Student diagnosis or tutoring-action selection |
+| Course Context and Ingestion | **Stage A:** syllabus parsing, course structure, Question Schema construction. **Stage B (post-V1) — the ingestion layer:** document ingestion producing normalized page text + stable line mappings + versioned chunks | One syllabus in V1; bank or confirmed runtime questions. **Stage B:** the Course Context + approved documents (lecture notes, textbook, slides) + ingestion config | `CourseContext`, `QuestionSchema`. **Stage B:** `IngestedSource` — normalized pages, stable line maps, and versioned chunks for retrieval | Student diagnosis or tutoring-action selection |
 | Course Knowledge Retrieval | Indexing, search, ranking, source-location resolution, grounding status | Versioned chunks and `RetrievalRequest` | `GroundingBundle` containing passage-level citations | Deciding what the student knows or which intervention to use |
 | Interaction and Recognition | Input capture, modality routing, recognition, ambiguity confirmation, Student Evidence construction, turn coordination | Student input, `CourseContext`, `QuestionSchema`, `DeliveryResult` | `StudentSubmission`, `StudentEvidence`, `RetrievalRequest`, `InteractionTraceEvent` records | Diagnosing knowledge gaps or choosing pedagogy |
 | Learner State and Tutoring Engine | Evidence interpretation, learner-state update, gap identification, action selection | `StudentEvidence`, `QuestionSchema`, `CourseContext`, `GroundingBundle`, prior `LearnerState` | Updated `LearnerState` and `TutoringAction` | Input recognition or user-interface presentation |
@@ -120,7 +123,7 @@ Retrieval should not copy an entire source document into the tutoring record. It
 - a `highlight_url` that opens the viewer at the page and highlights the line range
 - relevance/status information
 
-The ingestion component must create stable normalized page text and line mappings. The retrieval component must preserve those mappings when it chunks or ranks content.
+Ingestion (Stage B of Course Context and Ingestion) owns the **normalized page text and stable line mappings** — the source of truth for locations — and hands them to retrieval as the proposed `IngestedSource` record (interfaces.md §9), each under a `content_version`. Retrieval indexes, searches, ranks, and resolves locations; whichever component performs the chunking MUST preserve ingestion's page/line mapping. Who owns chunking is an open decision (§12, item 9).
 
 ## 10. Failure behavior
 
@@ -152,6 +155,7 @@ The ingestion component must create stable normalized page text and line mapping
 6. Which operational records remain when optional logging is disabled, and for how long?
 7. Can Delivery request a presentation adaptation directly, or must all changes return through the Tutoring Engine?
 8. Should the runtime Question Schema builder accept confirmed recognized content in addition to text typed directly by the student?
+9. Does ingestion (Stage B) or retrieval perform chunking? Ingestion owns normalized pages + stable line maps either way; see the proposed `IngestedSource` record (interfaces.md §9).
 
 ## 13. Review checklist
 
