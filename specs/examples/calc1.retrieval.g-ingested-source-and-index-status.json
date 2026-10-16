@@ -22,8 +22,10 @@
       "document_role": "lecture_notes",
       "approval": {
         "status": "approved",
-        "approved_by": "instructor-calc1",
-        "approved_at": "2026-11-01T18:00:00Z"
+        "approved_by": "reviewer (team member)",
+        "approved_at": "2026-11-01T18:00:00Z",
+        "review_status": "human_confirmed",
+        "scope_of_review": "document-level acceptance only (right file, edition, course)"
       },
       "source_ids": [
         "neuhauser.s7-2"
@@ -62,7 +64,9 @@
           "source_id": "neuhauser.s7-2",
           "page_start": 14,
           "page_end": 16,
-          "link_status": "instructor_confirmed"
+          "link_status": "auto_mapped",
+          "mapping_confidence": 0.93,
+          "review_status": "auto_checked"
         }
       ],
       "ingest_status": "ingested",
@@ -107,7 +111,7 @@
           "calc1.06-integral-applications.partial-fractions"
         ]
       },
-      "requires_instructor_ack": true,
+      "requires_human_ack": true,
       "warnings": [
         {
           "code": "concept_without_source",
