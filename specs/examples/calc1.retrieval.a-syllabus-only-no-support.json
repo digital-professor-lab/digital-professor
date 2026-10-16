@@ -1,0 +1,148 @@
+{
+  "example_for": "rag-retrieval.md §13: A. Normal V1 turn with syllabus-only Course Context",
+  "author": "Sean (Retrieval)",
+  "scenario": "A. Normal V1 turn with syllabus-only Course Context",
+  "illustrative": false,
+  "notes": [
+    "Real V1 state: Course Context Stage A only; Source neuhauser.s7-2 is a syllabus reference.",
+    "The request is valid and in scope; the result honestly reports that no approved text exists.",
+    "The Engine may ask a conceptual question but must not quote or cite the textbook."
+  ],
+  "records": [
+    {
+      "record_id": "rr-a1",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-10-16T14:00:00Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-calc1-t1",
+      "retrieval_request_id": "rr-a1",
+      "course_id": "calc1",
+      "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+      "turn_id": "turn-calc1-t1",
+      "query": "Integration by parts: formula and how to choose u for ∫ x cos(x) dx",
+      "concept_ids": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "purpose": "hint_support",
+      "top_k": 4,
+      "course_context_ref": {
+        "course_context_schema_version": "1.1",
+        "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+      },
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "description": "Statement of the integration by parts formula",
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ]
+        }
+      ],
+      "retrieval_snapshot_id": "snap.calc1.syllabus-only.1"
+    },
+    {
+      "record_id": "gb-a1",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-10-16T14:00:00.180Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-t1",
+      "grounding_bundle_id": "gb-a1",
+      "retrieval_request_id": "rr-a1",
+      "retrieval_status": "no_support_found",
+      "passages": [],
+      "retrieval_snapshot_id": "snap.calc1.syllabus-only.1",
+      "need_coverage": [
+        {
+          "need_id": "n1",
+          "coverage": "not_covered",
+          "passage_ids": [],
+          "method": "none"
+        }
+      ],
+      "uncovered_needs": [
+        "n1"
+      ],
+      "query_interpretation": {
+        "concept_scope": [
+          "calc1.06-integral-applications.by-parts"
+        ],
+        "source_leads": [
+          "neuhauser.s7-2"
+        ]
+      },
+      "warnings": [
+        {
+          "code": "reference_only",
+          "source_id": "neuhauser.s7-2",
+          "message": "The syllabus cites Section 7.2, but no approved text for it is ingested."
+        },
+        {
+          "code": "no_ingested_sources",
+          "message": "This course release has no IngestedSource documents (Stage B not run)."
+        }
+      ]
+    },
+    {
+      "record_id": "rpt-a1",
+      "record_type": "RetrievalReport",
+      "schema_version": "0.1",
+      "created_at": "2026-10-16T14:00:00.181Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-t1",
+      "retrieval_report_id": "rpt-a1",
+      "retrieval_request_id": "rr-a1",
+      "grounding_bundle_id": "gb-a1",
+      "gate": {
+        "decision": "proceed",
+        "reason_code": "in_scope",
+        "decided_by": "rules",
+        "policy_version": "calc1-retrieval-policy@1"
+      },
+      "snapshot": {
+        "retrieval_snapshot_id": "snap.calc1.syllabus-only.1",
+        "index_version": null,
+        "course_context_ref": {
+          "course_context_schema_version": "1.1",
+          "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+        }
+      },
+      "query_plan": {
+        "needs": [
+          "n1"
+        ],
+        "query_variants": 0,
+        "normalization": []
+      },
+      "channels": {},
+      "selector": {
+        "mode": "not_run_no_eligible_source",
+        "selected_passage_ids": []
+      },
+      "resolution": {
+        "dropped": []
+      },
+      "sufficiency": [
+        {
+          "need_id": "n1",
+          "coverage": "not_covered",
+          "method": "none"
+        }
+      ],
+      "final_status": "no_support_found",
+      "component_errors": [],
+      "timings_ms": {
+        "validate": 6,
+        "gate": 3,
+        "total": 11
+      },
+      "usage": {
+        "model_calls": 0
+      }
+    }
+  ]
+}
