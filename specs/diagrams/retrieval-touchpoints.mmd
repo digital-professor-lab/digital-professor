@@ -10,9 +10,10 @@ flowchart LR
         LK -->|"CourseContextLookupResult"| QB
     end
     subgraph Turn["Tutoring turn"]
-        RQ["Tutoring Engine (proposed)<br/>or Interaction coordinator"] -->|"T3 RetrievalRequest"| RET["Retrieval: validate → gate → plan →<br/>search → select → resolve → sufficiency"]
+        POL{{"Grounding policy<br/>(Engine workflow: must / may / must-not)"}} -->|"T3 RetrievalRequest (tool call)"| RET["Retrieval: validate → preflight → plan →<br/>search → select → verify → evidence check"]
         RET -->|"GroundingBundle / RetrievalStop"| ENG["Tutoring Engine"]
-        ENG -->|"TutoringAction.grounding_refs"| DEL["Delivery"]
+        ENG -->|"TutoringAction.grounding_refs"| VER["T4 verify citations"]
+        VER --> DEL["Delivery"]
         DEL -->|"T4 resolve / verify"| RES["Retrieval: citation resolution"]
     end
     PUB --> LK
