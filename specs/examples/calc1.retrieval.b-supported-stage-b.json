@@ -1,0 +1,231 @@
+{
+  "example_for": "rag-retrieval.md §13: B. Normal Stage B turn: both evidence needs covered",
+  "author": "Sean (Retrieval)",
+  "scenario": "B. Normal Stage B turn: both evidence needs covered",
+  "illustrative": true,
+  "notes": [
+    "ILLUSTRATIVE: the lecture-note document, pages and text are invented to show the contract shape.",
+    "Do not use these passages as real citations.",
+    "Passage 3 is context expansion (product rule recalled on the same page)."
+  ],
+  "records": [
+    {
+      "record_id": "rr-b1",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:10:00Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-calc1-t4",
+      "retrieval_request_id": "rr-b1",
+      "course_id": "calc1",
+      "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+      "turn_id": "turn-calc1-t4",
+      "query": "Integration by parts formula and choosing u and dv for ∫ x cos(x) dx",
+      "concept_ids": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "purpose": "hint_support",
+      "top_k": 4,
+      "course_context_ref": {
+        "course_context_schema_version": "1.1",
+        "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+      },
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "description": "Statement of the integration by parts formula",
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ]
+        },
+        {
+          "need_id": "n2",
+          "description": "Guidance on choosing u and dv so that the new integral is simpler",
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ]
+        }
+      ],
+      "retrieval_snapshot_id": "snap.calc1.2026-11-02.1",
+      "evidence_summary": "Student set u = cos(x), dv = x dx; the new integral grew more complex.",
+      "max_passage_chars": 6000
+    },
+    {
+      "record_id": "gb-b1",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:10:00.640Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-t4",
+      "grounding_bundle_id": "gb-b1",
+      "retrieval_request_id": "rr-b1",
+      "retrieval_status": "supported",
+      "retrieval_snapshot_id": "snap.calc1.2026-11-02.1",
+      "passages": [
+        {
+          "passage_id": "psg_632eec7272ce17bc",
+          "document_id": "doc.calc1.lecture-notes",
+          "content_version": "cv-2026-11-02.1",
+          "page_number": 14,
+          "line_start": 3,
+          "line_end": 5,
+          "passage_text": "Integration by parts. If u and v are differentiable functions, then\n∫ u dv = u v − ∫ v du.\nIt follows from integrating both sides of the product rule (u v)′ = u′ v + u v′.",
+          "highlight_url": "/courses/calc1/sources/doc.calc1.lecture-notes/versions/cv-2026-11-02.1/view?page=14&lines=3-5",
+          "relevance_score": null,
+          "retrieval_rank": 1,
+          "page_label": "212",
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "lecture_notes",
+          "source_label": "Calculus I Lecture Notes (illustrative), p. 212"
+        },
+        {
+          "passage_id": "psg_205252afd2694595",
+          "document_id": "doc.calc1.lecture-notes",
+          "content_version": "cv-2026-11-02.1",
+          "page_number": 14,
+          "line_start": 18,
+          "line_end": 20,
+          "passage_text": "Choosing u and dv. Pick u so that du is simpler than u, and pick dv so that it can be\nintegrated directly. For ∫ x cos x dx, take u = x and dv = cos x dx; then du = dx and v = sin x,\nand the new integral ∫ sin x dx is simpler than the original.",
+          "highlight_url": "/courses/calc1/sources/doc.calc1.lecture-notes/versions/cv-2026-11-02.1/view?page=14&lines=18-20",
+          "relevance_score": null,
+          "retrieval_rank": 2,
+          "page_label": "212",
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "lecture_notes",
+          "source_label": "Calculus I Lecture Notes (illustrative), p. 212"
+        },
+        {
+          "passage_id": "psg_e0f8fa768a2084a0",
+          "document_id": "doc.calc1.lecture-notes",
+          "content_version": "cv-2026-11-02.1",
+          "page_number": 14,
+          "line_start": 1,
+          "line_end": 2,
+          "passage_text": "Recall the product rule from Section 4.4: (u v)′ = u′ v + u v′.",
+          "highlight_url": "/courses/calc1/sources/doc.calc1.lecture-notes/versions/cv-2026-11-02.1/view?page=14&lines=1-2",
+          "relevance_score": null,
+          "retrieval_rank": 3,
+          "page_label": "212",
+          "role": "context",
+          "visibility": "student_visible",
+          "document_role": "lecture_notes",
+          "source_label": "Calculus I Lecture Notes (illustrative), p. 212"
+        }
+      ],
+      "need_coverage": [
+        {
+          "need_id": "n1",
+          "coverage": "covered",
+          "passage_ids": [
+            "psg_632eec7272ce17bc"
+          ],
+          "method": "anchor_check"
+        },
+        {
+          "need_id": "n2",
+          "coverage": "covered",
+          "passage_ids": [
+            "psg_205252afd2694595"
+          ],
+          "method": "pinned_passage"
+        }
+      ],
+      "uncovered_needs": [],
+      "warnings": []
+    },
+    {
+      "record_id": "rpt-b1",
+      "record_type": "RetrievalReport",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:10:00.641Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-t4",
+      "retrieval_report_id": "rpt-b1",
+      "retrieval_request_id": "rr-b1",
+      "grounding_bundle_id": "gb-b1",
+      "gate": {
+        "decision": "proceed",
+        "reason_code": "in_scope",
+        "decided_by": "rules",
+        "policy_version": "calc1-retrieval-policy@1"
+      },
+      "snapshot": {
+        "retrieval_snapshot_id": "snap.calc1.2026-11-02.1",
+        "index_version": "idx.calc1.2026-11-02.1",
+        "course_context_ref": {
+          "course_context_schema_version": "1.1",
+          "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+        }
+      },
+      "query_plan": {
+        "needs": [
+          "n1",
+          "n2"
+        ],
+        "query_variants": 3,
+        "normalization": [
+          "unicode_integral_to_tex",
+          "function_call_spacing"
+        ]
+      },
+      "channels": {
+        "lexical_exact": 6,
+        "lexical_broad": 18,
+        "semantic_1": 20
+      },
+      "selector": {
+        "mode": "baseline",
+        "reranker": "off",
+        "selected_passage_ids": [
+          "psg_632eec7272ce17bc",
+          "psg_205252afd2694595",
+          "psg_e0f8fa768a2084a0"
+        ],
+        "omitted": {
+          "duplicate_span": 4,
+          "budget": 0,
+          "diversity_discount": 2
+        }
+      },
+      "resolution": {
+        "dropped": []
+      },
+      "sufficiency": [
+        {
+          "need_id": "n1",
+          "coverage": "covered",
+          "method": "anchor_check",
+          "anchor": "∫ u dv = u v − ∫ v du",
+          "need_type": "formula_statement",
+          "anchor_rule": "enabled for formula_statement by calc1-retrieval-policy@1"
+        },
+        {
+          "need_id": "n2",
+          "coverage": "covered",
+          "method": "pinned_passage"
+        }
+      ],
+      "final_status": "supported",
+      "component_errors": [],
+      "timings_ms": {
+        "validate": 5,
+        "gate": 2,
+        "plan": 3,
+        "search": 410,
+        "select": 9,
+        "resolve": 31,
+        "sufficiency": 4,
+        "total": 470
+      },
+      "usage": {
+        "model_calls": 0,
+        "estimated_cost_usd": 0.0
+      }
+    }
+  ]
+}
