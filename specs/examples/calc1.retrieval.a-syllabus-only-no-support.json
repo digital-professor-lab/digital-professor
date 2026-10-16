@@ -1,10 +1,11 @@
 {
-  "example_for": "rag-retrieval.md §13: A. Normal V1 turn with syllabus-only Course Context",
+  "example_for": "rag-retrieval.md §13: A. Default (production) policy: no approved course text is ingested",
   "author": "Sean (Retrieval)",
-  "scenario": "A. Normal V1 turn with syllabus-only Course Context",
+  "scenario": "A. Default (production) policy: no approved course text is ingested",
   "illustrative": false,
   "notes": [
-    "Real V1 state: Course Context Stage A only; Source neuhauser.s7-2 is a syllabus reference.",
+    "Uses the shared calc1 Course Context; Source neuhauser.s7-2 is a syllabus reference only.",
+    "The AI course-breakdown development corpus is not eligible under the default policy (allow_unverified_sources = none), so no passage can be returned.",
     "The request is valid and in scope; the result honestly reports that no approved text exists.",
     "The Engine may ask a conceptual question but must not quote or cite the textbook."
   ],
@@ -22,6 +23,7 @@
       "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
       "turn_id": "turn-calc1-t1",
       "query": "Integration by parts: formula and how to choose u for ∫ x cos(x) dx",
+      "query_origin": "structured",
       "concept_ids": [
         "calc1.06-integral-applications.by-parts"
       ],
@@ -34,6 +36,7 @@
       "evidence_needs": [
         {
           "need_id": "n1",
+          "need_type": "formula_statement",
           "description": "Statement of the integration by parts formula",
           "concept_ids": [
             "calc1.06-integral-applications.by-parts"
