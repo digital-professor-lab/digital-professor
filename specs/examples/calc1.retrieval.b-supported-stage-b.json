@@ -6,7 +6,8 @@
   "notes": [
     "ILLUSTRATIVE: the lecture-note document, pages and text are invented to show the contract shape.",
     "Do not use these passages as real citations.",
-    "Passage 3 is context expansion (product rule recalled on the same page)."
+    "Passage 3 is context expansion (product rule recalled on the same page).",
+    "n1 is covered by the deterministic formula rule; n2 (method guidance) by the optional model evidence judge, because no human-confirmed pinned passage exists (normal under §1.4)."
   ],
   "records": [
     {
@@ -22,6 +23,7 @@
       "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
       "turn_id": "turn-calc1-t4",
       "query": "Integration by parts formula and choosing u and dv for ∫ x cos(x) dx",
+      "query_origin": "structured",
       "concept_ids": [
         "calc1.06-integral-applications.by-parts"
       ],
@@ -34,6 +36,7 @@
       "evidence_needs": [
         {
           "need_id": "n1",
+          "need_type": "formula_statement",
           "description": "Statement of the integration by parts formula",
           "concept_ids": [
             "calc1.06-integral-applications.by-parts"
@@ -41,6 +44,7 @@
         },
         {
           "need_id": "n2",
+          "need_type": "method_guidance",
           "description": "Guidance on choosing u and dv so that the new integral is simpler",
           "concept_ids": [
             "calc1.06-integral-applications.by-parts"
@@ -131,7 +135,7 @@
           "passage_ids": [
             "psg_205252afd2694595"
           ],
-          "method": "pinned_passage"
+          "method": "evidence_judge"
         }
       ],
       "uncovered_needs": [],
@@ -207,7 +211,13 @@
         {
           "need_id": "n2",
           "coverage": "covered",
-          "method": "pinned_passage"
+          "method": "evidence_judge",
+          "judge": {
+            "relation": "direct",
+            "confidence": 0.9,
+            "admitted_by": "policy: judge false-covered rate within limit (spot-checked)"
+          },
+          "note": "No human-confirmed pinned passage exists for this need (expected; see §1.4)."
         }
       ],
       "final_status": "supported",
@@ -223,8 +233,10 @@
         "total": 470
       },
       "usage": {
-        "model_calls": 0,
-        "estimated_cost_usd": 0.0
+        "model_calls": 1,
+        "model_calls_purpose": [
+          "evidence_judge"
+        ]
       }
     }
   ]
