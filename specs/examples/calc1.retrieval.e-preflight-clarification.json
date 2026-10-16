@@ -5,6 +5,7 @@
   "illustrative": false,
   "notes": [
     "Covers the known Week 5 gate miss 'What does the second semester cover?'.",
+    "The free-text scope check runs because query_origin = student_text.",
     "No GroundingBundle is produced; Interaction/Delivery phrase the clarification."
   ],
   "records": [
@@ -21,6 +22,7 @@
       "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
       "turn_id": "turn-calc1-t9",
       "query": "What does the second semester cover?",
+      "query_origin": "student_text",
       "purpose": "answer_grounding",
       "top_k": 4
     },
