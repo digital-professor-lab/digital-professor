@@ -1,0 +1,110 @@
+{
+  "example_for": "rag-retrieval.md §13: C. One need covered, one not: partial",
+  "author": "Sean (Retrieval)",
+  "scenario": "C. One need covered, one not: partial",
+  "illustrative": true,
+  "notes": [
+    "ILLUSTRATIVE document. The guidance on choosing u is not present in the snapshot.",
+    "The Engine may use passage 1 only for need n1; it must not cite it for n2."
+  ],
+  "records": [
+    {
+      "record_id": "rr-c1",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:20:00Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-calc1-t5",
+      "retrieval_request_id": "rr-c1",
+      "course_id": "calc1",
+      "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+      "turn_id": "turn-calc1-t5",
+      "query": "Integration by parts formula and choosing u and dv",
+      "concept_ids": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "purpose": "hint_support",
+      "top_k": 4,
+      "course_context_ref": {
+        "course_context_schema_version": "1.1",
+        "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+      },
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "description": "Statement of the integration by parts formula",
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ]
+        },
+        {
+          "need_id": "n2",
+          "description": "Guidance on choosing u and dv so that the new integral is simpler",
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ]
+        }
+      ],
+      "retrieval_snapshot_id": "snap.calc1.2026-11-01.1"
+    },
+    {
+      "record_id": "gb-c1",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:20:00.520Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-t5",
+      "grounding_bundle_id": "gb-c1",
+      "retrieval_request_id": "rr-c1",
+      "retrieval_status": "partial",
+      "retrieval_snapshot_id": "snap.calc1.2026-11-01.1",
+      "passages": [
+        {
+          "passage_id": "psg_632eec7272ce17bc",
+          "document_id": "doc.calc1.lecture-notes",
+          "content_version": "cv-2026-11-02.1",
+          "page_number": 14,
+          "line_start": 3,
+          "line_end": 5,
+          "passage_text": "Integration by parts. If u and v are differentiable functions, then\n∫ u dv = u v − ∫ v du.\nIt follows from integrating both sides of the product rule (u v)′ = u′ v + u v′.",
+          "highlight_url": "/courses/calc1/sources/doc.calc1.lecture-notes/versions/cv-2026-11-02.1/view?page=14&lines=3-5",
+          "relevance_score": null,
+          "retrieval_rank": 1,
+          "page_label": "212",
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "lecture_notes",
+          "source_label": "Calculus I Lecture Notes (illustrative), p. 212"
+        }
+      ],
+      "need_coverage": [
+        {
+          "need_id": "n1",
+          "coverage": "covered",
+          "passage_ids": [
+            "psg_632eec7272ce17bc"
+          ],
+          "method": "anchor_check"
+        },
+        {
+          "need_id": "n2",
+          "coverage": "not_covered",
+          "passage_ids": [],
+          "method": "anchor_check"
+        }
+      ],
+      "uncovered_needs": [
+        "n2"
+      ],
+      "warnings": [
+        {
+          "code": "sufficiency_uncertain",
+          "need_id": "n2",
+          "message": "Candidates mention integration by parts but none states how to choose u."
+        }
+      ]
+    }
+  ]
+}
