@@ -1,0 +1,133 @@
+{
+  "example_for": "rag-retrieval.md §13: F. QuestionSchema builder lookups before a question_id exists (proposed records)",
+  "author": "Sean (Retrieval)",
+  "scenario": "F. QuestionSchema builder lookups before a question_id exists (proposed records)",
+  "illustrative": false,
+  "notes": [
+    "Concept IDs are from specs/examples/calc1.course-context.json.",
+    "Lookups search the Course-Context index only; results are never evidence."
+  ],
+  "records": [
+    {
+      "record_id": "ccl-f1",
+      "record_type": "CourseContextLookupRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:00:00Z",
+      "producer": "question-schema-builder",
+      "status": "valid",
+      "correlation_id": "corr-calc1-intake-3",
+      "lookup_id": "ccl-f1",
+      "lookup_type": "concept_match",
+      "course_id": "calc1",
+      "course_context_ref": {
+        "course_context_schema_version": "1.1",
+        "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+      },
+      "text": "\\int x\\cos(x) dx",
+      "max_related": 2
+    },
+    {
+      "record_id": "cclr-f1",
+      "record_type": "CourseContextLookupResult",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:00:00.090Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-intake-3",
+      "lookup_id": "ccl-f1",
+      "lookup_type": "concept_match",
+      "result": "match",
+      "primary": {
+        "concept_id": "calc1.06-integral-applications.by-parts",
+        "score": 0.81,
+        "matched_terms": [
+          "\\int",
+          "x",
+          "cos"
+        ]
+      },
+      "related": [
+        {
+          "concept_id": "calc1.06-integral-applications.substitution",
+          "score": 0.64
+        }
+      ],
+      "scoring_version": "cc-lookup@1",
+      "warnings": []
+    },
+    {
+      "record_id": "ccl-f2",
+      "record_type": "CourseContextLookupRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:02:00Z",
+      "producer": "question-schema-builder",
+      "status": "valid",
+      "correlation_id": "corr-calc1-intake-4",
+      "lookup_id": "ccl-f2",
+      "lookup_type": "bank_match",
+      "course_id": "calc1",
+      "course_context_ref": {
+        "course_context_schema_version": "1.1",
+        "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+      },
+      "text": "Evaluate ∫ x e^x dx."
+    },
+    {
+      "record_id": "cclr-f2",
+      "record_type": "CourseContextLookupResult",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:02:00.050Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-intake-4",
+      "lookup_id": "ccl-f2",
+      "lookup_type": "bank_match",
+      "result": "match",
+      "candidates": [
+        {
+          "question_id": "calc1.06-integral-applications.by-parts.q1",
+          "match": "same_problem",
+          "reason": "normalized_exact"
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ccl-f3",
+      "record_type": "CourseContextLookupRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:05:00Z",
+      "producer": "question-schema-builder",
+      "status": "valid",
+      "correlation_id": "corr-calc1-intake-5",
+      "lookup_id": "ccl-f3",
+      "lookup_type": "concept_match",
+      "course_id": "calc1",
+      "course_context_ref": {
+        "course_context_schema_version": "1.1",
+        "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+      },
+      "text": "Prove that every bounded monotone sequence in a metric space converges.",
+      "max_related": 2
+    },
+    {
+      "record_id": "cclr-f3",
+      "record_type": "CourseContextLookupResult",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:05:00.080Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-intake-5",
+      "lookup_id": "ccl-f3",
+      "lookup_type": "concept_match",
+      "result": "NO_CONCEPT_MATCH",
+      "best_below_threshold": {
+        "concept_id": "calc1.01-functions.sequences",
+        "score": 0.38
+      },
+      "threshold": 0.55,
+      "scoring_version": "cc-lookup@1",
+      "warnings": []
+    }
+  ]
+}
