@@ -1,0 +1,119 @@
+{
+  "example_for": "rag-retrieval.md §13: G. Provisioning: IngestedSource (with proposed fields) and RetrievalIndexStatus",
+  "author": "Sean (Retrieval)",
+  "scenario": "G. Provisioning: IngestedSource (with proposed fields) and RetrievalIndexStatus",
+  "illustrative": true,
+  "notes": [
+    "ILLUSTRATIVE document; pages abbreviated to one page.",
+    "Fields marked proposed in rag-retrieval.md §6.3 are included."
+  ],
+  "records": [
+    {
+      "record_id": "ing-g1",
+      "record_type": "IngestedSource",
+      "schema_version": "0.1",
+      "created_at": "2026-11-02T09:00:00Z",
+      "producer": "course-context-ingestion",
+      "status": "ingested",
+      "correlation_id": "corr-calc1-provision-2",
+      "document_id": "doc.calc1.lecture-notes",
+      "content_version": "cv-2026-11-02.1",
+      "course_id": "calc1",
+      "document_role": "lecture_notes",
+      "approval": {
+        "status": "approved",
+        "approved_by": "instructor-calc1",
+        "approved_at": "2026-11-01T18:00:00Z"
+      },
+      "source_ids": [
+        "neuhauser.s7-2"
+      ],
+      "concept_ids": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "pages": [
+        {
+          "page_number": 14,
+          "page_label": "212",
+          "line_count": 24,
+          "text_sha256": "4fd805cf775711fb5be01f887696ba625abce1118cdf1ef787e1a9e92a7dd63c",
+          "normalized_text": "Recall the product rule from Section 4.4: (u v)′ = u′ v + u v′.\n…"
+        }
+      ],
+      "outline": [
+        {
+          "section_id": "sec-7-2",
+          "title": "7.2 Integration by Parts",
+          "level": 2,
+          "page_start": 14,
+          "line_start": 3,
+          "page_end": 16,
+          "line_end": 22,
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ],
+          "mapping_confidence": 0.93,
+          "structure_inferred": false
+        }
+      ],
+      "source_links": [
+        {
+          "course_id": "calc1",
+          "source_id": "neuhauser.s7-2",
+          "page_start": 14,
+          "page_end": 16,
+          "link_status": "instructor_confirmed"
+        }
+      ],
+      "ingest_status": "ingested",
+      "extraction_warnings": []
+    },
+    {
+      "record_id": "ris-g1",
+      "record_type": "RetrievalIndexStatus",
+      "schema_version": "0.1",
+      "created_at": "2026-11-02T09:06:00Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-provision-2",
+      "course_id": "calc1",
+      "index_version": "idx.calc1.2026-11-02.1",
+      "proposed_retrieval_snapshot_id": "snap.calc1.2026-11-02.1",
+      "state": "partial",
+      "chunking_policy_version": "section-aware@1",
+      "documents": [
+        {
+          "document_id": "doc.calc1.lecture-notes",
+          "content_version": "cv-2026-11-02.1",
+          "result": "indexed",
+          "chunks": 412,
+          "passages": 388
+        }
+      ],
+      "checks": {
+        "chunk_to_passage_mapping": "passed",
+        "encoder_revision_match": "passed",
+        "duplicates_or_empty": "passed",
+        "smoke_queries": "passed",
+        "cross_course_isolation": "passed"
+      },
+      "coverage": {
+        "concepts_total": 33,
+        "concepts_with_passages": 29,
+        "concept_without_source": [
+          "calc1.01-functions.sequences",
+          "calc1.02-limits.epsilon-delta",
+          "calc1.05-integration.applications",
+          "calc1.06-integral-applications.partial-fractions"
+        ]
+      },
+      "requires_instructor_ack": true,
+      "warnings": [
+        {
+          "code": "concept_without_source",
+          "message": "4 concepts have no indexed passage."
+        }
+      ]
+    }
+  ]
+}
