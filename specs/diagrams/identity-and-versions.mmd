@@ -1,0 +1,13 @@
+%% Identity, version and location model (rag-retrieval.md §5)
+flowchart LR
+    C["course_id"] --> S["(course_id, Source.id)<br/>syllabus citation entry"]
+    S -->|"SourceDocumentLink (proposed, versioned)"| D["document_id<br/>logical work"]
+    D --> V["content_version<br/>immutable parsed text"]
+    V --> P["page_number (physical, 1-based)<br/>+ page_label (printed)"]
+    P --> L["normalized lines<br/>line_start..line_end"]
+    L --> PS["passage_id<br/>= hash(document_id, content_version, page, lines)"]
+    V --> CH["chunk_id + chunking_policy_version<br/>(internal search unit)"]
+    CH -->|"maps to one or more"| PS
+    CH --> IX["index_version<br/>content versions + chunk policy + encoder rev + lexical cfg"]
+    IX --> SN["retrieval_snapshot_id<br/>published release, pinned per session"]
+    PS --> HU["highlight_url<br/>stable app route, authorized when opened"]

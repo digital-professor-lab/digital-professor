@@ -1,0 +1,128 @@
+{
+  "example_for": "rag-retrieval.md §13: H. Current input: Ovunc's AI course-breakdown LaTeX indexed as a development corpus",
+  "author": "Sean (Retrieval)",
+  "scenario": "H. Current input: Ovunc's AI course-breakdown LaTeX indexed as a development corpus",
+  "illustrative": "partly",
+  "notes": [
+    "Passage text and source lines are REAL: resource/Calc1_Syllabus_Claude.tex lines 383-387 (Core Concepts bullets of Module 6, inside the passage spanning lines 372-413), sha256 12ea3fe3ccb0...",
+    "Page/line fields are ILLUSTRATIVE: they assume the .tex has been compiled to PDF and ingested (rag-retrieval.md §6.6); today the prototype can only cite LaTeX source lines.",
+    "Course policy allows unverified sources in development mode only; every passage carries source_provenance = ai_generated and an unverified_source warning.",
+    "n1 is covered by a formula anchor; n2 is only mentioned (LIATE), not explained -> partial."
+  ],
+  "records": [
+    {
+      "record_id": "rr-h1",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-10-16T15:00:00Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-calc1-dev-2",
+      "retrieval_request_id": "rr-h1",
+      "course_id": "calc1",
+      "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+      "turn_id": "turn-calc1-dev-2",
+      "query": "Integration by parts formula and how to choose u and dv",
+      "query_origin": "structured",
+      "concept_ids": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "purpose": "hint_support",
+      "top_k": 4,
+      "course_context_ref": {
+        "course_context_schema_version": "1.1",
+        "content_sha256": "617281d1e4be9fe1034ef76cb2eb671a01a7eb25c87aae039cf55932b17b746b"
+      },
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "need_type": "formula_statement",
+          "description": "Statement of the integration by parts formula",
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ]
+        },
+        {
+          "need_id": "n2",
+          "need_type": "method_guidance",
+          "description": "Guidance on choosing u and dv so that the new integral is simpler",
+          "concept_ids": [
+            "calc1.06-integral-applications.by-parts"
+          ]
+        }
+      ],
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1"
+    },
+    {
+      "record_id": "gb-h1",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-10-16T15:00:00.420Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-dev-2",
+      "grounding_bundle_id": "gb-h1",
+      "retrieval_request_id": "rr-h1",
+      "retrieval_status": "partial",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "passages": [
+        {
+          "passage_id": "psg_f3d4ac0181267d4c",
+          "document_id": "doc.calc1.ai-breakdown.syllabus-map",
+          "content_version": "cv-12ea3fe3ccb0-pdf.1",
+          "page_number": 9,
+          "line_start": 14,
+          "line_end": 17,
+          "passage_text": "Core Concepts:\nu-substitution as the reverse of the chain rule; adjusting bounds for definite integrals\nIntegration by parts, ∫ u dv = uv − ∫ v du, and choosing u vs. dv (e.g., via LIATE)\nStrategic selection between substitution, parts, and algebraic manipulation",
+          "highlight_url": "/courses/calc1/sources/doc.calc1.ai-breakdown.syllabus-map/versions/cv-12ea3fe3ccb0-pdf.1/view?page=9&lines=14-17",
+          "relevance_score": null,
+          "retrieval_rank": 1,
+          "page_label": "9",
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "source_label": "AI-prepared Calculus I course map (unverified), Module 6",
+          "legacy_locator": {
+            "file": "Calc1_Syllabus_Claude.tex",
+            "source_line_start": 383,
+            "source_line_end": 387
+          }
+        }
+      ],
+      "need_coverage": [
+        {
+          "need_id": "n1",
+          "coverage": "covered",
+          "passage_ids": [
+            "psg_f3d4ac0181267d4c"
+          ],
+          "method": "anchor_check"
+        },
+        {
+          "need_id": "n2",
+          "coverage": "partially_covered",
+          "passage_ids": [
+            "psg_f3d4ac0181267d4c"
+          ],
+          "method": "anchor_check"
+        }
+      ],
+      "uncovered_needs": [
+        "n2"
+      ],
+      "warnings": [
+        {
+          "code": "unverified_source",
+          "passage_id": "psg_f3d4ac0181267d4c",
+          "message": "AI-generated course breakdown; not human-authored or reviewed course material."
+        },
+        {
+          "code": "sufficiency_uncertain",
+          "need_id": "n2",
+          "message": "The passage names LIATE but does not explain how to choose u."
+        }
+      ]
+    }
+  ]
+}

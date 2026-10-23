@@ -1,0 +1,23 @@
+%% Turn-time retrieval flow, T3 (rag-retrieval.md §7.1)
+flowchart TD
+    P{{"Grounding policy in the Engine<br/>decides: call? purpose, typed evidence needs"}} --> A["RetrievalRequest"]
+    A --> B["1 Validate<br/>schema, IDs, pinned versions, filters"]
+    B -->|invalid| S1["RetrievalStop: invalid_request"]
+    B --> C{"2 Preflight check<br/>A: readiness · inventory · filters · provenance<br/>B: free-text scope, only if query_origin = student_text"}
+    C -->|ambiguous scope| S2["RetrievalStop: needs_clarification"]
+    C -->|not ready / snapshot retired| S3["RetrievalStop: course_not_ready / version_mismatch"]
+    C -->|source class absent / reference-only / not eligible| N0["GroundingBundle: no_support_found + reason"]
+    C -->|proceed| D["3 Query plan per typed need<br/>terms · block-type preference · notation normalization"]
+    D --> E["4 Candidate generation inside eligible snapshot<br/>lexical + semantic; filters applied in search"]
+    E -->|index / encoder fault| F1["GroundingBundle: failed (retryable)"]
+    E --> G["5 Selector<br/>fuse · dedupe · cover needs · diversify · expand · budget<br/>optional reranker → fallback on error"]
+    G --> H["6 Location verification (algorithmic)<br/>exact text = ingested lines · page · highlight route"]
+    H --> I["7 Evidence check per need<br/>1 pinned · 2 rules by need type · 3 optional judge · 4 uncertain"]
+    I --> J1["supported"]
+    I --> J2["partial + uncovered_needs"]
+    I --> J3["no_support_found"]
+    B -.-> R[("RetrievalReport<br/>diagnostics only")]
+    C -.-> R
+    E -.-> R
+    G -.-> R
+    I -.-> R

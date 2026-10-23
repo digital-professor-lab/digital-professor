@@ -1,0 +1,46 @@
+{
+  "record_id": "<stable id for this record (envelope, interfaces.md §1.1)>",
+  "record_type": "LearnerState",
+  "schema_version": "0.1",
+  "created_at": "<ISO-8601 UTC timestamp>",
+  "producer": "tutoring-engine",
+  "status": "<type-specific status>",
+  "correlation_id": "<connects records in one turn>",
+
+  "learner_state_id": "<state version identity>",
+  "user_id": "<student id>",
+  "course_id": "<course id>",
+  "session_id": "<session id>",
+  "question_id": "<the QuestionSchema's question_id>",
+  "based_on_evidence_ids": ["<StudentEvidence id this state is built from>"],
+  "demonstrated": ["<a skill/concept the evidence supports>"],
+  "unresolved": ["<an item needing more evidence>"],
+  "diagnostic_hypotheses": [
+    {
+      "description": "<a possible gap or misconception>",
+      "confidence": "<tentative | likely | high>",
+      "evidence_refs": ["<StudentEvidence id>"]
+    }
+  ],
+  "assistance_history_summary": { "<help already provided>": "..." },
+  "state_confidence": { "<confidence and limitations of this interpretation>": "..." },
+
+  "open_gaps": [
+    {
+      "target_slot": "<a QuestionSchema requirement not yet met, e.g. correct_approach.technique | prerequisite_concepts[i] | common_misconceptions[i] | mastery>",
+      "requirement": "<what the target requires>",
+      "status": "<open | partial | closed>",
+      "evidence": "<the evidence behind this status>"
+    }
+  ],
+  "closed_gaps": [
+    {
+      "target_slot": "<a requirement already satisfied>",
+      "requirement": "<what it required>",
+      "status": "closed",
+      "evidence": "<how and when it closed>"
+    }
+  ],
+  "off_target_context": ["<state with no QuestionSchema counterpart; carried but never scored>"],
+  "resolved_when": "open_gaps is empty"
+}

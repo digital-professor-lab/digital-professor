@@ -1,0 +1,22 @@
+%% Course Knowledge Retrieval: the four touchpoints (rag-retrieval.md §2)
+flowchart LR
+    subgraph Setup["Course provisioning (before students)"]
+        CC["Course Context Stage A<br/>syllabus → CourseContext"] --> ING["Ingestion Stage B<br/>notes / textbook → IngestedSource"]
+        ING -->|"T1 IngestedSource"| IDX["Retrieval: chunk, index,<br/>validate, coverage"]
+        IDX -->|"RetrievalIndexStatus"| PUB["Publish course release<br/>(retrieval_snapshot_id)"]
+    end
+    subgraph QS["Question establishment"]
+        QB["QuestionSchema builder"] -->|"T2 CourseContextLookupRequest"| LK["Retrieval: bank match / concept match"]
+        LK -->|"CourseContextLookupResult"| QB
+    end
+    subgraph Turn["Tutoring turn"]
+        POL{{"Grounding policy<br/>(Engine workflow: must / may / must-not)"}} -->|"T3 RetrievalRequest (tool call)"| RET["Retrieval: validate → preflight → plan →<br/>search → select → verify → evidence check"]
+        RET -->|"GroundingBundle / RetrievalStop"| ENG["Tutoring Engine"]
+        ENG -->|"TutoringAction.grounding_refs"| VER["T4 verify citations"]
+        VER --> DEL["Delivery"]
+        DEL -->|"T4 resolve / verify"| RES["Retrieval: citation resolution"]
+    end
+    PUB --> LK
+    PUB --> RET
+    RET -.->|"InteractionTraceEvent"| TR[("Session State and Trace")]
+    RET -.->|"RetrievalReport (diagnostics on)"| EV[("Evaluation")]
