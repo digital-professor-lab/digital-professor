@@ -77,7 +77,7 @@ action.
 ### 2. Set up GitHub review and AI coding guidelines
 
 - [x] Establish a lightweight branch and pull-request workflow.
-- [ ] Add `CODEOWNERS` for components that require designated review.
+- [ ] Add `CODEOWNERS` for components that require designated review. (requries Ran)
 - [ ] Configure branch protection or a repository ruleset for `main` where
   appropriate.
 - [ ] Require human review before AI-assisted changes enter `main`.
