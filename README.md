@@ -86,24 +86,24 @@ action.
 
 ### 3. Implement the typed submission and evidence pipeline
 
-- [ ] Accept typed student input.
-- [ ] Preserve the original input before transformation or validation.
-- [ ] Construct a `StudentSubmission` using the shared interface.
-- [ ] Validate required identifiers, input type, links, and record version.
-- [ ] Construct factual `StudentEvidence` without correctness, mastery, or
+- [x] Accept typed student input.
+- [x] Preserve the original input before transformation or validation.
+- [x] Construct a `StudentSubmission` using the shared interface.
+- [x] Validate required identifiers, input type, links, and record version.
+- [x] Construct factual `StudentEvidence` without correctness, mastery, or
   misconception labels.
-- [ ] Validate the evidence before releasing it downstream.
-- [ ] Add focused tests for record preservation, construction, validation, and
+- [x] Validate the evidence before releasing it downstream.
+- [x] Add focused tests for record preservation, construction, validation, and
   invalid inputs.
 
 ### 4. Implement basic tutoring-turn coordination
 
-- [ ] Send validated `StudentEvidence` to the Tutoring Engine interface.
-- [ ] Use a mock Tutoring Engine that returns a structured `TutoringAction`.
-- [ ] Forward the action unchanged to a mock Delivery interface.
-- [ ] Record success, structured failure, and handoff status.
-- [ ] Link the student's next submission to the action and prior attempt.
-- [ ] Demonstrate one complete typed tutoring turn.
+- [x] Send validated `StudentEvidence` to the Tutoring Engine interface.
+- [x] Use a mock Tutoring Engine that returns a structured `TutoringAction`.
+- [x] Forward the action unchanged to a mock Delivery interface.
+- [x] Record success, structured failure, and handoff status.
+- [x] Link the student's next submission to the action and prior attempt.
+- [x] Demonstrate one complete typed tutoring turn.
 
 ### 5. Integrate handwriting recognition
 
