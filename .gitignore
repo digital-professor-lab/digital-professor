@@ -34,6 +34,10 @@ dist/
 .eggs/
 pip-wheel-metadata/
 
+# JavaScript dependencies and build output
+node_modules/
+*.tsbuildinfo
+
 # Jupyter temporary files
 .ipynb_checkpoints/
 

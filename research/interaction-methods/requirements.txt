@@ -1,0 +1,5 @@
+# Student Interaction V1 implementation and tests
+fastapi
+httpx
+pytest
+uvicorn
