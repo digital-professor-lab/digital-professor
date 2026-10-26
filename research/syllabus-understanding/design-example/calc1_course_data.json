@@ -1,0 +1,3449 @@
+{
+  "schema_version": "1.0",
+  "Course": {
+    "id": "course_calc1",
+    "title": "AS.110.106 Calculus I (Biology and Social Sciences)",
+    "level": "Introductory undergraduate",
+    "duration_weeks": 12,
+    "assumed_background": "Precalculus: algebra and function notation, exponent rules, unit-circle trigonometric values, factoring and solving systems of equations, and polynomial long division. Chapter 1 (functions) is treated as review of this background.",
+    "module_ids": [
+      "mod_A",
+      "mod_B",
+      "mod_C",
+      "mod_D",
+      "mod_E",
+      "mod_F"
+    ]
+  },
+  "Module": [
+    {
+      "id": "mod_A",
+      "course_id": "course_calc1",
+      "title": "Review of Functions and Growth Models",
+      "goal": "Refresh algebraic/functional foundations and introduce exponential and sequence-based models needed for later biological applications.",
+      "weeks": "1-2",
+      "concept_ids": [
+        "con_ch1",
+        "con_2_1",
+        "con_2_2"
+      ]
+    },
+    {
+      "id": "mod_B",
+      "course_id": "course_calc1",
+      "title": "Limits and Continuity",
+      "goal": "Develop rigorous and intuitive understanding of limiting behavior and continuity as the foundation of the derivative.",
+      "weeks": "3-4",
+      "concept_ids": [
+        "con_3_1",
+        "con_3_2",
+        "con_3_3",
+        "con_3_4",
+        "con_3_5"
+      ]
+    },
+    {
+      "id": "mod_C",
+      "course_id": "course_calc1",
+      "title": "Derivatives",
+      "goal": "Build differentiation from first principles to fluent symbolic computation across all elementary function types.",
+      "weeks": "5-7",
+      "concept_ids": [
+        "con_4_1",
+        "con_4_2",
+        "con_4_3",
+        "con_4_4",
+        "con_4_5",
+        "con_4_6",
+        "con_4_7",
+        "con_4_8",
+        "con_4_9",
+        "con_4_10",
+        "con_4_11"
+      ]
+    },
+    {
+      "id": "mod_D",
+      "course_id": "course_calc1",
+      "title": "Applications of Differentiation",
+      "goal": "Use derivatives to analyze function behavior and solve optimization problems.",
+      "weeks": "8-9",
+      "concept_ids": [
+        "con_5_1",
+        "con_5_2",
+        "con_5_3",
+        "con_5_4",
+        "con_5_5"
+      ]
+    },
+    {
+      "id": "mod_E",
+      "course_id": "course_calc1",
+      "title": "Integration",
+      "goal": "Introduce the definite integral and connect differentiation and integration via the FTC.",
+      "weeks": "10-11",
+      "concept_ids": [
+        "con_5_10",
+        "con_6_1",
+        "con_6_2",
+        "con_6_3"
+      ]
+    },
+    {
+      "id": "mod_F",
+      "course_id": "course_calc1",
+      "title": "Applications of the Integral",
+      "goal": "Extend the integration toolkit with substitution, parts, and partial fractions for realistic models.",
+      "weeks": "12",
+      "concept_ids": [
+        "con_7_1",
+        "con_7_2",
+        "con_7_3"
+      ]
+    }
+  ],
+  "Concept": [
+    {
+      "id": "con_ch1",
+      "module_id": "mod_A",
+      "name": "Chapter 1: Review of Functions",
+      "summary": "Review of the function concept and the standard function families, including domain and range, composition and inverses, piecewise definitions, graph transformations, and even/odd symmetry. Treated in this course as assumed-background review that later modules rely on.",
+      "key_definitions": [
+        "Function: a rule assigning to each input in the domain exactly one output in the range.",
+        "Domain and range: the set of allowable inputs and the set of resulting outputs.",
+        "Composition: $(f\\circ g)(x)=f(g(x))$.",
+        "Inverse function: $f^{-1}$ satisfies $f^{-1}(f(x))=x$ and $f(f^{-1}(y))=y$; it exists when $f$ is one-to-one.",
+        "Even function: $f(-x)=f(x)$; odd function: $f(-x)=-f(x)$."
+      ],
+      "prerequisite_ids": [],
+      "objective_ids": [
+        "obj_ch1_1",
+        "obj_ch1_2",
+        "obj_ch1_3",
+        "obj_ch1_4"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_ch1",
+        "src_syl_ch1"
+      ],
+      "question_ids": [
+        "q_ch1_1",
+        "q_ch1_2"
+      ]
+    },
+    {
+      "id": "con_2_1",
+      "module_id": "mod_A",
+      "name": "2.1 Exponential Growth and Decay",
+      "summary": "Introduces exponential functions and the base $e$ as models of growth and decay, contrasting linear with exponential change and discrete with continuous models. Covers the growth/decay constant $k$, doubling time and half-life, and previews the differential equation $\\frac{dy}{dt}=ky$.",
+      "key_definitions": [
+        "Exponential model: $P(t)=P_0e^{kt}$, with growth for $k>0$ and decay for $k<0$.",
+        "Growth/decay constant $k$: the continuous relative (per-capita) rate of change.",
+        "Doubling time $t_d=\\frac{\\ln 2}{k}$ (for $k>0$) and half-life $t_{1/2}=\\frac{\\ln 2}{|k|}$ (for $k<0$).",
+        "Natural base $e\\approx2.718$: the base of the natural exponential function $e^x$.",
+        "Differential-equation preview: $\\frac{dy}{dt}=ky$, meaning the rate of change is proportional to the current amount."
+      ],
+      "prerequisite_ids": [
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_2_1_1",
+        "obj_2_1_2",
+        "obj_2_1_3",
+        "obj_2_1_4"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_2_1",
+        "src_syl_2_1"
+      ],
+      "question_ids": [
+        "q_2_1_1",
+        "q_2_1_2"
+      ]
+    },
+    {
+      "id": "con_2_2",
+      "module_id": "mod_A",
+      "name": "2.2 Sequences",
+      "summary": "Introduces sequences with explicit and recursive definitions and the informal idea of convergence to a limit as $n\\to\\infty$, including monotonic and bounded sequences. Connects discrete recursion models (e.g., repeated dosing) to the continuous growth models of Section 2.1.",
+      "key_definitions": [
+        "Sequence: an ordered list $a_1,a_2,a_3,\\dots$ that assigns a term to each index $n$.",
+        "Explicit definition gives $a_n$ directly as a formula in $n$; recursive definition gives $a_{n+1}$ from earlier terms together with initial value(s).",
+        "Convergence: $a_n\\to L$ as $n\\to\\infty$ means the terms get arbitrarily close to a finite number $L$; otherwise the sequence diverges.",
+        "Monotonic sequence: always nondecreasing or always nonincreasing; bounded sequence: all terms lie between two fixed numbers."
+      ],
+      "prerequisite_ids": [
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_2_2_1",
+        "obj_2_2_2",
+        "obj_2_2_3",
+        "obj_2_2_4"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_2_2",
+        "src_syl_2_2"
+      ],
+      "question_ids": [
+        "q_2_2_1",
+        "q_2_2_2"
+      ]
+    },
+    {
+      "id": "con_3_1",
+      "module_id": "mod_B",
+      "name": "3.1 Limits",
+      "summary": "Develops the limit of a function as $x\\to a$ intuitively (numerically, graphically, one-sided) and algebraically via the limit laws, then introduces the formal $\\varepsilon$–$\\delta$ definition and the ways a limit can fail to exist.",
+      "key_definitions": [
+        "Limit: $\\lim_{x\\to a}f(x)=L$ means $f(x)$ can be made arbitrarily close to $L$ by taking $x$ sufficiently close to (but not equal to) $a$.",
+        "One-sided limits $\\lim_{x\\to a^-}f(x)$ and $\\lim_{x\\to a^+}f(x)$; the two-sided limit exists exactly when both exist and are equal.",
+        "Limit laws: the limit of a sum, product, or quotient (with nonzero denominator limit) is the sum, product, or quotient of the limits.",
+        "Formal $\\varepsilon$–$\\delta$ definition: for every $\\varepsilon>0$ there is a $\\delta>0$ such that $0<|x-a|<\\delta$ implies $|f(x)-L|<\\varepsilon$.",
+        "A limit fails to exist through oscillation, a jump (unequal one-sided limits), or unbounded growth."
+      ],
+      "prerequisite_ids": [
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_3_1_1",
+        "obj_3_1_2",
+        "obj_3_1_3",
+        "obj_3_1_4"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "The $\\varepsilon$–$\\delta$ definition asks students to reason about two interdependent “smallness” quantities inside nested quantifiers ($\\forall \\varepsilon\\ \\exists \\delta$), which is a genuine jump from the procedural algebra they have used up to this point. The notation itself (two Greek letters, an implication, an absolute-value inequality) is unfamiliar, so many students' difficulty is more about parsing the symbols than about the underlying idea.",
+          "mitigation": "Introduce the idea in “tolerance/target” language before any symbols (“how close does $x$ need to be to $a$ so that $f(x)$ lands within a given target window?”), use a numerical guess-and-check table (pick $\\varepsilon$, find a working $\\delta$) before asking for a general proof, and restrict formal proofs to linear functions only in this course."
+        }
+      ],
+      "source_ids": [
+        "src_tb_3_1",
+        "src_tb_3_6",
+        "src_syl_3_1"
+      ],
+      "question_ids": [
+        "q_3_1_1",
+        "q_3_1_2",
+        "q_3_1_3"
+      ]
+    },
+    {
+      "id": "con_3_2",
+      "module_id": "mod_B",
+      "name": "3.2 Continuity",
+      "summary": "Defines continuity at a point through the three-part definition, classifies removable, jump and infinite discontinuities, extends continuity to intervals, and introduces the Intermediate Value Theorem.",
+      "key_definitions": [
+        "Continuity at $a$: (1) $f(a)$ is defined, (2) $\\lim_{x\\to a}f(x)$ exists, and (3) the limit equals $f(a)$.",
+        "Removable discontinuity: the limit exists but differs from $f(a)$ or $f(a)$ is undefined; jump discontinuity: the one-sided limits exist but differ; infinite discontinuity: $f$ is unbounded near $a$.",
+        "Continuity on an interval: continuous at every point of the interval (one-sided at the endpoints of a closed interval).",
+        "Intermediate Value Theorem: if $f$ is continuous on $[a,b]$ and $N$ lies between $f(a)$ and $f(b)$, then $f(c)=N$ for some $c\\in(a,b)$."
+      ],
+      "prerequisite_ids": [
+        "con_3_1"
+      ],
+      "objective_ids": [
+        "obj_3_2_1",
+        "obj_3_2_2",
+        "obj_3_2_3",
+        "obj_3_2_4"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_3_2",
+        "src_syl_3_2"
+      ],
+      "question_ids": [
+        "q_3_2_1",
+        "q_3_2_2",
+        "q_3_5_2",
+        "q_5_1_2"
+      ]
+    },
+    {
+      "id": "con_3_3",
+      "module_id": "mod_B",
+      "name": "3.3 Limits at Infinity",
+      "summary": "Studies the end behavior of functions as $x\\to\\pm\\infty$ (rational, exponential, logarithmic), horizontal asymptotes, the formal $\\varepsilon$–$M$ definition, and the distinction between limits at infinity and infinite limits.",
+      "key_definitions": [
+        "Limit at infinity: $\\lim_{x\\to\\infty}f(x)=L$ means $f(x)$ approaches $L$ as $x$ grows without bound (similarly for $x\\to-\\infty$).",
+        "Horizontal asymptote: a line $y=L$ with $\\lim_{x\\to\\infty}f(x)=L$ or $\\lim_{x\\to-\\infty}f(x)=L$.",
+        "Infinite limit: $\\lim_{x\\to a}f(x)=\\pm\\infty$, meaning $f$ grows without bound as $x\\to a$; a different phenomenon from a limit at infinity.",
+        "Formal $\\varepsilon$–$M$ definition: for every $\\varepsilon>0$ there is an $M$ such that $x>M$ implies $|f(x)-L|<\\varepsilon$."
+      ],
+      "prerequisite_ids": [
+        "con_3_1",
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_3_3_1",
+        "obj_3_3_2",
+        "obj_3_3_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_3_3",
+        "src_tb_3_6",
+        "src_syl_3_3"
+      ],
+      "question_ids": [
+        "q_3_3_1",
+        "q_3_3_2"
+      ]
+    },
+    {
+      "id": "con_3_4",
+      "module_id": "mod_B",
+      "name": "3.4 Trigonometric Limits and the Sandwich Theorem",
+      "summary": "Establishes $\\lim_{x\\to0}\\frac{\\sin x}{x}=1$ by a geometric bounding argument and introduces the Sandwich (Squeeze) Theorem, providing the limit tools needed to differentiate trigonometric functions.",
+      "key_definitions": [
+        "Fundamental trigonometric limit: $\\lim_{x\\to0}\\frac{\\sin x}{x}=1$ (with related limits such as $\\lim_{x\\to0}\\frac{1-\\cos x}{x}=0$).",
+        "Sandwich (Squeeze) Theorem: if $g(x)\\le f(x)\\le h(x)$ near $a$ and $\\lim_{x\\to a}g(x)=\\lim_{x\\to a}h(x)=L$, then $\\lim_{x\\to a}f(x)=L$."
+      ],
+      "prerequisite_ids": [
+        "con_3_1",
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_3_4_1",
+        "obj_3_4_2",
+        "obj_3_4_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_3_4",
+        "src_syl_3_4"
+      ],
+      "question_ids": [
+        "q_3_4_1",
+        "q_3_4_2"
+      ]
+    },
+    {
+      "id": "con_3_5",
+      "module_id": "mod_B",
+      "name": "3.5 Properties of Continuous Functions",
+      "summary": "Explores properties of continuous functions: continuity of algebraic combinations and compositions, boundedness on closed intervals, and a preview of the Extreme Value Theorem.",
+      "key_definitions": [
+        "Sums, products, quotients (with nonzero denominator) and compositions of continuous functions are continuous.",
+        "Extreme Value Theorem (preview): a function continuous on a closed interval $[a,b]$ attains an absolute maximum and an absolute minimum there.",
+        "Boundedness: a function continuous on $[a,b]$ is bounded on $[a,b]$."
+      ],
+      "prerequisite_ids": [
+        "con_3_2",
+        "con_3_1"
+      ],
+      "objective_ids": [
+        "obj_3_5_1",
+        "obj_3_5_2",
+        "obj_3_5_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_3_5",
+        "src_syl_3_5"
+      ],
+      "question_ids": [
+        "q_3_5_1",
+        "q_3_5_2"
+      ]
+    },
+    {
+      "id": "con_4_1",
+      "module_id": "mod_C",
+      "name": "4.1 Formal Definition of the Derivative",
+      "summary": "Defines the derivative as the limit of the difference quotient and interprets it as the slope of the tangent line and the instantaneous rate of change; shows that differentiability implies continuity but not conversely.",
+      "key_definitions": [
+        "Difference quotient: $\\frac{f(x+h)-f(x)}{h}$, the slope of a secant line.",
+        "Derivative: $f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}$, when the limit exists.",
+        "Interpretation: $f'(a)$ is the slope of the tangent line at $x=a$ and the instantaneous rate of change of $f$ at $a$.",
+        "Differentiable implies continuous; the converse fails (e.g., $f(x)=|x|$ at $x=0$)."
+      ],
+      "prerequisite_ids": [
+        "con_3_1"
+      ],
+      "objective_ids": [
+        "obj_4_1_1",
+        "obj_4_1_2",
+        "obj_4_1_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_1",
+        "src_syl_4_1"
+      ],
+      "question_ids": [
+        "q_4_1_1",
+        "q_4_1_2"
+      ]
+    },
+    {
+      "id": "con_4_2",
+      "module_id": "mod_C",
+      "name": "4.2 Basic Rules of Derivatives",
+      "summary": "Establishes the constant, sum/difference and constant-multiple rules (linearity of differentiation) and justifies them from the limit definition.",
+      "key_definitions": [
+        "Constant rule: $\\frac{d}{dx}c=0$.",
+        "Sum/difference rule: $(f\\pm g)'=f'\\pm g'$; constant-multiple rule: $(cf)'=cf'$.",
+        "Linearity of differentiation: $(af+bg)'=af'+bg'$."
+      ],
+      "prerequisite_ids": [
+        "con_4_1"
+      ],
+      "objective_ids": [
+        "obj_4_2_1",
+        "obj_4_2_2"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_2",
+        "src_syl_4_2"
+      ],
+      "question_ids": [
+        "q_4_2_1",
+        "q_4_2_2"
+      ]
+    },
+    {
+      "id": "con_4_3",
+      "module_id": "mod_C",
+      "name": "4.3 Power Rule and the Rules of Differentiation",
+      "summary": "Extends the power rule to integer, rational and negative exponents and combines it with the basic rules to differentiate polynomial and radical functions.",
+      "key_definitions": [
+        "Power rule: $\\frac{d}{dx}x^n=nx^{n-1}$ for integer, negative and rational exponents $n$.",
+        "Rewrite radicals and reciprocals as powers (e.g., $\\sqrt{x}=x^{1/2}$, $\\frac{1}{x^2}=x^{-2}$) before differentiating."
+      ],
+      "prerequisite_ids": [
+        "con_4_2",
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_4_3_1",
+        "obj_4_3_2"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_3",
+        "src_syl_4_3"
+      ],
+      "question_ids": [
+        "q_4_3_1",
+        "q_4_3_2"
+      ]
+    },
+    {
+      "id": "con_4_4",
+      "module_id": "mod_C",
+      "name": "4.4 Product and Quotient Rules",
+      "summary": "Derives and applies the product and quotient rules, including diagnosing common quotient-rule sign errors.",
+      "key_definitions": [
+        "Product rule: $(fg)'=f'g+fg'$.",
+        "Quotient rule: $\\left(\\frac{f}{g}\\right)'=\\frac{f'g-fg'}{g^2}$ for $g\\ne0$."
+      ],
+      "prerequisite_ids": [
+        "con_4_1",
+        "con_4_2",
+        "con_4_3"
+      ],
+      "objective_ids": [
+        "obj_4_4_1",
+        "obj_4_4_2",
+        "obj_4_4_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_4",
+        "src_syl_4_4"
+      ],
+      "question_ids": [
+        "q_4_4_1",
+        "q_4_4_2"
+      ]
+    },
+    {
+      "id": "con_4_5",
+      "module_id": "mod_C",
+      "name": "4.5 The Chain Rule",
+      "summary": "Teaches the chain rule for differentiating composite functions, including multiply-nested compositions and combination with the product and quotient rules.",
+      "key_definitions": [
+        "Composite function $f(g(x))$, with inner function $g$ and outer function $f$.",
+        "Chain rule: $\\frac{d}{dx}f(g(x))=f'(g(x))\\,g'(x)$, equivalently $\\frac{dy}{dx}=\\frac{dy}{du}\\frac{du}{dx}$.",
+        "Nested compositions contribute one derivative factor per layer."
+      ],
+      "prerequisite_ids": [
+        "con_ch1",
+        "con_4_2",
+        "con_4_3",
+        "con_4_4"
+      ],
+      "objective_ids": [
+        "obj_4_5_1",
+        "obj_4_5_2",
+        "obj_4_5_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "The most common error is not a conceptual gap but an execution gap: students differentiate the outer function correctly but forget to multiply by the derivative of the inner function, or misidentify which piece is “outside.” The error compounds silently when compositions are nested two or three layers deep, since each layer adds another factor that is easy to drop.",
+          "mitigation": "Teach an explicit “peel the onion, layer by layer” procedure and sequence worked examples from one layer of nesting to three. Use error-spotting exercises built from real (anonymized) student mistakes so learners practice catching the missing-factor error rather than only producing correct answers."
+        }
+      ],
+      "source_ids": [
+        "src_tb_4_5",
+        "src_syl_4_5"
+      ],
+      "question_ids": [
+        "q_4_5_1",
+        "q_4_5_2",
+        "q_4_5_3"
+      ]
+    },
+    {
+      "id": "con_4_6",
+      "module_id": "mod_C",
+      "name": "4.6 Implicit Functions and Implicit Differentiation",
+      "summary": "Introduces implicitly defined curves and implicit differentiation: differentiating both sides with respect to $x$, treating $y$ as a function of $x$, and solving for $\\frac{dy}{dx}$.",
+      "key_definitions": [
+        "Implicit relation: an equation in $x$ and $y$ that defines $y$ as a function of $x$ without solving for it explicitly (e.g., $x^2+y^2=25$).",
+        "Implicit differentiation: differentiate both sides with respect to $x$, using the chain rule on $y$-terms (e.g., $\\frac{d}{dx}y^2=2y\\frac{dy}{dx}$), then solve for $\\frac{dy}{dx}$."
+      ],
+      "prerequisite_ids": [
+        "con_4_5"
+      ],
+      "objective_ids": [
+        "obj_4_6_1",
+        "obj_4_6_2",
+        "obj_4_6_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Writing $\\frac{d}{dx}(y^2) = 2y\\,\\frac{dy}{dx}$ requires silently treating $y$ as $y(x)$ and applying the chain rule to a variable that has no explicit formula – a notational leap that differs from every derivative students have taken so far, where the “inside function” was always written out.",
+          "mitigation": "Before differentiating, have students explicitly rewrite $y$ as $y(x)$ once on the page, then apply a fixed template: differentiate term by term, attach $\\frac{dy}{dx}$ to every term containing $y$, then collect and solve."
+        }
+      ],
+      "source_ids": [
+        "src_tb_4_6",
+        "src_syl_4_6"
+      ],
+      "question_ids": [
+        "q_4_6_1",
+        "q_4_6_2"
+      ]
+    },
+    {
+      "id": "con_4_7",
+      "module_id": "mod_C",
+      "name": "4.7 Higher Derivatives",
+      "summary": "Introduces second and higher-order derivatives and their notation, with interpretation as acceleration and as a preview of concavity.",
+      "key_definitions": [
+        "Second derivative $f''=(f')'$; higher derivatives $f^{(n)}$; Leibniz notation $\\frac{d^2y}{dx^2}$.",
+        "Position, velocity, acceleration: $v=s'$ and $a=s''$.",
+        "Concavity preview: $f''>0$ means concave up and $f''<0$ means concave down."
+      ],
+      "prerequisite_ids": [
+        "con_4_2",
+        "con_4_3",
+        "con_4_4",
+        "con_4_5"
+      ],
+      "objective_ids": [
+        "obj_4_7_1",
+        "obj_4_7_2"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_7",
+        "src_syl_4_7"
+      ],
+      "question_ids": [
+        "q_4_7_1",
+        "q_4_7_2",
+        "q_4_11_2"
+      ]
+    },
+    {
+      "id": "con_4_8",
+      "module_id": "mod_C",
+      "name": "4.8 Derivative of Trigonometric Functions",
+      "summary": "Derives the derivatives of $\\sin x$ and $\\cos x$ from the limit definition using the trigonometric limits of Section 3.4, then covers $\\tan$, $\\cot$, $\\sec$ and $\\csc$ and their combination with the chain and product rules.",
+      "key_definitions": [
+        "$\\frac{d}{dx}\\sin x=\\cos x$ and $\\frac{d}{dx}\\cos x=-\\sin x$.",
+        "$\\frac{d}{dx}\\tan x=\\sec^2x$ and $\\frac{d}{dx}\\cot x=-\\csc^2x$.",
+        "$\\frac{d}{dx}\\sec x=\\sec x\\tan x$ and $\\frac{d}{dx}\\csc x=-\\csc x\\cot x$."
+      ],
+      "prerequisite_ids": [
+        "con_3_4",
+        "con_4_5",
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_4_8_1",
+        "obj_4_8_2"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_8",
+        "src_syl_4_8"
+      ],
+      "question_ids": [
+        "q_4_8_1",
+        "q_4_8_2"
+      ]
+    },
+    {
+      "id": "con_4_9",
+      "module_id": "mod_C",
+      "name": "4.9 Derivatives of Exponential Functions",
+      "summary": "Derives $\\frac{d}{dx}e^x=e^x$ and $\\frac{d}{dx}b^x=b^x\\ln b$, links the definition of $e$ back to Sections 2.1–2.2, and applies exponential derivatives to growth and decay rates.",
+      "key_definitions": [
+        "$\\frac{d}{dx}e^x=e^x$ and $\\frac{d}{dx}b^x=b^x\\ln b$ for $b>0$.",
+        "Definition of $e$: $e=\\lim_{n\\to\\infty}\\left(1+\\frac1n\\right)^n$."
+      ],
+      "prerequisite_ids": [
+        "con_2_1",
+        "con_2_2",
+        "con_4_5"
+      ],
+      "objective_ids": [
+        "obj_4_9_1",
+        "obj_4_9_2",
+        "obj_4_9_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_9",
+        "src_syl_4_9"
+      ],
+      "question_ids": [
+        "q_4_9_1",
+        "q_4_9_2"
+      ]
+    },
+    {
+      "id": "con_4_10",
+      "module_id": "mod_C",
+      "name": "4.10 Derivatives of Inverse Functions",
+      "summary": "Derives the general derivative formula for inverse functions and uses it to differentiate logarithmic and inverse trigonometric functions; introduces logarithmic differentiation for variable exponents.",
+      "key_definitions": [
+        "Inverse-function derivative: $\\left(f^{-1}\\right)'(x)=\\frac{1}{f'(f^{-1}(x))}$ where $f'(f^{-1}(x))\\ne0$.",
+        "$\\frac{d}{dx}\\ln x=\\frac1x$, $\\frac{d}{dx}\\arcsin x=\\frac{1}{\\sqrt{1-x^2}}$, $\\frac{d}{dx}\\arctan x=\\frac{1}{1+x^2}$.",
+        "Logarithmic differentiation: take $\\ln$ of both sides, differentiate implicitly, and solve for $f'$; useful for variable exponents such as $x^x$."
+      ],
+      "prerequisite_ids": [
+        "con_ch1",
+        "con_4_5",
+        "con_4_6"
+      ],
+      "objective_ids": [
+        "obj_4_10_1",
+        "obj_4_10_2",
+        "obj_4_10_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_10",
+        "src_syl_4_10"
+      ],
+      "question_ids": [
+        "q_4_10_1",
+        "q_4_10_2"
+      ]
+    },
+    {
+      "id": "con_4_11",
+      "module_id": "mod_C",
+      "name": "4.11 Linear Approximation",
+      "summary": "Constructs tangent-line (linear) approximations and differentials, uses them to estimate function values near a point, and considers when such approximations are reliable.",
+      "key_definitions": [
+        "Linear approximation (linearization) at $a$: $L(x)=f(a)+f'(a)(x-a)$, approximating $f(x)$ for $x$ near $a$.",
+        "Differential: $dy=f'(x)\\,dx$, the linear estimate of the change in $y$ for a change $dx$ in $x$.",
+        "Approximation error: the difference $f(x)-L(x)$, small near $a$ and larger the more the graph curves away from its tangent line."
+      ],
+      "prerequisite_ids": [
+        "con_4_1"
+      ],
+      "objective_ids": [
+        "obj_4_11_1",
+        "obj_4_11_2",
+        "obj_4_11_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_4_11",
+        "src_syl_4_11"
+      ],
+      "question_ids": [
+        "q_4_11_1",
+        "q_4_11_2"
+      ]
+    },
+    {
+      "id": "con_5_1",
+      "module_id": "mod_D",
+      "name": "5.1 Extreme and Mean Value Theorems",
+      "summary": "Covers absolute and local extrema, the Extreme Value Theorem, Fermat's Theorem and critical points, and Rolle's Theorem and the Mean Value Theorem.",
+      "key_definitions": [
+        "Absolute (global) extremum: largest or smallest value on the whole domain or interval; local extremum: largest or smallest value on a small neighborhood.",
+        "Extreme Value Theorem: a function continuous on $[a,b]$ attains an absolute maximum and minimum on $[a,b]$.",
+        "Critical point: an interior point $c$ where $f'(c)=0$ or $f'(c)$ does not exist; Fermat's Theorem: a local extremum at an interior point where $f$ is differentiable must occur at a critical point ($f'(c)=0$).",
+        "Rolle's Theorem: if $f$ is continuous on $[a,b]$, differentiable on $(a,b)$, and $f(a)=f(b)$, then $f'(c)=0$ for some $c\\in(a,b)$.",
+        "Mean Value Theorem: if $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, then $f'(c)=\\frac{f(b)-f(a)}{b-a}$ for some $c\\in(a,b)$."
+      ],
+      "prerequisite_ids": [
+        "con_3_2",
+        "con_4_1"
+      ],
+      "objective_ids": [
+        "obj_5_1_1",
+        "obj_5_1_2",
+        "obj_5_1_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_5_1",
+        "src_syl_5_1"
+      ],
+      "question_ids": [
+        "q_5_1_1",
+        "q_5_1_2"
+      ]
+    },
+    {
+      "id": "con_5_2",
+      "module_id": "mod_D",
+      "name": "5.2 Monotonicity and Concavity",
+      "summary": "Uses the first derivative to determine increasing and decreasing behavior and the second derivative to determine concavity, summarized in sign charts.",
+      "key_definitions": [
+        "Monotonicity: $f'>0$ on an interval means $f$ is increasing there; $f'<0$ means decreasing.",
+        "Concavity: $f''>0$ on an interval means concave up; $f''<0$ means concave down.",
+        "Sign chart: a table recording the sign of $f'$ (and $f''$) on the intervals between critical points and other points where the sign can change."
+      ],
+      "prerequisite_ids": [
+        "con_4_1",
+        "con_4_7"
+      ],
+      "objective_ids": [
+        "obj_5_2_1",
+        "obj_5_2_2",
+        "obj_5_2_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_5_2",
+        "src_syl_5_2"
+      ],
+      "question_ids": [
+        "q_5_2_1",
+        "q_5_2_2"
+      ]
+    },
+    {
+      "id": "con_5_3",
+      "module_id": "mod_D",
+      "name": "5.3 Extrema and Inflection Points",
+      "summary": "Classifies critical points with the first- and second-derivative tests, locates inflection points, and uses derivative information to sketch curves.",
+      "key_definitions": [
+        "First-derivative test: at a critical point, $f'$ changing from $+$ to $-$ gives a local maximum, from $-$ to $+$ gives a local minimum, and no sign change gives neither.",
+        "Second-derivative test: at a critical point $c$, $f''(c)>0$ gives a local minimum and $f''(c)<0$ gives a local maximum; $f''(c)=0$ is inconclusive.",
+        "Inflection point: a point where the concavity changes; $f''=0$ is necessary but not sufficient, since $f''$ must actually change sign."
+      ],
+      "prerequisite_ids": [
+        "con_5_2",
+        "con_5_1"
+      ],
+      "objective_ids": [
+        "obj_5_3_1",
+        "obj_5_3_2",
+        "obj_5_3_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students conflate “critical point” with “extremum”: not every critical point is a maximum or minimum (e.g., $f(x)=x^3$ at $x=0$). This treats a necessary condition as if it were sufficient.",
+          "mitigation": "Pair the rule with the explicit counterexample $x^3$ (critical but not an extremum) at first introduction."
+        },
+        {
+          "misconception": "Students conflate $f''=0$ with an inflection point: concavity must actually change sign (e.g., $f(x)=x^4$ has $f''(0)=0$ but no inflection point there). This treats a necessary condition as if it were sufficient.",
+          "mitigation": "Pair the rule with the explicit counterexample $x^4$ ($f''=0$ but not an inflection point) at first introduction, and require a sign-change check, not just a zero, before students may label a point an inflection point."
+        }
+      ],
+      "source_ids": [
+        "src_tb_5_3",
+        "src_syl_5_3"
+      ],
+      "question_ids": [
+        "q_5_3_1",
+        "q_5_3_2"
+      ]
+    },
+    {
+      "id": "con_5_4",
+      "module_id": "mod_D",
+      "name": "5.4 Optimization",
+      "summary": "Translates biological or social-science word problems into single-variable objective functions and solves them using critical points and endpoint checks, justified by derivative tests.",
+      "key_definitions": [
+        "Objective function: the single-variable quantity to be maximized or minimized.",
+        "Constraint: an equation relating the variables, used to eliminate all but one of them.",
+        "Optimization procedure: find critical points, compare with endpoint/boundary values on the domain, and justify the extremum with the first- or second-derivative test."
+      ],
+      "prerequisite_ids": [
+        "con_5_3",
+        "con_4_1",
+        "con_4_2",
+        "con_4_3",
+        "con_4_4",
+        "con_4_5",
+        "con_4_6",
+        "con_4_7",
+        "con_4_8",
+        "con_4_9",
+        "con_4_10",
+        "con_4_11"
+      ],
+      "objective_ids": [
+        "obj_5_4_1",
+        "obj_5_4_2",
+        "obj_5_4_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "The bottleneck is rarely the calculus itself; it is the translation step. Turning prose into a labeled diagram, a constraint equation, and a single-variable objective function is a distinct skill from differentiating, and many students who can optimize a given function cannot construct one from a word problem. The cognitive load of doing both steps at once overwhelms working memory.",
+          "mitigation": "Teach a fixed five-step template (draw a diagram $\\to$ label variables $\\to$ write the constraint $\\to$ substitute to get a one-variable objective $\\to$ differentiate and classify), and sequence practice from simple geometric setups (rectangle with fixed perimeter) to biological ones (e.g., resource-allocation or population models) only after the template is automatic."
+        }
+      ],
+      "source_ids": [
+        "src_tb_5_4",
+        "src_syl_5_4"
+      ],
+      "question_ids": [
+        "q_5_4_1",
+        "q_5_4_2",
+        "q_5_4_3"
+      ]
+    },
+    {
+      "id": "con_5_5",
+      "module_id": "mod_D",
+      "name": "5.5 L'Hôpital's Rule",
+      "summary": "Applies L'Hôpital's Rule to $0/0$ and $\\infty/\\infty$ indeterminate forms, including repeated application, and converts other indeterminate forms into these two.",
+      "key_definitions": [
+        "Indeterminate forms of type $\\frac00$ and $\\frac{\\infty}{\\infty}$ (other forms such as $0\\cdot\\infty$, $\\infty-\\infty$, $0^0$ must first be rewritten into one of these).",
+        "L'Hôpital's Rule: if $\\lim\\frac{f(x)}{g(x)}$ has the form $\\frac00$ or $\\frac{\\infty}{\\infty}$, then $\\lim\\frac{f(x)}{g(x)}=\\lim\\frac{f'(x)}{g'(x)}$ whenever the latter limit exists (or is $\\pm\\infty$); differentiate numerator and denominator separately, not with the quotient rule."
+      ],
+      "prerequisite_ids": [
+        "con_3_1",
+        "con_3_3",
+        "con_4_1",
+        "con_4_2",
+        "con_4_3",
+        "con_4_4",
+        "con_4_5",
+        "con_4_6",
+        "con_4_7",
+        "con_4_8",
+        "con_4_9",
+        "con_4_10",
+        "con_4_11"
+      ],
+      "objective_ids": [
+        "obj_5_5_1",
+        "obj_5_5_2",
+        "obj_5_5_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students often apply L'Hôpital's Rule to limits that are not actually indeterminate, or differentiate the entire fraction using the quotient rule instead of differentiating numerator and denominator separately – confusing this rule with ordinary differentiation of a quotient.",
+          "mitigation": "Require students to write the verification “form: $0/0$” or “form: $\\infty/\\infty$” explicitly before applying the rule, and use a side-by-side common-error walkthrough contrasting correct L'Hôpital application against the quotient-rule mistake."
+        }
+      ],
+      "source_ids": [
+        "src_tb_5_5",
+        "src_syl_5_5"
+      ],
+      "question_ids": [
+        "q_5_5_1",
+        "q_5_5_2"
+      ]
+    },
+    {
+      "id": "con_5_10",
+      "module_id": "mod_E",
+      "name": "5.10 Antiderivatives",
+      "summary": "Introduces antiderivatives and the indefinite integral, basic rules for power, exponential and trigonometric functions, the constant of integration, and initial value problems.",
+      "key_definitions": [
+        "Antiderivative: a function $F$ with $F'=f$.",
+        "Indefinite integral: $\\int f(x)\\,dx=F(x)+C$, where $C$ is the constant of integration.",
+        "Basic rules: $\\int x^n\\,dx=\\frac{x^{n+1}}{n+1}+C$ for $n\\ne-1$, $\\int\\frac1x\\,dx=\\ln|x|+C$, $\\int e^x\\,dx=e^x+C$, $\\int\\sin x\\,dx=-\\cos x+C$, $\\int\\cos x\\,dx=\\sin x+C$.",
+        "Initial value problem: find the antiderivative satisfying a given condition, e.g., $f(1)=5$.",
+        "Any two antiderivatives of the same function on an interval differ by a constant."
+      ],
+      "prerequisite_ids": [
+        "con_4_1",
+        "con_4_2",
+        "con_4_3",
+        "con_4_4",
+        "con_4_5",
+        "con_4_6",
+        "con_4_7",
+        "con_4_8",
+        "con_4_9",
+        "con_4_10",
+        "con_4_11"
+      ],
+      "objective_ids": [
+        "obj_5_10_1",
+        "obj_5_10_2",
+        "obj_5_10_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_5_10",
+        "src_syl_5_10"
+      ],
+      "question_ids": [
+        "q_5_10_1",
+        "q_5_10_2"
+      ]
+    },
+    {
+      "id": "con_6_1",
+      "module_id": "mod_E",
+      "name": "6.1 The Definite Integral",
+      "summary": "Defines the definite integral as a limit of Riemann sums (left, right, midpoint), interprets it as signed area, and develops its linearity and additivity properties.",
+      "key_definitions": [
+        "Riemann sum: $\\sum_{i=1}^{n}f(x_i^*)\\,\\Delta x$ with $\\Delta x=\\frac{b-a}{n}$ and sample points $x_i^*$ chosen at left endpoints, right endpoints, or midpoints.",
+        "Definite integral: $\\int_a^b f(x)\\,dx=\\lim_{n\\to\\infty}\\sum_{i=1}^{n}f(x_i^*)\\,\\Delta x$.",
+        "Signed area: regions above the $x$-axis count positively and regions below count negatively.",
+        "Properties: linearity, and additivity over intervals $\\int_a^b f\\,dx+\\int_b^c f\\,dx=\\int_a^c f\\,dx$."
+      ],
+      "prerequisite_ids": [
+        "con_3_1"
+      ],
+      "objective_ids": [
+        "obj_6_1_1",
+        "obj_6_1_2",
+        "obj_6_1_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "The definite integral asks students to accept a limit of an ever-finer sum of an ever-larger number of rectangles – an abstraction jump layered on top of unfamiliar notation ($\\sum$, $\\Delta x$, sample points $x_i^*$) all introduced at once. Many students can compute a Riemann sum mechanically without understanding what the limiting process represents.",
+          "mitigation": "Use a visual or numerical scaffold (a spreadsheet or applet showing the sum converging as the number of rectangles increases) before introducing sigma notation formally, and separate “compute a sum for a fixed $n$” practice from “interpret the limit as $n\\to\\infty$” practice."
+        }
+      ],
+      "source_ids": [
+        "src_tb_6_1",
+        "src_syl_6_1"
+      ],
+      "question_ids": [
+        "q_6_1_1",
+        "q_6_1_2"
+      ]
+    },
+    {
+      "id": "con_6_2",
+      "module_id": "mod_E",
+      "name": "6.2 The Fundamental Theorem of Calculus",
+      "summary": "States and applies both parts of the Fundamental Theorem of Calculus, connecting differentiation and integration through accumulation functions and evaluation by antiderivatives.",
+      "key_definitions": [
+        "Accumulation function: $g(x)=\\int_a^x f(t)\\,dt$, the running total of a rate $f$.",
+        "FTC Part 1: if $f$ is continuous and $g(x)=\\int_a^x f(t)\\,dt$, then $g'(x)=f(x)$.",
+        "FTC Part 2: if $F'=f$, then $\\int_a^b f(x)\\,dx=F(b)-F(a)$."
+      ],
+      "prerequisite_ids": [
+        "con_5_10",
+        "con_6_1"
+      ],
+      "objective_ids": [
+        "obj_6_2_1",
+        "obj_6_2_2",
+        "obj_6_2_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students often memorize FTC Part 2 as a computational shortcut without grasping why integration undoes differentiation, and they routinely confuse the two parts – particularly Part 1, which produces a derivative of an accumulation function rather than a number.",
+          "mitigation": "Present both parts in an explicit side-by-side comparison table with distinct worked examples for each, and frame Part 1 with a “rate in $\\to$ total accumulated” narrative (e.g., a rate function whose accumulation gives total change) before introducing the symbolic statement $\\frac{d}{dx}\\int_a^x f(t)\\,dt = f(x)$."
+        }
+      ],
+      "source_ids": [
+        "src_tb_6_2",
+        "src_syl_6_2"
+      ],
+      "question_ids": [
+        "q_6_2_1",
+        "q_6_2_2"
+      ]
+    },
+    {
+      "id": "con_6_3",
+      "module_id": "mod_E",
+      "name": "6.3 Applications of Integration",
+      "summary": "Applies the definite integral to the area between curves, the average value of a function, and accumulated change from a rate function in biological and social-science contexts.",
+      "key_definitions": [
+        "Area between curves: $\\int_a^b\\left[f(x)-g(x)\\right]dx$ where $f(x)\\ge g(x)$ on $[a,b]$.",
+        "Average value: $f_{\\text{avg}}=\\frac{1}{b-a}\\int_a^b f(x)\\,dx$.",
+        "Accumulated (net) change: $\\int_a^b R(t)\\,dt$ is the total change in a quantity whose rate of change is $R(t)$."
+      ],
+      "prerequisite_ids": [
+        "con_6_2"
+      ],
+      "objective_ids": [
+        "obj_6_3_1",
+        "obj_6_3_2",
+        "obj_6_3_3"
+      ],
+      "difficulty_notes": [],
+      "source_ids": [
+        "src_tb_6_3",
+        "src_syl_6_3"
+      ],
+      "question_ids": [
+        "q_6_3_1",
+        "q_6_3_2"
+      ]
+    },
+    {
+      "id": "con_7_1",
+      "module_id": "mod_F",
+      "name": "7.1 The Substitution Rule",
+      "summary": "Teaches $u$-substitution for indefinite and definite integrals (including changing limits) as the chain rule in reverse, with emphasis on recognizing composite integrands.",
+      "key_definitions": [
+        "Substitution rule: $\\int f(g(x))\\,g'(x)\\,dx=\\int f(u)\\,du$ with $u=g(x)$, $du=g'(x)\\,dx$.",
+        "Definite integrals: $\\int_a^b f(g(x))\\,g'(x)\\,dx=\\int_{g(a)}^{g(b)}f(u)\\,du$ (convert the limits of integration).",
+        "Recognizing a composite integrand: an inner function whose derivative (up to a constant factor) also appears in the integrand."
+      ],
+      "prerequisite_ids": [
+        "con_4_5",
+        "con_5_10"
+      ],
+      "objective_ids": [
+        "obj_7_1_1",
+        "obj_7_1_2",
+        "obj_7_1_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Substitution is essentially the chain rule run in reverse, so students who never fully internalized “spot the inner function” in 4.5 struggle equally here, now compounded by the extra bookkeeping step of also changing $dx$ and (for definite integrals) the limits of integration – a step that is easy to forget entirely.",
+          "mitigation": "Run explicit “spot the inside function” drills on integrands before ever computing an antiderivative, and require a written limit-conversion table ($x$-limits $\\to$ $u$-limits) as a mandatory step for every definite-integral substitution problem."
+        }
+      ],
+      "source_ids": [
+        "src_tb_7_1",
+        "src_syl_7_1"
+      ],
+      "question_ids": [
+        "q_7_1_1",
+        "q_7_1_2"
+      ]
+    },
+    {
+      "id": "con_7_2",
+      "module_id": "mod_F",
+      "name": "7.2 Integration by Parts and Practicing Integration",
+      "summary": "Derives integration by parts from the product rule and applies it, including repeated and tabular use and the LIATE heuristic; develops strategy for choosing among substitution, parts and direct integration.",
+      "key_definitions": [
+        "Integration by parts: $\\int u\\,dv=uv-\\int v\\,du$, obtained by reversing the product rule.",
+        "LIATE/ILATE heuristic: prefer $u$ in the order Logarithmic, Inverse trigonometric, Algebraic, Trigonometric, Exponential.",
+        "Repeated (and tabular) integration by parts for integrands such as $x^2e^x$."
+      ],
+      "prerequisite_ids": [
+        "con_4_4",
+        "con_7_1"
+      ],
+      "objective_ids": [
+        "obj_7_2_1",
+        "obj_7_2_2",
+        "obj_7_2_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "A poor choice of $u$ and $dv$ produces a harder integral than the original, and students frequently apply the LIATE heuristic mechanically without understanding why it tends to work, so they cannot adapt when it fails or when repeated integration by parts is needed.",
+          "mitigation": "Show an explicit “wrong choice vs. right choice” worked comparison for the same integral, then build toward problems (e.g., $\\int x^2 e^x\\,dx$) that require recognizing the need for repetition or the tabular shortcut."
+        }
+      ],
+      "source_ids": [
+        "src_tb_7_2",
+        "src_syl_7_2"
+      ],
+      "question_ids": [
+        "q_7_2_1",
+        "q_7_2_2",
+        "q_7_2_3"
+      ]
+    },
+    {
+      "id": "con_7_3",
+      "module_id": "mod_F",
+      "name": "7.3 Rational Functions and Partial Fractions",
+      "summary": "Decomposes rational functions into partial fractions (mainly distinct linear factors) and integrates each term; uses polynomial long division when the numerator's degree is at least the denominator's.",
+      "key_definitions": [
+        "Partial fractions: rewriting a proper rational function as a sum of simpler fractions, e.g., $\\frac{P(x)}{(x-a)(x-b)}=\\frac{A}{x-a}+\\frac{B}{x-b}$ for distinct linear factors (repeated and irreducible quadratic factors need additional terms).",
+        "Proper rational function: numerator degree less than denominator degree; otherwise divide with polynomial long division first.",
+        "Integrating each term: $\\int\\frac{A}{x-a}\\,dx=A\\ln|x-a|+C$."
+      ],
+      "prerequisite_ids": [
+        "con_ch1",
+        "con_4_10",
+        "con_5_10"
+      ],
+      "objective_ids": [
+        "obj_7_3_1",
+        "obj_7_3_2",
+        "obj_7_3_3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "This topic stacks three separate skills – factoring, solving a system of equations for unknown coefficients, and integration – into a single problem, and an algebra slip in the coefficient system silently invalidates the entire integral that follows, making errors hard for students to locate on their own.",
+          "mitigation": "Split practice into two stages: first, decomposition-only problems with no integration required, graded purely on the coefficient system; only after that skill is solid, combine decomposition with integration in full end-to-end problems."
+        }
+      ],
+      "source_ids": [
+        "src_tb_7_3",
+        "src_syl_7_3"
+      ],
+      "question_ids": [
+        "q_7_3_1",
+        "q_7_3_2"
+      ]
+    }
+  ],
+  "LearningObjective": [
+    {
+      "id": "obj_ch1_1",
+      "concept_id": "con_ch1",
+      "text": "Identify the domain and range of algebraic, trigonometric, and piecewise functions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_ch1_2",
+      "concept_id": "con_ch1",
+      "text": "Compute compositions $f\\circ g$ and determine when a function is invertible.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_ch1_3",
+      "concept_id": "con_ch1",
+      "text": "Sketch transformations of a parent function given shift and scale parameters.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_ch1_4",
+      "concept_id": "con_ch1",
+      "text": "Classify a function as even, odd, or neither.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_2_1_1",
+      "concept_id": "con_2_1",
+      "text": "Explain the qualitative difference between linear and exponential growth.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_2_1_2",
+      "concept_id": "con_2_1",
+      "text": "Derive the half-life/doubling-time formula from a given decay/growth constant.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_2_1_3",
+      "concept_id": "con_2_1",
+      "text": "Apply exponential models to population-growth and radioactive-decay word problems.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_2_1_4",
+      "concept_id": "con_2_1",
+      "text": "Evaluate, from a data trend, whether an exponential growth or decay model is appropriate.",
+      "bloom_level": "evaluate"
+    },
+    {
+      "id": "obj_2_2_1",
+      "concept_id": "con_2_2",
+      "text": "Define a sequence both recursively and explicitly.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_2_2_2",
+      "concept_id": "con_2_2",
+      "text": "Determine whether a simple sequence converges or diverges.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_2_2_3",
+      "concept_id": "con_2_2",
+      "text": "Compute the limit of a sequence using algebraic limit laws.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_2_2_4",
+      "concept_id": "con_2_2",
+      "text": "Relate a discrete sequence model to the continuous growth model of Section 2.1.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_3_1_1",
+      "concept_id": "con_3_1",
+      "text": "Estimate a limit numerically and graphically.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_1_2",
+      "concept_id": "con_3_1",
+      "text": "Compute limits algebraically using limit laws.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_1_3",
+      "concept_id": "con_3_1",
+      "text": "Prove a simple limit statement using the formal $\\varepsilon$–$\\delta$ definition.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_3_1_4",
+      "concept_id": "con_3_1",
+      "text": "Diagnose why a limit fails to exist at a given point.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_3_2_1",
+      "concept_id": "con_3_2",
+      "text": "Test whether a function is continuous at a point using the three-part definition.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_2_2",
+      "concept_id": "con_3_2",
+      "text": "Classify a discontinuity by type.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_3_2_3",
+      "concept_id": "con_3_2",
+      "text": "Apply the IVT to justify the existence of a root or solution.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_2_4",
+      "concept_id": "con_3_2",
+      "text": "Construct a piecewise function exhibiting a specified type of discontinuity.",
+      "bloom_level": "create"
+    },
+    {
+      "id": "obj_3_3_1",
+      "concept_id": "con_3_3",
+      "text": "Compute limits as $x\\to\\pm\\infty$ for rational and transcendental functions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_3_2",
+      "concept_id": "con_3_3",
+      "text": "Identify horizontal asymptotes from a limit computation.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_3_3",
+      "concept_id": "con_3_3",
+      "text": "Distinguish, in words and notation, an infinite limit from a limit at infinity.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_3_4_1",
+      "concept_id": "con_3_4",
+      "text": "State and apply the Sandwich Theorem.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_4_2",
+      "concept_id": "con_3_4",
+      "text": "Derive $\\lim_{x\\to 0}\\frac{\\sin x}{x}=1$ using a geometric bounding argument.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_3_4_3",
+      "concept_id": "con_3_4",
+      "text": "Apply trigonometric limit results in later derivative derivations.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_5_1",
+      "concept_id": "con_3_5",
+      "text": "Explain why a continuous function on $[a,b]$ must attain a maximum and minimum (preview of 5.1).",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_3_5_2",
+      "concept_id": "con_3_5",
+      "text": "Prove continuity of a composite or combined function using the relevant theorems.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_3_5_3",
+      "concept_id": "con_3_5",
+      "text": "Apply these properties to simplify continuity arguments.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_1_1",
+      "concept_id": "con_4_1",
+      "text": "Compute a derivative directly from the limit definition for simple functions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_1_2",
+      "concept_id": "con_4_1",
+      "text": "Explain the geometric and physical meaning of $f'(a)$.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_4_1_3",
+      "concept_id": "con_4_1",
+      "text": "Exhibit a function that is continuous but not differentiable at a point.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_2_1",
+      "concept_id": "con_4_2",
+      "text": "Apply the constant, sum, and constant-multiple rules to differentiate polynomials.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_2_2",
+      "concept_id": "con_4_2",
+      "text": "Justify these rules from the limit definition.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_4_3_1",
+      "concept_id": "con_4_3",
+      "text": "Apply the power rule to functions with rational and negative exponents.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_3_2",
+      "concept_id": "con_4_3",
+      "text": "Differentiate polynomial and radical functions fluently.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_4_1",
+      "concept_id": "con_4_4",
+      "text": "Derive the product rule from the limit definition.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_4_4_2",
+      "concept_id": "con_4_4",
+      "text": "Apply the product and quotient rules to composite algebraic expressions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_4_3",
+      "concept_id": "con_4_4",
+      "text": "Diagnose and correct a quotient-rule sign error in sample work.",
+      "bloom_level": "evaluate"
+    },
+    {
+      "id": "obj_4_5_1",
+      "concept_id": "con_4_5",
+      "text": "Identify the inner and outer functions in a composite expression.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_4_5_2",
+      "concept_id": "con_4_5",
+      "text": "Apply the chain rule to single and multiply-nested compositions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_5_3",
+      "concept_id": "con_4_5",
+      "text": "Combine the chain rule with the product and quotient rules.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_6_1",
+      "concept_id": "con_4_6",
+      "text": "Differentiate an implicitly defined relation.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_6_2",
+      "concept_id": "con_4_6",
+      "text": "Solve for $dy/dx$ and evaluate the slope at a given point.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_6_3",
+      "concept_id": "con_4_6",
+      "text": "Apply implicit differentiation to a related-rates-style biological model.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_7_1",
+      "concept_id": "con_4_7",
+      "text": "Compute second and third derivatives of standard functions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_7_2",
+      "concept_id": "con_4_7",
+      "text": "Interpret $f''$ in terms of concavity or acceleration.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_4_8_1",
+      "concept_id": "con_4_8",
+      "text": "Derive $\\frac{d}{dx}\\sin x$ using the limit definition together with the trigonometric limits from Section 3.4.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_4_8_2",
+      "concept_id": "con_4_8",
+      "text": "Apply trig derivative rules together with the chain and product rules.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_9_1",
+      "concept_id": "con_4_9",
+      "text": "Derive $\\frac{d}{dx}e^x=e^x$ from the limit definition.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_4_9_2",
+      "concept_id": "con_4_9",
+      "text": "Differentiate exponential functions of arbitrary base.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_9_3",
+      "concept_id": "con_4_9",
+      "text": "Apply exponential derivatives to rate-of-change problems in growth/decay contexts.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_10_1",
+      "concept_id": "con_4_10",
+      "text": "Derive the general inverse-function derivative formula.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_4_10_2",
+      "concept_id": "con_4_10",
+      "text": "Differentiate logarithmic and inverse trigonometric functions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_10_3",
+      "concept_id": "con_4_10",
+      "text": "Apply logarithmic differentiation to functions with variable exponents.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_11_1",
+      "concept_id": "con_4_11",
+      "text": "Construct the linear approximation of a function at a point.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_11_2",
+      "concept_id": "con_4_11",
+      "text": "Use a linear approximation to estimate a function value near $a$.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_4_11_3",
+      "concept_id": "con_4_11",
+      "text": "Judge when a linear approximation is reliable versus unreliable.",
+      "bloom_level": "evaluate"
+    },
+    {
+      "id": "obj_5_1_1",
+      "concept_id": "con_5_1",
+      "text": "State the hypotheses and conclusions of the EVT and the MVT.",
+      "bloom_level": "remember"
+    },
+    {
+      "id": "obj_5_1_2",
+      "concept_id": "con_5_1",
+      "text": "Find the critical points of a function.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_1_3",
+      "concept_id": "con_5_1",
+      "text": "Apply the MVT to justify a statement about a function's behavior.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_5_2_1",
+      "concept_id": "con_5_2",
+      "text": "Determine intervals of increase/decrease using $f'$.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_2_2",
+      "concept_id": "con_5_2",
+      "text": "Determine concavity using $f''$.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_2_3",
+      "concept_id": "con_5_2",
+      "text": "Construct a sign chart summarizing a function's behavior.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_3_1",
+      "concept_id": "con_5_3",
+      "text": "Classify critical points as local maxima, minima, or neither.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_5_3_2",
+      "concept_id": "con_5_3",
+      "text": "Locate inflection points and justify with a concavity-change argument.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_5_3_3",
+      "concept_id": "con_5_3",
+      "text": "Sketch a curve using first- and second-derivative information.",
+      "bloom_level": "create"
+    },
+    {
+      "id": "obj_5_4_1",
+      "concept_id": "con_5_4",
+      "text": "Translate a real-world (biological or social-science) scenario into an optimization function.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_4_2",
+      "concept_id": "con_5_4",
+      "text": "Apply calculus techniques to find the optimal value.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_4_3",
+      "concept_id": "con_5_4",
+      "text": "Justify, via the first- or second-derivative test, that a critical point is the required max or min.",
+      "bloom_level": "evaluate"
+    },
+    {
+      "id": "obj_5_5_1",
+      "concept_id": "con_5_5",
+      "text": "Identify when L'Hôpital's Rule applies.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_5_5_2",
+      "concept_id": "con_5_5",
+      "text": "Apply L'Hôpital's Rule, including repeated application.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_5_3",
+      "concept_id": "con_5_5",
+      "text": "Convert a non-standard indeterminate form into $0/0$ or $\\infty/\\infty$ before applying the rule.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_10_1",
+      "concept_id": "con_5_10",
+      "text": "Compute antiderivatives of elementary functions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_10_2",
+      "concept_id": "con_5_10",
+      "text": "Solve an initial value problem to find a particular antiderivative.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_5_10_3",
+      "concept_id": "con_5_10",
+      "text": "Explain why any two antiderivatives of the same function differ by a constant.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_6_1_1",
+      "concept_id": "con_6_1",
+      "text": "Approximate a definite integral using a Riemann sum.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_6_1_2",
+      "concept_id": "con_6_1",
+      "text": "Set up and interpret a definite integral as signed area.",
+      "bloom_level": "understand"
+    },
+    {
+      "id": "obj_6_1_3",
+      "concept_id": "con_6_1",
+      "text": "Apply properties of definite integrals to simplify a computation.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_6_2_1",
+      "concept_id": "con_6_2",
+      "text": "State both parts of the Fundamental Theorem of Calculus.",
+      "bloom_level": "remember"
+    },
+    {
+      "id": "obj_6_2_2",
+      "concept_id": "con_6_2",
+      "text": "Apply FTC Part 2 to evaluate a definite integral.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_6_2_3",
+      "concept_id": "con_6_2",
+      "text": "Apply FTC Part 1 to differentiate a function defined by an integral.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_6_3_1",
+      "concept_id": "con_6_3",
+      "text": "Set up and compute the area between two curves.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_6_3_2",
+      "concept_id": "con_6_3",
+      "text": "Compute the average value of a function on an interval.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_6_3_3",
+      "concept_id": "con_6_3",
+      "text": "Apply the integral to accumulate a rate into a total change in a biological or social-science context.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_7_1_1",
+      "concept_id": "con_7_1",
+      "text": "Identify an appropriate substitution $u=g(x)$ for a given integral.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_7_1_2",
+      "concept_id": "con_7_1",
+      "text": "Apply substitution to evaluate indefinite and definite integrals.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_7_1_3",
+      "concept_id": "con_7_1",
+      "text": "Correctly adjust the limits of integration when substituting in a definite integral.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_7_2_1",
+      "concept_id": "con_7_2",
+      "text": "Derive the integration-by-parts formula from the product rule.",
+      "bloom_level": "analyze"
+    },
+    {
+      "id": "obj_7_2_2",
+      "concept_id": "con_7_2",
+      "text": "Apply integration by parts, including cases requiring repetition.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_7_2_3",
+      "concept_id": "con_7_2",
+      "text": "Select the correct integration technique for a given mixed problem set.",
+      "bloom_level": "evaluate"
+    },
+    {
+      "id": "obj_7_3_1",
+      "concept_id": "con_7_3",
+      "text": "Decompose a proper rational function into partial fractions.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_7_3_2",
+      "concept_id": "con_7_3",
+      "text": "Integrate each partial-fraction term.",
+      "bloom_level": "apply"
+    },
+    {
+      "id": "obj_7_3_3",
+      "concept_id": "con_7_3",
+      "text": "Apply polynomial long division before decomposition when required.",
+      "bloom_level": "apply"
+    }
+  ],
+  "Source": [
+    {
+      "id": "src_tb_3_6",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 3.6 (formal ε–δ and ε–M definitions, referenced from 3.1 and 3.3)",
+      "text_chunk": null
+    },
+    {
+      "id": "src_tb_ch1",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Chapter 1",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_ch1",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module A: Review of Functions and Growth Models (Weeks 1–2) > Chapter 1: Review of Functions",
+      "text_chunk": "Chapter 1: Review of Functions\nCore concepts:\n- Definition of a function; domain and range\n- Composition of functions and inverse functions\n- Polynomial, rational, trigonometric, exponential, and logarithmic function families\n- Piecewise-defined functions\n- Transformations: shifts, stretches, reflections\n- Even/odd symmetry"
+    },
+    {
+      "id": "src_tb_2_1",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 2.1",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_2_1",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module A: Review of Functions and Growth Models (Weeks 1–2) > 2.1 Exponential Growth and Decay",
+      "text_chunk": "2.1 Exponential Growth and Decay\nCore concepts:\n- Exponential functions $b^x$ and the base $e$\n- Continuous vs. discrete growth models\n- Growth/decay constant $k$; doubling time and half-life\n- Preview of the differential equation $\\frac{dy}{dt} = ky$"
+    },
+    {
+      "id": "src_tb_2_2",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 2.2",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_2_2",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module A: Review of Functions and Growth Models (Weeks 1–2) > 2.2 Sequences",
+      "text_chunk": "2.2 Sequences\nCore concepts:\n- Sequence notation $a_n$\n- Recursive vs. explicit definitions\n- Convergence and divergence of a sequence\n- Informal limit of a sequence as $n\\to\\infty$\n- Monotonic and bounded sequences"
+    },
+    {
+      "id": "src_tb_3_1",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 3.1",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_3_1",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module B: Limits and Continuity (Weeks 3–4) > 3.1 Limits",
+      "text_chunk": "3.1 Limits\nCore concepts:\n- Intuitive limit as $x\\to a$; one-sided limits\n- Limit laws: sum, product, quotient\n- Formal $\\varepsilon$–$\\delta$ definition (Sec. 3.6)\n- Nonexistence of a limit: oscillation, jump, unboundedness\nWhy this topic is historically difficult: The $\\varepsilon$–$\\delta$ definition asks students to reason about two interdependent “smallness” quantities inside nested quantifiers ($\\forall \\varepsilon\\ \\exists \\delta$), which is a genuine jump from the procedural algebra they have used up to this point. The notation itself (two Greek letters, an implication, an absolute-value inequality) is unfamiliar, so many students' difficulty is more about parsing the symbols than about the underlying idea.\nMitigation: Introduce the idea in “tolerance/target” language before any symbols (“how close does $x$ need to be to $a$ so that $f(x)$ lands within a given target window?”), use a numerical guess-and-check table (pick $\\varepsilon$, find a working $\\delta$) before asking for a general proof, and restrict formal proofs to linear functions only in this course."
+    },
+    {
+      "id": "src_tb_3_2",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 3.2",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_3_2",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module B: Limits and Continuity (Weeks 3–4) > 3.2 Continuity",
+      "text_chunk": "3.2 Continuity\nCore concepts:\n- Three-part definition of continuity at a point\n- Removable, jump, and infinite discontinuities\n- Continuity on an interval\n- Intermediate Value Theorem (IVT)"
+    },
+    {
+      "id": "src_tb_3_3",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 3.3",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_3_3",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module B: Limits and Continuity (Weeks 3–4) > 3.3 Limits at Infinity",
+      "text_chunk": "3.3 Limits at Infinity\nCore concepts:\n- Horizontal asymptotes\n- End behavior of rational, exponential, and logarithmic functions\n- Formal $\\varepsilon$–$M$ definition (Sec. 3.6)\n- Distinguishing limits at infinity from infinite limits"
+    },
+    {
+      "id": "src_tb_3_4",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 3.4",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_3_4",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module B: Limits and Continuity (Weeks 3–4) > 3.4 Trigonometric Limits and the Sandwich Theorem",
+      "text_chunk": "3.4 Trigonometric Limits and the Sandwich Theorem\nCore concepts:\n- $\\lim_{x\\to 0}\\frac{\\sin x}{x}=1$ and related limits\n- Statement of the Sandwich (Squeeze) Theorem\n- Bounding a function between two known functions"
+    },
+    {
+      "id": "src_tb_3_5",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 3.5",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_3_5",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module B: Limits and Continuity (Weeks 3–4) > 3.5 Properties of Continuous Functions",
+      "text_chunk": "3.5 Properties of Continuous Functions\nCore concepts:\n- Preview of the Extreme Value Theorem\n- Boundedness of a continuous function on a closed interval\n- Continuity of compositions and algebraic combinations of continuous functions"
+    },
+    {
+      "id": "src_tb_4_1",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.1",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_1",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.1 Formal Definition of the Derivative",
+      "text_chunk": "4.1 Formal Definition of the Derivative\nCore concepts:\n- Difference quotient $\\frac{f(x+h)-f(x)}{h}$\n- Derivative as the limit of the difference quotient\n- Derivative as instantaneous rate of change / slope of the tangent line\n- Differentiability implies continuity (converse fails)"
+    },
+    {
+      "id": "src_tb_4_2",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.2",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_2",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.2 Basic Rules of Derivatives",
+      "text_chunk": "4.2 Basic Rules of Derivatives\nCore concepts:\n- Constant rule; sum/difference rule; constant-multiple rule\n- Linearity of differentiation"
+    },
+    {
+      "id": "src_tb_4_3",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.3",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_3",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.3 Power Rule and the Rules of Differentiation",
+      "text_chunk": "4.3 Power Rule and the Rules of Differentiation\nCore concepts:\n- Power rule for integer, rational, and negative exponents\n- Combining the power rule with the basic rules"
+    },
+    {
+      "id": "src_tb_4_4",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.4",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_4",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.4 Product and Quotient Rules",
+      "text_chunk": "4.4 Product and Quotient Rules\nCore concepts:\n- Product rule formula and its derivation\n- Quotient rule formula and its derivation\n- Common sign errors in the quotient rule"
+    },
+    {
+      "id": "src_tb_4_5",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.5",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_5",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.5 The Chain Rule",
+      "text_chunk": "4.5 The Chain Rule\nCore concepts:\n- Composite functions $f(g(x))$\n- Chain rule formula; “outside–inside” heuristic\n- Chain rule with multiply-nested compositions\nWhy this topic is historically difficult: The most common error is not a conceptual gap but an execution gap: students differentiate the outer function correctly but forget to multiply by the derivative of the inner function, or misidentify which piece is “outside.” The error compounds silently when compositions are nested two or three layers deep, since each layer adds another factor that is easy to drop.\nMitigation: Teach an explicit “peel the onion, layer by layer” procedure and sequence worked examples from one layer of nesting to three. Use error-spotting exercises built from real (anonymized) student mistakes so learners practice catching the missing-factor error rather than only producing correct answers."
+    },
+    {
+      "id": "src_tb_4_6",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.6",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_6",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.6 Implicit Functions and Implicit Differentiation",
+      "text_chunk": "4.6 Implicit Functions and Implicit Differentiation\nCore concepts:\n- Implicitly defined curves (e.g., circles)\n- Differentiating both sides with respect to $x$, treating $y$ as a function of $x$\n- Solving for $dy/dx$\nWhy this topic is historically difficult: Writing $\\frac{d}{dx}(y^2) = 2y\\,\\frac{dy}{dx}$ requires silently treating $y$ as $y(x)$ and applying the chain rule to a variable that has no explicit formula – a notational leap that differs from every derivative students have taken so far, where the “inside function” was always written out.\nMitigation: Before differentiating, have students explicitly rewrite $y$ as $y(x)$ once on the page, then apply a fixed template: differentiate term by term, attach $\\frac{dy}{dx}$ to every term containing $y$, then collect and solve."
+    },
+    {
+      "id": "src_tb_4_7",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.7",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_7",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.7 Higher Derivatives",
+      "text_chunk": "4.7 Higher Derivatives\nCore concepts:\n- Second- and higher-order derivative notation\n- Physical interpretation (acceleration) and preview of concavity"
+    },
+    {
+      "id": "src_tb_4_8",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.8",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_8",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.8 Derivative of Trigonometric Functions",
+      "text_chunk": "4.8 Derivative of Trigonometric Functions\nCore concepts:\n- $\\frac{d}{dx}\\sin x=\\cos x$, $\\frac{d}{dx}\\cos x=-\\sin x$, derived from the limit definition and the trig limits of 3.4\n- Derivatives of $\\tan x$, $\\cot x$, $\\sec x$, $\\csc x$"
+    },
+    {
+      "id": "src_tb_4_9",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.9",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_9",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.9 Derivatives of Exponential Functions",
+      "text_chunk": "4.9 Derivatives of Exponential Functions\nCore concepts:\n- $\\frac{d}{dx}e^x = e^x$; $\\frac{d}{dx}b^x = b^x\\ln b$\n- Definition of $e$ as $\\lim_{n\\to\\infty}(1+1/n)^n$, linking back to Sections 2.1/2.2"
+    },
+    {
+      "id": "src_tb_4_10",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.10",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_10",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.10 Derivatives of Inverse Functions",
+      "text_chunk": "4.10 Derivatives of Inverse Functions\nCore concepts:\n- General inverse function derivative formula $\\left(f^{-1}\\right)'(x) = \\frac{1}{f'(f^{-1}(x))}$\n- Derivatives of $\\ln x$, $\\arcsin x$, $\\arctan x$, etc.\n- Logarithmic differentiation"
+    },
+    {
+      "id": "src_tb_4_11",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 4.11",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_4_11",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module C: Derivatives (Weeks 5–7) > 4.11 Linear Approximation",
+      "text_chunk": "4.11 Linear Approximation\nCore concepts:\n- Tangent-line approximation $L(x) = f(a)+f'(a)(x-a)$\n- Differentials $dy = f'(x)\\,dx$\n- Informal error estimation"
+    },
+    {
+      "id": "src_tb_5_1",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 5.1",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_5_1",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module D: Applications of Differentiation (Weeks 8–9) > 5.1 Extreme and Mean Value Theorems",
+      "text_chunk": "5.1 Extreme and Mean Value Theorems\nCore concepts:\n- Absolute vs. local extrema\n- Extreme Value Theorem (EVT)\n- Fermat's Theorem and critical points\n- Rolle's Theorem and the Mean Value Theorem (MVT)"
+    },
+    {
+      "id": "src_tb_5_2",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 5.2",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_5_2",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module D: Applications of Differentiation (Weeks 8–9) > 5.2 Monotonicity and Concavity",
+      "text_chunk": "5.2 Monotonicity and Concavity\nCore concepts:\n- First derivative test for increasing/decreasing behavior\n- Second derivative and concavity\n- Sign charts"
+    },
+    {
+      "id": "src_tb_5_3",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 5.3",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_5_3",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module D: Applications of Differentiation (Weeks 8–9) > 5.3 Extrema and Inflection Points",
+      "text_chunk": "5.3 Extrema and Inflection Points\nCore concepts:\n- Classifying critical points via the first- or second-derivative test\n- Inflection points (concavity change)\nWhy this topic is historically difficult: Students frequently conflate “critical point” with “extremum” (not every critical point is a max/min, e.g. $f(x)=x^3$ at $x=0$) and conflate “$f''=0$” with “inflection point” (concavity must actually change sign, e.g. $f(x)=x^4$ has $f''(0)=0$ but no inflection point there). Both errors stem from treating a necessary condition as if it were sufficient.\nMitigation: Pair every rule with an explicit counterexample ($x^3$ for critical-but-not-extreme, $x^4$ for $f''=0$-but-not-inflection) at first introduction, and require a sign-change check, not just a zero, before students may label a point an inflection point."
+    },
+    {
+      "id": "src_tb_5_4",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 5.4",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_5_4",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module D: Applications of Differentiation (Weeks 8–9) > 5.4 Optimization",
+      "text_chunk": "5.4 Optimization\nCore concepts:\n- Translating a word problem into an objective function\n- Identifying constraints and the domain of the objective function\n- Solving via critical points plus endpoint/boundary checks\nWhy this topic is historically difficult: The bottleneck is rarely the calculus itself; it is the translation step. Turning prose into a labeled diagram, a constraint equation, and a single-variable objective function is a distinct skill from differentiating, and many students who can optimize a given function cannot construct one from a word problem. The cognitive load of doing both steps at once overwhelms working memory.\nMitigation: Teach a fixed five-step template (draw a diagram $\\to$ label variables $\\to$ write the constraint $\\to$ substitute to get a one-variable objective $\\to$ differentiate and classify), and sequence practice from simple geometric setups (rectangle with fixed perimeter) to biological ones (e.g., resource-allocation or population models) only after the template is automatic."
+    },
+    {
+      "id": "src_tb_5_5",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 5.5",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_5_5",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module D: Applications of Differentiation (Weeks 8–9) > 5.5 L'Hôpital's Rule",
+      "text_chunk": "5.5 L'Hôpital's Rule\nCore concepts:\n- Indeterminate forms $0/0$ and $\\infty/\\infty$\n- Statement and hypotheses of L'Hôpital's Rule\n- Algebraically converting other indeterminate forms ($0\\cdot\\infty$, $\\infty-\\infty$, $0^0$, etc.) into $0/0$ or $\\infty/\\infty$\nWhy this topic is historically difficult: Students often apply L'Hôpital's Rule to limits that are not actually indeterminate, or differentiate the entire fraction using the quotient rule instead of differentiating numerator and denominator separately – confusing this rule with ordinary differentiation of a quotient.\nMitigation: Require students to write the verification “form: $0/0$” or “form: $\\infty/\\infty$” explicitly before applying the rule, and use a side-by-side common-error walkthrough contrasting correct L'Hôpital application against the quotient-rule mistake."
+    },
+    {
+      "id": "src_tb_5_10",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 5.10",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_5_10",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module E: Integration (Weeks 10–11) > 5.10 Antiderivatives",
+      "text_chunk": "5.10 Antiderivatives\nCore concepts:\n- Definition of an antiderivative / indefinite integral\n- Basic antiderivative rules: power, exponential, trigonometric\n- The constant of integration $C$\n- Initial value problems"
+    },
+    {
+      "id": "src_tb_6_1",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 6.1",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_6_1",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module E: Integration (Weeks 10–11) > 6.1 The Definite Integral",
+      "text_chunk": "6.1 The Definite Integral\nCore concepts:\n- Riemann sums: left, right, midpoint\n- The definite integral as a limit of Riemann sums\n- Area interpretation (signed area)\n- Properties of definite integrals: linearity, additivity over intervals\nWhy this topic is historically difficult: The definite integral asks students to accept a limit of an ever-finer sum of an ever-larger number of rectangles – an abstraction jump layered on top of unfamiliar notation ($\\sum$, $\\Delta x$, sample points $x_i^*$) all introduced at once. Many students can compute a Riemann sum mechanically without understanding what the limiting process represents.\nMitigation: Use a visual or numerical scaffold (a spreadsheet or applet showing the sum converging as the number of rectangles increases) before introducing sigma notation formally, and separate “compute a sum for a fixed $n$” practice from “interpret the limit as $n\\to\\infty$” practice."
+    },
+    {
+      "id": "src_tb_6_2",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 6.2",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_6_2",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module E: Integration (Weeks 10–11) > 6.2 The Fundamental Theorem of Calculus",
+      "text_chunk": "6.2 The Fundamental Theorem of Calculus\nCore concepts:\n- FTC Part 1: the derivative of an accumulation function\n- FTC Part 2: evaluating a definite integral via an antiderivative\n- The connection between differentiation and integration\nWhy this topic is historically difficult: Students often memorize FTC Part 2 as a computational shortcut without grasping why integration undoes differentiation, and they routinely confuse the two parts – particularly Part 1, which produces a derivative of an accumulation function rather than a number.\nMitigation: Present both parts in an explicit side-by-side comparison table with distinct worked examples for each, and frame Part 1 with a “rate in $\\to$ total accumulated” narrative (e.g., a rate function whose accumulation gives total change) before introducing the symbolic statement $\\frac{d}{dx}\\int_a^x f(t)\\,dt = f(x)$."
+    },
+    {
+      "id": "src_tb_6_3",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 6.3",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_6_3",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module E: Integration (Weeks 10–11) > 6.3 Applications of Integration",
+      "text_chunk": "6.3 Applications of Integration\nCore concepts:\n- Area between two curves\n- Average value of a function on an interval\n- Accumulated change (e.g., total change from a given rate function)"
+    },
+    {
+      "id": "src_tb_7_1",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 7.1",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_7_1",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module F: Applications of the Integral (Weeks 12) > 7.1 The Substitution Rule",
+      "text_chunk": "7.1 The Substitution Rule\nCore concepts:\n- $u$-substitution for indefinite integrals\n- Changing the limits of integration for a definite integral\n- Recognizing composite-function integrands\nWhy this topic is historically difficult: Substitution is essentially the chain rule run in reverse, so students who never fully internalized “spot the inner function” in 4.5 struggle equally here, now compounded by the extra bookkeeping step of also changing $dx$ and (for definite integrals) the limits of integration – a step that is easy to forget entirely.\nMitigation: Run explicit “spot the inside function” drills on integrands before ever computing an antiderivative, and require a written limit-conversion table ($x$-limits $\\to$ $u$-limits) as a mandatory step for every definite-integral substitution problem."
+    },
+    {
+      "id": "src_tb_7_2",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 7.2",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_7_2",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module F: Applications of the Integral (Weeks 12) > 7.2 Integration by Parts and Practicing Integration",
+      "text_chunk": "7.2 Integration by Parts and Practicing Integration\nCore concepts:\n- Integration by parts formula, derived from the product rule\n- LIATE/ILATE heuristic for choosing $u$ and $dv$\n- Repeated and tabular integration by parts\n- General strategy selection among substitution, parts, and direct integration\nWhy this topic is historically difficult: A poor choice of $u$ and $dv$ produces a harder integral than the original, and students frequently apply the LIATE heuristic mechanically without understanding why it tends to work, so they cannot adapt when it fails or when repeated integration by parts is needed.\nMitigation: Show an explicit “wrong choice vs. right choice” worked comparison for the same integral, then build toward problems (e.g., $\\int x^2 e^x\\,dx$) that require recognizing the need for repetition or the tabular shortcut."
+    },
+    {
+      "id": "src_tb_7_3",
+      "type": "textbook",
+      "citation": "Neuhauser, C., & Roper, M. Calculus for Biology and Medicine, 4th ed.",
+      "section": "Section 7.3",
+      "text_chunk": null
+    },
+    {
+      "id": "src_syl_7_3",
+      "type": "syllabus",
+      "citation": "AS.110.106 Calculus I (Biology and Social Sciences) — Full Course Design Package (Calc1_Syllabus_Claude_Final.tex)",
+      "section": "Module F: Applications of the Integral (Weeks 12) > 7.3 Rational Functions and Partial Fractions",
+      "text_chunk": "7.3 Rational Functions and Partial Fractions\nCore concepts:\n- Partial fraction decomposition for distinct linear factors (with brief mention of repeated and irreducible quadratic factors)\n- Integrating each decomposed term\n- Polynomial long division when the numerator's degree is at least the denominator's\nWhy this topic is historically difficult: This topic stacks three separate skills – factoring, solving a system of equations for unknown coefficients, and integration – into a single problem, and an algebra slip in the coefficient system silently invalidates the entire integral that follows, making errors hard for students to locate on their own.\nMitigation: Split practice into two stages: first, decomposition-only problems with no integration required, graded purely on the coefficient system; only after that skill is solid, combine decomposition with integration in full end-to-end problems."
+    }
+  ],
+  "AssessmentQuestion": [
+    {
+      "id": "q_ch1_1",
+      "concept_ids": [
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_ch1_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "State the domain of $f(x) = \\frac{1}{\\sqrt{x-3}}$.",
+      "solution": "$x > 3$, i.e. $(3,\\infty)$.",
+      "rubric": "Full credit requires recognizing that $x-3$ must be strictly positive (radicand nonnegative and denominator nonzero) and stating $(3,\\infty)$ with the endpoint 3 excluded.",
+      "common_wrong_answers": [
+        "$x\\ge3$ — includes the endpoint where the denominator is 0",
+        "$x\\ne3$ — ignores that the square root also excludes $x<3$",
+        "All real numbers — checks only for a zero in the denominator"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_ch1_2",
+      "concept_ids": [
+        "con_ch1"
+      ],
+      "objective_ids": [
+        "obj_ch1_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Let $f(x)=x^2$ and $g(x) = x - 4$. Find $(f\\circ g)(x)$ and state whether $g$ is invertible; if so, find $g^{-1}(x)$.",
+      "solution": "$(f\\circ g)(x) = (x-4)^2$; $g$ is invertible (linear, one-to-one), $g^{-1}(x) = x+4$.",
+      "rubric": "Full credit requires $(f\\circ g)(x)=f(g(x))=(x-4)^2$, a stated reason that $g$ is invertible (linear, one-to-one), and $g^{-1}(x)=x+4$.",
+      "common_wrong_answers": [
+        "$(f\\circ g)(x)=x^2-4$ — computes $g(f(x))$ instead of $f(g(x))$",
+        "$(f\\circ g)(x)=x^2-16$ — expands $(x-4)^2$ as $x^2-16$",
+        "$g^{-1}(x)=x-4$ or $\\frac{1}{x-4}$ — does not undo the subtraction, or confuses the inverse with the reciprocal"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_2_1_1",
+      "concept_ids": [
+        "con_2_1"
+      ],
+      "objective_ids": [
+        "obj_2_1_1"
+      ],
+      "type": "justification",
+      "difficulty": "easy",
+      "prompt": "A population grows according to $P(t) = P_0 e^{kt}$ with $k = 0.05$/year. What does $k$ represent?",
+      "solution": "The continuous relative (per-capita) growth rate: the population grows at 5% per year, compounded continuously.",
+      "rubric": "Full credit requires identifying $k$ as the continuous relative (per-capita) growth rate, i.e., the population changes at 5% of its current size per year, rather than by a fixed number of individuals.",
+      "common_wrong_answers": [
+        "5 individuals per year — treats $k$ as a constant absolute (linear) growth rate",
+        "The initial population — confuses $k$ with $P_0$",
+        "Exactly 5% growth in each year — ignores that the model is continuous (the effective annual increase is $e^{0.05}-1\\approx5.13\\%$)"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_2_1_2",
+      "concept_ids": [
+        "con_2_1"
+      ],
+      "objective_ids": [
+        "obj_2_1_2",
+        "obj_2_1_3"
+      ],
+      "type": "word_problem",
+      "difficulty": "medium",
+      "prompt": "A bacterial culture doubles every 3 hours. If it starts at 200 cells, find $k$ and predict the population after 10 hours.",
+      "solution": "$2=e^{3k}\\Rightarrow k=\\frac{\\ln 2}{3}\\approx 0.231$; $P(10)=200e^{0.231(10)}=200e^{2.31}\\approx 2015$ cells (using the exact $k$: $200\\cdot2^{10/3}\\approx 2016$ cells).",
+      "rubric": "Full credit requires setting up $2=e^{3k}$, solving $k=\\frac{\\ln2}{3}\\approx0.231$, and evaluating $P(10)=200e^{10k}\\approx2016$ (accept $\\approx2015$ if $k$ is rounded to 0.231 first).",
+      "common_wrong_answers": [
+        "$k=\\frac23$ — sets $3k=2$ instead of solving $e^{3k}=2$ with a logarithm",
+        "$P(10)=200\\cdot2^{10}$ — counts 10 doublings instead of $\\frac{10}{3}$ doublings",
+        "$k=3\\ln2\\approx2.08$ — multiplies by the 3-hour doubling time instead of dividing"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_2_2_1",
+      "concept_ids": [
+        "con_2_2"
+      ],
+      "objective_ids": [
+        "obj_2_2_2",
+        "obj_2_2_3"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Does the sequence $a_n = \\frac{n}{n+1}$ converge? If so, to what value?",
+      "solution": "Yes; $a_n \\to 1$ as $n\\to\\infty$.",
+      "rubric": "Full credit requires concluding the sequence converges to 1 with justification (e.g., divide numerator and denominator by $n$ to get $\\frac{1}{1+1/n}\\to1$).",
+      "common_wrong_answers": [
+        "Diverges because the terms keep increasing — increasing is not the same as unbounded (the terms stay below 1)",
+        "Limit is 0 — thinks the larger-looking denominator $n+1$ “wins”",
+        "Limit is $\\infty$ — thinks the numerator $n$ “wins” because it grows without bound"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_2_2_2",
+      "concept_ids": [
+        "con_2_2"
+      ],
+      "objective_ids": [
+        "obj_2_2_1",
+        "obj_2_2_2"
+      ],
+      "type": "word_problem",
+      "difficulty": "medium",
+      "prompt": "A drug dose recursion is $a_{n+1} = 0.5a_n + 10$, $a_0 = 0$ (mg, after each dosing interval). Find $a_1, a_2, a_3$ and conjecture the long-run (steady-state) value.",
+      "solution": "$a_1=10,\\ a_2=15,\\ a_3=17.5$; steady state solves $L = 0.5L+10 \\Rightarrow L=20$ mg.",
+      "rubric": "Full credit requires $a_1=10$, $a_2=15$, $a_3=17.5$ computed from the recursion, and a steady-state value of 20 mg from solving $L=0.5L+10$ (or a justified numerical conjecture approaching 20).",
+      "common_wrong_answers": [
+        "Steady state 10 mg — stops after the first dose ($a_1$)",
+        "The amount grows without bound (or reaches 30 mg) — assumes each interval adds another 10 mg with no elimination",
+        "$L=\\frac{10}{1.5}\\approx6.7$ — sign error when moving $0.5L$ across the equation"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_1_1",
+      "concept_ids": [
+        "con_3_1"
+      ],
+      "objective_ids": [
+        "obj_3_1_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Evaluate $\\lim_{x\\to 2}(3x^2 - x)$.",
+      "solution": "$3(4)-2 = 10$.",
+      "rubric": "Full credit requires substituting $x=2$ (justified by the limit laws / continuity of polynomials) to obtain $3(4)-2=10$.",
+      "common_wrong_answers": [
+        "12 — forgets to subtract the linear term",
+        "34 — squares the product, computing $(3\\cdot2)^2-2$ instead of $3\\cdot2^2-2$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_1_2",
+      "concept_ids": [
+        "con_3_1"
+      ],
+      "objective_ids": [
+        "obj_3_1_4"
+      ],
+      "type": "justification",
+      "difficulty": "medium",
+      "prompt": "Explain why $\\lim_{x\\to 0}\\frac{|x|}{x}$ does not exist.",
+      "solution": "The left-hand limit is $-1$ and the right-hand limit is $1$; since the one-sided limits differ, the two-sided limit does not exist.",
+      "rubric": "Full credit requires computing both one-sided limits ($-1$ from the left, $1$ from the right) and concluding that the two-sided limit does not exist because they differ.",
+      "common_wrong_answers": [
+        "The limit is 1 (or $-1$) — evaluates using only one side or assumes $|x|/x=1$",
+        "The limit is 0 — treats $|x|/x$ as $0$ at $x=0$",
+        "It does not exist because the function is undefined at 0 — confuses “undefined at the point” with “limit does not exist” (the reason is that the one-sided limits disagree)"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_1_3",
+      "concept_ids": [
+        "con_3_1"
+      ],
+      "objective_ids": [
+        "obj_3_1_3"
+      ],
+      "type": "proof",
+      "difficulty": "hard",
+      "prompt": "Using the formal definition, show that $\\lim_{x\\to 3}(2x+1)=7$.",
+      "solution": "Let $\\varepsilon>0$ and choose $\\delta=\\varepsilon/2$. If $0<|x-3|<\\delta$, then $|(2x+1)-7|=|2x-6|=2|x-3|<2\\delta=\\varepsilon$. Hence $\\lim_{x\\to3}(2x+1)=7$.",
+      "rubric": "Full credit requires: given $\\varepsilon>0$, choosing $\\delta = \\varepsilon/2$, and correctly showing $0<|x-3|<\\delta \\Rightarrow |(2x+1)-7|=2|x-3|<2\\delta=\\varepsilon$.",
+      "common_wrong_answers": [
+        "Choosing $\\delta=\\varepsilon$ — forgets the factor 2 from the slope, so the bound ends at $2\\varepsilon$",
+        "Choosing $\\delta=2\\varepsilon$ — inverts the relationship between $\\delta$ and $\\varepsilon$",
+        "Testing one numerical $\\varepsilon$ (e.g., 0.1) — verifies a single case, not every $\\varepsilon>0$",
+        "Starting from the conclusion $|f(x)-L|<\\varepsilon$ and never linking back to $|x-a|<\\delta$ — proof written backwards"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_2_1",
+      "concept_ids": [
+        "con_3_2"
+      ],
+      "objective_ids": [
+        "obj_3_2_2"
+      ],
+      "type": "justification",
+      "difficulty": "easy",
+      "prompt": "Classify the discontinuity of $f(x) = \\frac{x^2-4}{x-2}$ at $x=2$.",
+      "solution": "Removable (the factor $x-2$ cancels; the limit exists but $f(2)$ is undefined).",
+      "rubric": "Full credit requires factoring to show the $x-2$ cancels, finding $\\lim_{x\\to2}f(x)=4$ exists, noting $f(2)$ is undefined, and classifying the discontinuity as removable.",
+      "common_wrong_answers": [
+        "Infinite discontinuity (vertical asymptote) — sees a zero in the denominator without checking whether it cancels",
+        "Jump discontinuity — confuses this with unequal one-sided limits",
+        "Continuous at 2 because the limit exists — ignores that $f(2)$ is undefined"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_2_2",
+      "concept_ids": [
+        "con_3_2"
+      ],
+      "objective_ids": [
+        "obj_3_2_3"
+      ],
+      "type": "justification",
+      "difficulty": "medium",
+      "prompt": "Show that $f(x) = x^3 - x - 1$ has a root in $(1,2)$.",
+      "solution": "$f$ is continuous (polynomial); $f(1) = -1 < 0$ and $f(2) = 5 > 0$; by the IVT there exists $c\\in(1,2)$ with $f(c)=0$.",
+      "rubric": "Full credit requires (i) noting $f$ is continuous on $[1,2]$ (polynomial), (ii) evaluating $f(1)=-1<0<5=f(2)$, and (iii) invoking the IVT to conclude a root exists in $(1,2)$.",
+      "common_wrong_answers": [
+        "Solving $x^3-x-1=0$ exactly — treats an existence question as a solving question",
+        "Evaluating $f(1)$ and $f(2)$ but never stating that $f$ is continuous — omits a hypothesis of the IVT",
+        "Concluding the root is unique or located at a specific point — the IVT guarantees existence only"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_3_1",
+      "concept_ids": [
+        "con_3_3"
+      ],
+      "objective_ids": [
+        "obj_3_3_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find $\\lim_{x\\to\\infty}\\frac{3x^2+1}{5x^2-x}$.",
+      "solution": "$3/5$ (divide numerator and denominator by $x^2$).",
+      "rubric": "Full credit requires dividing numerator and denominator by $x^2$ (or comparing leading terms) to obtain $\\frac35$.",
+      "common_wrong_answers": [
+        "$\\infty$ — assumes numerator and denominator both blowing up means the ratio blows up",
+        "1 — treats $\\frac{\\infty}{\\infty}$ as 1 instead of comparing leading coefficients"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_3_2",
+      "concept_ids": [
+        "con_3_3"
+      ],
+      "objective_ids": [
+        "obj_3_3_1",
+        "obj_3_3_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Find all horizontal asymptotes of $f(x) = \\frac{2x+1}{\\sqrt{x^2+1}}$.",
+      "solution": "$y=2$ as $x\\to\\infty$ and $y=-2$ as $x\\to -\\infty$ (the sign of $x$ matters once $\\sqrt{x^2}$ is rewritten as $|x|$).",
+      "rubric": "Full credit requires rewriting $\\sqrt{x^2}=|x|$, dividing through by $|x|$ separately for $x\\to\\infty$ (limit 2) and $x\\to-\\infty$ (limit $-2$), and stating both asymptotes $y=2$ and $y=-2$.",
+      "common_wrong_answers": [
+        "Only $y=2$ — treats $\\sqrt{x^2}$ as $x$ rather than $|x|$, missing the asymptote as $x\\to-\\infty$",
+        "$y=2$ as $x\\to-\\infty$ as well — same $\\sqrt{x^2}=x$ error carried to negative $x$",
+        "No horizontal asymptote — sees a square root and assumes the function is unbounded"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_4_1",
+      "concept_ids": [
+        "con_3_4"
+      ],
+      "objective_ids": [
+        "obj_3_4_3"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Evaluate $\\lim_{x\\to 0}\\frac{\\sin(5x)}{x}$.",
+      "solution": "$5$ (rewrite as $5\\cdot\\frac{\\sin 5x}{5x}$).",
+      "rubric": "Full credit requires rewriting $\\frac{\\sin5x}{x}=5\\cdot\\frac{\\sin5x}{5x}$, applying $\\lim_{u\\to0}\\frac{\\sin u}{u}=1$ with $u=5x$, and stating the limit 5.",
+      "common_wrong_answers": [
+        "1 — applies $\\frac{\\sin x}{x}\\to1$ without adjusting for the $5x$ inside the sine",
+        "$\\frac15$ — divides instead of multiplies when compensating for the factor 5",
+        "0 — substitutes $x=0$ and treats $\\frac{\\sin 0}{0}$ as 0"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_4_2",
+      "concept_ids": [
+        "con_3_4"
+      ],
+      "objective_ids": [
+        "obj_3_4_1"
+      ],
+      "type": "justification",
+      "difficulty": "medium",
+      "prompt": "Given $-x^2 \\le g(x) \\le x^2$ for all $x$, find $\\lim_{x\\to0}g(x)$ and justify using the Sandwich Theorem.",
+      "solution": "$0$, since both bounding functions $\\to 0$ as $x\\to 0$.",
+      "rubric": "Full credit requires observing $\\lim_{x\\to0}(-x^2)=0=\\lim_{x\\to0}x^2$, explicitly invoking the Sandwich Theorem, and concluding $\\lim_{x\\to0}g(x)=0$.",
+      "common_wrong_answers": [
+        "It cannot be determined because $g$ is not given explicitly — does not see that the two bounds pin down the limit",
+        "Answers 0 without naming the theorem or checking that both bounds tend to 0 — right value, incomplete justification"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_5_1",
+      "concept_ids": [
+        "con_3_5"
+      ],
+      "objective_ids": [
+        "obj_3_5_2"
+      ],
+      "type": "justification",
+      "difficulty": "easy",
+      "prompt": "Why is $h(x) = \\sin(x^2+1)$ continuous everywhere?",
+      "solution": "It is a composition of continuous functions ($x^2+1$ is continuous, $\\sin$ is continuous), and compositions of continuous functions are continuous.",
+      "rubric": "Full credit requires identifying $h$ as the composition of the continuous functions $x^2+1$ (a polynomial) and $\\sin$, and citing that compositions of continuous functions are continuous.",
+      "common_wrong_answers": [
+        "“Because sine is continuous” — ignores the inner function $x^2+1$",
+        "“Because its graph has no gaps” — appeals to a picture instead of the composition theorem"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_3_5_2",
+      "concept_ids": [
+        "con_3_5",
+        "con_3_2"
+      ],
+      "objective_ids": [
+        "obj_3_5_3",
+        "obj_3_2_3"
+      ],
+      "type": "justification",
+      "difficulty": "medium",
+      "prompt": "$f$ is continuous on $[0,4]$ with $f(0)=-2$ and $f(4)=6$. Must $f$ attain the value $2$ somewhere in $[0,4]$? Justify.",
+      "solution": "Yes, by the IVT, since $2$ lies between $f(0)$ and $f(4)$ and $f$ is continuous on the interval.",
+      "rubric": "Full credit requires answering yes, citing continuity of $f$ on $[0,4]$, noting $f(0)=-2<2<6=f(4)$, and invoking the IVT.",
+      "common_wrong_answers": [
+        "No — reasons that 2 is neither $f(0)$ nor $f(4)$, so it need not be attained",
+        "Yes because $f$ is increasing — assumes monotonicity, which is not given",
+        "Yes, with no mention of continuity — omits the hypothesis the IVT depends on"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_1_1",
+      "concept_ids": [
+        "con_4_1"
+      ],
+      "objective_ids": [
+        "obj_4_1_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Use the limit definition to find $f'(x)$ for $f(x) = x^2$.",
+      "solution": "$f'(x) = \\lim_{h\\to 0}\\frac{(x+h)^2-x^2}{h} = \\lim_{h\\to0}(2x+h) = 2x$.",
+      "rubric": "Full credit requires writing the difference quotient, expanding $(x+h)^2=x^2+2xh+h^2$, simplifying to $2x+h$, and taking the limit to obtain $2x$.",
+      "common_wrong_answers": [
+        "$2x+h$ — stops before taking the limit as $h\\to0$",
+        "0 — expands $(x+h)^2$ as $x^2+h^2$, dropping the cross term $2xh$",
+        "$\\frac00$ — substitutes $h=0$ directly without simplifying the difference quotient"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_1_2",
+      "concept_ids": [
+        "con_4_1"
+      ],
+      "objective_ids": [
+        "obj_4_1_3"
+      ],
+      "type": "proof",
+      "difficulty": "medium",
+      "prompt": "Show that $f(x)=|x|$ is continuous at $x=0$ but not differentiable there.",
+      "solution": "Continuity: $\\lim_{x\\to0}|x|=0=f(0)$. Differentiability: for $h>0$, $\\frac{|h|-0}{h}=1$, so the right-hand limit is $1$; for $h<0$, $\\frac{|h|-0}{h}=\\frac{-h}{h}=-1$, so the left-hand limit is $-1$. The one-sided limits differ, so $f'(0)$ does not exist.",
+      "rubric": "Full credit requires showing $\\lim_{x\\to0}|x|=0=f(0)$ (continuity), and computing the left-hand difference quotient limit ($-1$) and right-hand limit ($1$) to show they disagree (non-differentiability).",
+      "common_wrong_answers": [
+        "Concluding $f$ is not continuous at 0 because the graph has a corner — confuses a corner with a break",
+        "Claiming $f'(0)=0$ because the minimum occurs at $x=0$ — assumes a horizontal tangent without checking differentiability",
+        "Claiming $f'(0)=1$ — uses only the right-hand difference quotient"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_2_1",
+      "concept_ids": [
+        "con_4_2"
+      ],
+      "objective_ids": [
+        "obj_4_2_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Differentiate $f(x) = 5x^3 - 2x + 7$.",
+      "solution": "$f'(x) = 15x^2-2$.",
+      "rubric": "Full credit requires applying the constant-multiple and sum/difference rules termwise: $15x^2$ from $5x^3$, $-2$ from $-2x$, and $0$ from the constant 7.",
+      "common_wrong_answers": [
+        "$5x^2-2$ — lowers the exponent without multiplying by it",
+        "$15x^2-2+7$ — keeps the constant term instead of differentiating it to 0",
+        "$15x^2-2x+7$ — differentiates only the first term"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_2_2",
+      "concept_ids": [
+        "con_4_2"
+      ],
+      "objective_ids": [
+        "obj_4_2_2"
+      ],
+      "type": "proof",
+      "difficulty": "medium",
+      "prompt": "Prove the constant-multiple rule $\\frac{d}{dx}[cf(x)] = cf'(x)$ from the limit definition.",
+      "solution": "$\\frac{d}{dx}[cf(x)]=\\lim_{h\\to0}\\frac{cf(x+h)-cf(x)}{h}=\\lim_{h\\to0}c\\cdot\\frac{f(x+h)-f(x)}{h}=c\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}=cf'(x)$, using the limit law that a constant factor can be pulled out of a limit (valid wherever $f'(x)$ exists).",
+      "rubric": "Credit for correctly factoring $c$ out of the difference quotient and applying the limit-of-a-constant-times-a-function law.",
+      "common_wrong_answers": [
+        "Writing the difference quotient as $\\frac{cf(x+h)-f(x)}{h}$ — applies $c$ to only one term",
+        "Checking the rule on a few examples instead of proving it in general — not a proof"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_3_1",
+      "concept_ids": [
+        "con_4_3"
+      ],
+      "objective_ids": [
+        "obj_4_3_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Differentiate $f(x) = x^{5}$ and $g(x)=x^{-3}$.",
+      "solution": "$f'(x)=5x^4$, $g'(x) = -3x^{-4}$.",
+      "rubric": "Full credit requires $f'(x)=5x^4$ and $g'(x)=-3x^{-4}$ (equivalently $-\\frac{3}{x^4}$), correctly handling the negative exponent.",
+      "common_wrong_answers": [
+        "$g'(x)=-3x^{-2}$ — adds 1 to the exponent instead of subtracting 1",
+        "$g'(x)=3x^{-4}$ — drops the negative sign when multiplying by the exponent",
+        "$f'(x)=x^4$ — forgets to multiply by the exponent"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_3_2",
+      "concept_ids": [
+        "con_4_3"
+      ],
+      "objective_ids": [
+        "obj_4_3_1",
+        "obj_4_3_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Differentiate $f(x) = 3\\sqrt{x} - \\frac{4}{x^2}$.",
+      "solution": "Rewrite as $3x^{1/2}-4x^{-2}$; $f'(x) = \\frac{3}{2}x^{-1/2}+8x^{-3}$.",
+      "rubric": "Full credit requires rewriting as $3x^{1/2}-4x^{-2}$ before differentiating and obtaining $\\frac32x^{-1/2}+8x^{-3}$.",
+      "common_wrong_answers": [
+        "$\\frac32x^{-1/2}-8x^{-3}$ — keeps the minus sign of $-4x^{-2}$ instead of multiplying by $-2$ to get $+8$",
+        "$\\frac32x^{1/2}+8x^{-1}$ — adds 1 to each exponent instead of subtracting 1",
+        "Treating $\\frac{4}{x^2}$ as a constant because the numerator is a constant — misapplies the constant rule"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_4_1",
+      "concept_ids": [
+        "con_4_4"
+      ],
+      "objective_ids": [
+        "obj_4_4_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Differentiate $f(x) = x^2\\sin x$.",
+      "solution": "$f'(x) = 2x\\sin x + x^2\\cos x$.",
+      "rubric": "Full credit requires identifying $u=x^2$ and $v=\\sin x$ and applying $(uv)'=u'v+uv'$ to obtain $2x\\sin x+x^2\\cos x$.",
+      "common_wrong_answers": [
+        "$2x\\cos x$ — differentiates each factor separately and multiplies (the derivative of a product is not the product of the derivatives)",
+        "$2x\\sin x-x^2\\cos x$ — sign error from mixing up the product and quotient rules"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_4_2",
+      "concept_ids": [
+        "con_4_4"
+      ],
+      "objective_ids": [
+        "obj_4_4_3"
+      ],
+      "type": "error_analysis",
+      "difficulty": "medium",
+      "prompt": "A student writes $\\frac{d}{dx}\\left[\\frac{x^2}{x+1}\\right] = \\frac{2x(x+1)+x^2}{(x+1)^2}$. Identify and correct the error.",
+      "solution": "The sign in the numerator is wrong; the correct quotient rule gives $\\frac{2x(x+1)-x^2}{(x+1)^2} = \\frac{x^2+2x}{(x+1)^2}$.",
+      "rubric": "Full credit requires locating the error (the numerator should be $f'g-fg'$, so the second term is subtracted, not added) and giving the corrected result $\\frac{2x(x+1)-x^2}{(x+1)^2}=\\frac{x^2+2x}{(x+1)^2}$.",
+      "common_wrong_answers": [
+        "$\\frac{2x(x+1)+x^2}{(x+1)^2}$ — the student's answer: adds instead of subtracts $fg'$",
+        "$\\frac{2x}{1}=2x$ — differentiates numerator and denominator separately",
+        "$\\frac{2x(x+1)-x^2}{x+1}$ — correct sign but forgets to square the denominator"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_5_1",
+      "concept_ids": [
+        "con_4_5"
+      ],
+      "objective_ids": [
+        "obj_4_5_1",
+        "obj_4_5_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Differentiate $f(x) = (3x+1)^5$.",
+      "solution": "$f'(x) = 15(3x+1)^4$.",
+      "rubric": "Full credit requires outer function $u^5$ with inner $u=3x+1$, giving $5(3x+1)^4\\cdot3=15(3x+1)^4$.",
+      "common_wrong_answers": [
+        "$5(3x+1)^4$ — forgets to multiply by the derivative of the inner function (3)",
+        "$15(3x+1)^5$ — multiplies by the exponent and inner derivative but does not lower the exponent"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_5_2",
+      "concept_ids": [
+        "con_4_5"
+      ],
+      "objective_ids": [
+        "obj_4_5_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Differentiate $f(x) = \\sin(\\cos(x^2))$.",
+      "solution": "$f'(x) = \\cos(\\cos(x^2))\\cdot(-\\sin(x^2))\\cdot 2x = -2x\\sin(x^2)\\cos(\\cos(x^2))$.",
+      "rubric": "Full credit requires identifying three layers ($\\sin$, $\\cos$, $x^2$) and three factors: $\\cos(\\cos(x^2))\\cdot(-\\sin(x^2))\\cdot2x$.",
+      "common_wrong_answers": [
+        "$\\cos(\\cos(x^2))$ — differentiates only the outermost layer",
+        "$\\cos(\\cos(x^2))\\cdot(-\\sin(x^2))$ — omits the innermost factor $2x$",
+        "$\\cos\\!\\big(-\\sin(x^2)\\cdot2x\\big)$ — places the inner derivatives inside the outer function instead of multiplying"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_5_3",
+      "concept_ids": [
+        "con_4_5"
+      ],
+      "objective_ids": [
+        "obj_4_5_1",
+        "obj_4_5_2"
+      ],
+      "type": "error_analysis",
+      "difficulty": "hard",
+      "prompt": "A student differentiates $f(x)=e^{3x^2}$ and gets $f'(x)=e^{3x^2}$. Identify the missing step.",
+      "solution": "They forgot to multiply by the derivative of the inner function $3x^2$, namely $6x$; correct answer is $f'(x)=6xe^{3x^2}$.",
+      "rubric": "Full credit requires noting the missing factor $\\frac{d}{dx}(3x^2)=6x$ and giving the corrected derivative $6xe^{3x^2}$.",
+      "common_wrong_answers": [
+        "$e^{3x^2}$ — the student's answer: treats $e^u$ as its own derivative with no inner factor",
+        "$3x^2e^{3x^2}$ — multiplies by the inner function instead of its derivative",
+        "$e^{6x}$ — differentiates the exponent and leaves it inside the exponential"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_6_1",
+      "concept_ids": [
+        "con_4_6"
+      ],
+      "objective_ids": [
+        "obj_4_6_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find $dy/dx$ for $x^2+y^2=25$.",
+      "solution": "$2x+2y\\frac{dy}{dx}=0 \\Rightarrow \\frac{dy}{dx} = -\\frac{x}{y}$.",
+      "rubric": "Full credit requires differentiating both sides ($2x+2y\\frac{dy}{dx}=0$, with the chain-rule factor on the $y^2$ term) and solving for $\\frac{dy}{dx}=-\\frac{x}{y}$.",
+      "common_wrong_answers": [
+        "$\\frac{dy}{dx}=-\\frac{y}{x}$ — inverts the ratio when solving for $\\frac{dy}{dx}$",
+        "$2x+2y=0$ — omits the chain-rule factor $\\frac{dy}{dx}$ on the $y^2$ term",
+        "$\\frac{dy}{dx}=\\frac{x}{y}$ — sign slip when moving $2x$ across the equal sign"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_6_2",
+      "concept_ids": [
+        "con_4_6"
+      ],
+      "objective_ids": [
+        "obj_4_6_1",
+        "obj_4_6_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Find the slope of the tangent line to $xy^2 + x^2 = 6$ at the point $(2,1)$.",
+      "solution": "$y^2 + 2xy\\frac{dy}{dx}+2x=0 \\Rightarrow \\frac{dy}{dx} = -\\frac{y^2+2x}{2xy}$; at $(2,1)$: $-\\frac{1+4}{4}=-\\frac{5}{4}$.",
+      "rubric": "Full credit requires the product rule on $xy^2$ (giving $y^2+2xy\\frac{dy}{dx}$), the derivative $2x$ of $x^2$, solving $\\frac{dy}{dx}=-\\frac{y^2+2x}{2xy}$, and evaluating at $(2,1)$ to get $-\\frac54$.",
+      "common_wrong_answers": [
+        "$2xy\\frac{dy}{dx}+2x=0$ — differentiates $xy^2$ without the product rule (drops the $y^2$ from differentiating $x$)",
+        "$y^2+2xy+2x=0$ — omits the factor $\\frac{dy}{dx}$ on the $2xy$ term",
+        "$+\\frac54$ — sign error when isolating $\\frac{dy}{dx}$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_7_1",
+      "concept_ids": [
+        "con_4_7"
+      ],
+      "objective_ids": [
+        "obj_4_7_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find $f''(x)$ for $f(x) = x^4 - 3x^2$.",
+      "solution": "$f'(x) = 4x^3-6x$; $f''(x) = 12x^2-6$.",
+      "rubric": "Full credit requires $f'(x)=4x^3-6x$ and $f''(x)=12x^2-6$.",
+      "common_wrong_answers": [
+        "$4x^3-6x$ — stops after one derivative",
+        "$12x^2-6x$ — differentiates $6x$ as $6x$ instead of 6"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_7_2",
+      "concept_ids": [
+        "con_4_7"
+      ],
+      "objective_ids": [
+        "obj_4_7_2"
+      ],
+      "type": "word_problem",
+      "difficulty": "medium",
+      "prompt": "A particle's position is $s(t) = t^3-6t^2+9t$. Find its acceleration at $t=2$ and state whether it is speeding up or slowing down at that instant (given $s'(2)$).",
+      "solution": "$s''(t)=6t-12$, so $s''(2)=0$; with $s'(2)=3(4)-24+9=-3\\ne0$, acceleration is momentarily zero while velocity is nonzero, so the particle is neither speeding up nor slowing down at that exact instant.",
+      "rubric": "Full credit requires $s''(t)=6t-12$ and $s''(2)=0$, computing $s'(2)=-3\\ne0$, and concluding that at that instant acceleration is zero (speed is momentarily neither increasing nor decreasing) while velocity is nonzero.",
+      "common_wrong_answers": [
+        "The particle is not moving at $t=2$ — confuses zero acceleration with zero velocity",
+        "Slowing down because $s'(2)=-3$ is negative — decides speeding up vs. slowing down from velocity alone rather than comparing velocity and acceleration",
+        "Evaluates $s''(t)=6t-12$ at the wrong time or leaves it unevaluated"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_8_1",
+      "concept_ids": [
+        "con_4_8"
+      ],
+      "objective_ids": [
+        "obj_4_8_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Differentiate $f(x)=\\tan x$.",
+      "solution": "$f'(x) = \\sec^2 x$.",
+      "rubric": "Full credit requires $f'(x)=\\sec^2x$ (a derivation via the quotient rule on $\\frac{\\sin x}{\\cos x}$ is acceptable).",
+      "common_wrong_answers": [
+        "$\\sec x\\tan x$ — confuses the derivative of $\\tan x$ with that of $\\sec x$",
+        "$-\\csc^2x$ — uses the derivative of $\\cot x$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_8_2",
+      "concept_ids": [
+        "con_4_8"
+      ],
+      "objective_ids": [
+        "obj_4_8_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Differentiate $f(x) = x^2\\sec(3x)$.",
+      "solution": "$f'(x) = 2x\\sec(3x) + x^2\\cdot 3\\sec(3x)\\tan(3x) = 2x\\sec(3x)+3x^2\\sec(3x)\\tan(3x)$.",
+      "rubric": "Full credit requires the product rule with $u=x^2$, $v=\\sec(3x)$ and the chain-rule factor 3 in $\\frac{d}{dx}\\sec(3x)=3\\sec(3x)\\tan(3x)$, giving $2x\\sec(3x)+3x^2\\sec(3x)\\tan(3x)$.",
+      "common_wrong_answers": [
+        "$2x\\sec(3x)+x^2\\sec(3x)\\tan(3x)$ — omits the chain-rule factor 3",
+        "$2x\\sec(3x)\\tan(3x)$ — differentiates both factors and multiplies",
+        "$2x\\sec(3x)+x^2\\sec^2(3x)$ — uses the derivative of $\\tan$ in place of that of $\\sec$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_9_1",
+      "concept_ids": [
+        "con_4_9"
+      ],
+      "objective_ids": [
+        "obj_4_9_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Differentiate $f(x) = 3^x$.",
+      "solution": "$f'(x) = 3^x\\ln 3$.",
+      "rubric": "Full credit requires $f'(x)=3^x\\ln3$, distinguishing an exponential function from a power function.",
+      "common_wrong_answers": [
+        "$x\\cdot3^{x-1}$ — applies the power rule to an exponential",
+        "$3^x$ — treats every exponential like $e^x$",
+        "$\\frac{3^x}{\\ln3}$ — divides by $\\ln 3$ (confuses the derivative with the antiderivative)"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_9_2",
+      "concept_ids": [
+        "con_4_9"
+      ],
+      "objective_ids": [
+        "obj_4_9_3"
+      ],
+      "type": "word_problem",
+      "difficulty": "medium",
+      "prompt": "A population is modeled by $P(t)=500e^{0.08t}$. Find the instantaneous growth rate $P'(t)$ and evaluate it at $t=10$.",
+      "solution": "$P'(t) = 40e^{0.08t}$; $P'(10) = 40e^{0.8}\\approx 89.0$ individuals per unit time.",
+      "rubric": "Full credit requires $P'(t)=500(0.08)e^{0.08t}=40e^{0.08t}$, evaluating $P'(10)=40e^{0.8}\\approx89.0$, and stating the result as a rate (individuals per unit time).",
+      "common_wrong_answers": [
+        "$P'(t)=500e^{0.08t}$ — omits the chain-rule factor 0.08",
+        "$P'(t)=500(0.08)t\\,e^{0.08t-1}$ — misapplies the power rule to the exponent",
+        "Reporting $P'(10)$ as a population size — misreads the derivative as the population rather than its rate of change"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_10_1",
+      "concept_ids": [
+        "con_4_10"
+      ],
+      "objective_ids": [
+        "obj_4_10_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Differentiate $f(x) = \\ln(5x)$.",
+      "solution": "$f'(x) = \\frac{1}{x}$.",
+      "rubric": "Full credit requires $\\frac{1}{5x}\\cdot5=\\frac1x$ via the chain rule (or equivalently rewriting as $\\ln5+\\ln x$ before differentiating).",
+      "common_wrong_answers": [
+        "$\\frac{1}{5x}$ — omits the chain-rule factor 5",
+        "$\\frac5x$ — includes the factor 5 in the numerator but forgets the 5 inside $\\frac{1}{5x}$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_10_2",
+      "concept_ids": [
+        "con_4_10"
+      ],
+      "objective_ids": [
+        "obj_4_10_3"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Use logarithmic differentiation to differentiate $f(x) = x^{x}$ ($x>0$).",
+      "solution": "$\\ln f = x\\ln x \\Rightarrow \\frac{f'}{f}=\\ln x + 1 \\Rightarrow f'(x) = x^x(\\ln x+1)$.",
+      "rubric": "Full credit requires taking $\\ln$ of both sides ($\\ln f=x\\ln x$), differentiating implicitly with the product rule ($\\frac{f'}{f}=\\ln x+1$), and multiplying back by $f$ to obtain $x^x(\\ln x+1)$.",
+      "common_wrong_answers": [
+        "$x\\cdot x^{x-1}=x^x$ — applies the power rule to a variable exponent",
+        "$x^x\\ln x$ — applies $b^x\\ln b$ as if the base were constant",
+        "$\\ln x+1$ — solves for $\\frac{f'}{f}$ but forgets to multiply back by $f(x)$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_11_1",
+      "concept_ids": [
+        "con_4_11"
+      ],
+      "objective_ids": [
+        "obj_4_11_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find the linear approximation of $f(x)=\\sqrt{x}$ at $a=25$.",
+      "solution": "$f(25)=5$, $f'(x)=\\frac{1}{2\\sqrt{x}}$, $f'(25)=\\frac{1}{10}$; $L(x) = 5 + \\frac{1}{10}(x-25)$.",
+      "rubric": "Full credit requires $f(25)=5$, $f'(25)=\\frac1{10}$, and $L(x)=5+\\frac1{10}(x-25)$.",
+      "common_wrong_answers": [
+        "$L(x)=5+\\frac{1}{2\\sqrt x}(x-25)$ — leaves $f'(x)$ as a function instead of evaluating $f'(25)$",
+        "$L(x)=5+\\frac1{10}x$ — omits the shift $(x-25)$",
+        "$L(x)=\\frac1{10}(x-25)$ — drops $f(a)=5$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_4_11_2",
+      "concept_ids": [
+        "con_4_11",
+        "con_4_7"
+      ],
+      "objective_ids": [
+        "obj_4_11_2",
+        "obj_4_11_3",
+        "obj_4_7_2"
+      ],
+      "type": "justification",
+      "difficulty": "medium",
+      "prompt": "Use the result above to estimate $\\sqrt{26.5}$, and discuss whether the estimate is likely an over- or under-estimate.",
+      "solution": "$L(26.5)=5+0.15=5.15$; since $\\sqrt{x}$ is concave down, the tangent line lies above the curve, so $5.15$ is a slight overestimate of the true value ($\\approx5.148$).",
+      "rubric": "Full credit requires $L(26.5)=5+0.1(1.5)=5.15$ and a concavity argument ($f''<0$ for $\\sqrt x$, so the tangent line lies above the curve) concluding the estimate is an overestimate.",
+      "common_wrong_answers": [
+        "$5+\\frac1{10}(26.5)=7.65$ — forgets to subtract $a=25$",
+        "An underestimate — assumes tangent lines always lie below the curve",
+        "Cannot say whether it is over- or under-estimated — does not connect concavity to the position of the tangent line"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_1_1",
+      "concept_ids": [
+        "con_5_1"
+      ],
+      "objective_ids": [
+        "obj_5_1_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find the critical points of $f(x) = x^3-3x+1$.",
+      "solution": "$f'(x)=3x^2-3=0 \\Rightarrow x=\\pm1$.",
+      "rubric": "Full credit requires $f'(x)=3x^2-3$, solving $f'(x)=0$ to get $x=\\pm1$, and noting there are no other critical points since $f'$ exists everywhere.",
+      "common_wrong_answers": [
+        "$x=1$ only — drops the negative root of $x^2=1$",
+        "Solving $x^3-3x+1=0$ — finds the roots of $f$ instead of the zeros of $f'$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_1_2",
+      "concept_ids": [
+        "con_5_1",
+        "con_3_2"
+      ],
+      "objective_ids": [
+        "obj_5_1_3",
+        "obj_3_2_3"
+      ],
+      "type": "proof",
+      "difficulty": "medium",
+      "prompt": "Show that $f(x)=x^3+x-1$ has exactly one real root using Rolle's Theorem (by contradiction) together with the IVT.",
+      "solution": "Existence: $f$ is continuous and $f(0)=-1<0<1=f(1)$, so by the IVT $f$ has a root in $(0,1)$. Uniqueness: suppose $f(a)=f(b)=0$ with $a<b$. Since $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, Rolle's Theorem gives some $c\\in(a,b)$ with $f'(c)=0$. But $f'(x)=3x^2+1>0$ for all $x$, a contradiction. Hence $f$ has exactly one real root.",
+      "rubric": "Credit for (i) using IVT to show a root exists (e.g., $f(0)=-1<0<f(1)=1$), and (ii) arguing that $f'(x)=3x^2+1>0$ always, so $f$ is strictly increasing and cannot have two roots (if it did, Rolle's Theorem would require $f'=0$ somewhere between them, a contradiction).",
+      "common_wrong_answers": [
+        "Showing only that a root exists (IVT) and stopping — establishes “at least one,” not “exactly one”",
+        "Arguing only that $f'(x)>0$ so there is exactly one root — a strictly increasing function need not cross zero, so existence is still needed",
+        "Applying Rolle's Theorem without checking $f(a)=f(b)$ — misses a hypothesis"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_2_1",
+      "concept_ids": [
+        "con_5_2"
+      ],
+      "objective_ids": [
+        "obj_5_2_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find the intervals where $f(x)=x^3-3x^2$ is increasing.",
+      "solution": "$f'(x)=3x^2-6x = 3x(x-2)$; increasing on $(-\\infty,0)\\cup(2,\\infty)$.",
+      "rubric": "Full credit requires $f'(x)=3x(x-2)$, a sign analysis of $f'$ on $(-\\infty,0)$, $(0,2)$ and $(2,\\infty)$, and stating increasing on $(-\\infty,0)\\cup(2,\\infty)$.",
+      "common_wrong_answers": [
+        "$(0,2)$ — reports where $f'<0$ (decreasing) instead of increasing",
+        "$(2,\\infty)$ only — ignores the interval $(-\\infty,0)$",
+        "$x=0$ and $x=2$ — reports the critical points instead of intervals"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_2_2",
+      "concept_ids": [
+        "con_5_2"
+      ],
+      "objective_ids": [
+        "obj_5_2_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Determine the concavity of $f(x)=x^4-6x^2$ on all intervals.",
+      "solution": "$f''(x)=12x^2-12=12(x-1)(x+1)$; concave up on $(-\\infty,-1)\\cup(1,\\infty)$, concave down on $(-1,1)$.",
+      "rubric": "Full credit requires $f''(x)=12x^2-12=12(x-1)(x+1)$ and correct intervals: concave up on $(-\\infty,-1)\\cup(1,\\infty)$ and concave down on $(-1,1)$.",
+      "common_wrong_answers": [
+        "Concave up on $(-1,1)$ and concave down elsewhere — reverses the sign convention",
+        "Using the sign of $f'(x)=4x^3-12x$ — confuses monotonicity with concavity",
+        "Reporting only $x=\\pm1$ — gives the locations of sign changes but no intervals"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_3_1",
+      "concept_ids": [
+        "con_5_3"
+      ],
+      "objective_ids": [
+        "obj_5_3_1"
+      ],
+      "type": "justification",
+      "difficulty": "easy",
+      "prompt": "Classify the critical point of $f(x)=x^3$ at $x=0$.",
+      "solution": "Neither a max nor a min ($f'(x)=3x^2\\ge0$ everywhere, so $f$ never decreases).",
+      "rubric": "Full credit requires $f'(x)=3x^2$, noting $f'\\ge0$ on both sides of 0 (no sign change), and concluding $x=0$ is neither a local maximum nor a local minimum.",
+      "common_wrong_answers": [
+        "Local minimum (or maximum) — assumes every critical point is an extremum",
+        "A minimum because $f''(0)=0$ — misreads a zero second derivative as conclusive"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_3_2",
+      "concept_ids": [
+        "con_5_3"
+      ],
+      "objective_ids": [
+        "obj_5_3_1",
+        "obj_5_3_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Find and classify all local extrema and inflection points of $f(x)=x^4-4x^3$.",
+      "solution": "$f'(x)=4x^3-12x^2=4x^2(x-3)$, critical points $x=0,3$; sign analysis shows $f$ decreasing on $(-\\infty,3)$, increasing on $(3,\\infty)$, so $x=3$ is a local min, $x=0$ is neither. $f''(x)=12x^2-24x=12x(x-2)$, sign changes at $x=0$ and $x=2$, so both are inflection points.",
+      "rubric": "Full credit requires $f'(x)=4x^2(x-3)$ with critical points 0 and 3; a sign analysis showing a local minimum at $x=3$ and neither at $x=0$; and $f''(x)=12x(x-2)$ with sign changes at 0 and 2, so both are inflection points.",
+      "common_wrong_answers": [
+        "$x=0$ is a local minimum or maximum — treats the critical point at 0 as an extremum without checking the sign change of $f'$",
+        "Concluding something definite at $x=0$ from the second-derivative test — ignores that $f''(0)=0$ is inconclusive",
+        "Naming only one inflection point, or the zeros of $f'$ instead of $f''$ — confuses the two derivative conditions"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_4_1",
+      "concept_ids": [
+        "con_5_4"
+      ],
+      "objective_ids": [
+        "obj_5_4_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "A rectangle has perimeter 40. Write its area as a function of one side length $x$.",
+      "solution": "$A(x) = x(20-x)$.",
+      "rubric": "Full credit requires the constraint $2x+2y=40\\Rightarrow y=20-x$ and substitution to obtain $A(x)=x(20-x)$.",
+      "common_wrong_answers": [
+        "$A(x)=x(40-x)$ — uses $x+y=40$ instead of the perimeter condition $2x+2y=40$",
+        "$A=xy$ — leaves two variables and never substitutes the constraint"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_4_2",
+      "concept_ids": [
+        "con_5_4"
+      ],
+      "objective_ids": [
+        "obj_5_4_2",
+        "obj_5_4_3"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Find the dimensions of the rectangle in the previous question that maximize area, and confirm it is a maximum.",
+      "solution": "$A'(x)=20-2x=0\\Rightarrow x=10$; $A''(x)=-2<0$ confirms a maximum; the rectangle is a $10\\times10$ square, area $100$.",
+      "rubric": "Full credit requires $A'(x)=20-2x=0\\Rightarrow x=10$, a justification of the maximum ($A''=-2<0$ or an endpoint/sign check), and stating the dimensions $10\\times10$ (area 100).",
+      "common_wrong_answers": [
+        "$x=20$ — sets $A(x)=0$ instead of $A'(x)=0$",
+        "Stops at $x=10$ without confirming it is a maximum — omits the second-derivative or sign test",
+        "Gives $x=10$ but not the other dimension or the area — does not answer “what are the dimensions”"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_4_3",
+      "concept_ids": [
+        "con_5_4"
+      ],
+      "objective_ids": [
+        "obj_5_4_1",
+        "obj_5_4_2",
+        "obj_5_4_3"
+      ],
+      "type": "word_problem",
+      "difficulty": "hard",
+      "prompt": "A culture's growth rate depends on nutrient concentration $c$ via $R(c) = \\frac{c}{1+c^2}$. Find the nutrient concentration that maximizes the growth rate.",
+      "solution": "$R'(c) = \\frac{(1+c^2)-c(2c)}{(1+c^2)^2} = \\frac{1-c^2}{(1+c^2)^2}=0 \\Rightarrow c=1$ (taking $c>0$); sign change from positive to negative confirms a maximum at $c=1$.",
+      "rubric": "Full credit requires the quotient rule to get $R'(c)=\\frac{1-c^2}{(1+c^2)^2}$, solving $R'(c)=0$ with $c>0$ to get $c=1$, and confirming a maximum via the sign change of $R'$ from positive to negative.",
+      "common_wrong_answers": [
+        "$c=\\pm1$ — ignores that a concentration cannot be negative",
+        "$c=0$ — sets the numerator of $R$ to zero or treats the quotient like a product",
+        "$c=1$ with no confirmation — does not verify a maximum via the sign of $R'$ or an endpoint comparison"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_5_1",
+      "concept_ids": [
+        "con_5_5"
+      ],
+      "objective_ids": [
+        "obj_5_5_1",
+        "obj_5_5_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Evaluate $\\lim_{x\\to 0}\\frac{\\sin x}{x}$ using L'Hôpital's Rule.",
+      "solution": "Form is $0/0$; differentiate top and bottom: $\\lim_{x\\to0}\\frac{\\cos x}{1}=1$.",
+      "rubric": "Full credit requires verifying the form $\\frac00$, differentiating numerator and denominator separately to get $\\frac{\\cos x}{1}$, and evaluating the limit as 1.",
+      "common_wrong_answers": [
+        "Applying the quotient rule to $\\frac{\\sin x}{x}$ — differentiates the whole fraction instead of numerator and denominator separately",
+        "Substituting $x=0$ and reporting $0$ or “undefined” — does not recognize the $\\frac00$ form",
+        "Skipping the check that the form is $\\frac00$ — applies the rule without verifying its hypothesis"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_5_2",
+      "concept_ids": [
+        "con_5_5"
+      ],
+      "objective_ids": [
+        "obj_5_5_2",
+        "obj_5_5_3"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Evaluate $\\lim_{x\\to\\infty} x e^{-x}$.",
+      "solution": "Rewrite as $\\lim_{x\\to\\infty}\\frac{x}{e^{x}}$, form $\\infty/\\infty$; apply L'Hôpital: $\\lim_{x\\to\\infty}\\frac{1}{e^x}=0$.",
+      "rubric": "Full credit requires rewriting $xe^{-x}=\\frac{x}{e^x}$, verifying the $\\frac\\infty\\infty$ form, applying L'Hôpital's Rule to get $\\frac1{e^x}$, and concluding the limit is 0.",
+      "common_wrong_answers": [
+        "0 — treats $\\infty\\cdot0$ as 0",
+        "Applying L'Hôpital directly to $xe^{-x}$ — the product is not yet in $\\frac00$ or $\\frac\\infty\\infty$ form",
+        "Using the quotient rule on $\\frac{x}{e^x}$ — confuses L'Hôpital's Rule with differentiating a quotient"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_10_1",
+      "concept_ids": [
+        "con_5_10"
+      ],
+      "objective_ids": [
+        "obj_5_10_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find the general antiderivative of $f(x) = 4x^3 + \\sin x$.",
+      "solution": "$F(x) = x^4 - \\cos x + C$.",
+      "rubric": "Full credit requires $x^4$ from $4x^3$, $-\\cos x$ from $\\sin x$, and the constant of integration $+C$.",
+      "common_wrong_answers": [
+        "$x^4+\\cos x+C$ — sign error in the antiderivative of $\\sin x$",
+        "$12x^2+\\cos x$ — differentiates instead of integrating",
+        "$x^4-\\cos x$ — omits the constant of integration"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_5_10_2",
+      "concept_ids": [
+        "con_5_10"
+      ],
+      "objective_ids": [
+        "obj_5_10_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Find $f(x)$ given $f'(x) = 6x^2 - 2$ and $f(1) = 5$.",
+      "solution": "$f(x) = 2x^3-2x+C$; $f(1)=2-2+C=5\\Rightarrow C=5$, so $f(x)=2x^3-2x+5$.",
+      "rubric": "Full credit requires the general antiderivative $2x^3-2x+C$ and using $f(1)=5$ to find $C=5$.",
+      "common_wrong_answers": [
+        "$2x^3-2x$ (or $+C$ left unresolved) — stops before using the initial condition",
+        "$12x-2$ — differentiates instead of integrating",
+        "Substituting $x=1$ into $f'$ (getting 4) instead of into $f$ — applies the initial condition to the wrong function"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_6_1_1",
+      "concept_ids": [
+        "con_6_1"
+      ],
+      "objective_ids": [
+        "obj_6_1_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Approximate $\\int_0^2 x^2\\,dx$ using a right-endpoint Riemann sum with $n=4$ rectangles.",
+      "solution": "$\\Delta x = 0.5$; right endpoints $0.5,1,1.5,2$; sum $=0.5(0.25+1+2.25+4)=3.75$.",
+      "rubric": "Full credit requires $\\Delta x=0.5$, right endpoints $0.5,1,1.5,2$, and the sum $0.5(0.25+1+2.25+4)=3.75$.",
+      "common_wrong_answers": [
+        "1.75 — uses left endpoints instead of right endpoints",
+        "7.5 — forgets to multiply the sum of heights by $\\Delta x=0.5$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_6_1_2",
+      "concept_ids": [
+        "con_6_1"
+      ],
+      "objective_ids": [
+        "obj_6_1_2"
+      ],
+      "type": "justification",
+      "difficulty": "medium",
+      "prompt": "Interpret $\\int_{-2}^{2}x\\,dx = 0$ geometrically, and explain why this does not mean the region has zero area.",
+      "solution": "The integral gives signed area; the region above the axis on $[0,2]$ and below the axis on $[-2,0]$ have equal magnitude but opposite sign, so they cancel, even though the total (unsigned) area enclosed is nonzero.",
+      "rubric": "Full credit requires explaining that the integral measures signed area, that the triangle above the axis on $[0,2]$ and the triangle below on $[-2,0]$ have equal magnitude and opposite sign, and that the unsigned area is 4, not 0.",
+      "common_wrong_answers": [
+        "The area is 0 because the integral is 0 — conflates signed area with total area",
+        "The integral should equal the enclosed area, 4 — ignores that regions below the axis count negatively"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_6_2_1",
+      "concept_ids": [
+        "con_6_2"
+      ],
+      "objective_ids": [
+        "obj_6_2_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Evaluate $\\int_1^3 (2x+1)\\,dx$ using FTC Part 2.",
+      "solution": "Antiderivative $x^2+x$; $(9+3)-(1+1)=10$.",
+      "rubric": "Full credit requires the antiderivative $F(x)=x^2+x$ and $F(3)-F(1)=12-2=10$.",
+      "common_wrong_answers": [
+        "$-10$ — subtracts in the wrong order, $F(1)-F(3)$",
+        "4 — evaluates the integrand $2x+1$ at the endpoints instead of an antiderivative",
+        "12 — evaluates only $F(3)$ and forgets to subtract $F(1)$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_6_2_2",
+      "concept_ids": [
+        "con_6_2"
+      ],
+      "objective_ids": [
+        "obj_6_2_3"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Let $g(x) = \\int_0^x \\sqrt{t^2+1}\\,dt$. Find $g'(x)$.",
+      "solution": "By FTC Part 1, $g'(x) = \\sqrt{x^2+1}$.",
+      "rubric": "Full credit requires identifying $g$ as an accumulation function and applying FTC Part 1 to conclude $g'(x)=\\sqrt{x^2+1}$ (with $t$ replaced by $x$), with no antiderivative needed.",
+      "common_wrong_answers": [
+        "Trying to find an antiderivative of $\\sqrt{t^2+1}$ first — an unnecessary route; FTC Part 1 gives $g'$ directly",
+        "$\\sqrt{t^2+1}$ — leaves the dummy variable $t$ in the answer",
+        "$\\frac{x}{\\sqrt{x^2+1}}$ — differentiates the integrand instead of applying FTC Part 1"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_6_3_1",
+      "concept_ids": [
+        "con_6_3"
+      ],
+      "objective_ids": [
+        "obj_6_3_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Find the area between $y=x^2$ and $y=4$ on the interval where $x^2 \\le 4$.",
+      "solution": "$\\int_{-2}^{2}(4-x^2)\\,dx = \\left[4x-\\frac{x^3}{3}\\right]_{-2}^{2} = \\frac{32}{3}$.",
+      "rubric": "Full credit requires the intersection points $x=\\pm2$, the setup $\\int_{-2}^{2}(4-x^2)\\,dx$ (upper minus lower), and the value $\\frac{32}{3}$.",
+      "common_wrong_answers": [
+        "$-\\frac{32}{3}$ — subtracts in the wrong order, giving a negative area",
+        "$\\frac{16}{3}$ — integrates over $[0,2]$ only, counting half of the symmetric region",
+        "Using limits $-4$ to $4$ — takes the $y$-value 4 as an $x$-limit"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_6_3_2",
+      "concept_ids": [
+        "con_6_3"
+      ],
+      "objective_ids": [
+        "obj_6_3_3"
+      ],
+      "type": "word_problem",
+      "difficulty": "medium",
+      "prompt": "A population's growth rate is $R(t) = 50e^{0.1t}$ individuals/year. Find the total population increase between $t=0$ and $t=5$.",
+      "solution": "$\\int_0^5 50e^{0.1t}\\,dt = 500\\left(e^{0.5}-1\\right) \\approx 500(0.6487)\\approx 324.4$ individuals.",
+      "rubric": "Full credit requires the setup $\\int_0^5 50e^{0.1t}\\,dt$, the antiderivative $500e^{0.1t}$, the evaluation $500(e^{0.5}-1)$, and the value $\\approx324$ individuals.",
+      "common_wrong_answers": [
+        "$R(5)=50e^{0.5}\\approx82.4$ — evaluates the rate at $t=5$ instead of integrating it",
+        "$50(e^{0.5}-1)\\approx32.4$ — antiderivative is missing the factor $\\frac{1}{0.1}=10$",
+        "$500e^{0.5}\\approx824$ — forgets to subtract the value at the lower limit"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_7_1_1",
+      "concept_ids": [
+        "con_7_1"
+      ],
+      "objective_ids": [
+        "obj_7_1_1",
+        "obj_7_1_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Evaluate $\\int 2x(x^2+1)^4\\,dx$.",
+      "solution": "Let $u=x^2+1$, $du=2x\\,dx$; integral $=\\int u^4\\,du = \\frac{u^5}{5}+C = \\frac{(x^2+1)^5}{5}+C$.",
+      "rubric": "Full credit requires $u=x^2+1$, $du=2x\\,dx$, $\\int u^4\\,du=\\frac{u^5}{5}+C$, and back-substitution to $\\frac{(x^2+1)^5}{5}+C$.",
+      "common_wrong_answers": [
+        "$\\frac{2x(x^2+1)^5}{5}+C$ — applies the power rule to the outer function without accounting for $du$",
+        "$(x^2+1)^5+C$ — forgets to divide by the new exponent",
+        "$\\frac{(x^2+1)^5}{5}$ — omits $+C$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_7_1_2",
+      "concept_ids": [
+        "con_7_1"
+      ],
+      "objective_ids": [
+        "obj_7_1_2",
+        "obj_7_1_3"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Evaluate $\\int_0^{2} x e^{x^2}\\,dx$, changing the limits of integration explicitly.",
+      "solution": "$u=x^2$, $du=2x\\,dx$; when $x=0, u=0$; when $x=2, u=4$; integral $=\\frac12\\int_0^4 e^u\\,du = \\frac12(e^4-1)$.",
+      "rubric": "Full credit requires $u=x^2$, $du=2x\\,dx$, converting the limits ($0\\to0$, $2\\to4$), and evaluating $\\frac12\\int_0^4e^u\\,du=\\frac12(e^4-1)$.",
+      "common_wrong_answers": [
+        "$e^4-1$ — forgets the factor $\\frac12$ that comes from $du=2x\\,dx$",
+        "$\\frac12(e^2-1)$ — substitutes but keeps the original limits $0$ to $2$ on $\\int e^u\\,du$",
+        "Converting back to $x$ but still using the $u$-limits (or the reverse) — mixes variables and limits"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_7_2_1",
+      "concept_ids": [
+        "con_7_2"
+      ],
+      "objective_ids": [
+        "obj_7_2_2"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Evaluate $\\int x e^{x}\\,dx$.",
+      "solution": "$u=x, dv=e^x dx$; $=xe^x - \\int e^x\\,dx = xe^x-e^x+C$.",
+      "rubric": "Full credit requires $u=x$, $dv=e^x\\,dx$, $uv-\\int v\\,du=xe^x-\\int e^x\\,dx$, and the result $xe^x-e^x+C$.",
+      "common_wrong_answers": [
+        "$\\frac{x^2}{2}e^x+C$ — integrates each factor separately",
+        "$xe^x+e^x+C$ — sign error in the integration-by-parts formula"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_7_2_2",
+      "concept_ids": [
+        "con_7_2"
+      ],
+      "objective_ids": [
+        "obj_7_2_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Evaluate $\\int x^2 e^{x}\\,dx$ (requires integration by parts twice).",
+      "solution": "$=x^2e^x - 2xe^x+2e^x+C$ (first pass: $u=x^2$; second pass on the resulting $\\int 2xe^x\\,dx$: $u=2x$).",
+      "rubric": "Full credit requires two applications of integration by parts (first $u=x^2$, then $u=2x$), correct sign tracking, and the result $x^2e^x-2xe^x+2e^x+C$.",
+      "common_wrong_answers": [
+        "$x^2e^x-2xe^x+C$ — stops after the first pass and mishandles the remaining $\\int 2xe^x\\,dx$",
+        "$x^2e^x-2xe^x-2e^x+C$ — sign error on the second pass",
+        "$\\frac{x^3}{3}e^x+C$ — integrates each factor separately"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_7_2_3",
+      "concept_ids": [
+        "con_7_2"
+      ],
+      "objective_ids": [
+        "obj_7_2_2"
+      ],
+      "type": "error_analysis",
+      "difficulty": "hard",
+      "prompt": "A student sets $u=e^x$, $dv=x\\,dx$ for $\\int xe^x\\,dx$ and gets stuck. Explain why this choice is unproductive and what the better choice is.",
+      "solution": "This choice makes $v=\\frac{x^2}{2}$, producing a more complicated integral $\\int \\frac{x^2}{2}e^x\\,dx$; the better choice is $u=x$ (which differentiates to something simpler) and $dv=e^x\\,dx$ (which is easy to integrate).",
+      "rubric": "Full credit requires noting that $dv=x\\,dx$ gives $v=\\frac{x^2}{2}$ and a new integral $\\int\\frac{x^2}{2}e^x\\,dx$ that is harder than the original, and recommending $u=x$, $dv=e^x\\,dx$ (so $du=dx$, $v=e^x$).",
+      "common_wrong_answers": [
+        "“The choice is fine; just keep integrating” — does not notice the new integral is harder",
+        "“This integral cannot be done by parts” — blames the method rather than the choice of $u$ and $dv$",
+        "Switches to $u=x$, $dv=e^x\\,dx$ without explaining why the original choice failed"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_7_3_1",
+      "concept_ids": [
+        "con_7_3"
+      ],
+      "objective_ids": [
+        "obj_7_3_1"
+      ],
+      "type": "computation",
+      "difficulty": "easy",
+      "prompt": "Decompose $\\frac{5x-1}{(x-1)(x+2)}$ into partial fractions.",
+      "solution": "$\\frac{5x-1}{(x-1)(x+2)} = \\frac{A}{x-1}+\\frac{B}{x+2}$; solving gives $A=\\frac{4}{3}$, $B=\\frac{11}{3}$.",
+      "rubric": "Full credit requires the setup $\\frac{A}{x-1}+\\frac{B}{x+2}$ and a correct coefficient system (or cover-up evaluation) giving $A=\\frac43$ and $B=\\frac{11}{3}$.",
+      "common_wrong_answers": [
+        "$A=5$, $B=-1$ — reads the coefficients off the numerator",
+        "$A=\\frac{11}{3}$, $B=\\frac43$ — swaps $A$ and $B$ (evaluates at the wrong roots)",
+        "$B=-\\frac{11}{3}$ — sign error when evaluating at $x=-2$"
+      ],
+      "requires_figure": false
+    },
+    {
+      "id": "q_7_3_2",
+      "concept_ids": [
+        "con_7_3"
+      ],
+      "objective_ids": [
+        "obj_7_3_2"
+      ],
+      "type": "computation",
+      "difficulty": "medium",
+      "prompt": "Evaluate $\\int \\frac{5x-1}{(x-1)(x+2)}\\,dx$ using the decomposition above.",
+      "solution": "$\\frac{4}{3}\\ln|x-1| + \\frac{11}{3}\\ln|x+2| + C$.",
+      "rubric": "Full credit requires integrating each term as $A\\ln|x-a|$ using the decomposition from the previous part and stating $\\frac43\\ln|x-1|+\\frac{11}{3}\\ln|x+2|+C$.",
+      "common_wrong_answers": [
+        "$\\frac43\\ln(x-1)+\\frac{11}3\\ln(x+2)$ — omits absolute values and $+C$",
+        "$\\ln|(x-1)(x+2)|+C$ — treats the numerator as the derivative of the denominator",
+        "Applying the power rule to $\\frac{A}{x-1}$ — tries $\\int x^{-1}dx=\\frac{x^0}{0}$"
+      ],
+      "requires_figure": false
+    }
+  ]
+}

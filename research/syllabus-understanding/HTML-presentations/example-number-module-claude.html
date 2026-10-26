@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module Breakdown — Number Theory | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
+  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
+    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
+  .backlink:hover{opacity:1}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
+  .p-under{background:#EFE4D5; color:#8A5A2A}
+  .p-mast{background:#EADFD7; color:#9A5030}
+  .p-phd{background:#F4DED3; color:#B0472E}
+  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
+  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
+  .yes{color:var(--green); font-weight:700}
+  .no{color:var(--red); font-weight:700}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:1rem}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
+  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
+  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
+  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
+  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .stars{color:var(--amber); letter-spacing:2px}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
+    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
+  .btn:hover{background:var(--navy)}
+  .exlink-wrap{margin-top:18px}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+
+  /* ---- Example-output rendering ---- */
+  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
+  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
+  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
+  .exhead p{margin:0; opacity:.85; font-size:.85rem}
+  .exbody{padding:22px 24px; background:var(--paper)}
+  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
+  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
+  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
+  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
+  .exdoc li{margin:3px 0; font-size:.92rem}
+  .exdoc table{font-size:.86rem}
+  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
+  .diffcard .dt{color:var(--red); font-weight:700}
+  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
+  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
+  .qa .ans{color:var(--muted); display:block; margin-top:3px}
+  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
+  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
+  @media(max-width:720px){.pdfbox iframe{height:520px}}
+  .promptbox{border:1px solid var(--line); border-left:4px solid var(--steel); border-radius:0 10px 10px 0; background:var(--soft); padding:18px 22px; margin-top:16px}
+  .promptbox .ph{font-weight:700; color:var(--navy); font-size:1.05rem; margin:0 0 4px}
+  .promptbox .pmeta{font-size:.82rem; color:var(--muted); margin:0 0 12px}
+  .promptbox .ptext{font-size:.9rem; line-height:1.5}
+  .promptbox ol{padding-left:20px; margin:8px 0}
+  .promptbox ol>li{margin:7px 0}
+  .promptbox ul{padding-left:20px; margin:4px 0}
+  .promptbox .ctx{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:.87rem}
+  .promptbox code{background:var(--paper)}
+  .promptbox .rules{margin-top:12px; padding-top:10px; border-top:1px dashed #D8CFBF}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+
+  .kdbox{border:1px solid #b9c7e6; background:#eef3fb; border-left:4px solid #2f4f8f; border-radius:0 8px 8px 0; padding:10px 14px; margin:10px 0; font-size:.9rem}
+  .kdbox .t{font-weight:700; color:#2f4f8f; display:block; margin-bottom:4px}
+  .inbox{border:1px solid #e6d8a8; background:#fbf6e6; border-left:4px solid #b8860b; border-radius:0 8px 8px 0; padding:10px 14px; margin:10px 0; font-size:.9rem}
+  .inbox .t{font-weight:700; color:#8a6508; display:block; margin-bottom:4px}
+  .bridgebox{border:1px solid #bcd8c2; background:#ecf6ee; border-left:4px solid var(--green); border-radius:0 8px 8px 0; padding:10px 14px; margin:10px 0; font-size:.9rem}
+  .bridgebox .t{font-weight:700; color:var(--green); display:block; margin-bottom:4px}</style>
+<script>
+  window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+<header class="hero">
+  <a class="backlink" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p class="kicker">Digital Professor · Example · Module Breakdown</p>
+  <h1>Claude — Module-Level Teaching Package</h1>
+  <p>The first module of the PhD Number Theory course — <em>Dedekind Domains and Ramification</em> — expanded into a full teaching package.</p>
+</header>
+
+<section id="example">
+  <h2>What "Good" Looks Like — a PhD Module, in Depth</h2>
+  <p class="lead">The module-breakdown step applied to the first module of the PhD Number Theory course: <em>Dedekind Domains and Ramification</em>.</p>
+  <p>This takes one module from the course design and expands it into a 7–8 session teaching package — concepts, boxed key definitions, prerequisites, a "connecting to prior learning" bridge, concept-level difficulty analysis, worked examples, and a numerical question bank.</p>
+
+  <div class="callout">
+    <strong>What I gave the model:</strong> the module scope (Dedekind domains and ramification, including the Galois-theoretic side) plus intake answers — <em>7–8 sessions, a numerical question bank, no calculators, spread evenly across topics, Galois side included in full</em>.
+  </div>
+
+  <div class="exwrap">
+    <div class="exhead">
+      <h3>Module: Dedekind Domains and Ramification</h3>
+      <p>Module-breakdown method · 7 core sessions (+1 optional) · numerical question bank · pen-and-paper</p>
+    </div>
+    <div class="exbody exdoc">
+
+      <h4>1 · Intake Settings (stated as assumptions)</h4>
+      <ul>
+        <li><strong>Session count:</strong> 7 core sessions plus an optional Session 8 (Frobenius in cyclotomic fields &amp; quadratic reciprocity) — droppable, nothing earlier depends on it.</li>
+        <li><strong>Question bank:</strong> numerical, explicit computations in specific rings/fields; hand-sized numbers (primes below 30).</li>
+        <li><strong>Assumed audience:</strong> first-year graduate students who know Galois theory (incl. finite fields), basic commutative algebra, and elementary number theory.</li>
+      </ul>
+
+      <h4>2 · Key Definitions (stated verbatim in lecture)</h4>
+      <div class="kdbox"><span class="t">Dedekind domain</span>An integral domain that is Noetherian, integrally closed, and of Krull dimension one (every nonzero prime ideal is maximal) — equivalently, every nonzero fractional ideal is invertible.</div>
+      <div class="kdbox"><span class="t">Ramification index &amp; residue degree</span>For $\mathfrak{P}$ above $p$ with $p\mathcal{O}_K = \prod \mathfrak{P}_i^{e_i}$, the exponent $e_i$ is the ramification index and $f_i=[\,\mathcal{O}_K/\mathfrak{P}_i : \mathbb{F}_p\,]$ the residue degree, with $\sum e_i f_i = [K:\mathbb{Q}]$.</div>
+
+      <h4>3 · Question Bank (samples)</h4>
+      <div class="qa"><span class="qtype">Basic</span> Factor $(2)$ in $\mathbb{Z}[i]$ and verify the fundamental identity $\sum e_i f_i = n$.<span class="ans">Solution: $(2) = (1+i)^2$, so $e=2, f=1, n=2$ and $2\cdot 1 = 2$. (2 ramifies, since $2\mid \operatorname{disc}\mathbb{Q}(i)$.)</span></div>
+      <div class="qa"><span class="qtype">Advanced</span> Compute the Frobenius at $p=2$ in $\mathbb{Q}(\zeta_7)/\mathbb{Q}$ and determine the splitting of $2$.<span class="ans">Solution: the order of $2$ mod $7$ is $3$, so $f=3$; there are three unramified primes above $2$, each of residue degree $3$.</span></div>
+
+      <h4>The Complete Compiled Teaching Package (27 pages)</h4>
+      <p class="exnote">The full module breakdown exactly as it compiles from LaTeX to PDF.</p>
+      <div class="pdfbox">
+        <iframe src="../module-breakdown-examples/Number_Module_Claude.pdf#view=FitH" title="../module-breakdown-examples/Number_Module_Claude.pdf" loading="lazy"></iframe>
+      </div>
+      <p class="exnote">If the preview doesn't load, <a href="../module-breakdown-examples/Number_Module_Claude.pdf" target="_blank" rel="noopener">open the PDF in a new tab</a> (27 pages · compiled with pdfLaTeX).</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a class="btn" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p style="margin-top:16px">Digital Professor · Research / Syllabus Understanding · module-level breakdown</p>
+</footer>
+
+</body>
+</html>

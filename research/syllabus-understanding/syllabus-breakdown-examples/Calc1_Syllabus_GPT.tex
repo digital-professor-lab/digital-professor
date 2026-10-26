@@ -1,0 +1,1354 @@
+\documentclass[11pt]{article}
+
+% ------------------------------------------------------------
+% Packages
+% ------------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+% ------------------------------------------------------------
+% Formatting
+% ------------------------------------------------------------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\titleformat{\section}
+  {\large\bfseries}
+  {\thesection}
+  {0.5em}
+  {}
+
+\titleformat{\subsection}
+  {\normalsize\bfseries}
+  {\thesubsection}
+  {0.5em}
+  {}
+
+\titleformat{\subsubsection}
+  {\normalsize\itshape\bfseries}
+  {\thesubsubsection}
+  {0.5em}
+  {}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{AS.110.106 Calculus I}
+\lhead{Johns Hopkins University}
+\cfoot{\thepage}
+
+% ------------------------------------------------------------
+% Custom commands
+% ------------------------------------------------------------
+\newcommand{\topic}[1]{\textbf{#1}}
+\newcommand{\important}[1]{\textbf{Important:} #1}
+
+% ------------------------------------------------------------
+% Document
+% ------------------------------------------------------------
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{AS.110.106 Calculus I}}\\[4pt]
+    {\Large Biology and Social Sciences}\\[8pt]
+    {\large Full Course Structure and Learning Framework}\\[12pt]
+    Department of Mathematics\\
+    Johns Hopkins University
+\end{center}
+
+\vspace{0.5cm}
+
+\section*{1. Course Overview}
+
+\textbf{Course:} AS.110.106 Calculus I (Biology and Social Sciences)
+
+\textbf{Primary Text:}
+\begin{quote}
+Calculus for Biology and Medicine, 4th Edition,
+C. Neuhauser and M. Roper, Boston: Pearson Education, January 2018.
+\end{quote}
+
+\textbf{ISBN-10:} 0134070046
+
+\textbf{ISBN-13:} 978-0134070049
+
+The course develops the fundamental ideas of single-variable calculus, beginning
+with a review of functions and exponential models and progressing through limits,
+continuity, differentiation, applications of differentiation, integration, and
+applications of the integral.
+
+The official syllabus organizes the course into the following major blocks:
+
+\begin{enumerate}
+    \item Review of Basic Properties of Functions
+    \item Limits and Continuity
+    \item Derivatives
+    \item Applications of Differentiation
+    \item Integration
+    \item Applications of the Integral
+\end{enumerate}
+
+The first five major blocks occupy approximately ten weeks, while applications
+of the integral occupy one or more additional weeks.
+
+% ============================================================
+\section{2. Course Structure}
+% ============================================================
+
+\begin{longtable}{p{0.08\textwidth} p{0.27\textwidth} p{0.15\textwidth} p{0.40\textwidth}}
+\toprule
+\textbf{No.} & \textbf{Major Topic} & \textbf{Approx. Time} &
+\textbf{Core Sections} \\
+\midrule
+1 & Review of Basic Properties of Functions & 2 weeks &
+Chapter 1; 2.1; 2.2 \\
+2 & Limits and Continuity & 2 weeks &
+3.1--3.5, with formal definitions from 3.6 \\
+3 & Derivatives & 3 weeks &
+4.1--4.11 \\
+4 & Applications of Differentiation & 2+ weeks &
+5.1--5.5 \\
+5 & Integration & 2 weeks &
+5.10; 6.1--6.3 \\
+6 & Applications of the Integral & 1+ week &
+7.1--7.3 \\
+\bottomrule
+\end{longtable}
+
+\important{The time allocations above follow the official syllabus.}
+
+% ============================================================
+\section{3. Prerequisite Knowledge}
+% ============================================================
+
+Before beginning the course, students should be comfortable with the following
+mathematical ideas. These are prerequisite competencies needed to successfully
+engage with the syllabus topics.
+
+\subsection{Algebraic Skills}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Simplify algebraic expressions.
+    \item Factor polynomials.
+    \item Solve linear and quadratic equations.
+    \item Solve basic systems of equations.
+    \item Work with rational expressions.
+    \item Manipulate fractions and exponents.
+    \item Use laws of exponents.
+    \item Simplify radicals.
+    \item Rearrange equations to solve for a specified variable.
+\end{itemize}
+
+\subsection{Function Skills}
+
+Students should understand:
+
+\begin{itemize}
+    \item Function notation.
+    \item Domain and range.
+    \item Graphs of functions.
+    \item Linear and polynomial functions.
+    \item Rational functions.
+    \item Exponential functions.
+    \item Basic trigonometric functions.
+    \item Composition of functions.
+    \item Inverse functions.
+\end{itemize}
+
+\subsection{Trigonometric Skills}
+
+Students should be familiar with:
+
+\begin{itemize}
+    \item Sine, cosine, and tangent.
+    \item Basic trigonometric identities.
+    \item The unit circle.
+    \item Important trigonometric limits and identities.
+    \item Graphs of the basic trigonometric functions.
+\end{itemize}
+
+% ============================================================
+\section{4. Major Course Learning Objectives}
+% ============================================================
+
+By the end of the course, students should be able to:
+
+\begin{enumerate}
+    \item Analyze and manipulate common classes of functions.
+    \item Interpret exponential growth and decay models.
+    \item Work with sequences and their limiting behavior.
+    \item Understand limits as the foundation of differential and integral calculus.
+    \item Determine whether functions are continuous.
+    \item Evaluate limits algebraically and graphically.
+    \item Understand the formal definition of a limit.
+    \item Apply the Sandwich Theorem to appropriate limit problems.
+    \item Compute derivatives using the definition of the derivative.
+    \item Differentiate functions using standard differentiation rules.
+    \item Apply the product, quotient, and chain rules.
+    \item Differentiate implicitly defined functions.
+    \item Calculate and interpret higher derivatives.
+    \item Differentiate trigonometric, exponential, and inverse functions.
+    \item Construct linear approximations.
+    \item Analyze extrema, monotonicity, concavity, and inflection points.
+    \item Apply the Extreme Value and Mean Value Theorems.
+    \item Solve optimization problems.
+    \item Evaluate appropriate indeterminate limits using L'Hopital's Rule.
+    \item Understand antiderivatives and their relationship to derivatives.
+    \item Evaluate definite integrals.
+    \item Understand and apply the Fundamental Theorem of Calculus.
+    \item Interpret integration in applications.
+    \item Use the substitution rule.
+    \item Apply integration by parts.
+    \item Integrate appropriate rational functions using partial fractions.
+\end{enumerate}
+
+% ============================================================
+\section{5. Module 1: Review of Basic Properties of Functions}
+% ============================================================
+
+\textbf{Approximate duration: 2 weeks}
+
+\textbf{Syllabus coverage:} Chapter 1, Section 2.1, Section 2.2.
+
+\subsection{Module Purpose}
+
+This module establishes the algebraic and functional foundation required for
+limits, derivatives, and integration.
+
+\subsection{Chapter 1: Basic Properties of Functions}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Definition of a function.
+    \item Independent and dependent variables.
+    \item Domain and range.
+    \item Function notation.
+    \item Graphs of functions.
+    \item Transformations of functions.
+    \item Polynomial functions.
+    \item Rational functions.
+    \item Exponential functions.
+    \item Trigonometric functions.
+    \item Composition of functions.
+    \item Inverse functions.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Identify the domain and range of a function.
+    \item Evaluate functions at specified inputs.
+    \item Interpret graphs of functions.
+    \item Determine whether a relation represents a function.
+    \item Compose two or more functions.
+    \item Identify and work with inverse functions.
+    \item Analyze common transformations of graphs.
+    \item Recognize important classes of functions used in calculus.
+\end{enumerate}
+
+\subsection{Section 2.1: Exponential Growth and Decay}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Exponential growth.
+    \item Exponential decay.
+    \item Growth and decay rates.
+    \item Exponential models.
+    \item Interpretation of parameters.
+    \item Biological and social-science applications.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Recognize exponential growth and decay models.
+    \item Interpret the parameters of an exponential model.
+    \item Determine whether a model describes growth or decay.
+    \item Use exponential functions to model changing quantities.
+\end{enumerate}
+
+\subsection{Section 2.2: Sequences}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Definition of a sequence.
+    \item Explicit and recursive descriptions.
+    \item Sequence notation.
+    \item Behavior of sequences.
+    \item Convergence and divergence.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Represent sequences using appropriate notation.
+    \item Identify patterns in sequences.
+    \item Analyze whether sequences converge or diverge.
+    \item Connect sequence behavior to the broader concept of limits.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Domain restrictions.
+    \item Composition and inverse functions.
+    \item Exponential growth and decay parameters.
+    \item Connecting sequence behavior to limits.
+\end{itemize}
+
+% ============================================================
+\section{6. Module 2: Limits and Continuity}
+% ============================================================
+
+\textbf{Approximate duration: 2 weeks}
+
+\textbf{Syllabus coverage:} Sections 3.1--3.5, with formal definitions
+from Section 3.6.
+
+\subsection{Module Purpose}
+
+This module introduces the limiting process that forms the conceptual foundation
+for both differentiation and integration.
+
+\subsection{Section 3.1: Limits}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Intuitive interpretation of a limit.
+    \item One-sided limits.
+    \item Two-sided limits.
+    \item Limits from graphs.
+    \item Limits from algebraic expressions.
+    \item Formal definition of a limit.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Interpret limits graphically.
+    \item Evaluate limits algebraically.
+    \item Distinguish one-sided from two-sided limits.
+    \item Determine when a limit does not exist.
+    \item Explain the formal meaning of a limit.
+\end{enumerate}
+
+\subsection{Section 3.2: Continuity}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Continuity at a point.
+    \item Continuity on an interval.
+    \item Discontinuities.
+    \item Removable discontinuities.
+    \item Infinite discontinuities.
+    \item Relationship between continuity and limits.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Determine whether a function is continuous at a point.
+    \item Identify discontinuities from graphs and formulas.
+    \item Use limits to test continuity.
+    \item Explain the relationship between continuity and limiting behavior.
+\end{enumerate}
+
+\subsection{Section 3.3: Limits at Infinity}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Limits as $x \to \infty$.
+    \item Limits as $x \to -\infty$.
+    \item End behavior.
+    \item Horizontal asymptotic behavior.
+    \item Formal definition of limits at infinity.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Evaluate limits at infinity.
+    \item Determine the end behavior of functions.
+    \item Interpret horizontal asymptotic behavior.
+    \item Relate algebraic structure to behavior at infinity.
+\end{enumerate}
+
+\subsection{Section 3.4: Trigonometric Limits and the Sandwich Theorem}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Fundamental trigonometric limits.
+    \item Sandwich Theorem.
+    \item Bounding functions.
+    \item Oscillatory behavior.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Evaluate important trigonometric limits.
+    \item Recognize when direct substitution is insufficient.
+    \item Construct useful bounds for a function.
+    \item Apply the Sandwich Theorem.
+\end{enumerate}
+
+\subsection{Section 3.5: Properties of Continuous Functions}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Algebraic properties of continuous functions.
+    \item Continuity of sums and products.
+    \item Continuity of quotients where defined.
+    \item Continuity of compositions.
+    \item Consequences of continuity.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Determine continuity using known continuous functions.
+    \item Apply properties of continuous functions.
+    \item Analyze continuity of composite functions.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Formal $\epsilon$--$\delta$ interpretation of limits.
+    \item Distinguishing a function value from a limiting value.
+    \item One-sided versus two-sided limits.
+    \item Limits at infinity.
+    \item Trigonometric limits.
+    \item Applying the Sandwich Theorem.
+\end{itemize}
+
+% ============================================================
+\section{7. Module 3: Derivatives}
+% ============================================================
+
+\textbf{Approximate duration: 3 weeks}
+
+\textbf{Syllabus coverage:} Sections 4.1--4.11.
+
+\subsection{Module Purpose}
+
+This module develops the derivative as a limit and then builds the principal
+rules required for efficient differentiation.
+
+\subsection{Section 4.1: Formal Definition of the Derivative}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Difference quotient.
+    \item Derivative as a limit.
+    \item Instantaneous rate of change.
+    \item Tangent line.
+    \item Derivative notation.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Define the derivative using a limit.
+    \item Calculate derivatives from first principles.
+    \item Interpret the derivative as an instantaneous rate of change.
+    \item Interpret the derivative geometrically as a tangent slope.
+\end{enumerate}
+
+\subsection{Section 4.2: Basic Rules of Derivatives}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Constant functions.
+    \item Basic differentiation rules.
+    \item Linearity of differentiation.
+\end{itemize}
+
+\subsection{Section 4.3: Power Rule and Rules of Differentiation}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Power Rule.
+    \item Constant multiple rule.
+    \item Sum and difference rules.
+    \item Polynomial differentiation.
+\end{itemize}
+
+\subsection{Section 4.4: Product and Quotient Rules}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Product Rule.
+    \item Quotient Rule.
+    \item Differentiation of rational expressions.
+\end{itemize}
+
+\subsection{Section 4.5: Chain Rule}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Composite functions.
+    \item Inner and outer functions.
+    \item Chain Rule.
+    \item Nested differentiation.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Identify composite functions.
+    \item Apply the Chain Rule correctly.
+    \item Differentiate nested algebraic, trigonometric, and exponential
+          expressions.
+\end{enumerate}
+
+\subsection{Section 4.6: Implicit Functions and Implicit Differentiation}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Explicit versus implicit functions.
+    \item Differentiating equations involving $x$ and $y$.
+    \item Solving for $\frac{dy}{dx}$.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Differentiate implicitly defined relationships.
+    \item Solve for $\frac{dy}{dx}$.
+    \item Interpret implicit derivatives.
+\end{enumerate}
+
+\subsection{Section 4.7: Higher Derivatives}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Second derivative.
+    \item Higher-order derivatives.
+    \item Notation for higher derivatives.
+    \item Interpretation of derivatives of derivatives.
+\end{itemize}
+
+\subsection{Section 4.8: Derivatives of Trigonometric Functions}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Derivatives of sine and cosine.
+    \item Derivatives of other basic trigonometric functions.
+    \item Combining trigonometric derivatives with differentiation rules.
+\end{itemize}
+
+\subsection{Section 4.9: Derivatives of Exponential Functions}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Derivative of exponential functions.
+    \item The role of $e$.
+    \item Exponential growth rates.
+    \item Chain Rule with exponential functions.
+\end{itemize}
+
+\subsection{Section 4.10: Derivatives of Inverse Functions}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Inverse functions.
+    \item Derivatives of inverse functions.
+    \item Relationship between inverse functions and their derivatives.
+\end{itemize}
+
+\subsection{Section 4.11: Linear Approximation}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Tangent-line approximation.
+    \item Linearization.
+    \item Approximation of function values.
+    \item Error interpretation.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Construct a linear approximation.
+    \item Use linearization to estimate function values.
+    \item Determine when linear approximation is appropriate.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+The principal conceptual and computational challenges in this module are:
+
+\begin{itemize}
+    \item Understanding the derivative as a limit.
+    \item Moving from first-principles differentiation to derivative rules.
+    \item Correct application of the Chain Rule.
+    \item Combining multiple differentiation rules.
+    \item Implicit differentiation.
+    \item Derivatives of inverse functions.
+    \item Higher derivatives.
+    \item Choosing an appropriate linear approximation.
+\end{itemize}
+
+% ============================================================
+\section{8. Module 4: Applications of Differentiation}
+% ============================================================
+
+\textbf{Approximate duration: 2+ weeks}
+
+\textbf{Syllabus coverage:} Sections 5.1--5.5.
+
+\subsection{Module Purpose}
+
+This module moves from computing derivatives to using derivatives to analyze
+and solve mathematical problems.
+
+\subsection{Section 5.1: Extreme and Mean Value Theorems}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Extreme Value Theorem.
+    \item Mean Value Theorem.
+    \item Conditions required by the theorems.
+    \item Interpretation of theorem conclusions.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item State the hypotheses of the Extreme Value Theorem.
+    \item State the hypotheses of the Mean Value Theorem.
+    \item Determine whether the hypotheses are satisfied.
+    \item Interpret the conclusions geometrically.
+\end{enumerate}
+
+\subsection{Section 5.2: Monotonicity and Concavity}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Increasing functions.
+    \item Decreasing functions.
+    \item First derivative test.
+    \item Concavity.
+    \item Second derivative.
+    \item Relationship between derivatives and graph shape.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Determine intervals of increase and decrease.
+    \item Use the first derivative to analyze a function.
+    \item Determine intervals of concavity.
+    \item Use the second derivative to analyze graph shape.
+\end{enumerate}
+
+\subsection{Section 5.3: Extrema and Inflection Points}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Local extrema.
+    \item Absolute extrema.
+    \item Critical points.
+    \item Inflection points.
+    \item First and second derivative tests.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Locate critical points.
+    \item Classify local extrema.
+    \item Determine absolute extrema when appropriate.
+    \item Identify inflection points.
+    \item Construct qualitative graphs using derivative information.
+\end{enumerate}
+
+\subsection{Section 5.4: Optimization}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Mathematical formulation of optimization problems.
+    \item Objective functions.
+    \item Constraints.
+    \item Critical points.
+    \item Maximum and minimum values.
+    \item Interpretation of solutions.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Translate a verbal problem into a mathematical model.
+    \item Identify the quantity to maximize or minimize.
+    \item Express the objective in terms of one variable when appropriate.
+    \item Use derivatives to locate optimal values.
+    \item Interpret the result in the original context.
+\end{enumerate}
+
+\subsection{Section 5.5: L'Hopital's Rule}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Indeterminate forms.
+    \item Limits involving quotients.
+    \item L'Hopital's Rule.
+    \item Repeated application of L'Hopital's Rule.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Recognize appropriate indeterminate forms.
+    \item Determine when L'Hopital's Rule can be applied.
+    \item Evaluate appropriate limits using the rule.
+    \item Recognize when an alternative limit technique is preferable.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Applying theorem hypotheses correctly.
+    \item Distinguishing local and absolute extrema.
+    \item Interpreting first and second derivative information.
+    \item Identifying inflection points.
+    \item Translating word problems into optimization models.
+    \item Correct use of L'Hopital's Rule.
+\end{itemize}
+
+% ============================================================
+\section{9. Module 5: Integration}
+% ============================================================
+
+\textbf{Approximate duration: 2 weeks}
+
+\textbf{Syllabus coverage:} Section 5.10 and Sections 6.1--6.3.
+
+\subsection{Module Purpose}
+
+This module introduces integration as the inverse process of differentiation
+and as a method for accumulating quantities.
+
+\subsection{Section 5.10: Antiderivatives}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Antiderivatives.
+    \item Families of antiderivatives.
+    \item Indefinite integrals.
+    \item Constant of integration.
+    \item Relationship between differentiation and integration.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Identify an antiderivative of a function.
+    \item Compute basic indefinite integrals.
+    \item Include the constant of integration.
+    \item Verify an antiderivative by differentiation.
+\end{enumerate}
+
+\subsection{Section 6.1: The Definite Integral}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Definite integral.
+    \item Accumulation.
+    \item Signed area.
+    \item Riemann-sum interpretation.
+    \item Integral notation.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Interpret the definite integral as accumulated quantity.
+    \item Interpret the definite integral geometrically.
+    \item Distinguish signed area from total geometric area.
+    \item Evaluate basic definite integrals.
+\end{enumerate}
+
+\subsection{Section 6.2: Fundamental Theorem of Calculus}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Relationship between derivatives and integrals.
+    \item Fundamental Theorem of Calculus.
+    \item Evaluating definite integrals using antiderivatives.
+    \item Accumulation functions.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain the relationship between differentiation and integration.
+    \item Apply the Fundamental Theorem of Calculus.
+    \item Evaluate definite integrals using antiderivatives.
+    \item Differentiate accumulation functions when appropriate.
+\end{enumerate}
+
+\subsection{Section 6.3: Applications of Integration}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Accumulated change.
+    \item Area.
+    \item Total quantities.
+    \item Interpretation of integrals in applications.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Formulate integrals representing accumulated quantities.
+    \item Interpret the result of an integral in context.
+    \item Use integration to solve basic applied problems.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Understanding the definite integral conceptually.
+    \item Distinguishing indefinite and definite integrals.
+    \item Understanding signed area.
+    \item Understanding the Fundamental Theorem of Calculus.
+    \item Translating an accumulation problem into an integral.
+\end{itemize}
+
+% ============================================================
+\section{10. Module 6: Applications of the Integral}
+% ============================================================
+
+\textbf{Approximate duration: 1+ week}
+
+\textbf{Syllabus coverage:} Sections 7.1--7.3.
+
+\subsection{Module Purpose}
+
+This module develops techniques for evaluating integrals that cannot be handled
+directly by the most basic antiderivative rules.
+
+\subsection{Section 7.1: Substitution Rule}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Change of variables.
+    \item $u$-substitution.
+    \item Reverse Chain Rule.
+    \item Definite integrals under substitution.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Recognize integrals suitable for substitution.
+    \item Select an appropriate substitution.
+    \item Transform an integral using the substitution rule.
+    \item Evaluate definite integrals using substitution.
+\end{enumerate}
+
+\subsection{Section 7.2: Integration by Parts and Practicing Integration}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Integration by parts.
+    \item Product Rule as the basis for integration by parts.
+    \item Choosing $u$ and $dv$.
+    \item Combining integration techniques.
+    \item Strategic selection of an integration method.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Apply the integration-by-parts formula.
+    \item Choose appropriate factors for $u$ and $dv$.
+    \item Recognize when integration by parts is useful.
+    \item Combine integration methods when necessary.
+\end{enumerate}
+
+\subsection{Section 7.3: Rational Functions and Partial Fractions}
+
+\subsubsection{Major Concepts}
+
+\begin{itemize}
+    \item Rational functions.
+    \item Partial fraction decomposition.
+    \item Decomposition of rational expressions.
+    \item Integration using partial fractions.
+\end{itemize}
+
+\subsubsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Recognize when partial fractions are appropriate.
+    \item Decompose suitable rational functions.
+    \item Integrate the resulting simpler expressions.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Recognizing which integration technique to use.
+    \item Correctly performing substitutions.
+    \item Integration by parts and choosing $u$ and $dv$.
+    \item Partial fraction decomposition.
+    \item Combining multiple integration techniques.
+\end{itemize}
+
+% ============================================================
+\section{11. Conceptual Dependency Structure}
+% ============================================================
+
+The major conceptual dependencies of the course can be summarized as follows:
+
+\[
+\boxed{
+\text{Functions}
+\longrightarrow
+\text{Limits}
+\longrightarrow
+\text{Continuity}
+\longrightarrow
+\text{Derivatives}
+}
+\]
+
+\[
+\boxed{
+\text{Derivatives}
+\longrightarrow
+\text{Derivative Applications}
+\longrightarrow
+\text{Optimization and Graph Analysis}
+}
+\]
+
+\[
+\boxed{
+\text{Derivatives}
+\longrightarrow
+\text{Antiderivatives}
+\longrightarrow
+\text{Definite Integrals}
+\longrightarrow
+\text{Fundamental Theorem of Calculus}
+}
+\]
+
+\[
+\boxed{
+\text{Integration}
+\longrightarrow
+\text{Substitution}
+\longrightarrow
+\text{Integration by Parts}
+\longrightarrow
+\text{Partial Fractions}
+}
+\]
+
+The overall conceptual progression is therefore:
+
+\[
+\text{Algebra and Functions}
+\rightarrow
+\text{Limits}
+\rightarrow
+\text{Continuity}
+\rightarrow
+\text{Derivatives}
+\rightarrow
+\text{Applications}
+\rightarrow
+\text{Integration}
+\rightarrow
+\text{Integration Techniques}.
+\]
+
+% ============================================================
+\section{12. Difficult Topics Across the Entire Course}
+% ============================================================
+
+The following topics are likely to require the greatest conceptual effort
+because they introduce new mathematical reasoning or combine several earlier
+ideas.
+
+\begin{enumerate}
+    \item \textbf{Formal definition of the limit}
+
+    Students must move beyond numerical or graphical intuition toward a precise
+    mathematical description of limiting behavior.
+
+    \item \textbf{Trigonometric limits and the Sandwich Theorem}
+
+    These require students to recognize appropriate transformations and
+    bounding arguments.
+
+    \item \textbf{Derivative from first principles}
+
+    Students must connect the difference quotient to the geometric and
+    instantaneous-rate interpretations of the derivative.
+
+    \item \textbf{Chain Rule}
+
+    Correctly identifying nested functions and differentiating from the
+    outside inward is a major transition from basic derivative rules.
+
+    \item \textbf{Implicit differentiation}
+
+    Students must differentiate equations in which the dependent variable is
+    not explicitly isolated.
+
+    \item \textbf{Applications of derivatives}
+
+    These require interpretation rather than simply executing a derivative
+    calculation.
+
+    \item \textbf{Optimization}
+
+    Optimization requires translating a real-world problem into a mathematical
+    model before calculus can be applied.
+
+    \item \textbf{L'Hopital's Rule}
+
+    Students must recognize appropriate indeterminate forms and understand
+    when the theorem is applicable.
+
+    \item \textbf{Definite integral and the Fundamental Theorem of Calculus}
+
+    This is the central conceptual transition from differentiation to
+    accumulation.
+
+    \item \textbf{Choosing integration techniques}
+
+    The challenge is often not performing an integration technique but
+    recognizing which technique is appropriate.
+
+    \item \textbf{Partial fractions}
+
+    This combines algebraic decomposition with integration.
+\end{enumerate}
+
+% ============================================================
+\section{13. Course-Wide Skill Progression}
+% ============================================================
+
+\begin{longtable}{p{0.20\textwidth} p{0.35\textwidth} p{0.35\textwidth}}
+\toprule
+\textbf{Stage} & \textbf{Primary Skill} & \textbf{Expected Student Capability} \\
+\midrule
+Foundation &
+Function analysis &
+Manipulate, graph, compose, and interpret functions \\
+
+Limits &
+Limiting reasoning &
+Evaluate and interpret limiting behavior \\
+
+Continuity &
+Local behavior &
+Determine whether functions are continuous \\
+
+Differentiation &
+Rate of change &
+Compute and interpret derivatives \\
+
+Derivative applications &
+Analysis &
+Use derivatives to study graphs and solve optimization problems \\
+
+Integration &
+Accumulation &
+Compute and interpret definite and indefinite integrals \\
+
+Fundamental Theorem &
+Unification &
+Connect differentiation and integration \\
+
+Integration techniques &
+Strategic problem solving &
+Select and apply appropriate integration methods \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{14. Suggested Module-by-Module Master Checklist}
+% ============================================================
+
+\subsection*{Module 1 -- Functions}
+
+\begin{itemize}[label=$\square$]
+    \item Function notation
+    \item Domain and range
+    \item Graphs
+    \item Function transformations
+    \item Polynomial and rational functions
+    \item Exponential functions
+    \item Trigonometric functions
+    \item Composition
+    \item Inverse functions
+    \item Exponential growth and decay
+    \item Sequences
+\end{itemize}
+
+\subsection*{Module 2 -- Limits and Continuity}
+
+\begin{itemize}[label=$\square$]
+    \item One-sided limits
+    \item Two-sided limits
+    \item Algebraic limits
+    \item Graphical limits
+    \item Formal definition of limit
+    \item Continuity
+    \item Discontinuities
+    \item Limits at infinity
+    \item Trigonometric limits
+    \item Sandwich Theorem
+    \item Properties of continuous functions
+\end{itemize}
+
+\subsection*{Module 3 -- Derivatives}
+
+\begin{itemize}[label=$\square$]
+    \item Definition of derivative
+    \item Difference quotient
+    \item Tangent lines
+    \item Basic derivative rules
+    \item Power Rule
+    \item Product Rule
+    \item Quotient Rule
+    \item Chain Rule
+    \item Implicit differentiation
+    \item Higher derivatives
+    \item Trigonometric derivatives
+    \item Exponential derivatives
+    \item Inverse-function derivatives
+    \item Linear approximation
+\end{itemize}
+
+\subsection*{Module 4 -- Applications of Differentiation}
+
+\begin{itemize}[label=$\square$]
+    \item Extreme Value Theorem
+    \item Mean Value Theorem
+    \item Increasing/decreasing functions
+    \item Monotonicity
+    \item Concavity
+    \item Critical points
+    \item Local extrema
+    \item Absolute extrema
+    \item Inflection points
+    \item Curve analysis
+    \item Optimization
+    \item L'Hopital's Rule
+\end{itemize}
+
+\subsection*{Module 5 -- Integration}
+
+\begin{itemize}[label=$\square$]
+    \item Antiderivatives
+    \item Indefinite integrals
+    \item Definite integrals
+    \item Accumulation
+    \item Signed area
+    \item Riemann-sum interpretation
+    \item Fundamental Theorem of Calculus
+    \item Applications of integration
+\end{itemize}
+
+\subsection*{Module 6 -- Applications of the Integral}
+
+\begin{itemize}[label=$\square$]
+    \item Substitution Rule
+    \item Change of variables
+    \item Integration by parts
+    \item Choosing integration methods
+    \item Rational functions
+    \item Partial fractions
+\end{itemize}
+
+% ============================================================
+\section{15. Final Course Learning Outcomes}
+% ============================================================
+
+Upon successful completion of AS.110.106 Calculus I, a student should be able
+to demonstrate proficiency in the following areas:
+
+\begin{enumerate}
+    \item \textbf{Function Analysis:}
+    Analyze, manipulate, and interpret the principal classes of functions
+    used throughout introductory calculus.
+
+    \item \textbf{Limit Reasoning:}
+    Evaluate and interpret limits and use limits to understand continuity and
+    the derivative.
+
+    \item \textbf{Continuity:}
+    Determine and justify continuity and identify different types of
+    discontinuous behavior.
+
+    \item \textbf{Differentiation:}
+    Compute derivatives using the definition of the derivative and the
+    standard differentiation rules.
+
+    \item \textbf{Derivative Interpretation:}
+    Interpret derivatives geometrically and as rates of change.
+
+    \item \textbf{Function Analysis Using Derivatives:}
+    Use derivatives to determine monotonicity, concavity, extrema, and
+    inflection points.
+
+    \item \textbf{Optimization:}
+    Formulate and solve optimization problems arising from mathematical and
+    applied contexts.
+
+    \item \textbf{Integration:}
+    Compute antiderivatives and definite integrals and interpret integration
+    as accumulation.
+
+    \item \textbf{Fundamental Theorem:}
+    Explain and apply the Fundamental Theorem of Calculus to connect
+    differentiation and integration.
+
+    \item \textbf{Applied Integration:}
+    Formulate and interpret integrals representing accumulated quantities.
+
+    \item \textbf{Integration Techniques:}
+    Apply substitution, integration by parts, and partial fractions to
+    evaluate appropriate integrals.
+
+    \item \textbf{Mathematical Modeling:}
+    Translate biological, social-science, and mathematical situations into
+    appropriate functional, differential, or integral models.
+\end{enumerate}
+
+% ============================================================
+\section{16. Complete Course Map}
+% ============================================================
+
+\begin{center}
+\begin{tabular}{c}
+\textbf{MODULE 1: FUNCTIONS}\\
+\text{Functions $\rightarrow$ Exponential Growth/Decay $\rightarrow$ Sequences}\\
+$\downarrow$\\[4pt]
+\textbf{MODULE 2: LIMITS AND CONTINUITY}\\
+\text{Limits $\rightarrow$ Continuity $\rightarrow$ Limits at Infinity}\\
+\text{Trigonometric Limits $\rightarrow$ Sandwich Theorem}\\
+$\downarrow$\\[4pt]
+\textbf{MODULE 3: DERIVATIVES}\\
+\text{Definition $\rightarrow$ Rules $\rightarrow$ Product/Quotient}\\
+\text{Chain Rule $\rightarrow$ Implicit Differentiation}\\
+\text{Higher Derivatives $\rightarrow$ Special Functions $\rightarrow$ Linear Approximation}\\
+$\downarrow$\\[4pt]
+\textbf{MODULE 4: APPLICATIONS OF DIFFERENTIATION}\\
+\text{EVT/MVT $\rightarrow$ Monotonicity $\rightarrow$ Concavity}\\
+\text{Extrema $\rightarrow$ Inflection Points $\rightarrow$ Optimization}\\
+\text{L'Hopital's Rule}\\
+$\downarrow$\\[4pt]
+\textbf{MODULE 5: INTEGRATION}\\
+\text{Antiderivatives $\rightarrow$ Definite Integral}\\
+\text{$\rightarrow$ Fundamental Theorem of Calculus}\\
+\text{$\rightarrow$ Applications of Integration}\\
+$\downarrow$\\[4pt]
+\textbf{MODULE 6: APPLICATIONS OF THE INTEGRAL}\\
+\text{Substitution $\rightarrow$ Integration by Parts}\\
+\text{$\rightarrow$ Rational Functions $\rightarrow$ Partial Fractions}
+\end{tabular}
+\end{center}
+
+\vfill
+
+\begin{center}
+\textit{End of Course Structure}
+\end{center}
+
+\end{document}

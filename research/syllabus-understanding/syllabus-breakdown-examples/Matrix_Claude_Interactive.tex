@@ -1,0 +1,571 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+
+\title{Random Matrix Theory in Data Science and Statistics\\[4pt]\large Full Course Design}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Course Overview}
+
+\begin{description}[leftmargin=2.2cm,style=nextline]
+\item[Course name] Random Matrix Theory in Data Science and Statistics
+\item[Level] PhD
+\item[Format] Lecture course
+\item[Duration] 14--15 weeks, meeting twice weekly, 75 minutes per session (28--30 sessions total; this design uses 30 sessions and can be compressed to 28 by shortening the review session and combining one pair of Module 2 sessions)
+\item[Assessment philosophy] A small number of written homework assignments (four, one per module), continuous class participation, and a final project -- an in-class presentation together with a written report -- on a recent research paper, an open problem, or a topic of interest related to the course material. The final project is individual work (assumed, as this is typical for PhD-level project deliverables of this kind, unless the instructor specifies otherwise).
+\item[Assumed background] Graduate-level, measure-theoretic probability (random variables, expectation, moments, modes of convergence, independence, basic concentration inequalities such as Markov/Chebyshev/Hoeffding); linear algebra through eigenvalues, eigenvectors, the singular value decomposition, and matrix norms; and general mathematical maturity with analysis-style proofs. More specialized machinery -- the combinatorics of non-crossing partitions, the Stieltjes transform and elementary complex analysis, and elements of operator theory needed for the non-commutative Khintchine inequality -- is introduced within the course itself and is not assumed.
+\end{description}
+
+\section{Course Schedule}
+
+\begin{longtable}{p{1.4cm}p{1.4cm}p{9.5cm}}
+\toprule
+\textbf{Session} & \textbf{Module} & \textbf{Topic} \\
+\midrule
+\endhead
+1 & --- & Introduction: course overview, motivation, review of prerequisites \\
+2 & M1 & 1.1 Geometric methods of analysis with concentration inequalities (I) \\
+3 & M1 & 1.1 Geometric methods of analysis with concentration inequalities (II) \\
+4 & M1 & 1.2 Invariance and relation to random projections \\
+5 & M1 & 1.3 Johnson--Lindenstrauss transform and dimensionality reduction \\
+6 & M1 & 1.4 Compressed sensing \\
+7 & M2 & 2.1 Moment method for eigenvalue limit theorems (I) -- \emph{Homework 1 due} \\
+8 & M2 & 2.1 Moment method for eigenvalue limit theorems (II): combinatorics \\
+9 & M2 & 2.2 Semicircle law for Wigner matrices \\
+10 & M2 & 2.3 Marchenko--Pastur law for Wishart matrices (I) \\
+11 & M2 & 2.3 Marchenko--Pastur law for Wishart matrices (II) \\
+12 & M2 & 2.4 Elements of universality \\
+13 & M2 & 2.5 Elements of free probability theory \\
+14 & M2 & 2.6 Application: neural networks and random optimization landscapes \\
+15 & M2 & 2.7 Application: covariance estimation \\
+16 & M3 & 3.1 Resolvent method for eigenvalue limit theorems (I) -- \emph{Homework 2 due; project proposal due} \\
+17 & M3 & 3.1 Resolvent method for eigenvalue limit theorems (II): eigenvectors \\
+18 & M3 & 3.2 BBP phase transition in the performance of PCA \\
+19 & M3 & 3.3 Computational challenges and statistical-computational gaps in PCA \\
+20 & M3 & 3.4 Application: non-linear improvements to PCA \\
+21 & M3 & 3.5 Application: community detection \\
+22 & M4 & 4.1 General concentration inequalities (bounded differences, Lipschitz concentration) -- \emph{Homework 3 due} \\
+23 & M4 & 4.2 Matrix Chernoff and Bernstein inequalities (I) \\
+24 & M4 & 4.2 Matrix Chernoff and Bernstein inequalities (II): worked examples \\
+25 & M4 & 4.3 Non-commutative Khintchine inequality and its extensions \\
+26 & M4 & 4.4 Application: randomized numerical linear algebra \\
+27 & --- & Review and synthesis -- \emph{Homework 4 due} \\
+28 & --- & Final project presentations (I) \\
+29 & --- & Final project presentations (II) \\
+30 & --- & Final project presentations (III) -- \emph{final report due} \\
+\bottomrule
+\end{longtable}
+
+%=================================================================
+\section{Module 1: Gaussian Matrices and Dimensionality Reduction}
+\emph{Goal: establish concentration-of-measure and random-projection techniques for analyzing Gaussian random matrices, and show how they yield dimension-reduction guarantees.}
+
+\subsection{Geometric methods of analysis with concentration inequalities}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item The concentration-of-measure phenomenon for high-dimensional Gaussian vectors
+\item The Gaussian concentration inequality for Lipschitz functions
+\item Sub-gaussian random variables and tail bounds
+\item Covering numbers and $\varepsilon$-net arguments
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the concentration-of-measure phenomenon and why high-dimensional Gaussian vectors concentrate near a sphere
+\item Derive the Gaussian concentration inequality for Lipschitz functions
+\item Apply concentration bounds to bound the extreme singular values of a Gaussian random matrix
+\item Evaluate when a naive union bound is too weak and a covering/concentration argument is needed
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} notational overload from indexing walks and pairings, combined with an abstraction jump from ``counting'' to ``which structures survive as $n\to\infty$'' resurfaces here in miniature through covering-number bookkeeping. \emph{Mitigation:} work a fully explicit $\varepsilon$-net construction on a low-dimensional sphere by hand before stating the general covering bound, and separate the ``fixed-vector concentration'' step from the ``union bound over the net'' step explicitly on the board.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State the Gaussian concentration inequality for a Lipschitz function and use it to bound $P(|\lVert g\rVert - \sqrt n| > t)$ for a standard Gaussian vector $g \in \mathbb{R}^n$. \\
+\emph{Rubric:} full credit requires citing $P(|f(g)-\mathbb{E}f(g)|>t) \le 2\exp(-t^2/2L^2)$ for $L$-Lipschitz $f$, identifying $f(x)=\lVert x\rVert$ as $1$-Lipschitz, and bounding $\mathbb{E}\lVert g\rVert$ to within $O(1/\sqrt n)$ of $\sqrt n$.
+\item \emph{(Harder)} Use a covering-number argument together with Gaussian concentration to bound the largest singular value of an $n\times n$ Gaussian random matrix. \\
+\emph{Rubric:} full credit requires an $\varepsilon$-net argument on the unit sphere, a union bound over the net combined with the concentration inequality, and a high-probability bound of the form $\sigma_{\max} \lesssim \sqrt n$.
+\end{enumerate}
+
+\subsection{Invariance and relation to random projections}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Rotational invariance of the Gaussian measure
+\item Random projections as a model for dimensionality reduction
+\item Distributional equivalence between random projections and Gaussian random matrices
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain why Gaussian matrices are rotationally invariant and what this buys analytically
+\item Derive the distribution of the projection of a fixed vector onto a random subspace
+\item Apply invariance arguments to simplify high-dimensional probability calculations
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Show that if $g$ is a standard Gaussian vector in $\mathbb{R}^n$ and $U$ is any orthogonal matrix, then $Ug$ has the same distribution as $g$. \\
+\emph{Rubric:} full credit for correctly using the invariance of the Gaussian density (or characteristic function) under orthogonal transformations.
+\item \emph{(Harder)} Derive the distribution of the squared length of the projection of a fixed unit vector onto a uniformly random $k$-dimensional subspace of $\mathbb{R}^n$. \\
+\emph{Rubric:} full credit requires reducing to a Beta (or scaled ratio-of-chi-squares) distribution via rotational invariance, with correctly identified parameters in terms of $k$ and $n$.
+\end{enumerate}
+
+\subsection{Johnson--Lindenstrauss transform and dimensionality reduction}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Statement of the Johnson--Lindenstrauss (JL) lemma
+\item Random projection as a realization of a JL transform
+\item Trade-off between target dimension, distortion, and failure probability
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the statement and significance of the JL lemma
+\item Derive the JL lemma using Gaussian concentration and a union bound
+\item Apply the JL transform to determine the projection dimension needed for a given distortion and failure tolerance
+\item Evaluate the optimality of JL-type dimension bounds (matching lower bounds, sparse JL variants)
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State the Johnson--Lindenstrauss lemma and explain the role of each parameter ($n$, $k$, $\varepsilon$, $\delta$). \\
+\emph{Rubric:} full credit for a precise statement and a correct explanation of each parameter's role.
+\item \emph{(Harder)} Derive the minimum projection dimension $k$ needed to preserve pairwise distances among $m$ points to within distortion $\varepsilon$ with failure probability at most $\delta$. \\
+\emph{Rubric:} full credit requires combining a per-pair concentration bound with a union bound over $O(m^2)$ pairs, yielding $k = O(\varepsilon^{-2}\log(m/\delta))$.
+\end{enumerate}
+
+\subsection{Compressed sensing}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Sparse signal recovery
+\item The restricted isometry property (RIP)
+\item Connection between RIP and Gaussian/subgaussian random matrices
+\item $\ell_1$-minimization recovery guarantees
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the compressed sensing problem and the role of sparsity
+\item Derive that a suitably scaled Gaussian matrix satisfies the RIP with high probability using covering/concentration arguments
+\item Apply RIP-based recovery guarantees to bound the number of measurements needed for exact recovery
+\item Evaluate why $\ell_0$-minimization is intractable and how $\ell_1$-relaxation circumvents this
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Define the restricted isometry property (RIP) of order $s$ and explain its role in sparse recovery. \\
+\emph{Rubric:} full credit for the correct RIP definition and a correct explanation of its connection to stable recovery guarantees.
+\item \emph{(Harder)} Sketch a proof (via covering plus union bound) that a suitably scaled Gaussian matrix satisfies the RIP of order $s$ with high probability, and state the resulting bound on the number of measurements. \\
+\emph{Rubric:} full credit requires correctly bounding the number of $s$-sparse subspaces, applying a per-subspace concentration bound, and arriving at $m = O(s\log(n/s))$.
+\end{enumerate}
+
+%=================================================================
+\section{Module 2: Classical Theory of i.i.d. Random Matrices}
+\emph{Goal: develop the classical spectral limit theorems (semicircle, Marchenko--Pastur) for i.i.d. random matrices via moment and combinatorial methods, and connect them to free probability and data-science applications.}
+
+\subsection{Moment method for eigenvalue limit theorems}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item The method of moments for weak convergence of empirical spectral distributions
+\item Traces of matrix powers as sums over closed walks
+\item Combinatorics of pairings and non-crossing partitions
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain why matching moments implies convergence of the empirical spectral distribution, under suitable conditions
+\item Derive the moment formula for $\mathbb{E}[\mathrm{tr}(M^n)]$ in terms of combinatorial structures (walks/pairings)
+\item Apply the moment method to compute low-order moments of a random matrix ensemble
+\item Evaluate which combinatorial structures survive in the large-$n$ limit and which vanish
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} notational overload from indexing walks/pairings and tracking vertex identifications, plus an abstraction jump from ``counting'' to ``which structures survive as $n \to \infty$.'' \emph{Mitigation:} work a fully explicit small example (e.g., compute $\mathbb{E}[\mathrm{tr}(M^4)]$ by hand for a $2\times2$ or $3\times3$ Wigner matrix) before stating the general combinatorial formula, and use a diagram-drawing exercise to visualize pairings.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Compute $\mathbb{E}[\mathrm{tr}(M^n)]$ for small $n$ (e.g., $n=2,4$) for a Wigner matrix by directly expanding the trace as a sum over closed walks. \\
+\emph{Rubric:} full credit for correctly expanding the sum and identifying which terms survive in expectation given independence and mean-zero entries.
+\item \emph{(Harder)} Explain why, in the large-matrix limit, only non-crossing pairings of a closed walk contribute to the leading-order moment, briefly justifying this via the scaling of the number of pairings against matrix dimension. \\
+\emph{Rubric:} full credit requires the counting argument (non-crossing vs.\ total pairings) and the matching power-of-$n$ scaling.
+\end{enumerate}
+
+\subsection{Semicircle law for Wigner matrices}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Wigner matrix ensembles
+\item The semicircle distribution and its density
+\item Non-crossing pairings and Catalan numbers
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the statement of Wigner's semicircle law
+\item Derive the moments of the semicircle distribution via Catalan-number counting of non-crossing pairings
+\item Apply the moment method to prove convergence of the empirical spectral distribution to the semicircle law
+\item Evaluate the universality of the semicircle law across different entry distributions
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State Wigner's semicircle law and give the density of the semicircle distribution. \\
+\emph{Rubric:} full credit for the correct statement and correct density formula.
+\item \emph{(Harder)} Show that the even moments of the semicircle distribution are given by the Catalan numbers, and the odd moments vanish; explain the combinatorial reason. \\
+\emph{Rubric:} full credit requires the correct Catalan-number formula and its connection to counting non-crossing pairings.
+\end{enumerate}
+
+\subsection{Marchenko--Pastur law for Wishart matrices}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Sample covariance (Wishart) matrices
+\item The high-dimensional aspect-ratio regime
+\item The Marchenko--Pastur distribution and its support
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the setup of Wishart matrices and the high-dimensional aspect-ratio regime
+\item Derive the moments of the Marchenko--Pastur distribution
+\item Apply the Marchenko--Pastur law to describe the spectrum of a sample covariance matrix in high dimensions
+\item Evaluate the implications of the Marchenko--Pastur law for the bias of naive sample-eigenvalue estimates
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State the Marchenko--Pastur law and describe how its support depends on the aspect ratio. \\
+\emph{Rubric:} full credit for the correct density/support formula in terms of the aspect-ratio parameter.
+\item \emph{(Harder)} Derive the first two moments of the Marchenko--Pastur distribution via the moment method and verify they match a direct computation of $\mathbb{E}[\mathrm{tr}(W)]$ and $\mathbb{E}[\mathrm{tr}(W^2)]$ for a Wishart matrix $W$. \\
+\emph{Rubric:} full credit requires a correct moment computation by both routes and a consistency check between them.
+\end{enumerate}
+
+\subsection{Elements of universality}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item The universality principle for random matrix spectra
+\item Four-moment theorems (conceptual level)
+\item Comparison / Lindeberg-swapping arguments (conceptual level)
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the universality principle and precisely what it does and does not claim
+\item Compare proof strategies (moment method vs.\ comparison/swapping arguments) for establishing universality
+\item Evaluate the evidence for or against universality in a given, possibly non-Gaussian, matrix ensemble
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Explain what the universality principle claims about the applicability of the semicircle law beyond Gaussian entries. \\
+\emph{Rubric:} full credit for correctly stating that the limiting spectral distribution depends only on the first two moments of the entries, not the full entry distribution.
+\item \emph{(Harder)} Compare the moment-method proof of universality with a comparison/Lindeberg-swapping argument, identifying one advantage of each. \\
+\emph{Rubric:} full credit requires a substantive, accurate comparison (e.g., the moment method gives explicit control but needs all moments to exist; swapping arguments need fewer moment assumptions but are less explicit).
+\end{enumerate}
+
+\subsection{Elements of free probability theory}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Free independence vs.\ classical independence
+\item Free convolution
+\item The $R$-transform and its role in computing spectra of matrix sums
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the notion of freeness and how it differs from classical independence
+\item Derive the free convolution of two simple spectral distributions using the $R$-transform
+\item Apply free probability to predict the limiting spectrum of a sum of independent random matrices
+\item Evaluate when free-probability heuristics correctly predict finite-$n$ behavior
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} freeness is a genuinely new axiomatic framework that looks superficially like independence but is not, and $R$-transform manipulations can feel like formal algebra with no intuition. \emph{Mitigation:} repeatedly contrast a free-probability computation with its classical-probability analogue side by side, and use the semicircle-plus-semicircle example as a running worked case before stating the general $R$-transform machinery.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Define free independence and explain how it differs from classical independence for two random variables/matrices. \\
+\emph{Rubric:} full credit for correctly stating the mixed-moment condition defining freeness and contrasting it with classical independence.
+\item \emph{(Harder)} Use the $R$-transform to compute the limiting spectral distribution of the sum of two independent semicircle-distributed random matrices. \\
+\emph{Rubric:} full credit requires correctly using additivity of the $R$-transform under free convolution and recovering a (rescaled) semicircle law.
+\end{enumerate}
+
+\subsection{Application: neural networks and random optimization landscapes}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Random-matrix models of neural-network loss Hessians
+\item Spectral properties and optimization-landscape geometry (saddle points vs.\ minima)
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain how random matrix spectra are used to model the Hessian of a high-dimensional loss landscape
+\item Apply semicircle/Marchenko--Pastur-type results to characterize the proportion of negative eigenvalues (saddle directions) in a toy model
+\item Evaluate the strengths and limitations of random-matrix models of real neural-network landscapes
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Explain how a random-matrix model of a loss Hessian can be used to estimate the fraction of negative eigenvalues at a given energy level. \\
+\emph{Rubric:} full credit for a correct qualitative explanation connecting the spectral density to the fraction of negative eigenvalues.
+\item \emph{(Harder)} For a toy Hessian model built from a Wigner matrix plus a shift, compute the fraction of negative eigenvalues as a function of the shift using the semicircle law. \\
+\emph{Rubric:} full credit for correctly integrating the shifted semicircle density over the negative axis.
+\end{enumerate}
+
+\subsection{Application: covariance estimation}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Sample covariance estimation in high dimensions
+\item Eigenvalue shrinkage
+\item Consequences of the Marchenko--Pastur law for estimator design
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain why the sample covariance matrix is an inconsistent estimator of eigenvalues in high dimensions
+\item Apply Marchenko--Pastur-based corrections (e.g., eigenvalue shrinkage) to design an improved covariance estimator
+\item Evaluate the estimator's performance against the naive sample covariance in a high-dimensional regime
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Explain why the largest eigenvalue of a sample covariance matrix is a biased estimator of the largest population eigenvalue in the fixed-aspect-ratio, high-dimensional regime. \\
+\emph{Rubric:} full credit for connecting this to Marchenko--Pastur-induced spreading of the sample spectrum.
+\item \emph{(Harder)} Propose and justify a simple eigenvalue-shrinkage correction to the sample covariance matrix using the Marchenko--Pastur law, for an isotropic population covariance. \\
+\emph{Rubric:} full credit requires a correct derivation connecting the MP-predicted spectrum to a shrinkage rule and a justification that it removes the bias.
+\end{enumerate}
+
+%=================================================================
+\section{Module 3: Spiked Matrix Models and Principal Component Analysis}
+\emph{Goal: analyze low-rank (``spiked'') perturbations of random matrices via the resolvent method to characterize the BBP phase transition and its implications for PCA, including statistical-computational tradeoffs.}
+
+\subsection{Resolvent method for eigenvalue limit theorems and eigenvectors}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item The resolvent (Stieltjes transform) of a random matrix
+\item Self-consistent (fixed-point) equations for the resolvent
+\item Recovering the spectral density and eigenvector information from the resolvent
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the definition and role of the resolvent/Stieltjes transform
+\item Derive a self-consistent equation for the resolvent of a simple random matrix ensemble
+\item Apply the resolvent method to recover the semicircle or Marchenko--Pastur law as an alternative to the moment method
+\item Evaluate the advantages of the resolvent method over the moment method (e.g., access to eigenvector information)
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} the complex-analysis background (analytic continuation) needed is often not assumed, and there is notational overload from tracking several related transforms (Stieltjes, Cauchy, $R$-transform). \emph{Mitigation:} dedicate the first part of the session to a self-contained mini-primer on exactly the complex-analysis facts needed, and immediately connect the resolvent back to the already-familiar semicircle law from Module 2 as a consistency check.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Define the resolvent (Stieltjes transform) of a random matrix and state its relationship to the empirical spectral distribution. \\
+\emph{Rubric:} full credit for the correct definition and correct inversion relationship.
+\item \emph{(Harder)} Derive the self-consistent equation for the resolvent of a Wigner matrix and use it to recover the semicircle law. \\
+\emph{Rubric:} full credit requires a correct derivation of the fixed-point equation and correct algebraic recovery of the semicircle density.
+\end{enumerate}
+
+\subsection{BBP phase transition in the performance of PCA}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Spiked covariance/Wigner models
+\item The critical signal-strength threshold
+\item Eigenvalue outlier and eigenvector-alignment behavior above/below threshold
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the spiked-model setup and what ``signal strength'' means in this context
+\item Derive the critical threshold at which an outlier eigenvalue emerges from the bulk
+\item Apply the BBP result to predict whether PCA will detect a given signal at a given aspect ratio
+\item Evaluate the practical implications of the BBP transition for the reliability of PCA in high dimensions
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} the exact threshold formula and the ``flat region'' below threshold look unmotivated on first exposure, and it is easy to conflate ``an outlier eigenvalue exists'' with ``the eigenvector recovers the signal direction.'' \emph{Mitigation:} build the threshold up from a numerical exploration first (vary signal strength, plot the outlier location) before deriving it analytically, and explicitly separate the eigenvalue question from the eigenvector-alignment question as two distinct claims.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State the BBP phase transition result for a rank-one spiked Wigner model, including the critical signal-strength threshold. \\
+\emph{Rubric:} full credit for the correct threshold formula and a correct description of above/below-threshold behavior.
+\item \emph{(Harder)} Derive the location of the outlier eigenvalue above the BBP threshold using the resolvent/self-consistent-equation approach. \\
+\emph{Rubric:} full credit requires correctly setting up and solving the fixed-point equation for the outlier location as a function of signal strength.
+\end{enumerate}
+
+\subsection{Computational challenges and statistical-computational gaps in PCA}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Statistical (information-theoretic) vs.\ computational detection thresholds
+\item Sparse PCA as a canonical example of a statistical-computational gap
+\item Reduction-based and low-degree-polynomial evidence for hardness (conceptual level)
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the distinction between statistical and computational detectability
+\item Compare the information-theoretic threshold to the best known polynomial-time threshold for sparse PCA
+\item Evaluate the evidence (average-case reductions, low-degree heuristics) supporting a conjectured statistical-computational gap
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} the distinction between worst-case hardness, average-case hardness, and ``no known polynomial-time algorithm achieves the statistical threshold'' is conceptually slippery, and students often collapse these into one notion. \emph{Mitigation:} present a concrete side-by-side table (statistical threshold vs.\ best-known-polynomial-time threshold vs.\ worst-case NP-hardness) for the sparse-PCA example specifically, so the three notions stay visibly distinct.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Explain the difference between the statistical detection threshold and the best-known polynomial-time detection threshold for sparse PCA. \\
+\emph{Rubric:} full credit for a correct, precise distinction between the two thresholds.
+\item \emph{(Harder)} Discuss one piece of evidence (e.g., a reduction from planted clique, or a low-degree-polynomial lower bound) supporting the conjecture that no polynomial-time algorithm closes the sparse-PCA statistical-computational gap. \\
+\emph{Rubric:} full credit requires a substantively correct description of the evidence and an acknowledgment of its limits (evidence, not proof).
+\end{enumerate}
+
+\subsection{Application: non-linear improvements to PCA}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Limitations of linear PCA under non-Gaussian or structured signal models
+\item Non-linear/pre-processing techniques (e.g., entrywise transforms) that move signal strength closer to the statistical threshold
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain why a well-chosen non-linear transform can improve estimation over linear PCA
+\item Apply a non-linear pre-processing method to a spiked model and predict its effect on the effective signal strength
+\item Evaluate the trade-offs (robustness, assumptions required) of non-linear PCA variants versus standard PCA
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Explain why applying a non-linear entrywise transform before running PCA can sometimes improve signal detection compared to standard linear PCA. \\
+\emph{Rubric:} full credit for correctly explaining the transform's effect on effective signal strength relative to the BBP threshold.
+\item \emph{(Harder)} For a simple, specified non-linear transform, compute or estimate its effect on the effective spike strength in a toy spiked model. \\
+\emph{Rubric:} full credit requires a correct (possibly approximate) computation connecting the transform to a change in effective signal-to-noise ratio.
+\end{enumerate}
+
+\subsection{Application: community detection}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item The stochastic block model
+\item Adjacency/Laplacian spectra and spectral clustering algorithms
+\item Connection to spiked random matrix models
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain how community detection in the stochastic block model can be cast as a spiked-matrix recovery problem
+\item Apply BBP-type thresholds to determine the detectability regime for a given block model
+\item Evaluate the performance of spectral clustering against the information-theoretic detection threshold
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Explain how the stochastic block model with two communities can be related to a spiked random matrix model. \\
+\emph{Rubric:} full credit for correctly mapping block-model parameters (within/between-community edge probabilities) to a spike strength.
+\item \emph{(Harder)} Using the BBP threshold, derive the condition on the block-model parameters under which spectral clustering can detect the community structure. \\
+\emph{Rubric:} full credit requires correctly translating the BBP threshold condition into block-model parameter language.
+\end{enumerate}
+
+%=================================================================
+\section{Module 4: Matrix Concentration Inequalities}
+\emph{Goal: derive general-purpose non-asymptotic concentration inequalities for random matrices (matrix Chernoff/Bernstein, non-commutative Khintchine) and apply them to randomized numerical linear algebra.}
+
+\subsection{General concentration inequalities and applications to random matrix norms}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item McDiarmid's bounded-differences inequality
+\item Lipschitz concentration for general (non-Gaussian) measures
+\item Sub-gaussian and sub-exponential tail behavior
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the bounded-differences condition and what it captures about a function's sensitivity
+\item Derive McDiarmid's inequality, or apply its proof strategy, to a specific function of independent inputs
+\item Apply Lipschitz concentration to bound fluctuations of a random matrix functional (e.g., an extreme singular value)
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State McDiarmid's bounded-differences inequality and identify the bounded-differences condition for a simple function of independent inputs. \\
+\emph{Rubric:} full credit for the correct statement and correct verification of the bounded-differences condition for the given example.
+\item \emph{(Harder)} Apply Lipschitz concentration to bound the fluctuation of the largest singular value of a random matrix with independent, sub-gaussian (not necessarily Gaussian) entries. \\
+\emph{Rubric:} full credit requires correctly verifying the Lipschitz condition for the singular-value functional and applying the concentration bound.
+\end{enumerate}
+
+\subsection{General-purpose bounds on expected random matrix norms}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Matrix versions of the Chernoff and Bernstein inequalities
+\item The matrix variance proxy and matrix moment generating function
+\item Intrinsic (effective) dimension in matrix concentration bounds
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain how scalar Chernoff/Bernstein inequalities generalize to the matrix setting
+\item Derive a matrix Chernoff or Bernstein bound for a sum of independent random matrices using the matrix moment generating function
+\item Apply matrix Bernstein to bound the norm of a random matrix arising from sampling or sparsification
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} multiple competing definitions of the matrix moment generating function and ``variance proxy'' create notational overload, and the role of intrinsic/effective dimension is easy to miss. \emph{Mitigation:} derive the scalar Bernstein inequality first as a warm-up, then show step by step exactly which scalar quantity is replaced by which matrix quantity, explicitly flagging intrinsic dimension as the one genuinely new ingredient.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State the matrix Bernstein inequality and identify the role of each term (variance proxy, dimension factor). \\
+\emph{Rubric:} full credit for a correct statement and correct explanation of each term.
+\item \emph{(Harder)} Apply matrix Bernstein to bound the norm of a sum of independent random rank-one matrices arising from sampling rows of a fixed matrix. \\
+\emph{Rubric:} full credit requires correctly computing the matrix variance term and applying the inequality to obtain a high-probability norm bound.
+\end{enumerate}
+
+\subsection{Non-commutative Khintchine inequality and its extensions}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Statement of the non-commutative Khintchine inequality
+\item Its connection to matrix concentration bounds
+\item Recent sharpenings and extensions (conceptual level)
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain the statement of the non-commutative Khintchine inequality and its role as a sharper alternative to matrix Bernstein
+\item Compare the non-commutative Khintchine bound to matrix Chernoff/Bernstein bounds in a specific example
+\item Evaluate the significance of recent extensions of the inequality for random matrix theory
+\end{itemize}
+\textbf{Difficulty note.} \emph{Why hard:} the inequality relies on operator-space/Schatten-norm background most students have not seen, so it initially looks like an unmotivated formal statement. \emph{Mitigation:} state the classical (commutative) Khintchine inequality first as an anchor, then introduce the non-commutative version as ``the same statement with absolute values replaced by Schatten norms,'' deferring the technical operator-space justification to a reference.\\[4pt]
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} State the non-commutative Khintchine inequality and explain how it generalizes the classical (scalar) Khintchine inequality. \\
+\emph{Rubric:} full credit for a correct statement and correct explanation of the generalization.
+\item \emph{(Harder)} Compare the bound given by the non-commutative Khintchine inequality to the matrix Bernstein bound for a specific sum of random matrices, identifying which is sharper. \\
+\emph{Rubric:} full credit requires a correct comparison with correct identification of the sharper bound and why.
+\end{enumerate}
+
+\subsection{Application: randomized numerical linear algebra}
+\textbf{Core concepts}
+\begin{itemize}[nosep]
+\item Randomized sketching for matrix multiplication and regression
+\item Approximation guarantees derived from matrix concentration
+\item Trade-off between sketch size, approximation error, and failure probability
+\end{itemize}
+\textbf{Learning objectives}
+\begin{itemize}[nosep]
+\item Explain how random sketching reduces the cost of a numerical linear algebra task
+\item Apply matrix concentration inequalities to derive an approximation guarantee for a sketched matrix computation
+\item Design a randomized algorithm (e.g., for approximate matrix multiplication) with a specified error tolerance, using matrix concentration bounds to select the sketch size
+\end{itemize}
+\textbf{Example questions}
+\begin{enumerate}[nosep]
+\item \emph{(Easier)} Explain how a random sketching matrix can be used to approximately solve a large least-squares regression problem, and what guarantee is desired. \\
+\emph{Rubric:} full credit for a correct explanation of the sketch-and-solve approach and the approximation guarantee sought.
+\item \emph{(Harder)} Using a matrix concentration inequality, derive the sketch size needed to guarantee a $(1\pm\varepsilon)$ relative-error approximate matrix multiplication with high probability. \\
+\emph{Rubric:} full credit requires correctly applying a matrix concentration bound to derive the sketch-size/error/failure-probability trade-off.
+\end{enumerate}
+
+%=================================================================
+\section{Prerequisite Map}
+
+\begin{longtable}{p{4.3cm}p{5.3cm}p{4.7cm}}
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where taught} \\
+\midrule
+\endhead
+1.1 Geometric methods / concentration & Basic probability (tail bounds, sub-gaussian variables); linear algebra (norms, singular values) & Assumed background \\
+1.2 Invariance / random projections & 1.1; rotational invariance of the Gaussian measure & 1.1 (this course); assumed background (linear algebra) \\
+1.3 JL transform & 1.1; 1.2 & This course \\
+1.4 Compressed sensing & 1.1; 1.3 (RIP builds on concentration and covering arguments) & This course \\
+2.1 Moment method & Linear algebra (trace, eigenvalues); basic combinatorics & Assumed background (linear algebra); combinatorics introduced in 2.1 \\
+2.2 Semicircle law & 2.1 & This course \\
+2.3 Marchenko--Pastur law & 2.1 & This course \\
+2.4 Universality & 2.2; 2.3 & This course \\
+2.5 Free probability & 2.1; 2.2 (moment/combinatorial intuition) & This course \\
+2.6 App: neural networks & 2.2; 2.3 (spectral results) & This course \\
+2.7 App: covariance estimation & 2.3 & This course \\
+3.1 Resolvent method & 2.1 (as contrast); basic complex analysis & This course (complex-analysis basics introduced here); assumed background (analysis maturity) \\
+3.2 BBP transition & 3.1; 2.2 / 2.3 (bulk spectral laws) & This course \\
+3.3 Statistical-computational gaps & 3.2 & This course \\
+3.4 App: non-linear PCA & 3.2; 3.3 & This course \\
+3.5 App: community detection & 3.2 & This course \\
+4.1 Bounded-differences / Lipschitz concentration & 1.1 (concentration foundations) & This course (built on 1.1) \\
+4.2 Matrix Chernoff / Bernstein & 4.1; linear algebra (matrix norms, trace) & This course (built on 4.1); assumed background (linear algebra) \\
+4.3 Non-commutative Khintchine & 4.2 & This course \\
+4.4 App: randomized numerical linear algebra & 4.2; 4.3 & This course \\
+\bottomrule
+\end{longtable}
+
+%=================================================================
+\section{Assessment Plan}
+
+\begin{longtable}{p{3.5cm}p{3.5cm}p{2.3cm}p{5.0cm}}
+\toprule
+\textbf{Module / Milestone} & \textbf{Assessment} & \textbf{Timing} & \textbf{Rationale} \\
+\midrule
+\endhead
+Module 1 & Homework 1 (Gaussian concentration, invariance, JL, compressed sensing) & Due session 7 & Tests students' ability to carry out concentration-based derivations independently before moving to the more demanding combinatorial machinery of Module 2 \\
+Module 2 & Homework 2 (moment method, semicircle law, Marchenko--Pastur, universality, free probability) & Due session 16 & Tests mastery of the combinatorial/moment machinery that underlies the resolvent-based methods used in Module 3 \\
+Module 2 & Final project proposal & Due session 16 & Ensures students select a paper, open problem, or topic early enough to pursue a genuine deep dive alongside coursework \\
+Module 3 & Homework 3 (resolvent method, BBP transition, statistical-computational gaps) & Due session 22 & Tests the resolvent technique and phase-transition reasoning central to spiked-matrix models \\
+Module 4 & Homework 4 (matrix concentration, Chernoff/Bernstein, non-commutative Khintchine) & Due session 27 & Tests the general-purpose, non-asymptotic concentration toolkit and its use in an application \\
+All modules & Class participation & Continuous, every session & Given the lecture format, participation credit (questions, engagement with board work and derivations) incentivizes active rather than passive attendance \\
+Capstone & Final project: in-class presentation & Sessions 28--30 & Gives students practice presenting technical research material and exposes the class to material beyond the syllabus \\
+Capstone & Final project: written report & Due session 30 & Assesses depth of independent engagement with a research paper, open problem, or related topic beyond what is covered in lecture \\
+\bottomrule
+\end{longtable}
+
+\end{document}

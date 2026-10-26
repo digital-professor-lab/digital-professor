@@ -1,0 +1,484 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=0.85in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[skins,breakable]{tcolorbox}
+\usepackage[
+    colorlinks=true,
+    linkcolor=MidnightBlue,
+    urlcolor=MidnightBlue
+]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlist{nosep,leftmargin=*}
+
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newtcolorbox{questionbox}[1]{
+  colback=blue!4, colframe=MidnightBlue, breakable,
+  fonttitle=\bfseries, title={#1}
+}
+\newtcolorbox{statebox}[1]{
+  colback=orange!6, colframe=BrickRed, breakable,
+  fonttitle=\bfseries, title={#1}
+}
+
+\title{Question Schema and Student-State Schema\\
+\large A Worked Example: Substitution vs.\ Integration by Parts}
+\author{Ovunc --- Course Context Workstream}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% ============================================================
+\section{Design Summary}
+% ============================================================
+
+The tutoring loop needs two parallel records that share most of their field
+names:
+
+\begin{itemize}
+  \item A \textbf{Question Schema} --- the target state. What a fully correct
+  solution to this specific question requires: its prerequisites, its
+  learning objectives, the correct approach, and the misconceptions a
+  question like this is known to trigger. This is static once retrieved; it
+  comes from the course breakdown.
+
+  \item A \textbf{Student-State Schema} --- the system's current estimate of
+  one student, on the same question, using mostly the same slot names, but
+  holding a \emph{status and evidence} for each slot rather than a settled
+  value.
+\end{itemize}
+
+Tutoring then becomes: repeatedly choose a pedagogical action (from the
+existing action vocabulary --- elicit, probe, inspect, diagnose, hint,
+contrast, explain, demonstrate, retry, verify, check understanding,
+transfer) that gathers evidence, use that evidence to fill in or revise a
+slot in the Student-State Schema, and keep going until the comparable slots
+in the Student-State Schema agree with the Question Schema. The two schemas
+being shaped the same way is what makes ``is the student done'' a concrete
+comparison rather than a judgment call made from scratch every time.
+
+A few of the Student-State slots do not have a Question-Schema counterpart
+at all (confidence, intervention history) --- those are not being
+``converged,'' they are bookkeeping the system needs to decide what to do
+next.
+
+% ============================================================
+\section{Question Schema (Template)}
+% ============================================================
+
+\begin{questionbox}{Question Schema}
+\small
+\begin{tabularx}{\linewidth}{P{4.0cm} X}
+\toprule
+\textbf{Field} & \textbf{Description} \\
+\midrule
+\texttt{question\_\allowbreak id} & \textit{(string)} Unique identifier for this question instance. \\
+\texttt{course\_\allowbreak id}, \texttt{module\_\allowbreak id} & \textit{(string)} Links into the course-context hierarchy (Course $\to$ Module). \\
+\texttt{prompt} & \textit{(string)} The question as posed to the student. \\
+\texttt{learning\_\allowbreak objectives} & \textit{(list[LO])} Objectives this question is meant to test. \\
+\texttt{prerequisite\_\allowbreak concepts} & \textit{(list[Concept])} Specific prior concepts required, each with an id and name. \\
+\texttt{correct\_\allowbreak approach} & \textit{(\{technique, justification\})} The technique that solves it, and \emph{why} it is the structurally correct one --- not just the answer. \\
+\texttt{common\_\allowbreak misconceptions} & \textit{(list[\{description, cue\}])} Known wrong approaches, and the surface feature of the question that tends to trigger each one. \\
+\texttt{source\_\allowbreak reference} & \textit{(string)} Pointer into the course breakdown / textbook section this question is drawn from. \\
+\bottomrule
+\end{tabularx}
+\end{questionbox}
+
+% ============================================================
+\section{Populating the Question Schema via Retrieval}
+% ============================================================
+
+The Question Schema is not hand-written per question. Every field in it is a
+lookup or a short derivation against the course-context schema already
+defined for the syllabus-breakdown work (\texttt{Course} $\to$
+\texttt{Module} $\to$ \texttt{Concept} $\to$ \texttt{Prerequisite} $\to$
+\texttt{LearningObjective} $\to$ \texttt{AssessmentQuestion}):
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{P{4.0cm} X}
+\toprule
+\textbf{Question Schema field} & \textbf{Filled from} \\
+\midrule
+\texttt{question\_\allowbreak id} & \texttt{AssessmentQuestion.id} directly. \\
+\texttt{course\_\allowbreak id}, \texttt{module\_\allowbreak id} & Resolved
+  from the \texttt{Concept} this question is tagged to, via
+  \texttt{Concept.module\_\allowbreak id} and that module's
+  \texttt{course\_\allowbreak id}. \\
+\texttt{prompt} & \texttt{AssessmentQuestion.prompt} directly. \\
+\texttt{learning\_\allowbreak objectives} & \texttt{AssessmentQuestion.objective\_\allowbreak ids},
+  resolved against \texttt{LearningObjective} records. \\
+\texttt{prerequisite\_\allowbreak concepts} & \texttt{Concept.prerequisite\_\allowbreak ids}
+  for the tagged concept(s), resolved to their own \texttt{Concept} records. \\
+\texttt{correct\_\allowbreak approach} & Derived from \texttt{AssessmentQuestion.solution}
+  together with the tagged \texttt{Concept.summary} --- the solution gives
+  the steps, the concept summary gives the structural reason those steps
+  are the right call. \\
+\texttt{common\_\allowbreak misconceptions} & \texttt{Concept.difficulty\_\allowbreak notes}
+  (the \{misconception, mitigation\} pairs already captured per concept),
+  cross-checked against \texttt{AssessmentQuestion.common\_\allowbreak wrong\_\allowbreak answers}
+  for this specific question. \\
+\texttt{source\_\allowbreak reference} & \texttt{Concept.source\_\allowbreak ids},
+  resolved to \texttt{Source.citation}. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Practically: given only a \texttt{question\_id}, the system can retrieve the
+entire Question Schema by one lookup plus following three link fields
+(\texttt{prerequisite\_ids}, \texttt{objective\_ids}, \texttt{source\_ids}).
+Nothing in the Question Schema needs to be authored twice --- it is a view
+over records the course-context retrieval layer already holds.
+
+% ============================================================
+\section{Student-State Schema (Template)}
+% ============================================================
+
+\begin{statebox}{Student-State Schema}
+\small
+\begin{tabularx}{\linewidth}{P{4.0cm} X}
+\toprule
+\textbf{Field} & \textbf{Description} \\
+\midrule
+\texttt{question\_\allowbreak id} & \textit{(string)} Foreign key into the matching Question Schema instance. \\
+\texttt{observed\_\allowbreak approach} & \textit{(string)} The technique the student is currently using or proposing. \emph{Compared directly against \texttt{correct\_\allowbreak approach.technique}.} \\
+\texttt{stated\_\allowbreak reasoning} & \textit{(string)} Paraphrase of the student's own justification, as given. \\
+\texttt{prerequisite\_\allowbreak status} & \textit{(list[\{concept\_id, status, evidence\}])} One entry per prerequisite in the matching Question Schema. \texttt{status} $\in$ \{unknown, partially demonstrated, confirmed, contradicted\}. \emph{This list is what ``converges'' against \texttt{prerequisite\_\allowbreak concepts}.} \\
+\texttt{components\_\allowbreak correct} & \textit{(list[string])} Specific things the student has gotten right so far. \\
+\texttt{suspected\_\allowbreak misconception} & \textit{(\{description, confidence\})} Current best guess at the error. Confidence is explicit so the system can say ``not enough evidence'' instead of inventing one. \\
+\texttt{interventions\_\allowbreak attempted} & \textit{(list[\{turn, action, summary\}])} Log of pedagogical actions already taken, in order. \\
+\texttt{evidence\_\allowbreak of\_\allowbreak understanding\_\allowbreak level} & \textit{(int 0--5)} Same recognize~$\to$~execute~$\to$~explain~$\to$~transfer scale used elsewhere in the project. \\
+\texttt{convergence\_\allowbreak notes} & \textit{(string)} Which fields still differ from the Question Schema, and what evidence would close the gap. \\
+\bottomrule
+\end{tabularx}
+\end{statebox}
+
+Only \texttt{observed\_approach} and \texttt{prerequisite\_status} are
+direct, slot-by-slot comparisons against the Question Schema. The rest of
+the Student-State Schema exists to support \emph{making} that comparison
+correctly, not to match anything in the Question Schema itself.
+
+% ============================================================
+\section{Worked Example: \texorpdfstring{$\int x \cos x \, dx$}{the integral of x cos x}}
+% ============================================================
+
+This trace covers the branch where the student first reaches for
+substitution on a problem that actually requires integration by parts, then
+continues into actually executing integration by parts once the technique
+has been identified, through a comprehension check and two transfer
+questions. It stops there --- the student's responses to those two transfer
+questions are a further continuation, not part of this example.
+
+\subsection{Filled Question Schema}
+
+\begin{questionbox}{\texttt{calc1.module-F.q-xcosx-01}}
+\small
+\begin{tabularx}{\linewidth}{P{4.0cm} X}
+\toprule
+\textbf{Field} & \textbf{Value} \\
+\midrule
+\texttt{course\_\allowbreak id} & \texttt{calc1} (Calculus I) \\
+\texttt{module\_\allowbreak id} & \texttt{calc1.module-F} --- Applications of the Integral \\
+\texttt{prompt} & $\displaystyle\int x \cos x \, dx$ \\
+\texttt{learning\_\allowbreak objectives} &
+  LO1: select the appropriate integration technique from the structural
+  form of the integrand. \newline
+  LO2: correctly apply integration by parts, including the choice of $u$
+  and $dv$. \\
+\texttt{prerequisite\_\allowbreak concepts} &
+  P1: u-substitution mechanics (reversing the chain rule). \newline
+  P2: the structural test for u-substitution --- the integrand must contain
+  a constant multiple of the derivative of some ``inner'' function.
+  \newline
+  P3: the integration-by-parts formula $\int u\,dv = uv - \int v\,du$ and a
+  method for choosing $u$ and $dv$. \\
+\texttt{correct\_\allowbreak approach} &
+  \textit{technique}: integration by parts, with $u = x$, $dv = \cos x\,dx$.
+  \newline
+  \textit{justification}: $x$ and $\cos x$ are unrelated functions --- an
+  algebraic factor and a trigonometric factor with no derivative
+  relationship between them. There is no inner function whose derivative
+  appears as a factor, so the u-substitution test fails. A product of two
+  structurally unrelated, repeatedly differentiable/integrable functions is
+  the signature case for parts. \\
+\texttt{common\_\allowbreak misconceptions} &
+  M1: seeing ``an $x$ next to a trig or exponential function'' gets
+  pattern-matched to chain-rule / u-substitution problems without checking
+  whether $x$ is actually a multiple of the derivative of anything in the
+  integrand. \\
+\texttt{source\_\allowbreak reference} & Calc I course breakdown, Module F (Applications
+  of the Integral), difficulty note on technique-selection confusion. \\
+\bottomrule
+\end{tabularx}
+\end{questionbox}
+
+\subsection{Turn-by-Turn Trace}
+
+\small
+\begin{longtable}{P{1.0cm} P{2.1cm} P{12.4cm}}
+\toprule
+\textbf{Turn} & \textbf{Action} & \textbf{Exchange and Student-State Update} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Turn} & \textbf{Action} & \textbf{Exchange and Student-State Update} \\
+\midrule
+\endhead
+
+1 & Elicit &
+  \textit{DP:} ``Can you walk me through what you tried on
+  $\int x\cos x\,dx$, and where you got stuck?'' \newline
+  \textit{Student:} ``I tried u-substitution, but it didn't simplify into
+  something I could integrate.'' \newline
+  \textbf{Update:} \texttt{observed\_approach} $\leftarrow$
+  u-substitution; \texttt{stated\_reasoning} $\leftarrow$ attempted
+  u-sub, got stuck. \\[2mm]
+
+2 & Diagnose \newline \textit{(internal; retrieval against Question Schema)} &
+  \texttt{observed\_approach} is compared to
+  \texttt{correct\_approach.technique} $\Rightarrow$ mismatch. Checked
+  against \texttt{common\_misconceptions} $\Rightarrow$ matches the M1
+  pattern. \newline
+  \textbf{Update:} \texttt{suspected\_misconception} $\leftarrow$
+  \{M1 pattern-match, confidence: tentative\}. \\[2mm]
+
+3 & Contrast &
+  \textit{DP:} ``Here's a similar-looking integral:
+  $\int x e^{x^2}\,dx$. Can you solve this one?'' \newline
+  \textit{Student:} ``$u=x^2$, $du=2x\,dx$, so
+  $\int x e^{x^2}dx = \tfrac12 e^{x^2}+C$.'' \newline
+  \textbf{Update:} \texttt{prerequisite\_status[P1]} $\leftarrow$
+  confirmed; \texttt{components\_correct} $\mathrel{+}=$
+  u-substitution mechanics. \\[2mm]
+
+4 & Probe &
+  \textit{DP:} ``Do you think $\int x\cos x\,dx$ and
+  $\int x e^{x^2}\,dx$ are structurally the same? Why or why not?''
+  \newline
+  \textit{Student:} ``No, I don't think they're the same\ldots maybe
+  because $\cos x$ isn't like $e^{x^2}$?'' \newline
+  \textbf{Update:} \texttt{components\_correct} $\mathrel{+}=$ senses
+  the integrals differ; \texttt{prerequisite\_status[P2]} $\leftarrow$
+  partially demonstrated (right instinct, no structural reason yet). \\[2mm]
+
+5 & Explain &
+  \textit{DP:} ``Look at the derivative relationship. In
+  $\int x e^{x^2}dx$, $\frac{d}{dx}(x^2)=2x$, and $x$ is a constant
+  multiple of that --- exactly what u-substitution undoes. In
+  $\int x\cos x\,dx$, $x$ is not the derivative of anything inside
+  $\cos x$; there's no composition to undo. That's the test: is one
+  factor a multiple of the derivative of what's `inside' the other?
+  Here, no.'' \newline
+  \textbf{Update:} \texttt{prerequisite\_status[P2]} $\leftarrow$
+  confirmed (assisted --- given by explanation, not yet independently
+  re-applied by the student). \\[2mm]
+
+6 & Probe &
+  \textit{DP:} ``Given there's no derivative relationship to exploit
+  here, what other technique might work?'' \newline
+  \textit{Student:} ``Maybe integration by parts? Or\ldots could trig
+  substitution work?'' \newline
+  \textbf{Update:} \texttt{observed\_approach} $\leftarrow$
+  integration by parts (tentative), alongside an incorrect alternative. \\[2mm]
+
+7 & Probe + Explain &
+  \textit{DP:} ``Why would trig substitution apply here?'' \newline
+  \textit{Student:} ``I guess because there's a $\cos x$ in it?''
+  \newline
+  \textit{DP:} ``Trig substitution is for integrands with
+  $\sqrt{a^2-x^2}$-type expressions --- having a trig function present
+  isn't itself the trigger, so that one doesn't apply. But you're right
+  about integration by parts: we have a product of an algebraic factor
+  and a function with no derivative relationship to it, which is the
+  signature case for parts.'' \newline
+  \textbf{Update:} \texttt{suspected\_misconception} $\leftarrow$
+  resolved; \texttt{observed\_approach} $\leftarrow$ integration by
+  parts (confirmed); \texttt{evidence\_of\_understanding\_level}
+  $\leftarrow$ 1 (recognizes the relevant approach --- not yet
+  executed). \\[2mm]
+
+8 & Retry &
+  \textit{DP:} ``Now that we've settled on integration by parts, go
+  ahead and try it on $\int x\cos x\,dx$.'' \newline
+  \textit{Student:} picks $u=\cos x$, $dv=x\,dx$, so $du=-\sin x\,dx$,
+  $v=\tfrac{x^2}{2}$: ``$\int x\cos x\,dx = \tfrac{x^2}{2}\cos x +
+  \int \tfrac{x^2}{2}\sin x\,dx$\ldots but this looks more complicated
+  than what I started with.'' \newline
+  \textbf{Update:} \texttt{prerequisite\_status[P3]} $\leftarrow$
+  partially demonstrated (applies the formula correctly in isolation,
+  but the choice of $u,dv$ is backwards). \\[2mm]
+
+9 & Hint &
+  \textit{DP:} ``Look at the new integral you ended up with --- is it
+  simpler or more complicated than the one you started with?''
+  \newline
+  \textit{Student:} ``\ldots more complicated.'' \newline
+  \textit{DP:} ``Right. A correct choice of $u,dv$ should usually make
+  things easier, not harder --- that's your signal the choice is
+  backwards. What happens if you swap them?'' \newline
+  \textbf{Update:} \texttt{suspected\_misconception} $\leftarrow$
+  refined: formula mechanics are fine, but there's no check yet for
+  whether a $u,dv$ choice is making progress (see Open Design
+  Questions --- this is really a distinct sub-skill inside P3). \\[2mm]
+
+10 & Retry &
+  \textit{Student:} ``$u=x$, $dv=\cos x\,dx$, so $du=dx$, $v=\sin x$.
+  $\int x\cos x\,dx = x\sin x - \int\sin x\,dx = x\sin x + \cos x +
+  C$.'' \newline
+  \textbf{Update:} \texttt{prerequisite\_status[P3]} $\leftarrow$
+  confirmed (assisted --- reached correctly, but only after the hint
+  in Turn 9); \texttt{components\_correct} $\mathrel{+}=$ executes
+  integration by parts correctly once $u,dv$ is chosen well. \\[2mm]
+
+11 & Verify &
+  DP checks the answer by differentiating:
+  $\frac{d}{dx}(x\sin x+\cos x) = \sin x + x\cos x - \sin x = x\cos
+  x$, which matches the integrand. \newline
+  \textbf{Update:} \texttt{components\_correct} $\mathrel{+}=$ final
+  answer verified correct. \\[2mm]
+
+12 & Check understanding &
+  \textit{DP:} ``Why did swapping $u$ and $dv$ make this work?''
+  \newline
+  \textit{Student:} ``If $u=x$, differentiating it only takes one
+  step to get to $1$. If I'd kept $u=\cos x$, differentiating it just
+  cycles through trig functions and never simplifies, and integrating
+  powers of $x$ keeps raising the degree instead of lowering it.''
+  \newline
+  \textbf{Update:} \texttt{evidence\_of\_understanding\_level}
+  $\leftarrow$ 4 (explains why the approach works);
+  \texttt{components\_correct} $\mathrel{+}=$ can state the $u,dv$
+  selection heuristic in general terms, not just for this problem. \\[2mm]
+
+13 & Transfer &
+  \textit{DP:} ``Try these two on your own: (1) $\int x\sin x\,dx$,
+  and (2) $\int x\,e^{-x^2}\,dx$.'' \newline
+  \textbf{Update:} \texttt{interventions\_attempted} $\mathrel{+}=$
+  Transfer (T13: one same-technique problem, one that actually calls
+  for u-substitution instead). \texttt{evidence\_of\_understanding\_level}
+  can only reach 5 once the responses to these two come back --- the
+  example stops here. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Final Student-State Schema}
+
+\begin{statebox}{\texttt{calc1.module-F.q-xcosx-01} --- after Turn 13}
+\small
+\begin{tabularx}{\linewidth}{P{4.0cm} X}
+\toprule
+\textbf{Field} & \textbf{Value} \\
+\midrule
+\texttt{observed\_\allowbreak approach} & integration by parts, executed correctly
+  with $u=x$, $dv=\cos x\,dx$ (confirmed) \\
+\texttt{stated\_\allowbreak reasoning} & attempted u-sub, stuck $\to$ senses
+  $\cos x$ differs from $e^{x^2}$ $\to$ identifies the missing derivative
+  relationship and proposes parts $\to$ first tries $u=\cos x$ and notices
+  the result got harder $\to$ swaps to $u=x$ and solves it $\to$ explains
+  the $u,dv$ choice in general terms. \\
+\texttt{prerequisite\_\allowbreak status} &
+  P1 (u-sub mechanics): \textbf{confirmed}. \newline
+  P2 (structural test): \textbf{confirmed (assisted)}. \newline
+  P3 (IBP formula \& choice of $u,dv$): \textbf{confirmed (assisted)}
+  --- formula mechanics were fine on the first attempt; the $u,dv$
+  choice needed one hint (Turn 9) before it was independent. \\
+\texttt{components\_\allowbreak correct} & u-substitution mechanics; senses the
+  two integrals differ; correctly names integration by parts as
+  applicable; executes integration by parts correctly once $u,dv$ is
+  chosen well; final answer verified; states the $u,dv$ selection
+  heuristic in general terms. \\
+\texttt{suspected\_\allowbreak misconception} & M1 (surface-feature
+  pattern-matching) --- resolved, confidence: high. A second, narrower
+  one surfaced and was also resolved: applying the IBP formula correctly
+  without checking whether the resulting integral is actually simpler. \\
+\texttt{interventions\_\allowbreak attempted} & Elicit (T1), Diagnose (T2,
+  internal), Contrast (T3), Probe (T4), Explain (T5), Probe (T6),
+  Probe+Explain (T7), Retry (T8), Hint (T9), Retry (T10), Verify (T11),
+  Check understanding (T12), Transfer (T13). \\
+\texttt{evidence\_\allowbreak of\_\allowbreak understanding\_\allowbreak level} & 4 ---
+  explains why the approach works. Not yet 5: that needs evidence from
+  the two transfer questions posed in Turn 13. \\
+\texttt{convergence\_\allowbreak notes} & \texttt{observed\_\allowbreak approach} and
+  P1--P3 now match the Question Schema. The only thing still open is
+  Level 5 (transfer), pending the student's responses to Turn 13. \\
+\bottomrule
+\end{tabularx}
+\end{statebox}
+
+\subsection{Convergence Summary}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{P{3.6cm} P{3.6cm} P{3.6cm} P{1.8cm}}
+\toprule
+\textbf{Field} & \textbf{Question Schema} & \textbf{Student-State (final)} & \textbf{Converged?} \\
+\midrule
+technique & integration by parts & integration by parts, executed & Yes \\
+P1 (u-sub mechanics) & required & confirmed & Yes \\
+P2 (structural test) & required & confirmed (assisted) & Partial --- correct, but not yet independent \\
+P3 (IBP formula \& $u,dv$ choice) & required & confirmed (assisted) & Partial --- formula independent, choice needed a hint \\
+M1 (misconception) & known pattern to watch for & resolved & Yes \\
+evidence level & 5 (transfer) & 4 (explains why) & Partial --- awaiting Turn 13 responses \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Correspondence to the Tutoring Diagram}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{P{1.2cm} X}
+\toprule
+\textbf{Turn} & \textbf{Node in the original tutoring-flow diagram} \\
+\midrule
+1 & \texttt{root} --- ask approach and where stuck \\
+2--3 & \texttt{usub} $\to$ \texttt{usubq} --- wrong-approach branch, easy u-sub comparison question \\
+4 & \texttt{usubq} $\to$ (``No'' outcome) \texttt{usubnowrong} \\
+5 & \texttt{usubdiff} --- explain the real difference \\
+6 & \texttt{correctnode} --- ask what other technique applies \\
+7 & \texttt{saysparts} --- student names parts plus one wrong guess; corrected \\
+8--10 & \texttt{partswalk} $\to$ \texttt{partsspot} $\to$ \texttt{partsresolve} --- student attempts parts, picks $u,dv$ backwards, is nudged, resolves it \\
+10 & \texttt{partssolves} --- student solves the question by integration by parts \\
+11--12 & (beyond the diagram) verification and a comprehension check, following the project's ``check understanding before transfer'' loop \\
+13 & \texttt{twoexamples} --- give two more examples, one similar, one different \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+% ============================================================
+\section{Open Design Questions}
+% ============================================================
+
+\begin{itemize}
+  \item \textbf{Comparison is semantic, not mechanical.} \texttt{observed\_approach}
+  and \texttt{correct\_approach.technique} are short free-text/tag values, so
+  ``converged'' still requires a judgment call (an LLM comparison), not a
+  literal string match.
+  \item \textbf{Non-monotonic updates.} A \texttt{prerequisite\_status} entry
+  should be allowed to move backward (confirmed $\to$ contradicted) if later
+  evidence contradicts it --- the schema should not assume a slot only ever
+  fills in one direction.
+  \item \textbf{Granularity of prerequisites.} This example already needed
+  three separate prerequisite entries rather than one ``knows integration
+  techniques'' slot --- and Turns 8--10 then showed P3 itself is really two
+  things bundled together (the IBP formula, which the student had cold, and
+  a $u,dv$-choice heuristic, which needed a hint). Worth deciding,
+  project-wide, how finely \texttt{prerequisite\_concepts} should be split
+  per question; this trace suggests splitting until each entry maps to one
+  gettable-wrong thing, not one named technique.
+  \item \textbf{``Confirmed'' vs.\ ``confirmed (assisted)''.} P2 shows these
+  need to be distinguishable --- a fact given by \texttt{Explain} is weaker
+  evidence than one the student produced independently, and the
+  \texttt{evidence\_of\_understanding\_level} scale already makes this
+  distinction elsewhere; the status field should carry it too.
+\end{itemize}
+
+\end{document}

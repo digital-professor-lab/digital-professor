@@ -1,0 +1,802 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Calculus I for Bio \& Social Sciences \\ \large Full Course Design}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section*{Course Overview}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Course name:} Calculus I for Bio \& Social Sciences
+  \item \textbf{Level:} Undergraduate, introductory
+  \item \textbf{Format:} Lecture (3$\times$/week, 50 min) plus one weekly TA/discussion session (50 min)
+  \item \textbf{Duration:} 14--15 week semester
+  \item \textbf{Assessment weights:} Weekly homework 8\%, Quizzes (4) 35\%, Group projects (2) 20\%, Portfolios (2) 7\%, Final exam 30\%
+  \item \textbf{Assumed background (assumption --- not confirmed by instructor):} College algebra / precalculus fluency: function notation, graphing and transforming linear, polynomial, rational, exponential, and logarithmic functions; basic unit-circle trigonometry (sine and cosine, at a recognition level); comfort with algebraic manipulation, factoring, and solving equations. No prior calculus and no programming background are assumed.
+\end{itemize}
+
+
+%============================================================
+\section{Module 1: Functions and Mathematical Modeling}
+\textbf{Goal:} Refresh core function types and show how functions model biological and social phenomena.
+
+\subsection{Review of Function Types}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Definition of a function; domain and range
+  \item Linear functions and constant rate of change
+  \item Polynomial and power functions
+  \item Rational functions and asymptotic behavior
+  \item Transformations: shifts, stretches, reflections
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the defining properties of linear, polynomial, and rational functions.
+  \item Apply transformation rules to sketch graphs of shifted or scaled functions.
+  \item Evaluate which function family best matches a given data trend.
+\end{itemize}
+
+\subsection{Exponential and Logarithmic Functions}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Exponential functions and the base $e$
+  \item Properties of logarithms; the inverse relationship between exponentials and logarithms
+  \item Graphs and asymptotic (long-run) behavior
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the inverse relationship between exponential and logarithmic functions.
+  \item Apply logarithm laws to simplify expressions and solve equations.
+  \item Evaluate real-world quantities (e.g., pH, population size) using exponential/log models.
+\end{itemize}
+
+\subsection{Mathematical Modeling in Bio/Social Science Contexts}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Choosing a function family for a phenomenon (linear vs.\ exponential vs.\ logistic growth)
+  \item Interpreting model parameters and units
+  \item Qualitative model fit to data
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain why phenomena such as population growth or compound interest are modeled exponentially rather than linearly.
+  \item Design a simple function-based model for a given biological or social scenario.
+  \item Evaluate the reasonableness of a proposed model against the qualitative features of data.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} A culture starts with 200 cells and doubles every 3 hours. Write a function $N(t)$ for the population after $t$ hours. \\
+  \textbf{Answer/Rubric:} $N(t) = 200 \cdot 2^{t/3}$.
+  \item \textit{(Applied)} A town's population was 12{,}000 in 2010 and 15{,}000 in 2020. Assuming exponential growth, find the annual growth rate and predict the 2030 population. \\
+  \textbf{Answer/Rubric:} Full credit requires (a) setting up $P(t)=P_0(1+r)^t$, (b) solving for $r$ from the two data points, (c) projecting correctly to 2030, (d) a sentence noting that the exponential-growth assumption may not hold indefinitely.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 2: Limits and Continuity}
+\textbf{Goal:} Build the concept of a limit as the foundation for the derivative, and connect continuity to real-world \emph{no sudden jumps} behavior.
+
+\subsection{Intuitive Notion of a Limit; One-Sided Limits}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Limits as ``approaching'' behavior
+  \item Left-hand and right-hand limits
+  \item When a limit fails to exist
+  \item Estimating limits from graphs and tables
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the difference between a function's value at a point and its limit at that point.
+  \item Apply graphical and tabular reasoning to estimate one-sided and two-sided limits.
+\end{itemize}
+
+\subsection{Limit Laws and Algebraic Computation}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Sum, product, and quotient laws for limits
+  \item Limits of polynomial and rational functions
+  \item The indeterminate form $0/0$
+  \item Factoring and rationalizing techniques
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply limit laws to compute limits of algebraic combinations of functions.
+  \item Derive simplified forms of indeterminate expressions using factoring or rationalization.
+\end{itemize}
+
+\subsection{Continuity and Its Role in Modeling}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Definition of continuity at a point
+  \item Types of discontinuity: removable, jump, infinite
+  \item The Intermediate Value Theorem
+  \item Continuity as a modeling assumption
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain why continuity is a natural (or sometimes unrealistic) assumption in biological/social models.
+  \item Apply the Intermediate Value Theorem to justify the existence of a solution in context (e.g., a threshold dose, an equilibrium price).
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Use a table of values to estimate $\lim_{x \to 2} \dfrac{x^2-4}{x-2}$. \\
+  \textbf{Answer/Rubric:} Values approach $4$ from both sides; algebraically, $\dfrac{x^2-4}{x-2}=x+2 \to 4$.
+  \item \textit{(Applied)} Body temperature $T(t)$ during an infection is modeled by a piecewise function that jumps when medication is administered at $t=6$ hours. Explain, using the definition of continuity, why $T$ is discontinuous at $t=6$ and what this means physically. \\
+  \textbf{Answer/Rubric:} Strong answers note $\lim_{t \to 6^-} T(t) \ne \lim_{t \to 6^+} T(t)$, identify this as a jump discontinuity, and connect it to the instantaneous effect of the medication.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 3: The Derivative: Definition and Rates of Change}
+\textbf{Goal:} Introduce the derivative as a formalization of instantaneous rate of change, motivated by biological and social rate questions.
+
+\subsection{Average vs.\ Instantaneous Rate of Change}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Average rate of change as the slope of a secant line
+  \item Instantaneous rate as a limit of average rates
+  \item Motivating examples: population growth rate, marginal cost
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the conceptual jump from average to instantaneous rate of change.
+  \item Apply the difference quotient to estimate an instantaneous rate from data.
+\end{itemize}
+
+\subsection{The Derivative as a Limit; the Difference Quotient}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Formal definition $f'(x) = \lim_{h \to 0} \dfrac{f(x+h)-f(x)}{h}$
+  \item Computing derivatives from the definition for simple functions
+  \item Notation: $f'(x)$, $\dfrac{dy}{dx}$
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Derive the derivative of simple functions (e.g., $f(x)=x^2$) directly from the limit definition.
+  \item Apply correct derivative notation in context.
+\end{itemize}
+
+\subsection{The Derivative as a Function; Differentiability and Continuity}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item The derivative as a new function built from $f$
+  \item Graphical relationship between $f$ and $f'$
+  \item Differentiability implies continuity (not conversely)
+  \item Points of non-differentiability: corners, cusps, vertical tangents
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain why differentiability implies continuity but not vice versa.
+  \item Evaluate a graph of $f$ to sketch a plausible graph of $f'$.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{The derivative as a limit (Topic 3.2):} \textit{Why it's hard:} students face an abstraction jump from a concrete average rate to a limiting process, plus algebra-heavy simplification of the difference quotient before the limit can be taken. \textit{Mitigation:} scaffold with a numerical table of average rates over shrinking intervals before introducing the symbolic limit; sequence worked examples from simple polynomials to slightly more complex ones.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Use the limit definition to find $f'(x)$ for $f(x) = x^2 + 3x$. \\
+  \textbf{Answer/Rubric:} $f'(x) = \lim_{h\to 0} \dfrac{(x+h)^2+3(x+h) - (x^2+3x)}{h} = 2x+3$.
+  \item \textit{(Applied)} A tumor's volume (in mm$^3$) is measured at $t=0,1,2,3$ weeks as $50, 58, 68, 80$. Estimate the instantaneous growth rate at $t=2$ using the data, and explain why this is only an estimate of the true derivative. \\
+  \textbf{Answer/Rubric:} Strong answers use a centered difference $\frac{80-58}{2}=11$ mm$^3$/week as an approximation, and explain that only discrete data (not a continuous function) is available, so the true instantaneous rate cannot be computed exactly.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 4: Differentiation Rules}
+\textbf{Goal:} Equip students with the mechanical toolkit for differentiating combinations of functions. \textit{(Quiz 1 at the end of this module.)}
+
+\subsection{Power, Sum/Difference, and Constant Multiple Rules}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Power rule for $x^n$
+  \item Linearity of differentiation
+  \item Differentiating polynomials
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply the power rule and linearity to differentiate polynomial functions quickly.
+\end{itemize}
+
+\subsection{Product Rule and Quotient Rule}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Statement and use of the product rule
+  \item Statement and use of the quotient rule
+  \item Common errors (e.g., treating $\frac{d}{dx}(fg)$ as $f'g'$)
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Derive the product rule informally from the limit definition.
+  \item Apply the product and quotient rules to differentiate combined functions.
+\end{itemize}
+
+\subsection{Chain Rule}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Composite functions
+  \item Statement of the chain rule
+  \item Recognizing ``outside/inside'' structure
+  \item Chain rule with multiple nested layers
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the chain rule as tracking how a composite function's rate of change compounds.
+  \item Apply the chain rule to differentiate nested/composite functions, including modeling contexts (e.g., the rate of change of a population expressed as a function of time through an intermediate variable).
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Product, quotient, and chain rules (Topics 4.2--4.3):} \textit{Why it's hard:} there is notational overload across three new rules in one week, and the chain rule's ``outside/inside'' structure is easy to misidentify, leading to systematic sign and structure errors. \textit{Mitigation:} use a consistent color-coded or boxed ``outside/inside'' annotation method for every chain-rule example, and run explicit common-error walkthroughs comparing a wrong application side by side with the correct one.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Differentiate $f(x) = 3x^4 - 5x^2 + 7$. \\
+  \textbf{Answer/Rubric:} $f'(x) = 12x^3 - 10x$.
+  \item \textit{(Applied)} The concentration of a drug in the bloodstream is $C(t) = \dfrac{5t}{t^2+4}$ (mg/L). Find $C'(t)$ and interpret its sign at $t=1$ and $t=3$. \\
+  \textbf{Answer/Rubric:} Requires correct quotient-rule application; strong answers state that $C'(1)>0$ (concentration still rising) and $C'(3)<0$ (concentration falling), tying the sign of the derivative to the physical process.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 5: Derivatives of Exponential and Logarithmic Functions}
+\textbf{Goal:} Extend the differentiation toolkit to exponential and logarithmic functions, central to growth and decay modeling in the biological and social sciences.
+
+\subsection{Derivative of $e^x$ and General Exponential Functions}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item $\dfrac{d}{dx}e^x = e^x$
+  \item Derivative of $a^x$ via $a^x = e^{x\ln a}$
+  \item Combining with the chain rule for $e^{kt}$
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Derive the derivative of $a^x$ from the derivative of $e^x$.
+  \item Apply exponential differentiation to growth and decay rate problems.
+\end{itemize}
+
+\subsection{Derivative of $\ln x$ and General Logarithmic Functions}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item $\dfrac{d}{dx}\ln x = \dfrac{1}{x}$
+  \item Derivative of $\log_a x$
+  \item Chain rule with logarithms
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply logarithmic differentiation rules to functions involving $\ln$ and $\log_a$.
+\end{itemize}
+
+\subsection{Logarithmic Differentiation and Growth-Rate Applications}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Taking $\ln$ of both sides to differentiate products, quotients, and powers
+  \item Relative (per-capita) rate of change, $f'/f$
+  \item Connection to per-capita growth rate in biology and economics
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply logarithmic differentiation to simplify differentiation of complex products or powers.
+  \item Evaluate a population or economic growth scenario in terms of its relative (per-capita) growth rate.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Logarithmic differentiation and relative rate of change (Topic 5.3):} \textit{Why it's hard:} the topic layers a new algebraic technique on top of an unfamiliar interpretive idea (percentage rate vs.\ absolute rate), which is conceptually dense for one sitting. \textit{Mitigation:} work one running example (e.g., a bacterial population) throughout the lecture, computing both $f'$ and $f'/f$ at the same points so students see the two numbers side by side and connect $f'/f$ to ``percent growth per unit time.''
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Find $\dfrac{d}{dx}\left(e^{3x} + \ln(5x)\right)$. \\
+  \textbf{Answer/Rubric:} $3e^{3x} + \dfrac{1}{x}$.
+  \item \textit{(Applied)} A population grows as $P(t) = 500e^{0.04t}$. Compute the relative growth rate $P'(t)/P(t)$ and explain what it means that this quantity is constant. \\
+  \textbf{Answer/Rubric:} $P'(t)/P(t) = 0.04$ for all $t$; strong answers explain that a constant relative growth rate of 4\% per unit time is the defining feature of exponential growth.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 6: Derivatives of Trigonometric Functions and Implicit Differentiation}
+\textbf{Goal:} Round out the differentiation toolkit with light trigonometric derivatives and implicit differentiation for relationships not solved explicitly for $y$.
+
+\subsection{Derivatives of Sine and Cosine}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item $\dfrac{d}{dx}\sin x = \cos x$, $\dfrac{d}{dx}\cos x = -\sin x$ (statement and geometric intuition)
+  \item Periodic behavior in rates (e.g., seasonal or circadian models)
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply derivatives of sine and cosine, together with the chain rule, in periodic modeling contexts (e.g., seasonal population fluctuation).
+\end{itemize}
+
+\subsection{Implicit Differentiation}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Differentiating equations not solved for $y$
+  \item Treating $y$ as a function of $x$
+  \item Solving for $\dfrac{dy}{dx}$
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply implicit differentiation to find $dy/dx$ for equations relating two variables implicitly.
+\end{itemize}
+
+\subsection{Applications of Implicit Differentiation}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Implicitly defined relationships in bio/social models (e.g., budget constraints, resource trade-off curves)
+  \item Interpreting $dy/dx$ in context
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Evaluate the meaning of a $dy/dx$ obtained implicitly in a real-world trade-off scenario.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Find $\dfrac{dy}{dx}$ if $x^2 + y^2 = 25$. \\
+  \textbf{Answer/Rubric:} $2x + 2y\dfrac{dy}{dx}=0 \Rightarrow \dfrac{dy}{dx} = -x/y$.
+  \item \textit{(Applied)} Two species share a habitat with a resource trade-off curve $x^2 + 4y^2 = 400$, where $x$ and $y$ are population sizes. Find $dy/dx$ when $x=12, y=8$ and interpret its sign. \\
+  \textbf{Answer/Rubric:} $dy/dx = -x/(4y)$; at $(12,8)$, $dy/dx = -3/8$, meaning population $y$ decreases as $x$ increases along the trade-off curve.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 7: Related Rates}
+\textbf{Goal:} Apply the chain rule to problems where multiple quantities change with respect to time simultaneously. \textit{(Quiz 2 at the end of this module; Group Project 1 assigned.)}
+
+\subsection{Setting Up Related-Rates Problems}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Identifying variables and their rates
+  \item Writing an equation relating the variables
+  \item Differentiating implicitly with respect to time
+  \item Solving for the unknown rate
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Design a solution strategy (draw, label, relate, differentiate, solve) for a related-rates problem.
+  \item Apply the chain rule to relate the rates of two or more quantities.
+\end{itemize}
+
+\subsection{Related Rates in Biological and Social Contexts}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Spread of a disease relative to contact rate
+  \item Changing population density in an expanding habitat
+  \item Rate of change of an economic quantity relative to a driver variable
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply related-rates methodology to a novel biological or social scenario.
+  \item Evaluate the reasonableness of a computed rate against the scenario's real-world constraints.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Related rates (Topics 7.1--7.2):} \textit{Why it's hard:} translating prose into an equation relating multiple time-dependent quantities is a classic sticking point, and students often confuse a fixed quantity with a rate. \textit{Mitigation:} require a consistent five-step template (draw, label with rates, relate, differentiate, solve) on every problem, and progress deliberately from classic geometric setups to scenario-based ones only after the template is automatic.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} A circular colony of bacteria has radius growing at 2 mm/hr. How fast is the area growing when the radius is 10 mm? \\
+  \textbf{Answer/Rubric:} $A=\pi r^2 \Rightarrow dA/dt = 2\pi r \, dr/dt = 2\pi(10)(2)=40\pi$ mm$^2$/hr.
+  \item \textit{(Applied)} In a city, the number of infected individuals $I$ and the number of susceptible individuals $S$ satisfy $I \cdot S = 10{,}000{,}000$ (a simplified contact-based relationship). If $S$ is decreasing at 500 people/day when $S=20{,}000$, how fast is $I$ changing? \\
+  \textbf{Answer/Rubric:} Differentiate implicitly: $I'S + IS' = 0$; at $S=20{,}000$, $I=500$; solve $I' = -IS'/S = -(500)(-500)/20{,}000 = 12.5$ people/day increase.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 8: Optimization}
+\textbf{Goal:} Use derivatives to find and justify optimal values in applied problems relevant to biology and social science.
+
+\subsection{Critical Points and the First/Second Derivative Tests}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Critical points: $f'=0$ or undefined
+  \item First derivative test
+  \item Second derivative test
+  \item Global vs.\ local extrema; the Extreme Value Theorem on closed intervals
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply the first and second derivative tests to classify critical points.
+  \item Evaluate whether a critical point is a global extremum on a given domain.
+\end{itemize}
+
+\subsection{Optimization in Biological and Economic Contexts}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Setting up an objective function from a word problem
+  \item Identifying constraints
+  \item Examples: maximizing yield, minimizing cost, optimal foraging/resource allocation, maximizing revenue or profit
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Design an objective function and constraint(s) from a described optimization scenario.
+  \item Apply calculus-based optimization to solve for and justify an optimal value in context.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Optimization word problems (Topic 8.2):} \textit{Why it's hard:} students struggle to translate prose into a correct objective function and constraint, and often assume a critical point is automatically the desired maximum or minimum without justification. \textit{Mitigation:} use an explicit objective/constraint/domain worksheet scaffold for every problem, and make justification via the first or second derivative test a required habit, not an afterthought.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Find the critical points of $f(x) = x^3 - 6x^2 + 9x$ and classify each using the second derivative test. \\
+  \textbf{Answer/Rubric:} $f'(x)=3x^2-12x+9=3(x-1)(x-3)$; critical points at $x=1,3$. $f''(x)=6x-12$; $f''(1)<0$ (local max), $f''(3)>0$ (local min).
+  \item \textit{(Applied)} A conservation program has a budget to fence a rectangular reserve using a river as one side (no fencing needed there). With 800 m of fencing available, find the dimensions that maximize the enclosed area. \\
+  \textbf{Answer/Rubric:} Let $x$ = side perpendicular to river, $y$ = side parallel. Constraint: $2x+y=800$. Objective: $A=xy=x(800-2x)$. $A'(x)=800-4x=0 \Rightarrow x=200$, $y=400$; second derivative test confirms a maximum.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 9: Curve Sketching}
+\textbf{Goal:} Synthesize first- and second-derivative information into a complete qualitative picture of a function's graph. \textit{(Quiz 3 at the end of this module; Portfolio 1 due.)}
+
+\subsection{Increasing/Decreasing Behavior and the First Derivative}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Sign of $f'$ and monotonicity
+  \item Constructing sign charts
+  \item Relating to rate-of-change interpretation (e.g., population increasing vs.\ decreasing)
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply sign analysis of $f'$ to determine intervals of increase and decrease.
+\end{itemize}
+
+\subsection{Concavity and Inflection Points}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Sign of $f''$ and concavity
+  \item Inflection points
+  \item Relating concavity to accelerating/decelerating change (e.g., accelerating spread of a disease vs.\ growth slowing as it saturates)
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply sign analysis of $f''$ to identify concavity and inflection points.
+  \item Explain the real-world meaning of an inflection point in a growth-curve context.
+\end{itemize}
+
+\subsection{Full Curve Sketching}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Combining domain, intercepts, asymptotes, and first/second-derivative information into a full sketch
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Design a complete, labeled sketch of a function using derivative information.
+  \item Evaluate a given sketch or graph for consistency with derivative data.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Concavity and inflection points (Topic 9.2):} \textit{Why it's hard:} the ``derivative of a derivative'' idea creates cognitive overload, and students frequently confuse a function that is decreasing but concave up (or similar combinations) with contradictory scenarios. \textit{Mitigation:} display paired graphs of $f$, $f'$, and $f''$ side by side for every example, and use a velocity/acceleration or ``growth rate is slowing but still positive'' analogy to anchor the concept.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} For $f(x) = x^3 - 3x^2$, find the intervals of concavity and any inflection points. \\
+  \textbf{Answer/Rubric:} $f''(x) = 6x-6$; concave down for $x<1$, concave up for $x>1$; inflection point at $x=1$.
+  \item \textit{(Applied)} The cumulative number of reported cases in an outbreak is modeled by $C(t)$, and public health officials note that $C''(t)$ changed sign at week 6. Explain what this means for the outbreak and why week 6 might be an important turning point. \\
+  \textbf{Answer/Rubric:} Strong answers identify week 6 as an inflection point: the case count is still increasing, but its rate of increase begins to slow, suggesting the outbreak is past its fastest-growth phase.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 10: Exponential Growth and Decay Models}
+\textbf{Goal:} Connect derivative concepts to simple differential-equation models of growth and decay central to biology and social science. \textit{(Group Project 1 due; Group Project 2 assigned.)}
+
+\subsection{Modeling with $dy/dt = ky$}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item The differential equation $dy/dt = ky$ and its solution $y=y_0e^{kt}$
+  \item Sign of $k$: growth vs.\ decay
+  \item Verifying a solution by differentiation
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain why $dy/dt = ky$ implies exponential behavior.
+  \item Apply the exponential solution formula to a modeling scenario given an initial condition.
+\end{itemize}
+
+\subsection{Half-Life, Doubling Time, and Applications}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Doubling-time and half-life formulas
+  \item Applications: population growth, drug elimination (pharmacokinetics), radioactive decay, compound interest
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Derive the doubling-time/half-life formula from the general exponential solution.
+  \item Apply half-life or doubling-time reasoning to a biological or financial scenario.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} A radioactive isotope has a half-life of 8 days. If 100 mg are present initially, how much remains after 24 days? \\
+  \textbf{Answer/Rubric:} 24 days = 3 half-lives, so $100 \cdot (1/2)^3 = 12.5$ mg.
+  \item \textit{(Applied)} A drug is eliminated from the bloodstream following $dC/dt = -0.2C$ (C in mg/L, t in hours). If the initial concentration is 50 mg/L, find the concentration after 5 hours and the time until the concentration drops below 5 mg/L. \\
+  \textbf{Answer/Rubric:} $C(t)=50e^{-0.2t}$; $C(5)=50e^{-1}\approx 18.4$ mg/L. Solve $50e^{-0.2t}=5 \Rightarrow t = 5\ln(10) \approx 11.5$ hours.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 11: Antiderivatives and Indefinite Integrals}
+\textbf{Goal:} Introduce the reverse process of differentiation and its role in reconstructing quantities from known rates.
+
+\subsection{Antiderivatives and Basic Integration Rules}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Antiderivative as ``reverse derivative''
+  \item Power rule for integration
+  \item The constant of integration
+  \item Basic rules for exponential functions
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply basic antidifferentiation rules to find general antiderivatives.
+\end{itemize}
+
+\subsection{Initial Value Problems and Reconstructing Functions from Rates}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Using an initial condition to solve for the constant of integration
+  \item Reconstructing a quantity (e.g., population, total cost) from its rate function
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply an initial condition to determine a particular antiderivative.
+  \item Design a solution to a ``reconstruct the total from the rate'' word problem (e.g., total drug amount from an infusion rate).
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Find the general antiderivative of $f(x) = 4x^3 - 2x + 1$. \\
+  \textbf{Answer/Rubric:} $F(x) = x^4 - x^2 + x + C$.
+  \item \textit{(Applied)} A patient receives a drug at a rate of $r(t) = 10e^{-0.1t}$ mg/hr. If no drug is present at $t=0$, find the total amount of drug administered by time $t$, $A(t)$. \\
+  \textbf{Answer/Rubric:} $A(t) = \int_0^t 10e^{-0.1s}\,ds = 100(1-e^{-0.1t})$ mg, using $A(0)=0$ to fix the constant.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 12: The Definite Integral and the Fundamental Theorem of Calculus}
+\textbf{Goal:} Formalize accumulated change via Riemann sums and connect it to antidifferentiation through the Fundamental Theorem of Calculus. \textit{(Quiz 4 at the end of this module.)}
+
+\subsection{Riemann Sums and the Definite Integral}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Partitioning an interval
+  \item Left, right, and midpoint Riemann sums
+  \item The definite integral as a limit of Riemann sums
+  \item Geometric interpretation as (signed) area
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the definite integral as a limit of Riemann sums approximating accumulated change.
+  \item Apply Riemann sum approximations to estimate a definite integral from data (e.g., estimating total drug exposure from concentration readings).
+\end{itemize}
+
+\subsection{The Fundamental Theorem of Calculus}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item FTC Part 1: the derivative of an accumulation function
+  \item FTC Part 2: evaluating definite integrals via antiderivatives
+  \item Using the FTC to compute total change
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain how the Fundamental Theorem of Calculus links differentiation and integration.
+  \item Apply FTC Part 2 to evaluate definite integrals and compute total change from a rate function.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Riemann sums and the definite integral (Topic 12.1):} \textit{Why it's hard:} the limiting process is abstract, sigma notation adds notational overload, and the connection between ``area'' and non-geometric accumulation (e.g., total births) is not obvious to students. \textit{Mitigation:} build up from concrete numerical left/right sum tables using a real rate table (e.g., births per month) before introducing sigma notation or the symbolic limit definition, so students accumulate an actual number before seeing the formalism.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Evaluate $\displaystyle\int_1^3 (2x+1)\,dx$ using the Fundamental Theorem of Calculus. \\
+  \textbf{Answer/Rubric:} Antiderivative $x^2+x$; $(9+3)-(1+1)=10$.
+  \item \textit{(Applied)} A river's flow rate is recorded (in m$^3$/s) at 4 evenly spaced times over a 12-hour period: 20, 35, 50, 40. Use a Riemann sum (with these four values, each representing a 3-hour interval) to estimate total water volume that passed in 12 hours. \\
+  \textbf{Answer/Rubric:} Using a left Riemann sum: $(20+35+50+40)\times 3\text{ hr} \times 3600\text{ s/hr}$; strong answers correctly convert hours to seconds and note this is only an approximation of the true accumulated volume.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 13: Applications of Integration}
+\textbf{Goal:} Apply the definite integral to compute areas, averages, and accumulated change in applied bio/social contexts.
+
+\subsection{Area Between Curves}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Setting up integrals for the area between two curves
+  \item Identifying which curve is ``on top''
+  \item Applications: comparing two growth trajectories
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply integration to compute the area between two curves in a modeling context.
+\end{itemize}
+
+\subsection{Average Value of a Function}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Average value formula $\frac{1}{b-a}\int_a^b f(x)\,dx$
+  \item The Mean Value Theorem for Integrals
+  \item Interpreting average value (e.g., average concentration, average population over a period)
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply the average value formula to compute a meaningful average from a rate or quantity function.
+\end{itemize}
+
+\subsection{Accumulated Change in Applied Contexts}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Total change as $\int(\text{rate})\,dt$
+  \item The net change theorem
+  \item Examples: total births minus deaths, cumulative economic output, total drug cleared
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply the net change theorem to compute total accumulated change from a rate function in a biological or social scenario.
+  \item Evaluate whether a computed accumulated change is consistent with the underlying scenario's constraints.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Find the area between $f(x)=x^2$ and $g(x)=2x$ on $[0,2]$. \\
+  \textbf{Answer/Rubric:} $\int_0^2 (2x-x^2)\,dx = \left[x^2-\tfrac{x^3}{3}\right]_0^2 = 4-\tfrac{8}{3}=\tfrac{4}{3}$.
+  \item \textit{(Applied)} Two competing species' growth rates (individuals/year) over a 5-year study are modeled by $r_1(t)=100-10t$ and $r_2(t)=60$. Find the total difference in population growth between the two species over the 5 years, and interpret which species grew more overall. \\
+  \textbf{Answer/Rubric:} $\int_0^5 [r_1(t)-r_2(t)]\,dt = \int_0^5 (40-10t)\,dt = [40t-5t^2]_0^5 = 200-125=75$; species 1 grew 75 more individuals overall despite its declining rate.
+\end{enumerate}
+
+
+%============================================================
+\section{Module 14: Differential Equations: Separable Equations and Logistic Growth}
+\textbf{Goal:} Extend growth modeling beyond pure exponential growth to more realistic, resource-limited (logistic) growth using separable differential equations. \textit{(Portfolio 2 and Group Project 2 due.)}
+
+\subsection{Separable Differential Equations}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Identifying a separable ODE
+  \item Separating variables and integrating both sides
+  \item Solving for the general and particular solution
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Apply separation of variables to solve a first-order separable differential equation.
+\end{itemize}
+
+\subsection{The Logistic Growth Model}
+\textbf{Core concepts:}
+\begin{itemize}[leftmargin=*]
+  \item The logistic ODE $\dfrac{dy}{dt} = ky\left(1-\dfrac{y}{M}\right)$
+  \item Carrying capacity $M$
+  \item Qualitative behavior: the S-shaped curve
+  \item Comparison to unconstrained exponential growth
+\end{itemize}
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain why logistic growth is a more realistic model than pure exponential growth for populations with limited resources.
+  \item Evaluate the long-term behavior of a logistic model given specific parameters ($k$, $M$, $y_0$).
+\end{itemize}
+
+\subsection*{Difficulty Spotlight}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{The logistic growth model (Topic 14.2):} \textit{Why it's hard:} students tend to over-apply exponential-decay intuition, and the idea of a carrying capacity as a horizontal asymptote approached from below is not immediately intuitive from the differential equation alone. \textit{Mitigation:} before writing the ODE, have students graph per-capita growth rate ($y'/y$) versus population size $y$ as a downward-sloping line, then overlay the resulting logistic curve directly against an exponential curve on the same axes so the flattening near $M$ is visually explicit.
+\end{itemize}
+
+\subsection*{Example Questions}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Solve the separable equation $\dfrac{dy}{dx} = 3y$, $y(0)=2$. \\
+  \textbf{Answer/Rubric:} Separate: $\int \frac{dy}{y} = \int 3\,dx \Rightarrow \ln|y|=3x+C \Rightarrow y=2e^{3x}$.
+  \item \textit{(Applied)} A fish population in a lake follows logistic growth with carrying capacity $M=5000$, growth constant $k=0.3$, and initial population $y_0=500$. Describe qualitatively how the population changes over time, including where growth is fastest. \\
+  \textbf{Answer/Rubric:} Strong answers describe an S-shaped increase from 500 toward 5000, note the population never exceeds $M$, and identify that growth is fastest near $y=M/2=2500$ (the inflection point of the logistic curve).
+\end{enumerate}
+
+
+
+%============================================================
+\section*{Week 15: Review and Final Exam}
+The final week is reserved for cumulative review (synthesizing differentiation, integration, and modeling applications across all 14 modules) followed by the final exam, which counts for 30\% of the course grade.
+
+
+\section{Prerequisite Map}
+\begin{longtable}{p{4.3cm} p{6.2cm} p{4cm}}
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Topic} & \textbf{Prerequisite(s)} & \textbf{Where Taught} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1.1 Function Types Review & College algebra: function notation, graphing basic function families & Assumed background \\
+1.2 Exponential/Log Functions & 1.1; precalculus exponent and logarithm rules & Module 1; Assumed background \\
+1.3 Modeling & 1.1, 1.2 & Module 1 \\
+2.1 Intuitive Limits & 1.1 (graphs of functions) & Module 1 \\
+2.2 Limit Laws & 2.1; algebraic factoring/rationalizing & Module 2; Assumed background \\
+2.3 Continuity & 2.1, 2.2 & Module 2 \\
+3.1 Average vs.\ Instantaneous Rate & 1.1 (slope of a line); 2.1 (limit intuition) & Module 1; Module 2 \\
+3.2 Derivative as a Limit & 2.2 (limit laws); 3.1 & Module 2; Module 3 \\
+3.3 Derivative as a Function & 3.2 & Module 3 \\
+4.1 Power/Sum/Constant Rules & 3.2 (derivative definition); precalculus exponent rules & Module 3; Assumed background \\
+4.2 Product/Quotient Rules & 4.1 & Module 4 \\
+4.3 Chain Rule & 4.1, 4.2; function composition & Module 4; Assumed background \\
+5.1 Derivative of $e^x$/$a^x$ & 4.3 (chain rule); 1.2 (exponential functions) & Module 4; Module 1 \\
+5.2 Derivative of $\ln x$/$\log_a x$ & 5.1; 1.2 (logarithmic functions) & Module 5; Module 1 \\
+5.3 Logarithmic Differentiation & 5.1, 5.2 & Module 5 \\
+6.1 Derivatives of Sine/Cosine & 4.3 (chain rule); precalculus trigonometric functions & Module 4; Assumed background \\
+6.2 Implicit Differentiation & 4.3 (chain rule) & Module 4 \\
+6.3 Applications of Implicit Diff. & 6.2 & Module 6 \\
+7.1 Setting Up Related Rates & 4.3 (chain rule); 6.2 (implicit differentiation) & Module 4; Module 6 \\
+7.2 Related Rates in Context & 7.1 & Module 7 \\
+8.1 Critical Points \& Derivative Tests & 3.3 (derivative as a function) & Module 3 \\
+8.2 Optimization in Context & 8.1; 1.3 (modeling) & Module 8; Module 1 \\
+9.1 Increasing/Decreasing & 8.1 & Module 8 \\
+9.2 Concavity \& Inflection Points & 9.1 (second-derivative concept builds on first) & Module 9 \\
+9.3 Full Curve Sketching & 9.1, 9.2; 1.1 (graphing basics) & Module 9; Module 1 \\
+10.1 Modeling with $dy/dt=ky$ & 5.1 (derivative of exponential); 4.1 & Module 5; Module 4 \\
+10.2 Half-Life/Doubling Time & 10.1 & Module 10 \\
+11.1 Antiderivatives & 4.1 (power rule, reversed); 5.1 (exponential derivative, reversed) & Module 4; Module 5 \\
+11.2 Initial Value Problems & 11.1 & Module 11 \\
+12.1 Riemann Sums & 1.1 (area/graph intuition); summation notation & Module 1; Assumed background \\
+12.2 Fundamental Theorem of Calculus & 12.1; 11.1 (antiderivatives) & Module 12; Module 11 \\
+13.1 Area Between Curves & 12.2 (FTC); 1.1 (comparing graphs) & Module 12; Module 1 \\
+13.2 Average Value & 12.2 (FTC) & Module 12 \\
+13.3 Accumulated Change & 12.2 (FTC) & Module 12 \\
+14.1 Separable Differential Equations & 11.1 (antiderivatives); algebraic manipulation & Module 11; Assumed background \\
+14.2 Logistic Growth & 14.1; 10.1 (exponential growth, for contrast) & Module 14; Module 10 \\
+\end{longtable}
+
+\section{Assessment Plan}
+\begin{longtable}{p{2.2cm} p{6.3cm} p{6cm}}
+\toprule
+\textbf{Module} & \textbf{Assessment \& Timing} & \textbf{Rationale} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Module} & \textbf{Assessment \& Timing} & \textbf{Rationale} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Module 1 & Homework 1 (ongoing weekly) & Diagnostic, low-stakes check of function fluency and modeling intuition before calculus begins. \\
+Module 2 & Homework 2 & Reinforces limit computation and continuity reasoning while still low-stakes. \\
+Module 3 & Homework 3 & Practice with the formal derivative definition, the conceptual core of the course. \\
+Module 4 & Homework 4; \textbf{Quiz 1} & Quiz checks mechanical fluency with differentiation rules before students move on to applications. \\
+Module 5 & Homework 5 & Practice differentiating exponential/log functions, essential for the growth-model unit ahead. \\
+Module 6 & Homework 6 & Practice with trig derivatives and implicit differentiation before related rates requires both. \\
+Module 7 & Homework 7; \textbf{Quiz 2}; \textbf{Group Project 1 assigned} & Quiz checks related-rates setup skill; the project lets students apply derivative concepts to an open-ended bio/social scenario over several weeks. \\
+Module 8 & Homework 8 & Practice with optimization setups, building toward the curve-sketching synthesis in Module 9. \\
+Module 9 & Homework 9; \textbf{Quiz 3}; \textbf{Portfolio 1 due} & Quiz checks curve-sketching synthesis; the portfolio consolidates reflection on the full differentiation unit (Modules 3--9) at the course's structural midpoint. \\
+Module 10 & Homework 10; \textbf{Group Project 1 due}; \textbf{Group Project 2 assigned} & Marks the transition from differentiation to growth modeling and integration; project cycle continues into the second half. \\
+Module 11 & Homework 11 & Practice with antidifferentiation, the foundation for the definite integral. \\
+Module 12 & Homework 12; \textbf{Quiz 4} & Final quiz checks fluency with Riemann sums and the Fundamental Theorem before the applications unit. \\
+Module 13 & Homework 13 & Practice applying integration to area, average value, and accumulated change. \\
+Module 14 & Homework 14; \textbf{Portfolio 2 due}; \textbf{Group Project 2 due} & Final portfolio and project consolidate the full course and are submitted before cumulative review. \\
+Week 15 & \textbf{Final Exam} & Cumulative assessment covering differentiation, integration, and modeling applications across the whole course. \\
+\end{longtable}
+
+\end{document}

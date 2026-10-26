@@ -1,0 +1,1773 @@
+\documentclass[11pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Packages
+% ------------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+% ------------------------------------------------------------
+% Hyperlinks
+% ------------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+% ------------------------------------------------------------
+% Page style
+% ------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Number Theory I}
+\rhead{Course Structure}
+\cfoot{\thepage}
+
+% ------------------------------------------------------------
+% Theorem environments
+% ------------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+% ------------------------------------------------------------
+% Custom commands
+% ------------------------------------------------------------
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Fp}{\mathbb F_p}
+\newcommand{\Fq}{\mathbb F_q}
+\newcommand{\OK}{\mathcal O_K}
+\newcommand{\OF}{\mathcal O_F}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Norm}{\operatorname{N}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\disc}{\operatorname{disc}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
+
+% ------------------------------------------------------------
+% Document
+% ------------------------------------------------------------
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1.5cm}
+
+    {\Huge\bfseries Number Theory I\par}
+    \vspace{0.5cm}
+
+    {\Large Full Course Structure, Modules, Concepts,\\
+    Learning Objectives, Prerequisites, and Difficult Topics\par}
+
+    \vspace{1.5cm}
+
+    \rule{\textwidth}{0.5pt}
+
+    \vspace{0.5cm}
+
+    {\large
+    A synthesized course structure based on the supplied
+    tables of contents
+    }
+
+    \vspace{0.5cm}
+    \rule{\textwidth}{0.5pt}
+
+    \vfill
+
+    \begin{minipage}{0.9\textwidth}
+    \small
+    \textbf{Scope.}
+    The course is organized around the major themes appearing across
+    the supplied sources: algebraic integers and Dedekind domains,
+    completions and valuations, local fields, different and
+    discriminant, cyclotomic fields, Minkowski theory, ideals,
+    adeles and ideles, zeta functions and \(L\)-series, and
+    local/global class field theory.  Advanced analytic and
+    class-field-theoretic topics are included as the upper level
+    of the course.
+    \end{minipage}
+
+    \vfill
+
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Course Overview}
+% ============================================================
+
+\subsection{Course Description}
+
+Number Theory I is a graduate-level course in modern algebraic and
+analytic number theory.  The course develops the arithmetic of
+integers and number fields and then extends the theory to local
+fields, global fields, zeta functions, \(L\)-series, and class field
+theory.
+
+The conceptual progression is
+
+\[
+\boxed{
+\text{Integers}
+\longrightarrow
+\text{Algebraic Integers}
+\longrightarrow
+\text{Ideals}
+\longrightarrow
+\text{Valuations}
+\longrightarrow
+\text{Local Fields}
+\longrightarrow
+\text{Global Fields}
+\longrightarrow
+\text{Zeta/\(L\)-Functions}
+\longrightarrow
+\text{Class Field Theory}
+}
+\]
+
+The course should emphasize the interaction among three viewpoints:
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Algebraic:} rings, ideals, field extensions,
+    Galois groups, modules, and class groups;
+    \item \textbf{Local:} valuations, completions, \(p\)-adic fields,
+    ramification, local norms, and local reciprocity;
+    \item \textbf{Analytic:} Dirichlet series, Euler products,
+    zeta functions, \(L\)-series, functional equations, and
+    density theorems.
+\end{enumerate}
+
+% ============================================================
+\section{Source-Derived Course Architecture}
+% ============================================================
+
+The supplied tables of contents fall naturally into the following
+large-scale blocks.
+
+\begin{longtable}{p{0.18\textwidth}p{0.27\textwidth}p{0.45\textwidth}}
+\toprule
+\textbf{Block} & \textbf{Central Theme} & \textbf{Major Topics} \\
+\midrule
+I & Algebraic foundations &
+Algebraic integers, localization, integral closure, prime ideals,
+Dedekind domains, ideals, lattices, class numbers, units \\
+
+II & Local arithmetic &
+\(p\)-adic numbers, absolute values, valuations, completions,
+local fields, Henselian fields, ramification \\
+
+III & Algebraic extensions &
+Different, discriminant, traces, norms, splitting of primes,
+cyclotomic fields, ramification theory \\
+
+IV & Geometry of numbers &
+Product formula, lattices, parallelotopes, Minkowski theory,
+ideal counting, class groups \\
+
+V & Global arithmetic &
+Adeles, ideles, ideal classes, global fields, function fields \\
+
+VI & Analytic number theory &
+Zeta functions, Dirichlet series, \(L\)-series, theta series,
+Euler products, density of primes \\
+
+VII & Class field theory &
+Norm indices, Artin symbols, reciprocity laws, local and global
+class fields \\
+
+VIII & Advanced analytic theory &
+Poisson summation, functional equations, Tauberian theorems,
+Brauer--Siegel theorem, explicit formulas
+\\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Prerequisite Knowledge}
+% ============================================================
+
+\subsection{Essential Prerequisites}
+
+Before beginning the course, students should be comfortable with:
+
+\begin{enumerate}
+    \item \textbf{Abstract algebra}
+    \begin{itemize}
+        \item groups, subgroups, quotient groups;
+        \item rings, ideals, quotient rings;
+        \item integral domains and fields;
+        \item polynomial rings;
+        \item field extensions;
+        \item finite extensions;
+        \item minimal and characteristic polynomials;
+        \item basic Galois theory.
+    \end{itemize}
+
+    \item \textbf{Linear algebra}
+    \begin{itemize}
+        \item vector spaces and bases;
+        \item linear transformations;
+        \item determinants;
+        \item matrices;
+        \item dual spaces;
+        \item finite-dimensional vector spaces.
+    \end{itemize}
+
+    \item \textbf{Elementary number theory}
+    \begin{itemize}
+        \item divisibility;
+        \item Euclidean algorithm;
+        \item greatest common divisors;
+        \item congruences;
+        \item prime factorization;
+        \item arithmetic functions;
+        \item Chinese remainder theorem;
+        \item quadratic residues;
+        \item basic finite fields.
+    \end{itemize}
+
+    \item \textbf{Basic analysis}
+    \begin{itemize}
+        \item sequences and series;
+        \item convergence;
+        \item continuity;
+        \item basic integration;
+        \item infinite products;
+        \item complex numbers;
+        \item elementary complex analysis.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Recommended Prerequisites}
+
+For the advanced modules, students should also know:
+
+\begin{itemize}
+    \item tensor products;
+    \item modules over principal ideal domains;
+    \item exact sequences;
+    \item topological groups;
+    \item Haar measure;
+    \item Fourier analysis;
+    \item basic complex analysis;
+    \item infinite Galois theory.
+\end{itemize}
+
+\subsection{Prerequisite Dependency Structure}
+
+\[
+\begin{array}{c}
+\text{Abstract Algebra}
+\\
+\downarrow
+\\
+\text{Algebraic Integers}
+\rightarrow
+\text{Ideals}
+\rightarrow
+\text{Dedekind Domains}
+\\
+\downarrow
+\\
+\text{Valuations}
+\rightarrow
+\text{Completions}
+\rightarrow
+\text{Local Fields}
+\\
+\downarrow
+\\
+\text{Different and Discriminant}
+\rightarrow
+\text{Ramification}
+\\
+\downarrow
+\\
+\text{Cyclotomic and Number Fields}
+\\
+\downarrow
+\\
+\text{Minkowski Theory}
+\rightarrow
+\text{Class Groups}
+\\
+\downarrow
+\\
+\text{Adeles and Ideles}
+\\
+\downarrow
+\\
+\text{Zeta Functions and \(L\)-Series}
+\\
+\downarrow
+\\
+\text{Class Field Theory}
+\end{array}
+\]
+
+% ============================================================
+\section{Major Course Learning Outcomes}
+% ============================================================
+
+By the end of the course, a successful student should be able to:
+
+\begin{enumerate}
+    \item Explain the arithmetic structure of algebraic number fields.
+    \item Determine whether an element is integral over a base ring.
+    \item Work with rings of algebraic integers.
+    \item Factor ideals in Dedekind domains.
+    \item Use localization to study arithmetic locally.
+    \item Construct and work with \(p\)-adic numbers.
+    \item Define and manipulate absolute values and valuations.
+    \item Construct completions of valued fields.
+    \item Explain the structure of local fields.
+    \item Analyze unramified, tamely ramified, and more general
+    field extensions.
+    \item Compute traces, norms, differents, and discriminants.
+    \item Study splitting and ramification of primes.
+    \item Apply Minkowski's theorem to algebraic number fields.
+    \item Understand the structure and significance of class groups
+    and class numbers.
+    \item Analyze units using Dirichlet's unit theorem.
+    \item Work with cyclotomic fields and Gauss sums.
+    \item Construct and use adeles and ideles.
+    \item Understand the Dedekind zeta function and Dirichlet
+    \(L\)-series.
+    \item Explain Euler products and analytic continuation at an
+    appropriate level.
+    \item Understand the role of functional equations.
+    \item Explain the Artin symbol and reciprocity maps.
+    \item State and interpret local and global reciprocity laws.
+    \item Explain the basic philosophy of class field theory.
+    \item Connect algebraic, local, and analytic methods in number
+    theory.
+\end{enumerate}
+
+% ============================================================
+\section{Module I: Algebraic Integers}
+% ============================================================
+
+\subsection{Purpose}
+
+This module establishes the algebraic foundation for arithmetic in
+number fields.
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item Gaussian integers \(\Z[i]\);
+    \item algebraic integers;
+    \item monic polynomials;
+    \item integral dependence;
+    \item integral closure;
+    \item rings of integers \(\OK\);
+    \item localization;
+    \item prime and maximal ideals;
+    \item quotient rings;
+    \item Chinese remainder theorem;
+    \item Galois extensions;
+    \item Dedekind rings/domains;
+    \item discrete valuation rings;
+    \item factorization of prime ideals;
+    \item projective modules;
+    \item orders.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Define an algebraic integer.
+    \item Prove basic closure properties of algebraic integers.
+    \item Determine \(\OK\) for basic number fields.
+    \item Explain integral closure.
+    \item Distinguish prime ideals from prime elements.
+    \item Explain why unique factorization of elements may fail.
+    \item Replace element factorization by ideal factorization.
+    \item Describe Dedekind domains and their arithmetic significance.
+    \item Work with localization at prime ideals.
+\end{enumerate}
+
+\subsection{Important Results}
+
+\begin{itemize}
+    \item Integral closure theorem;
+    \item unique factorization of nonzero ideals in Dedekind domains;
+    \item Chinese remainder theorem;
+    \item basic structure theorem for finitely generated modules
+    over suitable rings.
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Integral closure;
+    \item distinction between element and ideal factorization;
+    \item projective modules over Dedekind domains;
+    \item localization and its arithmetic interpretation.
+\end{itemize}
+
+% ============================================================
+\section{Module II: Ideals, Lattices, Class Groups, and Units}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item fractional ideals;
+    \item ideal classes;
+    \item class groups;
+    \item class number;
+    \item lattices;
+    \item embeddings of number fields;
+    \item Minkowski space;
+    \item fundamental domains;
+    \item covolume;
+    \item Minkowski's theorem;
+    \item ideal norms;
+    \item counting ideals;
+    \item Dirichlet's unit theorem.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Define fractional ideals and ideal classes.
+    \item Construct the ideal class group \(\Cl(K)\).
+    \item Explain why the class group measures failure of
+    principal ideal factorization.
+    \item Embed a number field into a Euclidean space.
+    \item Construct lattices associated with algebraic number fields.
+    \item Apply Minkowski's convex body theorem.
+    \item Obtain bounds on class groups and class numbers.
+    \item State and interpret Dirichlet's unit theorem.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Minkowski embeddings;
+    \item volume computations;
+    \item Minkowski's constant;
+    \item relation between geometry and ideal theory;
+    \item Dirichlet's unit theorem.
+\end{itemize}
+
+% ============================================================
+\section{Module III: Completions and \(p\)-adic Numbers}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item \(p\)-adic integers \(\Z_p\);
+    \item \(p\)-adic numbers \(\Q_p\);
+    \item \(p\)-adic absolute value;
+    \item ultrametric inequality;
+    \item Cauchy sequences;
+    \item completions;
+    \item discrete valuations;
+    \item valuation rings;
+    \item residue fields;
+    \item filtrations;
+    \item complete valued fields.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Define the \(p\)-adic absolute value.
+    \item Prove the ultrametric inequality.
+    \item Construct \(\Q_p\) as a completion of \(\Q\).
+    \item Describe \(\Z_p\).
+    \item Work with \(p\)-adic expansions.
+    \item Define a discrete valuation.
+    \item Relate absolute values, valuations, and valuation rings.
+    \item Explain the arithmetic meaning of completion.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Non-Archimedean topology;
+    \item convergence in \(\Q_p\);
+    \item completions;
+    \item equivalence between valuation and absolute-value
+    formulations.
+\end{itemize}
+
+% ============================================================
+\section{Module IV: Local Fields and Extensions}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item local fields;
+    \item finite extensions of \(\Q_p\);
+    \item residue field extensions;
+    \item unramified extensions;
+    \item tamely ramified extensions;
+    \item Henselian fields;
+    \item extensions of valuations;
+    \item Galois theory of valued fields;
+    \item higher ramification groups.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Characterize the basic examples of local fields.
+    \item Extend valuations to algebraic extensions.
+    \item Explain ramification index and residue degree.
+    \item Distinguish unramified and ramified extensions.
+    \item Describe tame ramification.
+    \item Explain the role of Hensel's lemma.
+    \item Relate local Galois groups to ramification.
+    \item Describe higher ramification groups at a conceptual level.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Henselian fields;
+    \item extension of valuations;
+    \item ramification groups;
+    \item higher ramification theory;
+    \item local Galois theory.
+\end{itemize}
+
+% ============================================================
+\section{Module V: Trace, Norm, Different, and Discriminant}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item field trace;
+    \item field norm;
+    \item trace pairing;
+    \item complementary modules;
+    \item inverse different;
+    \item different ideal;
+    \item discriminant;
+    \item ramification;
+    \item splitting of primes;
+    \item separable extensions;
+    \item inseparable extensions.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Compute traces and norms of field elements.
+    \item Relate trace and norm to multiplication operators.
+    \item Define the different ideal.
+    \item Compute discriminants in examples.
+    \item Explain how the discriminant detects ramification.
+    \item Relate local and global discriminants.
+    \item Analyze the splitting behavior of primes.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Different ideal;
+    \item discriminant calculations;
+    \item complementary modules;
+    \item connection between discriminant and ramification;
+    \item local/global compatibility.
+\end{itemize}
+
+% ============================================================
+\section{Module VI: Cyclotomic Fields}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item roots of unity;
+    \item primitive \(n\)-th roots of unity;
+    \item cyclotomic polynomials;
+    \item cyclotomic fields;
+    \item quadratic subfields;
+    \item Galois groups;
+    \item Gauss sums;
+    \item ideal classes in cyclotomic fields.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Define cyclotomic fields.
+    \item Prove basic properties of cyclotomic polynomials.
+    \item Determine the Galois group of a cyclotomic extension.
+    \item Explain the appearance of quadratic fields.
+    \item Understand the role of Gauss sums.
+    \item Relate cyclotomic arithmetic to reciprocity laws.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Gauss sums;
+    \item ideal class relations;
+    \item ramification in cyclotomic extensions.
+\end{itemize}
+
+% ============================================================
+\section{Module VII: Global Fields, Function Fields, and Schemes}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item number fields;
+    \item function fields;
+    \item places;
+    \item completions;
+    \item one-dimensional schemes;
+    \item Dedekind rings;
+    \item local-global viewpoints.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain the analogy between number fields and function fields.
+    \item Interpret places as local arithmetic data.
+    \item Relate global fields to their completions.
+    \item Recognize the role of one-dimensional schemes in arithmetic.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Places and completions;
+    \item function-field analogy;
+    \item scheme-theoretic language.
+\end{itemize}
+
+% ============================================================
+\section{Module VIII: Adeles and Ideles}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item restricted direct products;
+    \item local fields at places;
+    \item adele rings;
+    \item ideles;
+    \item idele class groups;
+    \item generalized ideal class groups;
+    \item Galois actions on ideles.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain why all completions of a global field are considered
+    simultaneously.
+    \item Define the adele ring.
+    \item Define the idele group.
+    \item Explain the difference between adeles and ideles.
+    \item Relate ideal classes to idele classes.
+    \item Describe the global arithmetic information encoded by ideles.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+This is one of the major conceptual transitions of the course.
+
+\begin{itemize}
+    \item Restricted direct products;
+    \item topology on the adele ring;
+    \item relation between ideals and ideles;
+    \item Galois action on ideles;
+    \item local-to-global synthesis.
+\end{itemize}
+
+% ============================================================
+\section{Module IX: Zeta Functions and Dirichlet \(L\)-Series}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item Dirichlet series;
+    \item Euler products;
+    \item Riemann zeta function;
+    \item Dedekind zeta function;
+    \item Dirichlet \(L\)-series;
+    \item Hecke characters;
+    \item Hecke \(L\)-series;
+    \item Artin \(L\)-series;
+    \item theta series;
+    \item density of primes.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Define Dirichlet series and Euler products.
+    \item Derive the Euler product for the Riemann zeta function.
+    \item Define the Dedekind zeta function.
+    \item Explain how prime ideals enter zeta functions.
+    \item Define Dirichlet characters and \(L\)-series.
+    \item Explain the relationship between characters and \(L\)-functions.
+    \item Understand the role of theta series.
+    \item Explain the transition from Dirichlet \(L\)-series to Hecke
+    and Artin \(L\)-series.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Euler products;
+    \item analytic properties of Dedekind zeta functions;
+    \item Hecke characters;
+    \item Artin \(L\)-series;
+    \item density theorems.
+\end{itemize}
+
+% ============================================================
+\section{Module X: Functional Equations and Analytic Methods}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item Poisson summation;
+    \item Fourier transforms;
+    \item theta functions;
+    \item functional equations;
+    \item local additive duality;
+    \item local multiplicative theory;
+    \item global additive duality;
+    \item Riemann--Roch connections;
+    \item Tauberian theorems;
+    \item non-vanishing of \(L\)-series.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item State and apply Poisson summation.
+    \item Explain how Fourier analysis produces functional equations.
+    \item Understand local and global Fourier duality.
+    \item Derive the conceptual structure of a zeta-function
+    functional equation.
+    \item Explain the purpose of Tauberian theorems.
+    \item Relate analytic behavior of \(L\)-functions to arithmetic
+    information.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Poisson summation;
+    \item Fourier analysis on local fields;
+    \item global additive duality;
+    \item functional equations;
+    \item Tauberian arguments.
+\end{itemize}
+
+% ============================================================
+\section{Module XI: Analytic Theory of Prime Distribution}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item Dirichlet integral;
+    \item Tauberian theorem;
+    \item non-vanishing of \(L\)-series;
+    \item density of primes;
+    \item prime-counting functions;
+    \item asymptotic estimates;
+    \item analytic continuation.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain how analytic properties of zeta functions control
+    prime distributions.
+    \item Understand the role of non-vanishing results.
+    \item Apply the conceptual form of a Tauberian theorem.
+    \item Explain density statements for primes.
+\end{enumerate}
+
+% ============================================================
+\section{Module XII: Brauer--Siegel Theory}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item residue of Dedekind zeta functions;
+    \item class number;
+    \item regulator;
+    \item discriminant;
+    \item upper and lower residue estimates;
+    \item normal extensions;
+    \item Brauer--Siegel theorem.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain the arithmetic quantities appearing in the
+    residue of a Dedekind zeta function.
+    \item Understand how class numbers and regulators enter
+    analytic formulas.
+    \item Explain the asymptotic relationship expressed by the
+    Brauer--Siegel theorem.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Analytic estimates;
+    \item residues of zeta functions;
+    \item comparison across field extensions;
+    \item interaction of algebraic and analytic invariants.
+\end{itemize}
+
+% ============================================================
+\section{Module XIII: Norm Indices and Reciprocity}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item local norm groups;
+    \item global norm indices;
+    \item unit groups;
+    \item exponential and logarithm functions;
+    \item norm residue symbols;
+    \item cyclic extensions;
+    \item Artin symbol;
+    \item reciprocity laws.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Define local and global norm groups.
+    \item Explain why norm indices are central to class field theory.
+    \item Use local exponential and logarithm maps where appropriate.
+    \item Understand the norm residue symbol.
+    \item Define the Artin symbol conceptually.
+    \item Explain the connection between Artin symbols and
+    reciprocity laws.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Local norm index;
+    \item global norm index;
+    \item norm residue symbols;
+    \item Artin symbols;
+    \item reciprocity.
+\end{itemize}
+
+% ============================================================
+\section{Module XIV: Local Class Field Theory}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item local reciprocity map;
+    \item local norm groups;
+    \item local Artin map;
+    \item Hilbert symbol;
+    \item norm residue symbol over \(\Q_p\);
+    \item formal groups;
+    \item generalized cyclotomic theory;
+    \item local ramification theory.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item State the local reciprocity law.
+    \item Describe the relationship between abelian extensions
+    and norm groups.
+    \item Explain the local Artin map.
+    \item Interpret the Hilbert symbol.
+    \item Relate local reciprocity to ramification.
+    \item Understand the role of formal groups in local arithmetic.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Local reciprocity;
+    \item Hilbert symbol;
+    \item formal groups;
+    \item higher ramification;
+    \item generalized cyclotomic theory.
+\end{itemize}
+
+% ============================================================
+\section{Module XV: Global Class Field Theory}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item idele classes;
+    \item canonical pairings;
+    \item reciprocity maps;
+    \item Hasse reciprocity;
+    \item global norm groups;
+    \item class fields;
+    \item Hilbert class field;
+    \item principal ideal theorem;
+    \item Brauer group;
+    \item Hilbert symbols;
+    \item power residue symbols.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain the global reciprocity map.
+    \item State Hasse's reciprocity law.
+    \item Describe the Hilbert class field.
+    \item Explain the principal ideal theorem in the class-field
+    theoretic setting.
+    \item Relate local reciprocity to global reciprocity.
+    \item State the central existence and reciprocity theorems
+    of global class field theory.
+    \item Explain the role of the Brauer group.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+This is the most abstract algebraic portion of the course.
+
+\begin{itemize}
+    \item Idele class groups;
+    \item canonical pairings;
+    \item global reciprocity;
+    \item existence theorem;
+    \item Hilbert class fields;
+    \item Brauer groups;
+    \item compatibility of local and global reciprocity.
+\end{itemize}
+
+% ============================================================
+\section{Module XVI: Advanced \(L\)-Functions}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item proper abelian \(L\)-series;
+    \item Artin \(L\)-series;
+    \item induced characters;
+    \item Hecke characters;
+    \item Artin conductors;
+    \item functional equations of Artin \(L\)-series;
+    \item density theorems.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain why \(L\)-functions are attached to algebraic
+    and Galois-theoretic data.
+    \item Define the Artin \(L\)-function conceptually.
+    \item Explain induced characters and their contribution to
+    \(L\)-series.
+    \item Understand the meaning of an Artin conductor.
+    \item Explain the structure of functional equations for
+    Artin \(L\)-series.
+    \item Relate \(L\)-functions to prime-density results.
+\end{enumerate}
+
+% ============================================================
+\section{Module XVII: Explicit Formulas}
+% ============================================================
+
+\subsection{Core Concepts}
+
+\begin{itemize}
+    \item Weierstrass factorization;
+    \item logarithmic derivatives;
+    \item explicit formulas;
+    \item Weil formula;
+    \item zeros and poles of \(L\)-functions;
+    \item prime sums.
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \item Explain the role of zeros of \(L\)-functions.
+    \item Understand logarithmic derivatives of zeta functions.
+    \item Interpret explicit formulas connecting zeros with primes.
+    \item Explain the conceptual significance of Weil-type formulas.
+\end{enumerate}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \item Weierstrass products;
+    \item logarithmic derivatives;
+    \item explicit formulas;
+    \item zero--prime duality.
+\end{itemize}
+
+% ============================================================
+\section{Recommended Course Sequence}
+% ============================================================
+
+A practical semester structure is the following.
+
+\begin{longtable}{p{0.10\textwidth}p{0.24\textwidth}p{0.54\textwidth}}
+\toprule
+\textbf{Weeks} & \textbf{Module} & \textbf{Main Content} \\
+\midrule
+1--3 &
+I &
+Algebraic integers, integral closure, localization,
+prime ideals, Dedekind domains \\
+
+4--6 &
+II &
+Ideals, lattices, Minkowski theory, class groups,
+units \\
+
+7--9 &
+III &
+\(p\)-adic numbers, absolute values, valuations,
+completions \\
+
+10--12 &
+IV &
+Local fields, Henselian fields, unramified and
+tamely ramified extensions \\
+
+13--15 &
+V &
+Trace, norm, different, discriminant, splitting
+and ramification \\
+
+16--17 &
+VI &
+Cyclotomic fields and Gauss sums \\
+
+18--19 &
+VII &
+Places, global fields, function fields \\
+
+20--21 &
+VIII &
+Adeles, ideles, idele class groups \\
+
+22--24 &
+IX &
+Zeta functions, Euler products, Dirichlet and
+Hecke \(L\)-series \\
+
+25--26 &
+X &
+Poisson summation and functional equations \\
+
+27 &
+XI &
+Density of primes and Tauberian methods \\
+
+28 &
+XII &
+Brauer--Siegel theory \\
+
+29 &
+XIII &
+Norm indices, Artin symbols, reciprocity \\
+
+30 &
+XIV &
+Local class field theory \\
+
+31 &
+XV &
+Global class field theory \\
+
+32 &
+XVI--XVII &
+Artin \(L\)-series and explicit formulas
+\\
+\bottomrule
+\end{longtable}
+
+\noindent
+If the course is intended as a conventional one-semester
+``Number Theory I'', Modules XIV--XVII should normally be treated
+as an introduction or omitted in favor of deeper work on Modules
+I--XIII.
+
+% ============================================================
+\section{Major Theorems and Results to Master}
+% ============================================================
+
+The following theorem list gives the mathematical backbone of the
+course.
+
+\subsection{Algebraic Number Theory}
+
+\begin{enumerate}
+    \item Chinese Remainder Theorem.
+    \item Integral Closure Theorem.
+    \item Unique ideal factorization in Dedekind domains.
+    \item Structure theory of ideals in Dedekind domains.
+    \item Dirichlet's Unit Theorem.
+    \item Minkowski's Convex Body Theorem.
+    \item Finiteness of the ideal class group.
+\end{enumerate}
+
+\subsection{Local Theory}
+
+\begin{enumerate}
+    \item Completion theorem.
+    \item Hensel's Lemma.
+    \item Structure theory of local fields.
+    \item Classification of unramified extensions.
+    \item Basic theory of tame ramification.
+    \item Ramification theory for Galois extensions.
+\end{enumerate}
+
+\subsection{Field Extensions}
+
+\begin{enumerate}
+    \item Trace and norm formulas.
+    \item Different--discriminant relationship.
+    \item Prime decomposition in extensions.
+    \item Ramification criteria.
+    \item Basic cyclotomic field results.
+\end{enumerate}
+
+\subsection{Analytic Number Theory}
+
+\begin{enumerate}
+    \item Euler product for \(\zeta(s)\).
+    \item Analytic properties of zeta functions.
+    \item Functional equation.
+    \item Poisson summation formula.
+    \item Dirichlet \(L\)-series theory.
+    \item Density theorems.
+    \item Tauberian theorem applications.
+    \item Brauer--Siegel theorem.
+\end{enumerate}
+
+\subsection{Class Field Theory}
+
+\begin{enumerate}
+    \item Norm-index theorems.
+    \item Artin reciprocity.
+    \item Local reciprocity law.
+    \item Hilbert symbol theory.
+    \item Hasse reciprocity.
+    \item Existence theorem.
+    \item Principal ideal theorem.
+    \item Global reciprocity law.
+\end{enumerate}
+
+% ============================================================
+\section{Difficult Topics: Difficulty Map}
+% ============================================================
+
+\begin{longtable}{p{0.30\textwidth}p{0.15\textwidth}p{0.43\textwidth}}
+\toprule
+\textbf{Topic} & \textbf{Difficulty} & \textbf{Reason} \\
+\midrule
+Algebraic integers & Moderate &
+Requires integration of ring and field-extension theory \\
+
+Dedekind domains & High &
+Requires ideals, localization, modules, and factorization \\
+
+Minkowski theory & High &
+Combines geometry, linear algebra, and algebraic number theory \\
+
+Dirichlet unit theorem & High &
+Requires lattice methods and multiplicative structure \\
+
+\(p\)-adic numbers & Moderate &
+Requires adaptation from Archimedean to ultrametric analysis \\
+
+Valuations & High &
+Requires algebraic and topological viewpoints simultaneously \\
+
+Henselian fields & High &
+Combines valuations, polynomial factorization, and completeness \\
+
+Ramification theory & Very High &
+Requires local fields, Galois theory, valuations, and discriminants \\
+
+Different and discriminant & High &
+Abstract definitions must be connected to explicit computations \\
+
+Adeles & Very High &
+Requires simultaneous understanding of all completions \\
+
+Ideles & Very High &
+Requires groups, topology, valuations, and global arithmetic \\
+
+Dedekind zeta functions & High &
+Combines ideal theory with complex analysis \\
+
+Hecke \(L\)-series & Very High &
+Requires characters, ideals, harmonic analysis, and complex analysis \\
+
+Poisson summation & High &
+Requires Fourier analysis and careful analytic estimates \\
+
+Functional equations & Very High &
+Combines local and global analytic methods \\
+
+Tauberian theory & Very High &
+Requires sophisticated analytic estimates \\
+
+Artin symbols & Very High &
+Requires Galois theory and local/global norm theory \\
+
+Local class field theory & Extremely High &
+Combines local fields, Galois groups, norms, and reciprocity \\
+
+Global class field theory & Extremely High &
+Combines virtually every preceding part of the course \\
+
+Artin \(L\)-series & Extremely High &
+Requires Galois representations, characters, and analytic theory \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Conceptual Connections}
+% ============================================================
+
+\subsection{Element Factorization and Ideal Factorization}
+
+A central motivation of the course is the replacement
+
+\[
+\text{factorization of elements}
+\quad\longrightarrow\quad
+\text{factorization of ideals}.
+\]
+
+In a number field \(K\), unique factorization of elements may fail,
+while nonzero ideals in \(\OK\) have unique factorization.
+
+This leads to
+
+\[
+\text{ideals}
+\rightarrow
+\text{ideal classes}
+\rightarrow
+\text{class group}
+\rightarrow
+\text{class number}.
+\]
+
+\subsection{Global and Local Arithmetic}
+
+For a global field \(K\), each place \(v\) gives a completion
+
+\[
+K_v.
+\]
+
+Thus global arithmetic can be studied through the collection
+
+\[
+\{K_v\}_v.
+\]
+
+The course therefore develops the principle
+
+\[
+\boxed{
+\text{Global problem}
+\longrightarrow
+\text{Local problems}
+\longrightarrow
+\text{Local solutions}
+\longrightarrow
+\text{Global synthesis}.
+}
+\]
+
+\subsection{Valuations and Prime Ideals}
+
+Valuations provide a local measure of divisibility:
+
+\[
+v_{\mathfrak p}(x).
+\]
+
+The corresponding valuation ring is
+
+\[
+\mathcal O_v
+=
+\{x : v(x)\geq 0\}.
+\]
+
+This creates the bridge
+
+\[
+\text{prime ideals}
+\leftrightarrow
+\text{valuations}
+\leftrightarrow
+\text{local rings}
+\leftrightarrow
+\text{completions}.
+\]
+
+\subsection{Discriminants and Ramification}
+
+The discriminant provides a global measure of arithmetic
+complexity, while ramification describes how primes behave locally.
+
+Schematically,
+
+\[
+\disc(K)
+\longleftrightarrow
+\text{different}
+\longleftrightarrow
+\text{ramification}.
+\]
+
+\subsection{Zeta Functions and Arithmetic}
+
+The Dedekind zeta function is
+
+\[
+\zeta_K(s)
+=
+\sum_{\mathfrak a\neq 0}
+\frac{1}{N(\mathfrak a)^s}
+=
+\prod_{\mathfrak p}
+\left(1-N(\mathfrak p)^{-s}\right)^{-1}.
+\]
+
+Thus ideals and prime ideals become analytic objects.
+
+The progression is
+
+\[
+\text{ideals}
+\rightarrow
+\text{Euler product}
+\rightarrow
+\zeta_K(s)
+\rightarrow
+\text{analytic properties}
+\rightarrow
+\text{arithmetic information}.
+\]
+
+\subsection{Reciprocity}
+
+The culmination of the course is the reciprocity philosophy:
+
+\[
+\boxed{
+\text{Galois extensions}
+\longleftrightarrow
+\text{norm groups}
+\longleftrightarrow
+\text{idele classes}
+\longleftrightarrow
+\text{reciprocity maps}.
+}
+\]
+
+% ============================================================
+\section{Suggested Assessment Structure}
+% ============================================================
+
+\begin{longtable}{p{0.30\textwidth}p{0.20\textwidth}p{0.40\textwidth}}
+\toprule
+\textbf{Assessment} & \textbf{Suggested Weight} &
+\textbf{Purpose} \\
+\midrule
+Weekly problem sets & 25\% &
+Proofs, computations, and conceptual exercises \\
+
+Midterm I & 15\% &
+Algebraic number theory and ideal theory \\
+
+Midterm II & 15\% &
+Valuations, local fields, and ramification \\
+
+Project / seminar & 10\% &
+Independent study of a selected topic \\
+
+Final examination & 25\% &
+Comprehensive theoretical and computational mastery \\
+
+Participation / presentations & 10\% &
+Mathematical communication and discussion \\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Problem-Solving Skills}
+% ============================================================
+
+Students should progressively acquire the following skills:
+
+\begin{enumerate}
+    \item \textbf{Computational skill:}
+    calculate norms, traces, discriminants, ideal factorizations,
+    valuations, and class groups in examples.
+
+    \item \textbf{Proof skill:}
+    prove structural statements concerning rings, fields, ideals,
+    valuations, and Galois groups.
+
+    \item \textbf{Local reasoning:}
+    reduce a global arithmetic question to questions at individual
+    primes or places.
+
+    \item \textbf{Global reasoning:}
+    reconstruct global information from local data.
+
+    \item \textbf{Analytic reasoning:}
+    translate arithmetic information into Dirichlet series,
+    Euler products, and \(L\)-functions.
+
+    \item \textbf{Structural reasoning:}
+    recognize when a problem is naturally expressed using ideals,
+    valuations, adeles, ideles, or Galois groups.
+
+    \item \textbf{Research-level abstraction:}
+    understand the conceptual role of reciprocity and class
+    field theory.
+\end{enumerate}
+
+% ============================================================
+\section{Core Topics Versus Advanced Topics}
+% ============================================================
+
+\subsection{Essential Core for Number Theory I}
+
+The following topics should constitute the non-negotiable core:
+
+\begin{enumerate}
+    \item Algebraic integers.
+    \item Integral closure.
+    \item Prime ideals.
+    \item Dedekind domains.
+    \item Fractional ideals.
+    \item Class groups and class numbers.
+    \item Lattices and Minkowski theory.
+    \item Dirichlet's unit theorem.
+    \item \(p\)-adic numbers.
+    \item Valuations.
+    \item Completions.
+    \item Local fields.
+    \item Trace and norm.
+    \item Different and discriminant.
+    \item Prime decomposition and ramification.
+    \item Cyclotomic fields.
+    \item Basic zeta functions and \(L\)-series.
+\end{enumerate}
+
+\subsection{Advanced / Enrichment Topics}
+
+These topics can be included toward the end of Number Theory I
+or reserved for Number Theory II:
+
+\begin{enumerate}
+    \item Adeles and ideles.
+    \item Abstract class field theory.
+    \item Local class field theory.
+    \item Global class field theory.
+    \item Brauer groups.
+    \item Formal groups.
+    \item Artin \(L\)-series.
+    \item Artin conductors.
+    \item Tauberian theory.
+    \item Brauer--Siegel theorem.
+    \item Explicit formulas.
+\end{enumerate}
+
+% ============================================================
+\section{Suggested Number Theory I / Number Theory II Boundary}
+% ============================================================
+
+\subsection{Number Theory I}
+
+A coherent first course can end approximately at
+
+\[
+\boxed{
+\text{Algebraic Number Theory}
++
+\text{Local Theory}
++
+\text{Basic Analytic Number Theory}.
+}
+\]
+
+This includes
+
+\begin{itemize}
+    \item algebraic integers;
+    \item ideals and Dedekind domains;
+    \item class groups;
+    \item Minkowski theory;
+    \item units;
+    \item valuations;
+    \item \(p\)-adic numbers;
+    \item local fields;
+    \item discriminants;
+    \item ramification;
+    \item cyclotomic fields;
+    \item basic zeta and \(L\)-functions.
+\end{itemize}
+
+\subsection{Number Theory II}
+
+A natural continuation is
+
+\[
+\boxed{
+\text{Adeles/Ideles}
++
+\text{Advanced Analytic Theory}
++
+\text{Class Field Theory}.
+}
+\]
+
+This includes
+
+\begin{itemize}
+    \item adeles;
+    \item ideles;
+    \item Poisson summation;
+    \item Tate-style local/global methods;
+    \item Artin \(L\)-series;
+    \item reciprocity laws;
+    \item local class field theory;
+    \item global class field theory;
+    \item Brauer groups;
+    \item explicit formulas.
+\end{itemize}
+
+% ============================================================
+\section{Final Course Map}
+% ============================================================
+
+The entire curriculum can be summarized as follows:
+
+\[
+\begin{array}{cccccc}
+\text{Algebra} &
+\longrightarrow &
+\text{Algebraic Integers} &
+\longrightarrow &
+\text{Ideals} &
+\longrightarrow
+\\[2mm]
+&&
+\downarrow &&
+\downarrow
+\\[2mm]
+&&
+\text{Dedekind Domains} &
+\longrightarrow &
+\text{Class Groups}
+\\[2mm]
+&&
+\downarrow &&
+\downarrow
+\\[2mm]
+\text{Valuations} &
+\longrightarrow &
+\text{Completions} &
+\longrightarrow &
+\text{Local Fields}
+\\[2mm]
+&&
+\downarrow &&
+\downarrow
+\\[2mm]
+&&
+\text{Different/Discriminant} &
+\longrightarrow &
+\text{Ramification}
+\\[2mm]
+&&
+\multicolumn{3}{c}{
+\downarrow
+}
+\\[2mm]
+&&
+\text{Cyclotomic and Number Fields}
+\\[2mm]
+&&
+\downarrow
+\\[2mm]
+&&
+\text{Minkowski Theory}
+\\[2mm]
+&&
+\downarrow
+\\[2mm]
+&&
+\text{Adeles and Ideles}
+\\[2mm]
+&&
+\downarrow
+\\[2mm]
+&&
+\text{Zeta Functions and \(L\)-Series}
+\\[2mm]
+&&
+\downarrow
+\\[2mm]
+&&
+\text{Functional Equations}
+\\[2mm]
+&&
+\downarrow
+\\[2mm]
+&&
+\text{Reciprocity}
+\\[2mm]
+&&
+\downarrow
+\\[2mm]
+&&
+\text{Local Class Field Theory}
+\\[2mm]
+&&
+\downarrow
+\\[2mm]
+&&
+\boxed{\text{Global Class Field Theory}}
+\end{array}
+\]
+
+% ============================================================
+\section{Concluding Learning Goal}
+% ============================================================
+
+The ultimate goal of Number Theory I is not merely to accumulate
+individual theorems.  Students should learn to recognize the
+structural unity of arithmetic.
+
+A typical arithmetic problem may be viewed through several
+equivalent lenses:
+
+\[
+\boxed{
+\begin{array}{c}
+\text{integer / algebraic integer}
+\\
+\Updownarrow
+\\
+\text{ideal}
+\\
+\Updownarrow
+\\
+\text{valuation}
+\\
+\Updownarrow
+\\
+\text{local field}
+\\
+\Updownarrow
+\\
+\text{Galois group}
+\\
+\Updownarrow
+\\
+\text{\(L\)-function}
+\\
+\Updownarrow
+\\
+\text{reciprocity law}.
+\end{array}
+}
+\]
+
+The student completing the course should therefore be capable of
+moving between algebraic, local, global, and analytic descriptions
+of the same arithmetic phenomenon.
+
+\end{document}

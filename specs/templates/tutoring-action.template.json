@@ -1,0 +1,22 @@
+{
+  "record_id": "<stable id for this record (envelope, interfaces.md §1.1)>",
+  "record_type": "TutoringAction",
+  "schema_version": "0.1",
+  "created_at": "<ISO-8601 UTC timestamp>",
+  "producer": "tutoring-engine",
+  "status": "<type-specific status>",
+  "correlation_id": "<connects records in one turn>",
+
+  "action_id": "<action identity>",
+  "session_id": "<session id>",
+  "question_id": "<question id>",
+  "turn_id": "<turn id>",
+  "learner_state_id": "<the LearnerState that motivated this action>",
+  "action_type": "<one of: elicit | probe | inspect | diagnose | hint | contrast | explain | demonstrate | retry | verify | check_understanding | transfer>",
+  "pedagogical_goal": "<intended learning effect>",
+  "content": "<approved student-facing content or generation instructions>",
+  "grounding_refs": ["<GroundingPassage id supporting a course-specific claim>"],
+  "response_expected": { "<what type of student response should follow>": "..." },
+  "allowed_presentations": ["<text | speech | avatar | flashcard | ...>"],
+  "constraints": { "<detail/disclosure limits, retry rules, safety/accessibility>": "..." }
+}

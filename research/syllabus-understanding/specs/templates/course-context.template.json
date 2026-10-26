@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.1",
+  "Course": {
+    "id": "<course slug, lowercase, e.g. calc1>",
+    "title": "<course title>",
+    "level": "<one of: undergraduate introductory | undergraduate advanced | master's | doctoral>",
+    "duration_weeks": 14,
+    "assumed_background": "<what students are expected to know on arrival>",
+    "module_ids": ["<module id, in teaching order>"],
+    "provenance": "<one of: source_backed | ai_inferred>"
+  },
+  "Module": [
+    {
+      "id": "<course>.<NN>-<slug>, e.g. calc1.01-functions (NN = teaching order from 01)>",
+      "course_id": "<course id>",
+      "title": "<module title>",
+      "goal": "<one sentence>",
+      "weeks": "<N or N-M, e.g. 3 or 3-4>",
+      "concept_ids": ["<concept id>"],
+      "provenance": "<source_backed | ai_inferred>"
+    }
+  ],
+  "Concept": [
+    {
+      "id": "<module id>.<slug>, e.g. calc1.01-functions.graphs>",
+      "module_id": "<module id this concept belongs to>",
+      "name": "<concept name>",
+      "summary": "<one or two sentences: what the concept is>",
+      "key_definitions": ["<term: a precise statement (only terms that need one)>"],
+      "prerequisite_ids": ["<concept id in the same or an earlier module; empty array if none>"],
+      "objective_ids": ["<learning objective id; SHOULD have at least one>"],
+      "difficulty_notes": [
+        {
+          "misconception": "<a common student misconception>",
+          "mitigation": "<how to address or avoid it>"
+        }
+      ],
+      "source_ids": ["<source id; SHOULD have at least one>"],
+      "question_ids": ["<assessment question id>"],
+      "provenance": "<source_backed | ai_inferred>"
+    }
+  ],
+  "LearningObjective": [
+    {
+      "id": "<concept id>.lo<n>, e.g. calc1.01-functions.graphs.lo1>",
+      "concept_id": "<concept id this objective belongs to>",
+      "text": "<the objective statement>",
+      "bloom_level": "<one of: remember | understand | apply | analyze | evaluate | create>",
+      "provenance": "<source_backed | ai_inferred>"
+    }
+  ],
+  "Source": [
+    {
+      "id": "<source slug>.<locator>, e.g. neuhauser.s7-2>",
+      "type": "<one of: syllabus | textbook | lecture_notes | reading | other>",
+      "citation": "<full citation>",
+      "section": "<section or chapter reference, e.g. Section 7.2>",
+      "text_chunk": "<verbatim syllabus line or source excerpt (non-empty)>",
+      "provenance": "<source_backed | ai_inferred>"
+    }
+  ],
+  "AssessmentQuestion": [
+    {
+      "id": "<concept id>.q<n>, e.g. calc1.01-functions.graphs.q1>",
+      "concept_ids": ["<concept id this question tests (at least one)>"],
+      "objective_ids": ["<objective id that belongs to one of concept_ids>"],
+      "type": "<one of: homework | quiz | midterm | final | project | participation-prompt>",
+      "difficulty": "<one of: recall | application | analysis>",
+      "prompt": "<the question text>",
+      "solution": "<full worked answer>",
+      "rubric": "<short grading guide>",
+      "common_wrong_answers": ["<a plausible wrong answer>"],
+      "requires_figure": false,
+      "provenance": "<source_backed | ai_inferred>"
+    }
+  ],
+  "assumptions": [
+    {
+      "entity": "<one of: Course | Module | Concept | LearningObjective | Source | AssessmentQuestion>",
+      "id": "<a record id, or <slug>.* for a blanket policy over many records>",
+      "field": "<the field inferred, or a non-schema topic such as 'format (no schema field)'>",
+      "assumption": "<the value that was chosen>",
+      "reason": "<why it was inferred this way>"
+    }
+  ]
+}

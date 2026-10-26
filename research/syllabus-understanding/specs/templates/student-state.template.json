@@ -1,0 +1,19 @@
+{
+  "observed_approach": "<the technique the student appears to be using, or unknown>",
+  "stated_reasoning": "<what the student said about their reasoning, or unknown>",
+  "prerequisite_status": [
+    {
+      "concept": "<prerequisite concept id (matches a Question Schema prerequisite_concepts[].concept_id)>",
+      "status": "<one of: unknown | partially demonstrated | confirmed (assisted) | confirmed | contradicted>",
+      "evidence": "<what the student did that supports this status>"
+    }
+  ],
+  "components_correct": ["<a sub-step or component the student has gotten right>"],
+  "suspected_misconception": {
+    "description": "<the misconception currently suspected, or none>",
+    "confidence": "<one of: tentative | likely | high, or none>"
+  },
+  "interventions_attempted": ["<a pedagogical action already taken this session, e.g. hint (T9)>"],
+  "evidence_of_understanding_level": 0,
+  "gap_notes": "<free-text notes on what is still open (off-target context, never scored against the target)>"
+}

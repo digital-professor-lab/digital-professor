@@ -1,0 +1,2025 @@
+\documentclass[11pt]{article}
+
+% ------------------------------------------------------------
+% PACKAGES
+% ------------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+
+% ------------------------------------------------------------
+% DOCUMENT SETTINGS
+% ------------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\setlist[itemize]{leftmargin=1.5em}
+\setlist[enumerate]{leftmargin=1.8em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Calculus 1 for Biological and Social Sciences}
+\lhead{Full Course Breakdown}
+\cfoot{\thepage}
+
+\titleformat{\section}
+  {\Large\bfseries}
+  {\thesection}
+  {0.75em}
+  {}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection}
+  {0.75em}
+  {}
+
+% ------------------------------------------------------------
+% CUSTOM COMMANDS
+% ------------------------------------------------------------
+\newcommand{\objective}[1]{\item \textbf{Learning Objective:} #1}
+\newcommand{\concept}[1]{\item \textbf{Concepts:} #1}
+\newcommand{\difficult}[1]{\item \textbf{Difficult Topics:} #1}
+\newcommand{\prereq}[1]{\item \textbf{Prerequisites:} #1}
+
+% ------------------------------------------------------------
+% TITLE
+% ------------------------------------------------------------
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1.5cm}
+
+    {\Huge\bfseries Calculus 1 for Biological and Social Sciences\par}
+    \vspace{0.5cm}
+    {\LARGE Full Course Structure and Learning Framework\par}
+
+    \vspace{1.5cm}
+
+    {\large
+    Chapters, Modules, Concepts, Learning Objectives,\\
+    Prerequisites, and Difficult Topics
+    \par}
+
+    \vfill
+
+    \textbf{Course Design Basis}\\[0.3cm]
+    The structure follows the supplied textbook Table of Contents.
+    
+    \vspace{0.5cm}
+    \textit{Note: Sections marked with an asterisk in the textbook
+    are treated as optional or enrichment material.}
+
+    \vfill
+
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+% 1. COURSE OVERVIEW
+% ============================================================
+
+\section{Course Overview}
+
+This course develops calculus and related mathematical tools for
+applications in the biological and social sciences. The progression
+moves from mathematical preparation and elementary functions to
+limits, differentiation, integration, differential equations,
+linear algebra, multivariable calculus, and probability and statistics.
+
+The central conceptual progression is:
+
+\[
+\boxed{
+\text{Functions}
+\rightarrow
+\text{Limits}
+\rightarrow
+\text{Derivatives}
+\rightarrow
+\text{Applications}
+\rightarrow
+\text{Integrals}
+\rightarrow
+\text{Differential Equations}
+}
+\]
+
+The later portion of the textbook extends this foundation to
+
+\[
+\boxed{
+\text{Linear Algebra}
+\rightarrow
+\text{Multivariable Calculus}
+\rightarrow
+\text{Systems of Differential Equations}
+\rightarrow
+\text{Probability and Statistics}.
+}
+\]
+
+\subsection{Primary Course Goals}
+
+By the end of the full course, students should be able to:
+
+\begin{enumerate}
+    \item Work fluently with algebraic, graphical, exponential,
+    logarithmic, and trigonometric functions.
+    
+    \item Construct and interpret mathematical models of biological
+    and social phenomena.
+    
+    \item Understand the conceptual meaning of a limit and continuity.
+    
+    \item Compute and interpret derivatives as rates of change.
+    
+    \item Use derivatives to analyze functions and solve optimization
+    problems.
+    
+    \item Understand integration as accumulation and inverse
+    differentiation.
+    
+    \item Apply definite and indefinite integrals to scientific models.
+    
+    \item Solve basic differential equations arising from biological
+    and social models.
+    
+    \item Work with systems of linear equations and matrices.
+    
+    \item Extend differentiation and modeling ideas to several
+    independent variables.
+    
+    \item Analyze systems of differential equations qualitatively
+    and quantitatively.
+    
+    \item Apply probability and statistical concepts to data and
+    stochastic models.
+\end{enumerate}
+
+% ============================================================
+% 2. PREREQUISITE STRUCTURE
+% ============================================================
+
+\section{Prerequisite Structure}
+
+\subsection{Mathematical Prerequisites}
+
+The following skills form the foundation for the course:
+
+\begin{itemize}
+    \item Arithmetic and numerical manipulation
+    \item Algebraic simplification
+    \item Factoring
+    \item Solving equations and inequalities
+    \item Coordinate geometry
+    \item Slopes and equations of lines
+    \item Quadratic equations
+    \item Basic trigonometry
+    \item Exponential functions
+    \item Logarithmic functions
+    \item Function notation
+    \item Graph interpretation
+\end{itemize}
+
+\subsection{Prerequisite Dependency Map}
+
+\[
+\begin{array}{c}
+\text{Algebra + Trigonometry + Functions}
+\\[0.3cm]
+\downarrow
+\\[0.3cm]
+\text{Limits and Continuity}
+\\[0.3cm]
+\downarrow
+\\[0.3cm]
+\text{Differentiation}
+\\[0.3cm]
+\downarrow
+\\[0.3cm]
+\text{Applications of Differentiation}
+\\[0.3cm]
+\downarrow
+\\[0.3cm]
+\text{Integration}
+\\[0.3cm]
+\downarrow
+\\[0.3cm]
+\text{Integration Techniques}
+\\[0.3cm]
+\downarrow
+\\[0.3cm]
+\text{Differential Equations}
+\end{array}
+\]
+
+The later subjects depend on this core:
+
+\[
+\begin{array}{ccccc}
+\text{Differential Equations}
+&\longrightarrow&
+\text{Systems of Differential Equations}
+\\
+\updownarrow
+&&
+\updownarrow
+\\
+\text{Linear Algebra}
+&\longrightarrow&
+\text{Multivariable Calculus}
+\end{array}
+\]
+
+Probability and statistics constitute a related mathematical
+application stream that can be developed after the foundational
+algebra and calculus material.
+
+% ============================================================
+% CHAPTER 1
+% ============================================================
+
+\section{Chapter 1: Preview and Review}
+
+\subsection{Major Topic}
+
+\textbf{Precalculus skills, elementary functions, and graphing.}
+
+\subsection{Module 1.1: Precalculus Diagnostic}
+
+\textbf{Purpose:} Identify mathematical preparation needed before
+formal calculus.
+
+\begin{itemize}
+    \concept{Algebraic manipulation}
+    \concept{Functions}
+    \concept{Equations}
+    \concept{Graphs}
+    \concept{Trigonometry}
+    \concept{Exponentials and logarithms}
+\end{itemize}
+
+\subsection{Module 1.2: Preliminaries}
+
+\begin{itemize}
+    \concept{Real numbers}
+    \concept{Lines in the plane}
+    \concept{Equation of a circle}
+    \concept{Trigonometry}
+    \concept{Exponentials and logarithms}
+    \concept{Complex numbers}
+    \concept{Quadratic equations}
+\end{itemize}
+
+\subsection{Module 1.3: Elementary Functions}
+
+\begin{itemize}
+    \concept{Definition of a function}
+    \concept{Polynomial functions}
+    \concept{Rational functions}
+    \concept{Power functions}
+    \concept{Exponential functions}
+    \concept{Inverse functions}
+    \concept{Logarithmic functions}
+    \concept{Trigonometric functions}
+\end{itemize}
+
+\subsection{Module 1.4: Graphing}
+
+\begin{itemize}
+    \concept{Graphing functions}
+    \concept{Basic transformations}
+    \concept{Logarithmic scales}
+    \concept{Transformations into linear functions}
+    \concept{Translating verbal descriptions into graphs}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+Students should be able to:
+
+\begin{enumerate}
+    \objective{Use real-number and algebraic operations correctly.}
+    \objective{Interpret slope and equations of lines.}
+    \objective{Use basic trigonometric relationships.}
+    \objective{Manipulate exponential and logarithmic expressions.}
+    \objective{Define and evaluate functions.}
+    \objective{Identify domains and ranges of elementary functions.}
+    \objective{Graph polynomial, rational, power, exponential,
+    logarithmic, and trigonometric functions.}
+    \objective{Apply transformations to function graphs.}
+    \objective{Translate between verbal, algebraic, and graphical
+    representations.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{High-school algebra}
+    \prereq{Coordinate geometry}
+    \prereq{Basic trigonometry}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Function notation and domain restrictions}
+    \difficult{Inverse functions}
+    \difficult{Logarithmic transformations}
+    \difficult{Graph transformations}
+    \difficult{Connecting algebraic equations to graphs}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 2
+% ============================================================
+
+\section{Chapter 2: Discrete-Time Models, Sequences, and Difference Equations}
+
+\subsection{Major Topic}
+
+\textbf{Discrete mathematical modeling and sequences.}
+
+\subsection{Module 2.1: Exponential Growth and Decay}
+
+\begin{itemize}
+    \concept{Discrete-time population growth}
+    \concept{Exponential growth}
+    \concept{Exponential decay}
+    \concept{Recurrence equations}
+    \concept{Graphical visualization of recurrence equations}
+\end{itemize}
+
+\subsection{Module 2.2: Sequences}
+
+\begin{itemize}
+    \concept{Definition of sequences}
+    \concept{Recursive sequences}
+    \concept{Limits of sequences}
+    \concept{Recurrence equations}
+    \concept{Summation notation}
+\end{itemize}
+
+\subsection{Module 2.3: Modeling with Recurrence Equations}
+
+\begin{itemize}
+    \concept{Density-dependent population growth}
+    \concept{Beverton--Holt model}
+    \concept{Discrete logistic equation}
+    \concept{Biological modeling}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Represent biological growth using discrete-time models.}
+    \objective{Construct and interpret recurrence equations.}
+    \objective{Generate and interpret sequences.}
+    \objective{Analyze limiting behavior of sequences.}
+    \objective{Use summation notation.}
+    \objective{Interpret density-dependent population models.}
+    \objective{Compare exponential and logistic-type growth.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Algebra}
+    \prereq{Exponential functions}
+    \prereq{Function notation}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Recursive versus explicit representations}
+    \difficult{Limits of sequences}
+    \difficult{Interpreting recurrence equations dynamically}
+    \difficult{Distinguishing exponential and density-dependent growth}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 3
+% ============================================================
+
+\section{Chapter 3: Limits and Continuity}
+
+\subsection{Major Topic}
+
+\textbf{The conceptual foundation of differential calculus.}
+
+\subsection{Module 3.1: Limits}
+
+\begin{itemize}
+    \concept{Informal definition of a limit}
+    \concept{Limit notation}
+    \concept{Limit laws}
+    \concept{Pitfalls in calculating limits}
+\end{itemize}
+
+\subsection{Module 3.2: Continuity}
+
+\begin{itemize}
+    \concept{Continuity}
+    \concept{Combinations of continuous functions}
+    \concept{Relationship between limits and continuity}
+\end{itemize}
+
+\subsection{Module 3.3: Limits at Infinity}
+
+\begin{itemize}
+    \concept{Behavior of functions as $x\to\infty$}
+    \concept{Behavior of functions as $x\to-\infty$}
+    \concept{Horizontal asymptotic behavior}
+\end{itemize}
+
+\subsection{Module 3.4: Trigonometric Limits}
+
+\begin{itemize}
+    \concept{Fundamental trigonometric limits}
+    \concept{Geometric argument for trigonometric limits}
+    \concept{Sandwich theorem}
+\end{itemize}
+
+\subsection{Module 3.5: Properties of Continuous Functions}
+
+\begin{itemize}
+    \concept{Intermediate Value Theorem}
+    \concept{Bisection method}
+    \concept{Numerical approximation of roots}
+\end{itemize}
+
+\subsection{Module 3.6: Formal Definition of Limits}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Formal limit definition}
+    \concept{$\epsilon$--$\delta$ reasoning}
+    \concept{Rigorous limit arguments}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Explain the intuitive meaning of a limit.}
+    \objective{Calculate limits using algebraic and limit-law methods.}
+    \objective{Identify common errors in limit calculations.}
+    \objective{Determine whether a function is continuous.}
+    \objective{Analyze limits at infinity.}
+    \objective{Use important trigonometric limits.}
+    \objective{Apply the Intermediate Value Theorem.}
+    \objective{Use bisection to approximate solutions.}
+    \objective{Explain the formal definition of a limit when appropriate.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Functions and graphing}
+    \prereq{Algebraic manipulation}
+    \prereq{Trigonometry}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Understanding a limit as a process rather than a value}
+    \difficult{Indeterminate forms}
+    \difficult{Limits at infinity}
+    \difficult{Trigonometric limits}
+    \difficult{Intermediate Value Theorem}
+    \difficult{Formal $\epsilon$--$\delta$ definition}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 4
+% ============================================================
+
+\section{Chapter 4: Differentiation}
+
+\subsection{Major Topic}
+
+\textbf{Derivatives, rates of change, and differentiation rules.}
+
+\subsection{Module 4.1: Definition of the Derivative}
+
+\begin{itemize}
+    \concept{Derivative from first principles}
+    \concept{Difference quotients}
+    \concept{Instantaneous rate of change}
+    \concept{Tangent lines}
+\end{itemize}
+
+\subsection{Module 4.2: Properties of the Derivative}
+
+\begin{itemize}
+    \concept{Interpretation of derivatives}
+    \concept{Differentiability}
+    \concept{Relationship between differentiability and continuity}
+\end{itemize}
+
+\subsection{Module 4.3: Basic Differentiation Rules}
+
+\begin{itemize}
+    \concept{Power rule}
+    \concept{Constant rule}
+    \concept{Sum and difference rules}
+    \concept{Derivatives of polynomial functions}
+\end{itemize}
+
+\subsection{Module 4.4: Product, Quotient, and Power Functions}
+
+\begin{itemize}
+    \concept{Product rule}
+    \concept{Quotient rule}
+    \concept{Derivatives of rational functions}
+    \concept{Derivatives of power functions}
+\end{itemize}
+
+\subsection{Module 4.5: Chain Rule}
+
+\begin{itemize}
+    \concept{Composition of functions}
+    \concept{Chain rule}
+    \concept{Nested functions}
+\end{itemize}
+
+\subsection{Module 4.6: Implicit Differentiation and Related Rates}
+
+\begin{itemize}
+    \concept{Implicit functions}
+    \concept{Implicit differentiation}
+    \concept{Related rates}
+\end{itemize}
+
+\subsection{Module 4.7: Higher Derivatives}
+
+\begin{itemize}
+    \concept{Second derivative}
+    \concept{Higher-order derivatives}
+\end{itemize}
+
+\subsection{Module 4.8: Trigonometric Derivatives}
+
+\begin{itemize}
+    \concept{Derivatives of trigonometric functions}
+\end{itemize}
+
+\subsection{Module 4.9: Exponential Derivatives}
+
+\begin{itemize}
+    \concept{Derivative of exponential functions}
+\end{itemize}
+
+\subsection{Module 4.10: Inverse and Logarithmic Derivatives}
+
+\begin{itemize}
+    \concept{Derivative of inverse functions}
+    \concept{Derivative of logarithmic functions}
+    \concept{Derivative of inverse tangent}
+    \concept{Logarithmic differentiation}
+\end{itemize}
+
+\subsection{Module 4.11: Linear Approximation and Error Propagation}
+
+\begin{itemize}
+    \concept{Linearization}
+    \concept{Approximation}
+    \concept{Differential estimates}
+    \concept{Error propagation}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Define the derivative using a limit.}
+    \objective{Interpret the derivative as an instantaneous rate of change.}
+    \objective{Interpret the derivative geometrically as a tangent slope.}
+    \objective{Differentiate elementary functions.}
+    \objective{Apply the product, quotient, and chain rules.}
+    \objective{Differentiate implicitly defined functions.}
+    \objective{Solve related-rate problems.}
+    \objective{Compute and interpret higher derivatives.}
+    \objective{Differentiate trigonometric, exponential, logarithmic,
+    and inverse functions.}
+    \objective{Use linear approximation to estimate function values.}
+    \objective{Estimate and interpret propagated errors.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Chapter 3: Limits and Continuity}
+    \prereq{Elementary functions}
+    \prereq{Algebra and trigonometry}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Derivative from first principles}
+    \difficult{Chain rule}
+    \difficult{Implicit differentiation}
+    \difficult{Related rates}
+    \difficult{Inverse-function derivatives}
+    \difficult{Logarithmic differentiation}
+    \difficult{Error propagation}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 5
+% ============================================================
+
+\section{Chapter 5: Applications of Differentiation}
+
+\subsection{Major Topic}
+
+\textbf{Using derivatives to understand, analyze, and optimize models.}
+
+\subsection{Module 5.1: Extrema and the Mean Value Theorem}
+
+\begin{itemize}
+    \concept{Extreme Value Theorem}
+    \concept{Local extrema}
+    \concept{Mean Value Theorem}
+\end{itemize}
+
+\subsection{Module 5.2: Monotonicity and Concavity}
+
+\begin{itemize}
+    \concept{Increasing and decreasing functions}
+    \concept{First derivative}
+    \concept{Concavity}
+    \concept{Second derivative}
+\end{itemize}
+
+\subsection{Module 5.3: Extrema and Inflection Points}
+
+\begin{itemize}
+    \concept{Critical points}
+    \concept{Local and global extrema}
+    \concept{Inflection points}
+\end{itemize}
+
+\subsection{Module 5.4: Optimization}
+
+\begin{itemize}
+    \concept{Optimization models}
+    \concept{Objective functions}
+    \concept{Constraints}
+    \concept{Critical-point analysis}
+\end{itemize}
+
+\subsection{Module 5.5: L'Hopital's Rule}
+
+\begin{itemize}
+    \concept{Indeterminate forms}
+    \concept{Limit evaluation using derivatives}
+\end{itemize}
+
+\subsection{Module 5.6: Graphing and Asymptotes}
+
+\begin{itemize}
+    \concept{Derivative-based graphing}
+    \concept{Asymptotic behavior}
+    \concept{Function shape}
+\end{itemize}
+
+\subsection{Optional Modules}
+
+\begin{itemize}
+    \concept{Stability of recurrence equations}
+    \concept{Newton--Raphson numerical method}
+    \concept{Biological systems modeled using differential equations}
+\end{itemize}
+
+\subsection{Module 5.10: Antiderivatives}
+
+\begin{itemize}
+    \concept{Antiderivatives}
+    \concept{Reverse differentiation}
+    \concept{Indefinite integration as preparation for Chapter 6}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Identify and classify critical points.}
+    \objective{Determine intervals of increase and decrease.}
+    \objective{Determine concavity and inflection points.}
+    \objective{Use the Extreme Value and Mean Value Theorems.}
+    \objective{Solve applied optimization problems.}
+    \objective{Evaluate appropriate indeterminate limits using
+    L'Hopital's Rule.}
+    \objective{Use derivatives to sketch and analyze graphs.}
+    \objective{Find antiderivatives of basic functions.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Chapter 4: Differentiation}
+    \prereq{Limits and continuity}
+    \prereq{Algebraic modeling}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Distinguishing local and global extrema}
+    \difficult{Optimization modeling}
+    \difficult{Concavity and inflection points}
+    \difficult{Graphing from derivative information}
+    \difficult{Choosing an appropriate derivative-based method}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 6
+% ============================================================
+
+\section{Chapter 6: Integration}
+
+\subsection{Major Topic}
+
+\textbf{Accumulation, area, antiderivatives, and the Fundamental
+Theorem of Calculus.}
+
+\subsection{Module 6.1: Definite Integral}
+
+\begin{itemize}
+    \concept{Area problem}
+    \concept{Riemann integral}
+    \concept{Riemann sums}
+    \concept{Properties of the definite integral}
+\end{itemize}
+
+\subsection{Module 6.2: Fundamental Theorem of Calculus}
+
+\begin{itemize}
+    \concept{FTC Part I}
+    \concept{Antiderivatives}
+    \concept{Indefinite integrals}
+    \concept{FTC Part II}
+    \concept{Relationship between differentiation and integration}
+\end{itemize}
+
+\subsection{Module 6.3: Applications of Integration}
+
+\begin{itemize}
+    \concept{Cumulative change}
+    \concept{Average values}
+    \concept{Areas}
+    \concept{Volumes}
+    \concept{Arc length}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Explain the definite integral as an accumulation process.}
+    \objective{Approximate area using Riemann sums.}
+    \objective{Evaluate definite integrals.}
+    \objective{Distinguish definite from indefinite integrals.}
+    \objective{Use both parts of the Fundamental Theorem of Calculus.}
+    \objective{Interpret integrals as cumulative change.}
+    \objective{Calculate and interpret average values.}
+    \objective{Apply integration to areas and volumes when appropriate.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Limits}
+    \prereq{Continuity}
+    \prereq{Differentiation}
+    \prereq{Antiderivatives}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Riemann sums}
+    \difficult{Understanding accumulation}
+    \difficult{The Fundamental Theorem of Calculus}
+    \difficult{Distinguishing rate from accumulated quantity}
+    \difficult{Setting up applied integrals}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 7
+% ============================================================
+
+\section{Chapter 7: Integration Techniques and Computational Methods}
+
+\subsection{Major Topic}
+
+\textbf{Symbolic and numerical methods for integration.}
+
+\subsection{Module 7.1: Substitution Rule}
+
+\begin{itemize}
+    \concept{$u$-substitution}
+    \concept{Indefinite integrals}
+    \concept{Definite integrals}
+\end{itemize}
+
+\subsection{Module 7.2: Integration by Parts}
+
+\begin{itemize}
+    \concept{Integration by parts}
+    \concept{Selection of factors}
+    \concept{Repeated integration}
+\end{itemize}
+
+\subsection{Module 7.3: Rational Functions and Partial Fractions}
+
+\begin{itemize}
+    \concept{Proper rational functions}
+    \concept{Partial-fraction decomposition}
+    \concept{Repeated linear factors}
+    \concept{Irreducible quadratic factors}
+\end{itemize}
+
+\subsection{Module 7.4: Improper Integrals}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Unbounded intervals}
+    \concept{Unbounded integrands}
+    \concept{Comparison methods}
+\end{itemize}
+
+\subsection{Module 7.5: Numerical Integration}
+
+\begin{itemize}
+    \concept{Midpoint rule}
+    \concept{Trapezoidal rule}
+    \concept{Spreadsheet-based numerical integration}
+    \concept{Numerical error estimation}
+\end{itemize}
+
+\subsection{Module 7.6: Taylor Approximation}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Taylor polynomials}
+    \concept{Taylor polynomial about $x=a$}
+    \concept{Approximation accuracy}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Use substitution to simplify integrals.}
+    \objective{Apply integration by parts.}
+    \objective{Integrate selected rational functions using partial fractions.}
+    \objective{Recognize when numerical integration is appropriate.}
+    \objective{Apply midpoint and trapezoidal rules.}
+    \objective{Interpret numerical approximation error.}
+    \objective{Use Taylor polynomials as local approximations
+    when appropriate.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Chapter 6: Integration}
+    \prereq{Differentiation rules}
+    \prereq{Algebraic manipulation}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Recognizing the correct substitution}
+    \difficult{Integration by parts}
+    \difficult{Partial-fraction decomposition}
+    \difficult{Improper integrals}
+    \difficult{Error analysis in numerical integration}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 8
+% ============================================================
+
+\section{Chapter 8: Differential Equations}
+
+\subsection{Major Topic}
+
+\textbf{Using calculus to model dynamic biological and social systems.}
+
+\subsection{Module 8.1: Separable Differential Equations}
+
+\begin{itemize}
+    \concept{Pure-time differential equations}
+    \concept{Autonomous differential equations}
+    \concept{Separable equations}
+    \concept{Initial-value interpretation}
+\end{itemize}
+
+\subsection{Module 8.2: Equilibria and Stability}
+
+\begin{itemize}
+    \concept{Equilibrium points}
+    \concept{Graphical equilibrium analysis}
+    \concept{Stability}
+    \concept{Vector fields}
+    \concept{Behavior near equilibria}
+\end{itemize}
+
+\subsection{Module 8.3: Differential Equation Models}
+
+\begin{itemize}
+    \concept{Compartment models}
+    \concept{Ecological models}
+    \concept{Chemical reaction models}
+    \concept{Models of cooperation}
+    \concept{Epidemic models}
+\end{itemize}
+
+\subsection{Module 8.4: Integrating Factors and Two-Compartment Models}
+
+\begin{itemize}
+    \concept{Integrating factors}
+    \concept{Two-compartment systems}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Explain what a differential equation represents.}
+    \objective{Solve basic separable differential equations.}
+    \objective{Identify equilibrium solutions.}
+    \objective{Determine qualitative stability of equilibria.}
+    \objective{Interpret vector-field representations.}
+    \objective{Construct compartment and ecological models.}
+    \objective{Apply differential equations to chemical and epidemic models.}
+    \objective{Use integrating factors for appropriate first-order equations.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Differentiation}
+    \prereq{Integration}
+    \prereq{Algebra}
+    \prereq{Function interpretation}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Translating a verbal model into a differential equation}
+    \difficult{Separation of variables}
+    \difficult{Equilibrium and stability analysis}
+    \difficult{Interpreting vector fields}
+    \difficult{Compartment modeling}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 9
+% ============================================================
+
+\section{Chapter 9: Linear Algebra and Analytic Geometry}
+
+\subsection{Major Topic}
+
+\textbf{Linear systems, matrices, eigenvalues, and vectors.}
+
+\subsection{Module 9.1: Linear Systems}
+
+\begin{itemize}
+    \concept{Graphical solution}
+    \concept{Elimination}
+    \concept{Systems of equations}
+    \concept{Matrix representation}
+\end{itemize}
+
+\subsection{Module 9.2: Matrices}
+
+\begin{itemize}
+    \concept{Matrix operations}
+    \concept{Matrix multiplication}
+    \concept{Inverse matrices}
+\end{itemize}
+
+\subsection{Module 9.3: Linear Maps, Eigenvectors, and Eigenvalues}
+
+\begin{itemize}
+    \concept{Linear transformations}
+    \concept{Eigenvectors}
+    \concept{Eigenvalues}
+    \concept{Graphical representation}
+\end{itemize}
+
+\subsection{Module 9.4: Demographic Modeling}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Leslie matrices}
+    \concept{Stable age distributions}
+    \concept{Population dynamics}
+\end{itemize}
+
+\subsection{Module 9.5: Analytic Geometry}
+
+\begin{itemize}
+    \concept{Points and vectors in higher dimensions}
+    \concept{Dot product}
+    \concept{Parametric equations of lines}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Solve systems of linear equations.}
+    \objective{Represent linear systems using matrices.}
+    \objective{Perform matrix operations.}
+    \objective{Interpret matrix multiplication.}
+    \objective{Understand inverse matrices.}
+    \objective{Identify eigenvalues and eigenvectors.}
+    \objective{Interpret vectors geometrically.}
+    \objective{Use dot products and parametric equations.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Algebra}
+    \prereq{Systems of equations}
+    \prereq{Basic coordinate geometry}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Matrix multiplication}
+    \difficult{Inverse matrices}
+    \difficult{Eigenvalues and eigenvectors}
+    \difficult{Transition from scalar to vector thinking}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 10
+% ============================================================
+
+\section{Chapter 10: Multivariable Calculus}
+
+\subsection{Major Topic}
+
+\textbf{Functions, derivatives, and optimization involving multiple
+independent variables.}
+
+\subsection{Module 10.1: Functions of Several Variables}
+
+\begin{itemize}
+    \concept{Functions of two variables}
+    \concept{Functions of more than two variables}
+    \concept{Surface plots}
+    \concept{Heat maps}
+    \concept{Contour plots}
+\end{itemize}
+
+\subsection{Module 10.2: Limits and Continuity}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Multivariable limits}
+    \concept{Continuity}
+    \concept{Formal limits}
+\end{itemize}
+
+\subsection{Module 10.3: Partial Derivatives}
+
+\begin{itemize}
+    \concept{Partial derivatives}
+    \concept{Higher-order partial derivatives}
+\end{itemize}
+
+\subsection{Module 10.4: Tangent Planes, Differentiability, and Linearization}
+
+\begin{itemize}
+    \concept{Tangent planes}
+    \concept{Differentiability}
+    \concept{Multivariable linearization}
+    \concept{Vector-valued functions}
+\end{itemize}
+
+\subsection{Module 10.5: Multivariable Chain Rule}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Chain rule for functions of several variables}
+    \concept{Implicit differentiation}
+\end{itemize}
+
+\subsection{Module 10.6: Directional Derivatives and Gradient}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Directional derivative}
+    \concept{Gradient vector}
+    \concept{Properties of the gradient}
+\end{itemize}
+
+\subsection{Module 10.7: Multivariable Optimization}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Local maxima and minima}
+    \concept{Global extrema}
+    \concept{Constrained extrema}
+    \concept{Least-squares data fitting}
+\end{itemize}
+
+\subsection{Module 10.8--10.9: Mathematical Models}
+
+\begin{itemize}
+    \concept{Diffusion}
+    \concept{Systems of recurrence equations}
+    \concept{Equilibria and stability}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Represent functions of multiple variables.}
+    \objective{Interpret surface, heat-map, and contour representations.}
+    \objective{Calculate partial derivatives.}
+    \objective{Interpret higher-order partial derivatives.}
+    \objective{Construct tangent-plane and linear approximations.}
+    \objective{Apply the multivariable chain rule when appropriate.}
+    \objective{Interpret directional derivatives and gradients.}
+    \objective{Solve basic multivariable optimization problems.}
+    \objective{Apply multivariable concepts to mathematical models.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Single-variable differentiation}
+    \prereq{Single-variable optimization}
+    \prereq{Algebra}
+    \prereq{Vectors and coordinate geometry}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Visualizing functions of two variables}
+    \difficult{Partial derivatives}
+    \difficult{Tangent planes}
+    \difficult{Multivariable chain rule}
+    \difficult{Gradient vectors}
+    \difficult{Constrained optimization}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 11
+% ============================================================
+
+\section{Chapter 11: Systems of Differential Equations}
+
+\subsection{Major Topic}
+
+\textbf{Dynamic systems involving multiple interacting variables.}
+
+\subsection{Module 11.1: Linear Systems}
+
+\begin{itemize}
+    \concept{Vector fields}
+    \concept{Solutions of linear systems}
+    \concept{Equilibria}
+    \concept{Stability}
+    \concept{Complex conjugate eigenvalues}
+\end{itemize}
+
+\subsection{Module 11.2: Applications}
+
+\begin{itemize}
+    \concept{Two-compartment models}
+    \concept{Interaction models}
+    \concept{Harmonic oscillator}
+\end{itemize}
+
+\subsection{Module 11.3: Nonlinear Autonomous Systems}
+
+\begin{itemize}
+    \concept{Analytical approaches}
+    \concept{Graphical analysis}
+    \concept{$2\times2$ nonlinear systems}
+\end{itemize}
+
+\subsection{Module 11.4: Lotka--Volterra Models}
+
+\begin{itemize}
+    \concept{Competition}
+    \concept{Predator--prey interactions}
+    \concept{Interspecific interactions}
+\end{itemize}
+
+\subsection{Module 11.5: Additional Mathematical Models}
+
+\textit{Optional/enrichment topic.}
+
+\begin{itemize}
+    \concept{Community matrix}
+    \concept{Neuron activity}
+    \concept{Enzymatic reactions}
+    \concept{Microbial growth}
+    \concept{Epidemic models}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Represent interacting dynamic variables using systems
+    of differential equations.}
+    \objective{Interpret vector fields.}
+    \objective{Analyze equilibrium points and stability.}
+    \objective{Understand the role of eigenvalues in linear systems.}
+    \objective{Analyze nonlinear two-dimensional systems graphically.}
+    \objective{Apply systems to ecological and biological models.}
+    \objective{Interpret predator--prey and competition dynamics.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Chapter 8: Differential Equations}
+    \prereq{Chapter 9: Linear Algebra}
+    \prereq{Eigenvalues and eigenvectors}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Connecting matrices to differential equations}
+    \difficult{Eigenvalue-based stability analysis}
+    \difficult{Phase-plane reasoning}
+    \difficult{Complex eigenvalues}
+    \difficult{Nonlinear systems}
+\end{itemize}
+
+% ============================================================
+% CHAPTER 12
+% ============================================================
+
+\section{Chapter 12: Probability and Statistics}
+
+\subsection{Major Topic}
+
+\textbf{Probability, random variables, distributions, limit theorems,
+and statistical tools.}
+
+\subsection{Module 12.1: Counting}
+
+\begin{itemize}
+    \concept{Multiplication principle}
+    \concept{Permutations}
+    \concept{Combinations}
+    \concept{Combined counting principles}
+\end{itemize}
+
+\subsection{Module 12.2: Probability}
+
+\begin{itemize}
+    \concept{Basic probability definitions}
+    \concept{Equally likely outcomes}
+\end{itemize}
+
+\subsection{Module 12.3: Conditional Probability and Independence}
+
+\begin{itemize}
+    \concept{Conditional probability}
+    \concept{Law of total probability}
+    \concept{Independence}
+    \concept{Bayes' formula}
+\end{itemize}
+
+\subsection{Module 12.4: Discrete Random Variables}
+
+\begin{itemize}
+    \concept{Discrete distributions}
+    \concept{Mean}
+    \concept{Variance}
+    \concept{Binomial distribution}
+    \concept{Multinomial distribution}
+    \concept{Geometric distribution}
+    \concept{Poisson distribution}
+\end{itemize}
+
+\subsection{Module 12.5: Continuous Distributions}
+
+\begin{itemize}
+    \concept{Density functions}
+    \concept{Normal distribution}
+    \concept{Uniform distribution}
+    \concept{Exponential distribution}
+    \concept{Poisson process}
+    \concept{Aging}
+\end{itemize}
+
+\subsection{Module 12.6: Limit Theorems}
+
+\begin{itemize}
+    \concept{Law of Large Numbers}
+    \concept{Central Limit Theorem}
+\end{itemize}
+
+\subsection{Module 12.7: Statistical Tools}
+
+\begin{itemize}
+    \concept{Describing univariate data}
+    \concept{Parameter estimation}
+    \concept{Linear regression}
+\end{itemize}
+
+\subsection{Learning Objectives}
+
+\begin{enumerate}
+    \objective{Apply basic counting principles.}
+    \objective{Calculate elementary probabilities.}
+    \objective{Use conditional probability and independence.}
+    \objective{Apply Bayes' formula.}
+    \objective{Calculate means and variances of discrete random variables.}
+    \objective{Recognize common discrete and continuous distributions.}
+    \objective{Interpret probability density functions.}
+    \objective{Explain the Law of Large Numbers and Central Limit Theorem.}
+    \objective{Summarize univariate data.}
+    \objective{Estimate parameters from data.}
+    \objective{Interpret linear regression models.}
+\end{enumerate}
+
+\subsection{Prerequisites}
+
+\begin{itemize}
+    \prereq{Algebra}
+    \prereq{Function notation}
+    \prereq{Basic summation}
+    \prereq{For continuous distributions: basic integration}
+\end{itemize}
+
+\subsection{Difficult Topics}
+
+\begin{itemize}
+    \difficult{Conditional probability}
+    \difficult{Independence}
+    \difficult{Bayes' formula}
+    \difficult{Expected value and variance}
+    \difficult{Continuous probability density functions}
+    \difficult{Central Limit Theorem}
+    \difficult{Parameter estimation}
+\end{itemize}
+
+% ============================================================
+% 3. CROSS-COURSE CONCEPT MAP
+% ============================================================
+
+\section{Cross-Course Concept Map}
+
+The major mathematical ideas can be organized into the following
+conceptual hierarchy.
+
+\subsection{Representation}
+
+\[
+\text{Verbal Model}
+\leftrightarrow
+\text{Equation}
+\leftrightarrow
+\text{Table}
+\leftrightarrow
+\text{Graph}
+\]
+
+Students repeatedly move among these representations.
+
+\subsection{Change}
+
+\[
+\text{Average Rate of Change}
+\rightarrow
+\text{Instantaneous Rate of Change}
+\rightarrow
+\text{Derivative}
+\]
+
+\subsection{Accumulation}
+
+\[
+\text{Small Contributions}
+\rightarrow
+\text{Riemann Sum}
+\rightarrow
+\text{Definite Integral}
+\rightarrow
+\text{Cumulative Quantity}
+\]
+
+\subsection{Derivative--Integral Relationship}
+
+\[
+\boxed{
+\text{Differentiation}
+\quad\Longleftrightarrow\quad
+\text{Integration}
+}
+\]
+
+through the Fundamental Theorem of Calculus.
+
+\subsection{Dynamic Modeling}
+
+\[
+\text{State}
+\rightarrow
+\text{Rate of Change}
+\rightarrow
+\text{Differential Equation}
+\rightarrow
+\text{Solution}
+\rightarrow
+\text{Prediction}
+\]
+
+\subsection{Systems Thinking}
+
+\[
+\text{Several Variables}
+\rightarrow
+\text{Linear Algebra}
+\rightarrow
+\text{Systems}
+\rightarrow
+\text{Eigenvalues}
+\rightarrow
+\text{Stability}.
+\]
+
+% ============================================================
+% 4. DIFFICULTY PROGRESSION
+% ============================================================
+
+\section{Difficulty Progression}
+
+\begin{longtable}{p{0.17\textwidth} p{0.28\textwidth} p{0.45\textwidth}}
+\toprule
+\textbf{Level} & \textbf{Topics} & \textbf{Main Challenge}\\
+\midrule
+Foundational &
+Algebra, functions, graphing &
+Fluency with symbolic and graphical representations\\
+\addlinespace
+Developing &
+Sequences, limits, continuity &
+Understanding mathematical processes and limiting behavior\\
+\addlinespace
+Intermediate &
+Differentiation &
+Connecting formulas with rates of change and geometric meaning\\
+\addlinespace
+Intermediate--Advanced &
+Applications of derivatives &
+Translating real-world problems into mathematical optimization models\\
+\addlinespace
+Advanced &
+Integration &
+Understanding accumulation and the Fundamental Theorem\\
+\addlinespace
+Advanced &
+Integration techniques &
+Selecting an appropriate symbolic or numerical method\\
+\addlinespace
+Advanced &
+Differential equations &
+Connecting rates of change to dynamic models\\
+\addlinespace
+Advanced &
+Linear algebra &
+Moving from scalar equations to vector/matrix representations\\
+\addlinespace
+Advanced &
+Multivariable calculus &
+Generalizing one-variable ideas to several dimensions\\
+\addlinespace
+Advanced &
+Systems of differential equations &
+Combining calculus, matrices, eigenvalues, and dynamical systems\\
+\addlinespace
+Application-focused &
+Probability and statistics &
+Connecting mathematical distributions to uncertainty and data\\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+% 5. HIGH-PRIORITY DIFFICULT TOPICS
+% ============================================================
+
+\section{High-Priority Difficult Topics}
+
+The following topics deserve additional instructional time because
+they require substantial conceptual transitions.
+
+\begin{enumerate}
+    \item \textbf{Function interpretation}
+    
+    Students must move fluently among equations, graphs, tables,
+    and verbal descriptions.
+    
+    \item \textbf{Limits}
+    
+    The idea of approaching a value is conceptually different from
+    ordinary algebraic substitution.
+    
+    \item \textbf{Derivative as instantaneous rate of change}
+    
+    Students must connect the geometric, algebraic, and applied
+    meanings of the derivative.
+    
+    \item \textbf{Chain Rule}
+    
+    Correctly identifying nested functions and their dependencies
+    is a major symbolic challenge.
+    
+    \item \textbf{Related Rates}
+    
+    Students must translate a changing real-world situation into
+    equations involving derivatives.
+    
+    \item \textbf{Optimization}
+    
+    The main challenge is usually model formulation rather than
+    differentiation itself.
+    
+    \item \textbf{Fundamental Theorem of Calculus}
+    
+    Students must understand why differentiation and integration
+    are connected.
+    
+    \item \textbf{Setting up integrals}
+    
+    Applied integration requires identifying the quantity being
+    accumulated before performing calculations.
+    
+    \item \textbf{Differential-equation modeling}
+    
+    Students must translate biological or social mechanisms into
+    mathematical rate equations.
+    
+    \item \textbf{Equilibrium and stability}
+    
+    Students must reason dynamically rather than only calculate
+    numerical answers.
+    
+    \item \textbf{Eigenvalues and eigenvectors}
+    
+    These require a transition from elementary algebra to structural
+    linear-algebra reasoning.
+    
+    \item \textbf{Multivariable visualization}
+    
+    Students must reason about surfaces, contours, and changes in
+    multiple directions.
+\end{enumerate}
+
+% ============================================================
+% 6. RECOMMENDED COURSE MODULES
+% ============================================================
+
+\section{Recommended Module-Based Course Structure}
+
+For instructional purposes, the twelve textbook chapters can be
+grouped into the following larger modules.
+
+\begin{longtable}{p{0.12\textwidth} p{0.28\textwidth} p{0.48\textwidth}}
+\toprule
+\textbf{Module} & \textbf{Theme} & \textbf{Chapters/Topics}\\
+\midrule
+M1 &
+Mathematical Foundations &
+Real numbers, algebra, trigonometry, functions, graphing\\
+\addlinespace
+M2 &
+Discrete Modeling &
+Exponential growth, sequences, recurrence equations, population models\\
+\addlinespace
+M3 &
+Limits and Continuity &
+Limits, continuity, limits at infinity, IVT\\
+\addlinespace
+M4 &
+Differential Calculus &
+Derivative definition, rules, chain rule, implicit differentiation,
+related rates\\
+\addlinespace
+M5 &
+Applications of Derivatives &
+Extrema, monotonicity, concavity, optimization, graphing\\
+\addlinespace
+M6 &
+Integral Calculus &
+Definite integrals, Riemann sums, FTC, accumulation\\
+\addlinespace
+M7 &
+Integration Methods &
+Substitution, integration by parts, partial fractions,
+numerical integration\\
+\addlinespace
+M8 &
+Differential Equations &
+Separable equations, equilibria, stability, biological models\\
+\addlinespace
+M9 &
+Linear Algebra &
+Linear systems, matrices, eigenvalues, eigenvectors\\
+\addlinespace
+M10 &
+Multivariable Calculus &
+Multivariable functions, partial derivatives, tangent planes,
+gradients, optimization\\
+\addlinespace
+M11 &
+Dynamical Systems &
+Systems of differential equations, stability, ecological models\\
+\addlinespace
+M12 &
+Probability and Statistics &
+Probability, random variables, distributions, limit theorems,
+regression\\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+% 7. CORE VS OPTIONAL CONTENT
+% ============================================================
+
+\section{Core Versus Optional Content}
+
+The textbook explicitly indicates that asterisked sections are not
+required for progressing through the later sections of the text.
+Therefore, a practical course can distinguish between core and
+enrichment material.
+
+\subsection{Core Calculus Sequence}
+
+\begin{enumerate}
+    \item Chapter 1: Preview and Review
+    \item Chapter 2: Discrete-Time Models, Sequences, and Difference
+    Equations
+    \item Chapter 3: Limits and Continuity
+    \item Chapter 4: Differentiation
+    \item Chapter 5: Applications of Differentiation
+    \item Chapter 6: Integration
+    \item Chapter 7: Integration Techniques and Computational Methods
+    \item Chapter 8: Differential Equations
+\end{enumerate}
+
+\subsection{Advanced/Extension Sequence}
+
+\begin{enumerate}
+    \item Chapter 9: Linear Algebra and Analytic Geometry
+    \item Chapter 10: Multivariable Calculus
+    \item Chapter 11: Systems of Differential Equations
+    \item Chapter 12: Probability and Statistics
+\end{enumerate}
+
+\subsection{Typical Optional/Enrichment Areas}
+
+Examples of topics explicitly marked as optional in the supplied
+contents include:
+
+\begin{itemize}
+    \item Formal definitions of limits
+    \item Spreadsheet implementations
+    \item Drug-absorption modeling
+    \item Stability of recurrence equations
+    \item Newton--Raphson method
+    \item Differential-equation modeling extensions
+    \item Rigorous proof of the Fundamental Theorem
+    \item Improper integrals
+    \item Taylor approximation
+    \item Multivariable limits
+    \item Multivariable chain rule
+    \item Directional derivatives and gradients
+    \item Multivariable optimization
+    \item Diffusion and systems of recurrence equations
+    \item Additional differential-equation models
+\end{itemize}
+
+% ============================================================
+% 8. ASSESSMENT ALIGNMENT
+% ============================================================
+
+\section{Suggested Assessment Alignment}
+
+\begin{longtable}{p{0.22\textwidth} p{0.30\textwidth} p{0.35\textwidth}}
+\toprule
+\textbf{Assessment Type} & \textbf{Primary Skills} & \textbf{Best-Aligned Topics}\\
+\midrule
+Diagnostic &
+Prerequisite fluency &
+Algebra, functions, trigonometry\\
+\addlinespace
+Concept quizzes &
+Conceptual understanding &
+Limits, continuity, derivatives, integrals\\
+\addlinespace
+Problem sets &
+Symbolic proficiency &
+Differentiation, integration, differential equations\\
+\addlinespace
+Modeling assignments &
+Mathematical translation &
+Population, epidemic, ecological, compartment models\\
+\addlinespace
+Graphing tasks &
+Visual reasoning &
+Functions, derivatives, concavity, vector fields\\
+\addlinespace
+Application projects &
+Interpretation and communication &
+Optimization, biological models, dynamical systems\\
+\addlinespace
+Cumulative examinations &
+Integration of concepts &
+Limits through integration and differential equations\\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+% 9. LEARNING OUTCOME HIERARCHY
+% ============================================================
+
+\section{Learning Outcome Hierarchy}
+
+\subsection{Level 1: Mathematical Fluency}
+
+Students can:
+
+\begin{itemize}
+    \item manipulate algebraic expressions;
+    \item evaluate functions;
+    \item interpret graphs;
+    \item use exponential, logarithmic, and trigonometric functions.
+\end{itemize}
+
+\subsection{Level 2: Conceptual Calculus}
+
+Students can:
+
+\begin{itemize}
+    \item explain limits;
+    \item determine continuity;
+    \item explain derivatives as rates of change;
+    \item explain integrals as accumulation.
+\end{itemize}
+
+\subsection{Level 3: Computational Calculus}
+
+Students can:
+
+\begin{itemize}
+    \item calculate limits;
+    \item differentiate functions;
+    \item integrate functions;
+    \item use standard calculus rules and techniques.
+\end{itemize}
+
+\subsection{Level 4: Analytical Reasoning}
+
+Students can:
+
+\begin{itemize}
+    \item analyze extrema;
+    \item determine monotonicity and concavity;
+    \item optimize functions;
+    \item analyze equilibrium and stability.
+\end{itemize}
+
+\subsection{Level 5: Mathematical Modeling}
+
+Students can:
+
+\begin{itemize}
+    \item formulate mathematical models;
+    \item interpret model parameters;
+    \item analyze model behavior;
+    \item connect mathematical results to biological or social phenomena.
+\end{itemize}
+
+\subsection{Level 6: Advanced Mathematical Modeling}
+
+Students can:
+
+\begin{itemize}
+    \item work with matrices and eigenvalues;
+    \item analyze multivariable functions;
+    \item study systems of differential equations;
+    \item use probability and statistical models.
+\end{itemize}
+
+% ============================================================
+% 10. FINAL COURSE MAP
+% ============================================================
+
+\section{Final Course Map}
+
+The entire textbook can be understood through five major mathematical
+strands.
+
+\begin{enumerate}
+    \item \textbf{Functions and Representation}
+    
+    \[
+    \text{Functions}
+    \rightarrow
+    \text{Graphs}
+    \rightarrow
+    \text{Models}
+    \]
+    
+    \item \textbf{Change}
+    
+    \[
+    \text{Limits}
+    \rightarrow
+    \text{Derivatives}
+    \rightarrow
+    \text{Optimization}
+    \]
+    
+    \item \textbf{Accumulation}
+    
+    \[
+    \text{Riemann Sums}
+    \rightarrow
+    \text{Integrals}
+    \rightarrow
+    \text{Cumulative Change}
+    \]
+    
+    \item \textbf{Dynamics}
+    
+    \[
+    \text{Differential Equations}
+    \rightarrow
+    \text{Equilibria}
+    \rightarrow
+    \text{Stability}
+    \rightarrow
+    \text{Systems}
+    \]
+    
+    \item \textbf{Data and Uncertainty}
+    
+    \[
+    \text{Probability}
+    \rightarrow
+    \text{Distributions}
+    \rightarrow
+    \text{Limit Theorems}
+    \rightarrow
+    \text{Statistics}
+    \]
+\end{enumerate}
+
+\subsection{Complete Dependency Chain}
+
+\[
+\boxed{
+\begin{array}{c}
+\text{Precalculus}
+\\
+\downarrow
+\\
+\text{Functions and Graphs}
+\\
+\downarrow
+\\
+\text{Discrete Models and Sequences}
+\\
+\downarrow
+\\
+\text{Limits and Continuity}
+\\
+\downarrow
+\\
+\text{Differentiation}
+\\
+\downarrow
+\\
+\text{Applications of Differentiation}
+\\
+\downarrow
+\\
+\text{Integration}
+\\
+\downarrow
+\\
+\text{Integration Techniques}
+\\
+\downarrow
+\\
+\text{Differential Equations}
+\\
+\downarrow
+\\
+\text{Linear Algebra}
+\\
+\downarrow
+\\
+\text{Multivariable Calculus}
+\\
+\downarrow
+\\
+\text{Systems of Differential Equations}
+\end{array}
+}
+\]
+
+Probability and statistics form a complementary application strand:
+
+\[
+\boxed{
+\text{Counting}
+\rightarrow
+\text{Probability}
+\rightarrow
+\text{Random Variables}
+\rightarrow
+\text{Distributions}
+\rightarrow
+\text{Limit Theorems}
+\rightarrow
+\text{Statistics}.
+}
+\]
+
+% ============================================================
+% CONCLUSION
+% ============================================================
+
+\section{Conclusion}
+
+The textbook supports a course architecture that begins with
+precalculus and function fluency, develops the central calculus
+sequence of limits, derivatives, and integrals, and then applies
+these tools to biological and social-science models.
+
+The most important conceptual spine is
+
+\[
+\boxed{
+\text{Functions}
+\rightarrow
+\text{Limits}
+\rightarrow
+\text{Derivatives}
+\rightarrow
+\text{Optimization}
+\rightarrow
+\text{Integrals}
+\rightarrow
+\text{Differential Equations}.
+}
+\]
+
+The later chapters broaden the mathematical toolkit through linear
+algebra, multivariable calculus, systems of differential equations,
+and probability/statistics.
+
+For a conventional ``Calculus I'' course, the highest-priority
+material would normally be Chapters 1--6, with selected material
+from Chapters 7--8 used for computational and biological modeling
+applications. Chapters 9--12 are best viewed as extensions of the
+calculus foundation rather than as the minimum core of a traditional
+one-semester Calculus I course.
+
+\end{document}

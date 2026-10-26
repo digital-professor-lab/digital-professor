@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Module-Breakdown Prompt | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
+  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
+    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
+  .backlink:hover{opacity:1}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
+  .p-under{background:#EFE4D5; color:#8A5A2A}
+  .p-mast{background:#EADFD7; color:#9A5030}
+  .p-phd{background:#F4DED3; color:#B0472E}
+  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
+  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
+  .yes{color:var(--green); font-weight:700}
+  .no{color:var(--red); font-weight:700}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:1rem}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
+  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
+  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
+  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
+  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .stars{color:var(--amber); letter-spacing:2px}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
+    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
+  .btn:hover{background:var(--navy)}
+  .exlink-wrap{margin-top:18px}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+
+  /* ---- Example-output rendering ---- */
+  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
+  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
+  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
+  .exhead p{margin:0; opacity:.85; font-size:.85rem}
+  .exbody{padding:22px 24px; background:var(--paper)}
+  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
+  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
+  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
+  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
+  .exdoc li{margin:3px 0; font-size:.92rem}
+  .exdoc table{font-size:.86rem}
+  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
+  .diffcard .dt{color:var(--red); font-weight:700}
+  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
+  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
+  .qa .ans{color:var(--muted); display:block; margin-top:3px}
+  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
+  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
+  @media(max-width:720px){.pdfbox iframe{height:520px}}
+  .promptbox{border:1px solid var(--line); border-left:4px solid var(--steel); border-radius:0 10px 10px 0; background:var(--soft); padding:18px 22px; margin-top:16px}
+  .promptbox .ph{font-weight:700; color:var(--navy); font-size:1.05rem; margin:0 0 4px}
+  .promptbox .pmeta{font-size:.82rem; color:var(--muted); margin:0 0 12px}
+  .promptbox .ptext{font-size:.9rem; line-height:1.5}
+  .promptbox ol{padding-left:20px; margin:8px 0}
+  .promptbox ol>li{margin:7px 0}
+  .promptbox ul{padding-left:20px; margin:4px 0}
+  .promptbox .ctx{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:.87rem}
+  .promptbox code{background:var(--paper)}
+  .promptbox .rules{margin-top:12px; padding-top:10px; border-top:1px dashed #D8CFBF}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <a class="backlink" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p class="kicker">Digital Professor · Method</p>
+  <h1>The Module-Breakdown Prompt</h1>
+  <p>The interactive prompt that turns one module of a course into a session-by-session teaching package. Authored by Claude, portable to GPT.</p>
+</header>
+
+<section>
+  <h2>What it is</h2>
+  <ul class="clean">
+    <li><strong>Zooms in from course to classroom.</strong> Given one module (from a course design, a syllabus, a table of contents, or just a description), it produces a concept-level teaching package for that module.</li>
+    <li><strong>Interactive intake first.</strong> It settles up to five things — module scope, session count, level, assumed prior knowledge, and topic emphasis — asking only what it can't already infer from the material.</li>
+    <li><strong>Teaching-ready output.</strong> Lesson topics, concepts, <em>key definitions to state verbatim</em>, measurable learning objectives, prerequisites, an explicit "connecting to prior learning" bridge, concept-level difficulty analysis, worked examples <em>with full solutions</em>, board-sketch visual-aid instructions, and a question bank — ending in compilable LaTeX.</li>
+    <li><strong>No rendered graphics.</strong> Visual aids are always plain board-sketch instructions, never TikZ or generated images.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>The prompt, in full</h2>
+  <div class="promptbox">
+    <p class="ph">Module Breakdown Prompt — Interactive Version</p>
+    <div class="ptext">
+      <p>You are an expert instructional designer and curriculum architect. I will give you material describing a single module or unit I want to teach — one module from a full course breakdown, a syllabus (PDF), a book's table of contents, or just my own description — and I want you to break it down into a concept-level teaching package for that module, ending in compilable LaTeX.</p>
+
+      <h5>Phase 0 — Intake (always do this first)</h5>
+      <p>Do not generate anything yet. Read the material closely. There are five things you need before starting:</p>
+      <table>
+        <thead><tr><th>Field</th><th>What you need to know</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Module scope</strong></td><td>Which specific module/topic to break down, and what it covers (if the material spans a whole course, this narrows it to one)</td></tr>
+          <tr><td><strong>Session count</strong></td><td>How many class sessions will cover this module</td></tr>
+          <tr><td><strong>Course level</strong></td><td>Undergrad intro / advanced / master's / PhD — only ask if not clear from what I gave you</td></tr>
+          <tr><td><strong>Assumed prior knowledge</strong></td><td>What students already know coming in — only ask if not inferable from a syllabus/breakdown</td></tr>
+          <tr><td><strong>Topic emphasis</strong></td><td>Any topic(s) the question bank should focus on — or spread evenly</td></tr>
+        </tbody>
+      </table>
+      <p>Go through these one at a time, in order — a lettered list wherever there's a natural short set of answers, always ending in "Something else — I'll type it." Skip <em>Course level</em> and <em>Assumed prior knowledge</em> silently whenever a syllabus/breakdown was given or they're otherwise clear (e.g. for Module 1 use the given prerequisites; for later modules infer the baseline from the previous module). Ask one thing at a time, then stop and wait. If a genuinely useful extra question about the question bank arises, ask it too. If I say "proceed with your best assumptions," stop asking and list every remaining assumption at the top of the output.</p>
+
+      <h5>Phase 1 — Topics</h5>
+      <p>Break the module into its component topics, in teaching order across the sessions from Phase 0.</p>
+      <h5>Phase 2 — Concepts</h5>
+      <p>For each topic, the specific concepts it covers (bulleted).</p>
+      <h5>Phase 3 — Key definitions</h5>
+      <p>For each topic, the terms whose definitions I should state explicitly in lecture — only the ones easy to leave implicit or get slightly wrong if improvised. Give the precise definition, phrased the way it should be delivered in class.</p>
+      <h5>Phase 4 — Learning objectives</h5>
+      <p>Measurable outcomes per topic, using Bloom's-taxonomy verbs — or, for a discussion/reading module, objectives suited to that mode (critique, synthesize, situate-in-the-literature).</p>
+      <h5>Phase 5 — Prerequisites</h5>
+      <p>For each topic, the specific prior concepts a student must already know, and where they were taught (earlier in this module, earlier in the course, or the assumed prior knowledge from Phase 0).</p>
+      <h5>Phase 6 — Bridging to prior learning</h5>
+      <p><strong>This section matters as much as any other — don't shortchange it.</strong> Explain concretely how to relate this module to what students already learned: what specific prior result or skill to call back to when opening the module, and how the new material extends, reframes, or contrasts with it. Reference specific topics where the connection is clearest.</p>
+      <h5>Phase 7 — Difficult concepts</h5>
+      <p>Flag concepts that are historically hard. For each: the specific misconception or abstraction jump (be specific) and a concrete mitigation — full difficulty-analysis depth, at concept granularity.</p>
+      <h5>Phase 8 — Example questions (with solutions)</h5>
+      <p>For each topic, 2–3 questions ready to use in class, each with a full worked solution — not just a rubric, since these are meant to be presented.</p>
+      <h5>Phase 9 — Visual aids</h5>
+      <p>Wherever a figure would help, describe exactly what to draw — axes, labeled points, key features — as plain instructions for me to sketch. Never generate an image or TikZ/pgfplots code; text description only.</p>
+      <h5>Phase 10 — Module question bank</h5>
+      <p>Always generate this. Build 5–8 candidate questions using the Phase-0 emphasis, spanning at least two difficulty levels, each with a full solution or rubric. Decide per topic whether a diagram-based question genuinely adds value. Not formatted as a ready-to-hand-out assessment — just the questions, tagged by difficulty. Any diagram is described in words for me to add myself.</p>
+      <h5>Phase 11 — Full breakdown in LaTeX</h5>
+      <ul>
+        <li><code>\documentclass{article}</code>, packages: <code>enumitem</code>, <code>longtable</code> (or <code>booktabs</code>), <code>hyperref</code>, and a box package (<code>tcolorbox</code> or <code>mdframed</code>) for Key Definitions and Bridging blocks</li>
+        <li>One <code>\subsection</code> per topic, with Key Definitions clearly boxed off</li>
+        <li>A clearly boxed "Connecting to Prior Learning" block per module, right after the prerequisites</li>
+        <li>Visual aids as plain description inside an "Instructor note" box — never TikZ or rendered graphics</li>
+        <li>Output ONLY the LaTeX in this step's code block</li>
+      </ul>
+      <h5>Phase 12 — Follow-up</h5>
+      <p>Right after the LaTeX code block, ask — in plain text — whether there's anything to erase or add. Don't end the turn on the code block alone.</p>
+
+      <div class="rules"><strong>Rules</strong>
+        <ul>
+          <li>Go straight from Phase 0 to the final compiled LaTeX — no intermediate plain-markdown draft.</li>
+          <li>If something is missing after Phase 0, state your assumption explicitly instead of skipping it.</li>
+          <li>Never render an actual diagram or image — Phase 9 and Phase 10 diagrams are always text, never drawing code.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="exnote">See this prompt in action in the <a href="example-deeplearning-module-claude.html">Deep Learning</a>, <a href="example-number-module-claude.html">Number Theory</a>, and <a href="example-calc1-module-claude.html">Calculus I</a> module examples.</p>
+</section>
+
+<footer>
+  <a class="btn" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p style="margin-top:16px">Digital Professor · Research / Syllabus Understanding · module-breakdown prompt</p>
+</footer>
+
+</body>
+</html>

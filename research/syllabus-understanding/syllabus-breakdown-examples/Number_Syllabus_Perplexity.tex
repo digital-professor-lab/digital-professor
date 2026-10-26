@@ -1,0 +1,918 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    urlcolor=blue!60!black,
+    citecolor=blue!60!black,
+    pdftitle={Math 617: Number Theory I},
+    pdfauthor={Johns Hopkins University}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Math 617: Number Theory I}
+\rhead{Fall 2023}
+\cfoot{\thepage}
+
+\setlist[itemize]{noitemsep, topsep=3pt}
+\setlist[enumerate]{noitemsep, topsep=3pt}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+
+\titleformat{\section}
+  {\large\bfseries}
+  {\thesection.}
+  {0.5em}
+  {}
+
+\titleformat{\subsection}
+  {\normalsize\bfseries}
+  {\thesubsection}
+  {0.5em}
+  {}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Math 617: Number Theory I}}\\[0.4em]
+    {\large Fall Semester 2023}\\[0.4em]
+    August 28, 2023--December 8, 2023
+\end{center}
+
+\vspace{1em}
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Instructor:} & Huajie Li \\
+\textbf{Email:} & \href{mailto:hli213@jhu.edu}{hli213@jhu.edu} \\
+\textbf{Office:} & Krieger 220 \\
+\textbf{Lectures:} & Tuesdays and Thursdays, 9:00--10:15 AM \\
+\textbf{Location:} & Hodson 315 \\
+\textbf{Office Hours:} & Tuesdays, 10:30--11:30 AM, or by appointment \\
+\end{tabular}
+\end{center}
+
+\section{Course Description}
+
+Math 617 is a graduate course introducing the foundations of modern algebraic
+and arithmetic number theory. The course develops the arithmetic of number
+fields and their rings of integers, studies ramification and completions, and
+introduces the global--local viewpoint through global fields, local fields,
+adèles, and idèles. If time permits, the course concludes with selected topics
+from Tate's thesis.
+
+The course emphasizes proofs, structural understanding, and problem solving.
+Homework is an essential component of the course and may include both routine
+exercises and problems requiring substantial theoretical insight.
+
+\section{Course Information}
+
+\subsection{Prerequisites}
+
+Students are expected to have graduate-level familiarity with algebra and
+analysis, approximately at the level of qualifying examinations.
+
+Important prerequisite topics include:
+
+\begin{itemize}
+    \item Groups, rings, ideals, modules, and fields.
+    \item Polynomial rings and field extensions.
+    \item Vector spaces, linear maps, and tensor products.
+    \item Noetherian and Dedekind domains.
+    \item Basic Galois theory.
+    \item Integral extensions and localization.
+    \item Basic homological and commutative algebra terminology.
+    \item Metric spaces, normed spaces, and complete spaces.
+    \item Basic point-set topology.
+    \item Measure and integration at an introductory graduate level.
+    \item Infinite series, products, and convergence.
+    \item Basic complex analysis and Fourier analysis, especially for the
+          optional material on Tate's thesis.
+\end{itemize}
+
+\subsection{References}
+
+There is no required textbook. The following references provide standard
+background and complementary treatments:
+
+\begin{itemize}
+    \item J. Neukirch, \emph{Algebraic Number Theory}.
+    \item A. Weil, \emph{Basic Number Theory}.
+    \item S. Lang, \emph{Algebraic Number Theory}.
+    \item J. W. S. Cassels and A. Fr\"ohlich, editors,
+          \emph{Algebraic Number Theory}.
+\end{itemize}
+
+Additional references and lecture notes may be introduced during the semester.
+
+\section{Course Structure}
+
+The course is organized into the following modules:
+
+\begin{enumerate}
+    \item Algebraic preliminaries and arithmetic of number fields.
+    \item Dedekind domains and factorization of ideals.
+    \item Ramification and discriminants.
+    \item Valuations, completions, and local fields.
+    \item Global fields and local--global principles.
+    \item Adèles and idèles.
+    \item Selected topics related to Tate's thesis, if time permits.
+\end{enumerate}
+
+The schedule is approximate. The instructor may adjust the amount of time
+devoted to each module depending on the pace of the class and the level of
+discussion.
+
+\section{Learning Objectives}
+
+By the end of the course, students should be able to:
+
+\begin{enumerate}
+    \item Work fluently with rings of integers in number fields.
+    \item Prove and use the structure theorem for ideals in Dedekind domains.
+    \item Explain the difference between factorization of elements and
+          factorization of ideals.
+    \item Analyze the behavior of prime ideals under extensions of number
+          fields.
+    \item Define and compute ramification indices and residue degrees.
+    \item Relate discriminants, differents, and ramification.
+    \item Use valuations to describe arithmetic and analytic properties of
+          fields.
+    \item Construct completions of fields with respect to absolute values.
+    \item Explain the relationship between global fields and their local
+          completions.
+    \item Work with finite extensions of local fields.
+    \item Define the ring of adèles and the group of idèles.
+    \item Understand why adèles and idèles provide a useful global--local
+          framework.
+    \item Formulate and apply basic local--global principles.
+    \item Read and construct rigorous proofs in algebraic number theory.
+    \item Solve unfamiliar problems independently and communicate mathematical
+          arguments clearly.
+\end{enumerate}
+
+\section{Detailed Course Modules}
+
+\subsection{Module 1: Algebraic and Arithmetic Preliminaries}
+
+\textbf{Suggested duration:} Weeks 1--2
+
+\subsubsection*{Main themes}
+
+\begin{itemize}
+    \item Number fields and algebraic extensions.
+    \item Rings of integers.
+    \item Integral elements and integral closure.
+    \item Norms and traces.
+    \item Embeddings and signatures.
+    \item Fractional ideals and localization.
+\end{itemize}
+
+\subsubsection*{Suggested chapters}
+
+\begin{enumerate}
+    \item Number fields and their embeddings.
+    \item Integral dependence and rings of integers.
+    \item Norms, traces, and discriminants.
+    \item Fractional ideals and localization.
+\end{enumerate}
+
+\subsubsection*{Important concepts}
+
+\begin{itemize}
+    \item Number field \(K\).
+    \item Ring of integers \(\mathcal{O}_K\).
+    \item Minimal polynomial.
+    \item Integral element.
+    \item Field norm \(N_{K/\mathbb{Q}}(\alpha)\).
+    \item Field trace \(\operatorname{Tr}_{K/\mathbb{Q}}(\alpha)\).
+    \item Fractional ideal.
+    \item Localization \(S^{-1}R\).
+    \item Discriminant of a basis.
+    \item Real and complex embeddings.
+\end{itemize}
+
+\subsubsection*{Learning objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Determine whether an element is integral over a given ring.
+    \item Describe the ring of integers of basic number fields.
+    \item Compute norms and traces using multiplication matrices.
+    \item Explain the role of embeddings in the arithmetic of a number field.
+    \item Work with fractional ideals and localizations.
+\end{itemize}
+
+\subsection{Module 2: Dedekind Domains and Ideal Factorization}
+
+\textbf{Suggested duration:} Weeks 3--5
+
+\subsubsection*{Main themes}
+
+\begin{itemize}
+    \item Definition and characterization of Dedekind domains.
+    \item Unique factorization of nonzero ideals.
+    \item Prime ideals and maximal ideals.
+    \item Fractional ideal groups.
+    \item Principal ideals and the ideal class group.
+    \item Failure of unique factorization of elements.
+\end{itemize}
+
+\subsubsection*{Suggested chapters}
+
+\begin{enumerate}
+    \item Dedekind domains.
+    \item Factorization of ideals.
+    \item The ideal class group.
+    \item Examples from quadratic number fields.
+\end{enumerate}
+
+\subsubsection*{Important concepts}
+
+\begin{itemize}
+    \item Noetherian domain.
+    \item Integrally closed domain.
+    \item Krull dimension one.
+    \item Dedekind domain.
+    \item Nonzero prime ideal.
+    \item Invertible ideal.
+    \item Fractional ideal group.
+    \item Principal ideal.
+    \item Ideal class group \(\operatorname{Cl}(\mathcal{O}_K)\).
+    \item Class number.
+\end{itemize}
+
+\subsubsection*{Core theorem}
+
+Every nonzero proper ideal of a Dedekind domain factors uniquely as a product
+of nonzero prime ideals:
+\[
+    \mathfrak{a}
+    =
+    \mathfrak{p}_1^{e_1}\cdots\mathfrak{p}_r^{e_r}.
+\]
+
+\subsubsection*{Learning objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Verify that a ring is a Dedekind domain.
+    \item Factor ideals into prime ideals.
+    \item Prove uniqueness of ideal factorization.
+    \item Distinguish element factorization from ideal factorization.
+    \item Compute or estimate class groups in elementary examples.
+    \item Explain how the class group measures the failure of unique
+          factorization of elements.
+\end{itemize}
+
+\subsection{Module 3: Ramification and Discriminants}
+
+\textbf{Suggested duration:} Weeks 5--7
+
+\subsubsection*{Main themes}
+
+\begin{itemize}
+    \item Extension of prime ideals.
+    \item Factorization of primes in extensions.
+    \item Ramification indices and residue degrees.
+    \item Decomposition groups and inertia groups.
+    \item Discriminants and differents.
+    \item Dedekind's factorization criterion.
+\end{itemize}
+
+\subsubsection*{Suggested chapters}
+
+\begin{enumerate}
+    \item Extension of ideals.
+    \item Splitting of primes.
+    \item Ramification.
+    \item Discriminants and the different.
+    \item Galois-theoretic interpretation of decomposition.
+\end{enumerate}
+
+\subsubsection*{Important concepts}
+
+For a prime ideal \(\mathfrak{p}\) of \(\mathcal{O}_K\), its extension to
+\(\mathcal{O}_L\) may factor as
+\[
+    \mathfrak{p}\mathcal{O}_L
+    =
+    \mathfrak{P}_1^{e_1}\cdots\mathfrak{P}_g^{e_g}.
+\]
+
+The associated quantities are:
+
+\begin{itemize}
+    \item \(e_i\): ramification index.
+    \item \(f_i=[\mathcal{O}_L/\mathfrak{P}_i:
+          \mathcal{O}_K/\mathfrak{p}]\): residue degree.
+    \item \(g\): number of primes above \(\mathfrak{p}\).
+\end{itemize}
+
+In the separable case, these satisfy
+\[
+    \sum_{i=1}^{g}e_i f_i=[L:K].
+\]
+
+Other central concepts include:
+
+\begin{itemize}
+    \item Unramified, tamely ramified, and wildly ramified primes.
+    \item Decomposition group \(D(\mathfrak{P}/\mathfrak{p})\).
+    \item Inertia group \(I(\mathfrak{P}/\mathfrak{p})\).
+    \item Different ideal.
+    \item Discriminant ideal.
+    \item Residue field extension.
+\end{itemize}
+
+\subsubsection*{Learning objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Factor primes in basic extensions of number fields.
+    \item Compute ramification indices and residue degrees.
+    \item Apply the relation
+          \(\sum e_i f_i=[L:K]\).
+    \item Identify ramified primes using discriminants.
+    \item Explain ramification through both ideal-theoretic and
+          Galois-theoretic language.
+    \item Distinguish decomposition, inertia, and ramification.
+\end{itemize}
+
+\subsection{Module 4: Valuations, Completions, and Local Fields}
+
+\textbf{Suggested duration:} Weeks 7--9
+
+\subsubsection*{Main themes}
+
+\begin{itemize}
+    \item Absolute values and valuations.
+    \item Nonarchimedean absolute values.
+    \item Completion of \(\mathbb{Q}\) and number fields.
+    \item \(p\)-adic numbers.
+    \item Local fields.
+    \item Extensions of local fields.
+    \item Hensel's lemma.
+\end{itemize}
+
+\subsubsection*{Suggested chapters}
+
+\begin{enumerate}
+    \item Valued fields.
+    \item The \(p\)-adic numbers.
+    \item Completions of number fields.
+    \item Finite extensions of local fields.
+    \item Hensel's lemma and lifting arguments.
+\end{enumerate}
+
+\subsubsection*{Important concepts}
+
+\begin{itemize}
+    \item Absolute value \(|\cdot|\).
+    \item Valuation \(v\).
+    \item Nonarchimedean valuation.
+    \item Ultrametric inequality.
+    \item Completion \(K_v\).
+    \item \(p\)-adic field \(\mathbb{Q}_p\).
+    \item Ring of integers \(\mathcal{O}_{K_v}\).
+    \item Maximal ideal \(\mathfrak{m}_{K_v}\).
+    \item Residue field.
+    \item Uniformizer.
+    \item Ramification index of a local extension.
+    \item Residue degree of a local extension.
+    \item Hensel's lemma.
+\end{itemize}
+
+\subsubsection*{Learning objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Define and compare archimedean and nonarchimedean absolute values.
+    \item Construct \(\mathbb{Q}_p\) as a completion of \(\mathbb{Q}\).
+    \item Describe the topology induced by a nonarchimedean valuation.
+    \item Use Hensel's lemma to lift factorizations or roots.
+    \item Describe the ring of integers and residue field of a local field.
+    \item Analyze finite extensions of local fields.
+    \item Relate local ramification to global ramification.
+\end{itemize}
+
+\subsection{Module 5: Global Fields and the Local--Global Perspective}
+
+\textbf{Suggested duration:} Weeks 9--10
+
+\subsubsection*{Main themes}
+
+\begin{itemize}
+    \item Global fields.
+    \item Places of a number field.
+    \item Archimedean and nonarchimedean places.
+    \item Completions at places.
+    \item Local solvability and global solvability.
+    \item Approximation theorems.
+    \item Norms and local norms.
+\end{itemize}
+
+\subsubsection*{Suggested chapters}
+
+\begin{enumerate}
+    \item Global fields.
+    \item Places and completions.
+    \item Approximation and weak approximation.
+    \item Local--global principles.
+\end{enumerate}
+
+\subsubsection*{Important concepts}
+
+\begin{itemize}
+    \item Global field.
+    \item Place \(v\) of a number field.
+    \item Completion \(K_v\).
+    \item Product formula.
+    \item Weak approximation.
+    \item Strong approximation.
+    \item Local solvability.
+    \item Global solvability.
+    \item Hasse-type principles.
+\end{itemize}
+
+For a number field \(K\), the product formula takes the form
+\[
+    \prod_v |x|_v^{n_v}=1,
+    \qquad x\in K^\times,
+\]
+where the product is over all places \(v\) of \(K\), and the exponents
+\(n_v\) depend on the normalization of the absolute values.
+
+\subsubsection*{Learning objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Identify the places of a number field.
+    \item Explain the relation between a global field and its completions.
+    \item State and apply approximation results.
+    \item Formulate local--global questions precisely.
+    \item Explain why local information can sometimes determine global
+          arithmetic behavior.
+\end{itemize}
+
+\subsection{Module 6: Adèles and Idèles}
+
+\textbf{Suggested duration:} Weeks 10--12
+
+\subsubsection*{Main themes}
+
+\begin{itemize}
+    \item Restricted direct products.
+    \item The ring of adèles.
+    \item The group of idèles.
+    \item Diagonal embeddings.
+    \item Topological and algebraic structure.
+    \item Class groups and idèle class groups.
+    \item Global arithmetic through local components.
+\end{itemize}
+
+\subsubsection*{Suggested chapters}
+
+\begin{enumerate}
+    \item Restricted products of local fields.
+    \item The ring of adèles.
+    \item The idèle group.
+    \item Idèle class groups.
+    \item Applications to global arithmetic.
+\end{enumerate}
+
+\subsubsection*{Important concepts}
+
+The ring of adèles of a number field \(K\) is the restricted product
+\[
+    \mathbb{A}_K
+    =
+    \prod_v' K_v,
+\]
+where, at all but finitely many nonarchimedean places \(v\), the component
+belongs to the ring of integers \(\mathcal{O}_v\).
+
+The group of idèles is
+\[
+    \mathbb{A}_K^\times
+    =
+    \prod_v' K_v^\times,
+\]
+with respect to the unit groups \(\mathcal{O}_v^\times\) at almost all
+nonarchimedean places.
+
+Important related objects include:
+
+\begin{itemize}
+    \item The diagonal embedding \(K\hookrightarrow\mathbb{A}_K\).
+    \item The diagonal embedding \(K^\times\hookrightarrow\mathbb{A}_K^\times\).
+    \item The idèle class group
+          \(\mathbb{A}_K^\times/K^\times\).
+    \item Restricted direct products.
+    \item Local and global Haar measures.
+    \item Characters of adèle groups.
+\end{itemize}
+
+\subsubsection*{Learning objectives}
+
+Students should be able to:
+
+\begin{itemize}
+    \item Define restricted direct products rigorously.
+    \item Construct the adèle ring of a number field.
+    \item Explain the difference between adèles and idèles.
+    \item Describe the diagonal embedding of a global field.
+    \item Relate idèle class groups to ideal class groups.
+    \item Explain how adèles unify archimedean and nonarchimedean data.
+\end{itemize}
+
+\subsection{Module 7: Tate's Thesis}
+
+\textbf{Suggested duration:} Final module, if time permits
+
+\subsubsection*{Main themes}
+
+\begin{itemize}
+    \item Harmonic analysis on local fields.
+    \item Schwartz--Bruhat functions.
+    \item Fourier transform over local fields.
+    \item Characters of adèle groups.
+    \item Poisson summation.
+    \item Zeta integrals.
+    \item Functional equations of \(L\)-functions.
+\end{itemize}
+
+\subsubsection*{Suggested chapters}
+
+\begin{enumerate}
+    \item Fourier analysis on local fields.
+    \item Schwartz--Bruhat spaces.
+    \item Poisson summation on adèles.
+    \item Global zeta integrals.
+    \item Functional equations and analytic continuation.
+\end{enumerate}
+
+\subsubsection*{Important concepts}
+
+\begin{itemize}
+    \item Schwartz space.
+    \item Schwartz--Bruhat function.
+    \item Additive and multiplicative characters.
+    \item Fourier transform.
+    \item Haar measure.
+    \item Poisson summation formula.
+    \item Tate zeta integral.
+    \item Hecke \(L\)-function.
+    \item Functional equation.
+\end{itemize}
+
+A typical global zeta integral has the schematic form
+\[
+    Z(\phi,\chi,s)
+    =
+    \int_{\mathbb{A}_K^\times}
+    \phi(x)\chi(x)|x|^s\,d^\times x,
+\]
+where \(\phi\) is an appropriate Schwartz--Bruhat function and \(\chi\) is
+a character of the idèle class group.
+
+\subsubsection*{Learning objectives}
+
+If this module is covered, students should be able to:
+
+\begin{itemize}
+    \item Explain the role of Fourier analysis in modern number theory.
+    \item Describe Schwartz--Bruhat functions on local fields and adèles.
+    \item State the adèlic Poisson summation formula.
+    \item Define basic zeta integrals.
+    \item Explain conceptually how functional equations arise from Fourier
+          transform and Poisson summation.
+\end{itemize}
+
+\section{Proposed Weekly Breakdown}
+
+\renewcommand{\arraystretch}{1.25}
+
+\begin{longtable}{p{0.12\textwidth} p{0.28\textwidth} p{0.48\textwidth}}
+\toprule
+\textbf{Weeks} & \textbf{Unit} & \textbf{Representative topics} \\
+\midrule
+1--2 &
+Algebraic preliminaries &
+Number fields, rings of integers, integral elements, norms, traces,
+embeddings, fractional ideals, localization. \\
+\midrule
+3--4 &
+Dedekind domains &
+Noetherian and integrally closed domains, ideal factorization, fractional
+ideals, principal ideals, ideal class groups. \\
+\midrule
+5--7 &
+Ramification &
+Prime decomposition, residue degrees, ramification indices, discriminants,
+differents, decomposition groups, inertia groups. \\
+\midrule
+7--9 &
+Local fields &
+Valuations, completions, \(\mathbb{Q}_p\), local rings, residue fields,
+uniformizers, finite extensions, Hensel's lemma. \\
+\midrule
+9--10 &
+Global and local fields &
+Places, completions, product formula, approximation theorems, local--global
+principles. \\
+\midrule
+10--12 &
+Adèles and idèles &
+Restricted products, adèle rings, idèle groups, diagonal embeddings,
+idèle class groups, global arithmetic. \\
+\midrule
+12--14 &
+Tate's thesis &
+Fourier analysis, Haar measure, Schwartz--Bruhat functions, Poisson
+summation, zeta integrals, functional equations, if time permits. \\
+\bottomrule
+\end{longtable}
+
+\section{Major Difficult Topics}
+
+The following topics are likely to require the greatest amount of abstract
+reasoning and practice:
+
+\subsection{Ideal Factorization versus Element Factorization}
+
+Unique factorization may fail for elements in \(\mathcal{O}_K\), while
+nonzero ideals in a Dedekind domain factor uniquely. Students must understand
+why ideal factorization restores a useful form of arithmetic structure.
+
+\subsection{Ramification}
+
+Ramification combines ideal theory, residue fields, field extensions, and
+Galois theory. The notation
+\[
+    \mathfrak{p}\mathcal{O}_L
+    =
+    \prod_{i=1}^{g}\mathfrak{P}_i^{e_i}
+\]
+must be interpreted simultaneously in terms of factorization, local
+behavior, and extension degree.
+
+\subsection{Discriminants and Differents}
+
+Discriminants are defined using traces and determinants, but they also detect
+ramification. Understanding the relationship between the discriminant ideal,
+the different ideal, and ramified primes is conceptually demanding.
+
+\subsection{Valuations and Completions}
+
+Nonarchimedean geometry differs substantially from ordinary real analysis.
+The ultrametric inequality, totally disconnected topology, and behavior of
+convergent sequences require a change in intuition.
+
+\subsection{Local--Global Principles}
+
+A global arithmetic problem may be studied through all of its local
+completions. However, local solvability does not automatically imply global
+solvability in every setting. Students must distinguish valid local--global
+theorems from situations in which obstructions occur.
+
+\subsection{Restricted Products}
+
+The definitions of adèles and idèles are compact but technically subtle.
+Students must understand both the algebraic restricted product and the
+topology it carries.
+
+\subsection{Tate's Thesis}
+
+Tate's thesis combines algebraic number theory, harmonic analysis, measure
+theory, Fourier transform, and complex analysis. The main challenge is
+understanding how local calculations assemble into a global functional
+equation.
+
+\section{Prerequisite Review Topics}
+
+Students who need preparation should review the following material before or
+during the first weeks of the course.
+
+\subsection{Algebra}
+
+\begin{itemize}
+    \item Modules over principal ideal domains.
+    \item Noetherian rings and modules.
+    \item Localization.
+    \item Integral extensions.
+    \item Fraction fields.
+    \item Tensor products.
+    \item Finite and separable field extensions.
+    \item Galois groups and the fundamental theorem of Galois theory.
+\end{itemize}
+
+\subsection{Commutative Algebra}
+
+\begin{itemize}
+    \item Prime and maximal ideals.
+    \item Quotient rings.
+    \item Factorization of ideals.
+    \item Discrete valuation rings.
+    \item Dimension theory.
+    \item Integral closure.
+    \item Dedekind domains.
+\end{itemize}
+
+\subsection{Analysis}
+
+\begin{itemize}
+    \item Metric and normed spaces.
+    \item Completeness and compactness.
+    \item Series and sequences.
+    \item Measure and integration.
+    \item Fourier series and Fourier transform.
+    \item Basic complex analysis.
+\end{itemize}
+
+\subsection{Useful Mathematical Techniques}
+
+\begin{itemize}
+    \item Proof by contradiction and induction.
+    \item Diagram chasing and homomorphism arguments.
+    \item Computation with bases and matrices.
+    \item Working with quotient structures.
+    \item Translating between algebraic and topological definitions.
+    \item Constructing examples and counterexamples.
+\end{itemize}
+
+\section{Homework and Assessment}
+
+\subsection{Grading Policy}
+
+The course grade is based entirely on homework:
+
+\[
+    \boxed{\text{Homework: }100\%}
+\]
+
+The lowest homework grade is dropped.
+
+\subsection{Homework Format}
+
+In general:
+
+\begin{itemize}
+    \item A problem set is posted on Canvas by the end of each Thursday.
+    \item Solutions are due at the beginning of class the following Thursday.
+    \item Late homework is not accepted without a valid excuse.
+    \item One or two problems may be graded for accuracy.
+    \item The remaining problems are generally graded for completion.
+\end{itemize}
+
+\subsection{Collaboration Policy}
+
+Collaboration is allowed and encouraged after each student has made an
+independent attempt. Every student must write the final solution individually
+and in their own words. Direct copying from another student or another source
+is prohibited.
+
+\subsection{Recommended Homework Categories}
+
+Homework should include a mixture of:
+
+\begin{enumerate}
+    \item Definitions and short proofs.
+    \item Computations with rings of integers and ideals.
+    \item Prime decomposition problems.
+    \item Ramification and discriminant calculations.
+    \item Valuation and completion exercises.
+    \item Proofs involving local fields.
+    \item Conceptual questions about adèles and idèles.
+    \item Optional challenge problems.
+\end{enumerate}
+
+\section{Suggested Problem-Solving Progression}
+
+Students should approach problems using the following progression:
+
+\begin{enumerate}
+    \item Identify the algebraic objects involved.
+    \item Write down the relevant definitions precisely.
+    \item Determine whether the problem is global, local, or both.
+    \item Translate element questions into ideal-theoretic language when
+          appropriate.
+    \item Use norms, traces, valuations, or residue fields to obtain
+          numerical information.
+    \item Check whether a theorem applies and verify its hypotheses.
+    \item Test the argument on a small example.
+    \item Write a complete proof using clear notation and logical transitions.
+\end{enumerate}
+
+\section{Academic Integrity}
+
+Students are expected to be honest and truthful in all course work. Prohibited
+conduct includes:
+
+\begin{itemize}
+    \item Cheating.
+    \item Plagiarism.
+    \item Reuse of assignments.
+    \item Unauthorized collaboration.
+    \item Improper use of the Internet or electronic devices.
+    \item Alteration of graded assignments.
+    \item Forgery or falsification.
+    \item Facilitating academic dishonesty.
+\end{itemize}
+
+Collaboration is permitted only under the conditions stated in the homework
+policy. The submitted write-up must represent the student's own mathematical
+communication.
+
+\section{Accessibility and Student Support}
+
+Students requiring accommodations should obtain an Accommodation Letter from
+Student Disability Services and communicate with the instructor as early as
+possible.
+
+Student Disability Services may be contacted at:
+
+\begin{itemize}
+    \item Shaffer Hall \#101, Homewood Campus.
+    \item Telephone: 410-516-4720.
+    \item Email:
+    \href{mailto:studentdisabilityservices@jhu.edu}
+    {studentdisabilityservices@jhu.edu}.
+\end{itemize}
+
+Students experiencing anxiety, stress, depression, or other mental-health
+concerns are encouraged to contact the JHU Counseling Center:
+
+\begin{itemize}
+    \item 3003 North Charles Street, Suite S-200.
+    \item Telephone: 410-516-8278.
+\end{itemize}
+
+The course is intended to maintain a respectful and inclusive classroom
+environment. Students should be treated with dignity regardless of identity,
+background, or perspective.
+
+\section{Summary of Course Architecture}
+
+\begin{center}
+\begin{tabular}{p{0.24\textwidth} p{0.29\textwidth} p{0.34\textwidth}}
+\toprule
+\textbf{Level} & \textbf{Primary focus} & \textbf{Expected outcome} \\
+\midrule
+Foundational &
+Number fields, rings of integers, ideals &
+Students can work with basic arithmetic objects in number fields. \\
+Structural &
+Dedekind domains and ideal classes &
+Students understand unique ideal factorization and class groups. \\
+Arithmetic &
+Ramification and discriminants &
+Students can analyze the behavior of primes in field extensions. \\
+Local &
+Valuations, completions, and local fields &
+Students can transfer arithmetic questions to local settings. \\
+Global &
+Places, approximation, and local--global methods &
+Students understand how local data interact with global arithmetic. \\
+Advanced &
+Adèles, idèles, and Tate's thesis &
+Students see the modern unified language of algebraic number theory. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Overall Course Outcome}
+
+The central goal of Math 617 is to develop a coherent understanding of
+algebraic number theory from both global and local perspectives. By the end
+of the course, students should be able to move between number fields, their
+rings of integers, prime ideals, completions, and adèlic constructions.
+They should also be able to read advanced mathematical texts and formulate
+proofs involving the arithmetic structure of fields and rings.
+
+\end{document}

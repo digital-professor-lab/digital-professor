@@ -1,0 +1,122 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\title{\textbf{Course Syllabus: Calculus for Biology and Social Sciences}\\
+\large Based on \textit{Calculus for Biology and Medicine} (4th Ed.) by C. Neuhauser \& M. Roper}
+\author{\textbf{Department of Mathematics \& Life Sciences}}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Course Overview \& Prerequisites}
+\textbf{Course Description:} An introduction to differential, integral, multivariable calculus, and linear algebra designed specifically for students in biological and social sciences. Emphasis is placed on empirical data modeling, discrete/continuous dynamic systems, and stochastic processes.
+
+\textbf{Prerequisites:} Precalculus Diagnostic Mastery including:
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item Real numbers, intervals, inequalities, and absolute values.
+    \item Exponential and logarithmic identity manipulation.
+    \item Analytic geometry, straight lines, circles, and trigonometric identities.
+    \item Plotting and interpreting semi-log and log-log transformed axes.
+\end{itemize}
+
+\section*{2. High-Difficulty Topics \& Core Pedagogy}
+Students should dedicate additional study focus to the following mathematically challenging areas:
+\begin{enumerate}[noitemsep,topsep=0pt]
+    \item \textbf{Recurrence \& Autonomous Stability Analysis:} Determining stability via derivatives ($|f'(x^*)|$) and phase-line vector fields.
+    \item \textbf{Multivariable Calculus \& Phase Planes:} Computing Jacobian matrices, interpreting trace-determinant criteria, and finding constrained extrema.
+    \item \textbf{Integration Techniques for ODEs:} Partial fraction decomposition and two-compartment integrating factors.
+\end{enumerate}
+
+\section*{3. Module Breakdown \& Course Structure}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{p{2.2cm} p{3.2cm} p{5.5cm} p{5.0cm}}
+\toprule
+\textbf{Module \& Timeline} & \textbf{Textbook Chapters} & \textbf{Core Concepts \& Topics} & \textbf{Learning Objectives} \\
+\midrule
+\textbf{Module 1:} \newline Discrete Time Dynamics \newline (Weeks 1--2) 
+& Ch. 1: Preview/Review \newline Ch. 2: Discrete Models \& Sequences 
+& Exponential growth/decay, recurrence equations, limits of sequences, Discrete Logistic Equation, Beverton-Holt Model. 
+& Formulate recursive models from verbal descriptions; evaluate limits of sequences; apply summation ($\sum$) notation. \\
+\midrule
+\textbf{Module 2:} \newline Differential Calculus \newline (Weeks 3--5) 
+& Ch. 3: Limits \& Continuity \newline Ch. 4: Differentiation \newline Ch. 5: Applications of Derivative 
+& Bisection method, Chain rule, implicit differentiation, error propagation, Mean-Value Theorem, L'H\^opital's Rule, Optimization. 
+& Compute instantaneous rates of change; optimize biological single-variable equations; evaluate error bounds and limits. \\
+\midrule
+\textbf{Module 3:} \newline Integration \& Methods \newline (Weeks 6--8) 
+& Ch. 6: Integration \newline Ch. 7: Integration Techniques 
+& Riemann sums, Fundamental Theorem of Calculus, Substitution, Integration by Parts, Partial Fractions, Numerical Integration. 
+& Calculate accumulated change and functional averages; solve definite/indefinite integrals required for DEs. \\
+\midrule
+\textbf{Module 4:} \newline Differential Equations \newline (Weeks 9--10) 
+& Ch. 8: Differential Equations 
+& Separable DEs, pure-time/autonomous DEs, equilibrium points \& stability, vector fields, integrating factors, compartment models. 
+& Construct differential models for biological systems; determine equilibrium stability graphically and analytically. \\
+\midrule
+\textbf{Module 5:} \newline Linear Algebra \& Multivariable \newline (Weeks 11--13) 
+& Ch. 9: Linear Algebra \newline Ch. 10: Multivariable Calculus 
+& Matrices, Eigenvalues/Eigenvectors, Leslie matrices, Partial derivatives, Tangent planes, Gradient vectors, Constrained Optimization. 
+& Model demographic age distributions; analyze functions of multiple variables; fit models to data using Least Squares. \\
+\midrule
+\textbf{Module 6:} \newline Systems of ODEs \& Probability \newline (Weeks 14--15) 
+& Ch. 11: Systems of DEs \newline Ch. 12: Probability \& Statistics 
+& Linear systems, nullclines, Lotka-Volterra predator-prey models, discrete/continuous probability, CLT, linear regression. 
+& Classify stability of $2\times2$ systems of ODEs using eigenvalues; model stochastic biological systems and compute distributions. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\section*{4. Detailed Module Objectives \& Learning Outcomes}
+
+\subsection*{Module 1: Discrete-Time Models, Sequences, and Difference Equations}
+\begin{itemize}[noitemsep]
+    \item Understand discrete-time population models including density-dependent growth models.
+    \item Evaluate limits of discrete sequences and model drug absorption profiles.
+\end{itemize}
+
+\subsection*{Module 2: Single-Variable Differential Calculus \& Applications}
+\begin{itemize}[noitemsep]
+    \item Apply limits, continuity, and formal definitions of derivatives to biological rate systems.
+    \item Perform implicit differentiation and linear approximations for error propagation.
+    \item Apply optimization techniques to metabolic, physiological, and genetic systems.
+
+\end{itemize}
+
+\subsection*{Module 3: Integral Calculus \& Computational Techniques}
+\begin{itemize}[noitemsep]
+    \item Model cumulative physiological changes using the Fundamental Theorem of Calculus.
+    \item Utilize substitution, integration by parts, and partial fraction decomposition to evaluate complex integrals.
+\end{itemize}
+
+\subsection*{Module 4: Differential Equations in Biology}
+\begin{itemize}[noitemsep]
+    \item Solve autonomous separable ordinary differential equations.
+    \item Characterize stability of equilibria using phase-line analysis and vector field plots.
+    \item Formulate multi-compartment pharmacological and epidemiological models.
+\end{itemize}
+
+\subsection*{Module 5: Linear Algebra, Demographic Modeling, and Multivariable Calculus}
+\begin{itemize}[noitemsep]
+    \item Perform matrix operations, calculate eigenvalues and eigenvectors, and project population growth using Leslie matrices.
+    \item Calculate partial derivatives, linearizations, gradient vectors, and optimization of multivariate biological functions.
+\end{itemize}
+
+\subsection*{Module 6: Non-Linear Systems of Differential Equations \& Stochastic Models}
+\begin{itemize}[noitemsep]
+    \item Analyze phase planes, nullclines, and stability criteria for predator-prey and competitive species interaction systems.
+    \item Evaluate discrete and continuous probability distributions (Binomial, Poisson, Normal, Exponential) and compute parameters via linear regression.
+\end{itemize}
+
+\end{document}

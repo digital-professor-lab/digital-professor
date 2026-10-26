@@ -1,0 +1,225 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{keydefs}{colback=blue!5!white,colframe=blue!40!black,title=Key Definitions,fonttitle=\bfseries,breakable}
+\newtcolorbox{instrnote}{colback=gray!8!white,colframe=gray!50!black,title=Instructor Note --- Visual Aid,fonttitle=\bfseries,breakable}
+
+\title{Module 1: Functions and Mathematical Modeling \\ \large Concept-Level Teaching Package}
+\author{Calculus I for Bio \& Social Sciences}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section*{Session Plan \& Assumptions}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Sessions:} 3 class sessions, one per topic below (assumption: since the module has exactly three natural subtopics and the course allots roughly one week / three lectures per module, each topic is mapped to one session).
+  \item \textbf{Question type:} Theoretical (conceptual reasoning and justification, not numerical computation).
+  \item \textbf{Tool policy:} No calculator or external tools --- all questions are solvable with clean values and algebraic/logical reasoning alone.
+  \item \textbf{Topic emphasis:} Spread evenly across all three topics, with one item specifically on even/odd functions per instructor request.
+\end{itemize}
+
+%============================================================
+\section{Module 1: Functions and Mathematical Modeling}
+\textbf{Goal:} Refresh core function types and show how functions model biological and social phenomena.
+
+%------------------------------------------------
+\subsection{Topic 1.1 --- Review of Function Types (Session 1)}
+
+\textbf{Concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Definition of a function; the vertical line test
+  \item Domain and range, including domain restrictions created by rational expressions
+  \item Linear functions and constant rate of change
+  \item Polynomial and power functions; degree and leading behavior
+  \item Rational functions: domain exclusions, vertical asymptotes vs.\ removable discontinuities (holes), horizontal asymptote behavior
+  \item Transformations: horizontal/vertical shifts, stretches, reflections
+  \item Even and odd functions: symmetry about the $y$-axis vs.\ the origin
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Function:} a rule that assigns to each input in the domain exactly one output in the range.
+  \item \textbf{Domain / Range:} the domain is the full set of permissible inputs; the range is the full set of resulting outputs.
+  \item \textbf{Even function:} $f(-x)=f(x)$ for every $x$ in the domain; its graph is symmetric about the $y$-axis.
+  \item \textbf{Odd function:} $f(-x)=-f(x)$ for every $x$ in the domain; its graph is symmetric about the origin (unchanged under a $180^\circ$ rotation).
+  \item \textbf{Vertical asymptote:} a vertical line $x=a$ the graph approaches but never crosses, occurring where a factor in the denominator does \emph{not} cancel with the numerator.
+  \item \textbf{Removable discontinuity (hole):} a single excluded input where a common factor cancels between numerator and denominator, so the simplified function has a well-defined limiting value there even though the original expression is undefined at that point.
+\end{itemize}
+\end{keydefs}
+
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the defining properties of linear, polynomial, and rational functions, including how each restricts its domain.
+  \item Apply the algebraic test $f(-x)$ to classify a function as even, odd, or neither.
+  \item Apply transformation rules, in the correct order, to sketch graphs of shifted, stretched, or reflected functions.
+  \item Evaluate whether an excluded value of a rational function corresponds to a vertical asymptote or a removable discontinuity.
+\end{itemize}
+
+\textbf{Prerequisites:}
+\begin{itemize}[leftmargin=*]
+  \item College algebra function notation and graphing of basic function families --- assumed background.
+  \item Factoring polynomials --- assumed background; needed to classify holes vs.\ vertical asymptotes.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight --- Topic 1.1}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Hole vs.\ vertical asymptote:} \textit{Why it's hard:} students treat every zero of the denominator as producing a vertical asymptote, missing that a factor shared with the numerator cancels to leave a removable hole instead. \textit{Mitigation:} before graphing any rational function, require students to fully factor numerator and denominator and classify every zero of the denominator as either ``cancels $\rightarrow$ hole'' or ``does not cancel $\rightarrow$ vertical asymptote,'' as a written step separate from sketching.
+  \item \textbf{Even/odd sign-tracking:} \textit{Why it's hard:} students substitute $-x$ but mishandle sign distribution across multi-term expressions, or forget that even a single mismatched term makes a function neither even nor odd. \textit{Mitigation:} have students test each term's exponent parity separately before combining, and always confirm the domain is symmetric about $0$ before attempting the test at all.
+\end{itemize}
+
+\textbf{Example Questions:}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Determine whether $f(x)=x^4-3x^2+5$ is even, odd, or neither, using the algebraic definition (not a graph). \\
+  \textbf{Answer/Rubric:} $f(-x)=(-x)^4-3(-x)^2+5=x^4-3x^2+5=f(x)$. Since $f(-x)=f(x)$ for all $x$, $f$ is even. Full credit requires showing the substitution step, not just the conclusion.
+  \item \textit{(Applied)} For $g(x)=\dfrac{x^2-4}{x-2}$, state the domain restriction and explain whether $x=2$ is a vertical asymptote or a removable discontinuity. \\
+  \textbf{Answer/Rubric:} Domain excludes $x=2$. Factoring, $x^2-4=(x-2)(x+2)$, so the $(x-2)$ factor cancels with the denominator: this is a removable discontinuity (hole) at $x=2$, since the simplified function is $x+2$ for $x\neq2$, not a vertical asymptote.
+\end{enumerate}
+
+\begin{instrnote}
+\textbf{VA1 --- Hole vs.\ vertical asymptote:} Draw one rational-function graph with both features present. Axes labeled $x$ and $y$. Show a dashed vertical line at, e.g., $x=-2$ with the curve shooting to $+\infty$ on one side and $-\infty$ on the other (vertical asymptote). Elsewhere on the same curve, mark an open circle at, e.g., $x=3$ (the hole), with the curve passing through smoothly on either side of that open circle. Add a dashed horizontal line for the horizontal asymptote.
+
+\textbf{VA2 --- Even vs.\ odd symmetry:} Two small graphs side by side. Left: $y=x^2$, with a dashed vertical fold-line at $x=0$ and an arrow showing the right half mirrors the left half (even). Right: $y=x^3$, with an arrow showing the curve maps onto itself under a $180^\circ$ rotation about the origin (odd). Label each graph accordingly.
+\end{instrnote}
+
+%------------------------------------------------
+\subsection{Topic 1.2 --- Exponential and Logarithmic Functions (Session 2)}
+
+\textbf{Concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Exponential functions $f(x)=a\cdot b^x$; the role of the base $e\approx2.71828$
+  \item Logarithms as inverse exponentials; the definition of $\log_b(x)$
+  \item Logarithm laws: product, quotient, power, and change of base
+  \item Graphs and long-run (asymptotic) behavior of exponential and logarithmic functions
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Exponential function:} $f(x)=a\cdot b^x$ with $a\neq0$, $b>0$, $b\neq1$; $a$ is the initial value and $b$ is the growth/decay factor.
+  \item \textbf{The number $e$:} the base of the ``natural'' exponential function, approximately $2.71828$, used because it makes later rate-of-change results especially clean.
+  \item \textbf{Logarithm:} $\log_b(x)$ is the exponent to which $b$ must be raised to produce $x$; that is, $\log_b(x)=y$ means $b^y=x$.
+  \item \textbf{Product law:} $\log_b(xy)=\log_b(x)+\log_b(y)$ for $x,y>0$ (the law applies to products/quotients/powers only --- it does \emph{not} distribute over sums).
+  \item \textbf{Change of base:} $\log_b(x)=\dfrac{\log_c(x)}{\log_c(b)}$ for any valid base $c$.
+\end{itemize}
+\end{keydefs}
+
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain the inverse relationship between exponential and logarithmic functions.
+  \item Apply logarithm laws to simplify expressions and solve exponential equations without a calculator.
+  \item Evaluate real-world quantities (e.g., pH, population size) using exponential/log models.
+\end{itemize}
+
+\textbf{Prerequisites:}
+\begin{itemize}[leftmargin=*]
+  \item Topic 1.1 (function families and transformations) --- needed to graph and transform exponential/log functions.
+  \item Precalculus exponent rules --- assumed background.
+\end{itemize}
+
+\subsection*{Difficulty Spotlight --- Topic 1.2}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Distributing logs over sums:} \textit{Why it's hard:} students over-generalize the product law and assume $\log_b(x+y)=\log_b(x)+\log_b(y)$, borrowing a ``distributive'' intuition from other algebra rules where it doesn't apply. \textit{Mitigation:} give an explicit numerical counterexample every time the product law is introduced, e.g.\ $\log(2+3)=\log(5)\neq\log(2)+\log(3)$, and have students state in words which operations (products, quotients, powers) the laws actually cover.
+  \item \textbf{Growth factor vs.\ percentage rate:} \textit{Why it's hard:} students conflate the base $b$ in $b^x$ with the percentage rate $r$ itself, rather than recognizing $b=1+r$. \textit{Mitigation:} always write both forms side by side for a concrete example (e.g., ``$5\%$ growth'' $\rightarrow$ $b=1.05$) before using either in a formula.
+\end{itemize}
+
+\textbf{Example Questions:}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Without a calculator, simplify $\log_2(8)+\log_2(4)$, and explain which log law justifies your approach. \\
+  \textbf{Answer/Rubric:} $\log_2(8)=3$ and $\log_2(4)=2$, so the sum is $5$. Alternatively, by the product law, $\log_2(8)+\log_2(4)=\log_2(32)=5$ since $2^5=32$. Full credit requires stating the product law by name.
+  \item \textit{(Applied)} Explain why $f(x)=\log_b(x)$ and $g(x)=b^x$ are inverse functions, and use that relationship (not guess-and-check) to solve $2^x=16$. \\
+  \textbf{Answer/Rubric:} Inverse functions undo one another: $\log_b(b^x)=x$ and $b^{\log_b(x)}=x$. Applying $\log_2$ to both sides of $2^x=16$ gives $x=\log_2(16)$; since $16=2^4$, $x=4$. Credit requires framing the step as applying the inverse function, not just recalling that $2^4=16$.
+\end{enumerate}
+
+\begin{instrnote}
+\textbf{VA3 --- Exponential growth vs.\ decay:} Two small graphs side by side. Left: $y=b^x$ for $b>1$ (e.g., $b=2$), rising left to right, with a dashed horizontal asymptote at $y=0$ on the left tail and the $y$-intercept marked at $(0,1)$. Right: $y=b^x$ for $0<b<1$ (e.g., $b=1/2$), falling left to right, same horizontal asymptote and $y$-intercept.
+
+\textbf{VA4 --- Exponential/log mirror symmetry:} One set of axes showing $y=b^x$, $y=\log_b(x)$, and the line $y=x$ (dashed). Mark the vertical asymptote of $\log_b(x)$ at $x=0$ and the horizontal asymptote of $b^x$ at $y=0$. Visually indicate that the two curves are mirror images of each other across the line $y=x$.
+\end{instrnote}
+
+%------------------------------------------------
+\subsection{Topic 1.3 --- Mathematical Modeling in Bio/Social Science Contexts (Session 3)}
+
+\textbf{Concepts:}
+\begin{itemize}[leftmargin=*]
+  \item Distinguishing constant-difference (linear) vs.\ constant-ratio (exponential) growth from a verbal or data description
+  \item Choosing a function family for a phenomenon: linear vs.\ exponential vs.\ (qualitatively) logistic growth
+  \item Interpreting model parameters and their units
+  \item Qualitative model fit: comparing a model's shape to the qualitative features of data without formal regression
+\end{itemize}
+
+\begin{keydefs}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Mathematical model:} a function chosen to represent a real phenomenon, whose parameters correspond to identifiable quantities and units in the real system.
+  \item \textbf{Parameter vs.\ variable:} a variable changes within a single run of the model (e.g., time $t$); a parameter is fixed for a given scenario but may differ across scenarios (e.g., growth rate $r$, carrying capacity $M$).
+  \item \textbf{Growth factor vs.\ growth rate:} in $P(t)=P_0b^t$, the growth factor $b$ relates to the percentage rate $r$ by $b=1+r$ (growth) or $b=1-r$ (decay).
+\end{itemize}
+\end{keydefs}
+
+\textbf{Learning objectives:}
+\begin{itemize}[leftmargin=*]
+  \item Explain why phenomena with constant \emph{percentage} change, rather than constant absolute change, are modeled exponentially rather than linearly.
+  \item Design a simple function-based model for a given biological or social scenario, correctly identifying parameters and units.
+  \item Evaluate the reasonableness of a proposed model against the qualitative features of data, including recognizing when a bounded, leveling-off shape is more appropriate than an unbounded exponential.
+\end{itemize}
+
+\textbf{Prerequisites:}
+\begin{itemize}[leftmargin=*]
+  \item Topic 1.1 (function families) and Topic 1.2 (exponential/log properties).
+\end{itemize}
+
+\subsection*{Difficulty Spotlight --- Topic 1.3}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Linear vs.\ exponential misidentification:} \textit{Why it's hard:} given a data table, students check only whether successive values are ``increasing'' and default to a linear model, without testing whether the increase is by a constant amount or a constant ratio. \textit{Mitigation:} require students to compute both the successive differences \emph{and} the successive ratios for any data set before choosing a model type, and commit to a family only once one of the two is confirmed (nearly) constant.
+\end{itemize}
+
+\textbf{Example Questions:}
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} A data set shows that each successive time interval, the outcome increases by an equal \emph{ratio} rather than an equal \emph{amount}. Which function family should model this, and why do the other two families fail to capture that behavior? \\
+  \textbf{Answer/Rubric:} A constant ratio between successive values is the defining behavior of an exponential function, $P(t)=P_0b^t$, since $P(t+1)/P(t)=b$ is constant. Linear functions have a constant \emph{difference}, not ratio; polynomials of degree other than $1$ have neither a constant difference nor a constant ratio in general. Full credit requires ruling out both alternatives explicitly.
+  \item \textit{(Applied)} Two models are proposed for the same drug-concentration data: a linear decay model and an exponential decay model. Describe one \emph{qualitative} feature of the data (not a specific numeric value) that would let you decide which model fits better, and explain your reasoning. \\
+  \textbf{Answer/Rubric:} Strong answers note that a linear model predicts the concentration reaches exactly zero and then goes negative, which is not physically realistic, while an exponential model approaches but never reaches zero (a horizontal asymptote at $y=0$). If the data levels off just above zero rather than crossing it, exponential decay is the better qualitative fit.
+\end{enumerate}
+
+\begin{instrnote}
+\textbf{VA5 --- Linear vs.\ exponential fit:} A scatter plot of 4--5 data points rising over time. Overlay a straight line and an exponential curve, both passing close to the first couple of points but visibly diverging afterward, with the exponential curve pulling above the line at later times. Label the divergence region.
+
+\textbf{VA6 --- Qualitative logistic (S-shaped) growth:} One set of axes with two curves starting at the same point. One curve is a plain exponential, continuing to rise without bound. The other is S-shaped: rising steeply at first, passing through an inflection point, then flattening as it approaches a dashed horizontal line labeled ``carrying capacity.'' Label the inflection point and the carrying-capacity line.
+\end{instrnote}
+
+%============================================================
+\section*{Module 1 Question Bank}
+
+\begin{enumerate}[leftmargin=*]
+  \item \textit{(Foundational)} Determine the domain of $h(x)=\dfrac{1}{x^2-9}$ without graphing, and state whether each excluded value corresponds to a vertical asymptote or a removable discontinuity. \\
+  \textbf{Answer/Rubric:} Factoring, $x^2-9=(x-3)(x+3)$, so the domain excludes $x=3$ and $x=-3$. Since the numerator is the constant $1$, neither factor cancels, so both excluded points are vertical asymptotes, not holes.
+
+  \item \textit{(Foundational)} Classify each of the following as even, odd, or neither, using the algebraic definition: (a) $f(x)=x^3-x$; (b) $g(x)=x^2+2x$; (c) $h(x)=|x|$. \\
+  \textbf{Answer/Rubric:} (a) $f(-x)=-x^3+x=-(x^3-x)=-f(x)$, so $f$ is odd. (b) $g(-x)=x^2-2x$, which equals neither $g(x)$ nor $-g(x)$, so $g$ is neither. (c) $h(-x)=|-x|=|x|=h(x)$, so $h$ is even. Full credit requires the $f(-x)$ computation shown for each part.
+
+  \item \textit{(Applied)} Describe, in words, the sequence of transformations that turns $f(x)=x^2$ into $g(x)=-2(x+3)^2+5$, and explain the order in which they must be applied to sketch the graph correctly. \\
+  \textbf{Answer/Rubric:} Shift left $3$ (from $x+3$ inside the square), vertically stretch by a factor of $2$, reflect over the $x$-axis (the negative sign), then shift up $5$. Full credit requires noting that the horizontal shift and the stretch/reflection are applied \emph{before} the final vertical shift.
+
+  \item \textit{(Foundational)} Without a calculator, explain why $\log_5(1)=0$ and $\log_5(5)=1$, tying your explanation to the definition of a logarithm as an inverse exponential statement. \\
+  \textbf{Answer/Rubric:} $\log_b(1)=0$ because $b^0=1$ for any valid base; $\log_b(b)=1$ because $b^1=b$. Full credit ties both facts back to ``$\log_b(x)$ asks: to what power must $b$ be raised to get $x$?''
+
+  \item \textit{(Applied)} Without solving numerically, explain why the doubling time of an exponential growth model $P(t)=P_0\cdot2^{t/T}$ does not depend on the initial value $P_0$. \\
+  \textbf{Answer/Rubric:} Doubling time solves $P(t)=2P_0$, i.e.\ $2^{t/T}=2$, so $t/T=1$ and $t=T$. Because $P_0$ appears on both sides of the original equation, it cancels algebraically and never enters the equation actually being solved --- doubling time is a property of the growth rate, not the starting amount.
+
+  \item \textit{(Applied, diagram)} \emph{[Diagram: sketch $y=2^x$ and $y=\log_2(x)$ on the same axes, together with the line $y=x$; add this sketch yourself before using the question.]} Using the graph, explain why the two curves are mirror images of each other across $y=x$, and identify one asymptote each curve has that the other does not share in that exact orientation. \\
+  \textbf{Answer/Rubric:} Because $\log_2$ and the base-$2$ exponential are inverse functions, swapping the roles of $x$ and $y$ (reflecting across $y=x$) turns one graph into the other. $y=2^x$ has a horizontal asymptote at $y=0$; $y=\log_2(x)$ has a vertical asymptote at $x=0$ --- the two asymptotes are themselves mirror images of each other.
+
+  \item \textit{(Applied)} A city's population is reported as growing by ``$500$ people per year'' in one article and by ``$2\%$ per year'' in another. Explain what type of function each description implies, and describe under what condition these two descriptions would give similar short-term predictions. \\
+  \textbf{Answer/Rubric:} ``$500$ people/year'' implies a constant absolute increase, i.e.\ a linear model $P(t)=P_0+500t$. ``$2\%$ per year'' implies a constant percentage increase, i.e.\ an exponential model $P(t)=P_0(1.02)^t$. The two give similar short-term predictions when the population is small enough that $2\%$ of $P_0$ is close to $500$ people; over a long horizon the exponential model diverges upward as the percentage growth compounds.
+
+  \item \textit{(Applied)} Population data for a lab organism grows rapidly at first, then levels off and approaches a fixed maximum as resources become limited. Which function family from this module best captures this shape, and why do the other two fail to capture the ``leveling off'' behavior? \\
+  \textbf{Answer/Rubric:} A logistic-type (S-shaped) function best captures this: rapid near-exponential growth initially, followed by flattening toward a carrying capacity. A linear model grows without bound at a constant rate and never levels off; a pure exponential model keeps accelerating without bound, which contradicts the observed leveling off. Full credit requires explaining why \emph{both} alternatives fail, not just naming the logistic shape.
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,1207 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+
+\title{\textbf{MATH 617: Number Theory I}\\
+Full Course Breakdown}
+\author{Johns Hopkins University}
+\date{Fall 2023}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Course Overview}
+% ============================================================
+
+MATH 617: Number Theory I is a graduate-level course in algebraic
+number theory. The course develops the arithmetic of number fields
+through the study of Dedekind domains, ideal factorization,
+ramification, valuations, local fields, global fields, adèles,
+and idèles. If time permits, the course concludes with an
+introduction to Tate's thesis and harmonic analysis on local and
+global fields.
+
+The conceptual progression of the course is
+
+\[
+\boxed{
+\text{Number Fields}
+\longrightarrow
+\text{Dedekind Domains}
+\longrightarrow
+\text{Ramification}
+\longrightarrow
+\text{Local Fields}
+\longrightarrow
+\text{Adèles/Idèles}
+\longrightarrow
+\text{Tate's Thesis}.
+}
+\]
+
+% ============================================================
+\section{Prerequisites}
+% ============================================================
+
+The course assumes graduate-level algebra and analysis,
+approximately at the level of qualifying examinations.
+
+\subsection{Algebra}
+
+Students should be familiar with:
+
+\begin{itemize}
+    \item Groups, rings, and fields.
+    \item Ring homomorphisms and quotient rings.
+    \item Ideals and prime/maximal ideals.
+    \item Modules and finitely generated modules.
+    \item Noetherian rings and modules.
+    \item Polynomial rings.
+    \item Integral domains and fraction fields.
+    \item PID, UFD, and Euclidean domains.
+    \item Field extensions.
+    \item Algebraic and finite extensions.
+    \item Separable and normal extensions.
+    \item Galois extensions and Galois groups.
+    \item Fundamental theorem of Galois theory.
+\end{itemize}
+
+\subsection{Commutative Algebra}
+
+Students should have some familiarity with:
+
+\begin{itemize}
+    \item Localization.
+    \item Integral extensions.
+    \item Integral closure.
+    \item Discrete valuation rings.
+    \item Fractional ideals.
+    \item Prime ideals and maximal ideals.
+    \item Modules over Noetherian rings.
+    \item Basic dimension theory.
+\end{itemize}
+
+\subsection{Analysis}
+
+Students should be familiar with:
+
+\begin{itemize}
+    \item Metric spaces and completeness.
+    \item Measure theory.
+    \item Lebesgue integration.
+    \item Complex analysis.
+    \item Fourier analysis.
+    \item Basic functional analysis.
+    \item Topological and locally compact spaces.
+\end{itemize}
+
+% ============================================================
+\section{Learning Objectives}
+% ============================================================
+
+By the end of the course, students should be able to:
+
+\begin{enumerate}
+    \item Define and work with number fields.
+    \item Determine and use rings of integers.
+    \item Compute field norms and traces.
+    \item Understand integral extensions and integral closure.
+    \item Prove and apply the Dedekind domain properties.
+    \item Factor ideals uniquely into prime ideals.
+    \item Work with fractional ideals and ideal class groups.
+    \item Understand the failure of unique factorization of elements.
+    \item Analyze extensions of number fields.
+    \item Determine the splitting and ramification of prime ideals.
+    \item Work with ramification indices and residue degrees.
+    \item Understand differents and discriminants.
+    \item Use absolute values and valuations.
+    \item Construct and work with completions.
+    \item Understand the structure of local fields.
+    \item Apply Hensel's lemma.
+    \item Distinguish unramified, tame, and wild ramification.
+    \item Understand global fields and their places.
+    \item Construct the adèle ring.
+    \item Construct the idèle group.
+    \item Understand the idèle class group.
+    \item Relate local and global arithmetic.
+    \item If Tate's thesis is covered, apply harmonic analysis
+          to local and global fields.
+\end{enumerate}
+
+% ============================================================
+\section{Module I: Algebraic Number Fields}
+% ============================================================
+
+\subsection{Number Fields}
+
+A number field is a finite extension
+
+\[
+K/\mathbb{Q}.
+\]
+
+Important examples include
+
+\[
+\mathbb{Q}(\sqrt{d}),
+\qquad
+\mathbb{Q}(\sqrt[n]{a}),
+\qquad
+\mathbb{Q}(\zeta_n).
+\]
+
+Topics:
+
+\begin{itemize}
+    \item Degree of a number field.
+    \item Primitive elements.
+    \item Field embeddings.
+    \item Real and complex embeddings.
+    \item Signature.
+    \item Conjugates.
+\end{itemize}
+
+\subsection{Integral Elements}
+
+An element $\alpha\in K$ is integral over a ring $R$ if
+there exists a monic polynomial
+
+\[
+f(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_0
+\]
+
+with $a_i\in R$ such that
+
+\[
+f(\alpha)=0.
+\]
+
+Topics:
+
+\begin{itemize}
+    \item Integral elements.
+    \item Integral extensions.
+    \item Transitivity of integrality.
+    \item Integral closure.
+\end{itemize}
+
+\subsection{Ring of Integers}
+
+For a number field $K$, define
+
+\[
+\mathcal{O}_K
+=
+\{\alpha\in K:\alpha
+\text{ is integral over }\mathbb{Z}\}.
+\]
+
+Topics:
+
+\begin{itemize}
+    \item Structure of $\mathcal{O}_K$.
+    \item Integral bases.
+    \item Examples of rings of integers.
+    \item Quadratic number fields.
+    \item Cyclotomic fields.
+\end{itemize}
+
+\subsection{Trace and Norm}
+
+For $K/L$ finite, define
+
+\[
+\operatorname{Tr}_{K/L}(\alpha)
+=
+\sum_{\sigma:K\hookrightarrow \overline{L}}\sigma(\alpha)
+\]
+
+and
+
+\[
+N_{K/L}(\alpha)
+=
+\prod_{\sigma:K\hookrightarrow \overline{L}}\sigma(\alpha).
+\]
+
+Important properties include
+
+\[
+N_{K/L}(\alpha\beta)
+=
+N_{K/L}(\alpha)N_{K/L}(\beta)
+\]
+
+and
+
+\[
+\operatorname{Tr}_{K/L}(\alpha+\beta)
+=
+\operatorname{Tr}_{K/L}(\alpha)
++
+\operatorname{Tr}_{K/L}(\beta).
+\]
+
+% ============================================================
+\section{Module II: Dedekind Domains}
+% ============================================================
+
+\subsection{Dedekind Domains}
+
+A Dedekind domain is an integral domain satisfying:
+
+\begin{enumerate}
+    \item It is Noetherian.
+    \item It is integrally closed.
+    \item Every nonzero prime ideal is maximal.
+\end{enumerate}
+
+Equivalent local characterization:
+
+\[
+R_{\mathfrak p}
+\text{ is a discrete valuation ring for every }
+\mathfrak p\neq(0).
+\]
+
+A fundamental theorem is
+
+\[
+\boxed{\mathcal{O}_K \text{ is a Dedekind domain}.}
+\]
+
+\subsection{Fractional Ideals}
+
+A fractional ideal of $R$ is an $R$-submodule
+
+\[
+I\subset K
+\]
+
+such that there exists $a\in R$, $a\neq0$, with
+
+\[
+aI\subset R.
+\]
+
+Study:
+
+\begin{itemize}
+    \item Fractional ideals.
+    \item Ideal multiplication.
+    \item Invertible ideals.
+    \item Principal fractional ideals.
+\end{itemize}
+
+\subsection{Unique Factorization of Ideals}
+
+Every nonzero ideal in a Dedekind domain has a unique factorization
+
+\[
+I
+=
+\mathfrak{p}_1^{e_1}
+\cdots
+\mathfrak{p}_r^{e_r}.
+\]
+
+This is one of the central results of the course.
+
+\subsection{Ideal Class Group}
+
+Define
+
+\[
+\operatorname{Cl}(K)
+=
+\frac{\{\text{fractional ideals of }\mathcal{O}_K\}}
+{\{\text{principal fractional ideals}\}}.
+\]
+
+The class number is
+
+\[
+h_K=|\operatorname{Cl}(K)|.
+\]
+
+Topics:
+
+\begin{itemize}
+    \item Principal ideals.
+    \item Ideal classes.
+    \item Class groups.
+    \item Class numbers.
+    \item Failure of unique factorization.
+\end{itemize}
+
+% ============================================================
+\section{Module III: Geometry of Numbers}
+% ============================================================
+
+\subsection{Minkowski Embedding}
+
+Let
+
+\[
+r_1=\#\{\text{real embeddings}\},
+\qquad
+r_2=\#\{\text{pairs of complex embeddings}\}.
+\]
+
+Then
+
+\[
+[K:\mathbb{Q}]
+=
+r_1+2r_2.
+\]
+
+The Minkowski embedding places $K$ inside
+
+\[
+\mathbb{R}^{r_1}\times\mathbb{C}^{r_2}.
+\]
+
+\subsection{Lattices}
+
+Study:
+
+\begin{itemize}
+    \item Lattices in Euclidean space.
+    \item Fundamental domains.
+    \item Covolumes.
+    \item The lattice associated to $\mathcal{O}_K$.
+\end{itemize}
+
+\subsection{Minkowski's Theorem}
+
+Apply Minkowski's theorem to prove finiteness results such as
+
+\[
+\boxed{h_K<\infty.}
+\]
+
+\subsection{Dirichlet Unit Theorem}
+
+The unit group satisfies
+
+\[
+\boxed{
+\mathcal{O}_K^\times
+\cong
+\mu_K\times\mathbb{Z}^{r_1+r_2-1}.
+}
+\]
+
+Topics:
+
+\begin{itemize}
+    \item Roots of unity.
+    \item Units.
+    \item Rank of the unit group.
+    \item Logarithmic embedding.
+\end{itemize}
+
+% ============================================================
+\section{Module IV: Extensions and Ramification}
+% ============================================================
+
+Let
+
+\[
+L/K
+\]
+
+be a finite extension.
+
+\subsection{Extension of Ideals}
+
+For a prime ideal $\mathfrak{p}\subset\mathcal{O}_K$,
+
+\[
+\mathfrak{p}\mathcal{O}_L
+=
+\mathfrak{P}_1^{e_1}
+\cdots
+\mathfrak{P}_g^{e_g}.
+\]
+
+Define:
+
+\[
+e_i=e(\mathfrak{P}_i/\mathfrak{p})
+\]
+
+and
+
+\[
+f_i
+=
+[\mathcal{O}_L/\mathfrak{P}_i:
+\mathcal{O}_K/\mathfrak{p}].
+\]
+
+Under the usual hypotheses,
+
+\[
+\boxed{
+\sum_{i=1}^g e_i f_i=[L:K].
+}
+\]
+
+\subsection{Splitting}
+
+Study:
+
+\begin{itemize}
+    \item Completely split primes.
+    \item Inert primes.
+    \item Totally ramified primes.
+    \item Partially split primes.
+\end{itemize}
+
+\subsection{Ramification}
+
+Study:
+
+\begin{itemize}
+    \item Ramification indices.
+    \item Residue degrees.
+    \item Inertia groups.
+    \item Decomposition groups.
+    \item Unramified primes.
+    \item Ramified primes.
+\end{itemize}
+
+% ============================================================
+\section{Module V: Discriminants and Differents}
+% ============================================================
+
+Given an integral basis
+$\alpha_1,\ldots,\alpha_n$, define
+
+\[
+\operatorname{disc}
+(\alpha_1,\ldots,\alpha_n)
+=
+\det
+\left(
+\operatorname{Tr}_{K/\mathbb{Q}}
+(\alpha_i\alpha_j)
+\right).
+\]
+
+The field discriminant is denoted by
+
+\[
+d_K.
+\]
+
+\subsection{Different}
+
+For an extension $L/K$, study the different ideal
+
+\[
+\mathfrak{D}_{L/K}.
+\]
+
+Understand the relationships
+
+\[
+\boxed{
+\text{Different}
+\longleftrightarrow
+\text{Discriminant}
+\longleftrightarrow
+\text{Ramification}.
+}
+\]
+
+% ============================================================
+\section{Module VI: Valuations}
+% ============================================================
+
+\subsection{Absolute Values}
+
+An absolute value satisfies
+
+\[
+|xy|=|x||y|
+\]
+
+and
+
+\[
+|x+y|\leq |x|+|y|.
+\]
+
+Distinguish:
+
+\begin{itemize}
+    \item Archimedean absolute values.
+    \item Non-archimedean absolute values.
+\end{itemize}
+
+\subsection{\texorpdfstring{$p$}{p}-adic Absolute Value}
+
+For
+
+\[
+x=p^k\frac{a}{b},
+\qquad
+p\nmid ab,
+\]
+
+define
+
+\[
+|x|_p=p^{-k}.
+\]
+
+The ultrametric inequality is
+
+\[
+|x+y|_p
+\leq
+\max\{|x|_p,|y|_p\}.
+\]
+
+\subsection{Valuations}
+
+A valuation is a map
+
+\[
+v:K^\times\rightarrow\mathbb{Z}
+\]
+
+satisfying
+
+\[
+v(xy)=v(x)+v(y).
+\]
+
+The relationship between valuation and absolute value is
+
+\[
+|x|_p=p^{-v_p(x)}.
+\]
+
+% ============================================================
+\section{Module VII: Completions}
+% ============================================================
+
+Given a valued field $K$, construct its completion.
+
+Important examples are
+
+\[
+\mathbb{Q}
+\longrightarrow
+\mathbb{R}
+\]
+
+and
+
+\[
+\mathbb{Q}
+\longrightarrow
+\mathbb{Q}_p.
+\]
+
+Study:
+
+\begin{itemize}
+    \item Cauchy sequences.
+    \item Complete valued fields.
+    \item Extension of valuations.
+    \item $\mathbb{Q}_p$.
+    \item Finite extensions of $\mathbb{Q}_p$.
+\end{itemize}
+
+% ============================================================
+\section{Module VIII: Local Fields}
+% ============================================================
+
+A local field is a locally compact nondiscrete topological field.
+
+Important examples include
+
+\[
+\mathbb{R},\qquad
+\mathbb{C},\qquad
+\mathbb{Q}_p
+\]
+
+and finite extensions of $\mathbb{Q}_p$.
+
+\subsection{Ring of Integers}
+
+For a non-archimedean local field $K$,
+
+\[
+\mathcal{O}_K
+=
+\{x\in K:|x|\leq1\}.
+\]
+
+Its maximal ideal is
+
+\[
+\mathfrak{p}_K
+=
+\{x\in K:|x|<1\}.
+\]
+
+\subsection{Uniformizer}
+
+Choose $\pi$ such that
+
+\[
+\mathfrak{p}_K=(\pi).
+\]
+
+Then
+
+\[
+x=u\pi^n
+\]
+
+for $u\in\mathcal{O}_K^\times$.
+
+Consequently,
+
+\[
+K^\times
+\cong
+\pi^{\mathbb{Z}}
+\times
+\mathcal{O}_K^\times.
+\]
+
+\subsection{Residue Fields}
+
+The residue field is
+
+\[
+k_K
+=
+\mathcal{O}_K/\mathfrak{p}_K.
+\]
+
+For finite extensions of $\mathbb{Q}_p$,
+
+\[
+|k_K|=p^f.
+\]
+
+% ============================================================
+\section{Module IX: Extensions of Local Fields}
+% ============================================================
+
+For a finite extension $L/K$,
+
+\[
+[L:K]=ef.
+\]
+
+Study:
+
+\begin{itemize}
+    \item Unramified extensions.
+    \item Totally ramified extensions.
+    \item Tamely ramified extensions.
+    \item Wildly ramified extensions.
+    \item Extension of valuations.
+    \item Local Galois theory.
+    \item Ramification groups.
+\end{itemize}
+
+\subsection{Hensel's Lemma}
+
+A typical form states that if
+
+\[
+f(a)\equiv0\pmod{\mathfrak{p}}
+\]
+
+and
+
+\[
+f'(a)\not\equiv0\pmod{\mathfrak{p}},
+\]
+
+then there exists $\alpha$ satisfying
+
+\[
+f(\alpha)=0
+\]
+
+and
+
+\[
+\alpha\equiv a\pmod{\mathfrak{p}}.
+\]
+
+Hensel's lemma is a fundamental tool for lifting solutions
+from residue fields to local fields.
+
+% ============================================================
+\section{Module X: Global Fields}
+% ============================================================
+
+A global field is either:
+
+\[
+\text{a number field}
+\]
+
+or
+
+\[
+\text{a finite extension of }\mathbb{F}_q(t).
+\]
+
+Study:
+
+\begin{itemize}
+    \item Places.
+    \item Valuations.
+    \item Completions.
+    \item Infinite places.
+    \item Finite places.
+    \item Local-global relationships.
+\end{itemize}
+
+For every place $v$ of $K$, let
+
+\[
+K_v
+\]
+
+denote the corresponding completion.
+
+% ============================================================
+\section{Module XI: Adèles}
+% ============================================================
+
+The adèle ring of a global field $K$ is the restricted product
+
+\[
+\boxed{
+\mathbb{A}_K
+=
+\prod_v' K_v.
+}
+\]
+
+An element
+
+\[
+x=(x_v)_v
+\]
+
+satisfies
+
+\[
+x_v\in\mathcal{O}_v
+\]
+
+for almost all finite places $v$.
+
+\subsection{Topics}
+
+\begin{itemize}
+    \item Restricted products.
+    \item Adèle topology.
+    \item Diagonal embedding.
+    \item The embedding
+          \[
+          K\hookrightarrow\mathbb{A}_K.
+          \]
+    \item Quotient $\mathbb{A}_K/K$.
+    \item Haar measure.
+    \item Characters of the adèle group.
+\end{itemize}
+
+% ============================================================
+\section{Module XII: Idèles}
+% ============================================================
+
+The idèle group is
+
+\[
+\boxed{
+\mathbb{A}_K^\times.
+}
+\]
+
+An idèle is a compatible collection
+
+\[
+x=(x_v)_v
+\]
+
+with
+
+\[
+x_v\in K_v^\times
+\]
+
+and suitable integrality conditions at almost all finite places.
+
+Study the embedding
+
+\[
+K^\times
+\hookrightarrow
+\mathbb{A}_K^\times
+\]
+
+and define the idèle class group
+
+\[
+\boxed{
+C_K
+=
+\mathbb{A}_K^\times/K^\times.
+}
+\]
+
+The idèle class group provides a natural global object
+containing information from all local fields simultaneously.
+
+% ============================================================
+\section{Module XIII: Tate's Thesis}
+% ============================================================
+
+This module is optional and depends on available time.
+
+\subsection{Locally Compact Groups}
+
+Study:
+
+\begin{itemize}
+    \item Locally compact groups.
+    \item Haar measure.
+    \item Characters.
+    \item Pontryagin duality.
+\end{itemize}
+
+\subsection{Fourier Analysis}
+
+For a locally compact abelian group $G$, define
+
+\[
+\widehat{f}(\chi)
+=
+\int_G
+f(x)\overline{\chi(x)}\,dx.
+\]
+
+Study:
+
+\begin{itemize}
+    \item Fourier inversion.
+    \item Fourier transforms.
+    \item Poisson summation.
+\end{itemize}
+
+\subsection{Schwartz--Bruhat Space}
+
+At archimedean places, use the Schwartz space
+
+\[
+\mathcal{S}(\mathbb{R}).
+\]
+
+At non-archimedean places, use locally constant,
+compactly supported functions.
+
+Globally, these combine into the
+Schwartz--Bruhat space
+
+\[
+\mathcal{S}(\mathbb{A}_K).
+\]
+
+\subsection{Tate's Zeta Integral}
+
+Study integrals of the form
+
+\[
+Z(\phi,\chi)
+=
+\int_{\mathbb{A}_K^\times}
+\phi(x)\chi(x)\,d^\times x.
+\]
+
+Applications include:
+
+\begin{itemize}
+    \item Euler products.
+    \item $L$-functions.
+    \item Analytic continuation.
+    \item Functional equations.
+    \item Global-to-local factorization.
+\end{itemize}
+
+% ============================================================
+\section{Major Conceptual Connections}
+% ============================================================
+
+The course should emphasize the following connections.
+
+\subsection{Algebraic and Arithmetic Structure}
+
+\[
+\boxed{
+\mathcal{O}_K
+\rightarrow
+\text{Ideals}
+\rightarrow
+\text{Class Group}.
+}
+\]
+
+\subsection{Extensions and Ramification}
+
+\[
+\boxed{
+L/K
+\rightarrow
+\mathfrak{p}\mathcal{O}_L
+\rightarrow
+(e,f,g)
+\rightarrow
+\text{Ramification}.
+}
+\]
+
+\subsection{Global and Local Number Theory}
+
+\[
+\boxed{
+K
+\rightarrow
+K_v
+\rightarrow
+\text{Local Field}.
+}
+\]
+
+\subsection{All Local Information Together}
+
+\[
+\boxed{
+\{K_v\}_v
+\rightarrow
+\mathbb{A}_K
+\rightarrow
+\mathbb{A}_K^\times.
+}
+\]
+
+\subsection{Arithmetic and Analysis}
+
+\[
+\boxed{
+\mathbb{A}_K
+\rightarrow
+\text{Harmonic Analysis}
+\rightarrow
+L\text{-functions}
+\rightarrow
+\text{Tate's Thesis}.
+}
+\]
+
+% ============================================================
+\section{Difficult Topics}
+% ============================================================
+
+The most conceptually difficult parts of the course are expected to be:
+
+\begin{enumerate}
+    \item Dedekind domains and ideal factorization.
+    \item Fractional ideals and class groups.
+    \item Minkowski theory.
+    \item Dirichlet's Unit Theorem.
+    \item Ramification theory.
+    \item Differents and discriminants.
+    \item Valuations and completions.
+    \item Extensions of local fields.
+    \item Hensel's lemma.
+    \item Unramified, tame, and wild ramification.
+    \item Restricted products and adèles.
+    \item Idèles and the idèle class group.
+    \item Harmonic analysis on local fields.
+    \item Tate's thesis.
+\end{enumerate}
+
+% ============================================================
+\section{Suggested Weekly Schedule}
+% ============================================================
+
+\begin{center}
+\begin{tabular}{c l l}
+\toprule
+\textbf{Weeks} & \textbf{Module} & \textbf{Topics} \\
+\midrule
+1 & Foundations &
+Number fields, embeddings, trace, norm \\
+2 & Algebraic integers &
+Integrality, rings of integers \\
+3 & Dedekind domains &
+Ideals, localization, fractional ideals \\
+4 & Ideal factorization &
+Prime ideals, class groups \\
+5 & Geometry of numbers &
+Lattices, Minkowski theory \\
+6 & Units &
+Dirichlet Unit Theorem \\
+7 & Extensions &
+Extensions of Dedekind domains \\
+8 & Ramification &
+Splitting, inertia, $e,f,g$ \\
+9 & Discriminants &
+Different, discriminant, ramification \\
+10 & Valuations &
+Absolute values, valuations, $p$-adics \\
+11 & Completions &
+Complete fields, local fields \\
+12 & Local fields &
+Extensions, residue fields, Hensel's lemma \\
+13 & Global fields &
+Places and local-global theory \\
+14 & Adèles/Idèles &
+Restricted products, adèles, idèles \\
+15 & Advanced topics &
+Tate's thesis / review \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ============================================================
+\section{Core Theorems to Master}
+% ============================================================
+
+A student completing the course should be prepared to understand
+and prove, or at least use appropriately, the following major
+results:
+
+\begin{enumerate}
+    \item Fundamental theorem of Galois theory.
+    \item Integrality and transitivity of integrality.
+    \item $\mathcal{O}_K$ is a Dedekind domain.
+    \item Unique factorization of ideals.
+    \item Finiteness of the ideal class group.
+    \item Minkowski's theorem.
+    \item Dirichlet's Unit Theorem.
+    \item Prime decomposition in extensions.
+    \item Fundamental relation between $e$, $f$, and $g$.
+    \item Properties of discriminants and differents.
+    \item Classification of complete non-archimedean fields.
+    \item Hensel's lemma.
+    \item Structure theory of local fields.
+    \item Properties of restricted products.
+    \item Basic properties of adèles and idèles.
+    \item If covered, Fourier inversion and Poisson summation.
+    \item If covered, the basic framework of Tate's thesis.
+\end{enumerate}
+
+% ============================================================
+\section{Course Dependency Diagram}
+% ============================================================
+
+The overall dependency structure can be summarized as
+
+\[
+\begin{array}{c}
+\text{Graduate Algebra}
+\\[4pt]
+\downarrow
+\\[4pt]
+\text{Number Fields}
+\\
+\downarrow
+\\
+\text{Algebraic Integers}
+\\
+\downarrow
+\\
+\text{Dedekind Domains}
+\\
+\downarrow
+\\
+\text{Ideal Factorization}
+\\
+\downarrow
+\\
+\text{Extensions of Number Fields}
+\\
+\downarrow
+\\
+\text{Ramification}
+\\
+\downarrow
+\\
+\text{Valuations}
+\\
+\downarrow
+\\
+\text{Completions}
+\\
+\downarrow
+\\
+\text{Local Fields}
+\\
+\downarrow
+\\
+\text{Global/Local Fields}
+\\
+\downarrow
+\\
+\text{Adèles}
+\\
+\downarrow
+\\
+\text{Idèles}
+\\
+\downarrow
+\\
+\text{Tate's Thesis}
+\end{array}
+\]
+
+% ============================================================
+\section{References}
+% ============================================================
+
+\begin{enumerate}
+    \item J. Neukirch,
+    \emph{Algebraic Number Theory},
+    Springer.
+
+    \item A. Weil,
+    \emph{Basic Number Theory}.
+
+    \item S. Lang,
+    \emph{Algebraic Number Theory},
+    Springer.
+
+    \item J. W. S. Cassels and A. Fr\"ohlich,
+    \emph{Algebraic Number Theory}.
+\end{enumerate}
+
+\end{document}

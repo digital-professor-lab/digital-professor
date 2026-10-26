@@ -1,0 +1,59 @@
+{
+  "question_schema_version": "1.0",
+  "question_id": "<bank: an AssessmentQuestion.id | runtime: <primary concept id>.adhoc-<8 hex of the prompt hash>>",
+  "origin": "<one of: bank | runtime>",
+  "course_id": "<course id>",
+  "module_id": "<module id of the primary concept>",
+  "concept_ids": ["<concept id(s) this question tests, primary first>"],
+  "prompt": "<bank: AssessmentQuestion.prompt | runtime: exactly as the student typed it>",
+  "learning_objectives": [
+    {
+      "id": "<objective id (must belong to one of concept_ids)>",
+      "text": "<copied verbatim from LearningObjective.text>",
+      "bloom_level": "<remember | understand | apply | analyze | evaluate | create>"
+    }
+  ],
+  "prerequisite_concepts": [
+    {
+      "concept_id": "<a direct prerequisite of one of concept_ids>",
+      "name": "<copied verbatim from Concept.name>",
+      "relevance": "<why this prerequisite matters for this question; written by the builder>",
+      "provenance": "<source_backed | ai_inferred>",
+      "derived_from": "<a record id, or runtime>"
+    }
+  ],
+  "correct_approach": {
+    "technique": "<the canonical technique>",
+    "justification": "<why it is the correct approach>"
+  },
+  "alternative_approaches": [
+    {
+      "technique": "<another valid technique (empty array if none)>",
+      "justification": "<why it also works>",
+      "provenance": "<source_backed | ai_inferred>",
+      "derived_from": "<a record id, or runtime>"
+    }
+  ],
+  "reference_solution": "<full worked answer, machine-checked where possible; MUST NOT be shown to the student>",
+  "common_misconceptions": [
+    {
+      "description": "<copied verbatim from Concept.difficulty_notes[i].misconception, or written by the builder>",
+      "cue": "<an observable signal the student is making this error; always written by the builder>",
+      "mitigation": "<copied verbatim from the difficulty note's mitigation; optional, omit if none>",
+      "provenance": "<source_backed | ai_inferred>",
+      "derived_from": "<<concept id>#difficulty_notes[i], or runtime>"
+    }
+  ],
+  "source_reference": {
+    "concept_ids": ["<concept id>"],
+    "source_ids": ["<source id (empty array if none)>"],
+    "sibling_question_ids": ["<nearest bank question id on the same concept (empty array if none)>"],
+    "citation": "<citation text>",
+    "grounding": "<one of: reference_only | excerpt>"
+  },
+  "provenance": "<source_backed | ai_inferred (weakest link over every element above)>",
+  "built_from": {
+    "course_context_schema_version": "<the schema_version of the Course Context file used, e.g. 1.1>",
+    "content_sha256": "<SHA-256 of the exact Course Context file bytes>"
+  }
+}

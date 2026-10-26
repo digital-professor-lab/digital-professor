@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Interactive Course-Design Prompt | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:760px; opacity:.92; font-size:1.02rem}
+  .backlink{display:inline-block; color:#fff; text-decoration:none; opacity:.9; font-size:.85rem;
+    margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.45)}
+  .backlink:hover{opacity:1}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.75rem; font-weight:700; white-space:nowrap}
+  .p-under{background:#EFE4D5; color:#8A5A2A}
+  .p-mast{background:#EADFD7; color:#9A5030}
+  .p-phd{background:#F4DED3; color:#B0472E}
+  .badge{display:inline-block; padding:2px 8px; border-radius:6px; font-weight:700; font-size:.78rem}
+  .b-best{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .b-ok{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+  .b-weak{background:#F6E2D9; color:var(--red); border:1px solid #E6BCA9}
+  .yes{color:var(--green); font-weight:700}
+  .no{color:var(--red); font-weight:700}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:210px; border:1px solid var(--line); border-radius:10px; padding:16px 18px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:1rem}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.6rem; color:var(--muted); flex:none}
+  .tag{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em}
+  .t-kept{color:var(--green)} .t-drop{color:var(--red)}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 4px; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center}
+  .rank{font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; background:var(--navy); color:#fff}
+  .card .sub{color:var(--muted); font-size:.82rem; margin:0 0 10px}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .stars{color:var(--amber); letter-spacing:2px}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  .btn{display:inline-block; background:var(--steel); color:#fff; text-decoration:none; font-weight:600;
+    padding:11px 22px; border-radius:9px; font-size:.95rem; transition:.15s; box-shadow:0 1px 3px rgba(90,50,25,.15)}
+  .btn:hover{background:var(--navy)}
+  .exlink-wrap{margin-top:18px}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+
+  /* ---- Example-output rendering ---- */
+  .exwrap{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:18px}
+  .exhead{background:var(--navy); color:#fff; padding:14px 20px}
+  .exhead h3{color:#fff; margin:0 0 3px; font-size:1.15rem}
+  .exhead p{margin:0; opacity:.85; font-size:.85rem}
+  .exbody{padding:22px 24px; background:var(--paper)}
+  .exdoc h4{color:var(--navy); border-bottom:2px solid var(--soft); padding-bottom:5px; margin:26px 0 10px; font-size:1.08rem}
+  .exdoc h5{color:var(--steel); margin:18px 0 6px; font-size:.98rem}
+  .exdoc .lbl{font-weight:700; color:var(--navy); display:block; margin:10px 0 3px; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em}
+  .exdoc ol,.exdoc ul{margin:4px 0 4px; padding-left:22px}
+  .exdoc li{margin:3px 0; font-size:.92rem}
+  .exdoc table{font-size:.86rem}
+  .diffcard{border-left:4px solid var(--red); background:#F7E9E1; padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.9rem}
+  .diffcard .dt{color:var(--red); font-weight:700}
+  .qa{background:var(--soft); border-radius:8px; padding:10px 14px; margin:8px 0; font-size:.9rem}
+  .qa .qtype{font-size:.72rem; font-weight:700; text-transform:uppercase; color:var(--steel); letter-spacing:.04em}
+  .qa .ans{color:var(--muted); display:block; margin-top:3px}
+  .pdfbox{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:8px; background:#44403A}
+  .pdfbox iframe{width:100%; height:720px; border:0; display:block}
+  @media(max-width:720px){.pdfbox iframe{height:520px}}
+  .promptbox{border:1px solid var(--line); border-left:4px solid var(--steel); border-radius:0 10px 10px 0; background:var(--soft); padding:18px 22px; margin-top:16px}
+  .promptbox .ph{font-weight:700; color:var(--navy); font-size:1.05rem; margin:0 0 4px}
+  .promptbox .pmeta{font-size:.82rem; color:var(--muted); margin:0 0 12px}
+  .promptbox .ptext{font-size:.9rem; line-height:1.5}
+  .promptbox ol{padding-left:20px; margin:8px 0}
+  .promptbox ol>li{margin:7px 0}
+  .promptbox ul{padding-left:20px; margin:4px 0}
+  .promptbox .ctx{background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 14px; margin:10px 0; font-size:.87rem}
+  .promptbox code{background:var(--paper)}
+  .promptbox .rules{margin-top:12px; padding-top:10px; border-top:1px dashed #D8CFBF}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <a class="backlink" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p class="kicker">Digital Professor · Method</p>
+  <h1>The Interactive Course-Design Prompt</h1>
+  <p>The prompt that turns breakdown creation into an interview. Authored by Claude, written to run in either Claude or GPT.</p>
+</header>
+
+<section>
+  <h2>What it is</h2>
+  <ul class="clean">
+    <li><strong>Interactive, not one-shot.</strong> Before designing anything, it runs a short <em>intake interview</em> — confirming six facts about the course one question at a time — then generates the whole design.</li>
+    <li><strong>Authored by Claude, portable to GPT.</strong> The prompt was written by Claude, but it is model-agnostic; we ran it successfully in both Claude and GPT.</li>
+    <li><strong>Built for real materials.</strong> It accepts a syllabus <em>and/or</em> whatever else exists — a topic list, lecture notes, a reading list, a notebook — or nothing but the interview.</li>
+    <li><strong>Ends in a compilable artifact.</strong> The final phase emits one self-contained, compilable LaTeX document (structure, objectives, prerequisite map, difficulty analysis, assessment plan, example questions).</li>
+  </ul>
+  <div class="callout good">
+    <strong>Why it beats the first prompt.</strong> The original prompt was one-shot: paste a syllabus, get a breakdown. That struggled with high-level courses, which often have no fixed syllabus and draw selectively on several sources. By interviewing the instructor first, this version captures the course's real scope from the person who defines it — and it works even when no syllabus document exists.
+  </div>
+</section>
+
+<section>
+  <h2>The prompt, in full</h2>
+  <div class="promptbox">
+    <p class="ph">Course Design Prompt — Interactive Version</p>
+    <div class="ptext">
+      <p>You are an expert instructional designer and curriculum architect. I will give you a syllabus and/or other course materials (a topic list, lecture notes, a reading list, a notebook — whatever I have), and want you to reverse-engineer them into a full course design package, ending in compilable LaTeX.</p>
+
+      <h5>Phase 0 — Intake (always do this first)</h5>
+      <p>Do not generate any part of the course design yet. First: read whatever material I've given you closely. There are six things you need before starting:</p>
+      <table>
+        <thead><tr><th>Field</th><th>What you need to know</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Course name</strong></td><td>The course's actual title — e.g. "Organic Chemistry II," not just the department</td></tr>
+          <tr><td><strong>Course level</strong></td><td>Undergrad intro / undergrad advanced / master's / PhD</td></tr>
+          <tr><td><strong>Structure &amp; format</strong></td><td>Lecture, lecture+lab, seminar/discussion, reading group, flipped, online/async</td></tr>
+          <tr><td><strong>Duration</strong></td><td>Weeks or sessions, meetings per week</td></tr>
+          <tr><td><strong>Assessment philosophy</strong></td><td>Which of problem sets, exams, papers, presentations, participation, projects — how often, how many quizzes/midterms, whether there's a final, and rough weighting if known</td></tr>
+          <tr><td><strong>Assumed student background</strong></td><td>What students already know coming in</td></tr>
+        </tbody>
+      </table>
+      <p>Go through these six fields <strong>one at a time, in order</strong>. For each field:</p>
+      <ul>
+        <li>If the material already states or clearly implies an answer, don't accept it silently — confirm it: state what you found and ask, e.g. "Is [X] the course name? If not, what is it?"</li>
+        <li>If the material gives no signal at all, ask directly.</li>
+        <li>If my answer is vague in a way that matters, ask <strong>one</strong> targeted follow-up on that specific point — don't let a vague answer pass, but don't drill past one follow-up. (e.g. "participation" → what it's based on; "a project" → individual vs. group and the deliverable; "background in X" → what specifically counts.)</li>
+        <li>Ask only one thing at a time — the field question or a single follow-up — then stop and wait for my reply.</li>
+      </ul>
+      <p>Once all six are confirmed or answered, move straight to Phase 1 — no additional check-in. If at any point I say "proceed with your best assumptions," stop asking and skip ahead, listing every remaining assumption explicitly at the top of the output.</p>
+
+      <h5>Phase 1 — Course structure</h5>
+      <p>Break the material into units/modules mapped to weeks or sessions. For each module: title, one-sentence goal, and the chapters/topics/readings it covers.</p>
+
+      <h5>Phase 2 — Topic breakdown</h5>
+      <p>For every topic (or, for a reading-based course, every reading/theme): core concepts (bulleted); learning objectives as measurable outcomes — Bloom's-taxonomy verbs (explain, derive, apply, evaluate, design) for technical courses; for seminar/reading courses use objectives suited to that mode (critique, synthesize, situate-in-the-literature, formulate-a-research-question).</p>
+
+      <h5>Phase 3 — Prerequisite map</h5>
+      <p>For each topic, the specific prior concepts a student must already know, and where those are taught (earlier in this course, or assumed background). Present as a dependency table: <code>Topic | Prerequisite(s) | Where taught</code>.</p>
+
+      <h5>Phase 4 — Difficulty analysis</h5>
+      <p>Flag topics that are historically hard. For each: why it's hard (misconception, abstraction jump, notational overload, missing prerequisite, cognitive load — be specific) and a concrete mitigation (analogy, worked-example sequencing, scaffolding, common-error walkthrough). For seminar/PhD material without a fixed "right answer," reframe as: where students typically get stuck engaging with the material, and how to unblock them.</p>
+
+      <h5>Phase 5 — Assessment plan</h5>
+      <p>For each module, the assessment type and timing, matched to what I told you in Phase 0 — don't default to quizzes/exams if the course is participation- and paper-driven. One-line rationale tied to what each assessment is meant to catch.</p>
+
+      <h5>Phase 6 — Example questions / discussion prompts</h5>
+      <p>For computational topics: 2–3 example questions spanning at least two difficulty levels, with answers or a short rubric. For seminar/reading topics: 2–3 discussion or analysis prompts instead, with a short note on what a strong response would engage with.</p>
+
+      <h5>Phase 7 — Full breakdown in LaTeX</h5>
+      <p>Compile everything above into one compilable LaTeX document:</p>
+      <ul>
+        <li><code>\documentclass{article}</code>, packages: <code>enumitem</code>, <code>longtable</code> (or <code>booktabs</code>), <code>hyperref</code></li>
+        <li>One <code>\section</code> per module, <code>\subsection</code> per topic</li>
+        <li><code>longtable</code> for the prerequisite map and assessment schedule</li>
+        <li><code>itemize</code>/<code>enumerate</code> for objectives and example questions/discussion prompts</li>
+        <li>Output ONLY the LaTeX in this step's code block — no prose mixed in</li>
+      </ul>
+
+      <h5>Phase 8 — Follow-up</h5>
+      <p>Right after the LaTeX code block, ask — in plain text, outside the code block — whether there's anything I want changed or added. Don't end the turn on the code block alone.</p>
+
+      <div class="rules"><strong>Rules</strong>
+        <ul>
+          <li>Go straight from Phase 0 to the final compiled LaTeX — no intermediate plain-markdown draft of Phases 1–6.</li>
+          <li>If something is still missing after Phase 0, state your assumption explicitly instead of silently skipping it.</li>
+          <li>Don't force a lecture-course template onto a seminar/PhD course — use the branches noted in Phases 2, 4, and 6.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="exnote">See this prompt in action in the <a href="example-deeplearning-claude.html">Deep Learning</a>, <a href="example-number-interactive-claude.html">Number Theory</a>, and <a href="example-calc1-interactive-claude.html">Calculus I</a> examples.</p>
+</section>
+
+<footer>
+  <a class="btn" href="syllabus-understanding-summary.html">&larr; Back to research summary</a>
+  <p style="margin-top:16px">Digital Professor · Research / Syllabus Understanding · interactive intake prompt</p>
+</footer>
+
+</body>
+</html>

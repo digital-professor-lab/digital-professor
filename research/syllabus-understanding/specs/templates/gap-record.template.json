@@ -1,0 +1,21 @@
+{
+  "question_id": "<the Question Schema's question_id this diagnosis is for>",
+  "open_gaps": [
+    {
+      "target_slot": "<a Question Schema slot not yet satisfied, e.g. correct_approach.technique | prerequisite_concepts[i] | common_misconceptions[i] | evidence_of_understanding_level>",
+      "requirement": "<what the target requires for this slot>",
+      "status": "<one of: open | partial | closed>",
+      "evidence": "<the Student-State evidence behind this status>"
+    }
+  ],
+  "closed_gaps": [
+    {
+      "target_slot": "<a slot already satisfied>",
+      "requirement": "<what it required>",
+      "status": "closed",
+      "evidence": "<how and when it closed, e.g. confirmed at turn 7>"
+    }
+  ],
+  "off_target_context": ["<a Student-State slot with no Question Schema counterpart; carried but never scored>"],
+  "resolved_when": "open_gaps is empty"
+}

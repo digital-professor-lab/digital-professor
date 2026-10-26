@@ -1,0 +1,168 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\title{\textbf{Advanced Number Theory I: Course Overview \& Syllabus}\\\large Synthesized from Primary Texts by Weil, Neukirch, and Lang}
+\author{\textbf{Graduate Program in Mathematics}}
+\date{Academic Year 2026--2027}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Course Overview \& Requirements}
+
+\subsection*{1.1 Prerequisites}
+To succeed in this course, students must have a solid foundation in the following areas:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Abstract Algebra:} Group theory (Sylow theorems, quotient groups), Ring theory (PID, UFD, Noetherian rings, localization), Field theory (Galois theory, finite fields, separable/inseparable extensions, trace and norm).
+    \item \textbf{Topology \& Real/Complex Analysis:} Metric spaces, completeness, compact/locally compact topological groups, Haar measure, complex integration, residue theorem, infinite products.
+    \item \textbf{Elementary Number Theory:} Modular arithmetic, quadratic reciprocity, Chinese Remainder Theorem, prime factorization.
+\end{itemize}
+
+\subsection*{1.2 Concept Hierarchy \& Major Topics}
+The course systematically builds the arithmetic of global fields (algebraic number fields and function fields) using local methods, adeles/ideles, class field theory, and analytic continuous representations.
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Local Fields \& Valuations:} $p$-adic numbers, discrete valuation rings (DVRs), completions, Hensel's Lemma, structure of locally compact fields.
+    \item \textbf{Global Arithmetic Structures:} Dedekind domains, ideal class group, Minkowski theory, Dirichlet's Unit Theorem, orders, lattices.
+    \item \textbf{Adele and Idele Geometry:} Restricted direct products, local-global principle, compactness of $\mathbb{A}_k^1 / k^*$, topological duality.
+    \item \textbf{Ramification Theory:} Different, discriminant, decomposition/inertia/higher ramification groups, Artin conductor.
+    \item \textbf{Class Field Theory (Local \& Global):} Galois groups of abelian extensions, Artin reciprocity map, Hilbert symbol, Brauer group, existence theorem.
+    \item \textbf{Analytic Number Theory \& Tate's Thesis:} Dedekind zeta functions, Hecke $L$-series, functional equations via Fourier analysis on adeles (Tate's Thesis), density theorems (Chebotarev/Dirichlet).
+\end{itemize}
+
+\subsection*{1.3 Pedagogically Difficult Topics}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Tate's Thesis \& Harmonic Analysis on Adeles:} Understanding quasicharacters, self-duality of adeles, and functional equations via global Fourier transforms[cite: 1, 3].
+    \item \textbf{Cohomology \& Galois Groups in CFT:} Managing infinite Galois groups (profinite topology), Herbrand quotients, and cyclic factor-sets in the Brauer group[cite: 1, 2].
+    \item \textbf{Non-Archimedean Ramification:} Higher ramification groups (lower and upper numbering) and explicit conductor calculations[cite: 1, 2].
+\end{itemize}
+
+---
+
+\section*{2. High-Level Course Structure}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}>{\bfseries}l p{10cm} c@{}}
+\toprule
+Module & Primary Focus Areas & Estimated Duration \\
+\midrule
+Module 1 & Algebraic Integers, Dedekind Domains, and Valuations & Weeks 1--3 \\
+Module 2 & Local Fields, Completions, and Higher Ramification & Weeks 4--5 \\
+Module 3 & Adeles, Ideles, and Geometry of Numbers & Weeks 6--7 \\
+Module 4 & Local Class Field Theory \& Norm Residue Symbols & Weeks 8--10 \\
+Module 5 & Global Class Field Theory \& Reciprocity Laws & Weeks 11--13 \\
+Module 6 & Analytic Theory: $L$-Functions \& Tate's Thesis & Weeks 14--16 \\
+\bottomrule
+\end{tabular}
+\caption{Course Module Distribution}
+\end{table}
+
+---
+
+\section*{3. Detailed Module Breakdown}
+
+\subsection*{Module 1: Foundations of Algebraic Integers \& Valuations}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Core Concepts:} Integral closure, Dedekind domains, ideal factorization, Gaussian integers, discrete valuation rings, absolute values, completions, $p$-adic integers $\mathbb{Z}_p$ and fields $\mathbb{Q}_p$[cite: 2, 3].
+    \item \textbf{Subtopics \& Chapters:}
+    \begin{itemize}
+        \item Algebraic Integers, Ideals, and Lattices (Neukirch Ch. I; Lang Ch. I)[cite: 2, 3].
+        \item Valuations and Completions (Neukirch Ch. II; Weil Ch. I)[cite: 1, 2].
+    \end{itemize}
+    \item \textbf{Learning Objectives:}
+    \begin{enumerate}
+        \item Factor prime ideals uniquely in Dedekind domains[cite: 2, 3].
+        \item Construct the $p$-adic valuation and complete fields with respect to non-Archimedean metrics[cite: 2].
+        \item Apply Hensel's Lemma to compute roots of polynomials in complete fields[cite: 2].
+    \end{enumerate}
+\end{itemize}
+
+\subsection*{Module 2: Local Fields \& Ramification Theory}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Core Concepts:} Unramified, tamely ramified, and wildly ramified extensions; Henselian fields; Galois theory of valuations; Hilbert's ramification groups; different and discriminant[cite: 1, 2, 3].
+    \item \textbf{Subtopics \& Chapters:}
+    \begin{itemize}
+        \item Structure of local/locally compact fields (Weil Ch. I--II; Neukirch Ch. II)[cite: 1, 2].
+        \item The Different, Discriminant, and Ramification Groups (Lang Ch. III; Neukirch Ch. II--III; Weil Ch. VIII)[cite: 1, 2, 3].
+    \end{itemize}
+    \item \textbf{Learning Objectives:}
+    \begin{enumerate}
+        \item Distinguish between unramified and ramified local field extensions[cite: 2, 3].
+        \item Calculate the valuation of different and discriminant ideals using traces[cite: 1, 2, 3].
+        \item Construct higher ramification filtration under lower and upper numbering setups[cite: 2].
+    \end{enumerate}
+\end{itemize}
+
+\subsection*{Module 3: Geometry of Numbers, Adeles, and Ideles}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Core Concepts:} Minkowski's Theorem, Class Number Finiteness, Dirichlet's Unit Theorem, Restricted Direct Products, Adele ring $\mathbb{A}_k$, Idele group $\mathbb{I}_k$, compactness of $\mathbb{A}_k^1/k^*$[cite: 2, 3].
+    \item \textbf{Subtopics \& Chapters:}
+    \begin{itemize}
+        \item Minkowski Theory and Unit Theorem (Neukirch Ch. I; Lang Ch. V)[cite: 2, 3].
+        \item Adeles and Ideles of $A$-fields (Weil Ch. IV; Lang Ch. VII; Neukirch Ch. VI)[cite: 1, 2, 3].
+    \end{itemize}
+    \item \textbf{Learning Objectives:}
+    \begin{enumerate}
+        \item Prove the finiteness of the ideal class group and the rank of the group of units[cite: 2].
+        \item Formulate topologized adele rings and idele groups as restricted direct products[cite: 3].
+        \item Apply local-global principles (Product Formula) to global fields[cite: 3].
+    \end{enumerate}
+\end{itemize}
+
+\subsection*{Module 4: Local Class Field Theory \& Simple Algebras}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Core Concepts:} Simple algebras, Brauer group, Local Reciprocity Law, norm residue symbol, formal groups (Lubin-Tate theory), Hilbert symbol[cite: 1, 2].
+    \item \textbf{Subtopics \& Chapters:}
+    \begin{itemize}
+        \item Simple Algebras, Cyclic Factor Sets, and Brauer Groups (Weil Ch. IX--X)[cite: 1].
+        \item Local Reciprocity and Norm Residues (Neukirch Ch. V; Weil Ch. XII; Lang Ch. XI)[cite: 1, 2, 3].
+    \end{itemize}
+    \item \textbf{Learning Objectives:}
+    \begin{enumerate}
+        \item Compute the local Brauer group $\text{Br}(K) \cong \mathbb{Q}/\mathbb{Z}$ for a local field $K$[cite: 1].
+        \item Establish the canonical isomorphism between $\text{Gal}(K^{\text{ab}}/K)$ and the completion of $K^*$[cite: 1, 2].
+        \item Work explicitly with Hilbert $p$-symbols and local norm residue mappings[cite: 1, 2].
+    \end{enumerate}
+\end{itemize}
+
+\subsection*{Module 5: Global Class Field Theory}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Core Concepts:} Idele class group $C_k$, Global Reciprocity Law, Artin Symbol, Hasse Reciprocity Law, Hilbert Class Field, Existence Theorem, Ray Class Groups[cite: 1, 2, 3].
+    \item \textbf{Subtopics \& Chapters:}
+    \begin{itemize}
+        \item Abstract Galois Theory and Herbrand Quotient (Neukirch Ch. IV; Lang Ch. IX)[cite: 2, 3].
+        \item Global Reciprocity and Ideal-Theoretic CFT (Neukirch Ch. VI; Weil Ch. XIII; Lang Ch. X)[cite: 1, 2, 3].
+    \end{itemize}
+    \item \textbf{Learning Objectives:}
+    \begin{enumerate}
+        \item Construct the global reciprocity map from the idele class group $C_k$ to $\text{Gal}(k^{\text{ab}}/k)$[cite: 2].
+        \item Demonstrate the connection between abstract class field theory and classical ray class fields[cite: 2].
+        \item Apply the Hasse norm theorem and calculate global reciprocity symbols[cite: 1].
+    \end{enumerate}
+\end{itemize}
+
+\subsection*{Module 6: Analytic Number Theory, Zeta Functions \& Tate's Thesis}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Core Concepts:} Riemann Zeta, Dedekind Zeta, Hecke characters/L-series, Artin L-series, Fourier duality on adeles, Poisson Summation, Functional Equations, Density Theorems[cite: 1, 2, 3].
+    \item \textbf{Subtopics \& Chapters:}
+    \begin{itemize}
+        \item Classical Analytic Theory and L-Series (Neukirch Ch. VII; Lang Ch. VIII, XII)[cite: 2, 3].
+        \item Tate's Thesis: Harmonic Analysis on Adeles (Weil Ch. VII; Lang Ch. XIV)[cite: 1, 3].
+        \item Density Theorems (Chebotarev/Dirichlet) and Non-vanishing (Neukirch Ch. VII; Lang Ch. XV)[cite: 2, 3].
+    \end{itemize}
+    \item \textbf{Learning Objectives:}
+    \begin{enumerate}
+        \item Prove the functional equation of Dedekind zeta functions using both classical (Hecke) and adelic (Tate) methods[cite: 1, 3].
+        \item Construct Hecke $L$-series and establish convergence of Euler products[cite: 1, 2].
+        \item Derive density results for prime ideals using analytic properties of Artin and Dirichlet $L$-functions[cite: 2, 3].
+    \end{enumerate}
+\end{itemize}
+
+\end{document}

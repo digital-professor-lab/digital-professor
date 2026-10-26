@@ -1,0 +1,430 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black}
+
+\newtcolorbox{keydefbox}{colback=blue!4,colframe=blue!45!black,fonttitle=\bfseries,title=Key Definitions,breakable}
+\newtcolorbox{priorbox}{colback=yellow!10,colframe=orange!65!black,fonttitle=\bfseries,title=Connecting to Prior Learning,breakable}
+\newtcolorbox{instructornote}{colback=green!5,colframe=green!35!black,fonttitle=\bfseries,title=Instructor Note --- Visual Aid (describe only; do not render),breakable}
+\newtcolorbox[auto counter]{diffconcept}[1]{colback=red!4,colframe=red!45!black,fonttitle=\bfseries,title=Difficult Concept~\thetcbcounter: #1,breakable}
+
+\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=2pt}
+\setlist[enumerate]{leftmargin=*,itemsep=4pt,topsep=2pt}
+
+\title{EN.553.434/634 Elements of Statistical Learning\\
+Chapter 4: Classification --- Part 2\\
+\large Bayes' Theorem, LDA, QDA, and Naive Bayes\\
+\normalsize Instructor Module Breakdown (single 75-minute session)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section*{Session Overview and Assumptions}
+\addcontentsline{toc}{section}{Session Overview and Assumptions}
+
+This module directly continues Part 1 (Chapter 4, ``Classification, Bayes Rule and Logistic Regression''), which ended by previewing exactly this material: \emph{``instead of modeling $\Pr(Y=k\mid X=x)$ directly, we model $\Pr(X\mid Y=k)$ and use Bayes' theorem''} (Part 1, Slide 18/19). The following assumptions were made to produce this breakdown:
+
+\begin{itemize}
+\item \textbf{Prior knowledge.} Everything in the uploaded Part 1 deck (Slides 1--19) is taken as the working baseline rather than re-confirmed: conditional class probabilities $p_k(x)$, 0--1 loss and the Bayes classifier $C^*(x)=\arg\max_k p_k(x)$, kNN as a plug-in probability estimator, the logistic regression model $p_\beta(x)$, log loss, and the MLE-as-ERM equivalence. Students have \emph{not} yet seen how $\hat\beta$ is actually computed numerically, and have not yet seen the generative side of classification.
+\item \textbf{Topic emphasis.} Logistic-regression fitting is treated briefly (why there is no closed form, convexity, a name-check of IRLS) rather than derived in full; Bayes' theorem, LDA, QDA, and Naive Bayes receive the bulk of the depth and of the question bank, per your instruction.
+\item \textbf{Scope.} This breakdown stays within the standard ESL/ISLR treatment: Gaussian LDA/QDA with plug-in MLEs, and the standard Naive Bayes factorization. Regularized discriminant analysis, threshold/ROC-based decision theory beyond 0--1 loss, and cross-validated model selection among these methods are left out to fit one session.
+\item \textbf{Pacing risk.} Five sub-topics in 75 minutes is tight, with little slack once worked examples are included (see per-topic time estimates in Section~\ref{sec:topics}). If the class runs long, Naive Bayes is the easiest topic to compress to a short conceptual pointer, since nothing later in the course depends on it the way QDA depends on LDA having been taught first.
+\end{itemize}
+
+\section{Topics}
+\label{sec:topics}
+Teaching order for the session, with rough time budgets:
+
+\begin{enumerate}
+\item \textbf{Fitting logistic regression: from ERM to numerical optimization} (brief) --- $\sim$8 min
+\item \textbf{Bayes' theorem and the generative approach to classification} --- $\sim$14 min
+\item \textbf{Linear Discriminant Analysis (LDA)} --- $\sim$20 min
+\item \textbf{Quadratic Discriminant Analysis (QDA)} --- $\sim$17 min
+\item \textbf{Naive Bayes} --- $\sim$16 min
+\end{enumerate}
+
+\section{Concepts}
+
+\subsection{Fitting Logistic Regression (Brief)}
+\begin{itemize}
+\item No closed-form solution for $\hat\beta$, unlike OLS via the normal equations.
+\item The score equations $\sum_i (y_i - p_\beta(x_i))\,x_i = 0$ are nonlinear in $\beta$.
+\item The negative log-likelihood (average log loss) is convex in $\beta$.
+\item Convexity guarantees any local minimum found iteratively is the global minimum.
+\item Standard fitting algorithm: Newton--Raphson, known here as Iteratively Reweighted Least Squares (IRLS) --- name only, not derived.
+\item Practical takeaway: software (\texttt{glm()}, \texttt{sklearn.LogisticRegression}) does this automatically.
+\end{itemize}
+
+\subsection{Bayes' Theorem and the Generative Approach}
+\begin{itemize}
+\item Two routes to $p_k(x)$: discriminative (model $p_k(x)$ directly, e.g.\ logistic regression) vs.\ generative (model $\pi_k$ and $f_k(x)$, recover $p_k(x)$ via Bayes' theorem).
+\item Class prior $\pi_k = \Pr(Y=k)$.
+\item Class-conditional density $f_k(x)$.
+\item Bayes' theorem: $p_k(x) = \dfrac{\pi_k f_k(x)}{\sum_{\ell=1}^K \pi_\ell f_\ell(x)}$.
+\item The Bayes classifier $C^*(x)=\arg\max_k p_k(x)$ from Part 1 is unchanged --- only how we estimate $p_k(x)$ changes.
+\item Why go generative: natural for $K>2$, can be more stable with small $n$ or well-separated classes, lets us model class-imbalance via $\pi_k$ explicitly.
+\end{itemize}
+
+\subsection{Linear Discriminant Analysis (LDA)}
+\begin{itemize}
+\item Generative assumption: $X\mid Y=k \sim N(\mu_k,\Sigma)$, common covariance $\Sigma$ across classes.
+\item Discriminant function $\delta_k(x) = x^\top\Sigma^{-1}\mu_k - \tfrac12\mu_k^\top\Sigma^{-1}\mu_k+\log\pi_k$.
+\item Classification rule: $C(x)=\arg\max_k \delta_k(x)$.
+\item Because $\Sigma$ is shared, the quadratic term cancels between any two classes $\Rightarrow$ linear decision boundary.
+\item For $K=2$, the resulting log-odds are linear in $x$ --- the same functional form as logistic regression.
+\item Parameter estimation: $\hat\pi_k = n_k/n$, $\hat\mu_k$ = class sample mean, $\hat\Sigma$ = pooled within-class covariance.
+\item Extends naturally to $K>2$ without reparameterization.
+\end{itemize}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{itemize}
+\item Generative assumption relaxed: $X\mid Y=k \sim N(\mu_k,\Sigma_k)$, class-specific covariance.
+\item Discriminant function $\delta_k(x) = -\tfrac12\log|\Sigma_k| - \tfrac12(x-\mu_k)^\top\Sigma_k^{-1}(x-\mu_k)+\log\pi_k$.
+\item Quadratic term no longer cancels across classes $\Rightarrow$ quadratic decision boundary.
+\item More flexible than LDA (lower bias) but many more covariance parameters to estimate (higher variance).
+\item Rule of thumb: prefer LDA when $n$ is small relative to $p$ or class covariances are plausibly similar; prefer QDA when $n$ is large and covariances clearly differ.
+\end{itemize}
+
+\subsection{Naive Bayes}
+\begin{itemize}
+\item Still generative, but avoids estimating a full $p$-dimensional $f_k(x)$.
+\item Naive Bayes assumption: conditional independence of features given class, $f_k(x)=\prod_{j=1}^p f_{kj}(x_j)$.
+\item Reduces one $p$-dimensional density estimation problem to $p$ one-dimensional problems.
+\item Can mix feature types across $j$ (Gaussian, Bernoulli, multinomial, etc.).
+\item Decision rule: $\hat C(x) = \arg\max_k \hat\pi_k \prod_{j=1}^p \hat f_{kj}(x_j)$.
+\item Often effective in practice despite the false independence assumption, because classification only needs the \emph{ranking} over $k$ to be right, not accurate absolute probabilities --- the same phenomenon flagged for plug-in kNN in Part 1 (Slide 9).
+\end{itemize}
+
+\section{Key Definitions}
+
+\subsection{Fitting Logistic Regression (Brief)}
+\begin{keydefbox}
+\begin{itemize}
+\item \textbf{Score equations / MLE.} The maximum likelihood estimate $\hat\beta$ solves $\dfrac{\partial}{\partial\beta}\left[-\log\mathrm{Lik}(\beta)\right]=0$. For logistic regression these equations are nonlinear in $\beta$, so there is no closed-form solution --- unlike ordinary least squares, where the normal equations solve for $\hat\beta$ in one step.
+\item \textbf{Convexity.} The negative log-likelihood for logistic regression is a convex function of $\beta$. Convexity guarantees that any local minimum found by an iterative algorithm is in fact the global minimum, so the starting point does not change which $\hat\beta$ we converge to.
+\item \textbf{IRLS.} In practice, software fits logistic regression using Newton--Raphson applied to the score equations, known in this context as Iteratively Reweighted Least Squares: each iteration solves a weighted least-squares problem, with weights updated from the current probability estimates.
+\end{itemize}
+\end{keydefbox}
+
+\subsection{Bayes' Theorem and the Generative Approach}
+\begin{keydefbox}
+\begin{itemize}
+\item \textbf{Class prior.} $\pi_k = \Pr(Y=k)$: the unconditional probability that an observation belongs to class $k$, before observing $X$.
+\item \textbf{Class-conditional density.} $f_k(x)$: the density (or pmf) of $X$ given that the observation belongs to class $k$ --- how the predictors are distributed within class $k$.
+\item \textbf{Bayes' theorem for classification.} $p_k(x) = \dfrac{\pi_k f_k(x)}{\sum_{\ell=1}^K \pi_\ell f_\ell(x)}$, obtained by dividing the joint density of $(X,Y=k)$ by the marginal density of $X$.
+\item \textbf{Generative vs.\ discriminative.} A discriminative classifier (logistic regression) models $p_k(x)$ directly. A generative classifier models how the predictors are generated within each class, $f_k(x)$, together with $\pi_k$, and recovers $p_k(x)$ via Bayes' theorem.
+\end{itemize}
+\end{keydefbox}
+
+\subsection{Linear Discriminant Analysis (LDA)}
+\begin{keydefbox}
+\begin{itemize}
+\item \textbf{LDA generative assumption.} $X\mid Y=k \sim N(\mu_k,\Sigma)$: within each class the predictors are multivariate Gaussian, and all classes share the same covariance matrix $\Sigma$.
+\item \textbf{Discriminant function.} $\delta_k(x) = x^\top\Sigma^{-1}\mu_k - \tfrac12\mu_k^\top\Sigma^{-1}\mu_k+\log\pi_k$; LDA assigns $x$ to the class with the largest $\delta_k(x)$. $\delta_k(x)$ is \emph{not} a probability --- it can be negative or unbounded, and is used only to rank classes.
+\item \textbf{Pooled covariance estimate.} $\hat\Sigma$ is the pooled within-class covariance matrix: deviations from each class mean are pooled across all classes before dividing by (approximately) $n-K$.
+\end{itemize}
+\end{keydefbox}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{keydefbox}
+\begin{itemize}
+\item \textbf{QDA generative assumption.} $X\mid Y=k \sim N(\mu_k,\Sigma_k)$: each class has its own covariance matrix $\Sigma_k$, not shared.
+\item \textbf{QDA discriminant function.} $\delta_k(x) = -\tfrac12\log|\Sigma_k| - \tfrac12(x-\mu_k)^\top\Sigma_k^{-1}(x-\mu_k)+\log\pi_k$.
+\end{itemize}
+\end{keydefbox}
+
+\subsection{Naive Bayes}
+\begin{keydefbox}
+\begin{itemize}
+\item \textbf{Naive Bayes assumption.} Given $Y=k$, the predictors $X_1,\dots,X_p$ are conditionally independent, so $f_k(x) = \prod_{j=1}^p f_{kj}(x_j)$.
+\item \textbf{Naive Bayes decision rule.} $\hat C(x) = \arg\max_k \hat\pi_k \prod_{j=1}^p \hat f_{kj}(x_j)$.
+\end{itemize}
+\end{keydefbox}
+
+\section{Learning Objectives}
+
+\subsection{Fitting Logistic Regression (Brief)}
+\begin{itemize}
+\item \emph{Explain} why logistic regression requires iterative numerical optimization rather than a closed-form solution.
+\item \emph{State} that the negative log-likelihood is convex, guaranteeing convergence to a global optimum.
+\item \emph{Apply} standard software output (e.g.\ \texttt{glm()}) to fit a logistic regression and recognize convergence issues.
+\end{itemize}
+
+\subsection{Bayes' Theorem and the Generative Approach}
+\begin{itemize}
+\item \emph{State} Bayes' theorem for converting class priors and class-conditional densities into posterior class probabilities.
+\item \emph{Evaluate} the trade-offs between generative and discriminative approaches to estimating $p_k(x)$.
+\item \emph{Derive} the Bayes classifier decision rule in terms of $\pi_k f_k(x)$ rather than $p_k(x)$ directly.
+\end{itemize}
+
+\subsection{Linear Discriminant Analysis (LDA)}
+\begin{itemize}
+\item \emph{Derive} the LDA discriminant function $\delta_k(x)$ from the Gaussian generative model and Bayes' theorem.
+\item \emph{Explain} why the common-covariance assumption produces linear decision boundaries.
+\item \emph{Apply} the LDA rule to classify a point given estimated parameters.
+\item \emph{Evaluate} how LDA and logistic regression relate as two routes to the same linear log-odds form.
+\end{itemize}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{itemize}
+\item \emph{Derive} the QDA discriminant function from class-specific Gaussian assumptions.
+\item \emph{Explain} why relaxing the common-covariance assumption yields quadratic boundaries.
+\item \emph{Evaluate} the LDA-vs-QDA bias--variance trade-off in terms of parameter count and available data.
+\end{itemize}
+
+\subsection{Naive Bayes}
+\begin{itemize}
+\item \emph{State} the conditional independence assumption precisely.
+\item \emph{Explain} why it reduces a $p$-dimensional density estimation problem to $p$ one-dimensional problems.
+\item \emph{Apply} the Naive Bayes rule to compute posterior scores from per-feature densities.
+\item \emph{Critique} when the independence assumption is likely to be badly violated, and why the classifier can still work well despite this.
+\end{itemize}
+
+\section{Prerequisites}
+
+\subsection{Fitting Logistic Regression (Brief)}
+\begin{itemize}
+\item Log loss / negative log-likelihood (Part 1, Slides 14--15).
+\item The logistic regression model $p_\beta(x)$ (Part 1, Slide 12).
+\item Basic calculus: gradients and first-order conditions (assumed prior knowledge).
+\end{itemize}
+
+\subsection{Bayes' Theorem and the Generative Approach}
+\begin{itemize}
+\item Conditional class probabilities $p_k(x)$ and the Bayes classifier $C^*(x)=\arg\max_k p_k(x)$ (Part 1, Slides 4, 6--7).
+\item Bayes' rule from an introductory probability course (assumed prior knowledge).
+\end{itemize}
+
+\subsection{Linear Discriminant Analysis (LDA)}
+\begin{itemize}
+\item Bayes' theorem for classification, $\pi_k$, $f_k(x)$ (this module, Topic 2).
+\item The multivariate Gaussian density (assumed prior knowledge; brief on-board reminder recommended).
+\item The logistic regression log-odds form (Part 1, Slide 12) --- needed for the LDA/logistic comparison.
+\end{itemize}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{itemize}
+\item The LDA discriminant derivation (this module, Topic 3).
+\item Bias--variance vocabulary, first introduced via kNN flexibility (Part 1, Slide 10, Activity 2).
+\end{itemize}
+
+\subsection{Naive Bayes}
+\begin{itemize}
+\item Bayes' theorem for classification (this module, Topic 2).
+\item Independence of random variables (assumed prior knowledge).
+\item The plug-in classifier discussion, i.e.\ that $\hat p_{k,D}(x)$ can be inaccurate while $\hat C_D(x)$ stays correct (Part 1, Slide 9).
+\end{itemize}
+
+\begin{priorbox}
+Open class by returning to the exact sentence that closed Part 1 (Slide 18): today we replace direct modeling of $\Pr(Y=k\mid X=x)$ with modeling $\Pr(X\mid Y=k)$ and inverting via Bayes' theorem. Four concrete callbacks to make explicit, tied to specific slides and topics:
+
+\begin{itemize}
+\item \textbf{Logistic fitting $\to$ Part 1, Slides 14--15.} We already established that fitting $=$ minimizing average log loss (MLE as ERM). Today only adds \emph{how} that minimization is carried out numerically --- nothing about the objective changes.
+\item \textbf{Bayes' theorem $\to$ Part 1, Slides 6--7 (Activity 1).} The Bayes classifier $C^*(x)=\arg\max_k p_k(x)$ does not change today. Generative methods are simply a new route to estimating $p_k(x)$; the decision rule on top of it is identical.
+\item \textbf{LDA $\to$ Part 1, Slide 12.} Once the LDA posterior is derived for $K=2$, show on the board that its log-odds is linear in $x$ --- exactly the same functional form as the logistic regression model from last time, even though the parameters arrive via a completely different route (Gaussian MLE vs.\ conditional likelihood). This ``two paths, same destination'' moment is the single best unifying point in the lecture.
+\item \textbf{QDA vs.\ LDA $\to$ Part 1, Slide 10 (Activity 2).} Reuse the exact flexibility/bias/variance vocabulary from the $K=1$ vs.\ $K=100$ kNN comparison: LDA plays the role of the less flexible, higher-bias/lower-variance classifier; QDA plays the role of the more flexible, lower-bias/higher-variance classifier.
+\item \textbf{Naive Bayes $\to$ Part 1, Slide 9.} Recall the discussion question ``Can $\hat p_{k,D}(x)$ be inaccurate while $\hat C_D(x)$ is still correct?'' The same principle explains why Naive Bayes can classify well even though its independence assumption is almost always false: classification only needs the argmax to be right, not the absolute probability values.
+\end{itemize}
+\end{priorbox}
+
+\section{Difficult Concepts}
+
+\subsection{Fitting Logistic Regression (Brief)}
+\begin{diffconcept}{Expecting a closed form}
+\textbf{Misconception.} Students often assume fitting logistic regression works ``like linear regression,'' i.e.\ that setting a derivative to zero yields $\hat\beta$ directly. \\
+\textbf{Mitigation.} A single contrast slide: normal equations (linear, closed form) vs.\ score equations (nonlinear in $\beta$ because of the sigmoid). Emphasize this is a computational fact, not a conceptual complication, and move on quickly given the ``brief'' treatment.
+\end{diffconcept}
+
+\subsection{Bayes' Theorem and the Generative Approach}
+\begin{diffconcept}{``Bayes'' overload}
+\textbf{Misconception.} Students conflate \emph{Bayes' theorem} (a probability identity, today's topic) with the \emph{Bayes classifier} / \emph{Bayes error} (the decision-theoretic optimum from Part 1) --- both already use the word ``Bayes'' for different things. \\
+\textbf{Mitigation.} An explicit side-by-side naming slide: ``Bayes' theorem converts $f_k(x),\pi_k \to p_k(x)$; the Bayes classifier then converts $p_k(x) \to$ a class label. Two different uses of the same name.''
+\end{diffconcept}
+\begin{diffconcept}{Overestimating what ``generative'' requires}
+\textbf{Misconception.} Students think a generative model requires knowing the full joint distribution of $(X,Y)$, or integrating over all $x$. \\
+\textbf{Mitigation.} Point out we only ever need $f_k(x)$ (conditional on class) and $\pi_k$ (marginal of $Y$) --- both are estimated separately per class, never a joint integral.
+\end{diffconcept}
+
+\subsection{Linear Discriminant Analysis (LDA)}
+\begin{diffconcept}{Why the boundary is linear}
+\textbf{Misconception.} Students think Gaussian class-conditional densities automatically give linear boundaries, regardless of covariance structure. \\
+\textbf{Mitigation.} Work the cancellation algebra on the board (see Example Question 1 below): the quadratic term cancels \emph{specifically because} $\Sigma$ is shared. Contrast immediately with QDA where it does not cancel.
+\end{diffconcept}
+\begin{diffconcept}{$\delta_k(x)$ mistaken for a probability}
+\textbf{Misconception.} Students treat $\delta_k(x)$ as if it were $p_k(x)$ itself, expecting it to lie in $[0,1]$. \\
+\textbf{Mitigation.} Explicitly note $\delta_k(x)$ can be negative or arbitrarily large; only its \emph{rank} across $k$ matters, since it comes from dropping/rearranging terms in $\log p_k(x)$ that are common across classes.
+\end{diffconcept}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{diffconcept}{``More flexible'' assumed to mean ``better''}
+\textbf{Misconception.} Since QDA nests LDA as a special case ($\Sigma_k=\Sigma$), students assume QDA should always be preferred. \\
+\textbf{Mitigation.} Tie explicitly back to the bias--variance framework from the kNN activity (Part 1, Slide 10): more flexibility only helps when the extra parameters are estimated reliably; with small $n$ relative to $p$, QDA's extra covariance parameters add variance without a matching bias reduction.
+\end{diffconcept}
+
+\subsection{Naive Bayes}
+\begin{diffconcept}{``Wrong assumption'' assumed to mean ``bad classifier''}
+\textbf{Misconception.} Students assume that because the independence assumption is essentially always false, the resulting classifier must perform badly. \\
+\textbf{Mitigation.} Directly reuse Part 1, Slide 9's discussion question: classification only needs the argmax over $k$ to be correct, not accurate absolute probabilities. Distortions from a false independence assumption often affect all classes similarly and do not necessarily flip the ranking.
+\end{diffconcept}
+\begin{diffconcept}{Conditional vs.\ marginal independence}
+\textbf{Misconception.} Students write $f(x)=\prod_j f(x_j)$, forgetting the assumption is independence \emph{given} $Y=k$, not unconditional independence of the $X_j$'s. \\
+\textbf{Mitigation.} Use the directed-graph visual aid below (Section~\ref{sec:visual-nb}) to make the conditioning on $Y$ visually explicit.
+\end{diffconcept}
+
+\section{Example Questions (With Solutions)}
+
+\subsection{Fitting Logistic Regression (Brief)}
+\begin{enumerate}
+\item \textbf{(Easy)} Why can't $\hat\beta$ for logistic regression be obtained by setting the derivative of the log-likelihood to zero and solving in closed form, the way $\hat\beta$ is obtained for linear regression under squared-error loss?
+
+\textbf{Solution.} For linear regression, the loss is quadratic in $\beta$, so its gradient is linear in $\beta$; setting the gradient to zero gives the normal equations, a linear system solved directly. For logistic regression, $p_\beta(x)=\frac{\exp(\beta_0+x^\top\beta)}{1+\exp(\beta_0+x^\top\beta)}$ enters the log-likelihood nonlinearly through the sigmoid, so the score equations $\sum_i (y_i-p_\beta(x_i))x_i=0$ are nonlinear in $\beta$ and have no closed-form solution. We solve them iteratively instead (Newton--Raphson / IRLS).
+
+\item \textbf{(Medium)} True or False, with justification: the negative log-likelihood for logistic regression can have multiple local minima that are not global, so the solution found by Newton--Raphson can depend on the starting value of $\beta$.
+
+\textbf{Solution.} False. The negative log-likelihood is a convex function of $\beta$. For a convex function, every local minimum is a global minimum, so provided the algorithm converges, it converges to the (essentially unique) minimizer $\hat\beta$ regardless of the starting point.
+\end{enumerate}
+
+\subsection{Bayes' Theorem and the Generative Approach}
+\begin{enumerate}
+\item \textbf{(Easy)} Using the definition of conditional probability, derive $p_k(x)=\Pr(Y=k\mid X=x)$ in terms of $\pi_k$ and $f_k(x)$.
+
+\textbf{Solution.} By definition, $p_k(x) = \dfrac{f(x,Y=k)}{f(x)} = \dfrac{\Pr(Y=k)\,f(x\mid Y=k)}{\sum_{\ell=1}^K \Pr(Y=\ell)\,f(x\mid Y=\ell)} = \dfrac{\pi_k f_k(x)}{\sum_{\ell=1}^K \pi_\ell f_\ell(x)}$, expanding the marginal density of $X$ in the denominator via the law of total probability.
+
+\item \textbf{(Medium)} Let $K=2$, $\pi_1=0.3$, $\pi_2=0.7$, and at a fixed $x_0$: $f_1(x_0)=0.8$, $f_2(x_0)=0.2$. Compute $p_1(x_0)$ and $p_2(x_0)$ and classify $x_0$.
+
+\textbf{Solution.} Numerators: $0.3\times0.8=0.24$ and $0.7\times0.2=0.14$; denominator $=0.38$. So $p_1(x_0)=0.24/0.38\approx0.632$ and $p_2(x_0)=0.14/0.38\approx0.368$. Classify $x_0$ into class 1. Note class 2 is a priori more likely ($\pi_2=0.7$), but the strong class-conditional evidence for class 1 ($f_1(x_0)=0.8 \gg f_2(x_0)=0.2$) outweighs the prior --- a good illustration of how Bayes' theorem balances priors against evidence.
+
+\item \textbf{(Medium)} Give two situations where a generative classifier might be preferred over logistic regression.
+
+\textbf{Solution.} Sample points: (1) $K>2$ --- LDA/QDA extend naturally, no softmax reparameterization needed; (2) well-separated classes, where logistic regression's MLE becomes unstable (can diverge), while Gaussian-based LDA remains stable; (3) small $n$ relative to $p$ with a plausible parametric form for $f_k(x)$, where the added structure can reduce variance; (4) wanting to generate synthetic $X$ from each class, which only the generative model provides.
+\end{enumerate}
+
+\subsection{Linear Discriminant Analysis (LDA)}
+\begin{enumerate}
+\item \textbf{(Medium)} For $K=2$ with common covariance $\Sigma$, show that the LDA decision boundary is linear in $x$.
+
+\textbf{Solution.} $\log\dfrac{p_1(x)}{p_2(x)} = \log\dfrac{\pi_1}{\pi_2} + \log\dfrac{f_1(x)}{f_2(x)}$. With Gaussian densities, $\log f_k(x) = -\tfrac{p}{2}\log(2\pi)-\tfrac12\log|\Sigma|-\tfrac12(x-\mu_k)^\top\Sigma^{-1}(x-\mu_k)$, so
+\[
+\log\frac{f_1(x)}{f_2(x)} = -\tfrac12\Big[(x-\mu_1)^\top\Sigma^{-1}(x-\mu_1) - (x-\mu_2)^\top\Sigma^{-1}(x-\mu_2)\Big].
+\]
+Expanding each quadratic form, the $x^\top\Sigma^{-1}x$ term is identical for $k=1,2$ (same $\Sigma$) and cancels in the difference, leaving
+\[
+\log\frac{p_1(x)}{p_2(x)} = x^\top\Sigma^{-1}(\mu_1-\mu_2) - \tfrac12\big(\mu_1^\top\Sigma^{-1}\mu_1-\mu_2^\top\Sigma^{-1}\mu_2\big) + \log\frac{\pi_1}{\pi_2},
+\]
+which is linear in $x$. The boundary $\{\text{log-odds}=0\}$ is therefore a hyperplane.
+
+\item \textbf{(Medium)} Let $p=1$, $\Sigma=\sigma^2=4$, $\mu_1=2$, $\mu_2=8$, $\pi_1=\pi_2=0.5$. Find the LDA decision boundary.
+
+\textbf{Solution.} With equal priors, $\log(\pi_1/\pi_2)=0$, so the boundary solves $x(\mu_1-\mu_2)/\sigma^2 = \tfrac12(\mu_1^2-\mu_2^2)/\sigma^2$, giving $x = (\mu_1+\mu_2)/2 = 5$: the midpoint, as expected with equal priors and equal variance in 1-D.
+
+\item \textbf{(Medium/Hard, diagram)} Describe (for the instructor to sketch) the 1-D LDA setup with two Gaussian densities of different means and the same variance, scaled by unequal priors $\pi_1\ne\pi_2$. How does the boundary shift as $\pi_1\to 1$?
+
+\textbf{Solution.} As $\pi_1$ increases, $\log(\pi_1/\pi_2)$ increases, shifting the boundary threshold toward $\mu_2$: the region classified as class 1 grows, since it now takes stronger evidence from $f_2$ to overcome the higher prior on class 1. (See the visual-aid description in Section~\ref{sec:visual-lda}.)
+\end{enumerate}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{enumerate}
+\item \textbf{(Medium)} Starting from $X\mid Y=k \sim N(\mu_k,\Sigma_k)$, derive $\delta_k(x)$.
+
+\textbf{Solution.} $\log f_k(x) = -\tfrac{p}{2}\log(2\pi) - \tfrac12\log|\Sigma_k| - \tfrac12(x-\mu_k)^\top\Sigma_k^{-1}(x-\mu_k)$. Adding $\log\pi_k$ and dropping the constant $-\tfrac{p}{2}\log(2\pi)$ (common to all $k$) gives $\delta_k(x) = \log\pi_k - \tfrac12\log|\Sigma_k| - \tfrac12(x-\mu_k)^\top\Sigma_k^{-1}(x-\mu_k)$. Since $\Sigma_k$ depends on $k$, the quadratic term no longer cancels across classes --- hence quadratic boundaries.
+
+\item \textbf{(Medium)} For $K$ classes and $p$ predictors, how many free covariance parameters do LDA and QDA estimate? Evaluate for $K=3$, $p=10$.
+
+\textbf{Solution.} A symmetric $p\times p$ covariance matrix has $p(p+1)/2$ free parameters. LDA estimates one shared $\Sigma$: $p(p+1)/2$ parameters. QDA estimates $K$ separate $\Sigma_k$'s: $K\cdot p(p+1)/2$. For $K=3,p=10$: $p(p+1)/2=55$, so LDA uses 55 parameters and QDA uses $3\times55=165$ --- three times as many from the same training sample.
+
+\item \textbf{(Easy/Medium)} A colleague argues ``QDA should always be preferred, since it includes LDA as a special case.'' Evaluate this claim.
+
+\textbf{Solution.} True that QDA's model class nests LDA's, but with finite data QDA must estimate many more covariance parameters, increasing estimation variance. If the true covariances are close to equal, QDA pays this variance cost with no bias benefit, and LDA can outperform QDA on test data, especially when $n$ is small relative to $p$. The right choice depends on the bias--variance trade-off at hand, not on model-class generality alone.
+\end{enumerate}
+
+\subsection{Naive Bayes}
+\begin{enumerate}
+\item \textbf{(Easy)} State the Naive Bayes assumption precisely, and explain what is ``naive'' about it.
+
+\textbf{Solution.} Conditional on $Y=k$, the predictors are independent: $f_k(x) = \prod_{j=1}^p f_{kj}(x_j)$. It is ``naive'' because this conditional independence essentially never holds exactly --- predictors are typically correlated even within a class --- yet the assumption is made anyway to make estimating $f_k(x)$ tractable in high dimensions.
+
+\item \textbf{(Medium)} Spam classes: $\pi_1{=}0.4$ (spam), $\pi_2{=}0.6$ (ham). Binary features $X_1$ = contains ``free,'' $X_2$ = contains ``meeting.'' Given $\Pr(X_1{=}1\mid\text{spam}){=}0.7$, $\Pr(X_1{=}1\mid\text{ham}){=}0.1$, $\Pr(X_2{=}1\mid\text{spam}){=}0.2$, $\Pr(X_2{=}1\mid\text{ham}){=}0.3$, classify a new email with $X_1{=}1, X_2{=}0$.
+
+\textbf{Solution.} $\text{score(spam)} \propto 0.4\times0.7\times0.8 = 0.224$. $\text{score(ham)}\propto 0.6\times0.1\times0.7=0.042$. Since $0.224 > 0.042$, classify as spam. Normalizing: $\Pr(\text{spam}\mid x)\approx 0.224/0.266\approx0.842$.
+
+\item \textbf{(Medium)} Using the plug-in discussion from Part 1 (Slide 9), explain why Naive Bayes can classify well even though its independence assumption is almost always violated.
+
+\textbf{Solution.} Classification only requires getting $\arg\max_k$ correct, not accurate values of $p_k(x)$ itself. Distortion from the false independence assumption often shifts the estimated probabilities for all classes in a similar way, so the \emph{ranking} needed for $\arg\max_k$ can still be preserved even when the probabilities themselves are off --- exactly the phenomenon flagged for plug-in kNN classifiers.
+\end{enumerate}
+
+\section{Visual Aids}
+
+\subsection{Fitting Logistic Regression (Brief)}
+\begin{instructornote}
+On the board, sketch a simple 1-D convex ``bowl'' curve representing $-\log\mathrm{Lik}(\beta)$ as a function of one coordinate of $\beta$ (holding the rest fixed). Mark a few points descending toward the bottom, connected by arrows, representing successive Newton--Raphson iterates $\beta^{(0)},\beta^{(1)},\beta^{(2)},\dots$ converging to the unique minimizer $\hat\beta$. Label the $y$-axis ``negative log-likelihood'' and the bottom point $\hat\beta$.
+\end{instructornote}
+
+\subsection{Bayes' Theorem and the Generative Approach}
+\begin{instructornote}
+Draw a single horizontal $x$-axis. Sketch two bell-shaped curves: $\pi_1 f_1(x)$ (centered further left) and $\pi_2 f_2(x)$ (centered further right), drawn so their heights already reflect the prior weights (if $\pi_1<\pi_2$, make the first curve visibly smaller in area). Mark the crossing point $x^*$ with a vertical dashed line --- the Bayes decision boundary, since $\pi_1f_1(x) > \pi_2f_2(x)$ to its left and the reverse to its right. Shade the two resulting regions in different colors.
+\end{instructornote}
+
+\subsection{Linear Discriminant Analysis (LDA)}
+\label{sec:visual-lda}
+\begin{instructornote}
+Draw a 2-D scatterplot with axes $x_1,x_2$. Plot two class means $\mu_1,\mu_2$ as dots, and around each draw an elliptical contour representing the shared covariance $\Sigma$ --- crucially, both ellipses must have the \emph{same size, shape, and orientation} (only shifted in location), since $\Sigma$ is common. Draw a single straight line between the ellipses as the decision boundary, and label the two half-planes as the class-1 and class-2 regions.
+\end{instructornote}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{instructornote}
+Draw the same style of scatterplot with class means $\mu_1,\mu_2$, but make the two elliptical contours visibly \emph{different in shape and/or orientation} (e.g.\ one elongated along $x_1$, the other tilted diagonally), representing distinct $\Sigma_1,\Sigma_2$. Draw the boundary between them as a curved line (part of a parabola or ellipse, not straight). If space allows, overlay the LDA boundary from the previous figure as a dashed straight line for direct comparison.
+\end{instructornote}
+
+\subsection{Naive Bayes}
+\label{sec:visual-nb}
+\begin{instructornote}
+Draw a simple directed graph (freehand, not a rendered figure): a single node labeled $Y$ at the top, with $p$ separate arrows pointing down to nodes $X_1,X_2,\dots,X_p$ arranged in a row, and \emph{no} arrows drawn directly between any pair of $X_j$ nodes. This visually encodes the Naive Bayes assumption: once $Y$ is known, the $X_j$'s carry no additional information about one another.
+\end{instructornote}
+
+\section{Module Question Bank}
+
+\begin{enumerate}
+\item \textbf{[Easy]} List one advantage of a generative approach (LDA/QDA/Naive Bayes) over logistic regression, and one advantage of logistic regression over a generative approach.
+
+\textbf{Solution.} Generative: naturally handles $K>2$ without reparameterization, and can be more efficient when the generative assumption (Gaussian, common covariance, feature independence) is roughly correct or $n$ is small. Discriminative: makes fewer distributional assumptions about $X$, so it is more robust when those generative assumptions are badly wrong.
+
+\item \textbf{[Medium, diagram]} For two classes in 1 dimension with $\mu_1=-1$, $\mu_2=3$, $\sigma^2=4$, $\pi_1=\pi_2=0.5$, find the LDA decision boundary, and describe a diagram showing the two densities and the boundary.
+
+\textbf{Solution.} Midpoint (equal priors, equal variance): $(-1+3)/2 = 1$. Diagram: two Gaussian bells with means $-1$ and $3$, equal width ($\sigma=2$), and a vertical dashed boundary line exactly at $x=1$.
+
+\item \textbf{[Medium]} Two classes have similar means but very different spreads (class 1 tightly clustered, class 2 widely spread). Would LDA or QDA better capture the true boundary? Explain in terms of each class's region shape.
+
+\textbf{Solution.} QDA. Since the classes differ mainly in spread rather than location, a linear boundary is unlikely to separate them well --- a tight class sitting ``inside'' a widely spread one typically needs a closed, curved boundary around it, which only QDA's class-specific covariances can represent. LDA's single shared covariance forces a straight-line boundary and would systematically misclassify points on the far side of the spread-out class.
+
+\item \textbf{[Medium/Hard]} Disease prevalence $\pi_1=0.01$ (disease), $\pi_2=0.99$ (no disease). Two binary symptoms: $\Pr(X_1{=}1\mid D){=}0.9$, $\Pr(X_1{=}1\mid \bar D){=}0.05$, $\Pr(X_2{=}1\mid D){=}0.8$, $\Pr(X_2{=}1\mid \bar D){=}0.1$. A patient has $X_1{=}1, X_2{=}1$. Classify, and discuss.
+
+\textbf{Solution.} $\text{score}(D)=0.01\times0.9\times0.8=0.0072$; $\text{score}(\bar D)=0.99\times0.05\times0.1=0.00495$. Normalizing, $\Pr(D\mid x)\approx0.0072/0.01215\approx0.593$: classify as disease, though barely above $0.5$ despite a very low base rate --- strong evidence from two symptoms can overcome a low prior. Worth flagging: in a real diagnostic setting symptoms are often correlated, so this Naive Bayes estimate should be treated cautiously.
+
+\item \textbf{[Hard]} Show that for $K=2$, the LDA posterior log-odds has exactly the same linear-in-$x$ form as logistic regression. If the functional form is identical, what differs between the two models?
+
+\textbf{Solution.} As derived in the LDA example questions, $\log\frac{p_1(x)}{p_2(x)} = x^\top\Sigma^{-1}(\mu_1-\mu_2) - \tfrac12(\mu_1^\top\Sigma^{-1}\mu_1-\mu_2^\top\Sigma^{-1}\mu_2) + \log(\pi_1/\pi_2)$, of the form $\beta_0+x^\top\beta$ --- identical in form to logistic regression. What differs is \emph{how} $\beta_0,\beta$ are estimated: logistic regression maximizes the conditional likelihood of $Y\mid X$ directly (fewer distributional assumptions on $X$); LDA obtains them indirectly by fitting a full joint Gaussian model for $(X,Y)$. When the Gaussian/common-covariance assumption holds approximately, LDA's estimates are typically more efficient; when badly violated, logistic regression tends to be more robust.
+
+\item \textbf{[Easy/Medium]} Relate the LDA-vs-QDA choice to the flexibility/bias/variance discussion from the kNN activity in the previous lecture. Which plays the role of $K=100$ (less flexible) and which plays the role of $K=1$ (more flexible)?
+
+\textbf{Solution.} LDA (one shared $\Sigma$, $p(p+1)/2$ parameters) plays the less-flexible, higher-bias/lower-variance role, analogous to kNN with large $K$. QDA (separate $\Sigma_k$ per class, $K\cdot p(p+1)/2$ parameters) plays the more-flexible, lower-bias/higher-variance role, analogous to kNN with $K=1$. As with kNN, the more flexible option can fit training data more closely but generalize worse when $n$ is limited relative to $p$.
+
+\item \textbf{[Medium/Hard]} Suppose the two classes in a logistic regression training set are perfectly linearly separable. What happens to $\hat\beta$, and why?
+
+\textbf{Solution.} The likelihood can be driven arbitrarily close to 1 (negative log-likelihood to 0) by sending $\|\beta\|\to\infty$ in the separating direction, since fitted probabilities can be pushed arbitrarily close to 0 or 1 for every training point without penalty. So no finite maximizer exists: $\hat\beta$ does not converge (software typically issues a ``perfect separation'' warning). This shows convexity guarantees a global minimum \emph{if one exists} --- but existence itself can fail under separation.
+
+\item \textbf{[Medium]} A colleague builds a Naive Bayes classifier using two nearly perfectly correlated predictors (e.g.\ height in inches and height in centimeters) without realizing the redundancy. What goes wrong, and does this contradict the earlier claim that Naive Bayes tolerates violated independence well?
+
+\textbf{Solution.} The two features effectively double-count the same evidence: the Naive Bayes score multiplies $f_{k,\text{inches}}(x)\times f_{k,\text{cm}}(x)$ as if independent, when they are the same information counted twice, over-weighting that signal relative to genuinely independent predictors. This does not contradict the earlier point --- Naive Bayes is often robust to \emph{mild, diffuse} correlation because it rarely flips the argmax, but \emph{extreme, redundant} correlation like this systematically distorts the balance between predictors rather than adding small, symmetric noise, and is exactly the kind of violation that can hurt performance.
+
+\end{enumerate}
+
+\end{document}
