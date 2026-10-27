@@ -191,9 +191,27 @@ input:focus, select:focus, textarea:focus { border-color: #4d7d70; box-shadow: 0
 .support-fields { display: grid; grid-template-columns: 150px 1fr; gap: 12px; margin-bottom: 10px; }
 .support-fields input, .support-fields select { width: 100%; }
 .turn-page .composer textarea { padding: 15px 145px 15px 15px; }
+.handwriting-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--muted); font-size: 11px; }
+.handwriting-row .secondary-button { justify-self: auto; flex: 0 0 auto; }
+.input-actions { display: flex; gap: 8px; }
+.recognition-modal { width: min(760px, 100%); max-height: calc(100vh - 48px); overflow-y: auto; background: var(--cream); border-radius: 18px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,.3); }
+.recognition-modal h2 { font: 600 32px "Newsreader", serif; margin: 0; }
+.review-purpose { color: var(--muted); line-height: 1.55; }
+.recognition-meta { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0; }
+.recognition-meta span { border: 1px solid var(--line); background: white; border-radius: 999px; padding: 5px 9px; color: var(--muted); font-size: 10px; }
+.ambiguity-card { border: 1px solid #d9aa95; background: #fff1ea; border-radius: 10px; padding: 12px; margin: 10px 0; }
+.ambiguity-card strong, .ambiguity-card span { display: block; }
+.ambiguity-card strong { color: #78351e; font-size: 12px; }
+.ambiguity-card span { color: #8a5947; margin: 4px 0 9px; line-height: 1.45; }
+.ambiguity-card input, .transcription-field textarea { width: 100%; }
+.transcription-field { margin-top: 16px; }
+.transcription-field textarea { resize: vertical; line-height: 1.55; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.review-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
 
 @media (max-width: 760px) {
   .turn-page { height: calc(100vh - 138px); }
   .question-card { margin: 14px 20px 0; }
   .support-fields { grid-template-columns: 1fr; }
+  .handwriting-row { align-items: stretch; flex-direction: column; }
+  .input-actions { flex-wrap: wrap; }
 }

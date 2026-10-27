@@ -7,6 +7,8 @@ from uuid import uuid4
 
 from .models import (
     InteractionTraceEvent,
+    StudentEvidence,
+    StudentSubmission,
     TutoringTurnFailure,
     TutoringTurnResult,
     TypedSubmissionInput,
@@ -59,12 +61,30 @@ class TutoringTurnCoordinator:
             (submission.record_id, evidence.record_id),
         )
 
+        return self.route_validated_evidence(
+            submission,
+            evidence,
+            prior_events=(submission_event, evidence_event),
+        )
+
+    def route_validated_evidence(
+        self,
+        submission: StudentSubmission,
+        evidence: StudentEvidence,
+        *,
+        prior_events: tuple[InteractionTraceEvent, ...] = (),
+    ) -> TutoringTurnResult | TutoringTurnFailure:
+        """Route modality-independent, validated evidence downstream."""
+
+        correlation_id = evidence.correlation_id
+
         # Only validated evidence reaches the Tutoring Engine port.
         try:
             action = self.tutoring_engine.select_action(evidence)
         except Exception:
-            failure_event = self._event(
-                request,
+            failure_event = self._record_event(
+                evidence.session_id,
+                evidence.turn_id,
                 correlation_id,
                 "failure",
                 (evidence.record_id,),
@@ -77,10 +97,11 @@ class TutoringTurnCoordinator:
                 submission=submission,
                 evidence=evidence,
                 action=None,
-                trace_events=(submission_event, evidence_event, failure_event),
+                trace_events=(*prior_events, failure_event),
             )
-        action_event = self._event(
-            request,
+        action_event = self._record_event(
+            evidence.session_id,
+            evidence.turn_id,
             correlation_id,
             "action_selected",
             (evidence.record_id, action.record_id),
@@ -91,8 +112,9 @@ class TutoringTurnCoordinator:
         try:
             delivery_result = self.delivery.deliver(action)
         except Exception:
-            failure_event = self._event(
-                request,
+            failure_event = self._record_event(
+                evidence.session_id,
+                evidence.turn_id,
                 correlation_id,
                 "failure",
                 (action.record_id,),
@@ -105,15 +127,11 @@ class TutoringTurnCoordinator:
                 submission=submission,
                 evidence=evidence,
                 action=action,
-                trace_events=(
-                    submission_event,
-                    evidence_event,
-                    action_event,
-                    failure_event,
-                ),
+                trace_events=(*prior_events, action_event, failure_event),
             )
-        delivery_event = self._event(
-            request,
+        delivery_event = self._record_event(
+            evidence.session_id,
+            evidence.turn_id,
             correlation_id,
             "delivery",
             (action.record_id, delivery_result.record_id),
@@ -124,12 +142,7 @@ class TutoringTurnCoordinator:
             evidence=evidence,
             action=action,
             delivery=delivery_result,
-            trace_events=(
-                submission_event,
-                evidence_event,
-                action_event,
-                delivery_event,
-            ),
+            trace_events=(*prior_events, action_event, delivery_event),
         )
 
     def _event(
@@ -139,10 +152,26 @@ class TutoringTurnCoordinator:
         event_type: str,
         record_refs: tuple[str, ...],
     ) -> InteractionTraceEvent:
+        return self._record_event(
+            request.session_id,
+            request.turn_id,
+            correlation_id,
+            event_type,
+            record_refs,
+        )
+
+    def _record_event(
+        self,
+        session_id: str,
+        turn_id: str,
+        correlation_id: str,
+        event_type: str,
+        record_refs: tuple[str, ...],
+    ) -> InteractionTraceEvent:
         return InteractionTraceEvent(
             event_id=self._id_factory("event"),
-            session_id=request.session_id,
-            turn_id=request.turn_id,
+            session_id=session_id,
+            turn_id=turn_id,
             correlation_id=correlation_id,
             event_type=event_type,
             record_refs=record_refs,

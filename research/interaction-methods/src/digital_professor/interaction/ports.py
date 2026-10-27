@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Protocol
 
-from .models import DeliveryResult, StudentEvidence, TutoringAction
+from .models import DeliveryResult, RecognizerOutput, StudentEvidence, TutoringAction
 
 
 class TutoringEnginePort(Protocol):
@@ -19,4 +19,11 @@ class DeliveryPort(Protocol):
 
     def deliver(self, action: TutoringAction) -> DeliveryResult:
         """Present an action without changing its pedagogical meaning."""
+
+
+class HandwritingRecognizerPort(Protocol):
+    """Provider boundary; retrieval is intentionally downstream of evidence."""
+
+    def recognize(self, *, filename: str, media_type: str, data: bytes) -> RecognizerOutput:
+        """Transcribe visible work without correcting the student's mathematics."""
 
