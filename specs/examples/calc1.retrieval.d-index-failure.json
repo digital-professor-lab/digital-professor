@@ -1,0 +1,57 @@
+{
+  "example_for": "rag-retrieval.md §13: D. Component failure: index unavailable",
+  "author": "Sean (Retrieval)",
+  "scenario": "D. Component failure: index unavailable",
+  "illustrative": false,
+  "notes": [
+    "A fault is never reported as no_support_found.",
+    "The coordinator may retry; the Engine must not conclude that the course lacks a source."
+  ],
+  "records": [
+    {
+      "record_id": "gb-d1",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:30:01Z",
+      "producer": "retrieval",
+      "status": "failed",
+      "correlation_id": "corr-calc1-t6",
+      "grounding_bundle_id": "gb-d1",
+      "retrieval_request_id": "rr-d1",
+      "retrieval_status": "failed",
+      "retrieval_snapshot_id": "snap.calc1.2026-11-02.1",
+      "passages": [],
+      "warnings": [
+        {
+          "code": "index_unavailable",
+          "retryable": true,
+          "message": "Lexical and vector index did not respond within the deadline."
+        }
+      ]
+    },
+    {
+      "record_id": "rpt-d1",
+      "record_type": "RetrievalReport",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T15:30:01Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-t6",
+      "retrieval_report_id": "rpt-d1",
+      "retrieval_request_id": "rr-d1",
+      "grounding_bundle_id": "gb-d1",
+      "final_status": "failed",
+      "component_errors": [
+        {
+          "component": "index",
+          "code": "index_unavailable",
+          "retryable": true
+        }
+      ],
+      "timings_ms": {
+        "search": 1500,
+        "total": 1512
+      }
+    }
+  ]
+}

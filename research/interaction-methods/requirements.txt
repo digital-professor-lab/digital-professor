@@ -1,0 +1,9 @@
+# Student Interaction V1 implementation and tests
+fastapi
+httpx
+openai
+pymupdf
+pytest
+python-dotenv
+python-multipart
+uvicorn

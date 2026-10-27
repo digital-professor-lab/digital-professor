@@ -1,0 +1,49 @@
+{
+  "example_for": "rag-retrieval.md §13: E. Ambiguous scope: RetrievalStop needs_clarification (proposed record)",
+  "author": "Sean (Retrieval)",
+  "scenario": "E. Ambiguous scope: RetrievalStop needs_clarification (proposed record)",
+  "illustrative": false,
+  "notes": [
+    "Covers the known Week 5 gate miss 'What does the second semester cover?'.",
+    "The free-text scope check runs because query_origin = student_text.",
+    "No GroundingBundle is produced; Interaction/Delivery phrase the clarification."
+  ],
+  "records": [
+    {
+      "record_id": "rr-e1",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T16:00:00Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-calc1-t9",
+      "retrieval_request_id": "rr-e1",
+      "course_id": "calc1",
+      "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+      "turn_id": "turn-calc1-t9",
+      "query": "What does the second semester cover?",
+      "query_origin": "student_text",
+      "purpose": "answer_grounding",
+      "top_k": 4
+    },
+    {
+      "record_id": "stop-e1",
+      "record_type": "RetrievalStop",
+      "schema_version": "0.1",
+      "created_at": "2026-11-05T16:00:00.020Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-calc1-t9",
+      "retrieval_request_id": "rr-e1",
+      "stop_reason": "needs_clarification",
+      "reason_code": "ambiguous_scope",
+      "clarification_prompt_hint": "Ask which course the student means; this workspace covers Calculus I only.",
+      "matched": {
+        "rule": "semester_without_course",
+        "text": "second semester"
+      },
+      "retryable": false,
+      "policy_version": "calc1-retrieval-policy@1"
+    }
+  ]
+}
