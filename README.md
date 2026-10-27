@@ -2,6 +2,14 @@
 
 Digital Professor project for Fall 2026.
 
+## Development workflow
+
+- Follow the [pull request workflow](resources/PULL_REQUEST_WORKFLOW.md) for
+  Jira-linked branch naming, local validation, peer review, and AI-assisted
+  changes.
+- Pull requests use the repository template in
+  `.github/pull_request_template.md`.
+
 ## Jonathan's V1 responsibility
 
 The first implementation iteration focuses on the **Student Interaction and
@@ -77,12 +85,13 @@ action.
 ### 2. Set up GitHub review and AI coding guidelines
 
 - [x] Establish a lightweight branch and pull-request workflow.
-- [ ] Add `CODEOWNERS` for components that require designated review. (requries Ran)
-- [ ] Configure branch protection or a repository ruleset for `main` where
-  appropriate.
-- [ ] Require human review before AI-assisted changes enter `main`.
-- [ ] Document practical coding-agent guidelines, including reviewing generated
+- [x] Configure a ruleset requiring at least one approving review for `main`.
+- [x] Use peer review without making one contributor a review bottleneck.
+- [x] Connect branches and pull requests to Jira through ticket IDs.
+- [x] Require human review before AI-assisted changes enter `main`.
+- [x] Document practical coding-agent guidelines, including reviewing generated
   changes, running tests, avoiding secrets, and keeping commits scoped.
+- [x] Defer required CI checks during the current iteration.
 
 ### 3. Implement the typed submission and evidence pipeline
 
@@ -109,15 +118,15 @@ action.
 
 After the typed path is stable:
 
-- [ ] Reuse the existing handwriting-recognition experiments.
-- [ ] Integrate one handwriting-recognition path into the same evidence
+- [x] Reuse the existing handwriting-recognition experiments.
+- [x] Integrate one handwriting-recognition path into the same evidence
   pipeline.
-- [ ] Preserve the original image or PDF separately from derived images and
+- [x] Preserve the original image or PDF separately from derived images and
   recognized content.
-- [ ] Surface recognition uncertainty that could change mathematical meaning.
-- [ ] Require confirmation before meaning-changing recognition corrections are
+- [x] Surface recognition uncertainty that could change mathematical meaning.
+- [x] Require confirmation before meaning-changing recognition corrections are
   treated as confirmed evidence.
-- [ ] Reuse the same `StudentEvidence` validation and downstream handoff.
+- [x] Reuse the same `StudentEvidence` validation and downstream handoff.
 
 ## Deferred work
 

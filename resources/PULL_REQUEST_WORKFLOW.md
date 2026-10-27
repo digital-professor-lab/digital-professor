@@ -1,292 +1,132 @@
 # Pull Request Workflow
 
-This document defines the implementation-phase pull request workflow for the
-Digital Professor repository. It assumes `CODEOWNERS` will be configured so
-GitHub can automatically request the appropriate module reviewers.
+GitHub's `main` ruleset requires at least one approving review. GitHub and Jira
+are connected, so branches, commits, and pull requests should carry the Jira
+ticket ID.
 
-## 1. Core rules
+## Core rules
 
 - Do not commit directly to `main`.
-- Develop on a contributor or task branch.
-- Keep each pull request focused on one feature, fix, specification update, or
-  infrastructure change.
-- Require at least one human reviewer before merging.
-- Require approval from the applicable code owner after `CODEOWNERS` is
-  enabled.
-- Run the relevant checks before requesting final review.
-- Never commit API keys, `.env`, credentials, local virtual environments, or
-  generated secrets.
-- Treat AI-generated code as untrusted draft code until a developer has read,
-  tested, and accepted it.
+- Use one Jira ticket and one focused purpose per branch and pull request.
+- Obtain approval from at least one teammate before merging.
+- Do not make one contributor the required reviewer for every change.
+- Ask affected module owners to review architecture, shared schema, and shared
+  interface changes.
+- Report relevant local tests in the pull request. Required CI checks are
+  deferred for now.
+- Never commit API keys, `.env`, credentials, virtual environments, generated
+  build files, or unapproved student data.
+- Treat AI-generated code as draft code until a contributor reads and tests it.
 
-## 2. Branch naming
+## Naming conventions
 
-Longer-lived contributor branches may use:
-
-```text
-v1-<contributor>
-```
-
-Examples:
+Use this branch format:
 
 ```text
-v1-jonathanma
-v1-seansong
+<contributor-initials>/<Jira-ID>_<short-description>
 ```
 
-Focused branches created from a contributor branch or `main` should describe
-the work:
+Use lowercase initials, the uppercase Jira ID, an underscore after the ticket,
+and hyphens within the description:
 
 ```text
-<contributor>/<type>-<short-description>
+jm/JDP-47_integrate-handwriting-recognition
+ss/JDP-52_add-retrieval-contract
+oe/JDP-55_parse-course-context
+yl/JDP-58_add-delivery-status
 ```
 
-Examples:
+Start commit messages and PR titles with the Jira ID:
 
 ```text
-jonathan/feature-student-submission
-jonathan/fix-evidence-validation
-sean/feature-retrieval-interface
-ovunc/update-question-schema
+JDP-47: Integrate handwriting recognition
 ```
 
-Recommended types include `feature`, `fix`, `test`, `docs`, and `refactor`.
+Existing `v1-*` branches may finish their current work. Use the Jira-linked
+format for new focused tasks.
 
-## 3. Start from the correct base
+## Start and publish a branch
 
-Use `main` when the work should contain only code already accepted by the
-team. Use a contributor V1 branch when the change depends on unmerged work from
-that branch.
-
-Before starting:
+Start independent work from the latest reviewed `main`:
 
 ```bash
 git status
-git fetch origin
 git switch main
 git pull --ff-only origin main
-git switch -c yourname/feature-short-description
+git switch -c jm/JDP-47_integrate-handwriting-recognition
 ```
 
-If working directly on an existing contributor branch:
+If the work depends on an unmerged branch, identify that dependency in the PR
+and deliberately select the appropriate base branch.
 
-```bash
-git switch v1-yourname
-git pull --ff-only
-```
-
-The working tree should be clean before switching branches or importing work.
-
-## 4. Implement in reviewable increments
-
-During implementation:
-
-1. Follow the applicable files in `specs/`.
-2. Keep module ownership boundaries intact.
-3. Add or update tests that verify meaningful behavior.
-4. Run relevant checks after each material change.
-5. Review the diff before committing.
-
-Useful commands:
+Review and stage only intentional changes:
 
 ```bash
 git status --short
 git diff
-python -m pytest
-git diff --check
-```
-
-Stage only intentional files:
-
-```bash
 git add path/to/file1 path/to/file2
 git diff --cached
+git commit -m "JDP-47: Integrate handwriting recognition"
+git push -u origin jm/JDP-47_integrate-handwriting-recognition
 ```
 
-Create a concise commit:
+## Pull request contents
 
-```bash
-git commit -m "Implement typed student submission records"
-```
+The template at `.github/pull_request_template.md` asks the author to record:
 
-Prefer several coherent commits over one large, mixed commit. Avoid commits
-that combine unrelated formatting, generated files, documentation, and feature
-logic.
+- the Jira ticket and resulting behavior;
+- affected modules, records, APIs, and specifications;
+- automated tests and manual checks run locally;
+- known limitations, risks, and reviewer questions; and
+- material AI assistance and how a human verified it.
 
-## 5. Review AI-assisted changes locally
+Use a draft PR for early feedback. Mark it ready only when the behavior is
+reviewable and the local validation is recorded.
 
-Before pushing code produced or substantially modified by a coding agent:
+## Review expectations
 
-- Read the complete diff.
-- Confirm the code matches the relevant specification.
-- Check that the agent did not broaden the requested scope.
-- Check for hard-coded credentials, local paths, unsafe file handling, or
-  unnecessary dependencies.
-- Confirm errors and external-service failures return structured results.
-- Run the relevant tests yourself.
-- Remove generated artifacts and debugging output that do not belong in the
-  repository.
+Every PR requires at least one teammate's approval. A reviewer should verify:
 
-The contributor who submits the pull request remains responsible for the code,
-regardless of which tools helped create it.
+- the implementation matches the ticket and stated behavior;
+- module ownership and boundaries remain clear;
+- shared records and handoffs remain compatible;
+- failure behavior is visible and structured;
+- the reported tests meaningfully cover the change; and
+- no secrets, local paths, or unintended generated files are included.
 
-## 6. Push the branch
+Any teammate may review a routine module change. Changes to `specs/`, overall
+architecture, shared interfaces, or cross-module records should also be
+reviewed by the teammates who produce or consume the affected interface.
+Jonathan may help review major architecture and shared-interface changes, but
+is not a required reviewer for every PR.
 
-For the first push:
+Address blocking comments before merging. Re-run relevant local tests after
+material review changes and update the PR's Testing section. Required CI checks
+can be added later when the project structure and test commands stabilize.
 
-```bash
-git push -u origin yourname/feature-short-description
-```
+## AI-assisted changes
 
-For later updates:
+The author remains responsible for AI-assisted code and documentation. Before
+requesting review:
 
-```bash
-git push
-```
+- read the complete diff;
+- verify the change against the ticket and applicable specification;
+- check for secrets, unsafe file handling, invented APIs, and unnecessary
+  dependencies;
+- run the relevant tests and manual checks; and
+- disclose material AI assistance in the PR template.
 
-Do not force-push a shared branch without coordinating with every contributor
-using it. If rewriting your own PR branch is necessary, prefer:
+An AI tool must not approve or merge its own changes or bypass the repository
+ruleset.
 
-```bash
-git push --force-with-lease
-```
+## Merge checklist
 
-`--force-with-lease` must still be used carefully because it rewrites remote
-history.
-
-## 7. Open the pull request
-
-Open the pull request against `main` unless the team has intentionally chosen
-another integration base.
-
-Use a draft pull request when:
-
-- The implementation is incomplete.
-- An interface decision is still unresolved.
-- Early feedback is needed before tests or documentation are finished.
-
-Mark it ready for review only when the change is complete enough to merge.
-
-### Required pull request description
-
-Include:
-
-1. **Problem:** What concrete behavior or gap does this change address?
-2. **Result:** What happens after this change?
-3. **Scope:** Which module and shared records are affected?
-4. **Interfaces:** Did any input, output, schema, status, or ownership contract
-   change?
-5. **Validation:** Which tests or manual checks were run, with their results?
-6. **AI assistance:** Identify substantial AI-generated or AI-modified code and
-   explain how it was reviewed.
-7. **Remaining limitations:** List known limitations relevant to the change.
-
-Example:
-
-```markdown
-## Problem
-
-Typed student responses do not yet produce shared interaction records.
-
-## Result
-
-The Interaction module preserves the original text and constructs validated
-StudentSubmission and StudentEvidence records.
-
-## Interfaces
-
-- Implements StudentSubmission and StudentEvidence from specs/interfaces.md.
-- Does not change the Tutoring Engine or Delivery contracts.
-
-## Validation
-
-- `python -m pytest tests/interaction`
-- `git diff --check`
-
-## AI assistance
-
-An AI coding agent drafted the model validation functions. I reviewed the full
-diff and added tests for missing IDs, unchanged original text, and invalid
-evidence links.
-
-## Limitations
-
-Only typed input is supported in this iteration.
-```
-
-## 8. Automated and CODEOWNERS review
-
-After `CODEOWNERS` is configured, GitHub should automatically request review
-from the owner of each affected module or shared interface.
-
-A pull request should not merge until:
-
-- Required automated checks pass.
-- At least one human reviewer approves it.
-- Required code-owner approvals are present.
-- All blocking review conversations are resolved.
-- The branch is current enough with `main` to merge cleanly.
-
-Changes to `specs/`, shared schemas, module boundaries, or common interfaces
-should receive review from every affected module owner, even if GitHub requests
-only one reviewer automatically.
-
-## 9. Respond to review
-
-For each requested change:
-
-1. Decide whether code, tests, documentation, or the specification should
-   change.
-2. Make the smallest complete correction.
-3. Run the relevant checks again.
-4. Push the update.
-5. Reply with what changed and where.
-
-Do not resolve a review conversation until the issue is addressed or the
-reviewer agrees that no change is required.
-
-If a review changes an interface, update the corresponding specification and
-request review from affected module owners.
-
-## 10. Update a branch with `main`
-
-Do not merge with main.
-
-## 11. Merge and clean up
-
-Use **squash and merge** by default for focused feature pull requests. The
-squashed commit message should describe the final behavior rather than the
-development process.
-
-After merging:
-
-```bash
-git switch main
-git pull --ff-only origin main
-git branch -d yourname/feature-short-description
-```
-
-Delete the remote feature branch through GitHub or with:
-
-```bash
-git push origin --delete yourname/feature-short-description
-```
-
-Keep longer-lived `v1-<contributor>` branches only while the team still needs
-them. Regularly refresh them from `main` and avoid treating them as substitutes
-for reviewed pull requests.
-
-## 12. Merge checklist
-
-Before merging, confirm:
-
-- [ ] The pull request has one clear purpose.
-- [ ] The full diff has been reviewed by the contributor.
-- [ ] The implementation follows the current specifications.
-- [ ] Shared interface changes are explicitly documented.
-- [ ] Tests and required automated checks pass.
-- [ ] No credentials or local-only files are included.
-- [ ] AI-assisted changes are disclosed and human-reviewed.
-- [ ] Required human and code-owner approvals are present.
-- [ ] Blocking review conversations are resolved.
-- [ ] The final title and description match the implemented behavior.
+- [ ] The PR has one Jira-linked purpose.
+- [ ] The title, branch, and commits contain the Jira ID.
+- [ ] The author reviewed the complete diff.
+- [ ] Relevant local tests and manual checks are reported.
+- [ ] Shared interface changes are documented and reviewed by affected owners.
+- [ ] Material AI assistance is disclosed and human-reviewed.
+- [ ] At least one teammate approved the PR.
+- [ ] Blocking conversations are resolved.
+- [ ] No secrets or local-only files are included.
