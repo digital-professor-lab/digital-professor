@@ -21,7 +21,34 @@ intake → generate → validate → (regenerate on errors) → write → flag �
   (`<out>.review.json`): AI-inferred "check-first" fields and logged assumptions
   (rules F-01..F-03).
 
-The QuestionSchema builder (Phase 3) is still a separate step to come.
+### QuestionSchema builder (Phase 3)
+
+Builds the per-question **QuestionSchema** target (what the Tutoring Engine consumes)
+from a **validated CourseContext** + a free-text **question**, per `course-context.md`
+§3.2/§3.3. This is the **runtime path** (`origin: runtime`): the question isn't in a
+bank, so the builder uses an LLM (provider-agnostic — DeepSeek/OpenAI/Ollama) to solve
+it and write the teaching content.
+
+```bash
+python -m course_context_pipeline.build_question_schema \
+    --course-context ../../../specs/examples/calc1.course-context.json \
+    --question "\\int x\\cos(x) dx" \
+    --base-url https://api.deepseek.com/v1 --model deepseek-chat \
+    --api-key-env DEEPSEEK_API_KEY \
+    --out output/qs.xcosx.json
+```
+
+- **Copied verbatim from the CourseContext:** `learning_objectives`, misconception
+  `description`/`mitigation`, prerequisite names, `source_ids`.
+- **Written by the LLM:** `correct_approach`, `alternative_approaches`,
+  `reference_answer` (solved + self-verified), each prerequisite `relevance`, each
+  misconception `cue`, and `question_type`/`expected_response_modes`.
+- **Derived:** the runtime id `<primary concept>.adhoc-<8 hex>` (SHA-1 of the
+  normalised prompt) and `built_from.content_sha256` (the exact CourseContext bytes).
+
+Concept match (which concept the question tests) is normally retrieval's job (Sean);
+until that exists the builder asks the LLM to pick from the CourseContext's concept
+list, or you pass `--concept-id <id>` to set it explicitly (never a free guess).
 
 ### Validate / flag an existing file (no generation)
 
