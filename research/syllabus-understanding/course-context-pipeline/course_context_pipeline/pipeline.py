@@ -1,20 +1,23 @@
-"""Stage A orchestration: intake -> generate -> (basic check / regenerate) -> write.
+"""Stage A orchestration: intake -> generate -> validate -> (regenerate) -> write -> flag.
 
-Validate (full) and Flag are Phase 2; the regenerate-on-error loop and the
-hook points are already here so they drop straight in.
+Steps 3-4 (Validate, Flag) follow course-context.validation-and-flagging.md:
+the Validator gates publication (errors block, warnings don't); a clean file is
+then passed to the Review Flagger, which writes a human-review worklist.
 """
 from __future__ import annotations
 
 import json
 import pathlib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .config import Config
+from .flag import flag, sha256_of, to_json as flag_to_json
 from .generate import generate_course_context, read_prompt
 from .generate_by_module import assemble, generate_module, generate_outline
 from .intake import load_syllabus
 from .llm import LLMClient
-from .validate_basic import basic_errors, counts
+from .validate import (Finding, counts, error_messages, format_report,
+                       summary_line, validate)
 
 
 @dataclass
@@ -22,8 +25,10 @@ class StageAResult:
     course_context: dict
     output_path: pathlib.Path
     attempts: int
-    errors: list[str]           # structural errors still present on the final attempt
-    source: str                 # "llm" or "from_json"
+    errors: list[str]                       # validator ERROR lines on the final file
+    source: str                             # "llm" or "from_json"
+    findings: list[Finding] = field(default_factory=list)
+    review_path: pathlib.Path | None = None
 
 
 def _log(msg: str, quiet: bool) -> None:
@@ -32,14 +37,12 @@ def _log(msg: str, quiet: bool) -> None:
 
 
 def run_stage_a(cfg: Config, quiet: bool = False) -> StageAResult:
-    # --- Path A: skip the LLM, load a pre-generated file (free dev / Phase 2-3) ---
+    # --- Path A: skip the LLM, load a pre-generated file (free dev / validate-only) ---
     if cfg.from_json:
         _log(f"[intake] loading pre-generated CourseContext: {cfg.from_json}", quiet)
         cc = json.loads(pathlib.Path(cfg.from_json).read_text(encoding="utf-8"))
-        errors = basic_errors(cc)
-        out = _write(cc, cfg.output_path)
-        _log(f"[done] wrote {out}  records={counts(cc)}  structural_errors={len(errors)}", quiet)
-        return StageAResult(cc, out, attempts=0, errors=errors, source="from_json")
+        findings = validate(cc)
+        return _finalize(cfg, cc, findings, attempts=0, source="from_json", quiet=quiet)
 
     # --- Path B: generate from the syllabus ---
     _log(f"[intake] reading syllabus: {cfg.syllabus_path}", quiet)
@@ -51,20 +54,48 @@ def run_stage_a(cfg: Config, quiet: bool = False) -> StageAResult:
     _log(f"[generate] provider={cfg.llm.base_url} model={cfg.llm.model} strategy={cfg.strategy}", quiet)
 
     if cfg.strategy == "by_module":
-        cc, attempts, errors = _gen_by_module(cfg, syllabus, prompt, llm, quiet)
+        cc, attempts, findings = _gen_by_module(cfg, syllabus, prompt, llm, quiet)
     else:
-        cc, attempts, errors = _gen_single(cfg, syllabus, prompt, llm, quiet)
+        cc, attempts, findings = _gen_single(cfg, syllabus, prompt, llm, quiet)
 
-    if cc:
-        out = _write(cc, cfg.output_path)
-        _log(f"[done] wrote {out}", quiet)
-    else:
-        out = cfg.output_path
+    if not cc:
         _log("[done] no parseable CourseContext produced (see the .raw.txt dump)", quiet)
-    if errors:
-        _log(f"[warn] final output has {len(errors)} issue(s): {errors}", quiet)
-    return StageAResult(cc, out, attempts=attempts, errors=errors, source="llm")
+        return StageAResult({}, cfg.output_path, attempts, ["no parseable output"], "llm")
+    return _finalize(cfg, cc, findings, attempts=attempts, source="llm", quiet=quiet)
 
+
+# --- steps 3-4: validate, write, flag ---------------------------------------
+
+def _finalize(cfg: Config, cc: dict, findings: list[Finding], attempts: int,
+              source: str, quiet: bool) -> StageAResult:
+    """Validate report + write the file + (if clean) run the Flagger."""
+    errors = error_messages(findings)
+
+    # validator report (one line per finding + summary)
+    for fd in findings:
+        _log(f"[validate] {fd.line()}", quiet)
+    _log(f"[validate] {summary_line(findings, cc, cfg.output_path.name)}", quiet)
+
+    text = json.dumps(cc, indent=2, ensure_ascii=False) + "\n"
+    out = _write_text(text, cfg.output_path)
+    _log(f"[done] wrote {out}", quiet)
+
+    review_path = None
+    if errors:
+        # WF-4: only a zero-error file is flagged.
+        _log(f"[flag] skipped — {len(errors)} validation error(s) must be fixed first", quiet)
+    else:
+        report = flag(cc, source_sha256=sha256_of(text))
+        review_path = cfg.output_path.parent / (cfg.output_path.stem + ".review.json")
+        _write_text(flag_to_json(report), review_path)
+        s = report["summary"]
+        _log(f"[flag] review worklist: check_first={s['check_first']} "
+             f"worth_checking={s['worth_checking']} global_notes={s['global_notes']} -> {review_path}", quiet)
+
+    return StageAResult(cc, out, attempts, errors, source, findings, review_path)
+
+
+# --- generation strategies ---------------------------------------------------
 
 def _save_raw(cfg: Config, err: Exception, label: str, quiet: bool) -> None:
     """Dump the raw (unparseable) model output next to the output path."""
@@ -93,24 +124,23 @@ def _attempt(fn, label: str, cfg: Config, quiet: bool):
 
 
 def _gen_single(cfg: Config, syllabus: str, prompt: str, llm: LLMClient, quiet: bool):
-    """One LLM call for the whole file, retried on parse/structure failure."""
+    """One LLM call for the whole file, regenerated while the Validator reports errors."""
     cc: dict = {}
-    errors: list[str] = ["no attempt made"]
+    findings: list[Finding] = []
     attempt = 0
     for attempt in range(1, cfg.max_attempts + 1):
         _log(f"[generate] attempt {attempt}/{cfg.max_attempts} …", quiet)
         try:
             cc = generate_course_context(syllabus, prompt, llm)
         except ValueError as e:
-            errors = [str(e)]
             _save_raw(cfg, e, "", quiet)
+            findings = [Finding("GEN", "error", "<file>", str(e))]
             continue
-        errors = basic_errors(cc)          # Phase 2: swap for the full validator
-        if not errors:
-            _log(f"[validate] basic structural check passed  records={counts(cc)}", quiet)
-            break
-        _log(f"[validate] {len(errors)} structural issue(s); regenerating", quiet)
-    return cc, attempt, errors
+        findings = validate(cc)
+        if not error_messages(findings):
+            break                                  # WF-1: zero errors -> publishable
+        _log(f"[generate] {len(error_messages(findings))} validation error(s); regenerating", quiet)
+    return cc, attempt, findings
 
 
 def _gen_by_module(cfg: Config, syllabus: str, prompt: str, llm: LLMClient, quiet: bool):
@@ -122,11 +152,11 @@ def _gen_by_module(cfg: Config, syllabus: str, prompt: str, llm: LLMClient, quie
     """
     outline = _attempt(lambda: generate_outline(syllabus, prompt, llm), "outline", cfg, quiet)
     if not outline:
-        return {}, 1, ["outline generation failed to parse"]
+        return {}, 1, [Finding("GEN", "error", "outline", "outline generation failed to parse")]
     course = outline.get("Course") or {}
     modules = outline.get("Module") or []
     if not modules:
-        return {}, 1, ["outline produced no Module array"]
+        return {}, 1, [Finding("GEN", "error", "outline", "outline produced no Module array")]
     _log(f"[generate] outline: course={course.get('id')!r}  modules={len(modules)}", quiet)
 
     results: list[dict] = []
@@ -146,15 +176,11 @@ def _gen_by_module(cfg: Config, syllabus: str, prompt: str, llm: LLMClient, quie
         prior_ids.extend(c.get("id") for c in (res.get("Concept") or []) if c.get("id"))
 
     cc = assemble(outline, results)
-    errors = basic_errors(cc)
-    if errors:
-        _log(f"[validate] {len(errors)} structural issue(s) after assembly: {errors}", quiet)
-    else:
-        _log(f"[validate] basic structural check passed  records={counts(cc)}", quiet)
-    return cc, calls, errors
+    findings = validate(cc)
+    return cc, calls, findings
 
 
-def _write(cc: dict, path: pathlib.Path) -> pathlib.Path:
+def _write_text(text: str, path: pathlib.Path) -> pathlib.Path:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(cc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    path.write_text(text, encoding="utf-8")
     return path

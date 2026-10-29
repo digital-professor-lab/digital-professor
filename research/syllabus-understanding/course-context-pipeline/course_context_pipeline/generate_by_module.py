@@ -25,14 +25,21 @@ def _outline_user(syllabus_text: str) -> str:
         "assumed_background, module_ids (all module ids in teaching order), provenance\n"
         '- "Module": an array with one object per unit, in teaching order, each with '
         'id, course_id, title, goal, weeks, concept_ids (use an empty array []), provenance\n'
-        '- "assumptions": an array of {entity, id, field, assumption, reason} objects — one '
-        "per Course- or Module-level value you inferred because the syllabus did not state it "
-        "outright (e.g. level, duration_weeks, a module goal or week span). Use [] if none.\n\n"
+        '- "assumptions": an array of {entity, id, field, assumption, reason, confidence} '
+        "objects — one entry per genuinely INFERRED Course- or Module-level value (e.g. level, "
+        "duration_weeks, a module goal or week span). Do NOT log an entry for a value copied "
+        "from the syllabus (e.g. a module title). Use [] if none.\n"
+        '  "confidence" is your honest "high" | "medium" | "low": high = a standard inference a '
+        "domain expert would almost certainly agree with; medium = a reasonable default that "
+        "could plausibly differ; low = a genuine guess with little basis in the syllabus.\n\n"
         "Field rules:\n"
         '- "weeks" is a STRING, "N" or "N-M" (e.g. "2" or "3-4") — never a number.\n'
-        '- "provenance" is EXACTLY one of "source_backed" or "ai_inferred" '
-        "(source_backed only when every non-structural value on the record is copied from the "
-        "syllabus, otherwise ai_inferred) — never free text.\n\n"
+        '- "provenance" is EXACTLY one of "source_backed" or "ai_inferred" — never free text. '
+        "Mark a record source_backed only when EVERY non-structural value on it is copied from "
+        "the syllabus; otherwise ai_inferred.\n"
+        '- Consistency: if you add an assumptions entry naming a record, that record\'s '
+        'provenance MUST be "ai_inferred" (logging an assumption means a field was inferred). '
+        "Never mark a record source_backed and also log an assumption about it.\n\n"
         "Do NOT include Concept, LearningObjective, or Source in this response. "
         "Follow the ID conventions and field rules from the schema above.\n\n"
         "=== SYLLABUS START ===\n"
@@ -75,13 +82,22 @@ def _module_user(syllabus_text: str, course: dict, modules: list[dict],
         '- "Source": the Sources this module\'s concepts cite. Each: id, type, citation, '
         "section, text_chunk, provenance. Reuse a stable id (e.g. \"neuhauser.s7-2\") if "
         "the same source recurs across modules.\n"
-        '- "assumptions": an array of {entity, id, field, assumption, reason} objects — one '
-        "per value in THIS module you inferred because the syllabus did not state it "
-        "(summaries, prerequisites, difficulty notes, objectives, etc.). Use [] if none.\n\n"
+        '- "assumptions": an array of {entity, id, field, assumption, reason, confidence} '
+        "objects — one entry per genuinely INFERRED value in THIS module (summaries, "
+        "prerequisites, difficulty notes, objectives, etc.). Do NOT log an entry for a value "
+        "copied from the syllabus, and in particular do NOT log assumptions about Source "
+        "records whose citation/section come straight from the syllabus. Use [] if none.\n"
+        '  "confidence" is your honest "high" | "medium" | "low": high = a standard inference a '
+        "domain expert would almost certainly agree with; medium = a reasonable default that "
+        "could plausibly differ; low = a genuine guess with little basis in the syllabus.\n\n"
         "Field rules:\n"
-        '- "provenance" is EXACTLY one of "source_backed" or "ai_inferred" '
-        "(source_backed only when every non-structural value on the record is copied from the "
-        "syllabus, otherwise ai_inferred) — never free text.\n"
+        '- "provenance" is EXACTLY one of "source_backed" or "ai_inferred" — never free text. '
+        "Mark a record source_backed only when EVERY non-structural value on it is copied from "
+        "the syllabus (a Source whose citation and section are from the syllabus is "
+        "source_backed); otherwise ai_inferred.\n"
+        '- Consistency: if you add an assumptions entry naming a record, that record\'s '
+        'provenance MUST be "ai_inferred" — never mark a record source_backed and also log an '
+        "assumption about it.\n"
         '- each "difficulty_notes" entry has exactly the keys misconception and mitigation.\n\n'
         "Do NOT include Course or Module. Do NOT reference prerequisite ids that are not in "
         "the lists above.\n\n"

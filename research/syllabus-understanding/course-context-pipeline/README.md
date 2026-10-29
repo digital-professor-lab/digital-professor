@@ -11,11 +11,25 @@ hardcoded. Default LLM is **local Ollama** (free, no key).
 ## Pipeline (Phase 1)
 
 ```
-intake → generate → (basic structural check / regenerate) → write CourseContext JSON
+intake → generate → validate → (regenerate on errors) → write → flag → review.json
 ```
 
-Full validation + review flagging (Phase 2) and the QuestionSchema builder
-(Phase 3) are separate steps; the hook points are already in `pipeline.py`.
+- **Validate** (`validate.py`) — the conformance gate (rules V-01..V-10 + warnings
+  W-01/02 from `specs/course-context.validation-and-flagging.md`). Errors block
+  publication and drive regeneration; warnings don't.
+- **Flag** (`flag.py`) — on a zero-error file, writes a human-review worklist
+  (`<out>.review.json`): AI-inferred "check-first" fields and logged assumptions
+  (rules F-01..F-03).
+
+The QuestionSchema builder (Phase 3) is still a separate step to come.
+
+### Validate / flag an existing file (no generation)
+
+```bash
+# runs the Validator + Flagger on a file, prints the report, exits 1 on any error
+python -m course_context_pipeline.cli --validate-only \
+    --from-json ../../../specs/examples/calc1.course-context.json
+```
 
 ### Generation strategies
 

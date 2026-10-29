@@ -266,13 +266,15 @@ Under the weakest-link rule, **every non-Source record in a syllabus-only file i
 | **A blanket policy**: e.g. all difficulty notes come from teaching experience      | state it once                              | a wildcard entry (`id` ends in `.*`)                                                 |
 | **Insufficient input**: no ordered topic list                                      | not invent a course                        | the P-2 error object                                                                     |
 
-`assumptions` entry shape: `{ "entity": "Module", "id": "calc1.04-diff-applications", "field": "weeks", "assumption": "Weeks 8-10.", "reason": "The syllabus says '2+ weeks'; three weeks was assumed to cover the plus." }`
+`assumptions` entry shape: `{ "entity": "Module", "id": "calc1.04-diff-applications", "field": "weeks", "assumption": "Weeks 8-10.", "reason": "The syllabus says '2+ weeks'; three weeks was assumed to cover the plus.", "confidence": "medium" }`. `confidence` is an **optional** `high | medium | low` self-rating the generator attaches to each inference (high = a standard inference an expert would agree with; low = a genuine guess); the Review Flagger uses it to skip high-confidence items (§4 of the companion spec).
 
 Most Calculus I entries name one record; the wildcard entries (`id` ending in `.*`) state a blanket policy once, for example `Concept.difficulty_notes`.
 
 ### 2.5 What a human should double-check
 
-V1 has no formal review status; the following is an advisory checklist. Before any student-facing use, a human should double-check these fields, hardest-consequence first. The Review Flagger (`course-context.validation-and-flagging.md` §4) turns this list, plus the `assumptions` log, into a per-file worklist so the reviewer knows which records to look at.
+V1 has no formal review status; the following is an advisory checklist for a human. Before any student-facing use, a human should double-check these fields, hardest-consequence first. The Review Flagger (`course-context.validation-and-flagging.md` §4) turns part of this list, plus the `assumptions` log, into a per-file worklist so the reviewer knows which records to look at.
+
+> **v1 note:** the automated Flagger surfaces only the highest-stakes check-first fields — `Concept.difficulty_notes`, `Concept.key_definitions`, `Concept.prerequisite_ids`, and `Course.assumed_background` — and only where the generator logged an assumption about them that is **not** marked `confidence: high` (`assumed_background` is always surfaced). The rest of this table (`duration_weeks`/`weeks`, the *worth-checking* row) remains a **human** advisory list and is not auto-flagged in v1.
 
 | Priority                                             | Fields                                                                                                                                                                                                                | Why                                                                                                  |
 | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
