@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building the Course Context Pipeline | Digital Professor</title>
+<style>
+  :root{
+    --navy:#8A3F24; --steel:#C4623F; --green:#5E7B4E; --amber:#AE7A1E; --red:#B0472E;
+    --soft:#F2E8DE; --softgreen:#EBEEE0; --paper:#FDFCFA; --ink:#2B2A26; --muted:#6B665C;
+    --line:#E4DFD3; --cream:#F0EEE6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--cream); line-height:1.55; font-size:16px;
+  }
+  header.hero{
+    background:linear-gradient(135deg,#9B4425,#C9673F); color:#fff;
+    padding:48px 24px 40px; text-align:center;
+  }
+  header.hero .kicker{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; opacity:.85; margin:0 0 10px}
+  header.hero h1{margin:0 0 12px; font-size:2.1rem; line-height:1.15}
+  header.hero p{margin:0 auto; max-width:780px; opacity:.92; font-size:1.02rem}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+  section{background:var(--paper); margin:26px auto; padding:30px 34px; border-radius:12px;
+    box-shadow:0 1px 3px rgba(90,50,25,.07); border:1px solid var(--line); max-width:1040px}
+  h2{color:var(--navy); font-size:1.5rem; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .n{background:var(--navy); color:#fff; border-radius:8px; font-size:.85rem; width:30px; height:30px;
+    display:inline-flex; align-items:center; justify-content:center; flex:none}
+  h3{color:var(--steel); margin:26px 0 8px; font-size:1.15rem}
+  .lead{color:var(--muted); margin-top:0}
+  table{border-collapse:collapse; width:100%; margin:14px 0; font-size:.93rem}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top}
+  th{background:var(--soft); color:var(--navy); font-weight:600}
+  tbody tr:nth-child(even){background:#F6F1E9}
+  .flow{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap; margin:18px 0}
+  .flow .step{flex:1; min-width:150px; border:1px solid var(--line); border-radius:10px; padding:14px 16px; position:relative}
+  .flow .step h4{margin:0 0 6px; font-size:.98rem}
+  .flow .step p{margin:0; font-size:.86rem; color:var(--muted)}
+  .flow .step.s1{background:var(--soft); border-color:#E4CFB8}
+  .flow .step.s2{background:#F6E7DE; border-color:#E6BCA9}
+  .flow .step.s3{background:var(--softgreen); border-color:#CBD8B4}
+  .flow .arrow{align-self:center; font-size:1.5rem; color:var(--muted); flex:none}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px}
+  .cards.three{grid-template-columns:1fr 1fr 1fr}
+  .card{border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .card.pro{border:2px solid var(--green); background:linear-gradient(180deg,#EEF1E3,#FDFCFA)}
+  .card h4{margin:0 0 6px; font-size:1.08rem}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:4px 0; font-size:.9rem}
+  .callout{border-left:4px solid var(--steel); background:var(--soft); padding:14px 18px; border-radius:0 8px 8px 0; margin:16px 0}
+  .callout.warn{border-color:var(--red); background:#F6E7DE}
+  .callout.good{border-color:var(--green); background:var(--softgreen)}
+  .callout strong{color:var(--navy)}
+  ul.clean{list-style:none; padding-left:0}
+  ul.clean li{padding-left:26px; position:relative; margin:9px 0}
+  ul.clean li::before{content:"\25B8"; color:var(--steel); position:absolute; left:6px; font-weight:700}
+  code{background:#EFE6DA; padding:1px 6px; border-radius:5px; font-size:.85em; color:var(--navy)}
+  footer{text-align:center; color:var(--muted); font-size:.82rem; padding:30px 20px 50px}
+  .toc{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  .toc a{color:#fff; text-decoration:none; border:1px solid rgba(255,255,255,.45); padding:6px 13px;
+    border-radius:20px; font-size:.82rem; transition:.15s}
+  .toc a:hover{background:rgba(255,255,255,.18)}
+  @media(max-width:720px){.cards,.cards.three{grid-template-columns:1fr} header.hero h1{font-size:1.6rem}}
+  .exnote{font-size:.85rem; color:var(--muted); margin-top:6px}
+  .statgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin:16px 0}
+  .statgrid .stat{border:1px solid var(--line); border-radius:10px; padding:14px 10px; text-align:center; background:var(--soft)}
+  .statgrid .stat .num{font-size:1.7rem; font-weight:800; color:var(--navy); line-height:1}
+  .statgrid .stat .lbl2{font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-top:5px}
+  @media(max-width:720px){.statgrid{grid-template-columns:repeat(3,1fr)}}
+  .chips{display:flex; flex-wrap:wrap; gap:7px; margin:10px 0}
+  .chips span{background:var(--soft); border:1px solid var(--line); color:var(--navy); border-radius:20px; padding:3px 11px; font-size:.8rem; font-weight:600}
+  .diagram{border:1px solid var(--line); border-radius:10px; background:#fff; padding:14px; overflow:auto; margin-top:12px; text-align:center}
+  .diagram img{max-width:420px; width:100%; display:inline-block}
+  .diagram .cap{font-size:.82rem; color:var(--muted); margin-top:8px}
+  .jsonbox{margin-top:12px; border:1px solid var(--line); border-radius:8px; background:#0f2438; overflow:auto; max-height:460px}
+  .jsonbox pre{margin:0; padding:14px 16px; white-space:pre; color:#d6e4f0; font-size:.78rem; line-height:1.45; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .termbox{margin-top:12px; border:1px solid var(--line); border-radius:8px; background:#1d2b20; overflow:auto}
+  .termbox pre{margin:0; padding:14px 16px; white-space:pre; color:#d8e6cf; font-size:.78rem; line-height:1.5; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media(max-width:760px){.twocol{grid-template-columns:1fr}}
+  .qbox{border:1px solid #b9c7e6; background:#eef3fb; border-left:4px solid #2f4f8f; border-radius:0 8px 8px 0; padding:12px 16px; margin:10px 0}
+  .qbox .t,.sbox .t{font-weight:700; display:block; margin-bottom:6px}
+  .qbox .t{color:#2f4f8f}
+  .sbox{border:1px solid #e6c7a8; background:#fbf1e6; border-left:4px solid #b8860b; border-radius:0 8px 8px 0; padding:12px 16px; margin:10px 0}
+  .sbox .t{color:#8a5a08}
+  .pill{display:inline-block; padding:2px 9px; border-radius:20px; font-size:.72rem; font-weight:700}
+  .p-norm{background:var(--softgreen); color:var(--green); border:1px solid #CBD8B4}
+  .p-prop{background:#FBF1DD; color:var(--amber); border:1px solid #E9D6AC}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Digital Professor · Ovunc's part · Implementation</p>
+  <h1>Building the Course Context Pipeline</h1>
+  <p>From spec to working code: a provider-agnostic <strong>CourseContext builder</strong>, a <strong>Validator &amp; Review Flagger</strong>, and a <strong>QuestionSchema builder</strong> &mdash; the end-to-end Calculus I pipeline, running on a local or hosted LLM.</p>
+  <div class="toc">
+    <a href="#overview">Overview</a>
+    <a href="#builder">CourseContext Builder</a>
+    <a href="#validation">Validator &amp; Flagger</a>
+    <a href="#qschema">QuestionSchema Builder</a>
+    <a href="#status">Status</a>
+  </div>
+</header>
+
+<section id="overview">
+  <h2><span class="n">1</span>What we built today</h2>
+  <p class="lead">Three tools that turn one syllabus into a reviewed knowledge base and a per-question teaching target &mdash; all configurable, nothing hardcoded.</p>
+  <div class="cards three">
+    <div class="card pro">
+      <h4>1 · CourseContext Builder</h4>
+      <ul>
+        <li>Syllabus (PDF/text) &rarr; structured <code>CourseContext</code> JSON</li>
+        <li>Provider-agnostic LLM (local Ollama or hosted DeepSeek/OpenAI)</li>
+        <li>Two strategies: single-pass or per-module</li>
+      </ul>
+    </div>
+    <div class="card pro">
+      <h4>2 · Validator &amp; Flagger</h4>
+      <ul>
+        <li>Validator: a conformance <em>gate</em> (rules V-01&ndash;V-10)</li>
+        <li>Flagger: a short human-review worklist</li>
+        <li>Confidence-aware &mdash; flags only the shaky inferences</li>
+      </ul>
+    </div>
+    <div class="card pro">
+      <h4>3 · QuestionSchema Builder</h4>
+      <ul>
+        <li>CourseContext + a question &rarr; a per-question <em>target</em></li>
+        <li>LLM solves &amp; self-checks the answer (runtime path)</li>
+        <li>What the Tutoring Engine consumes, read-only</li>
+      </ul>
+    </div>
+  </div>
+  <div class="flow">
+    <div class="step s1"><h4>Syllabus</h4><p>one PDF / pasted text</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s1"><h4>Builder</h4><p>generate CourseContext</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s2"><h4>Validate &amp; Flag</h4><p>gate + review worklist</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s3"><h4>QuestionSchema</h4><p>per-question target</p></div>
+  </div>
+  <p class="exnote">Code lives in <code>research/syllabus-understanding/course-context-pipeline/</code> (Python package <code>course_context_pipeline</code>); specs in <code>specs/</code>.</p>
+</section>
+
+<section id="builder">
+  <h2><span class="n">2</span>The CourseContext Builder <span class="pill p-norm">Phase 1</span></h2>
+  <p class="lead">Stage A: syllabus in, a structured, linked <code>CourseContext</code> out &mdash; validated before it's written.</p>
+  <div class="flow">
+    <div class="step s1"><h4>Intake</h4><p>extract text (pypdf / txt / md)</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s1"><h4>Generate</h4><p>LLM &rarr; JSON (schema&nbsp;1.1)</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s2"><h4>Validate</h4><p>errors &rarr; regenerate</p></div>
+    <div class="arrow">&rarr;</div>
+    <div class="step s3"><h4>Write + Flag</h4><p>CourseContext + review worklist</p></div>
+  </div>
+
+  <h3>Provider-agnostic by design</h3>
+  <p>The LLM is any <strong>OpenAI-compatible endpoint</strong>; you swap provider/model/key via config, CLI, or <code>.env</code> &mdash; no code change. Default is local <strong>Ollama</strong> (free); we generate on <strong>DeepSeek</strong> (<code>deepseek-chat</code>) for quality.</p>
+  <div class="chips"><span>Ollama (local)</span><span>DeepSeek</span><span>OpenAI</span><span>OpenRouter</span><span>JHU Gateway</span></div>
+
+  <h3>Two generation strategies</h3>
+  <div class="twocol">
+    <div class="card">
+      <h4><code>single</code></h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0">One call for the whole file. Needs a large output budget (Claude Sonnet, gpt-4.1).</p>
+    </div>
+    <div class="card">
+      <h4><code>by_module</code></h4>
+      <p style="font-size:.9rem;color:var(--muted);margin:0">An outline call, then one call per module, then assemble. Keeps each response small so a modest cap (DeepSeek ~8K) never truncates.</p>
+    </div>
+  </div>
+  <div class="callout"><strong>Why per-module matters.</strong> A whole CourseContext can exceed a model's per-response limit and truncate into invalid JSON. The <code>by_module</code> strategy generates the outline first, fills each module in its own call (feeding earlier concept ids forward so prerequisites resolve), then de-duplicates sources and back-fills links on assembly.</div>
+
+  <h3>A real run &mdash; DeepSeek, per-module</h3>
+  <div class="statgrid">
+    <div class="stat"><div class="num">6</div><div class="lbl2">Modules</div></div>
+    <div class="stat"><div class="num">32</div><div class="lbl2">Concepts</div></div>
+    <div class="stat"><div class="num">85</div><div class="lbl2">Objectives</div></div>
+    <div class="stat"><div class="num">32</div><div class="lbl2">Sources</div></div>
+    <div class="stat"><div class="num">7</div><div class="lbl2">LLM calls</div></div>
+    <div class="stat"><div class="num">0</div><div class="lbl2">Validation&nbsp;errors</div></div>
+  </div>
+  <p class="exnote"><strong>Note:</strong> <code>AssessmentQuestion</code> was removed from CourseContext (it cost the most tokens and caused truncation). A question bank, if one exists, is now an external/instructor artifact &mdash; the CourseContext carries Course, Module, Concept, LearningObjective, and Source, plus per-record <code>provenance</code> and an <code>assumptions</code> log.</p>
+
+  <h3>How we ran it</h3>
+  <div class="termbox"><pre>$ python -m course_context_pipeline.cli --by-module \
+      --base-url https://api.deepseek.com/v1 --model deepseek-chat \
+      --api-key-env DEEPSEEK_API_KEY --out output/calc1.course-context.json</pre></div>
+
+  <h3>The generated CourseContext</h3>
+  <p>That run produced the full file &mdash; <a href="../presentation-materials/calc1.course-context.deepseek.json">calc1.course-context.deepseek.json</a> (6 modules, 32 concepts, 85 objectives, 32 sources, 184 assumptions). An excerpt:</p>
+  <div class="jsonbox"><pre>{
+  "course_context_schema_version": "1.1",
+  "Course": {
+    "id": "calc1-biosoc",
+    "title": "Calculus I (Bio. &amp; Soc. Sci.)",
+    "level": "undergrad intro",
+    "duration_weeks": 13,
+    "assumed_background": "Precalculus: basic properties of functions, exponential growth and decay, and sequences",
+    "module_ids": ["calc1-biosoc.01-functions-review", "...", "calc1-biosoc.06-integral-applications"],
+    "provenance": "ai_inferred"
+  },
+  "Module": [
+    { "id": "calc1-biosoc.01-functions-review", "course_id": "calc1-biosoc",
+      "title": "Review Basic Properties of Functions", "weeks": "1-2",
+      "goal": "Reinforce the precalculus toolkit the rest of the course builds on.",
+      "concept_ids": ["...function-properties", "...exponential-growth-decay", "...sequences"],
+      "provenance": "ai_inferred" }, ...
+  ],
+  "Concept": [
+    { "id": "calc1-biosoc.01-functions-review.function-properties",
+      "module_id": "calc1-biosoc.01-functions-review",
+      "name": "Basic Properties of Functions",
+      "summary": "Core precalculus facts — domain, range, composition, inverses, and the standard families — reviewed so later limit and derivative work has a reliable foundation.",
+      "key_definitions": [ ... ], "prerequisite_ids": [],
+      "objective_ids": ["...function-properties.lo1", "...lo2", "...lo3"],
+      "difficulty_notes": [ { "misconception": "...", "mitigation": "..." } ],
+      "source_ids": ["neuhauser.ch1"], "provenance": "ai_inferred" }, ...
+  ],
+  "LearningObjective": [ ... 85 ... ],
+  "Source": [ ... 32 ... ],
+  "assumptions": [
+    { "entity": "Course", "id": "calc1-biosoc", "field": "id",
+      "assumption": "calc1-biosoc",
+      "reason": "Syllabus gives no course slug; derived from course number and title.",
+      "confidence": "high" }, ...
+  ]
+}</pre></div>
+</section>
+
+<section id="validation">
+  <h2><span class="n">3</span>Validator &amp; Review Flagger <span class="pill p-norm">Phase 2</span></h2>
+  <p class="lead">Two pure, deterministic tools between generation and publishing. The Validator is a gate; the Flagger is a to-do list for a human.</p>
+  <div class="twocol">
+    <div class="qbox">
+      <span class="t">Validator &mdash; the gate (errors block)</span>
+      <div style="font-size:.9rem">Is the file <em>well-formed</em>? Any error &rarr; discard &amp; regenerate (capped). Rules <code>V-01&ndash;V-10</code>:</div>
+      <ul style="font-size:.88rem;margin:6px 0 0">
+        <li>top-level shape, required/unknown fields (V-01&ndash;V-02)</li>
+        <li>enums &amp; formats; unique ids that follow the patterns (V-03&ndash;V-04)</li>
+        <li>every link resolves; forward/reverse links agree (V-05&ndash;V-06)</li>
+        <li>prerequisites acyclic, never a later module (V-07)</li>
+        <li>no empty / <code>"TBD"</code>; assumptions well-formed; provenance valid (V-08&ndash;V-10)</li>
+      </ul>
+    </div>
+    <div class="sbox">
+      <span class="t">Review Flagger &mdash; the worklist (never blocks)</span>
+      <div style="font-size:.9rem">Which <em>inferred content</em> should a human check? Driven by the <code>assumptions</code> log:</div>
+      <ul style="font-size:.88rem;margin:6px 0 0">
+        <li>only the high-stakes <em>check-first</em> fields: <code>difficulty_notes</code>, <code>key_definitions</code>, <code>prerequisite_ids</code>, <code>assumed_background</code></li>
+        <li>skips inferences the model marks <code>confidence: high</code></li>
+        <li>blanket (wildcard) assumptions as global notes</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>The rules, with a trigger example</h3>
+  <p>Validator rules (<code>V-*</code>) are <strong>errors</strong> &mdash; any one blocks publication and regenerates the file. Flagger rules (<code>F-*</code>) never block; they add a review item.</p>
+  <table>
+    <thead><tr><th>Rule</th><th>Fires when&hellip;</th><th>Example that triggers it</th></tr></thead>
+    <tbody>
+      <tr><td><strong>V-01</strong></td><td>top-level shape is wrong</td><td>an unexpected top-level key (e.g. a typo <code>Modules</code>), or <code>Course</code> missing</td></tr>
+      <tr><td><strong>V-02</strong></td><td>a required field is absent, or an unknown field appears</td><td>a Concept with no <code>summary</code>; a bonus <code>color</code> field</td></tr>
+      <tr><td><strong>V-03</strong></td><td>an enum/format is invalid</td><td><code>bloom_level: "memorize"</code>; <code>weeks: 2</code> (number, not <code>"2"</code>)</td></tr>
+      <tr><td><strong>V-04</strong></td><td>an id is duplicated or off-pattern</td><td>two concepts share an id; a LO id not ending <code>.lo&lt;n&gt;</code></td></tr>
+      <tr><td><strong>V-05</strong></td><td>a reference points to a missing record</td><td><code>prerequisite_ids</code> &rarr; a concept that doesn't exist</td></tr>
+      <tr><td><strong>V-06</strong></td><td>a forward link and its reverse disagree</td><td><code>Concept.module_id = M</code> but <code>M.concept_ids</code> omits it</td></tr>
+      <tr><td><strong>V-07</strong></td><td>a prerequisite is cyclic / in a later module / self</td><td>A requires B and B requires A</td></tr>
+      <tr><td><strong>V-08</strong></td><td>a required value is empty or <code>"TBD"</code></td><td><code>summary: ""</code>; a Module with <code>concept_ids: []</code></td></tr>
+      <tr><td><strong>V-09</strong></td><td>an <code>assumptions</code> entry is malformed</td><td>missing <code>reason</code>; <code>confidence: "pretty-sure"</code></td></tr>
+      <tr><td><strong>V-10</strong></td><td>provenance is missing or not the enum</td><td><code>provenance: "Syllabus 7.2"</code> instead of <code>ai_inferred</code></td></tr>
+      <tr><td><strong>F-01</strong></td><td>a check-first field is inferred and not <code>confidence: high</code></td><td>an inferred <code>difficulty_notes</code> marked <code>medium</code> &rarr; review item</td></tr>
+      <tr><td><strong>F-03</strong></td><td>a blanket (wildcard) assumption exists</td><td><code>id: "calc1.*"</code> on difficulty_notes &rarr; one global note</td></tr>
+    </tbody>
+  </table>
+  <p class="exnote">Check-first fields (what F-01 watches): <code>difficulty_notes</code>, <code>key_definitions</code>, <code>prerequisite_ids</code>, <code>assumed_background</code>. Warnings (W-01/W-02) are disabled in v1; the blanket F-02 rule was dropped.</p>
+
+  <h3>Confidence-aware flagging</h3>
+  <p>The generator now self-rates each assumption <code>high</code> / <code>medium</code> / <code>low</code>. The Flagger surfaces only the <em>not-confident</em> ones on high-stakes fields &mdash; so "flag every inferred value" (noise, since a syllabus-only file is almost all inferred) becomes "flag the shaky misconceptions and background." On a real DeepSeek run that cut the worklist roughly in half.</p>
+
+  <h3>A real review worklist</h3>
+  <p>Running the Flagger on our DeepSeek CourseContext produced <code>calc1.deepseek-chat-v4.review.json</code>: <strong>29</strong> items &mdash; 19 inferred <code>difficulty_notes</code>, 9 <code>prerequisite_ids</code>, and 1 <code>assumed_background</code>. An item appears when the generator logged an assumption <em>on a check-first field</em> that it did <em>not</em> mark <code>confidence: high</code>; high-confidence inferences were skipped. Two real items:</p>
+  <div class="jsonbox"><pre>{
+  "course_id": "calc1-biosoc",
+  "summary": { "check_first": 29, "worth_checking": 0, "global_notes": 0 },
+  "items": [
+    {
+      "priority": "check_first",
+      "entity": "Concept",
+      "id": "calc1-biosoc.01-functions-review.function-properties",
+      "field": "difficulty_notes",
+      "confidence": "medium",
+      "reason": "Common student errors are domain restrictions and confusing inverses with
+                 reciprocals. Standard precalculus misconceptions; not stated in syllabus."
+    },
+    {
+      "priority": "check_first",
+      "entity": "Course",
+      "id": "calc1-biosoc",
+      "field": "assumed_background",
+      "confidence": "medium",
+      "reason": "Precalculus: basic properties of functions, exponential growth and decay,
+                 and sequences ... implying they are assumed prior knowledge."
+    }
+    // ... 27 more
+  ],
+  "global_notes": []
+}</pre></div>
+  <p class="exnote">Each <code>reason</code> is the generator's own <code>assumption</code> + <code>reason</code> text, so the reviewer sees <em>what</em> was inferred and <em>why</em>. Nothing with <code>confidence: high</code> is listed &mdash; the Flagger assumes those are standard, correct inferences a human can skip.</p>
+
+  <h3>Running it standalone (no generation, no model, no key)</h3>
+  <p>The Validator and Flagger are independent of the builder &mdash; run them on <em>any</em> existing CourseContext file with <code>--validate-only</code>. (The Validator also powers the regenerate-on-error loop inside the builder.)</p>
+  <div class="termbox"><pre>$ python -m course_context_pipeline.cli --validate-only \
+      --from-json specs/examples/calc1.course-context.json
+
+calc1.course-context.json: 0 error(s), 0 warning(s)  records={Module:6, Concept:33,
+   LearningObjective:33, Source:32, assumptions:17}
+review: check_first=3  worth_checking=0  global_notes=1</pre></div>
+</section>
+
+<section id="qschema">
+  <h2><span class="n">4</span>The QuestionSchema Builder <span class="pill p-norm">Phase 3</span></h2>
+  <p class="lead">The <strong>target</strong> for one question. Built from the CourseContext + the question, then frozen and handed to the Tutoring Engine read-only.</p>
+
+  <h3>What's copied vs. written by the LLM</h3>
+  <table>
+    <thead><tr><th>Copied verbatim from CourseContext</th><th>Written by the LLM (runtime)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>learning_objectives</code>, misconception <code>description</code>/<code>mitigation</code>, prerequisite names, <code>source_ids</code></td>
+        <td><code>reference_answer</code> (solved &amp; self-checked), <code>correct_approach</code>, <code>alternative_approaches</code>, each prerequisite <code>relevance</code>, each misconception <code>cue</code></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The runtime id is derived &mdash; <code>&lt;concept&gt;.adhoc-&lt;8 hex&gt;</code>, a SHA-1 of the normalized prompt &mdash; and <code>built_from.content_sha256</code> pins the exact CourseContext bytes for reproducibility. Concept-match (which concept the question tests) is retrieval's job (Sean); until then the builder asks the LLM to pick from the concept list, or takes an explicit <code>--concept-id</code>.</p>
+
+  <h3>Worked example: a student types $\int x\cos(x)\,dx$</h3>
+  <p>It looks like substitution but needs integration by parts. With no <code>--concept-id</code> given, the builder's LLM concept-match picked <strong>integration by parts</strong> plus two related concepts (antiderivatives, product/quotient rules). It copied the objectives and the two CourseContext misconceptions, had DeepSeek solve and differentiate-check the answer, and added two <em>runtime</em> misconceptions. This is the actual <code>output/qs.xcosx.json</code>, abbreviated:</p>
+  <div class="jsonbox"><pre>{
+  "question_schema_version": "1.0",
+  "question_id": "calc1.06-integral-applications.by-parts.adhoc-d7df1b60",
+  "origin": "runtime",
+  "course_id": "calc1",
+  "module_id": "calc1.06-integral-applications",
+  "concept_ids": [
+    "calc1.06-integral-applications.by-parts",
+    "calc1.05-integration.antiderivatives",
+    "calc1.03-derivatives.product-quotient"
+  ],
+  "prompt": "\\int x\\cos(x) dx",
+  "question_type": "worked_problem",
+  "expected_response_modes": ["text", "equation", "steps", "explanation"],
+  "learning_objectives": [
+    { "id": "...by-parts.lo1", "bloom_level": "apply",
+      "text": "Choose u and dv sensibly and evaluate integrals using integration by parts." }, ...
+  ],
+  "prerequisite_concepts": [
+    { "concept_id": "...product-quotient", "name": "Product and quotient rules",
+      "relevance": "The product rule is the basis for integration by parts; reversing it is how you choose u and dv.",
+      "provenance": "ai_inferred", "derived_from": "runtime" }, ...
+  ],
+  "correct_approach": {
+    "technique": "Integration by parts with u = x, dv = cos(x) dx",
+    "justification": "LIATE picks u = x (simplifies on differentiation) and dv = cos(x) dx; then du = dx, v = sin(x)."
+  },
+  "alternative_approaches": [
+    { "technique": "Tabular integration (repeated by parts)",
+      "justification": "x is degree 1, so the table terminates quickly.", "provenance": "ai_inferred", "derived_from": "runtime" }
+  ],
+  "reference_answer": "... ∫ x cos(x) dx = x sin(x) + cos(x) + C. Verification: d/dx[x sin(x) + cos(x)] = x cos(x), which equals the integrand.",
+  "common_misconceptions": [
+    { "description": "Choosing u and dv so the new integral is harder than the original.",   // from CourseContext
+      "cue": "Choosing u = cos(x), dv = x dx, leading to ∫ (x^2/2)(-sin(x)) dx.",
+      "mitigation": "Use LIATE and test both choices on ∫ x e^x dx.",
+      "provenance": "ai_inferred", "derived_from": "...by-parts#difficulty_notes[0]" },
+    { "description": "Forgetting the constant of integration.",                               // runtime (LLM-added)
+      "cue": "Final answer lacks '+ C'.", "mitigation": "Always append '+ C'; check by differentiation.",
+      "provenance": "ai_inferred", "derived_from": "runtime" }, ...
+  ],
+  "source_reference": {
+    "concept_ids": [...], "source_ids": ["neuhauser.s7-2"], "sibling_question_ids": [],
+    "citation": "Neuhauser &amp; Roper, Calculus for Biology and Medicine, 4th ed. Section 7.2",
+    "grounding": "reference_only"
+  },
+  "provenance": "ai_inferred",
+  "built_from": { "course_context_schema_version": "1.1", "content_sha256": "767d2581..." }
+}</pre></div>
+  <div class="callout good"><strong>Deterministic where it counts.</strong> The runtime id is a SHA-1 of the normalized prompt, so it is reproducible &mdash; the same <code>adhoc-d7df1b60</code> as the golden example &mdash; and <code>built_from.content_sha256</code> pins the exact CourseContext bytes. The solution, approaches, cues, and extra misconceptions are DeepSeek's.</div>
+
+  <h3>How we called it</h3>
+  <div class="termbox"><pre>$ python -m course_context_pipeline.build_question_schema \
+      --course-context specs/examples/calc1.course-context.json \
+      --question "\\int x\\cos(x) dx" \
+      --base-url https://api.deepseek.com/v1 --model deepseek-chat \
+      --api-key-env DEEPSEEK_API_KEY --out output/qs.xcosx.json</pre></div>
+  <p class="exnote">Pass <code>--concept-id &lt;id&gt;</code> to set the concept explicitly and skip the match call. Plain English works too (<code>--question "integral of x cos(x)"</code>) &mdash; only the <code>adhoc-</code> id changes, since notation isn't canonicalized in v1.</p>
+</section>
+
+<section id="status">
+  <h2><span class="n">5</span>Where it stands &amp; what's next</h2>
+  <div class="twocol">
+    <div class="card pro">
+      <h4>Done</h4>
+      <ul>
+        <li>Stage A builder &mdash; provider-agnostic, single + per-module</li>
+        <li>Validator (V-01&ndash;V-10) + confidence-aware Flagger</li>
+        <li>QuestionSchema builder (runtime path), matching the golden</li>
+        <li>End-to-end on Calculus I via DeepSeek</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Next / deferred</h4>
+      <ul>
+        <li>Coordinate the Course Context &harr; Retrieval contract with <strong>Sean</strong></li>
+        <li>Stage B ingestion (lecture notes/textbook &rarr; retrievable pages)</li>
+        <li>QuestionSchema validation mode; independent (CAS) answer-check</li>
+        <li>Bank-match &amp; an automated test suite</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout"><strong>Design decisions along the way.</strong> Removed <code>AssessmentQuestion</code> from CourseContext (token cost + truncation); added the <code>by_module</code> strategy; relaxed the Flagger to a short, confidence-filtered, high-stakes worklist; kept keys and generation provider-agnostic so model choice is a config line.</div>
+</section>
+
+<footer>
+  Digital Professor · Research / Syllabus Understanding &mdash; Course Context Pipeline (Ovunc)<br>
+  Code: <code>course-context-pipeline/</code> · Specs: <code>course-context.md</code> · <code>course-context.validation-and-flagging.md</code>
+</footer>
+
+</body>
+</html>

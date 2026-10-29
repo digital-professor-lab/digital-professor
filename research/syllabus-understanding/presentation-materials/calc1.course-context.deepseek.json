@@ -1,0 +1,3476 @@
+{
+  "course_context_schema_version": "1.1",
+  "Course": {
+    "id": "calc1-biosoc",
+    "title": "Calculus I (Bio. & Soc. Sci.)",
+    "level": "undergrad intro",
+    "duration_weeks": 13,
+    "assumed_background": "Precalculus: basic properties of functions, exponential growth and decay, and sequences (reviewed in the opening unit)",
+    "module_ids": [
+      "calc1-biosoc.01-functions-review",
+      "calc1-biosoc.02-limits-continuity",
+      "calc1-biosoc.03-derivatives",
+      "calc1-biosoc.04-diff-applications",
+      "calc1-biosoc.05-integration",
+      "calc1-biosoc.06-integral-applications"
+    ],
+    "provenance": "ai_inferred"
+  },
+  "Module": [
+    {
+      "id": "calc1-biosoc.01-functions-review",
+      "course_id": "calc1-biosoc",
+      "title": "Review Basic Properties of Functions",
+      "goal": "Reinforce the precalculus toolkit — function properties, exponential growth and decay, and sequences — that the rest of the course builds on.",
+      "weeks": "1-2",
+      "concept_ids": [
+        "calc1-biosoc.01-functions-review.function-properties",
+        "calc1-biosoc.01-functions-review.exponential-growth-decay",
+        "calc1-biosoc.01-functions-review.sequences"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity",
+      "course_id": "calc1-biosoc",
+      "title": "Limits and Continuity",
+      "goal": "Develop the limit concept, including formal definitions, and use it to characterize continuity and limits at infinity.",
+      "weeks": "3-4",
+      "concept_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept",
+        "calc1-biosoc.02-limits-continuity.continuity",
+        "calc1-biosoc.02-limits-continuity.limits-at-infinity",
+        "calc1-biosoc.02-limits-continuity.trig-limits-sandwich",
+        "calc1-biosoc.02-limits-continuity.continuous-function-properties"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives",
+      "course_id": "calc1-biosoc",
+      "title": "Derivatives",
+      "goal": "Introduce the derivative from its formal definition and build fluency with the full set of differentiation rules.",
+      "weeks": "5-7",
+      "concept_ids": [
+        "calc1-biosoc.03-derivatives.formal-definition",
+        "calc1-biosoc.03-derivatives.basic-rules",
+        "calc1-biosoc.03-derivatives.power-rule",
+        "calc1-biosoc.03-derivatives.product-quotient",
+        "calc1-biosoc.03-derivatives.chain-rule",
+        "calc1-biosoc.03-derivatives.implicit-differentiation",
+        "calc1-biosoc.03-derivatives.higher-derivatives",
+        "calc1-biosoc.03-derivatives.trig-derivatives",
+        "calc1-biosoc.03-derivatives.exp-derivatives",
+        "calc1-biosoc.03-derivatives.inverse-derivatives",
+        "calc1-biosoc.03-derivatives.linear-approximation"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications",
+      "course_id": "calc1-biosoc",
+      "title": "Applications of Differentiation",
+      "goal": "Apply derivatives to analyze function behavior, solve optimization problems, and evaluate limits via L'Hôpital's Rule.",
+      "weeks": "8-10",
+      "concept_ids": [
+        "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+        "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+        "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+        "calc1-biosoc.04-diff-applications.optimization",
+        "calc1-biosoc.04-diff-applications.lhopitals-rule"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration",
+      "course_id": "calc1-biosoc",
+      "title": "Integration",
+      "goal": "Define the definite integral, establish the Fundamental Theorem of Calculus, and apply integration to concrete problems.",
+      "weeks": "11-12",
+      "concept_ids": [
+        "calc1-biosoc.05-integration.antiderivatives",
+        "calc1-biosoc.05-integration.definite-integral",
+        "calc1-biosoc.05-integration.ftc",
+        "calc1-biosoc.05-integration.integration-applications"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications",
+      "course_id": "calc1-biosoc",
+      "title": "Applications of the Integral",
+      "goal": "Extend integration technique with substitution, integration by parts, and partial fractions to handle a wider class of integrals.",
+      "weeks": "13",
+      "concept_ids": [
+        "calc1-biosoc.06-integral-applications.substitution-rule",
+        "calc1-biosoc.06-integral-applications.integration-by-parts",
+        "calc1-biosoc.06-integral-applications.partial-fractions",
+        "calc1-biosoc.06-integral-applications.integration-strategy"
+      ],
+      "provenance": "ai_inferred"
+    }
+  ],
+  "Concept": [
+    {
+      "id": "calc1-biosoc.01-functions-review.function-properties",
+      "module_id": "calc1-biosoc.01-functions-review",
+      "name": "Basic Properties of Functions",
+      "summary": "Core precalculus facts about functions — domain, range, composition, inverses, and the standard families (polynomial, rational, exponential, logarithmic, trigonometric) — reviewed so later limit and derivative work has a reliable foundation.",
+      "key_definitions": [
+        "Function: a rule assigning to each input in its domain exactly one output",
+        "Domain and range of a function",
+        "Composition of functions and inverse functions",
+        "Linear, polynomial, rational, exponential, logarithmic, and trigonometric function families"
+      ],
+      "prerequisite_ids": [],
+      "objective_ids": [
+        "calc1-biosoc.01-functions-review.function-properties.lo1",
+        "calc1-biosoc.01-functions-review.function-properties.lo2",
+        "calc1-biosoc.01-functions-review.function-properties.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students treat domain restrictions as optional bookkeeping and evaluate composed or inverse functions outside their valid domains.",
+          "mitigation": "Require explicit domain/range statements on every worked example and have students verify composition and inverse identities on restricted domains."
+        },
+        {
+          "misconception": "Students conflate inverse functions with reciprocals (f^{-1}(x) vs. 1/f(x)).",
+          "mitigation": "Contrast the two notations side by side and check inverses by composing to the identity."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.ch1"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay",
+      "module_id": "calc1-biosoc.01-functions-review",
+      "name": "Exponential Growth and Decay",
+      "summary": "Exponential models of the form N(t) = N0 e^{rt} (or N0 a^t), including doubling time, half-life, and the biological and social-science interpretations of the growth/decay constant.",
+      "key_definitions": [
+        "Exponential growth/decay function N(t) = N0 e^{rt}",
+        "Growth rate r and base a",
+        "Doubling time and half-life"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.01-functions-review.function-properties"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.01-functions-review.exponential-growth-decay.lo1",
+        "calc1-biosoc.01-functions-review.exponential-growth-decay.lo2",
+        "calc1-biosoc.01-functions-review.exponential-growth-decay.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students read the growth rate r as a percentage per time step rather than as the continuous rate in e^{rt}, and mis-handle unit conversions.",
+          "mitigation": "Work paired examples converting between a^t and e^{rt} forms and between doubling time and r."
+        },
+        {
+          "misconception": "Students apply exponential models outside their valid regime (e.g., unbounded growth in a resource-limited population).",
+          "mitigation": "Discuss model assumptions and short biological/social examples where exponential growth is only locally valid."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s2-1"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.sequences",
+      "module_id": "calc1-biosoc.01-functions-review",
+      "name": "Sequences",
+      "summary": "Sequences as functions on the natural numbers, including recursive and closed-form descriptions, arithmetic and geometric sequences, and the idea of a sequence limit that previews the limit concept.",
+      "key_definitions": [
+        "Sequence as a function a_n on the natural numbers",
+        "Recursive vs. closed-form definition",
+        "Arithmetic and geometric sequences",
+        "Limit of a sequence"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.01-functions-review.function-properties"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.01-functions-review.sequences.lo1",
+        "calc1-biosoc.01-functions-review.sequences.lo2",
+        "calc1-biosoc.01-functions-review.sequences.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students confuse the index n with the value a_n and cannot translate between recursive and closed forms.",
+          "mitigation": "Tabulate the first several terms from each description and derive the closed form for geometric sequences explicitly."
+        },
+        {
+          "misconception": "Students assume every sequence converges or that a limit is always attained by some term.",
+          "mitigation": "Contrast convergent, divergent, and oscillating examples and connect to the upcoming limit definition."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s2-2"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept",
+      "module_id": "calc1-biosoc.02-limits-continuity",
+      "name": "The Limit Concept and Formal Definition",
+      "summary": "The limit of f(x) as x approaches a describes the value f(x) approaches as x gets arbitrarily close to a, independent of f(a). The formal epsilon-delta definition makes this precise and is used to prove basic limit laws.",
+      "key_definitions": [
+        "Limit: lim_{x->a} f(x) = L means that for every epsilon > 0 there exists delta > 0 such that 0 < |x - a| < delta implies |f(x) - L| < epsilon.",
+        "One-sided limit: lim_{x->a^-} f(x) and lim_{x->a^+} f(x), approached from below and above a respectively.",
+        "Two-sided limit exists iff both one-sided limits exist and are equal."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.01-functions-review.function-properties"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept.lo1",
+        "calc1-biosoc.02-limits-continuity.limit-concept.lo2",
+        "calc1-biosoc.02-limits-continuity.limit-concept.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students treat the limit as simply f(a), plugging in a and concluding the limit exists even when f is undefined or discontinuous at a.",
+          "mitigation": "Contrast examples where f(a) is undefined or differs from the limit (e.g., removable discontinuities) and require evaluating limits from tables and graphs before substitution."
+        },
+        {
+          "misconception": "Students read the epsilon-delta definition as a procedure to compute limits rather than a condition to verify a candidate value.",
+          "mitigation": "Work small epsilon-delta proofs where the candidate L is given, emphasizing the quantifier order (for every epsilon there exists delta) with concrete numeric examples."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s3-1",
+        "neuhauser.s3-6"
+      ],
+      "provenance": "source_backed"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.continuity",
+      "module_id": "calc1-biosoc.02-limits-continuity",
+      "name": "Continuity",
+      "summary": "A function is continuous at a point when its limit there equals its value; continuity on an interval requires this at every interior point with appropriate one-sided conditions at endpoints. Discontinuities are classified as removable, jump, or infinite.",
+      "key_definitions": [
+        "Continuity at a point: f is continuous at a if lim_{x->a} f(x) = f(a), which requires f(a) defined, the limit exists, and the two agree.",
+        "Removable discontinuity: the limit exists but does not equal f(a) (or f(a) is undefined).",
+        "Jump discontinuity: the one-sided limits exist but differ.",
+        "Infinite discontinuity: at least one one-sided limit is infinite."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.02-limits-continuity.continuity.lo1",
+        "calc1-biosoc.02-limits-continuity.continuity.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students believe a function drawn without lifting the pen is automatically continuous everywhere, missing that continuity is a pointwise property and can fail at a single point.",
+          "mitigation": "Give piecewise-defined examples continuous on most of their domain but discontinuous at one point, and have students test the three continuity conditions at that point."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s3-2"
+      ],
+      "provenance": "source_backed"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.limits-at-infinity",
+      "module_id": "calc1-biosoc.02-limits-continuity",
+      "name": "Limits at Infinity",
+      "summary": "Limits at infinity describe the long-run behavior of a function, including horizontal asymptotes. The formal definition extends the epsilon-delta framework to x growing without bound.",
+      "key_definitions": [
+        "Limit at infinity: lim_{x->infinity} f(x) = L means that for every epsilon > 0 there exists M such that x > M implies |f(x) - L| < epsilon.",
+        "Horizontal asymptote: the line y = L when lim_{x->infinity} f(x) = L or lim_{x->-infinity} f(x) = L."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept",
+        "calc1-biosoc.01-functions-review.exponential-growth-decay"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.02-limits-continuity.limits-at-infinity.lo1",
+        "calc1-biosoc.02-limits-continuity.limits-at-infinity.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students assume every function has a finite limit at infinity, or confuse a horizontal asymptote with a value the function actually reaches.",
+          "mitigation": "Compare rational functions of differing degrees, exponential growth versus decay, and oscillating functions, and stress that an asymptote describes approach, not attainment."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s3-3",
+        "neuhauser.s3-6"
+      ],
+      "provenance": "source_backed"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich",
+      "module_id": "calc1-biosoc.02-limits-continuity",
+      "name": "Trigonometric Limits and the Sandwich Theorem",
+      "summary": "Special trigonometric limits such as lim_{x->0} sin(x)/x = 1 are established geometrically, and the Sandwich (Squeeze) Theorem is used to evaluate limits by bounding a function between two simpler ones with a common limit.",
+      "key_definitions": [
+        "Sandwich Theorem: if g(x) <= f(x) <= h(x) near a and lim_{x->a} g(x) = lim_{x->a} h(x) = L, then lim_{x->a} f(x) = L.",
+        "Fundamental trigonometric limit: lim_{x->0} sin(x)/x = 1 (with x in radians)."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.02-limits-continuity.trig-limits-sandwich.lo1",
+        "calc1-biosoc.02-limits-continuity.trig-limits-sandwich.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students apply the sin(x)/x result with x in degrees, or assume sin(x)/x -> 1 for any argument without matching the argument to the denominator.",
+          "mitigation": "Emphasize the radian requirement and practice variants such as sin(kx)/x by rewriting the expression to expose the matching argument."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s3-4"
+      ],
+      "provenance": "source_backed"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties",
+      "module_id": "calc1-biosoc.02-limits-continuity",
+      "name": "Properties of Continuous Functions",
+      "summary": "Continuous functions on closed intervals satisfy powerful existence theorems — the Intermediate Value Theorem and the Extreme Value Theorem — that guarantee roots and extrema without explicit computation.",
+      "key_definitions": [
+        "Intermediate Value Theorem: if f is continuous on [a, b] and k lies between f(a) and f(b), there exists c in (a, b) with f(c) = k.",
+        "Extreme Value Theorem: if f is continuous on a closed interval [a, b], then f attains both a maximum and a minimum on [a, b]."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.continuity"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.02-limits-continuity.continuous-function-properties.lo1",
+        "calc1-biosoc.02-limits-continuity.continuous-function-properties.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students invoke the Intermediate Value Theorem to conclude a root exists without checking continuity on the closed interval, or apply the Extreme Value Theorem on an open interval.",
+          "mitigation": "Require students to state the hypotheses explicitly before each application and provide counterexamples where a hypothesis fails and the conclusion breaks down."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s3-5"
+      ],
+      "provenance": "source_backed"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.formal-definition",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Formal Definition of the Derivative",
+      "summary": "The derivative of a function at a point is defined as the limit of the difference quotient as the increment in the input approaches zero; geometrically it is the slope of the tangent line, and physically or biologically it is an instantaneous rate of change.",
+      "key_definitions": [
+        "Derivative at a point: f'(a) = lim_{h->0} [f(a+h) - f(a)] / h, provided the limit exists",
+        "Difference quotient: [f(a+h) - f(a)] / h, the average rate of change over an interval of length h",
+        "Differentiability at a point: the derivative exists as a finite limit at that point",
+        "Tangent line at a: the line through (a, f(a)) with slope f'(a)"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept",
+        "calc1-biosoc.02-limits-continuity.continuity",
+        "calc1-biosoc.01-functions-review.function-properties"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.formal-definition.lo1",
+        "calc1-biosoc.03-derivatives.formal-definition.lo2",
+        "calc1-biosoc.03-derivatives.formal-definition.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students treat f'(a) as just 'plug a into a formula' and lose track of the fact that the derivative is itself a limit, so they cannot compute a derivative from the definition when no rule applies.",
+          "mitigation": "Have students compute difference quotients and take the limit explicitly for a polynomial and for 1/x before any shortcut rules are introduced, and require the limit notation in every step."
+        },
+        {
+          "misconception": "Students assume every continuous function is differentiable, or that differentiability at a point is automatic from the graph looking smooth.",
+          "mitigation": "Contrast |x| at 0 and a jump discontinuity with worked left- and right-hand difference-quotient limits, and have students classify given graphs as continuous-only, differentiable-only, or both."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-1"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.basic-rules",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Basic Rules of Derivatives",
+      "summary": "Constant, constant-multiple, sum, and difference rules let derivatives of combinations of simple functions be computed term by term instead of from the limit definition each time.",
+      "key_definitions": [
+        "Constant rule: d/dx[c] = 0",
+        "Constant-multiple rule: d/dx[c f(x)] = c f'(x)",
+        "Sum and difference rules: d/dx[f(x) ± g(x)] = f'(x) ± g'(x)"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.formal-definition"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.basic-rules.lo1",
+        "calc1-biosoc.03-derivatives.basic-rules.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students apply the sum rule to products, writing (fg)' = f'g', because the rules all look like 'differentiate each piece'.",
+          "mitigation": "Show a counterexample with explicit functions (e.g. f = g = x) where (fg)' ≠ f'g', and postpone product-rule work until students can state why the sum rule does not extend to products."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-2"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.power-rule",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Power Rule and Rules of Differentiation",
+      "summary": "The power rule gives d/dx[x^n] = n x^{n-1} for constant exponents, and together with the basic rules it makes polynomial and simple rational-power derivatives routine.",
+      "key_definitions": [
+        "Power rule: d/dx[x^n] = n x^{n-1} for constant n",
+        "Rewriting before differentiating: expressing roots and reciprocals as powers so the power rule applies"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.basic-rules"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.power-rule.lo1",
+        "calc1-biosoc.03-derivatives.power-rule.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students apply the power rule to expressions with the variable in the exponent, such as 2^x, treating the exponent as a constant multiplier.",
+          "mitigation": "Have students sort a mixed list of expressions into 'power rule applies' and 'power rule does not apply' before introducing exponential derivatives, and revisit the sort after Section 4.9."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-3"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.product-quotient",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Product and Quotient Rules",
+      "summary": "The product rule and quotient rule give derivatives of products and ratios of differentiable functions in terms of the factors and their derivatives.",
+      "key_definitions": [
+        "Product rule: d/dx[f(x) g(x)] = f'(x) g(x) + f(x) g'(x)",
+        "Quotient rule: d/dx[f(x)/g(x)] = [f'(x) g(x) - f(x) g'(x)] / [g(x)]^2, where g(x) ≠ 0"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.power-rule"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.product-quotient.lo1",
+        "calc1-biosoc.03-derivatives.product-quotient.lo2",
+        "calc1-biosoc.03-derivatives.product-quotient.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students memorize the quotient rule with the terms in the wrong order or with the wrong sign, producing f'g - fg' over g^2 instead of fg' - f'g over g^2.",
+          "mitigation": "Anchor the quotient rule to the product rule by deriving it from f/g = f · g^{-1} with the chain rule, and have students re-derive it once before using it on problems."
+        },
+        {
+          "misconception": "Students drop the second term of the product rule when one factor is a constant or when the product is written in an unfamiliar order.",
+          "mitigation": "Require students to label f and g explicitly before differentiating, and include problems where the constant factor is written on either side."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-4"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.chain-rule",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "The Chain Rule",
+      "summary": "The chain rule differentiates compositions: d/dx[f(g(x))] = f'(g(x)) g'(x), expressing the derivative of a composite as the outer derivative evaluated at the inner function times the inner derivative.",
+      "key_definitions": [
+        "Chain rule: d/dx[f(g(x))] = f'(g(x)) g'(x)",
+        "Inner and outer functions: the decomposition of a composite into g (inner) and f (outer)"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.product-quotient"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.chain-rule.lo1",
+        "calc1-biosoc.03-derivatives.chain-rule.lo2",
+        "calc1-biosoc.03-derivatives.chain-rule.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students forget the inner derivative and write d/dx[f(g(x))] = f'(g(x)), effectively treating the composition as a single function.",
+          "mitigation": "Require an explicit decomposition step (name u = g(x), compute du/dx) on every chain-rule problem until students consistently include the inner factor."
+        },
+        {
+          "misconception": "Students cannot identify the inner function when the composition is nested more than once, such as sin(cos(x^2)).",
+          "mitigation": "Practice peeling compositions from the outside in, writing the chain as a product of derivatives at each layer before simplifying."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-5"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Implicit Functions and Implicit Differentiation",
+      "summary": "When a curve is given by an equation relating x and y rather than by y = f(x), implicit differentiation differentiates both sides with respect to x, treating y as a function of x, and solves for dy/dx.",
+      "key_definitions": [
+        "Implicit function: a relation F(x, y) = 0 that defines y locally as a function of x",
+        "Implicit differentiation: differentiating both sides of a relation with respect to x and applying the chain rule to terms involving y"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.chain-rule"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.implicit-differentiation.lo1",
+        "calc1-biosoc.03-derivatives.implicit-differentiation.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students differentiate y as if it were a constant, writing d/dx[y] = 0 instead of dy/dx.",
+          "mitigation": "Have students annotate every y-term with 'y is a function of x' and apply the chain rule explicitly to each y-term before solving for dy/dx."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-6"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Higher Derivatives",
+      "summary": "Higher derivatives are obtained by differentiating repeatedly; the second derivative measures the rate of change of the first derivative and carries physical and biological meaning such as acceleration.",
+      "key_definitions": [
+        "Second derivative: f''(x) = d/dx[f'(x)]",
+        "nth derivative: f^{(n)}(x), the result of differentiating f n times",
+        "Notation: f'', f^{(n)}, d^2y/dx^2"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.chain-rule"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.higher-derivatives.lo1",
+        "calc1-biosoc.03-derivatives.higher-derivatives.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students interpret the second derivative as the square of the first derivative, or as (f')^2, rather than as the derivative of f'.",
+          "mitigation": "Have students compute f'' by first writing f' explicitly and then differentiating that expression, and contrast f'' with (f')^2 numerically for a sample function."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-7"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Derivatives of Trigonometric Functions",
+      "summary": "The derivatives of sine and cosine follow from the limit definition together with the special trigonometric limits, and the remaining trigonometric derivatives follow by the quotient rule.",
+      "key_definitions": [
+        "d/dx[sin x] = cos x and d/dx[cos x] = -sin x",
+        "Derivatives of tan, cot, sec, and csc obtained from the quotient rule"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.chain-rule",
+        "calc1-biosoc.02-limits-continuity.trig-limits-sandwich"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.trig-derivatives.lo1",
+        "calc1-biosoc.03-derivatives.trig-derivatives.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students drop the negative sign in d/dx[cos x] = -sin x, or confuse the derivatives of sine and cosine.",
+          "mitigation": "Derive both derivatives from the limit definition once, and have students verify signs against the graphs of sine and cosine near zero."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-8"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Derivatives of Exponential Functions",
+      "summary": "The exponential function e^x is its own derivative, and more generally d/dx[a^x] = a^x ln a; combined with the chain rule this differentiates exponential models of growth and decay.",
+      "key_definitions": [
+        "d/dx[e^x] = e^x",
+        "d/dx[a^x] = a^x ln a for a > 0",
+        "The number e as the base for which the derivative of a^x equals a^x"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.chain-rule",
+        "calc1-biosoc.01-functions-review.exponential-growth-decay"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.exp-derivatives.lo1",
+        "calc1-biosoc.03-derivatives.exp-derivatives.lo2",
+        "calc1-biosoc.03-derivatives.exp-derivatives.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students apply the power rule to exponentials, writing d/dx[2^x] = x 2^{x-1}.",
+          "mitigation": "Revisit the earlier sort of power-rule versus non-power-rule expressions, and derive d/dx[a^x] = a^x ln a from the limit definition so the ln a factor is not a memorized afterthought."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-9"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Derivatives of Inverse Functions",
+      "summary": "If f is one-to-one and differentiable with nonzero derivative, its inverse is differentiable and (f^{-1})'(y) = 1 / f'(x) where y = f(x); this yields the derivatives of the logarithmic and inverse trigonometric functions.",
+      "key_definitions": [
+        "Inverse function derivative: (f^{-1})'(y) = 1 / f'(f^{-1}(y))",
+        "d/dx[ln x] = 1/x for x > 0",
+        "Derivatives of inverse trigonometric functions obtained from the inverse-function rule"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.exp-derivatives",
+        "calc1-biosoc.03-derivatives.implicit-differentiation"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.inverse-derivatives.lo1",
+        "calc1-biosoc.03-derivatives.inverse-derivatives.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students write the derivative of the inverse as the inverse of the derivative, i.e. (f^{-1})'(x) = 1/f'(x), without evaluating f' at the correct point.",
+          "mitigation": "Work through a table-based example where f(2) = 5 and f'(2) = 3, and have students compute (f^{-1})'(5) explicitly before generalizing."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-10"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.linear-approximation",
+      "module_id": "calc1-biosoc.03-derivatives",
+      "name": "Linear Approximation",
+      "summary": "Near a point where f is differentiable, f can be approximated by its tangent line, f(x) ≈ f(a) + f'(a)(x - a); this linearization estimates function values and underlies the differential notation dy = f'(a) dx.",
+      "key_definitions": [
+        "Linearization of f at a: L(x) = f(a) + f'(a)(x - a)",
+        "Differential: dy = f'(a) dx, the change in the linear approximation corresponding to a change dx in x"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.formal-definition",
+        "calc1-biosoc.03-derivatives.chain-rule"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.03-derivatives.linear-approximation.lo1",
+        "calc1-biosoc.03-derivatives.linear-approximation.lo2",
+        "calc1-biosoc.03-derivatives.linear-approximation.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students use the linear approximation far from the base point and treat the estimate as exact, without checking that the approximation is only local.",
+          "mitigation": "Have students compare L(x) with f(x) at increasing distances from a and discuss where the error becomes unacceptable, tying the discussion to the tangent-line picture."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s4-11"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+      "module_id": "calc1-biosoc.04-diff-applications",
+      "name": "Extreme Value Theorem and Mean Value Theorem",
+      "summary": "The Extreme Value Theorem guarantees that a continuous function on a closed interval attains a maximum and minimum; the Mean Value Theorem guarantees a point where the instantaneous rate equals the average rate of change. Both underpin the later analysis of monotonicity, extrema, and optimization.",
+      "key_definitions": [
+        "Absolute (global) maximum/minimum on an interval",
+        "Local (relative) extremum",
+        "Critical point: an interior point where f'(c)=0 or f'(c) does not exist",
+        "Extreme Value Theorem: if f is continuous on [a,b], then f attains an absolute max and min on [a,b]",
+        "Mean Value Theorem: if f is continuous on [a,b] and differentiable on (a,b), there exists c in (a,b) with f'(c) = (f(b)-f(a))/(b-a)"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.continuity",
+        "calc1-biosoc.02-limits-continuity.continuous-function-properties",
+        "calc1-biosoc.03-derivatives.formal-definition"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo1",
+        "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo2",
+        "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students treat the hypotheses of the Extreme Value Theorem and Mean Value Theorem as optional, applying them to functions that are discontinuous or to open intervals.",
+          "mitigation": "Have students construct counterexamples (e.g., f(x)=1/x on (0,1], or f(x)=|x| on [-1,1]) and identify exactly which hypothesis fails."
+        },
+        {
+          "misconception": "Students believe the Mean Value Theorem identifies a unique point c, or that c must be a critical point.",
+          "mitigation": "Use a sketch with a secant line and several parallel tangents to show c need not be unique and need not satisfy f'(c)=0."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s5-1"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+      "module_id": "calc1-biosoc.04-diff-applications",
+      "name": "Monotonicity and Concavity",
+      "summary": "The sign of the first derivative determines where a function is increasing or decreasing, and the sign of the second derivative determines concavity. These sign analyses translate derivative information into a qualitative description of a function's graph.",
+      "key_definitions": [
+        "Increasing/decreasing on an interval",
+        "Concave up / concave down",
+        "First-derivative test for monotonicity",
+        "Second-derivative test for concavity"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+        "calc1-biosoc.03-derivatives.higher-derivatives",
+        "calc1-biosoc.03-derivatives.basic-rules"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo1",
+        "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo2",
+        "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students conflate 'increasing' with 'positive' and 'decreasing' with 'negative', rather than reading the sign of the derivative.",
+          "mitigation": "Give sign-chart exercises where f is positive but decreasing, and require students to justify intervals using f' rather than f."
+        },
+        {
+          "misconception": "Students assume a function is concave up wherever it is increasing.",
+          "mitigation": "Contrast f(x)=x^2 on (0,∞) with f(x)=sqrt(x) on (0,∞) to separate first- and second-derivative information."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s5-2"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+      "module_id": "calc1-biosoc.04-diff-applications",
+      "name": "Extrema and Inflection Points",
+      "summary": "Critical points and sign changes of the first derivative locate local extrema, while sign changes of the second derivative locate inflection points. Together with endpoint behavior, these produce a complete sketch of a function's graph.",
+      "key_definitions": [
+        "Local maximum/minimum at a critical point",
+        "First-derivative test",
+        "Second-derivative test",
+        "Inflection point: a point where concavity changes"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+        "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+        "calc1-biosoc.03-derivatives.higher-derivatives"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo1",
+        "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo2",
+        "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students treat every critical point as an extremum, or every point with f''(x)=0 as an inflection point.",
+          "mitigation": "Use f(x)=x^3 (critical point but no extremum) and f(x)=x^4 (f''(0)=0 but no inflection) as explicit counterexamples."
+        },
+        {
+          "misconception": "Students apply the second-derivative test when f''(c)=0 and conclude 'no extremum' rather than 'test inconclusive'.",
+          "mitigation": "Require students to state the test's conclusion explicitly and fall back to the first-derivative test when f''(c)=0."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s5-3"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.optimization",
+      "module_id": "calc1-biosoc.04-diff-applications",
+      "name": "Optimization",
+      "summary": "Optimization uses derivatives to find the largest or smallest value of a quantity subject to constraints, typically by expressing the quantity as a function of one variable, locating critical points, and verifying the extremum on the relevant interval.",
+      "key_definitions": [
+        "Objective function",
+        "Constraint equation",
+        "Feasible interval",
+        "Closed-interval (candidate) method for absolute extrema"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+        "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+        "calc1-biosoc.03-derivatives.chain-rule"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.04-diff-applications.optimization.lo1",
+        "calc1-biosoc.04-diff-applications.optimization.lo2",
+        "calc1-biosoc.04-diff-applications.optimization.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students set the derivative to zero without first reducing the objective to a single variable using the constraint.",
+          "mitigation": "Require an explicit 'constraint → substitution → single-variable objective' step before differentiating."
+        },
+        {
+          "misconception": "Students report a critical point as the answer without checking endpoints or confirming it is a maximum/minimum on the feasible interval.",
+          "mitigation": "Insist on the closed-interval candidate method or a sign/concavity justification for every optimization answer."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s5-4"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule",
+      "module_id": "calc1-biosoc.04-diff-applications",
+      "name": "L'Hôpital's Rule",
+      "summary": "L'Hôpital's Rule evaluates limits of indeterminate forms 0/0 and ∞/∞ by replacing the ratio of functions with the ratio of their derivatives, and can be extended to other indeterminate forms after algebraic rewriting.",
+      "key_definitions": [
+        "Indeterminate form 0/0 and ∞/∞",
+        "L'Hôpital's Rule statement and hypotheses",
+        "Other indeterminate forms (0·∞, ∞−∞, 1^∞, 0^0, ∞^0) and their reductions"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept",
+        "calc1-biosoc.02-limits-continuity.limits-at-infinity",
+        "calc1-biosoc.03-derivatives.basic-rules",
+        "calc1-biosoc.03-derivatives.exp-derivatives"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.04-diff-applications.lhopitals-rule.lo1",
+        "calc1-biosoc.04-diff-applications.lhopitals-rule.lo2",
+        "calc1-biosoc.04-diff-applications.lhopitals-rule.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students apply L'Hôpital's Rule to limits that are not indeterminate (e.g., 1/0 or 2/3).",
+          "mitigation": "Require students to verify and label the indeterminate form before differentiating."
+        },
+        {
+          "misconception": "Students differentiate the quotient as a whole (using the quotient rule) instead of differentiating numerator and denominator separately.",
+          "mitigation": "Contrast d/dx[f/g] with f'/g' in a worked example and emphasize the rule replaces the ratio, not the quotient rule."
+        },
+        {
+          "misconception": "Students stop after one application when the form is still indeterminate, or loop indefinitely without simplifying.",
+          "mitigation": "Have students re-check the form after each application and simplify algebraically between steps."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s5-5"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.antiderivatives",
+      "module_id": "calc1-biosoc.05-integration",
+      "name": "Antiderivatives",
+      "summary": "An antiderivative of a function f is a function F whose derivative is f; the family of all antiderivatives differs by an additive constant, and basic antiderivative rules invert the differentiation rules.",
+      "key_definitions": [
+        "Antiderivative: F is an antiderivative of f on an interval I if F'(x) = f(x) for all x in I.",
+        "Indefinite integral: ∫f(x) dx = F(x) + C, the family of all antiderivatives of f.",
+        "Constant of integration: the arbitrary additive constant C distinguishing members of the antiderivative family."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.basic-rules",
+        "calc1-biosoc.03-derivatives.power-rule",
+        "calc1-biosoc.03-derivatives.trig-derivatives",
+        "calc1-biosoc.03-derivatives.exp-derivatives"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.05-integration.antiderivatives.lo1",
+        "calc1-biosoc.05-integration.antiderivatives.lo2",
+        "calc1-biosoc.05-integration.antiderivatives.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students drop the constant of integration or treat ∫f(x)dx as a single function rather than a family of functions.",
+          "mitigation": "Have students verify antiderivatives by differentiating and show that two antiderivatives of the same function differ by a constant on an interval."
+        },
+        {
+          "misconception": "Students apply the power rule for derivatives verbatim to antiderivatives, writing ∫x^n dx = n x^(n-1) instead of raising the exponent.",
+          "mitigation": "Derive the antiderivative power rule by differentiating x^(n+1)/(n+1) and contrast it side-by-side with the derivative power rule."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s5-10"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.definite-integral",
+      "module_id": "calc1-biosoc.05-integration",
+      "name": "The Definite Integral",
+      "summary": "The definite integral of a nonnegative function over an interval is the limit of Riemann sums and equals the area under the curve; it is defined via partitions, sample points, and the limit as the mesh goes to zero.",
+      "key_definitions": [
+        "Riemann sum: Σ f(x_i*) Δx over a partition of [a,b] with sample points x_i*.",
+        "Definite integral: ∫_a^b f(x) dx = lim_{mesh→0} Σ f(x_i*) Δx, when the limit exists.",
+        "Integrable function: a function for which the Riemann-sum limit exists; continuous functions on [a,b] are integrable.",
+        "Signed area: the definite integral counts area below the x-axis as negative."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.02-limits-continuity.limit-concept",
+        "calc1-biosoc.02-limits-continuity.continuity",
+        "calc1-biosoc.05-integration.antiderivatives"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.05-integration.definite-integral.lo1",
+        "calc1-biosoc.05-integration.definite-integral.lo2",
+        "calc1-biosoc.05-integration.definite-integral.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students conflate the definite integral with an antiderivative and expect ∫_a^b f(x) dx to be a function of x rather than a number.",
+          "mitigation": "Emphasize the definite integral as a limit of sums producing a real number, and compute simple integrals directly from Riemann sums before introducing the Fundamental Theorem."
+        },
+        {
+          "misconception": "Students assume the integral always equals geometric area and ignore sign for functions that dip below the axis.",
+          "mitigation": "Work examples with sign changes and compare the Riemann-sum limit with the net signed area, distinguishing it from total area."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s6-1"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.ftc",
+      "module_id": "calc1-biosoc.05-integration",
+      "name": "The Fundamental Theorem of Calculus",
+      "summary": "The Fundamental Theorem of Calculus links differentiation and integration: the integral function of a continuous f is an antiderivative of f, and the definite integral of f equals F(b) − F(a) for any antiderivative F.",
+      "key_definitions": [
+        "Accumulation function: A(x) = ∫_a^x f(t) dt, whose derivative is f(x) when f is continuous.",
+        "FTC Part 1: If f is continuous on [a,b], then d/dx ∫_a^x f(t) dt = f(x).",
+        "FTC Part 2 (Evaluation Theorem): If F is any antiderivative of f on [a,b], then ∫_a^b f(x) dx = F(b) − F(a)."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.05-integration.antiderivatives",
+        "calc1-biosoc.05-integration.definite-integral",
+        "calc1-biosoc.02-limits-continuity.continuous-function-properties"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.05-integration.ftc.lo1",
+        "calc1-biosoc.05-integration.ftc.lo2",
+        "calc1-biosoc.05-integration.ftc.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students treat the two parts of the FTC as unrelated facts and cannot explain why differentiation and integration are inverse processes.",
+          "mitigation": "Derive Part 1 from the definition of the derivative of the accumulation function and use it to motivate Part 2, showing the inverse relationship explicitly."
+        },
+        {
+          "misconception": "Students apply FTC Part 2 to functions that are not continuous on the interval or forget that F must be an antiderivative on the whole interval.",
+          "mitigation": "Include examples where continuity fails and require students to check hypotheses before evaluating."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s6-2"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.integration-applications",
+      "module_id": "calc1-biosoc.05-integration",
+      "name": "Applications of Integration",
+      "summary": "Definite integrals model accumulated change and geometric quantities, including net change from a rate, area between curves, and average value of a function, with applications drawn from biology and the social sciences.",
+      "key_definitions": [
+        "Net change theorem: ∫_a^b F'(x) dx = F(b) − F(a), the integral of a rate of change gives total change.",
+        "Area between curves: ∫_a^b (f(x) − g(x)) dx for f(x) ≥ g(x) on [a,b].",
+        "Average value of f on [a,b]: (1/(b−a)) ∫_a^b f(x) dx."
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.05-integration.definite-integral",
+        "calc1-biosoc.05-integration.ftc"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.05-integration.integration-applications.lo1",
+        "calc1-biosoc.05-integration.integration-applications.lo2",
+        "calc1-biosoc.05-integration.integration-applications.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students set up area-between-curves integrals without checking which curve is on top, producing sign errors.",
+          "mitigation": "Require a sketch and an explicit comparison of f and g on the interval before writing the integral."
+        },
+        {
+          "misconception": "Students cannot translate a word problem about a rate (e.g., population growth rate, marginal cost) into a definite integral of that rate.",
+          "mitigation": "Practice the net-change interpretation with concrete bio/social-science contexts, matching given units of the rate to units of the accumulated quantity."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s6-3"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule",
+      "module_id": "calc1-biosoc.06-integral-applications",
+      "name": "The Substitution Rule",
+      "summary": "The substitution rule (u-substitution) reverses the chain rule: by replacing an inner function with a new variable u, an integral of the form ∫ f(g(x))g'(x) dx becomes ∫ f(u) du, which is often elementary. For definite integrals the limits must be converted to u-values, or the antiderivative must be re-expressed in x before evaluating.",
+      "key_definitions": [
+        "Substitution rule (u-substitution): ∫ f(g(x))g'(x) dx = ∫ f(u) du where u = g(x), du = g'(x) dx",
+        "Change of limits: for a definite integral, when u = g(x), the new limits are g(a) and g(b)",
+        "Differential: du = g'(x) dx, the formal device that converts the integrand and the differential together"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.chain-rule",
+        "calc1-biosoc.05-integration.antiderivatives",
+        "calc1-biosoc.05-integration.ftc"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.06-integral-applications.substitution-rule.lo1",
+        "calc1-biosoc.06-integral-applications.substitution-rule.lo2",
+        "calc1-biosoc.06-integral-applications.substitution-rule.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students substitute u = g(x) but leave the differential as dx, producing a mixed integral in both x and u.",
+          "mitigation": "Require every substitution to be written as a pair (u = g(x), du = g'(x) dx) before any integration, and check that no x remains in the transformed integral."
+        },
+        {
+          "misconception": "On definite integrals students change the variable to u but keep the original x-limits, evaluating the u-antiderivative at x-values.",
+          "mitigation": "Insist on one of two explicit workflows: convert limits to u-values at the moment of substitution, or back-substitute to x before applying the original limits — never mix the two."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s7-1"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.integration-by-parts",
+      "module_id": "calc1-biosoc.06-integral-applications",
+      "name": "Integration by Parts",
+      "summary": "Integration by parts reverses the product rule: ∫ u dv = uv − ∫ v du. It converts an integral into a hopefully simpler one and is the standard tool for products of polynomial, exponential, logarithmic, and trigonometric factors, sometimes applied repeatedly.",
+      "key_definitions": [
+        "Integration by parts formula: ∫ u dv = uv − ∫ v du (indefinite) and ∫_a^b u dv = [uv]_a^b − ∫_a^b v du (definite)",
+        "Choice of u and dv: the assignment of factors in the integrand to u (to be differentiated) and dv (to be integrated)"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.03-derivatives.product-quotient",
+        "calc1-biosoc.05-integration.antiderivatives",
+        "calc1-biosoc.06-integral-applications.substitution-rule"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.06-integral-applications.integration-by-parts.lo1",
+        "calc1-biosoc.06-integral-applications.integration-by-parts.lo2",
+        "calc1-biosoc.06-integral-applications.integration-by-parts.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students pick u and dv arbitrarily, producing a new integral ∫ v du that is harder than the original.",
+          "mitigation": "Teach a selection heuristic (e.g. choose u so that differentiating it simplifies it — logarithmic, inverse-trig, polynomial, exponential, trig in that priority) and have students predict whether ∫ v du is simpler before committing."
+        },
+        {
+          "misconception": "Students forget the minus sign or drop the boundary term [uv]_a^b in the definite-integral version.",
+          "mitigation": "Have students write the full template ∫_a^b u dv = [uv]_a^b − ∫_a^b v du with the bracket explicitly before substituting any functions."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s7-2"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.partial-fractions",
+      "module_id": "calc1-biosoc.06-integral-applications",
+      "name": "Rational Functions and Partial Fractions",
+      "summary": "Rational functions P(x)/Q(x) with deg P < deg Q can be decomposed into a sum of simpler fractions whose denominators are the linear and irreducible quadratic factors of Q(x); each simple fraction is then integrated by standard rules (logarithms and arctangents). If deg P ≥ deg Q, polynomial long division is performed first.",
+      "key_definitions": [
+        "Proper rational function: a rational function P(x)/Q(x) with deg P < deg Q",
+        "Partial fraction decomposition: writing a proper rational function as a sum of terms A/(x − r)^k and (Bx + C)/(x^2 + bx + c)^k corresponding to the factors of Q(x)",
+        "Repeated linear factor: a factor (x − r)^k requires terms A_1/(x − r) + … + A_k/(x − r)^k"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.05-integration.antiderivatives",
+        "calc1-biosoc.06-integral-applications.substitution-rule"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.06-integral-applications.partial-fractions.lo1",
+        "calc1-biosoc.06-integral-applications.partial-fractions.lo2",
+        "calc1-biosoc.06-integral-applications.partial-fractions.lo3"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students attempt partial fractions on an improper rational function (deg P ≥ deg Q) without first dividing.",
+          "mitigation": "Make degree comparison the mandatory first step of every rational-integral problem, with long division performed whenever deg P ≥ deg Q."
+        },
+        {
+          "misconception": "Students set up the decomposition with the wrong number of terms for repeated or irreducible quadratic factors (e.g. a single A/(x − r)^2 instead of A/(x − r) + B/(x − r)^2).",
+          "mitigation": "Require students to fully factor Q(x) over the reals and write one term per power of each factor before solving for constants."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s7-3"
+      ],
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.integration-strategy",
+      "module_id": "calc1-biosoc.06-integral-applications",
+      "name": "Practicing Integration: Choosing a Technique",
+      "summary": "Given an arbitrary integral, the student must classify the integrand and select among substitution, integration by parts, partial fractions, or a combination, sometimes applying techniques in sequence. This is the synthesis concept of the module: recognizing which tool applies rather than executing a prescribed one.",
+      "key_definitions": [
+        "Integration strategy: an ordered decision procedure — simplify the integrand, look for an obvious substitution, classify as a product (parts) or rational function (partial fractions), and iterate"
+      ],
+      "prerequisite_ids": [
+        "calc1-biosoc.06-integral-applications.substitution-rule",
+        "calc1-biosoc.06-integral-applications.integration-by-parts",
+        "calc1-biosoc.06-integral-applications.partial-fractions"
+      ],
+      "objective_ids": [
+        "calc1-biosoc.06-integral-applications.integration-strategy.lo1",
+        "calc1-biosoc.06-integral-applications.integration-strategy.lo2"
+      ],
+      "difficulty_notes": [
+        {
+          "misconception": "Students default to whichever technique was most recently taught regardless of the integrand's structure.",
+          "mitigation": "Use mixed practice sets with no technique labels and require students to justify their choice of method in one sentence before integrating."
+        },
+        {
+          "misconception": "Students stop after one technique when a second is needed (e.g. a substitution followed by parts).",
+          "mitigation": "Assign multi-step problems explicitly and have students annotate each stage of the solution with the technique used."
+        }
+      ],
+      "source_ids": [
+        "neuhauser.s7-2"
+      ],
+      "provenance": "ai_inferred"
+    }
+  ],
+  "LearningObjective": [
+    {
+      "id": "calc1-biosoc.01-functions-review.function-properties.lo1",
+      "concept_id": "calc1-biosoc.01-functions-review.function-properties",
+      "text": "Determine the domain and range of a given function and identify its family (polynomial, rational, exponential, logarithmic, trigonometric).",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.function-properties.lo2",
+      "concept_id": "calc1-biosoc.01-functions-review.function-properties",
+      "text": "Form compositions and inverses of functions and verify the inverse relationship by composition.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.function-properties.lo3",
+      "concept_id": "calc1-biosoc.01-functions-review.function-properties",
+      "text": "Explain how the shape and behavior of each standard function family will matter for limits and derivatives later in the course.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay.lo1",
+      "concept_id": "calc1-biosoc.01-functions-review.exponential-growth-decay",
+      "text": "Model a growth or decay situation with N(t) = N0 e^{rt} and interpret N0 and r in context.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay.lo2",
+      "concept_id": "calc1-biosoc.01-functions-review.exponential-growth-decay",
+      "text": "Convert between exponential forms and compute doubling time or half-life from the growth constant.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay.lo3",
+      "concept_id": "calc1-biosoc.01-functions-review.exponential-growth-decay",
+      "text": "Evaluate the assumptions and limitations of an exponential model in a biological or social-science setting.",
+      "bloom_level": "evaluate",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.sequences.lo1",
+      "concept_id": "calc1-biosoc.01-functions-review.sequences",
+      "text": "Describe a sequence by both a recursive and a closed-form rule and convert between the two for arithmetic and geometric cases.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.sequences.lo2",
+      "concept_id": "calc1-biosoc.01-functions-review.sequences",
+      "text": "Determine the limit of a simple sequence and classify it as convergent or divergent.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.01-functions-review.sequences.lo3",
+      "concept_id": "calc1-biosoc.01-functions-review.sequences",
+      "text": "Explain how the limit of a sequence anticipates the limit of a function.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept.lo1",
+      "concept_id": "calc1-biosoc.02-limits-continuity.limit-concept",
+      "text": "Explain in words what lim_{x->a} f(x) = L means and why the value of f(a) is irrelevant to the limit.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept.lo2",
+      "concept_id": "calc1-biosoc.02-limits-continuity.limit-concept",
+      "text": "Apply the formal epsilon-delta definition to verify a stated limit for a simple linear or quadratic function.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept.lo3",
+      "concept_id": "calc1-biosoc.02-limits-continuity.limit-concept",
+      "text": "Evaluate one-sided and two-sided limits from graphs, tables, and algebraic manipulation, determining when a limit fails to exist.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.continuity.lo1",
+      "concept_id": "calc1-biosoc.02-limits-continuity.continuity",
+      "text": "Determine whether a function is continuous at a point or on an interval by checking the continuity conditions.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.continuity.lo2",
+      "concept_id": "calc1-biosoc.02-limits-continuity.continuity",
+      "text": "Classify a given discontinuity as removable, jump, or infinite and justify the classification.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.limits-at-infinity.lo1",
+      "concept_id": "calc1-biosoc.02-limits-continuity.limits-at-infinity",
+      "text": "Evaluate limits at infinity for rational, exponential, and algebraic functions and identify horizontal asymptotes.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.limits-at-infinity.lo2",
+      "concept_id": "calc1-biosoc.02-limits-continuity.limits-at-infinity",
+      "text": "State the formal definition of a limit at infinity and use it to verify a simple long-run limit.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich.lo1",
+      "concept_id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich",
+      "text": "Derive or justify the limit lim_{x->0} sin(x)/x = 1 using a geometric argument.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich.lo2",
+      "concept_id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich",
+      "text": "Apply the Sandwich Theorem to evaluate limits by constructing appropriate bounding functions.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties.lo1",
+      "concept_id": "calc1-biosoc.02-limits-continuity.continuous-function-properties",
+      "text": "Use the Intermediate Value Theorem to show that an equation has a solution on a given interval.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties.lo2",
+      "concept_id": "calc1-biosoc.02-limits-continuity.continuous-function-properties",
+      "text": "Evaluate when the Extreme Value Theorem applies and explain why its hypotheses are necessary.",
+      "bloom_level": "evaluate",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.formal-definition.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.formal-definition",
+      "text": "State the limit definition of the derivative at a point and explain each part of the difference quotient.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.formal-definition.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.formal-definition",
+      "text": "Compute the derivative of a given function at a point directly from the limit definition.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.formal-definition.lo3",
+      "concept_id": "calc1-biosoc.03-derivatives.formal-definition",
+      "text": "Determine from a graph or a piecewise formula whether a function is differentiable at a point, and relate differentiability to continuity.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.basic-rules.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.basic-rules",
+      "text": "State the constant, constant-multiple, sum, and difference rules for derivatives.",
+      "bloom_level": "remember",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.basic-rules.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.basic-rules",
+      "text": "Differentiate polynomials and simple sums and differences using the basic rules.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.power-rule.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.power-rule",
+      "text": "State the power rule and identify the class of functions to which it applies.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.power-rule.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.power-rule",
+      "text": "Rewrite roots and reciprocals as powers and differentiate them with the power rule.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.product-quotient.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.product-quotient",
+      "text": "State the product and quotient rules correctly, including the order of terms and signs.",
+      "bloom_level": "remember",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.product-quotient.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.product-quotient",
+      "text": "Apply the product and quotient rules to differentiate products and ratios of polynomial, rational, and trigonometric functions.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.product-quotient.lo3",
+      "concept_id": "calc1-biosoc.03-derivatives.product-quotient",
+      "text": "Derive the quotient rule from the product rule and the chain rule.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.chain-rule.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.chain-rule",
+      "text": "State the chain rule and identify the inner and outer functions in a composite.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.chain-rule.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.chain-rule",
+      "text": "Differentiate composite functions, including nested compositions, using the chain rule.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.chain-rule.lo3",
+      "concept_id": "calc1-biosoc.03-derivatives.chain-rule",
+      "text": "Combine the chain rule with the product and quotient rules to differentiate complex expressions.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.implicit-differentiation",
+      "text": "Explain why differentiating a term in y requires the chain rule when y is treated as a function of x.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.implicit-differentiation",
+      "text": "Use implicit differentiation to find dy/dx for a curve given by an equation in x and y.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.higher-derivatives",
+      "text": "Compute second and higher derivatives of a given function.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.higher-derivatives",
+      "text": "Interpret the second derivative as the rate of change of the first derivative in a physical or biological context.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.trig-derivatives",
+      "text": "State the derivatives of sine and cosine and derive them from the limit definition using the special trigonometric limits.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.trig-derivatives",
+      "text": "Differentiate expressions involving trigonometric functions using the quotient rule and the chain rule.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.exp-derivatives",
+      "text": "State and justify that d/dx[e^x] = e^x and d/dx[a^x] = a^x ln a.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.exp-derivatives",
+      "text": "Differentiate exponential functions, including compositions with the chain rule.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives.lo3",
+      "concept_id": "calc1-biosoc.03-derivatives.exp-derivatives",
+      "text": "Apply exponential derivatives to compute instantaneous rates of change in exponential growth and decay models.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.inverse-derivatives",
+      "text": "State the inverse-function derivative formula and explain the condition under which it applies.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.inverse-derivatives",
+      "text": "Use the inverse-function rule to compute derivatives of inverse functions, including ln x and inverse trigonometric functions.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.linear-approximation.lo1",
+      "concept_id": "calc1-biosoc.03-derivatives.linear-approximation",
+      "text": "Construct the linearization of a differentiable function at a point.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.linear-approximation.lo2",
+      "concept_id": "calc1-biosoc.03-derivatives.linear-approximation",
+      "text": "Use a linear approximation to estimate a function value and its change near a base point.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.03-derivatives.linear-approximation.lo3",
+      "concept_id": "calc1-biosoc.03-derivatives.linear-approximation",
+      "text": "Evaluate the accuracy of a linear approximation and explain why it is only local.",
+      "bloom_level": "evaluate",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo1",
+      "concept_id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+      "text": "State the Extreme Value Theorem and the Mean Value Theorem, including all hypotheses.",
+      "bloom_level": "remember",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo2",
+      "concept_id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+      "text": "Explain why each hypothesis is necessary by constructing counterexamples when it fails.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo3",
+      "concept_id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+      "text": "Apply the Mean Value Theorem to find a point where the instantaneous rate equals the average rate of change on an interval.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo1",
+      "concept_id": "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+      "text": "Determine intervals of increase and decrease from the sign of the first derivative.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo2",
+      "concept_id": "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+      "text": "Determine intervals of concavity from the sign of the second derivative.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo3",
+      "concept_id": "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+      "text": "Construct a sign chart for f' and f'' and use it to describe the shape of a graph.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo1",
+      "concept_id": "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+      "text": "Classify critical points as local maxima, local minima, or neither using the first- and second-derivative tests.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo2",
+      "concept_id": "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+      "text": "Identify inflection points and explain their relationship to concavity changes.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo3",
+      "concept_id": "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+      "text": "Sketch the graph of a function using information from its first and second derivatives.",
+      "bloom_level": "create",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.optimization.lo1",
+      "concept_id": "calc1-biosoc.04-diff-applications.optimization",
+      "text": "Translate a word problem into an objective function and a constraint.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.optimization.lo2",
+      "concept_id": "calc1-biosoc.04-diff-applications.optimization",
+      "text": "Solve constrained optimization problems by reducing to one variable and locating extrema.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.optimization.lo3",
+      "concept_id": "calc1-biosoc.04-diff-applications.optimization",
+      "text": "Justify that a candidate solution is a global extremum on the feasible interval, including endpoint checks.",
+      "bloom_level": "evaluate",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule.lo1",
+      "concept_id": "calc1-biosoc.04-diff-applications.lhopitals-rule",
+      "text": "Identify indeterminate forms 0/0 and ∞/∞ and state the hypotheses of L'Hôpital's Rule.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule.lo2",
+      "concept_id": "calc1-biosoc.04-diff-applications.lhopitals-rule",
+      "text": "Apply L'Hôpital's Rule to evaluate limits of indeterminate form, including repeated applications.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule.lo3",
+      "concept_id": "calc1-biosoc.04-diff-applications.lhopitals-rule",
+      "text": "Rewrite other indeterminate forms (0·∞, ∞−∞, 1^∞, 0^0, ∞^0) into 0/0 or ∞/∞ and evaluate the limit.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.antiderivatives.lo1",
+      "concept_id": "calc1-biosoc.05-integration.antiderivatives",
+      "text": "Define an antiderivative and explain why antiderivatives of a function differ by an additive constant.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.antiderivatives.lo2",
+      "concept_id": "calc1-biosoc.05-integration.antiderivatives",
+      "text": "Compute indefinite integrals of power, polynomial, trigonometric, and exponential functions using basic antiderivative rules.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.antiderivatives.lo3",
+      "concept_id": "calc1-biosoc.05-integration.antiderivatives",
+      "text": "Verify a proposed antiderivative by differentiation and determine the constant from an initial condition.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.definite-integral.lo1",
+      "concept_id": "calc1-biosoc.05-integration.definite-integral",
+      "text": "Explain the definite integral as the limit of Riemann sums over partitions of an interval.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.definite-integral.lo2",
+      "concept_id": "calc1-biosoc.05-integration.definite-integral",
+      "text": "Approximate a definite integral using Riemann sums and interpret the result as signed area.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.definite-integral.lo3",
+      "concept_id": "calc1-biosoc.05-integration.definite-integral",
+      "text": "Evaluate definite integrals of simple functions directly from the definition.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.ftc.lo1",
+      "concept_id": "calc1-biosoc.05-integration.ftc",
+      "text": "State both parts of the Fundamental Theorem of Calculus and explain how they show differentiation and integration are inverse processes.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.ftc.lo2",
+      "concept_id": "calc1-biosoc.05-integration.ftc",
+      "text": "Differentiate accumulation functions using FTC Part 1, including cases with a variable upper limit.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.ftc.lo3",
+      "concept_id": "calc1-biosoc.05-integration.ftc",
+      "text": "Evaluate definite integrals using FTC Part 2 and an antiderivative, checking the continuity hypotheses.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.integration-applications.lo1",
+      "concept_id": "calc1-biosoc.05-integration.integration-applications",
+      "text": "Apply the net change theorem to compute total change from a rate of change in biological and social-science contexts.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.integration-applications.lo2",
+      "concept_id": "calc1-biosoc.05-integration.integration-applications",
+      "text": "Set up and evaluate definite integrals for the area between two curves.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.05-integration.integration-applications.lo3",
+      "concept_id": "calc1-biosoc.05-integration.integration-applications",
+      "text": "Compute the average value of a function on an interval and interpret it in context.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule.lo1",
+      "concept_id": "calc1-biosoc.06-integral-applications.substitution-rule",
+      "text": "Explain how the substitution rule reverses the chain rule and state the rule for both indefinite and definite integrals.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule.lo2",
+      "concept_id": "calc1-biosoc.06-integral-applications.substitution-rule",
+      "text": "Apply u-substitution to evaluate indefinite integrals, including choosing u and converting the differential.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule.lo3",
+      "concept_id": "calc1-biosoc.06-integral-applications.substitution-rule",
+      "text": "Evaluate definite integrals by substitution, correctly converting the limits of integration.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.integration-by-parts.lo1",
+      "concept_id": "calc1-biosoc.06-integral-applications.integration-by-parts",
+      "text": "Derive the integration-by-parts formula from the product rule and state it for indefinite and definite integrals.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.integration-by-parts.lo2",
+      "concept_id": "calc1-biosoc.06-integral-applications.integration-by-parts",
+      "text": "Apply integration by parts to evaluate integrals involving products of polynomial, exponential, logarithmic, and trigonometric functions.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.integration-by-parts.lo3",
+      "concept_id": "calc1-biosoc.06-integral-applications.integration-by-parts",
+      "text": "Evaluate integrals requiring repeated application of integration by parts and justify the choice of u and dv.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.partial-fractions.lo1",
+      "concept_id": "calc1-biosoc.06-integral-applications.partial-fractions",
+      "text": "Explain the conditions under which a rational function admits a partial fraction decomposition and describe the form of the decomposition for linear, repeated, and irreducible quadratic factors.",
+      "bloom_level": "understand",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.partial-fractions.lo2",
+      "concept_id": "calc1-biosoc.06-integral-applications.partial-fractions",
+      "text": "Perform polynomial long division and partial fraction decomposition to rewrite a rational function as a sum of simpler fractions.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.partial-fractions.lo3",
+      "concept_id": "calc1-biosoc.06-integral-applications.partial-fractions",
+      "text": "Integrate rational functions by decomposing them into partial fractions and evaluating the resulting elementary integrals.",
+      "bloom_level": "apply",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.integration-strategy.lo1",
+      "concept_id": "calc1-biosoc.06-integral-applications.integration-strategy",
+      "text": "Classify an integrand and select an appropriate integration technique, justifying the choice.",
+      "bloom_level": "analyze",
+      "provenance": "ai_inferred"
+    },
+    {
+      "id": "calc1-biosoc.06-integral-applications.integration-strategy.lo2",
+      "concept_id": "calc1-biosoc.06-integral-applications.integration-strategy",
+      "text": "Evaluate integrals that require combining substitution, integration by parts, and partial fractions in sequence.",
+      "bloom_level": "evaluate",
+      "provenance": "ai_inferred"
+    }
+  ],
+  "Source": [
+    {
+      "id": "neuhauser.ch1",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "Chapter 1",
+      "text_chunk": "Review of basic properties of functions: domain, range, composition, inverses, and standard function families.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s2-1",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "Section 2.1",
+      "text_chunk": "Exponential growth and decay models, growth constants, doubling time, and half-life.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s2-2",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "Section 2.2",
+      "text_chunk": "Sequences: recursive and closed-form definitions, arithmetic and geometric sequences, and limits of sequences.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s3-1",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "3.1 Limits",
+      "text_chunk": "Section 3.1 introduces the limit concept, one-sided limits, and limit laws, with the formal definition drawn from Section 3.6.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s3-2",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "3.2 Continuity",
+      "text_chunk": "Section 3.2 defines continuity at a point and on an interval and classifies discontinuities.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s3-3",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "3.3 Limits at Infinity",
+      "text_chunk": "Section 3.3 treats limits at infinity and horizontal asymptotes, with the formal definition drawn from Section 3.6.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s3-4",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "3.4 Trigonometric Limits and The Sandwich Theorem",
+      "text_chunk": "Section 3.4 develops trigonometric limits and the Sandwich (Squeeze) Theorem.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s3-5",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "3.5 Properties of Continuous Functions",
+      "text_chunk": "Section 3.5 presents properties of continuous functions including the Intermediate Value Theorem and Extreme Value Theorem.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s3-6",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "3.6 Formal Definition of Limits",
+      "text_chunk": "Section 3.6 supplies the formal epsilon-delta definition of limits and the formal definition of limits at infinity.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-1",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.1 Formal Definition of the Derivative",
+      "text_chunk": "Section 4.1 introduces the derivative as the limit of the difference quotient, defines differentiability at a point, and interprets the derivative as the slope of the tangent line and as an instantaneous rate of change.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-2",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.2 Basic Rules of Derivatives",
+      "text_chunk": "Section 4.2 develops the constant, constant-multiple, sum, and difference rules for derivatives and applies them to simple combinations of functions.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-3",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.3 Power Rule and the Rules of Differentiation",
+      "text_chunk": "Section 4.3 states and applies the power rule d/dx[x^n] = n x^{n-1} and combines it with the basic rules to differentiate polynomials and rational powers.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-4",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.4 Product and Quotient Rules",
+      "text_chunk": "Section 4.4 presents the product rule and the quotient rule, with derivations and worked examples differentiating products and ratios of functions.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-5",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.5 The Chain Rule",
+      "text_chunk": "Section 4.5 introduces the chain rule for differentiating composite functions, including nested compositions and combinations with the product and quotient rules.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-6",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.6 Implicit Functions and Implicit Differentiation",
+      "text_chunk": "Section 4.6 defines implicit functions and develops implicit differentiation, differentiating both sides of a relation with respect to x and solving for dy/dx.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-7",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.7 Higher Derivatives",
+      "text_chunk": "Section 4.7 defines second and higher derivatives, introduces the notation f'' and f^{(n)}, and interprets the second derivative as the rate of change of the first derivative.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-8",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.8 Derivative of Trigonometric Functions",
+      "text_chunk": "Section 4.8 derives the derivatives of sine and cosine from the limit definition and obtains the derivatives of the remaining trigonometric functions with the quotient rule.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-9",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.9 Derivatives of Exponential Functions",
+      "text_chunk": "Section 4.9 establishes d/dx[e^x] = e^x and d/dx[a^x] = a^x ln a, and applies exponential derivatives to growth and decay models.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-10",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.10 Derivatives of Inverse Functions",
+      "text_chunk": "Section 4.10 derives the inverse-function derivative formula and uses it to obtain the derivatives of logarithmic and inverse trigonometric functions.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s4-11",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "4.11 Linear Approximation",
+      "text_chunk": "Section 4.11 introduces the linearization L(x) = f(a) + f'(a)(x - a), the differential dy = f'(a) dx, and the use of tangent lines to estimate function values.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s5-1",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "5.1 Extreme and Mean Value Theorems",
+      "text_chunk": "Extreme Value Theorem: a continuous function on a closed interval attains absolute maximum and minimum values. Mean Value Theorem: for f continuous on [a,b] and differentiable on (a,b), there is c in (a,b) with f'(c) = (f(b)-f(a))/(b-a).",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s5-2",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "5.2 Monotonicity and Concavity",
+      "text_chunk": "A differentiable function is increasing where f'(x)>0 and decreasing where f'(x)<0; it is concave up where f''(x)>0 and concave down where f''(x)<0.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s5-3",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "5.3 Extrema and Inflection Points",
+      "text_chunk": "Local extrema occur at critical points and are classified by the first- or second-derivative test; inflection points are points where concavity changes, detected by sign changes of f''.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s5-4",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "5.4 Optimization",
+      "text_chunk": "Optimization problems are solved by expressing the quantity to be optimized as a function of one variable using the constraint, then locating extrema on the feasible interval, including endpoints.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s5-5",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "5.5 L'Hôpital's Rule",
+      "text_chunk": "L'Hôpital's Rule: if lim f(x)/g(x) is of indeterminate form 0/0 or ∞/∞, then under differentiability hypotheses the limit equals lim f'(x)/g'(x); other indeterminate forms are reduced to these by algebraic rewriting.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s5-10",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th Edition, Pearson, 2018.",
+      "section": "5.10 Antiderivatives",
+      "text_chunk": "Section 5.10 introduces antiderivatives and indefinite integrals, the constant of integration, and basic antiderivative rules obtained by inverting differentiation rules.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s6-1",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th Edition, Pearson, 2018.",
+      "section": "6.1 The Definite Integral",
+      "text_chunk": "Section 6.1 defines the definite integral as the limit of Riemann sums over partitions, discusses integrability, and interprets the integral as signed area.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s6-2",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th Edition, Pearson, 2018.",
+      "section": "6.2 The Fundamental Theorem of Calculus",
+      "text_chunk": "Section 6.2 presents both parts of the Fundamental Theorem of Calculus, the accumulation function, and evaluation of definite integrals via antiderivatives.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s6-3",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th Edition, Pearson, 2018.",
+      "section": "6.3 Applications of Integration",
+      "text_chunk": "Section 6.3 applies the definite integral to net change, area between curves, and average value, with models from biology and the social sciences.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s7-1",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "7.1 The Substitution Rule",
+      "text_chunk": "Section 7.1 introduces the substitution rule as the reverse of the chain rule, develops the change of variable u = g(x) with du = g'(x) dx, and treats definite integrals with converted limits.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s7-2",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "7.2 Integration by Parts and Practicing Integration",
+      "text_chunk": "Section 7.2 derives integration by parts from the product rule, gives the indefinite and definite forms, and provides mixed practice in selecting among integration techniques.",
+      "provenance": "source_backed"
+    },
+    {
+      "id": "neuhauser.s7-3",
+      "type": "textbook",
+      "citation": "Neuhauser, C. and Roper, M., Calculus for Biology and Medicine, 4th ed., Pearson, 2018.",
+      "section": "7.3 Rational Functions and Partial Fractions",
+      "text_chunk": "Section 7.3 covers polynomial long division for improper rational functions, partial fraction decomposition for linear, repeated, and irreducible quadratic factors, and integration of the resulting terms.",
+      "provenance": "source_backed"
+    }
+  ],
+  "assumptions": [
+    {
+      "entity": "Course",
+      "id": "calc1-biosoc",
+      "field": "id",
+      "assumption": "calc1-biosoc",
+      "reason": "Syllabus gives no course slug; derived from course number and title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Course",
+      "id": "calc1-biosoc",
+      "field": "level",
+      "assumption": "undergrad intro",
+      "reason": "Course is Calculus I at a university mathematics department; standard introductory level.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Course",
+      "id": "calc1-biosoc",
+      "field": "duration_weeks",
+      "assumption": "13",
+      "reason": "Sum of stated unit spans (2 + 2 + 3 + 2+ + 2 + 1+), taking the '+' units as one extra week each.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Course",
+      "id": "calc1-biosoc",
+      "field": "assumed_background",
+      "assumption": "Precalculus: basic properties of functions, exponential growth and decay, and sequences (reviewed in the opening unit)",
+      "reason": "Syllabus lists these as a review unit rather than new content, implying they are assumed prior knowledge.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.01-functions-review",
+      "field": "goal",
+      "assumption": "Reinforce the precalculus toolkit — function properties, exponential growth and decay, and sequences — that the rest of the course builds on.",
+      "reason": "Syllabus lists only topics; goal synthesized from the unit's topic list.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.01-functions-review",
+      "field": "weeks",
+      "assumption": "1-2",
+      "reason": "Syllabus states '2- weeks'; interpreted as spanning weeks 1 through 2.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.02-limits-continuity",
+      "field": "goal",
+      "assumption": "Develop the limit concept, including formal definitions, and use it to characterize continuity and limits at infinity.",
+      "reason": "Synthesized from the unit's topic list; no goal stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.02-limits-continuity",
+      "field": "weeks",
+      "assumption": "3-4",
+      "reason": "Syllabus states '2 weeks'; placed sequentially after the first unit.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.03-derivatives",
+      "field": "goal",
+      "assumption": "Introduce the derivative from its formal definition and build fluency with the full set of differentiation rules.",
+      "reason": "Synthesized from the unit's topic list; no goal stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.03-derivatives",
+      "field": "weeks",
+      "assumption": "5-7",
+      "reason": "Syllabus states '3- weeks'; interpreted as three weeks following the limits unit.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.04-diff-applications",
+      "field": "goal",
+      "assumption": "Apply derivatives to analyze function behavior, solve optimization problems, and evaluate limits via L'Hôpital's Rule.",
+      "reason": "Synthesized from the unit's topic list; no goal stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.04-diff-applications",
+      "field": "weeks",
+      "assumption": "8-10",
+      "reason": "Syllabus states '2+ weeks'; interpreted as three weeks to accommodate the '+'.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.05-integration",
+      "field": "goal",
+      "assumption": "Define the definite integral, establish the Fundamental Theorem of Calculus, and apply integration to concrete problems.",
+      "reason": "Synthesized from the unit's topic list; no goal stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.05-integration",
+      "field": "weeks",
+      "assumption": "11-12",
+      "reason": "Syllabus states '2 weeks'; placed sequentially after differentiation applications.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.06-integral-applications",
+      "field": "goal",
+      "assumption": "Extend integration technique with substitution, integration by parts, and partial fractions to handle a wider class of integrals.",
+      "reason": "Synthesized from the unit's topic list; no goal stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Module",
+      "id": "calc1-biosoc.06-integral-applications",
+      "field": "weeks",
+      "assumption": "13",
+      "reason": "Syllabus states '1+ week'; interpreted as a single closing week.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.01-functions-review.function-properties",
+      "field": "summary",
+      "assumption": "Chapter 1 is treated as a review of domain, range, composition, inverses, and standard function families.",
+      "reason": "Syllabus lists only 'Chapter 1' without enumerating its contents.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.01-functions-review.function-properties",
+      "field": "difficulty_notes",
+      "assumption": "Common student errors are domain restrictions and confusing inverses with reciprocals.",
+      "reason": "Standard precalculus misconceptions; not stated in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay",
+      "field": "summary",
+      "assumption": "Section 2.1 is modeled as N(t) = N0 e^{rt} with doubling time and half-life.",
+      "reason": "Standard content of an exponential growth/decay section; syllabus gives only the title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay",
+      "field": "prerequisite_ids",
+      "assumption": "Exponential growth/decay depends on the function-properties concept from this module.",
+      "reason": "Exponential models presuppose function notation and domain/range; inferred ordering within the module.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.01-functions-review.sequences",
+      "field": "summary",
+      "assumption": "Section 2.2 covers recursive/closed forms, arithmetic and geometric sequences, and sequence limits.",
+      "reason": "Standard content of a sequences section; syllabus gives only the title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.01-functions-review.sequences",
+      "field": "prerequisite_ids",
+      "assumption": "Sequences depend on the function-properties concept from this module.",
+      "reason": "Sequences are presented as functions on the natural numbers; inferred ordering within the module.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.function-properties.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.function-properties.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.function-properties.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.exponential-growth-decay.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.sequences.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.sequences.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.01-functions-review.sequences.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the concept summary.",
+      "reason": "Syllabus lists topics only, not objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept",
+      "field": "summary",
+      "assumption": "Summary frames the limit concept around approach behavior plus the epsilon-delta definition, per the syllabus note that 3.1 is taught with the formal definition from 3.6.",
+      "reason": "Syllabus lists topics only; summary wording is inferred.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept",
+      "field": "prerequisite_ids",
+      "assumption": "Requires only the functions-review concept on function properties.",
+      "reason": "Limits presuppose function notation and graphs; no other prior concept is needed.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept",
+      "field": "difficulty_notes",
+      "assumption": "Two misconceptions logged: conflating limit with function value, and misreading epsilon-delta as a computational procedure.",
+      "reason": "Standard, well-documented student difficulties for this topic; not stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.continuity",
+      "field": "summary",
+      "assumption": "Summary includes classification of discontinuities as removable, jump, and infinite.",
+      "reason": "Standard content of a continuity section; syllabus gives only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.continuity",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the limit-concept concept in this module.",
+      "reason": "Continuity is defined via limits.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.continuity",
+      "field": "difficulty_notes",
+      "assumption": "Misconception that pen-not-lifted drawing implies continuity everywhere.",
+      "reason": "Common student error; inferred, not in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.limits-at-infinity",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on limit-concept and on the exponential growth/decay review concept.",
+      "reason": "Long-run behavior of exponentials is used; syllabus places exponential growth/decay in the review unit.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.limits-at-infinity",
+      "field": "difficulty_notes",
+      "assumption": "Misconception about assuming finite limits at infinity and confusing asymptotes with attained values.",
+      "reason": "Common student error; inferred.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich",
+      "field": "summary",
+      "assumption": "Summary names lim_{x->0} sin(x)/x = 1 as the central trigonometric limit and states the Sandwich Theorem.",
+      "reason": "Standard content of section 3.4; syllabus gives only the title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the limit-concept concept only.",
+      "reason": "Sandwich theorem and trig limits build directly on limit laws.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich",
+      "field": "difficulty_notes",
+      "assumption": "Misconception about degree measure and mismatched arguments in sin(kx)/x.",
+      "reason": "Common student error; inferred.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties",
+      "field": "summary",
+      "assumption": "Summary identifies the Intermediate Value Theorem and Extreme Value Theorem as the core properties.",
+      "reason": "Standard content of section 3.5; syllabus gives only the title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the continuity concept in this module.",
+      "reason": "Both theorems require continuity hypotheses.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties",
+      "field": "difficulty_notes",
+      "assumption": "Misconception about applying IVT/EVT without checking hypotheses.",
+      "reason": "Common student error; inferred.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept.lo1",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept.lo2",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.limit-concept.lo3",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.continuity.lo1",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.continuity.lo2",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.limits-at-infinity.lo1",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.limits-at-infinity.lo2",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich.lo1",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.trig-limits-sandwich.lo2",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties.lo1",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.02-limits-continuity.continuous-function-properties.lo2",
+      "field": "text",
+      "assumption": "Objective wording and Bloom level inferred from the topic.",
+      "reason": "Syllabus lists topics, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.formal-definition",
+      "field": "summary",
+      "assumption": "The concept is framed around the limit-of-difference-quotient definition, differentiability, and the tangent-line/rate-of-change interpretation.",
+      "reason": "Syllabus lists only the section title '4.1 Formal Definition of the Derivative'; the summary content is inferred from the standard treatment of that section.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.formal-definition",
+      "field": "prerequisite_ids",
+      "assumption": "Requires the limit concept, continuity, and basic function properties from earlier modules.",
+      "reason": "The derivative is defined as a limit and differentiability is discussed relative to continuity; the syllabus does not state prerequisites explicitly.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.formal-definition",
+      "field": "difficulty_notes",
+      "assumption": "Common student difficulties are treating the derivative as a formula rather than a limit and assuming continuity implies differentiability.",
+      "reason": "These are standard, well-documented misconceptions for this topic; the syllabus gives no difficulty information.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.basic-rules",
+      "field": "summary",
+      "assumption": "Covers the constant, constant-multiple, sum, and difference rules.",
+      "reason": "Inferred from the standard content of Section 4.2; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.basic-rules",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the formal definition of the derivative.",
+      "reason": "The basic rules are derived from and build on the limit definition; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.basic-rules",
+      "field": "difficulty_notes",
+      "assumption": "Students overgeneralize the sum rule to products.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.power-rule",
+      "field": "summary",
+      "assumption": "Covers d/dx[x^n] = n x^{n-1} and rewriting roots and reciprocals as powers.",
+      "reason": "Inferred from the standard content of Section 4.3; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.power-rule",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the basic rules of derivatives.",
+      "reason": "The power rule is combined with the basic rules; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.power-rule",
+      "field": "difficulty_notes",
+      "assumption": "Students misapply the power rule to exponentials such as 2^x.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.product-quotient",
+      "field": "summary",
+      "assumption": "Covers the product rule and quotient rule with their standard formulas.",
+      "reason": "Inferred from the standard content of Section 4.4; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.product-quotient",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the power rule and basic rules.",
+      "reason": "Product and quotient rule problems typically combine with earlier rules; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.product-quotient",
+      "field": "difficulty_notes",
+      "assumption": "Students misremember the quotient rule's term order and sign, and drop product-rule terms.",
+      "reason": "Standard misconceptions for this topic; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.chain-rule",
+      "field": "summary",
+      "assumption": "Covers d/dx[f(g(x))] = f'(g(x)) g'(x) and decomposition into inner and outer functions.",
+      "reason": "Inferred from the standard content of Section 4.5; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.chain-rule",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the product and quotient rules.",
+      "reason": "Chain-rule problems are typically combined with product and quotient rules; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.chain-rule",
+      "field": "difficulty_notes",
+      "assumption": "Students omit the inner derivative and struggle with nested compositions.",
+      "reason": "Standard misconceptions for this topic; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation",
+      "field": "summary",
+      "assumption": "Covers implicit functions and differentiating both sides of a relation with respect to x to solve for dy/dx.",
+      "reason": "Inferred from the standard content of Section 4.6; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the chain rule.",
+      "reason": "Implicit differentiation applies the chain rule to terms in y; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation",
+      "field": "difficulty_notes",
+      "assumption": "Students differentiate y as a constant instead of applying the chain rule.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives",
+      "field": "summary",
+      "assumption": "Covers repeated differentiation, notation, and the interpretation of the second derivative.",
+      "reason": "Inferred from the standard content of Section 4.7; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the chain rule and earlier differentiation rules.",
+      "reason": "Higher derivatives require differentiating expressions built with the earlier rules; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives",
+      "field": "difficulty_notes",
+      "assumption": "Students confuse f'' with (f')^2.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives",
+      "field": "summary",
+      "assumption": "Covers the derivatives of sine and cosine and the remaining trigonometric derivatives via the quotient rule.",
+      "reason": "Inferred from the standard content of Section 4.8; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the chain rule and the trigonometric limits from the limits module.",
+      "reason": "The sine and cosine derivatives are derived using the special trigonometric limits; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives",
+      "field": "difficulty_notes",
+      "assumption": "Students drop the negative sign in the derivative of cosine.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives",
+      "field": "summary",
+      "assumption": "Covers d/dx[e^x] = e^x and d/dx[a^x] = a^x ln a, with applications to growth and decay.",
+      "reason": "Inferred from the standard content of Section 4.9; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the chain rule and the exponential growth and decay review from the opening module.",
+      "reason": "Exponential derivatives are applied to growth and decay models reviewed in Module 1; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives",
+      "field": "difficulty_notes",
+      "assumption": "Students apply the power rule to exponentials.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives",
+      "field": "summary",
+      "assumption": "Covers the inverse-function derivative formula and its use for logarithmic and inverse trigonometric derivatives.",
+      "reason": "Inferred from the standard content of Section 4.10; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on exponential derivatives and implicit differentiation.",
+      "reason": "The inverse-function rule is typically derived and applied alongside these topics; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives",
+      "field": "difficulty_notes",
+      "assumption": "Students write (f^{-1})'(x) = 1/f'(x) without evaluating f' at the correct point.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.linear-approximation",
+      "field": "summary",
+      "assumption": "Covers the linearization L(x) = f(a) + f'(a)(x - a) and the differential dy = f'(a) dx.",
+      "reason": "Inferred from the standard content of Section 4.11; the syllabus lists only the section title.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.linear-approximation",
+      "field": "prerequisite_ids",
+      "assumption": "Depends on the formal definition of the derivative and the chain rule.",
+      "reason": "Linear approximation uses the derivative at a point and is applied to composite functions; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.03-derivatives.linear-approximation",
+      "field": "difficulty_notes",
+      "assumption": "Students treat the linear approximation as exact far from the base point.",
+      "reason": "Standard misconception for this topic; not stated in the syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.formal-definition.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.formal-definition.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.formal-definition.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.basic-rules.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.basic-rules.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.power-rule.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.power-rule.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.product-quotient.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.product-quotient.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.product-quotient.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.chain-rule.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.chain-rule.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.chain-rule.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.implicit-differentiation.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.higher-derivatives.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.trig-derivatives.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.exp-derivatives.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.inverse-derivatives.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.linear-approximation.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.linear-approximation.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.03-derivatives.linear-approximation.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section title and standard expectations.",
+      "reason": "The syllabus lists only section titles, not learning objectives.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+      "field": "summary",
+      "assumption": "Summary and key definitions written at the level of a standard Calculus I treatment of EVT and MVT.",
+      "reason": "Syllabus lists only the section title 5.1; content details inferred from the standard textbook topic.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+      "field": "prerequisite_ids",
+      "assumption": "Requires continuity, properties of continuous functions, and the formal definition of the derivative.",
+      "reason": "Both theorems are stated in terms of continuity and differentiability, which are covered in modules 02 and 03.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems",
+      "field": "difficulty_notes",
+      "assumption": "Common misconceptions concern ignoring theorem hypotheses and uniqueness of the MVT point.",
+      "reason": "Standard, well-documented student difficulties with these theorems; not stated in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+      "field": "summary",
+      "assumption": "Summary and definitions describe sign-of-derivative tests for monotonicity and concavity.",
+      "reason": "Syllabus lists only section 5.2; content inferred from standard topic.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+      "field": "prerequisite_ids",
+      "assumption": "Requires EVT/MVT concept, higher derivatives, and basic differentiation rules.",
+      "reason": "Concavity uses second derivatives; monotonicity arguments rely on MVT.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions concern conflating function sign with derivative sign and conflating increasing with concave up.",
+      "reason": "Common student errors; not stated in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+      "field": "summary",
+      "assumption": "Summary and definitions cover first/second-derivative tests and inflection points.",
+      "reason": "Syllabus lists only section 5.3; content inferred from standard topic.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+      "field": "prerequisite_ids",
+      "assumption": "Requires monotonicity/concavity, EVT/MVT, and higher derivatives.",
+      "reason": "Classification of extrema builds directly on these.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions concern treating all critical points as extrema and mishandling inconclusive second-derivative tests.",
+      "reason": "Common student errors; not stated in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.optimization",
+      "field": "summary",
+      "assumption": "Summary and definitions describe constrained optimization via single-variable reduction and closed-interval checking.",
+      "reason": "Syllabus lists only section 5.4; content inferred from standard topic.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.optimization",
+      "field": "prerequisite_ids",
+      "assumption": "Requires extrema/inflection points, EVT/MVT, and the chain rule.",
+      "reason": "Optimization relies on classifying extrema and differentiating composed expressions.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.optimization",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions concern skipping constraint substitution and failing to verify global extrema.",
+      "reason": "Common student errors; not stated in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule",
+      "field": "summary",
+      "assumption": "Summary and definitions cover 0/0 and ∞/∞ forms and reductions of other indeterminate forms.",
+      "reason": "Syllabus lists only section 5.5; content inferred from standard topic.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule",
+      "field": "prerequisite_ids",
+      "assumption": "Requires the limit concept, limits at infinity, basic differentiation rules, and exponential derivatives.",
+      "reason": "L'Hôpital's Rule combines limit evaluation with differentiation; exponential derivatives are needed for common examples.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions concern applying the rule to non-indeterminate forms, using the quotient rule, and failing to re-check the form.",
+      "reason": "Common student errors; not stated in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.extreme-mean-value-theorems.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.monotonicity-concavity.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.extrema-inflection-points.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.optimization.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.optimization.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.optimization.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.04-diff-applications.lhopitals-rule.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from the section topic.",
+      "reason": "Syllabus gives only section titles, not objectives.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.antiderivatives",
+      "field": "summary",
+      "assumption": "Antiderivatives are framed as the inverse of differentiation with a family of functions differing by a constant.",
+      "reason": "Syllabus lists only the section title 5.10 Antiderivatives; summary content inferred from standard calculus treatment.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.antiderivatives",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites are the basic differentiation rules, power rule, and trig/exp derivative rules from module 03.",
+      "reason": "Antiderivative rules invert these differentiation rules; syllabus does not state prerequisites explicitly.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.definite-integral",
+      "field": "summary",
+      "assumption": "Definite integral defined as limit of Riemann sums with signed-area interpretation.",
+      "reason": "Syllabus gives only section title 6.1; standard content inferred.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.definite-integral",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites are the limit concept, continuity, and antiderivatives.",
+      "reason": "Riemann-sum limit requires limits/continuity; antiderivatives needed for later evaluation; not stated in syllabus.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.ftc",
+      "field": "summary",
+      "assumption": "FTC presented in two parts linking accumulation functions and evaluation via antiderivatives.",
+      "reason": "Syllabus gives only section title 6.2; standard two-part treatment inferred.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.ftc",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites are antiderivatives, the definite integral, and properties of continuous functions.",
+      "reason": "FTC Part 1 requires continuity; Part 2 requires antiderivatives; not stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.integration-applications",
+      "field": "summary",
+      "assumption": "Applications cover net change, area between curves, and average value with bio/social-science contexts.",
+      "reason": "Syllabus gives only section title 6.3; typical applications inferred, aligned with course audience.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.integration-applications",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites are the definite integral and the FTC.",
+      "reason": "Applications require evaluating definite integrals; not stated in syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.antiderivatives.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of antiderivatives.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.antiderivatives.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of antiderivatives.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.antiderivatives.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of antiderivatives.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.definite-integral.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of the definite integral.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.definite-integral.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of the definite integral.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.definite-integral.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of the definite integral.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.ftc.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of the FTC.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.ftc.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of the FTC.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.ftc.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of the FTC.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.integration-applications.lo1",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of integration applications.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.integration-applications.lo2",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of integration applications.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.05-integration.integration-applications.lo3",
+      "field": "text",
+      "assumption": "Objective text and Bloom level inferred from standard coverage of integration applications.",
+      "reason": "Syllabus lists no objectives; objectives derived from section content.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.antiderivatives",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions about the constant of integration and the antiderivative power rule are typical student errors.",
+      "reason": "Syllabus gives no difficulty notes; inferred from common calculus instruction experience.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.definite-integral",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions about integral-as-number vs. function and signed area are typical student errors.",
+      "reason": "Syllabus gives no difficulty notes; inferred from common calculus instruction experience.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.ftc",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions about the relationship between FTC parts and continuity hypotheses are typical student errors.",
+      "reason": "Syllabus gives no difficulty notes; inferred from common calculus instruction experience.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.05-integration.integration-applications",
+      "field": "difficulty_notes",
+      "assumption": "Misconceptions about curve ordering and translating rates into integrals are typical student errors.",
+      "reason": "Syllabus gives no difficulty notes; inferred from common calculus instruction experience.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule",
+      "field": "summary",
+      "assumption": "The summary and key definitions for the substitution rule were written from standard calculus content rather than copied from the syllabus, which lists only the section title.",
+      "reason": "Syllabus gives only '7.1 The Substitution Rule' with no elaboration.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.integration-by-parts",
+      "field": "summary",
+      "assumption": "The summary and key definitions for integration by parts were written from standard calculus content.",
+      "reason": "Syllabus gives only '7.2 Integration by Parts and Practicing Integration'.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.partial-fractions",
+      "field": "summary",
+      "assumption": "The summary and key definitions for partial fractions were written from standard calculus content.",
+      "reason": "Syllabus gives only '7.3 Rational Functions and Partial Fractions'.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.integration-strategy",
+      "field": "name",
+      "assumption": "A fourth synthesis concept, 'Practicing Integration: Choosing a Technique', was added to capture the 'Practicing Integration' half of section 7.2.",
+      "reason": "The syllabus section title explicitly includes 'Practicing Integration', which is a distinct skill from the parts formula itself.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites were set to the chain rule, antiderivatives, and the FTC.",
+      "reason": "Substitution reverses the chain rule and requires antiderivatives and definite-integral evaluation; these are the standard dependencies.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.integration-by-parts",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites were set to product/quotient rules, antiderivatives, and the substitution rule.",
+      "reason": "Parts reverses the product rule and is typically taught after substitution.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.partial-fractions",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites were set to antiderivatives and the substitution rule.",
+      "reason": "Partial fractions relies on elementary antiderivatives and often on substitution for the resulting terms.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.integration-strategy",
+      "field": "prerequisite_ids",
+      "assumption": "Prerequisites were set to the three technique concepts in this module.",
+      "reason": "Choosing a technique presupposes knowledge of the available techniques.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule",
+      "field": "difficulty_notes",
+      "assumption": "Difficulty notes on forgetting to convert the differential and on mixing x-limits with u-antiderivatives were inferred as common student errors.",
+      "reason": "These are standard, well-documented misconceptions for u-substitution; the syllabus does not list them.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.integration-by-parts",
+      "field": "difficulty_notes",
+      "assumption": "Difficulty notes on poor choice of u/dv and on sign/boundary-term errors were inferred.",
+      "reason": "Standard misconceptions for integration by parts.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.partial-fractions",
+      "field": "difficulty_notes",
+      "assumption": "Difficulty notes on skipping long division for improper fractions and on mishandling repeated/quadratic factors were inferred.",
+      "reason": "Standard misconceptions for partial fractions.",
+      "confidence": "high"
+    },
+    {
+      "entity": "Concept",
+      "id": "calc1-biosoc.06-integral-applications.integration-strategy",
+      "field": "difficulty_notes",
+      "assumption": "Difficulty notes on defaulting to the most recent technique and on stopping after one technique were inferred.",
+      "reason": "Standard misconceptions for mixed integration practice.",
+      "confidence": "medium"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.06-integral-applications.substitution-rule.lo1",
+      "field": "text",
+      "assumption": "All learning objectives for this module were authored to match the concepts, since the syllabus lists only section titles.",
+      "reason": "No objectives are stated in the syllabus.",
+      "confidence": "high"
+    },
+    {
+      "entity": "LearningObjective",
+      "id": "calc1-biosoc.06-integral-applications.integration-strategy.lo2",
+      "field": "bloom_level",
+      "assumption": "The synthesis objective was assigned Bloom level 'evaluate'.",
+      "reason": "Selecting and combining techniques requires judging which method applies; 'evaluate' is a reasonable fit though 'analyze' could also be argued.",
+      "confidence": "medium"
+    }
+  ]
+}
