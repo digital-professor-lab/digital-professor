@@ -1,0 +1,8 @@
+# Course Context — Stage A pipeline
+openai>=1.0          # provider-agnostic client (any OpenAI-compatible endpoint, incl. Ollama)
+pypdf>=4.0           # syllabus PDF -> text
+PyYAML>=6.0          # config files
+python-dotenv>=1.0   # load keys from .env
+
+# dev
+pytest>=7.0

@@ -17,16 +17,16 @@ This document walks one course end to end: the generated **Course Context** file
 
 ## 1. The Course Context file
 
-`examples/calc1.course-context.json` is the team's `calc1_course_schema.json` (generated from the one-page syllabus by the syllabus-to-JSON prompt) plus the `provenance` field. Removing it and restoring `course_context_schema_version` 1.0 gives back the original data exactly. It has 6 modules, 33 concepts, 33 objectives, 32 sources, 66 questions and 19 assumptions. All 31 syllabus section references appear as Source records; the 32nd, 3.6, is a derived source for the formal limit definition.
+`examples/calc1.course-context.json` is generated from the one-page syllabus by the syllabus-to-JSON prompt, carrying the `provenance` field (schema 1.1). It has 6 modules, 33 concepts, 33 objectives, 32 sources and 17 assumptions. Assessment questions are not part of Course Context (`course-context.md` §1.1), so this file carries none. All 31 syllabus section references appear as Source records; the 32nd, 3.6, is a derived source for the formal limit definition.
 
-| Module ID | Title | Weeks | Concepts | Questions |
-|---|---|---|---|---|
-| `calc1.01-functions` | Review Basic Properties of Functions | 1-2 | 4 | 8 |
-| `calc1.02-limits` | Limits and Continuity | 3-4 | 6 | 12 |
-| `calc1.03-derivatives` | Derivatives | 5-7 | 11 | 22 |
-| `calc1.04-diff-applications` | Applications of Differentiation | 8-10 | 5 | 10 |
-| `calc1.05-integration` | Integration | 11-12 | 4 | 8 |
-| `calc1.06-integral-applications` | Applications of the Integral | 13-14 | 3 | 6 |
+| Module ID | Title | Weeks | Concepts |
+|---|---|---|---|
+| `calc1.01-functions` | Review Basic Properties of Functions | 1-2 | 4 |
+| `calc1.02-limits` | Limits and Continuity | 3-4 | 6 |
+| `calc1.03-derivatives` | Derivatives | 5-7 | 11 |
+| `calc1.04-diff-applications` | Applications of Differentiation | 8-10 | 5 |
+| `calc1.05-integration` | Integration | 11-12 | 4 |
+| `calc1.06-integral-applications` | Applications of the Integral | 13-14 | 3 |
 
 Prerequisite chain behind the example question: `by-parts` requires `substitution` and `product-quotient`; `substitution` requires `ftc`, `chain-rule` and `antiderivatives`.
 
@@ -64,10 +64,6 @@ The records the Question Schema below is built from (abridged to the fields used
     "source_ids": [
       "neuhauser.s7-2"
     ],
-    "question_ids": [
-      "calc1.06-integral-applications.by-parts.q1",
-      "calc1.06-integral-applications.by-parts.q2"
-    ],
     "provenance": "ai_inferred"
   },
   "LearningObjective": {
@@ -84,33 +80,13 @@ The records the Question Schema below is built from (abridged to the fields used
     "section": "Section 7.2",
     "text_chunk": "Syllabus entry: 7.2 Integration by Parts and Practicing Integration",
     "provenance": "source_backed"
-  },
-  "AssessmentQuestion (one of two)": {
-    "id": "calc1.06-integral-applications.by-parts.q1",
-    "concept_ids": [
-      "calc1.06-integral-applications.by-parts"
-    ],
-    "objective_ids": [
-      "calc1.06-integral-applications.by-parts.lo1"
-    ],
-    "type": "quiz",
-    "difficulty": "recall",
-    "prompt": "Evaluate ∫ x e^x dx.",
-    "solution": "Let u = x, dv = e^x dx, so du = dx and v = e^x. Then ∫ x e^x dx = x e^x - ∫ e^x dx = x e^x - e^x + C.",
-    "rubric": "1 pt for the choice of u and dv; 1 pt for the formula; 1 pt for the final answer.",
-    "common_wrong_answers": [
-      "(x^2/2)e^x + C",
-      "x e^x + e^x + C"
-    ],
-    "requires_figure": false,
-    "provenance": "ai_inferred"
   }
 }
 ```
 
 ## 2. The Question Schema for "∫ x cos(x) dx"
 
-A student brings `\int x\cos(x) dx`. It is not in the question bank (the nearest question on the same concept is `by-parts.q1`, ∫ x e^x dx), so the builder runs the runtime path of `course-context.md` §3.3: `origin = runtime`.
+A student brings `\int x\cos(x) dx`. With no external question bank provided for this course, the builder runs the runtime path of `course-context.md` §3.3: `origin = runtime`.
 
 `examples/calc1.question-schema.xcosx.json`:
 
@@ -195,9 +171,7 @@ A student brings `\int x\cos(x) dx`. It is not in the question bank (the nearest
     "source_ids": [
       "neuhauser.s7-2"
     ],
-    "sibling_question_ids": [
-      "calc1.06-integral-applications.by-parts.q1"
-    ],
+    "sibling_question_ids": [],
     "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018. Section 7.2",
     "grounding": "reference_only"
   },
@@ -218,7 +192,7 @@ A student brings `\int x\cos(x) dx`. It is not in the question bank (the nearest
 | `learning_objectives` | copied | `by-parts.lo1` |
 | `prerequisite_concepts[].concept_id`, `name` | copied | `Concept.prerequisite_ids` of `by-parts` |
 | `prerequisite_concepts[].relevance` | runtime | builder |
-| `correct_approach`, `alternative_approaches`, `reference_answer` | runtime | builder, from the concept summary and the sibling `by-parts.q1`; the answer was checked by differentiating it |
+| `correct_approach`, `alternative_approaches`, `reference_answer` | runtime | builder, from the concept summary; the answer was checked by differentiating it |
 | `common_misconceptions[0]`, `[1]` | copied + cue written | `by-parts` `difficulty_notes[0]` and `[1]` |
 | `common_misconceptions[2]` | runtime | builder (not in Course Context, see §5) |
 | `source_reference` | retrieved | `Concept.source_ids` of `by-parts`; `grounding: reference_only` because the file holds only a syllabus line for Section 7.2 |

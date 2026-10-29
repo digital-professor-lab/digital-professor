@@ -82,21 +82,20 @@ flowchart TB
 
 ### 3.2 Error rules
 
-Every rule below is an **error**: a file that violates any of them fails validation (exit `1`) and is regenerated (WF-2). "Record" means any `Course`, `Module`, `Concept`, `LearningObjective`, `Source`, or `AssessmentQuestion` object. Field and ID definitions are in `course-context.md` §1.2 and §1.3.
+Every rule below is an **error**: a file that violates any of them fails validation (exit `1`) and is regenerated (WF-2). "Record" means any `Course`, `Module`, `Concept`, `LearningObjective`, or `Source` object. Field and ID definitions are in `course-context.md` §1.2 and §1.3.
 
 | Rule | The Validator MUST reject a file where… |
 |---|---|
-| V-01 | top-level keys are not exactly `course_context_schema_version`, `Course`, the five arrays, and optionally `assumptions`; or `course_context_schema_version` does not look like `1.x` |
+| V-01 | top-level keys are not exactly `course_context_schema_version`, `Course`, the four arrays, and optionally `assumptions`; or `course_context_schema_version` does not look like `1.x` |
 | V-02 | a record is missing any required field, or carries an unknown field; or `provenance` appears while `course_context_schema_version` is below `1.1` |
-| V-03 | an enum holds a value outside its set (`bloom_level`, `difficulty`, `type`, `Source.type`, `provenance`); `duration_weeks` is not an integer ≥ 1; `weeks` does not match `N` or `N-M`; `requires_figure` is not boolean; a `difficulty_notes` entry is not exactly `{misconception, mitigation}` |
+| V-03 | an enum holds a value outside its set (`bloom_level`, `Source.type`, `provenance`); `duration_weeks` is not an integer ≥ 1; `weeks` does not match `N` or `N-M`; a `difficulty_notes` entry is not exactly `{misconception, mitigation}` |
 | V-04 | an ID is duplicated, or does not follow the §1.3 pattern; or `Module.id` numbering does not follow `Course.module_ids` order |
 | V-05 | any `*_ids` or `*_id` reference points to a record that does not exist |
-| V-06 | a forward link and its stored reverse link disagree (`Course.module_ids` ↔ `Module.course_id`; `Module.concept_ids` ↔ `Concept.module_id`; `Concept.objective_ids` ↔ `LearningObjective.concept_id`; `Concept.question_ids` ↔ `AssessmentQuestion.concept_ids`) |
+| V-06 | a forward link and its stored reverse link disagree (`Course.module_ids` ↔ `Module.course_id`; `Module.concept_ids` ↔ `Concept.module_id`; `Concept.objective_ids` ↔ `LearningObjective.concept_id`) |
 | V-07 | a prerequisite points to a later module, points to itself, or takes part in a cycle |
-| V-08 | a question's objective does not belong to any of that question's concepts |
-| V-09 | a required field is null, an empty string, an empty array where §1.2 requires ≥ 1, or the literal `"TBD"` |
-| V-10 | an `assumptions` entry is not exactly `{entity, id, field, assumption, reason}`, or its `id` does not resolve (a `.*` wildcard that matches no record) |
-| V-11 | (schema 1.1) a record is missing `provenance`, or holds a `provenance` outside `{source_backed, ai_inferred}`; or a record named by an exact-ID `assumptions` entry is marked `source_backed` |
+| V-08 | a required field is null, an empty string, an empty array where §1.2 requires ≥ 1, or the literal `"TBD"` |
+| V-09 | an `assumptions` entry is not exactly `{entity, id, field, assumption, reason}`, or its `id` does not resolve (a `.*` wildcard that matches no record) |
+| V-10 | (schema 1.1) a record is missing `provenance`, or holds a `provenance` outside `{source_backed, ai_inferred}`; or a record named by an exact-ID `assumptions` entry is marked `source_backed` |
 
 ### 3.3 Warning rules
 
@@ -109,7 +108,7 @@ Warnings are reported but do **not** block publication. They are passed through 
 
 ### 3.4 Question Schema mode (secondary)
 
-With `--question-schema`, the Validator also checks one Question Schema (`course-context.md` §3.2) against the Course Context file: the exact field set; `course_id` / `concept_ids` / `module_id` consistency; a bank ID resolves or a runtime ID matches the hash rule; objectives and misconception text copied verbatim; `prerequisite_concepts` equals the concept's direct prerequisites; `provenance` valid and a runtime schema never `source_backed`; and `built_from.content_sha256` equals the SHA-256 of the Course Context file bytes. This mode is secondary to the main workflow (§2), which is about the Course Context file. (Open question 3.)
+With `--question-schema`, the Validator also checks one Question Schema (`course-context.md` §3.2) against the Course Context file: the exact field set; `course_id` / `concept_ids` / `module_id` consistency; a bank ID (external bank) is well-formed or a runtime ID matches the hash rule; objectives and misconception text copied verbatim; `prerequisite_concepts` equals the concept's direct prerequisites; `provenance` valid and a runtime schema never `source_backed`; and `built_from.content_sha256` equals the SHA-256 of the Course Context file bytes. This mode is secondary to the main workflow (§2), which is about the Course Context file. (Open question 3.)
 
 ---
 
@@ -134,7 +133,7 @@ The Flagger decides *which records and fields a human should look at first*, and
 | Rule | The Flagger MUST add a review item for… | Priority |
 |---|---|---|
 | F-01 | every record named by a non-wildcard `assumptions` entry; the item's reason is that entry's `assumption` and `reason` text | from the field (F-02); otherwise *worth checking* |
-| F-02 | every **"check first"** field from `course-context.md` §2.5 that sits on an `ai_inferred` record: `AssessmentQuestion.solution`, `rubric`, `common_wrong_answers`; `Concept.prerequisite_ids`, `difficulty_notes`; `Course.assumed_background`; `Course.duration_weeks` and `Module.weeks` when inferred; any `AssessmentQuestion.requires_figure = true` | **check first** |
+| F-02 | every **"check first"** field from `course-context.md` §2.5 that sits on an `ai_inferred` record: `Concept.prerequisite_ids`, `difficulty_notes`; `Course.assumed_background`; `Course.duration_weeks` and `Module.weeks` when inferred | **check first** |
 | F-03 | each **wildcard** `assumptions` entry (`id` ending in `.*`), surfaced once as a global note, not attached to a single record | *global note* |
 
 `source_backed` records with no naming assumption are not flagged.
@@ -151,10 +150,10 @@ The report is a list of items plus a short summary. One proposed shape:
   "items": [
     {
       "priority": "check_first | worth_checking",
-      "entity": "AssessmentQuestion",
-      "id": "calc1.06-integral-applications.by-parts.q1",
-      "field": "solution",
-      "reason": "AI-inferred solution; the engine treats it as ground truth (course-context.md 2.5)."
+      "entity": "Concept",
+      "id": "calc1.06-integral-applications.by-parts",
+      "field": "prerequisite_ids",
+      "reason": "AI-inferred prerequisites drive every Question Schema and the gap diagnosis (course-context.md 2.5)."
     }
   ],
   "global_notes": [
@@ -195,7 +194,7 @@ Validator, on a clean file:
 ```
 WARN  W-02 Source:neuhauser.s7-2: text_chunk is a syllabus line, not a verbatim excerpt
 ...
-calc1.course-context.json: 0 error(s), 32 warning(s)  records={Module:6, Concept:33, LearningObjective:33, Source:32, AssessmentQuestion:66}
+calc1.course-context.json: 0 error(s), 32 warning(s)  records={Module:6, Concept:33, LearningObjective:33, Source:32}
 ```
 
 Validator, on a broken variant (dangling reference), exit `1`:

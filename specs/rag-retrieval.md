@@ -271,8 +271,8 @@ See `diagrams/identity-and-versions.mmd`.
 | `Concept.id`, `name`, `key_definitions`, `summary` | Query expansion; T2 concept-match candidates | Usually `ai_inferred`; search hints only, never evidence |
 | `Concept.prerequisite_ids` | Optional scope expansion to direct prerequisites | Usually `ai_inferred`; scope hint only |
 | `Concept.source_ids` → `Source.*` | Leads to eligible documents through `SourceDocumentLink`; display citation label | `source_backed` only means *the syllabus names the source*. A `text_chunk` starting with `Syllabus entry:` or `Syllabus reference:` is never embedded or returned (`course-context.md` Q2). |
-| `AssessmentQuestion.{id, prompt, concept_ids}` | T2 bank-match candidates | Kept in a separate lookup index, never in the passage index |
-| `AssessmentQuestion.solution`, `rubric`, `common_wrong_answers` | Not used | Engine-only; never indexed |
+| External bank question `{id, prompt, concept_ids}` (if a question bank is provided; not part of CourseContext) | T2 bank-match candidates | Kept in a separate lookup index, never in the passage index |
+| External bank question answer / `rubric` | Not used | Engine-only; never indexed |
 
 ### 6.2 `QuestionSchema` [Module usage]
 
@@ -583,7 +583,7 @@ With little human review available, layers 2 and 3 carry most of the work. How w
 
 `course-context.md` §3.3 asks Retrieval for two lookups before a `question_id` exists:
 
-- **Bank match.** Is the confirmed question the *same problem* as an `AssessmentQuestion.prompt`? The same pattern is not a match. The result is `match`, `no_match` or `ambiguous` (top two within a margin), with candidates and a reason. The method is notation-normalized exact match plus high-threshold similarity. A guessed match is never returned.
+- **Bank match.** Is the confirmed question the *same problem* as a question in the external question bank (if one is provided)? The same pattern is not a match. The result is `match`, `no_match` or `ambiguous` (top two within a margin), with candidates and a reason. The method is notation-normalized exact match plus high-threshold similarity. A guessed match is never returned.
 - **Concept match.** The primary concept plus at most two related concepts, or `NO_CONCEPT_MATCH` below the threshold. Candidates come only from the Course Context concept list.
 
 Both lookups search a **separate Course-Context index** built from the published Course Context version. They never return source passages and are never evidence. They use their own records, `CourseContextLookupRequest` / `CourseContextLookupResult` (example `f`), rather than a staged `RetrievalRequest` (Q5).

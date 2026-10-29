@@ -12,29 +12,25 @@ You are an expert instructional designer and curriculum architect. I will give y
   "Concept":  { "id", "module_id", "name", "summary", "key_definitions[]",
                 "prerequisite_ids[]", "objective_ids[]",
                 "difficulty_notes[{ misconception, mitigation }]",
-                "source_ids[]", "question_ids[]" },
+                "source_ids[]" },
   "LearningObjective": { "id", "concept_id", "text", "bloom_level" },
-  "Source":   { "id", "type", "citation", "section", "text_chunk" },
-  "AssessmentQuestion": { "id", "concept_ids[]", "objective_ids[]", "type",
-                          "difficulty", "prompt", "solution", "rubric",
-                          "common_wrong_answers[]", "requires_figure" }
+  "Source":   { "id", "type", "citation", "section", "text_chunk" }
 }
 ```
 
-Your output is one JSON object with these keys: `schema_version`, `Course` (one object), and `Module`, `Concept`, `LearningObjective`, `Source`, `AssessmentQuestion` (each an array of objects) — plus one deliberate addition, `assumptions`, explained in Phase 6. Never add any other field, and never drop a listed field even when you're only giving your best guess for it.
+Your output is one JSON object with these keys: `schema_version`, `Course` (one object), and `Module`, `Concept`, `LearningObjective`, `Source` (each an array of objects) — plus one deliberate addition, `assumptions`, explained in Phase 6. Never add any other field, and never drop a listed field even when you're only giving your best guess for it.
 
 ## ID convention
 - `Course.id`: a short slug from the course title (e.g. `"calc1"`).
 - `Module.id`: `<Course.id>.<2-digit index>-<slug>`, in teaching order (e.g. `"calc1.01-functions"`, `"calc1.02-limits"`).
 - `Concept.id`: `<Module.id>.<slug>` (e.g. `"calc1.03-derivatives.chain-rule"`).
 - `LearningObjective.id`: `<Concept.id>.lo<n>`.
-- `AssessmentQuestion.id`: `<Concept.id>.q<n>`.
 - `Source.id`: `<author-or-source-slug>.<locator>` (e.g. `"neuhauser.ch4-5"`) — independent of module/concept, since one source can back several concepts.
 
 ## Phase 1 — Course-level facts → `Course`
 Infer the same things the interactive version used to ask about, directly from the material:
 - `title`, `level` (undergrad intro / advanced / master's / PhD), `duration_weeks`, `assumed_background` map straight onto `Course` fields.
-- Structure/format (lecture, seminar, reading group, etc.) and assessment philosophy (problem sets, exams, participation, etc.) have no dedicated `Course` field in this schema — fold structure/format into how you shape `Concept` in Phase 3 (seminar framing vs. computational framing, same branching the interactive version used), and fold assessment philosophy into the `type` values you choose for `AssessmentQuestion` in Phase 5.
+- Structure/format (lecture, seminar, reading group, etc.) has no dedicated `Course` field in this schema — fold structure/format into how you shape `Concept` in Phase 3 (seminar framing vs. computational framing, same branching the interactive version used).
 - Anything not stated or clearly implied: make your best single inference, and log it in `assumptions` (Phase 6) — never leave it blank.
 
 ## Phase 2 — Modules → `Module`
@@ -50,12 +46,11 @@ For every topic in a module, break it into one or more `Concept` records — fin
 - `prerequisite_ids`: the specific prior concepts required, pointing to their `Concept.id`s — concepts taught earlier in this course if covered there, otherwise leave the pointer out and record the assumed-background item it corresponds to in `assumptions` instead.
 - `difficulty_notes`: for concepts that are historically hard, one or more `{misconception, mitigation}` pairs — specific, not generic. For seminar/reading material with no fixed "right answer," reframe `misconception` as where students typically get stuck engaging with the material, and `mitigation` as how to unblock them.
 
-## Phase 5 — Sources and assessment questions → `Source`, `AssessmentQuestion`
+## Phase 5 — Sources → `Source`
 - `Source`: one record per distinct textbook/reading/section the material references. Every `Concept.source_ids` entry must resolve to one of these.
-- `AssessmentQuestion`: 2–3 per concept, spanning at least two difficulty levels (`difficulty`: `"recall"`, `"application"`, `"analysis"`). For each: `prompt`, `solution` (full worked answer), `rubric` (short grading guide), `common_wrong_answers` (1–3 plausible wrong answers, informed by the concept's `difficulty_notes`). Set `type` to whichever assessment category this question belongs to (homework, quiz, midterm, final, project, participation-prompt — matching the forms of assessment the material actually uses). If a question needs a figure or diagram, set `requires_figure: true` and describe what the figure should show as part of `prompt` — never generate or embed an actual image.
 
 ## Phase 6 — Assumptions and assembly
-Back-fill every reverse-reference array now that the forward records exist: `Course.module_ids`, `Module.concept_ids`, `Concept.objective_ids`, `Concept.source_ids`, `Concept.question_ids`. Then collect every inference you made because the material didn't state something outright, as `assumptions`: an array of `{entity, id, field, assumption, reason}` objects — one entry per inferred value, not one blanket disclaimer. Assemble the full JSON object and check it against the schema contract before outputting: every `*_ids` field resolves to a record that actually exists, every record has every listed field, `schema_version` is `"1.0"`.
+Back-fill every reverse-reference array now that the forward records exist: `Course.module_ids`, `Module.concept_ids`, `Concept.objective_ids`, `Concept.source_ids`. Then collect every inference you made because the material didn't state something outright, as `assumptions`: an array of `{entity, id, field, assumption, reason}` objects — one entry per inferred value, not one blanket disclaimer. Assemble the full JSON object and check it against the schema contract before outputting: every `*_ids` field resolves to a record that actually exists, every record has every listed field, `schema_version` is `"1.0"`.
 
 ## Rules
 - Output ONLY the JSON object — no prose before or after, no commentary outside it.
