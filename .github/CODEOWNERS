@@ -1,0 +1,31 @@
+# Digital Professor code ownership draft
+#
+# The candidate usernames below were inferred from repository commit authors.
+# Confirm every username before merging. Sean's exact GitHub username still
+# needs confirmation; see the TODO near the Retrieval section.
+
+# Repository governance and shared development guidance
+/.github/ @JonathanMa03
+/resources/DEVELOPMENT_SETUP.md @JonathanMa03
+/resources/PULL_REQUEST_WORKFLOW.md @JonathanMa03
+/resources/AI_CODING_AGENT_GUIDELINES.md @JonathanMa03
+
+# Shared specifications and interfaces
+/specs/ @JonathanMa03 @ovunceker @Lily-smile-jh
+
+# Student Interaction and Student Evidence
+/src/interaction/ @JonathanMa03
+/tests/interaction/ @JonathanMa03
+
+# Course Context, syllabus ingestion, and question schemas
+/src/course_context/ @ovunceker
+/tests/course_context/ @ovunceker
+
+# Retrieval and course knowledge
+# TODO: add Sean's verified GitHub username before enabling these rules.
+# /src/retrieval/ @SEAN_GITHUB_USERNAME
+# /tests/retrieval/ @SEAN_GITHUB_USERNAME
+
+# Delivery and avatar
+/src/delivery/ @Lily-smile-jh
+/tests/delivery/ @Lily-smile-jh
