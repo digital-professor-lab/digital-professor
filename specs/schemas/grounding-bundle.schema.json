@@ -1,0 +1,433 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-professor-lab.github.io/schemas/grounding-bundle.schema.json",
+  "title": "GroundingBundle",
+  "description": "Retrieval's answer to one RetrievalRequest (interfaces.md §9 + rag-retrieval.md §7.1). Called RetrievedEvidence in JDP-36. Further invariants are checked in code (records.check_bundle_invariants).",
+  "x-schema-version": "0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "record_type",
+    "schema_version",
+    "created_at",
+    "producer",
+    "status",
+    "correlation_id",
+    "grounding_bundle_id",
+    "retrieval_request_id",
+    "retrieval_status",
+    "passages",
+    "query_interpretation",
+    "warnings",
+    "course_id",
+    "question_id",
+    "session_id",
+    "turn_id",
+    "retrieval_snapshot_id"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Stable identifier of this record (interfaces.md §1.1)."
+    },
+    "record_type": {
+      "const": "GroundingBundle",
+      "description": "[Contract] Canonical record type."
+    },
+    "schema_version": {
+      "const": "0.1",
+      "description": "[Contract] Shared contract version."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "[Contract] Creation time, UTC, ISO-8601."
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Component that created the record."
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "failed"
+      ],
+      "description": "[Contract] Record processing status."
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Connects all records of one turn."
+    },
+    "grounding_bundle_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Bundle identity; equals record_id."
+    },
+    "retrieval_request_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] The request answered."
+    },
+    "course_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Course scope; passed through unchanged."
+    },
+    "question_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Question scope; passed through unchanged."
+    },
+    "turn_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Tutoring turn; passed through unchanged."
+    },
+    "session_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "[Proposed] Tutoring session; the citation check matches bundles by session and turn."
+    },
+    "retrieval_status": {
+      "enum": [
+        "supported",
+        "partial",
+        "no_support_found",
+        "failed"
+      ],
+      "description": "[Contract] supported = every need covered; partial = passages but some needs not covered; no_support_found = the materials do not cover it or it is out of scope; failed = system fault, retryable."
+    },
+    "retrieval_snapshot_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "[Proposed] Index version searched."
+    },
+    "passages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/GroundingPassage"
+      },
+      "description": "[Contract] Ranked passages, possibly empty."
+    },
+    "query_interpretation": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "[Contract] Transparent query, filter and plan details."
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Warning"
+      },
+      "description": "[Contract] Warnings."
+    },
+    "need_coverage": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/NeedCoverage"
+      },
+      "description": "[Proposed] Coverage per evidence need."
+    },
+    "uncovered_needs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "[Proposed] need_ids whose coverage is not 'covered'."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "retrieval_status": {
+            "const": "supported"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "passages": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "retrieval_status": {
+            "const": "partial"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "uncovered_needs"
+        ],
+        "properties": {
+          "passages": {
+            "minItems": 1
+          },
+          "uncovered_needs": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "retrieval_status": {
+            "const": "no_support_found"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "passages": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "retrieval_status": {
+            "const": "failed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "passages": {
+            "maxItems": 0
+          },
+          "status": {
+            "const": "failed"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "GroundingPassage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passage_id",
+        "document_id",
+        "content_version",
+        "page_number",
+        "line_start",
+        "line_end",
+        "passage_text",
+        "highlight_url",
+        "retrieval_rank"
+      ],
+      "properties": {
+        "passage_id": {
+          "type": "string",
+          "pattern": "^psg_[0-9a-f]{16}$",
+          "description": "[Contract] Stable for a content version: hash of document, version, page, lines."
+        },
+        "document_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "[Contract] Logical source document."
+        },
+        "content_version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "[Contract] Content version the location is valid for."
+        },
+        "page_number": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "[Contract] Page. null only with a location_unavailable warning (development corpus); never invented."
+        },
+        "line_start": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "[Contract] First line in normalized page text; null as above."
+        },
+        "line_end": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "[Contract] Last line; null as above."
+        },
+        "passage_text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "[Contract] Exact text used downstream."
+        },
+        "highlight_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "[Contract] Opens and highlights the passage; null until ingested pages exist."
+        },
+        "relevance_score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "[Contract] Comparable score if available; V1 returns null (fused ranks are not calibrated)."
+        },
+        "retrieval_rank": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "[Contract] Final rank, 1..n without gaps."
+        },
+        "role": {
+          "enum": [
+            "primary",
+            "context"
+          ],
+          "description": "[Proposed] primary = returned for the request."
+        },
+        "visibility": {
+          "enum": [
+            "student_visible",
+            "engine_only"
+          ],
+          "description": "[Proposed] Who may see the text."
+        },
+        "document_role": {
+          "type": "string",
+          "description": "[Proposed] e.g. lecture_notes, textbook, ai_course_breakdown."
+        },
+        "source_provenance": {
+          "enum": [
+            "source_document",
+            "ai_generated"
+          ],
+          "description": "[Proposed] Where the text comes from."
+        },
+        "review_status": {
+          "enum": [
+            "reviewed",
+            "unverified"
+          ],
+          "description": "[Proposed] Human review state."
+        },
+        "source_label": {
+          "type": "string",
+          "description": "[Proposed] Human-readable source name for display."
+        },
+        "legacy_locator": {
+          "type": "object",
+          "description": "[Proposed] Development only: Week 3 file and LaTeX lines."
+        },
+        "known_issues": {
+          "type": "array",
+          "description": "[Proposed] Open review issues inside this passage."
+        }
+      }
+    },
+    "Warning": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "budget_truncated",
+            "encoder_unavailable",
+            "excluded_scope",
+            "index_encoder_mismatch",
+            "index_unavailable",
+            "location_unavailable",
+            "no_eligible_sources",
+            "no_ingested_sources",
+            "query_language_unsupported",
+            "reference_only",
+            "resolver_unavailable",
+            "revoked_source",
+            "semantic_channel_unavailable",
+            "source_class_unavailable",
+            "source_quality_warning",
+            "stale_version",
+            "sufficiency_uncertain",
+            "text_mismatch",
+            "timeout",
+            "unverified_source"
+          ],
+          "description": "[Proposed] Machine-readable reason (rag-retrieval.md §8)."
+        },
+        "message": {
+          "type": "string"
+        },
+        "passage_id": {
+          "type": "string"
+        },
+        "need_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "NeedCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "need_id",
+        "coverage",
+        "passage_ids",
+        "method"
+      ],
+      "properties": {
+        "need_id": {
+          "type": "string"
+        },
+        "coverage": {
+          "enum": [
+            "covered",
+            "partially_covered",
+            "not_covered"
+          ]
+        },
+        "passage_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "method": {
+          "type": "string",
+          "pattern": "^(pinned|judge|none|rule:[a-z_]+)$",
+          "description": "[Proposed] Who decided: human-pinned passage, judge, or the rule for a need type."
+        }
+      }
+    }
+  }
+}
