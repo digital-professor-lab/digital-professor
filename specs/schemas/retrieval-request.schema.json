@@ -1,0 +1,428 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-professor-lab.github.io/schemas/retrieval-request.schema.json",
+  "title": "RetrievalRequest",
+  "description": "What the tutoring turn asks Retrieval for (interfaces.md §8 + rag-retrieval.md §5.2). Built by the system from the main AI model's tool arguments plus system fields; the model never sets course, question, version or exclusions.",
+  "x-schema-version": "0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "record_type",
+    "schema_version",
+    "created_at",
+    "producer",
+    "status",
+    "correlation_id",
+    "retrieval_request_id",
+    "course_id",
+    "question_id",
+    "turn_id",
+    "session_id",
+    "query",
+    "query_origin",
+    "purpose",
+    "evidence_needs"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Stable identifier of this record (interfaces.md §1.1)."
+    },
+    "record_type": {
+      "const": "RetrievalRequest",
+      "description": "[Contract] Canonical record type."
+    },
+    "schema_version": {
+      "const": "0.1",
+      "description": "[Contract] Shared contract version."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "[Contract] Creation time, UTC, ISO-8601."
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Component that created the record."
+    },
+    "status": {
+      "enum": [
+        "valid"
+      ],
+      "description": "[Contract] Record processing status."
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Connects all records of one turn."
+    },
+    "retrieval_request_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Request identity; equals record_id."
+    },
+    "course_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Course scope; passed through unchanged."
+    },
+    "question_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Question scope; passed through unchanged."
+    },
+    "turn_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Tutoring turn; passed through unchanged."
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Proposed] Tutoring session; the citation check matches bundles by session and turn."
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "description": "[Contract] Search text in course terms (the tool limits the model to 300 chars)."
+    },
+    "query_origin": {
+      "enum": [
+        "structured",
+        "student_text"
+      ],
+      "description": "[Proposed] student_text when the query copies the student; triggers the free-text scope check."
+    },
+    "purpose": {
+      "enum": [
+        "answer_grounding",
+        "diagnosis_support",
+        "hint_support",
+        "citation_check",
+        "definition_lookup",
+        "example_lookup",
+        "prerequisite_review",
+        "practice_generation",
+        "approach_grounding"
+      ],
+      "description": "[Contract] Why the material is needed; V1 adds definition_lookup, example_lookup, prerequisite_review, practice_generation, approach_grounding."
+    },
+    "evidence_needs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "need_id",
+          "need_type",
+          "description"
+        ],
+        "properties": {
+          "need_id": {
+            "type": "string",
+            "pattern": "^n[1-9][0-9]*$",
+            "description": "[Proposed] n1, n2, … in order."
+          },
+          "need_type": {
+            "enum": [
+              "formula_statement",
+              "definition",
+              "theorem_statement",
+              "worked_example",
+              "exercise",
+              "method_guidance",
+              "prerequisite_explanation",
+              "notation_convention",
+              "course_policy"
+            ],
+            "description": "[Proposed] Kind of evidence needed."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "[Proposed] What the passage must state; also searched."
+          },
+          "anchor": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "description": "[Proposed] Exact term or formula that must appear in a supporting passage."
+          },
+          "concept_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "[Proposed] Primary concepts of the turn."
+          }
+        }
+      },
+      "description": "[Proposed] 1–4 typed needs; the evidence check runs per need."
+    },
+    "concept_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "[Contract] Structured topical filter: the turn's primary concepts."
+    },
+    "concept_names": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "[Proposed] Display names of concept_ids, for the evidence check."
+    },
+    "document_filters": {
+      "type": "object",
+      "description": "[Contract] Allowed document IDs/types/versions. Not used by V1."
+    },
+    "evidence_summary": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "[Contract] Minimum student context needed to retrieve support."
+    },
+    "top_k": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "[Contract] Maximum passages; default from the course policy (Week 3: 6)."
+    },
+    "max_passage_chars": {
+      "type": "integer",
+      "minimum": 500,
+      "description": "[Proposed] Character budget; default from the course policy (12,000)."
+    },
+    "query_language": {
+      "enum": [
+        "en"
+      ],
+      "description": "[Proposed] V1 is English-only."
+    },
+    "retrieval_snapshot_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Proposed] Pinned index version for the session."
+    },
+    "course_context_ref": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "[Proposed] Course Context identity and version used for the turn."
+    },
+    "scope_check_text": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "[Proposed] The student's own words, for the scope check only; never searched or logged as text."
+    },
+    "exclude": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question_ids",
+        "same_problem_as_current"
+      ],
+      "properties": {
+        "question_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "same_problem_as_current": {
+          "type": "boolean"
+        }
+      },
+      "description": "[Proposed] Answer-leak guard for example_lookup / practice_generation."
+    },
+    "retrieval_plan": {
+      "$ref": "#/$defs/RetrievalPlan",
+      "description": "[Proposed] The validated plan behind this request (rag-retrieval.md Appendix C)."
+    }
+  },
+  "$defs": {
+    "RetrievalPlan": {
+      "title": "RetrievalPlan",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan_version",
+        "course_id",
+        "concepts",
+        "concept_status",
+        "main_query",
+        "needs",
+        "scope",
+        "origin",
+        "repairs"
+      ],
+      "properties": {
+        "plan_version": {
+          "const": "retrieval-plan@2"
+        },
+        "course_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "concepts": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "concept_id",
+              "name",
+              "module_id",
+              "source",
+              "role"
+            ],
+            "properties": {
+              "concept_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "module_id": {
+                "type": "string"
+              },
+              "source": {
+                "enum": [
+                  "question_schema",
+                  "linked",
+                  "model"
+                ]
+              },
+              "role": {
+                "enum": [
+                  "primary",
+                  "related"
+                ]
+              }
+            }
+          }
+        },
+        "concept_status": {
+          "enum": [
+            "found",
+            "none_found",
+            "not_in_course"
+          ]
+        },
+        "main_query": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 300
+        },
+        "needs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "need_id",
+              "need_type",
+              "query",
+              "preferred_blocks"
+            ],
+            "properties": {
+              "need_id": {
+                "pattern": "^n[1-4]$"
+              },
+              "need_type": {
+                "enum": [
+                  "formula_statement",
+                  "definition",
+                  "theorem_statement",
+                  "worked_example",
+                  "exercise",
+                  "method_guidance",
+                  "prerequisite_explanation",
+                  "notation_convention",
+                  "course_policy"
+                ]
+              },
+              "query": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 200
+              },
+              "anchor": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "concept_id": {
+                "type": "string"
+              },
+              "preferred_blocks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "scope": {
+          "type": "object",
+          "required": [
+            "module_ids",
+            "narrowing"
+          ],
+          "properties": {
+            "module_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "narrowing": {
+              "enum": [
+                "not_enforced",
+                "module",
+                "section"
+              ]
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "origin": {
+          "enum": [
+            "draft",
+            "model"
+          ]
+        },
+        "repairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "field",
+              "code"
+            ]
+          }
+        },
+        "linking": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}
