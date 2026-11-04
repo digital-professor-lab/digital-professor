@@ -3,11 +3,11 @@
 | | |
 |---|---|
 | **Spec ID** | `rag-retrieval` |
-| **Version** | V1, retrieval as function calling: draft for team review, 2026-10-29. Replaces the V1 draft of 2026-10-16 |
+| **Version** | V1, retrieval as function calling: draft for team review, 2026-10-29; revised 2026-11-04 after review of PR #11. Replaces the V1 draft of 2026-10-16 |
 | **Owner** | Course Knowledge Retrieval: Sean (Zixiang Song) |
-| **Partners** | Jonathan (Interaction, student understanding), Ovunc (Course Context and ingestion), Tutoring Engine owner (TBD), Yining (Delivery) |
+| **Partners** | Jonathan (Interaction, student understanding), Ovunc (Course Context and ingestion), Tutoring Engine (`tutoring-engine.md`, PR #12), Yining (Delivery) |
 | **Shared contracts** | `interfaces.md` V0.1 is canonical for record names; `architecture.md` for roles; `course-context.md` 0.5.0 for `CourseContext` / `QuestionSchema`. Read at `integration-spec` commit `61728ab` |
-| **Implementation** | Prototype package `retrieval_tool/` (Python, 99 offline tests), submitted separately under JDP-42. It calls the Week 3 retrieval code unchanged. File names in this spec (`results/…`, `scripts/…`, `retrieval_tool/…`) refer to that package |
+| **Implementation** | Prototype package `retrieval_tool/` (Python; test results in §10), submitted separately under JDP-42. It calls the pinned Week 3 retrieval code unchanged. File names in this spec (`results/…`, `scripts/…`, `retrieval_tool/…`) refer to that package |
 | **JSON Schemas** | `specs/schemas/`: `retrieval-request`, `grounding-bundle`, `retrieval-stop`, `retrieval-plan` (draft 2020-12, generated from the code) |
 | **Jira** | JDP-36 (this specification), JDP-19, JDP-42, JDP-43, JDP-44. Where each requirement is covered: Appendix L |
 
@@ -26,7 +26,7 @@ MUST, SHOULD and MAY follow RFC 2119.
 **V1 at a glance**
 
 1. Retrieval is a **tool** (`search_course_materials`) that the main AI model calls. It is not a stage that every message passes through.
-2. **Code decides when** the tool is required, optional or not offered, from the tutoring action (the grounding policy). The main AI model decides only the optional cases, and on those the Jev decider settles most of them first.
+2. **The Tutoring Engine or coordinator decides when** the tool is required, optional or not offered, by applying the agreed grounding policy to the tutoring action. Retrieval provides the policy table and, on optional turns, a search recommendation (the Jev recommender). The main AI model decides only the optional turns that the recommendation leaves open.
 3. **What to search for is a validated plan**, not free text. Code drafts it from the Course Context, the model refines it within fixed lists, and code checks and repairs it.
 4. **The search itself is Week 3's code with Week 3's thresholds.** Nothing about ranking was re-implemented.
 5. Every passage is **checked against the stated needs** before the model sees it, and every citation in the reply is **checked again** before the student sees it.
@@ -42,11 +42,11 @@ Retrieval answers one question for a tutoring turn: **"What do this course's app
 
 **V1 delivers**
 
-- the tool definition the main AI model sees, and the per-action grounding policy that controls it;
+- the tool definition the main AI model sees, the grounding policy table and the optional-search recommendation;
 - the retrieval plan (which concept, which kinds of evidence, which search text) with a JSON Schema and code validation;
 - the retrieval service: `RetrievalRequest` → `GroundingBundle` or `RetrievalStop`;
 - the citation check (T4) that turns the model's labels into `TutoringAction.grounding_refs`;
-- a reference turn loop (`run_turn`) that the Engine owner can call or take apart.
+- a reference turn loop (`run_turn`) that the Engine can call or take apart. It executes the decision the caller passes in.
 
 **Out of scope for V1**
 
@@ -61,16 +61,17 @@ V1 choices and trade-offs (essential vs optional; accuracy, latency, cost, compl
 
 Retrieval sits between four modules: Course Context and Ingestion (what the course says), Interaction (what the student said), the Tutoring Engine (what the tutor wants to do) and Delivery (what the student sees). Below, "Retrieval" means Sean's module. This section states, for each boundary, who owns what, which record crosses it, and **what Retrieval would like to receive next**.
 
-The rule behind the wish lists: **each fact is worked out once, by the module that knows it best, and passed on.** Retrieval should not guess the topic again if Interaction already understood it, and it should not parse course files that Ingestion has already structured. That keeps each turn short and makes the modules behave as one system.
+The rule behind the wish lists: **each fact is worked out once, by the module that owns it, and passed on.** Interaction captures student evidence, the Engine interprets it and chooses the action, and Retrieval finds and validates course evidence. Retrieval should not extract again what Interaction has captured, and it should not parse course files that Ingestion has already structured. That keeps each turn short and makes the modules behave as one system.
 
 ```mermaid
 flowchart LR
     S[Student input] --> I[Interaction<br/>Jonathan]
     CC[Course Context +<br/>ingested materials<br/>Ovunc] -->|concept list, QuestionSchema,<br/>structured JSON| R
-    I -->|confirmed text +<br/>turn understanding| E[Tutoring Engine<br/>owner TBD]
-    E -->|action_type| P{{Grounding policy<br/>code}}
+    I -->|confirmed text +<br/>factual turn record| E[Tutoring Engine<br/>and coordinator]
+    E -->|applies the agreed policy<br/>to action_type| P{{Grounding decision}}
+    R[Retrieval<br/>Sean] -.->|policy table,<br/>search recommendation| P
     P -->|must / may / no tool| M[Main AI model<br/>DeepSeek in current tests]
-    M <-->|tool call ↔ labelled passages| R[Retrieval<br/>Sean]
+    M <-->|tool call ↔ labelled passages| R
     M -->|reply with P-labels| C[Citation check<br/>code]
     C -->|TutoringAction<br/>+ grounding_refs| D[Delivery<br/>Yining]
 ```
@@ -127,44 +128,65 @@ Both sides "split" text, but not in the same way. Ovunc splits by **content stru
 
 | Jonathan owns | Sean (Retrieval) owns |
 |---|---|
-| Recognizing the input (typed, handwriting, voice), confirming ambiguous meaning | Deciding whether this turn searches (grounding policy, may-turn decider) |
-| Understanding what the student is asking | Splitting the need into typed evidence needs and search text |
-| `StudentEvidence` (factual and label-free by design) | Searching, checking evidence, returning passages |
+| Recognizing the input (typed, handwriting, voice), confirming ambiguous meaning | Splitting the need into typed evidence needs and search text |
+| Capturing what the student submitted and explicitly asked | Searching, checking evidence, returning passages |
+| `StudentEvidence` (factual and label-free by design) | Validating and executing an accepted `RetrievalRequest` |
 
-**Today (V1):** Retrieval receives the confirmed student text and a one-sentence `intent_summary`. It then works out the topic again itself (concept linking, then the main AI model), and for optional turns Jev reads the message once more to decide whether to search.
+Interaction does not judge the student's work. Deciding that a student omitted a required step is a diagnosis, and it belongs to Learner State and the Tutoring Engine.
 
-**What Sean (Retrieval) would like to receive next.** A small per-turn understanding record from Interaction [Proposed, to agree with Jonathan], kept next to `StudentEvidence` so that the evidence stays label-free. These are things Interaction already works out while understanding the message. Passing them on means Retrieval does not read the same message a second time, which saves a model or Jev call per turn and removes a place where two modules could disagree about the topic.
+**Today (V1):** Retrieval receives the confirmed student text and a one-sentence `intent_summary` through the Engine. It works out the topic itself (concept linking, then the main AI model).
 
-| Field | Example | What it saves Retrieval |
-|---|---|---|
-| `confirmed_text` | "I got d/dx sin(x²) = cos(x²). Why is that marked wrong?" | Already used: the out-of-course check reads the student's own words |
-| `topic`: `concept_ids` from the course list, each with a confidence | chain rule, 0.85 | A confident topic is used like a bank question's concept: no concept linking, no concept choice by the main AI model |
-| `request_kind` | `asks_explanation` (others: `asks_definition`, `asks_example`, `asks_hint`, `asks_check`, `submits_work`, `no_content_request`) | Maps straight to need types. `submits_work` / `no_content_request` mean no search on optional turns, without a Jev call |
-| `mentions_other_course` (+ the phrase) | `false` | A quick first scope check |
-| `intent_summary` | "omitted the derivative of the inner function" | The main search text of the draft and of the system's own search (prefetch) |
-| `math_expressions` (normalized LaTeX of what the student wrote) | `\cos(x^2)` | Anchors for formula needs |
-| `language` | `en` | The English-only check |
+**What Sean (Retrieval) would like to receive next.** A small factual per-turn record from Interaction [Proposed, to agree with Jonathan], kept next to `StudentEvidence` so that the evidence stays factual and label-free. Passing on what Interaction has already captured means Retrieval does not extract it a second time.
+
+| Field | Kind | Example | What it saves Retrieval |
+|---|---|---|---|
+| `confirmed_text` | Fact | "I got d/dx sin(x²) = cos(x²). Why is that marked wrong?" | Already used: the out-of-course check reads the student's own words |
+| `math_expressions` | Fact: extracted from what the student wrote | `\cos(x^2)` | Anchors for formula needs |
+| `stated_request` | Fact: only when a control or the student states it outright | `null` | Maps straight to need types |
+| `language` | Fact | `en` | The English-only check |
+| `unresolved_ambiguities` | Fact | `[]` | Avoids treating unclear content as settled |
+| `intent_summary` | Fact: restates the request, with no diagnosis | "Student asks why their derivative was marked wrong." | The main search text of the draft and of the system's own search (prefetch) |
+| `routing_hints.concept_candidates` | Non-authoritative hint | chain rule, 0.85 | One more input to concept linking |
+| `routing_hints.request_kind` | Non-authoritative hint | `asks_explanation` (others: `asks_definition`, `asks_example`, `asks_hint`, `asks_check`, `submits_work`, `no_content_request`) | Can inform the optional-search recommendation |
+| `routing_hints.mentions_other_course` | Non-authoritative hint | `false` | A quick first scope check |
 
 ```json
 {
   "record_type": "TurnUnderstanding", "turn_id": "turn-chain_rule_explain", "producer": "interaction",
   "confirmed_text": "I got d/dx sin(x^2) = cos(x^2). Why is that marked wrong?",
-  "topic": [{"concept_id": "calc1.03-derivatives.chain-rule", "confidence": 0.85}],
-  "request_kind": "asks_explanation",
-  "mentions_other_course": false,
-  "intent_summary": "Student omitted the derivative of the inner function x^2.",
   "math_expressions": ["\\frac{d}{dx}\\sin(x^2) = \\cos(x^2)"],
-  "language": "en"
+  "stated_request": null,
+  "language": "en",
+  "unresolved_ambiguities": [],
+  "intent_summary": "Student asks why their derivative was marked wrong.",
+  "routing_hints": {
+    "authority": "non_authoritative",
+    "concept_candidates": [{"concept_id": "calc1.03-derivatives.chain-rule", "confidence": 0.85}],
+    "request_kind": "asks_explanation",
+    "mentions_other_course": false
+  }
 }
 ```
 
-All of these are hints, not orders. Retrieval still checks concept IDs against the course list, and a bank question's own concepts still win.
+Every model-derived field sits under `routing_hints`, which is non-authoritative. A hint never decides whether a turn searches, what the student knows or which action comes next. Retrieval still checks concept IDs against the course list, and a question's own concepts still win. If the team prefers, the Engine or coordinator can produce the interpreted part of this record instead, and Interaction keeps only the facts (Q3).
 
-### 2.3 Tutoring Engine (owner TBD) ↔ Retrieval (Sean)
+### 2.3 Tutoring Engine ↔ Retrieval (Sean)
 
-The Engine owns the learner state, the choice of action, the pedagogy and the final `TutoringAction`. Sean (Retrieval) provides the grounding policy's retrieval column, the tool, the reference turn loop and the citation check.
+The Engine owns the learner state, the choice of action, the pedagogy and the final `TutoringAction`. Sean (Retrieval) provides the grounding policy table, the optional-search recommendation, the tool, the reference turn loop and the citation check.
 
-**Would like:** an `action_type` (one of the 12) and a `pedagogical_goal` on every turn; the flags `states_course_content` (hint) and `checks_course_convention` (verify) when they apply; a decision on which entry point the Engine uses (§2.5) and which main AI model is used.
+**Who decides whether a turn searches** [Proposed, to agree with the Engine and coordinator]
+
+| Step | Owner |
+|---|---|
+| Choose the tutoring action, its goal and its flags | Tutoring Engine |
+| Apply the agreed grounding policy: retrieval is required, optional or unnecessary | Tutoring Engine or coordinator |
+| Provide the policy table and, on optional turns, a search recommendation | Retrieval |
+| Settle an optional turn | The Engine's turn, following the recommendation when the caller passes one in; the main AI model when the recommendation is unsure or absent |
+| Validate and execute an accepted `RetrievalRequest` | Retrieval |
+
+Retrieval does not independently choose a pedagogical action and does not override the Engine's decision. It can still report that a request cannot run (§6.4), for example because the request is invalid or the course is not ready. That result goes back to the Engine, which decides what happens next.
+
+**Would like:** an `action_type` (one of the 12), a `pedagogical_goal` and the accepted grounding decision on every turn; the flags `states_course_content` (hint) and `checks_course_convention` (verify) when they apply; a decision on which entry point the Engine uses (§2.5) and which main AI model is used.
 
 ### 2.4 Retrieval (Sean) → Delivery (Yining)
 
@@ -178,8 +200,8 @@ The main AI model is a parameter (`llm`): any OpenAI-compatible model with tool 
 
 | Entry point | Call | Use when |
 |---|---|---|
-| **Whole turn** | `service, decider, notes = build_tutoring_runtime()`, then `run_turn(llm, service, ctx, decider=decider)` | The Engine uses the reference loop as it is |
-| **Tool only** | Send `tool_for_decision(decide(action_type))` to the main AI model; on a tool call, `planner.finalize` → `plan_to_request` → `service.handle(request)` → `model_view` back to the model | The Engine runs its own loop (for example LangGraph later) |
+| **Whole turn** | `service, recommender, notes = build_tutoring_runtime()`, then `run_turn(llm, service, ctx, decision=decision, recommender=recommender)`. `decision` is the Engine's accepted decision, usually from `recommend_grounding(action_type)`. The recommender is optional and is used only on `may` turns | The Engine uses the reference loop as it is |
+| **Tool only** | Send `tool_for_decision(decision)` to the main AI model; on a tool call, `planner.finalize` → `plan_to_request` → `service.handle(request)` → `model_view` back to the model | The Engine runs its own loop (for example LangGraph later) |
 | **Citation check** | `verify_grounding_refs(passage_ids, bundles, session_id=…, turn_id=…)` | Before the action goes to Delivery |
 
 ### 2.6 What crosses each boundary
@@ -187,8 +209,8 @@ The main AI model is a parameter (`llm`): any OpenAI-compatible model with tool 
 | From → to | Now (V1) | Wanted next |
 |---|---|---|
 | Ovunc → Retrieval | Course Context concept list; `QuestionSchema.concept_ids` | Ingestion JSON with typed blocks, concepts, page/line positions, versions (§2.1) |
-| Jonathan → Retrieval | Confirmed text; `intent_summary` | Turn understanding: topic, request kind, scope flag, math (§2.2) |
-| Engine → Retrieval | `action_type`, goal | The same, plus flags and the chosen entry point (§2.3) |
+| Jonathan → Retrieval | Confirmed text | Factual turn record, plus non-authoritative routing hints (§2.2) |
+| Engine → Retrieval | `action_type`, goal, `intent_summary`, accepted grounding decision | The same, plus flags and the chosen entry point (§2.3) |
 | Coordinator → Retrieval | `course_id`, `session_id`, `turn_id`, `question_id`, `correlation_id`, pinned snapshot, bank-sibling IDs | No change |
 | Retrieval → main AI model | Labelled passages with `citable` flags, uncovered needs, instructions (Appendix E.2) | No change |
 | Retrieval → Engine | `GroundingBundle` / `RetrievalStop`; `grounding_refs` | No change |
@@ -200,7 +222,8 @@ The main AI model is a parameter (`llm`): any OpenAI-compatible model with tool 
 **Retrieval owns** [Module]
 
 - the tool definition and its per-turn narrowing (allowed purposes, concept enum);
-- the retrieval column of the grounding policy (must / may / not_needed / must_not per action) until an Engine owner takes it over [Proposed];
+- the grounding policy table and the helper that reads it (must / may / not_needed / must_not per action), offered for team agreement. The Engine or coordinator applies it [Proposed];
+- the optional-search recommendation (a recommendation, not a decision);
 - the retrieval plan: concept linking, the draft, validation and repair;
 - validation of every `RetrievalRequest`, the preflight checks, the search, the evidence check and the bundle status;
 - the citation check and the mapping from labels to `passage_id`;
@@ -208,7 +231,7 @@ The main AI model is a parameter (`llm`): any OpenAI-compatible model with tool 
 
 **Retrieval does not own**
 
-- what the student meant (Interaction), what the student knows or which action comes next (Engine), whether an answer is correct (math tool / Engine);
+- capturing what the student submitted (Interaction); what the student knows, which action comes next and whether this turn searches (Engine or coordinator); whether an answer is correct (math tool / Engine);
 - how course materials are structured, chunked or versioned (Ovunc);
 - how passages are displayed (Delivery);
 - the wording of the tutor's reply. Retrieval only constrains what the reply may cite.
@@ -217,8 +240,8 @@ The main AI model is a parameter (`llm`): any OpenAI-compatible model with tool 
 
 | Step | Done by | Can it be wrong in a way that matters? |
 |---|---|---|
-| Must we search? | Code (policy table) | No: fixed per action |
-| Optional cases: search or not? | Jev decider, then the main AI model if Jev is unsure | Yes, so measured (§10) |
+| Must we search? | Engine or coordinator, applying the policy table | No: fixed per action once the table is agreed |
+| Optional cases: search or not? | Jev recommendation when the caller passes it in, then the main AI model if Jev is unsure | Yes, so measured (§10) |
 | Which concept, what to search for | Code draft → model refinement → code repair | Model choices are limited to the course list, and code keeps the question's own concept |
 | Course, version, exclusions | Code (system fields) | No: the model cannot set them |
 | Search and ranking | Week 3 code | Same as Week 3 |
@@ -229,19 +252,19 @@ The main AI model is a parameter (`llm`): any OpenAI-compatible model with tool 
 
 | Dependency | Version / location | If unavailable |
 |---|---|---|
-| Week 3 retrieval code | `week3/knowledge_base/retrieval`, called unchanged | Service cannot start |
+| Week 3 retrieval code | Commit `9f27fae` of branch `Sean/-Retrieval-working`, pinned by `scripts/setup_week3.sh` and called unchanged | The core tests and smoke check still run on the local fixture; live search cannot start |
 | Week 3 index | Docker PostgreSQL 17 + pgvector, `127.0.0.1:55432`, compose project `entagile-kb` | `failed` + `index_unavailable` (retryable) |
 | Query encoders | BGE-base-en-v1.5 and Qwen3-Embedding-0.6B, revisions pinned by the Week 3 manifest; loaded once at startup (about 5–8 s) | `failed` + `encoder_unavailable` |
 | Course Context | `calc1.course-context.json` (copy of `integration-spec` commit `d3caf0a`) | No concept list: the tool has no concept fields; the plan uses upstream names only |
 | Main AI model | Not chosen yet. Any OpenAI-compatible API with tool calling. Current tests: DeepSeek (`deepseek-chat`); adapters for Gemini, Kimi and OpenAI exist, not yet compared | Turn cannot run |
-| Jev (TypeSafe Jev, Week 5 client unchanged) | Optional; runs only when the course policy sets `external_processing_allowed = true` | Rules decide evidence; the main AI model decides optional turns |
+| Jev (TypeSafe Jev), client in `retrieval_tool/jev_client.py` | Optional; runs only when the course policy sets `external_processing_allowed = true` | Rules decide evidence; the main AI model decides optional turns |
 | Week 3 scope rules | `request_policy.assess_request`, reused as policy data | No free-text scope check (logged) |
 
 ## 5. Inputs
 
 ### 5.1 Turn context (from the coordinator) [Proposed]
 
-`TurnContext` is what the system already knows before the model is called: the identifiers (`course_id`, `session_id`, `turn_id`, `question_id`, `correlation_id`, pinned snapshot), `action_type`, `course_title`, `question_prompt` (display-safe), `concept_ids` (from `QuestionSchema`), `student_message` (confirmed text), `intent_summary`, `evidence_summary`, `bank_sibling_question_ids`. None of it is written by the main AI model. [Proposed] The turn-understanding fields of §2.2 would join it.
+`TurnContext` is what the system already knows before the model is called: the identifiers (`course_id`, `session_id`, `turn_id`, `question_id`, `correlation_id`, pinned snapshot), `action_type`, `course_title`, `question_prompt` (display-safe), `concept_ids` (from `QuestionSchema`), `student_message` (confirmed text), `intent_summary`, `evidence_summary`, `bank_sibling_question_ids`. The accepted grounding decision travels with it as a separate argument of `run_turn`. None of it is written by the main AI model. [Proposed] The factual fields and routing hints of §2.2 would join it.
 
 ### 5.2 `RetrievalRequest` [Contract + Proposed additions]
 
@@ -280,18 +303,20 @@ Course **material** carries its own provenance. Every passage has `source_proven
 
 ## 6. How a turn works
 
-Five stages. Stages 1, 2, 4 and 5 are code; stage 3 is the only place where the main AI model writes anything.
+Five stages. Stage 1 belongs to the Engine or coordinator. Stages 2, 4 and 5 are Retrieval's code. Stage 3 is the only place where the main AI model writes anything.
 
-### 6.1 Stage 1: grounding policy (code) [Module, Proposed to the Engine owner]
+### 6.1 Stage 1: grounding decision (Engine or coordinator) [Proposed]
 
-`decide(action_type)` returns one of four modes. The full table is in Appendix A.
+The Engine or coordinator applies the agreed policy and passes the decision to the turn. Retrieval provides `recommend_grounding(action_type)`, a pure helper that reads the table and returns one of four modes. It reads no state and changes nothing. The full table is in Appendix A.
 
 | Mode | Actions | What the model gets |
 |---|---|---|
 | **must** | `explain`, `hint`, `contrast`, `demonstrate` | Tool with `tool_choice = "required"` |
-| **may** | `probe`, `diagnose`, `check_understanding`, `transfer` | Jev decides first: p ≥ 0.7 → treated as must; p < 0.3 → no tool; otherwise `tool_choice = "auto"` |
+| **may** | `probe`, `diagnose`, `check_understanding`, `transfer` | If the caller passes the recommender, Jev recommends first: p ≥ 0.7 → treated as must; p < 0.3 → no tool; otherwise `tool_choice = "auto"`. Without it, `tool_choice = "auto"` |
 | **not_needed** | `elicit`, `retry` | No tool |
 | **must_not** | `inspect`, `verify` | No tool; a call is rejected |
+
+`run_turn` requires this decision. It never works out a mode itself, and it consults the recommender only on `may` turns.
 
 A must turn **always** gets a bundle. If the provider rejects `required`, or the model answers without calling the tool, the system runs the search itself (prefetch) from the code-made plan and asks the model again. A turn allows at most 2 tool calls.
 
@@ -303,7 +328,7 @@ Code decides which course concepts the turn is about and drafts what to look for
 2. **Draft.** One main search text plus one need for each of the first two need types the policy lists for the action. Each need uses a fixed template ("statement of the chain rule", "worked example using …").
 3. The draft and the course concept list go into the main AI model's instructions.
 
-[Proposed] When Interaction supplies a confident topic (§2.2), it enters step 1 as one more source, after the QuestionSchema and before linking, and the main AI model no longer has to choose the concept.
+[Proposed] Interaction's concept candidates (§2.2) can enter step 1 as a non-authoritative hint, after the QuestionSchema. Code still checks each candidate against the course list.
 
 ### 6.3 Stage 3: the tool call (the model) [Module]
 
@@ -337,7 +362,7 @@ The earlier draft had one "Gatekeeper" before retrieval and a "Selector" after i
 
 | Old term | V1 component | When | What it decides | When it fails or is unsure |
 |---|---|---|---|---|
-| Gatekeeper: **necessity** | Grounding policy (code) + Jev decider on may-turns (§6.1) | Before the main AI model is called | Must this turn search, may it, or must it not? | Jev error or no Jev → the main AI model decides. Must turns cannot be skipped: if the model does not search, the system does |
+| Gatekeeper: **necessity** | Grounding decision by the Engine or coordinator + Jev recommendation on may-turns (§6.1) | Before the main AI model is called | Must this turn search, may it, or must it not? | Jev error or no Jev → the main AI model decides. Must turns cannot be skipped: if the model does not search, the system does |
 | Gatekeeper: **scope** | Preflight B: Week 3 rules on the student's own words; an optional model check can only make it stricter (§6.4) | Before the search | Is this about this course, and about a part it covers? | Model check error → rules only (`gate_fallback`). A wrongly blocked request: the tutor says it looks outside the course, the student can rephrase, and the case is logged in the report |
 | Gatekeeper: **answerability** | Evidence check after the search (Jev judge; rules fallback) (§6.4 step 6) | After the search | Do the returned passages actually state what each need asks for? | Jev error → rules + `sufficiency_uncertain`. Unsure (`partially_covered`) → `partial`; the passage may be cited only for that need, with a warning |
 | Selector | Week 3 selection, unchanged: hybrid channels, RRF, sub-questions, soft per-file limit, character budget (§6.4 step 4) | During the search | Which 6 passages, in which order | Index or encoder down → `failed` (retryable). It never re-ranks on evidence; only the evidence gate can empty an all-off-topic bundle, and production drops reference-only passages |
@@ -394,7 +419,7 @@ One report per request, for logs and evaluation; **not consumed by the Engine or
 
 ### 7.7 Turn result (reference loop)
 
-`run_turn` returns the reply, the policy decision, all requests and bundles/stops, `grounding_refs`, the citation-check result, events and the number of model calls. `tutoring_action()` drafts the `TutoringAction` fields the Engine completes.
+`run_turn` returns the reply, the decision it executed, all requests and bundles/stops, `grounding_refs`, the citation-check result, events and the number of model calls. `tutoring_action()` drafts the `TutoringAction` fields the Engine completes.
 
 ## 8. Expected failures
 
@@ -412,7 +437,7 @@ One report per request, for logs and evaluation; **not consumed by the Engine or
 | Database or encoder down | Search | `failed` + `index_unavailable` / `encoder_unavailable` (retryable) | Yes, ungrounded |
 | Every passage off-topic | Evidence gate | `no_support_found` | Yes |
 | Jev judge error | Evidence check | Rules decide + `sufficiency_uncertain` warning | Yes |
-| Jev decider error, no Jev key, or `external_processing_allowed = false` | Stage 1 | The main AI model decides optional turns | Yes |
+| Jev recommender error, no Jev key, or `external_processing_allowed = false` | Stage 1 | The main AI model decides optional turns | Yes |
 | Reply cites a passage not from this turn or not supporting a need | Citation check | One internal rewrite, then the label is removed | Yes |
 
 ## 9. Logging and observability
@@ -421,7 +446,7 @@ Every turn returns, in memory, a list of events and a per-request report:
 
 | Event / report | Contents |
 |---|---|
-| `retrieval_decision` | Decider (Jev or model), probability, choice, thresholds |
+| `retrieval_decision` | Recommender (Jev or model), probability, choice, thresholds |
 | `retrieval_plan_draft`, `retrieval_plan` | Concepts with source and role, `concept_status`, needs, `repairs` |
 | `retrieval` | Request ID, result status, `query_origin`, timings (Week 3 search, judge, total), judge and rule verdicts side by side |
 | `model_call` | Duration of each model call |
@@ -430,11 +455,14 @@ Every turn returns, in memory, a list of events and a per-request report:
 
 The student's message is used for the scope check but is not copied into the diagnostics. [Open] The logging on/off setting and persistence (`interfaces.md` §14) are not implemented in V1: everything above goes back to the caller, and Retrieval stores nothing itself.
 
-## 10. Verification status (2026-10-29, Sean's Mac)
+## 10. Verification status
+
+Measured results are from 2026-10-29 on Sean's Mac unless the row says otherwise.
 
 | Check | Result |
 |---|---|
-| Offline tests | 99/99 pass |
+| Automated tests (2026-11-04, clean environment) | 126 tests. With only numpy and jsonschema: 100 pass and 26 skip, because they need the Week 3 checkout. With the pinned Week 3 checkout and the PostgreSQL client packages: all 126 pass. None of them needs Docker, an API key or a model download |
+| Smoke check (2026-11-04, clean environment) | `scripts/smoke_check.py` passes: imports, schemas, planner, records, citation check and one stubbed turn. It needs no Docker, API key, model download or other working tree |
 | Records match the JSON Schemas | All record kinds the code emits; 50 benchmark bundles from Week 3's saved results; the 2026-10-29 DeepSeek run apart from the two fields added since |
 | Same passages as Week 3 (50 benchmark questions) | Tool path = Week 3 with course filter, passage for passage. 45/46 complete at 6 and 4/4 non-answerable withheld; Week 3 without a course filter is 46/46, and the one difference comes from the course filter itself. Replaying Week 3's saved run through the tool gives 46/46 |
 | Optional turns: search or not (24 labelled turns; main AI model = DeepSeek) | Main AI model alone 17/24 (7 unneeded searches); Jev + main AI model 22/24, with 11% fewer model calls |
@@ -449,9 +477,9 @@ Limits: all labels are Sean's silver labels on small sets. The development corpu
 
 | # | Question | Owner |
 |---|---|---|
-| Q1 | Accept the grounding-policy table (Appendix A) and who applies it once an Engine owner exists | Engine owner, team |
-| Q2 | Who sends the final `RetrievalRequest`: this spec has the turn loop build it from the model's tool arguments plus system fields | Jonathan, Engine owner |
-| Q3 | Will Interaction provide the turn-understanding record of §2.2 (topic, request kind, scope flag, math), and under which record name? `StudentEvidence` stays label-free | Jonathan |
+| Q1 | Accept the grounding-policy table (Appendix A). The Engine or coordinator applies it (§2.3) | Engine, team |
+| Q2 | Who sends the final `RetrievalRequest`: this spec has the turn loop build it from the model's tool arguments plus system fields, and `tutoring-engine.md` P1 proposes the Engine | Jonathan, Engine |
+| Q3 | Will Interaction provide the factual record of §2.2, and under which record name? Does Interaction keep the non-authoritative routing hints, or does the Engine or coordinator produce the interpreted part? `StudentEvidence` stays factual and label-free | Jonathan, Engine |
 | Q4 | Accept the [Proposed] fields in §5.2 and §7, the record `RetrievalStop`, and `retrieval_plan` | Team |
 | Q5 | Ingestion JSON as in §2.1: first a one-chapter sample, then typed blocks with concepts, page/line positions and versions | Ovunc |
 | Q6 | May student text go to external models (Jev, the main AI model's provider) for real students? V1 defaults to no | Team (privacy) |
@@ -469,12 +497,12 @@ The student is working on the bank question "Differentiate f(x) = sin(x²)", who
 
 > "I got d/dx sin(x²) = cos(x²). Why is that marked wrong?"
 
-Interaction has confirmed the text and summarized the need ("omitted the derivative of the inner function"). The Engine has chosen `explain`. From here on it is Retrieval.
+Interaction has confirmed the text and recorded what the student asks ("Student asks why their derivative was marked wrong."). The Engine has interpreted the turn, chosen `explain` and applied the grounding policy. From here on it is Retrieval.
 
 | # | What happens | Who | Result in this turn |
 |---|---|---|---|
 | 0 | At startup, load the Week 3 encoders | System | Once, about 7.5 s |
-| 1 | Policy: `explain` = **must** | Code | Tool offered with `tool_choice = "required"` |
+| 1 | The Engine's decision for `explain` is **must** | Engine, using the policy table | Tool offered with `tool_choice = "required"` |
 | 2 | Concept: the question's own concept is the chain rule. Draft needs: "definition of chain rule", "statement of chain rule" | Code | Draft plan in the model's instructions, plus the 33-concept list |
 | 3 | The model calls the tool: query "chain rule for composite functions derivative"; needs: theorem statement, formula f′(g(x))·g′(x), worked example | Main AI model | Code checks the plan: chain rule stays primary; any extra concept the model adds is recorded as related |
 | 4 | System fields are added (course, question, snapshot); the student's own words pass the scope check | Code | `RetrievalRequest` (Appendix D) |
@@ -505,6 +533,8 @@ Three things to notice: the reply **does not pretend** the materials state the r
 
 ## Appendix A. Grounding policy table
 
+Retrieval offers this table for team agreement. The Engine or coordinator applies it (§2.3).
+
 | `action_type` | Mode | Purposes offered | Typical need types | Notes |
 |---|---|---|---|---|
 | `elicit` | not_needed | — | — | Ask for the attempt |
@@ -522,7 +552,7 @@ Three things to notice: the reply **does not pretend** the materials state the r
 
 If the course is not ready, no tool is offered and the action's fallback applies. Policy version `grounding-policy@0.1`; the machine-readable table is `results/grounding_policy_table.json`.
 
-**Jev may-turn decider.** One yes/no question ("Will a good tutor reply need to state course-specific content?"), given the action, goal, student message, upstream understanding and the question. Thresholds: force at 0.7, skip below 0.3. Responses are cached.
+**Jev optional-search recommender.** One yes/no question ("Will a good tutor reply need to state course-specific content?"), given the action, goal, student message, upstream understanding and the question. Thresholds: force at 0.7, skip below 0.3. Responses are cached.
 
 ## Appendix B. Tool definition
 
@@ -724,31 +754,40 @@ Here the rules alone would have marked n1 covered on the strength of a table-of-
 
 | File (`retrieval_tool/`, JDP-42 package) | Role |
 |---|---|
-| `policy.py` | Grounding policy table, `decide()` |
+| `policy.py` | Grounding policy table and the pure helper `recommend_grounding()` |
 | `planner.py` | Concept catalog and linking, draft, `finalize`, `PLAN_SCHEMA`, `validate_plan`, `plan_to_request` |
 | `tool_schema.py` | Tool definition, `TurnContext`, `build_request` (system fields) |
 | `service.py` | `RetrievalService.handle`, `CoursePolicy`, `RetrievalOptions` |
-| `backends.py` | Week 3 pgvector backend (real), replay backend (alignment), in-memory test stand-in |
+| `backends.py` | Week 3 pgvector backend (real), replay backend (alignment), in-memory stand-in over Week 3 code |
+| `local_fixture.py` | Local fixture backend for core tests and the smoke check; needs no Week 3 code |
 | `evidence.py` | Rules, `related()`, `JevEvidenceJudge` |
-| `jev_decider.py` | Jev may-turn decider; Week 5 client loader |
+| `jev_client.py` | Jev API client: cache, retries, cost tracking, offline mock. Standard library only |
+| `jev_recommender.py` | Jev optional-search recommender; loads the client |
 | `citations.py` | Model view, labels, `verify_grounding_refs`, `strip_labels` |
 | `agent_loop.py` | Reference turn loop `run_turn`, prompt, prefetch, citation rewrite |
 | `schemas.py` | JSON Schemas of the exchanged records, `validate_record`; `scripts/export_schemas.py` writes `schemas/` |
 | `__init__.py` | `build_tutoring_runtime()`: the recommended setup in one call |
 
-Run instructions ship with the JDP-42 package. On Sean's Mac today (Week 3 Docker database started; key typed, never stored). The current scripts test with DeepSeek; `--llm` also accepts `gemini`, `kimi`, `openai`:
+Full run instructions ship with the JDP-42 package. The first three commands need no Docker, API key, model download or other working tree. From `research/knowledge-retrieval/retrieval-tool/`:
 
 ```bash
-cd ~/Desktop/entagile/week8
-PY=../week3/knowledge_base/.venv/bin/python
-$PY -m unittest discover -s tests
-$PY scripts/benchmark_check.py
-read -s "DEEPSEEK_API_KEY?DeepSeek key: "; export DEEPSEEK_API_KEY
-$PY scripts/demo_turn.py --all --llm deepseek
-$PY scripts/eval_planning.py --llm deepseek
+pip install -e ".[test]"
+python scripts/smoke_check.py
+python -m unittest discover -s tests
 ```
 
-Evaluation scripts: `benchmark_check.py` (Week 3 alignment), `eval_tool_decisions.py` (24 optional turns), `eval_evidence_judge.py` (28 pairs), `eval_planning.py` (36 turns). One click: `scripts/run_week3_alignment.command`.
+Live search needs the Week 3 Docker database and encoders, which currently run on Sean's Mac. The current scripts test with DeepSeek; `--llm` also accepts `gemini`, `kimi`, `openai`:
+
+```bash
+bash scripts/setup_week3.sh
+pip install -e ".[test,postgres,embeddings]"
+python scripts/benchmark_check.py
+read -s "DEEPSEEK_API_KEY?DeepSeek key: "; export DEEPSEEK_API_KEY
+python scripts/demo_turn.py --all --llm deepseek
+python scripts/eval_planning.py --llm deepseek
+```
+
+Evaluation scripts: `benchmark_check.py` (Week 3 alignment), `eval_tool_decisions.py` (24 optional turns), `eval_evidence_judge.py` (28 pairs), `eval_planning.py` (36 turns).
 
 ## Appendix I. Development corpus (until ingested content arrives)
 
@@ -771,14 +810,14 @@ Moving to Ovunc's data means a new catalog/backend adapter. The tool, the policy
 | Capability | V1 | Reason |
 |---|---|---|
 | Tool contract, statuses, `RetrievalStop`, warnings, identifiers passed through | Essential | Other modules integrate against them |
-| Grounding policy (code) | Essential | Decides when the tool runs; must turns are never skipped |
+| Grounding policy table and helper | Essential | Lets the Engine or coordinator decide when the tool runs; must turns are never skipped |
 | Retrieval plan with schema, concept enum and repair | Essential | What to search for is checked, not trusted |
 | Preflight A and B (rules) | Essential | Readiness, provenance and scope do not depend on a model |
 | Week 3 hybrid search, unchanged | Essential | Measured baseline; same passages as Week 3 |
 | Evidence check (rules) + evidence gate; honest statuses | Essential | Never claims support the materials do not give |
 | Citation check (T4) | Essential | No invalid citation reaches the student |
 | Development mode with `unverified_source` labels | Essential for development | Lets the team integrate end to end now |
-| Jev may-turn decider, Jev evidence judge | Recommended, on when the course policy allows external processing | Measured better (§10); each falls back to the model or the rules |
+| Jev optional-search recommender, Jev evidence judge | Recommended, on when the course policy allows external processing | Measured better (§10); each falls back to the model or the rules |
 | Model scope check on the student's words (Week 5 Jev gate) | Optional, next step | Week 5: 41/42 out-of-scope stopped, 0/88 false blocks; not yet wired into V1 |
 | Per-need sub-searches (`facet_source = evidence_needs`) | Optional, off | No measurable gain on the outline corpus; evaluate on ingested content |
 | Scope narrowing by concept → section | Later | Needs Ovunc's concept → section map |
@@ -790,7 +829,7 @@ Moving to Ovunc's data means a new catalog/backend adapter. The tool, the policy
 | Decision | Accuracy | Latency | Cost | Complexity | V1 choice |
 |---|---|---|---|---|---|
 | Search as a tool per policy vs on every message | Searches only when the turn needs it; must turns guaranteed | Saves searches on turns that need none | Lower | A policy table to maintain | Tool per policy |
-| Jev settles may-turns vs the main AI model alone | 22/24 vs 17/24 | One Jev call (cached when repeated) | About $0.0005 for 24 turns | External dependency with fallback | Jev, then the model |
+| Jev recommendation on may-turns vs the main AI model alone | 22/24 vs 17/24 | One Jev call (cached when repeated) | About $0.0005 for 24 turns | External dependency with fallback | Jev, then the model |
 | Validated plan vs free-text query | Right concept on 35/36 turns with the model | No extra call (inside the tool call) | None | Schema and repair code | Validated plan |
 | Week 3 search unchanged vs a new pipeline | Same passages as Week 3 | Under 0.2 s once encoders are loaded | Local | Reuse | Week 3 |
 | Jev evidence judge vs rules | 0 vs 8 false "covered" on 28 pairs | +0.2–0.3 s per turn (passages in parallel) | About $0.0009 for 28 pairs | External dependency with fallback | Jev, rules on failure |
@@ -804,7 +843,7 @@ Moving to Ovunc's data means a new catalog/backend adapter. The tool, the policy
 |---|---|---|
 | Sean's Mac with BGE-base-en-v1.5 and Qwen3-Embedding-0.6B | Query encoding, Week 3 index | **Confirmed**, used in the 2026-10-29 runs; not a shared service |
 | Docker PostgreSQL 17 + pgvector + full-text search | Week 3 index | **Confirmed**, used in the 2026-10-29 runs |
-| Jev (TypeSafe Jev), personal key | May-turn decider, evidence judge | **Development only**, on synthetic course data; not approved for student data (Q6) |
+| Jev (TypeSafe Jev), personal key | Optional-search recommender, evidence judge | **Development only**, on synthetic course data; not approved for student data (Q6) |
 | DeepSeek API, personal key | Main AI model in the current tests | **Development only**; a candidate, not a decision (Q9) |
 | Gemini, Kimi, OpenAI APIs | Other candidate main AI models | Adapters exist; **not tested** |
 | JHU WSE AI Gateway | Hosted models for production | **Requires approval** (project owner, cost center, models, quotas); Week 1 notes |
@@ -834,7 +873,7 @@ Week 1 prices and model lists date from September 2026 and must be re-checked.
 | | Passages, references, identifiers, status | §7 | Implemented |
 | | Keeps course, question, turn and request IDs | §7.1, §7.3 | Implemented (bundle and stop) |
 | | Callable by the Tutoring Engine | §2.5 | Three entry points |
-| | Sample input/output, automated tests | Appendix D–E, §7.4, §10 | JSON Schemas in `specs/schemas/`; 99 tests; demo outputs in `results/` |
+| | Sample input/output, automated tests | Appendix D–E, §7.4, §10 | JSON Schemas in `specs/schemas/`; test results in §10; current sample records in `results/fixtures/` |
 | | A real retrieval call | §10, §12 | Week 3 database on Sean's Mac |
 | **JDP-43** Retrieval Status and Failure Handling | Supported, missing, unverified and operational failure kept apart | §6.6, §7.1, §8 | Implemented |
 | | Reference scenarios a, d, h | §8 | a: `reference_only` + `no_ingested_sources`; d: `failed` + `index_unavailable`; h: `partial` + `unverified_source` (each has a test) |
@@ -844,13 +883,14 @@ Week 1 prices and model lists date from September 2026 and must be re-checked.
 
 ## Appendix M. Changes from the 2026-10-16 draft
 
-- Retrieval is framed as a **tool call** with a code-owned grounding policy; the model only writes the search and decides optional turns.
+- Retrieval is framed as a **tool call** with a grounding policy held in code; the model only writes the search and settles optional turns.
 - New **RetrievalPlan** with a schema, a concept enum, `not_in_course`, primary/related concepts and recorded repairs.
 - The search is **Week 3's code** unchanged. The earlier re-implemented selector is withdrawn.
-- **Jev** was adopted where it measured better: the may-turn decider and the evidence judge. Each falls back to rules or the model.
+- **Jev** was adopted where it measured better: the optional-search recommendation and the evidence judge. Each falls back to rules or the model.
 - The **scope check** reads the student's own words (`scope_check_text`), not only the rewritten query.
 - **Citation check** with one internal rewrite and label stripping.
 - Per-course tutoring settings: `allow_general_knowledge`, `external_processing_allowed`.
 - New §2: the boundary with each partner, how to plug Retrieval in, and what Retrieval asks each partner for (a one-chapter ingestion sample from Ovunc; a per-turn understanding record from Interaction).
 - The tutor's "brain" is called the **main AI model** and is not fixed; DeepSeek is only the model used in the current tests.
+- Revised 2026-11-04 after review: Interaction's record is factual, and model-derived fields are non-authoritative routing hints (§2.2). The Engine or coordinator applies the grounding policy; Retrieval provides the table and a recommendation, and executes the accepted request (§2.3, §6.1).
 - Gatekeeper split into necessity, scope and answerability (§6.6); `RetrievalReport` defined (§7.6, E.4); Course Context used as structure, not evidence (§5.4); reference-only sources (`reference_only`, `no_ingested_sources`); bundles and stops carry `course_id` and `question_id`; JSON Schema files for the request, bundle, stop and plan (§7.4); Appendices J–L (trade-offs, resources, Jira coverage).
