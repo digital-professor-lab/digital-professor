@@ -106,6 +106,8 @@ The per-question target. It carries the common envelope (section 1.1) plus the f
 | `provenance` | enum | Yes | `source_backed` or `ai_inferred` (weakest link over all elements). |
 | `built_from` | {`course_context_schema_version`,`content_sha256`} | Yes | The exact Course Context used, for reproducibility. |
 
+**Shared-contract note — `answer_verification` (optional, additive).** A runtime QuestionSchema MAY carry `answer_verification` = `{status: "verified" | "unverified", method, detail}`, recording whether the `reference_answer` passed an **independent** check (a symbolic `sympy` differentiation check for integrals) — not the LLM grading its own work. It is optional and additive: consumers may ignore it, but the Tutoring Engine **MUST NOT** treat an `unverified` `reference_answer` as trusted ground truth. A reference answer that is *refuted* by the check is never emitted (no schema). See `course-context.md` §3.3.
+
 ## 4. StudentSubmission
 
 **Producer:** Interaction  

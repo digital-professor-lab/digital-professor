@@ -44,13 +44,26 @@ python -m course_context_pipeline.build_question_schema \
 - **Copied verbatim from the CourseContext:** `learning_objectives`, misconception
   `description`/`mitigation`, prerequisite names, `source_ids`.
 - **Written by the LLM:** `correct_approach`, `alternative_approaches`,
-  `reference_answer` (solved + self-verified), each prerequisite `relevance`, each
-  misconception `cue`, and `question_type`/`expected_response_modes`.
+  `reference_answer`, each prerequisite `relevance`, each misconception `cue`, and
+  `question_type`/`expected_response_modes`.
 - **Derived:** the runtime id `<primary concept>.adhoc-<8 hex>` (SHA-1 of the
   normalised prompt) and `built_from.content_sha256` (the exact CourseContext bytes).
 
-Concept match (which concept the question tests) is normally retrieval's job (Sean);
-until that exists the builder asks the LLM to pick from the CourseContext's concept
+**Independent answer verification.** The LLM does not grade itself — for an integral it
+supplies a machine-parseable `{variable, integrand, antiderivative}` and **`sympy`**
+differentiates the claimed antiderivative and compares it to the integrand. A *refuted*
+answer is rejected (no schema, nonzero exit); an uncheckable one is written with
+`answer_verification.status = "unverified"` and **must not** be trusted as ground truth.
+
+**Gated output.** The builder runs a full `validate_question_schema` (top-level
+fields, enums, CourseContext references, nested structures, provenance, and
+concept↔copied-record consistency). An invalid QuestionSchema is **not** published —
+it's written to `<out>.rejected.json` and the CLI exits nonzero.
+
+Concept match goes through a replaceable **`ConceptMatcher`** interface (`(prompt,
+concepts) -> (primary_id, related_ids)`), so Sean's retrieval can be dropped in without
+changing the builder. The default matcher asks the LLM to pick from the CourseContext's
+concept
 list, or you pass `--concept-id <id>` to set it explicitly (never a free guess).
 
 ### Validate / flag an existing file (no generation)
