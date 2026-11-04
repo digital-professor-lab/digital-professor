@@ -123,10 +123,10 @@ def load_config(config_file: str | os.PathLike | None = None,
 
 
 def _env_into(d: dict, mapping: dict[str, str | list[str]]) -> None:
-    """Fill d[key] from the first present env var, if d doesn't already set it."""
+    """Override d[key] from the first present env var (env beats YAML, per the
+    documented precedence defaults < YAML < env < CLI). If no env var is set, the
+    existing value (from YAML or default) is left untouched."""
     for key, env_names in mapping.items():
-        if key in d:
-            continue
         for name in ([env_names] if isinstance(env_names, str) else env_names):
             val = os.environ.get(name)
             if val:

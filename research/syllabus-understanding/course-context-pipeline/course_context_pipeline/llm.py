@@ -44,13 +44,37 @@ class LLMClient:
 
         try:
             resp = self._client.chat.completions.create(**kwargs)
-        except Exception:
-            # Some providers reject response_format / extra_body; retry without them.
+        except Exception as e:
+            # Retry ONLY when the provider explicitly rejects the optional knobs
+            # (response_format / extra_body) — a 400 Bad Request. Auth failures,
+            # rate limits, timeouts, insufficient balance, and server errors must
+            # propagate, never trigger a second (paid) call.
+            if not self._is_rejected_options_error(e, kwargs):
+                raise
             kwargs.pop("response_format", None)
             kwargs.pop("extra_body", None)
             resp = self._client.chat.completions.create(**kwargs)
 
         return resp.choices[0].message.content or ""
+
+    @staticmethod
+    def _is_rejected_options_error(err: Exception, kwargs: dict) -> bool:
+        """True only for a 400 Bad Request that plausibly rejects our optional
+        knobs, and only if we actually sent one of them (else a retry is pointless)."""
+        if not ("response_format" in kwargs or "extra_body" in kwargs):
+            return False
+        try:
+            from openai import BadRequestError
+        except ImportError:  # pragma: no cover
+            return False
+        if not isinstance(err, BadRequestError):
+            return False
+        # Be conservative: if the message names an unrelated field, don't retry.
+        msg = str(getattr(err, "message", "") or err).lower()
+        if msg and not any(k in msg for k in ("response_format", "extra_body", "option", "num_ctx", "json")):
+            # A 400 about something else (e.g. a bad model id) — surface it.
+            return False
+        return True
 
 
 # ---- robust JSON extraction from model text --------------------------------

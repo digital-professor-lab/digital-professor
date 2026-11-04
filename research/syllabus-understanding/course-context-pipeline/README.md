@@ -85,3 +85,14 @@ concepts with objectives and sources) in one pass is hard for an 8B model —
 expect a partial or lower-quality result. Phase 1's goal is a **working,
 provider-agnostic pipeline**; swap in a stronger hosted model (or run per-module)
 for quality once a key is available.
+
+## Tests
+
+Automated tests cover intake, JSON extraction, module assembly + source
+de-duplication, basic structural validation, config precedence, and the
+`--from-json` path. No network or model is used.
+
+```bash
+cd research/syllabus-understanding/course-context-pipeline
+python -m pytest            # 28 tests, offline
+```

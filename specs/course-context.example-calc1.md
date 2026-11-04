@@ -9,7 +9,7 @@
 | **Status** | *Informative.* It illustrates `course-context.md` on real data; it defines nothing new. Where it and the spec disagree, the spec wins. |
 | **Parent spec** | [`course-context.md`](course-context.md) |
 | **Data files** | [`examples/calc1.course-context.json`](examples/calc1.course-context.json), [`examples/calc1.question-schema.xcosx.json`](examples/calc1.question-schema.xcosx.json) |
-| **Full interactive version** | the design page `digital-professor-design.html` — the two schemas, the tutoring-flow diagram, and the 13-turn trace rendered as a conversation |
+| **Full interactive version** | a separate interactive design page (research artifact, not part of this module) — the two schemas, the tutoring-flow diagram, and the 13-turn trace rendered as a conversation |
 
 This document walks one course end to end: the generated **Course Context** file, the **Question Schema** built from it for a student's question, where every field came from, and the **tutoring workflow** that question drives (QuestionSchema → StudentEvidence → LearnerState → TutoringAction). The shared tutoring records are defined in [`interfaces.md`](interfaces.md) (see `course-context.md` §4) and templated in `templates/`.
 
@@ -269,7 +269,7 @@ Tutoring Action emitted for Turn 9:
 | M1 misconception | watch for | resolved | closed |
 | evidence level | 5 (transfer) | 4 (explains why) | partial — awaiting the Turn-13 answers |
 
-`open_gaps` is not empty (the structural test, the u,dv choice, and the evidence level are still partial), so the session is not over at Turn 13. The full conversation, with both schema panes filling in turn by turn, is on the design page `digital-professor-design.html`.
+`open_gaps` is not empty (the structural test, the u,dv choice, and the evidence level are still partial), so the session is not over at Turn 13. The full conversation, with both schema panes filling in turn by turn, is on a separate interactive design page (a research artifact, not part of this module).
 
 ## 5. What the tutoring trace expects that Course Context does not hold
 
