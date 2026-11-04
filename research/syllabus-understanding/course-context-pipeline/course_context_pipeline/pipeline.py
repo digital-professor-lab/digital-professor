@@ -68,7 +68,11 @@ def run_stage_a(cfg: Config, quiet: bool = False) -> StageAResult:
 
 def _finalize(cfg: Config, cc: dict, findings: list[Finding], attempts: int,
               source: str, quiet: bool) -> StageAResult:
-    """Validate report + write the file + (if clean) run the Flagger."""
+    """Validate, then **gate publication**: a file with validation errors is NEVER
+    written to the published output path (so an invalid run can't overwrite the last
+    valid CourseContext). On errors we write a clearly-marked `.rejected.json` for
+    inspection and skip flagging; only a zero-error file is published and flagged.
+    """
     errors = error_messages(findings)
 
     # validator report (one line per finding + summary)
@@ -77,21 +81,25 @@ def _finalize(cfg: Config, cc: dict, findings: list[Finding], attempts: int,
     _log(f"[validate] {summary_line(findings, cc, cfg.output_path.name)}", quiet)
 
     text = json.dumps(cc, indent=2, ensure_ascii=False) + "\n"
+
+    if errors:
+        # WF-1: errors block publication. Leave the published output untouched;
+        # write the invalid result elsewhere, clearly marked, for debugging.
+        rejected = cfg.output_path.parent / (cfg.output_path.stem + ".rejected.json")
+        _write_text(text, rejected)
+        _log(f"[reject] {len(errors)} validation error(s) — published output left untouched; "
+             f"invalid result written to {rejected}", quiet)
+        return StageAResult(cc, rejected, attempts, errors, source, findings, None)
+
+    # clean: publish, then flag (WF-4: only a zero-error file is flagged)
     out = _write_text(text, cfg.output_path)
     _log(f"[done] wrote {out}", quiet)
-
-    review_path = None
-    if errors:
-        # WF-4: only a zero-error file is flagged.
-        _log(f"[flag] skipped — {len(errors)} validation error(s) must be fixed first", quiet)
-    else:
-        report = flag(cc, source_sha256=sha256_of(text))
-        review_path = cfg.output_path.parent / (cfg.output_path.stem + ".review.json")
-        _write_text(flag_to_json(report), review_path)
-        s = report["summary"]
-        _log(f"[flag] review worklist: check_first={s['check_first']} "
-             f"worth_checking={s['worth_checking']} global_notes={s['global_notes']} -> {review_path}", quiet)
-
+    report = flag(cc, source_sha256=sha256_of(text))
+    review_path = cfg.output_path.parent / (cfg.output_path.stem + ".review.json")
+    _write_text(flag_to_json(report), review_path)
+    s = report["summary"]
+    _log(f"[flag] review worklist: check_first={s['check_first']} "
+         f"worth_checking={s['worth_checking']} global_notes={s['global_notes']} -> {review_path}", quiet)
     return StageAResult(cc, out, attempts, errors, source, findings, review_path)
 
 
@@ -144,12 +152,27 @@ def _gen_single(cfg: Config, syllabus: str, prompt: str, llm: LLMClient, quiet: 
 
 
 def _gen_by_module(cfg: Config, syllabus: str, prompt: str, llm: LLMClient, quiet: bool):
-    """Outline first, then one call per module, assembled into one CourseContext.
-
-    Keeps every response small so a model with a modest output cap (e.g.
-    deepseek-chat ~8K tokens) never truncates. Concept ids are fed forward so
-    later modules can reference earlier concepts as prerequisites.
+    """Outline + one call per module, assembled, then validated — and **regenerated
+    on validation errors**, up to max_attempts, the same gate as the single-pass
+    path. (Each individual call is also retried on a parse failure inside `_attempt`.)
     """
+    cc: dict = {}
+    findings: list[Finding] = []
+    total_calls = 0
+    for attempt in range(1, cfg.max_attempts + 1):
+        _log(f"[generate] by_module attempt {attempt}/{cfg.max_attempts} …", quiet)
+        cc, calls, findings = _by_module_once(cfg, syllabus, prompt, llm, quiet)
+        total_calls += calls
+        if cc and not error_messages(findings):
+            break                                   # WF-1: zero errors -> publishable
+        if cc:
+            _log(f"[generate] {len(error_messages(findings))} validation error(s) after "
+                 f"assembly; regenerating", quiet)
+    return cc, total_calls, findings
+
+
+def _by_module_once(cfg: Config, syllabus: str, prompt: str, llm: LLMClient, quiet: bool):
+    """One full outline -> per-module -> assemble -> validate pass."""
     outline = _attempt(lambda: generate_outline(syllabus, prompt, llm), "outline", cfg, quiet)
     if not outline:
         return {}, 1, [Finding("GEN", "error", "outline", "outline generation failed to parse")]

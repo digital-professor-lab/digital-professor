@@ -25,11 +25,13 @@ CHECK_FIRST: dict[tuple[str, str], str] = {
     ("Course", "assumed_background"): "Sets what the tutor assumes about every student.",
 }
 
-# Confidence levels the generator self-reports per assumption (optional field).
-# We flag low/medium (the shaky ones) and skip high (standard inferences).
-_SKIP_WHEN_CONFIDENT = "high"
-# assumed_background is load-bearing for every student — always flag it regardless.
-_ALWAYS_FLAG = {("Course", "assumed_background")}
+# The generator self-reports a confidence (high/medium/low) per assumption. In v1
+# we do NOT use it to SUPPRESS review items: model self-confidence is weakly
+# calibrated, so a wrongly-confident high-impact inference must still reach a human.
+# Confidence is kept on each item and used only to ORDER the worklist (shakiest
+# first), as a priority hint — not a filter. Revisit once confidence is backed by
+# an independent check.
+_CONFIDENCE_RANK = {"low": 0, "medium": 1, None: 2, "high": 3}
 
 
 def sha256_of(text: str) -> str:
@@ -39,18 +41,16 @@ def sha256_of(text: str) -> str:
 def flag(cc: dict, source_sha256: str | None = None) -> dict:
     """Return a review report (the §4.3 shape).
 
-    Relaxed for v1 to keep the worklist short and actionable:
+    Relaxed for v1 to keep the worklist focused:
     - F-01, restricted to the **check-first** fields (difficulty notes, key
-      definitions, assumed background) AND to assumptions the generator is NOT
-      highly confident about — so a standard, obviously-correct inference is
-      skipped and only the shaky ones surface. assumed_background is always kept.
+      definitions, prerequisites, assumed background) the generator logged an
+      assumption about. EVERY such inferred field is flagged — confidence is NOT
+      used to suppress anything (it only orders the list, shakiest first), so no
+      high-impact inference is silently skipped on a self-reported `high`.
     - F-03 — wildcard assumptions become global notes.
     The blanket F-02 rule (flag every ai_inferred record's check-first fields) is
     dropped: in a syllabus-only file everything is ai_inferred, so it flagged
     nearly every concept and drowned the signal.
-
-    Assumptions without a confidence tag are treated as not-confident (flagged),
-    so this degrades gracefully if the generator omits it.
     """
     items: dict[tuple[str, str, str], dict] = {}
     global_notes: list[dict] = []
@@ -75,12 +75,12 @@ def flag(cc: dict, source_sha256: str | None = None) -> dict:
         if isinstance(aid, str) and aid.endswith(".*"):
             global_notes.append({"field": field, "reason": reason})          # F-03
             continue
-        if (entity, field) in CHECK_FIRST:                                    # F-01 (check-first only)
-            always = (entity, field) in _ALWAYS_FLAG
-            if always or confidence != _SKIP_WHEN_CONFIDENT:
-                add(entity, aid, field, reason, confidence)
+        if (entity, field) in CHECK_FIRST:                                    # F-01 (check-first fields)
+            add(entity, aid, field, reason, confidence)
 
-    item_list = sorted(items.values(), key=lambda it: (it["id"], it["field"]))
+    # order by confidence (shakiest first) as a priority hint — never a filter
+    item_list = sorted(items.values(),
+                       key=lambda it: (_CONFIDENCE_RANK.get(it.get("confidence"), 2), it["id"], it["field"]))
     summary = {
         "check_first": len(item_list),
         "worth_checking": 0,

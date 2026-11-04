@@ -3,8 +3,8 @@
 | | |
 |---|---|
 | **Spec ID** | `validation-and-flagging` |
-| **Spec version** | `0.3.0` (draft for team review) |
-| **Date** | 2026-10-29 |
+| **Spec version** | `0.4.0` (draft for team review) |
+| **Date** | 2026-11-04 |
 | **Owner** | Course Context module (Ovunc) |
 | **Defines** | two command-line tools: a **Validator** (section 3) and a **Review Flagger** (section 4) |
 | **Related spec** | [`course-context.md`](course-context.md) — the data model, field requirements, and human-check list these tools operate on |
@@ -18,6 +18,7 @@
 
 | Version | Date | Change |
 |---|---|---|
+| 0.4.0 | 2026-11-04 | Addressed PR review. Flagger no longer **suppresses** `confidence: high` items — every inferred check-first field is flagged; `confidence` only **orders** the worklist (shakiest first), since model self-confidence is weakly calibrated. Publication is **gated**: a file with validation errors is never written to the published output path (a clearly-marked `.rejected.json` is written instead). The `by_module` strategy now **regenerates on post-assembly validation errors**, matching the single-pass gate. `assumptions[].confidence` documented as an optional/additive shared-contract field in `interfaces.md` §2. |
 | 0.3.0 | 2026-10-29 | Added an optional `confidence` (`high`/`medium`/`low`) self-rating per `assumptions` entry (V-09 allows and enum-checks it). Flagger now skips `confidence: high` items (except `assumed_background`) and added `Concept.key_definitions` and `Concept.prerequisite_ids` to the check-first set. |
 | 0.2.0 | 2026-10-29 | Synced to the v1 implementation. Validator: V-10 now enforces only provenance present + valid enum (dropped the "source_backed named by an assumption" clause); provenance enum moved out of V-03 into V-10; warnings W-01/W-02 disabled. Flagger relaxed: F-02 dropped, F-01 restricted to the check-first set `{Concept.difficulty_notes, Course.assumed_background}` (prerequisites/weeks no longer flagged), `worth_checking` tier unused. Updated the §4.3 example and Appendix A findings. |
 | 0.1.0 | 2026-10-12 | First draft: pipeline placement, Validator contract and rules, Review Flagger contract and rules, end-to-end workflow, open questions. |
@@ -135,21 +136,23 @@ With `--question-schema`, the Validator also checks one Question Schema (`course
 
 The Flagger decides *which records and fields a human should look at first*, and *why*. It draws on the `assumptions` log in the file and on the priority list in `course-context.md` §2.5.
 
-> **v1 implementation (relaxed to keep the worklist short and actionable):**
+> **v1 implementation (relaxed to keep the worklist focused):**
 > the Flagger runs **F-01 (restricted) and F-03 only**. The **check-first field set is
 > `{Concept.difficulty_notes, Concept.key_definitions, Concept.prerequisite_ids,
 > Course.assumed_background}`** — the fields whose inference most directly affects
-> tutoring correctness. F-01 also uses each assumption's optional **`confidence`**: an
-> entry marked `confidence: high` is **skipped** (a standard, obviously-correct
-> inference), so only `low`/`medium`/untagged ones surface; `Course.assumed_background`
-> is always surfaced regardless. Every emitted item is `check_first`; the
-> `worth_checking` tier is unused. The blanket **F-02 is dropped** (in a syllabus-only
-> file nearly every record is `ai_inferred`, so it flagged almost everything).
-> `Course.duration_weeks` and `Module.weeks` are **not** flagged in v1.
+> tutoring correctness. **Every** inferred check-first field is flagged; the optional
+> **`confidence`** is kept on each item but is used **only to order** the worklist
+> (shakiest first) — it does **not suppress** anything. Model self-confidence is weakly
+> calibrated, so a wrongly-confident high-impact inference must still reach a human
+> (revisit suppression only once confidence is backed by an *independent* check). Every
+> emitted item is `check_first`; the `worth_checking` tier is unused. The blanket **F-02
+> is dropped** (in a syllabus-only file nearly every record is `ai_inferred`, so it
+> flagged almost everything). `Course.duration_weeks` and `Module.weeks` are **not**
+> flagged in v1.
 
 | Rule | The Flagger adds a review item for… | Priority |
 |---|---|---|
-| F-01 | every record named by a non-wildcard `assumptions` entry **whose field is in the check-first set** (v1: `difficulty_notes`, `key_definitions`, `prerequisite_ids`, `assumed_background`) and that is **not** marked `confidence: high`; the reason is that entry's `assumption` + `reason` text | **check first** |
+| F-01 | every record named by a non-wildcard `assumptions` entry **whose field is in the check-first set** (v1: `difficulty_notes`, `key_definitions`, `prerequisite_ids`, `assumed_background`), **regardless of `confidence`**; the reason is that entry's `assumption` + `reason` text, and `confidence` orders the list | **check first** |
 | F-02 | *(design: every check-first field on an `ai_inferred` record)* — **not implemented in v1** | — |
 | F-03 | each **wildcard** `assumptions` entry (`id` ending in `.*`), surfaced once as a global note, not attached to a single record | *global note* |
 
