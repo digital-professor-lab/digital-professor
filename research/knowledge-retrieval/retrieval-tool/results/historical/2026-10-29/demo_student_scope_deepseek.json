@@ -1,0 +1,209 @@
+{
+  "context": {
+    "course_id": "calc1",
+    "course_title": "Calculus I",
+    "session_id": "demo-session",
+    "turn_id": "turn-student_scope",
+    "correlation_id": "corr-student_scope",
+    "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+    "question_id": "calc1.adhoc-scope",
+    "action_type": "explain",
+    "student_message": "What does the Calculus II material say about gradients?",
+    "question_prompt": "What does the Calculus II material say about gradients?"
+  },
+  "answer": "Gradients aren't part of this course, so I can't point you to anything in our materials about them — that topic belongs to a later course, not Calculus I. What we do here is the derivative of a single-variable function, and the closest idea we have is the derivative as a rate of change and as the slope of the tangent line.\n\nNot from your course materials: a gradient is essentially the multivariable version of the derivative — a vector of partial derivatives that points in the direction of steepest increase. You'd meet it after learning partial derivatives.\n\nFor now, it's worth being solid on the single-variable picture, since that's what everything later builds on. Can you tell me what the derivative of a function at a point means geometrically, and how it's defined as a limit?",
+  "decision": {
+    "action_type": "explain",
+    "mode": "must",
+    "purposes": [
+      "answer_grounding",
+      "prerequisite_review",
+      "definition_lookup"
+    ],
+    "need_types": [
+      "definition",
+      "theorem_statement",
+      "prerequisite_explanation"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "Brief general explanation labelled 'not from course materials' if policy allows; otherwise say no course material covers this point.",
+    "reason": "policy table: must",
+    "policy_version": "grounding-policy@0.1"
+  },
+  "requests": [
+    {
+      "record_id": "rr-497cff9702e6",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-10-29T17:00:52.636Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-student_scope",
+      "retrieval_request_id": "rr-497cff9702e6",
+      "course_id": "calc1",
+      "question_id": "calc1.adhoc-scope",
+      "turn_id": "turn-student_scope",
+      "session_id": "demo-session",
+      "query": "gradient vector multivariable functions",
+      "query_origin": "structured",
+      "purpose": "answer_grounding",
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "need_type": "definition",
+          "description": "Definition of the gradient of a function of several variables",
+          "anchor": "gradient",
+          "concept_ids": [
+            "calc1.03-derivatives.definition"
+          ]
+        },
+        {
+          "need_id": "n2",
+          "need_type": "course_policy",
+          "description": "Statement of which topics belong to this course versus later courses",
+          "concept_ids": [
+            "calc1.03-derivatives.definition"
+          ]
+        }
+      ],
+      "concept_ids": [
+        "calc1.03-derivatives.definition"
+      ],
+      "query_language": "en",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "concept_names": [
+        "Formal definition of the derivative"
+      ],
+      "scope_check_text": "What does the Calculus II material say about gradients?",
+      "retrieval_plan": {
+        "plan_version": "retrieval-plan@1",
+        "course_id": "calc1",
+        "concepts": [
+          {
+            "concept_id": "calc1.03-derivatives.definition",
+            "name": "Formal definition of the derivative",
+            "module_id": "calc1.03-derivatives",
+            "source": "model"
+          }
+        ],
+        "main_query": "gradient vector multivariable functions",
+        "needs": [
+          {
+            "need_id": "n1",
+            "need_type": "definition",
+            "query": "Definition of the gradient of a function of several variables",
+            "anchor": "gradient",
+            "concept_id": "calc1.03-derivatives.definition",
+            "preferred_blocks": [
+              "definition"
+            ]
+          },
+          {
+            "need_id": "n2",
+            "need_type": "course_policy",
+            "query": "Statement of which topics belong to this course versus later courses",
+            "concept_id": "calc1.03-derivatives.definition",
+            "preferred_blocks": []
+          }
+        ],
+        "scope": {
+          "module_ids": [
+            "calc1.03-derivatives"
+          ],
+          "narrowing": "not_enforced",
+          "note": "Recorded only: the Week 3 index has no concept→section map yet, so search covers the whole course and ranking does the locating. Narrowing and widening start once Ovunc's ingestion JSON maps concepts to sections."
+        },
+        "origin": "model",
+        "repairs": [],
+        "linking": {
+          "method": "lexical@1",
+          "candidates": [],
+          "course_context": "calc1.course-context.json"
+        }
+      }
+    }
+  ],
+  "records": [
+    {
+      "record_id": "gb-7bddae4d8adf",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-10-29T17:00:52.636Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-student_scope",
+      "grounding_bundle_id": "gb-7bddae4d8adf",
+      "retrieval_request_id": "rr-497cff9702e6",
+      "retrieval_status": "no_support_found",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "passages": [],
+      "query_interpretation": null,
+      "warnings": [
+        {
+          "code": "excluded_scope",
+          "message": "outside_course_scope (in the student message): Calculus II evidence is excluded by the current request settings; the material is not necessarily absent from the catalog."
+        }
+      ],
+      "session_id": "demo-session",
+      "turn_id": "turn-student_scope"
+    }
+  ],
+  "grounding_refs": [],
+  "citation_check": {
+    "ok": true,
+    "accepted": [],
+    "rejected": [],
+    "warnings": [],
+    "unknown_labels": []
+  },
+  "events": [
+    {
+      "event_type": "retrieval_plan_draft",
+      "concepts": [],
+      "linking": [],
+      "needs": []
+    },
+    {
+      "event_type": "model_call",
+      "ms": 1418.2
+    },
+    {
+      "event_type": "retrieval_plan",
+      "origin": "model",
+      "concepts": [
+        [
+          "calc1.03-derivatives.definition",
+          "model"
+        ]
+      ],
+      "needs": [
+        [
+          "definition",
+          "Definition of the gradient of a function of several variables"
+        ],
+        [
+          "course_policy",
+          "Statement of which topics belong to this course versus later courses"
+        ]
+      ],
+      "repairs": []
+    },
+    {
+      "event_type": "retrieval",
+      "retrieval_request_id": "rr-497cff9702e6",
+      "result": "no_support_found",
+      "query_origin": "structured",
+      "producer": "tutoring-engine",
+      "timings_ms": {
+        "total": 0.6
+      }
+    },
+    {
+      "event_type": "model_call",
+      "ms": 2097.3
+    }
+  ],
+  "llm_calls": 2
+}

@@ -1,0 +1,423 @@
+{
+  "note": "Current records from a stubbed turn on the local fixture. Not a search-quality result.",
+  "decision": {
+    "action_type": "explain",
+    "mode": "must",
+    "purposes": [
+      "answer_grounding",
+      "prerequisite_review",
+      "definition_lookup"
+    ],
+    "need_types": [
+      "definition",
+      "theorem_statement",
+      "prerequisite_explanation"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "Brief general explanation labelled 'not from course materials' if policy allows; otherwise say no course material covers this point.",
+    "reason": "policy table: must",
+    "policy_version": "grounding-policy@0.1"
+  },
+  "requests": [
+    {
+      "record_id": "rr-571a9043e4e5",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-11-04T20:01:34.590Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-smoke",
+      "retrieval_request_id": "rr-571a9043e4e5",
+      "course_id": "calc1",
+      "question_id": "calc1.smoke",
+      "turn_id": "turn-1",
+      "session_id": "smoke",
+      "query": "chain rule for composite functions",
+      "query_origin": "structured",
+      "purpose": "answer_grounding",
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "need_type": "theorem_statement",
+          "description": "Statement of the chain rule",
+          "anchor": "chain rule",
+          "concept_ids": [
+            "calc1.03-derivatives.chain-rule"
+          ]
+        }
+      ],
+      "concept_ids": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "query_language": "en",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "concept_names": [
+        "The chain rule"
+      ],
+      "scope_check_text": "I got cos(x^2). Why was that marked wrong?",
+      "retrieval_plan": {
+        "plan_version": "retrieval-plan@2",
+        "course_id": "calc1",
+        "concepts": [
+          {
+            "concept_id": "calc1.03-derivatives.chain-rule",
+            "name": "The chain rule",
+            "module_id": "calc1.03-derivatives",
+            "source": "question_schema",
+            "role": "primary"
+          }
+        ],
+        "concept_status": "found",
+        "main_query": "chain rule for composite functions",
+        "needs": [
+          {
+            "need_id": "n1",
+            "need_type": "theorem_statement",
+            "query": "Statement of the chain rule",
+            "anchor": "chain rule",
+            "concept_id": "calc1.03-derivatives.chain-rule",
+            "preferred_blocks": [
+              "theorem"
+            ]
+          }
+        ],
+        "scope": {
+          "module_ids": [
+            "calc1.03-derivatives"
+          ],
+          "narrowing": "not_enforced",
+          "note": "Recorded only: the Week 3 index has no concept→section map yet, so search covers the whole course and ranking does the locating. Narrowing and widening start once Ovunc's ingestion JSON maps concepts to sections."
+        },
+        "origin": "model",
+        "repairs": [],
+        "linking": {
+          "method": "lexical@1",
+          "candidates": [],
+          "course_context": "calc1.course-context.json"
+        }
+      }
+    }
+  ],
+  "records": [
+    {
+      "record_id": "gb-803b6d943bd5",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-11-04T20:01:34.591Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-smoke",
+      "grounding_bundle_id": "gb-803b6d943bd5",
+      "retrieval_request_id": "rr-571a9043e4e5",
+      "retrieval_status": "supported",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "passages": [
+        {
+          "passage_id": "psg_2bcc654c8c841989",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "4.5.1 & The Chain Rule & Differentiate composite functions. & \\diffH \\\\",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 1,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 469,
+            "source_line_end": 469,
+            "week3_passage_id": "pass_0ab41c67c5f18e0b",
+            "week3_selection_reason": "local_fixture_term_overlap",
+            "week3_signals": [
+              "local_fixture"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_cd8e32135126c716",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n4.1 & Formal Definition of the Derivative & Compute derivatives from the difference-quotient limit; interpret as tangent slope / instantaneous rate. & \\diffH \\\\\n4.2.1 & Interpreting the Derivative & Interpret derivative values in context (velocity, reaction rate, growth rate). & \\diffM \\\\\n4.2.2 & Differentiability and Continuity & Explain the relationship between differentiability and continuity; find points of non-differentiability. & \\diffM \\\\\n4.3 & Power Rule and Basic Rules & Differentiate polynomials and power functions using the power, sum, and constant-multiple rules. & \\diffL \\\\\n4.4.1 & The Product Rule & Differentiate products of functions. & \\diffM \\\\\n4.4.2 & The Quotient Rule & Differentiate quotients, including rational and power functions. & \\diffM \\\\\n4.5.1 & The Chain Rule & Differentiate composite functions. & \\diffH \\\\\n4.5.2 & Proof of the Chain Rule & Follow a rigorous justification of the chain rule. & \\diffM \\\\\n4.6.1 & Implicit Differentiation & Differentiate implicitly defined relations to find $dy/dx$. & \\diffH \\\\\n4.6.2 & Related Rates & Set up and solve related-rates problems by differentiating a relation between time-dependent quantities. & \\diffH \\\\\n4.7 & Higher Derivatives & Compute second and higher derivatives; interpret their meaning. & \\diffL \\\\\n4.8 & Derivatives of Trigonometric Functions & Differentiate sine, cosine, tangent, and their combinations. & \\diffM \\\\\n4.9 & Derivatives of Exponential Functions & Differentiate $e^{x}$, $a^{x}$, and exponential growth/decay models. & \\diffM \\\\\n4.10.1 & Derivatives of Inverse Functions & Differentiate an inverse function using the inverse function theorem. & \\diffM \\\\\n4.10.2 & Derivative of the Logarithmic Function & Differentiate $\\ln x$ and general logarithms. & \\diffM \\\\\n4.10.3\\opt & Logarithmic Differentiation & Use logarithmic differentiation for products/quotients/powers of functions. & \\diffM \\\\",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 2,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 454,
+            "source_line_end": 478,
+            "week3_passage_id": "pass_adf6e4ec6677313b",
+            "week3_selection_reason": "local_fixture_term_overlap",
+            "week3_signals": [
+              "local_fixture"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_422c5431a1747461",
+          "document_id": "calc1:context",
+          "content_version": "cv-src-2af82a506643",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\MajorTopics\n\\begin{itemize}\n\\item Functions of two or more variables: definitions, surface plots, heat maps, contour plots\n\\item * Limits and continuity (informal and formal definitions)\n\\item Partial derivatives (two and more variables; higher-order)\n\\item Tangent planes, differentiability, and linearization (scalar and vector-valued functions)\n\\item * The chain rule and implicit differentiation for functions of two variables\n\\item * Directional derivatives and gradient vectors\n\\item * Maximization and minimization: local and global extrema, extrema with constraints, least-squares data fitting\n\\item * Diffusion\n\\item * Systems of recurrence equations: a biological example, equilibria and stability (linear and nonlinear)\n\\end{itemize}\n\\KeyConcepts\nMultivariable functions and their graphical representations (surfaces,\nheat maps, contour/level curves); partial derivatives; tangent planes and\nlinearization; the multivariable chain rule; the gradient vector and\ndirectional derivatives; critical-point classification; Lagrange\nmultipliers; least-squares regression; equilibria and stability of systems\nof recurrence equations.\n\\LearnObj\n\\begin{enumerate}\n\\item Represent and interpret functions of two or more variables using surface, heat-map, and contour-plot representations.\n\\item Compute partial and higher-order partial derivatives.\n\\item Find the tangent plane to a surface and use linearization to approximate function values.\n\\item * Apply the multivariable chain rule and implicit differentiation.\n\\item * Compute directional derivatives and gradients, and interpret the gradient as the direction of steepest ascent.\n\\item * Find local, global, and constrained extrema (via Lagrange multipliers), and perform least-squares data fitting.\n\\item * Analyze equilibria and stability in systems of recurrence equations.\n\\end{enumerate}\n\\PreReq Single-variable differentiation and optimization (Chapters 4--5); vectors and matrices (Chapter 9).",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 3,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared course context (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Content_Claude.tex",
+            "source_line_start": 516,
+            "source_line_end": 548,
+            "week3_passage_id": "pass_222567d23317913d",
+            "week3_selection_reason": "local_fixture_term_overlap",
+            "week3_signals": [
+              "local_fixture"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_779b4c5505dd84a7",
+          "document_id": "calc1:syllabus",
+          "content_version": "cv-src-12ea3fe3ccb0",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\begin{diffbox}\n\\begin{itemize}[nosep]\n  \\item Chain rule with nested/multiple compositions (``chain rule of chain rules'')\n  \\item Combining rules correctly in a single problem (e.g., quotient rule containing a chain-rule term)\n  \\item Implicit differentiation: correctly applying $\\frac{d}{dx}$ to both sides and solving for $\\frac{dy}{dx}$\n  \\item Derivatives of inverse functions (formula involving $1/f'(f^{-1}(x))$) and inverse trig derivatives\n  \\item Keeping track of higher derivatives without sign/simplification errors\n\\end{itemize}\n\\end{diffbox}\n\\begin{prereqbox}\nModule 2 (limits, continuity). Trigonometric identities, exponential/logarithm\nrules, and strong algebraic manipulation (fractions, radicals, expanding/factoring).\n\\end{prereqbox}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 4,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared syllabus course map (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Syllabus_Claude.tex",
+            "source_line_start": 260,
+            "source_line_end": 273,
+            "week3_passage_id": "pass_4fa89e4c91b954e5",
+            "week3_selection_reason": "local_fixture_term_overlap",
+            "week3_signals": [
+              "local_fixture"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_8ea0f29c6d4d2ad4",
+          "document_id": "calc1:context",
+          "content_version": "cv-src-2af82a506643",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\addcontentsline{toc}{subsection}{3.1 Calculus I}\n\\begin{longtable}{@{}p{0.10\\textwidth}p{0.85\\textwidth}@{}}\n\\toprule\n\\textbf{Week} & \\textbf{Topics} \\\\\n\\midrule\n\\endhead\n1 & Ch.\\ 1.1--1.2 --- Diagnostic test; preliminaries (real numbers, lines, circles, trig, exponentials/logs, complex numbers) \\\\\n2 & Ch.\\ 1.3--1.4 --- Elementary functions; graphing and transformations \\\\\n3 & Ch.\\ 2.1--2.2 --- Discrete exponential growth; sequences and limits \\\\\n4 & Ch.\\ 2.3 --- Modeling with recurrence equations; Module A review \\\\\n5 & \\textbf{Exam 1}; Ch.\\ 3.1 --- Limits \\\\\n6 & Ch.\\ 3.2--3.4 --- Continuity, limits at infinity, trigonometric limits \\\\\n7 & Ch.\\ 3.5 --- IVT and bisection; Ch.\\ 4.1 --- Definition of the derivative \\\\\n8 & Ch.\\ 4.2--4.5 --- Differentiation rules through the chain rule \\\\\n9 & \\textbf{Exam 2}; Ch.\\ 4.6--4.7 --- Implicit differentiation, related rates, higher derivatives \\\\\n10 & Ch.\\ 4.8--4.11 --- Derivatives of trig/exponential/log/inverse functions; linear approximation \\\\\n11 & Ch.\\ 5.1--5.3 --- Extrema, the MVT, monotonicity and concavity \\\\\n12 & Ch.\\ 5.4--5.6 --- Optimization, L'Hopital's Rule, curve sketching \\\\\n13 & \\textbf{Exam 3}; Ch.\\ 5.10 --- Antiderivatives; Ch.\\ 6.1 --- The definite integral \\\\\n14 & Ch.\\ 6.2--6.3 --- The Fundamental Theorem of Calculus and applications \\\\\n15 & Review and \\textbf{Final Exam} \\\\\n\\bottomrule\n\\end{longtable}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 5,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared course context (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Content_Claude.tex",
+            "source_line_start": 647,
+            "source_line_end": 669,
+            "week3_passage_id": "pass_5865edb4fc180d5c",
+            "week3_selection_reason": "local_fixture_term_overlap",
+            "week3_signals": [
+              "local_fixture"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_d3b3d4952f0d47c6",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "By the end of the course, a successful student will be able to:\n\\begin{enumerate}[label=\\textbf{SLO\\arabic*.}, leftmargin=2.6em]\n\\item \\textbf{Model discrete and continuous change.} Translate a verbal description of a\n      biological or social process into a recurrence equation, a limit statement, a\n      derivative, or a definite integral, and interpret the mathematical result back in\n      the original context.\n\\item \\textbf{Evaluate limits and determine continuity} of algebraic, exponential,\n      logarithmic, and trigonometric functions, including limits at infinity and limits\n      that require the sandwich theorem.\n\\item \\textbf{Differentiate} elementary, polynomial, rational, power, exponential,\n      logarithmic, and trigonometric functions using the formal definition and the rules\n      of differentiation (sum, product, quotient, chain, implicit).\n\\item \\textbf{Apply derivatives} to find extrema, analyze monotonicity and concavity,\n      solve optimization and related-rates problems, evaluate indeterminate forms\n      (L'H\\^{o}pital's Rule), and produce derivative-informed graphs.\n\\item \\textbf{Evaluate definite and indefinite integrals}, state and apply both parts of\n      the Fundamental Theorem of Calculus, and interpret a definite integral as\n      cumulative change or an average value.\n\\item \\textbf{Use technology} (graphing calculators or spreadsheets) to visualize\n      functions and data, iterate recurrence equations, and implement simple numerical\n      methods (bisection, Newton--Raphson).\n\\item \\textbf{Communicate quantitative reasoning}, including the assumptions behind a\n      mathematical model, its limitations, and how well it fits real or simulated data.\n\\end{enumerate}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 6,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 178,
+            "source_line_end": 202,
+            "week3_passage_id": "pass_8701643be8cc4182",
+            "week3_selection_reason": "local_fixture_term_overlap",
+            "week3_signals": [
+              "local_fixture"
+            ]
+          }
+        }
+      ],
+      "query_interpretation": {
+        "question": "chain rule for composite functions",
+        "facets": [],
+        "facet_source": "none",
+        "semantic_channel": false,
+        "backend": "local_fixture",
+        "selection": "local_fixture",
+        "options": {
+          "facet_source": "week3",
+          "evidence_gate": true,
+          "judge_mode": "off",
+          "week3_retrieval": true,
+          "week3_parity": false
+        },
+        "plan": {
+          "origin": "model",
+          "concepts": [
+            [
+              "calc1.03-derivatives.chain-rule",
+              "primary"
+            ]
+          ],
+          "concept_status": "found",
+          "needs": [
+            "Statement of the chain rule"
+          ],
+          "scope": {
+            "module_ids": [
+              "calc1.03-derivatives"
+            ],
+            "narrowing": "not_enforced",
+            "note": "Recorded only: the Week 3 index has no concept→section map yet, so search covers the whole course and ranking does the locating. Narrowing and widening start once Ovunc's ingestion JSON maps concepts to sections."
+          },
+          "repairs": [],
+          "schema_problems": []
+        },
+        "channel_candidate_counts": {
+          "local_fixture": 14
+        }
+      },
+      "warnings": [
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_2bcc654c8c841989"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_2bcc654c8c841989"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_cd8e32135126c716"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_cd8e32135126c716"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_422c5431a1747461"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_422c5431a1747461"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_779b4c5505dd84a7"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_779b4c5505dd84a7"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_8ea0f29c6d4d2ad4"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_8ea0f29c6d4d2ad4"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_d3b3d4952f0d47c6"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_d3b3d4952f0d47c6"
+        },
+        {
+          "code": "semantic_channel_unavailable",
+          "message": "Vector channel off (no query encoder); keyword-only search."
+        }
+      ],
+      "course_id": "calc1",
+      "question_id": "calc1.smoke",
+      "session_id": "smoke",
+      "turn_id": "turn-1",
+      "need_coverage": [
+        {
+          "need_id": "n1",
+          "coverage": "covered",
+          "passage_ids": [
+            "psg_cd8e32135126c716",
+            "psg_8ea0f29c6d4d2ad4",
+            "psg_d3b3d4952f0d47c6"
+          ],
+          "method": "rule:theorem_statement"
+        }
+      ],
+      "uncovered_needs": []
+    }
+  ],
+  "grounding_refs": [
+    "psg_cd8e32135126c716"
+  ],
+  "citation_check": {
+    "ok": true,
+    "accepted": [
+      "psg_cd8e32135126c716"
+    ],
+    "rejected": [],
+    "warnings": [],
+    "unknown_labels": []
+  }
+}

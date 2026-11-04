@@ -1,10 +1,10 @@
 """One tutoring turn with retrieval as a tool call.
 
-    upstream (Jonathan: recognition + understanding; Engine: action_type)
+    upstream (Interaction: confirmed input; Engine: action_type)
         │
         ▼
-    1 grounding policy (code) ── decides: must / may / not_needed / must_not
-        │
+    1 Engine / coordinator applies the agreed grounding policy ── passes `decision` to run_turn:
+        │                                                         must / may / not_needed / must_not
         ▼
     2 model call ── tool offered with tool_choice = required / auto, or not offered
         │  ▲
@@ -12,10 +12,11 @@
         ▼
     4 answer → 5 T4 citation check → (one rewrite if a citation is invalid) → TurnResult
 
-The fixed parts (policy, request building, citation check) are code; only the "may" decision and the
-wording of the query are left to the model. Optionally a decider (e.g. Jev, see jev_decider.py) can settle
-"may" turns before the model is called: force retrieval, offer no tool, or leave it to the model. This module is a reference loop for integration, not the
-Tutoring Engine itself: the Engine owner can call `run_turn` or reuse its pieces.
+`run_turn` never chooses the mode. It requires the caller's accepted `decision` and only executes it. On a
+"may" turn the caller can also pass a recommender (e.g. Jev, see jev_recommender.py): it recommends a search,
+no tool, or leaving the choice to the model. A recommender is never consulted on other modes, so it cannot
+override the caller's decision. This module is a reference loop for integration, not the Tutoring Engine
+itself: the Engine can call `run_turn` or reuse its pieces.
 """
 
 from __future__ import annotations
@@ -28,7 +29,7 @@ import time
 
 from .citations import SCOPE_CODES, CitationMap, extract_labels, model_view, strip_labels, verify_grounding_refs
 from .llm import LLMError, LLMResponse
-from .policy import PolicyDecision, decide
+from .policy import PolicyDecision
 from .service import RetrievalService
 from .planner import plan_is_usable, plan_to_request
 from .tool_schema import (TOOL_NAME, ToolArgumentError, TurnContext, build_request, build_structured_request,
@@ -56,7 +57,7 @@ GENERAL_KNOWLEDGE_RULES = {
     False: "say so in one sentence and offer a next step that the course does cover; do not teach it from general knowledge.",
 }
 LONG_ACTIONS = {"explain", "demonstrate", "contrast"}
-# [Proposed] One-line default guidance per action; the Engine owner owns pedagogy and can override it.
+# [Proposed] One-line default guidance per action; the Tutoring Engine owns pedagogy and can override it.
 ACTION_GUIDANCE = {
     "elicit": "Ask the student to attempt the question; do not hint at the method yet.",
     "inspect": "Ask for the student's working. Do not say yet whether the answer is right or wrong.",
@@ -105,14 +106,21 @@ def _assistant_tool_message(response: LLMResponse) -> dict[str, Any]:
                                          else json.dumps(c.arguments)}} for c in response.tool_calls]}
 
 
-def run_turn(llm: Any, service: RetrievalService, ctx: TurnContext, *, goal: str = "",
-             history: list[dict[str, Any]] | None = None, decision: PolicyDecision | None = None,
-             top_k: int | None = None, decider: Any = None) -> TurnResult:
-    decision = decision or decide(ctx.action_type)
+def run_turn(llm: Any, service: RetrievalService, ctx: TurnContext, *, decision: PolicyDecision, goal: str = "",
+             history: list[dict[str, Any]] | None = None, top_k: int | None = None,
+             recommender: Any = None) -> TurnResult:
+    """Execute one turn under the caller's accepted grounding decision.
+
+    decision     Applied by the Tutoring Engine or coordinator, usually from `recommend_grounding`.
+                 It must be for this turn's `ctx.action_type`.
+    recommender  Optional, chosen by the caller; consulted only when decision.mode is "may".
+    """
+    if decision.action_type != ctx.action_type:
+        raise ValueError(f"decision is for '{decision.action_type}' but the turn's action is '{ctx.action_type}'")
     policy = service.policies.get(ctx.course_id)
     events: list[dict[str, Any]] = []
-    if decision.mode == "may" and decider is not None:
-        decision = _apply_decider(decider, decision, ctx, goal, policy, events)
+    if decision.mode == "may" and recommender is not None:
+        decision = _apply_recommender(recommender, decision, ctx, goal, policy, events)
     result = TurnResult(answer="", decision=decision.to_dict(), events=events)
     citations = CitationMap()
     system, planner, draft, menu = _prepare_prompt(service, ctx, decision, goal)
@@ -266,13 +274,13 @@ def _prepare_prompt(service: RetrievalService, ctx: TurnContext, decision: Polic
     return system, planner, draft, menu
 
 
-def propose_plan(llm: Any, service: RetrievalService, ctx: TurnContext, *, goal: str = "",
-                 decision: PolicyDecision | None = None) -> dict[str, Any]:
+def propose_plan(llm: Any, service: RetrievalService, ctx: TurnContext, *, decision: PolicyDecision,
+                 goal: str = "") -> dict[str, Any]:
     """One model call that only plans the retrieval (tool call forced, nothing searched).
-    Used to evaluate the planning step on its own. Returns draft, the model's raw arguments and the final plan."""
-    decision = decision or decide(ctx.action_type)
+    Used to evaluate the planning step on its own. The evaluation passes a decision that offers the tool.
+    Returns draft, the model's raw arguments and the final plan."""
     if not decision.offer_tool:
-        decision = decide("explain")
+        raise ValueError("propose_plan needs a decision that offers the tool")
     system, planner, draft, menu = _prepare_prompt(service, ctx, decision, goal)
     if planner is None or draft is None:
         return {"error": "no planner for this course", "draft": draft}
@@ -308,25 +316,25 @@ def _plan_block(draft: dict[str, Any], planner: Any, course_id: str, menu: list[
     return "\n".join(lines)
 
 
-def _apply_decider(decider: Any, decision: PolicyDecision, ctx: TurnContext, goal: str, policy: Any,
+def _apply_recommender(recommender: Any, decision: PolicyDecision, ctx: TurnContext, goal: str, policy: Any,
                    events: list[dict[str, Any]]) -> PolicyDecision:
-    """Let a decider settle a `may` turn: force → treated as `must`; skip → no tool; auto/error → model decides."""
+    """Use the caller's recommender on a `may` turn: force → treated as `must`; skip → no tool; auto/error → model decides."""
     if not (policy and policy.external_processing_allowed):
-        events.append({"event_type": "retrieval_decision", "decider": "model",
-                       "note": "external decider not used: course policy does not allow external processing"})
+        events.append({"event_type": "retrieval_decision", "recommender": "model",
+                       "note": "external recommender not used: course policy does not allow external processing"})
         return decision
     started = time.perf_counter()
     try:
-        verdict = decider.decide(ctx, goal)
+        verdict = recommender.recommend(ctx, goal)
         verdict["ms"] = round((time.perf_counter() - started) * 1000, 1)
-    except Exception as error:  # never block a turn on the decider
-        events.append({"event_type": "retrieval_decision", "decider": "model", "note": f"decider error: {str(error)[:200]}"})
+    except Exception as error:  # never block a turn on the recommender
+        events.append({"event_type": "retrieval_decision", "recommender": "model", "note": f"recommender error: {str(error)[:200]}"})
         return decision
     events.append({"event_type": "retrieval_decision", **verdict})
     if verdict["choice"] == "force":
-        return replace(decision, mode="must", reason=f"may → must by decider (p={verdict['p']})")
+        return replace(decision, mode="must", reason=f"may → must by recommender (p={verdict['p']})")
     if verdict["choice"] == "skip":
-        return replace(decision, mode="not_needed", reason=f"may → no retrieval by decider (p={verdict['p']})")
+        return replace(decision, mode="not_needed", reason=f"may → no retrieval by recommender (p={verdict['p']})")
     return decision
 
 

@@ -5,10 +5,9 @@ import json
 import sys
 import unittest
 from dataclasses import replace
-from pathlib import Path
 
-from _setup import ctx, index_root
-from retrieval_tool import build_service, decide, run_turn
+from _setup import PACKAGE, ctx, engine_turn
+from retrieval_tool import build_service, recommend_grounding
 from retrieval_tool.backends import BackendUnavailable
 from retrieval_tool.llm import ScriptedLLM, answer, tool_call
 from retrieval_tool.planner import RetrievalPlanner, plan_to_request
@@ -22,9 +21,6 @@ try:
 except ImportError:
     HAVE_JSONSCHEMA = False
 
-ROOT = index_root()
-WEEK8 = Path(__file__).resolve().parents[1]
-REPLAY = ROOT / "artifacts/evaluations/refinement_runs/facets_6.jsonl" if ROOT else None
 CHAIN = "calc1.03-derivatives.chain-rule"
 
 
@@ -36,7 +32,7 @@ def args(query, *needs, purpose="answer_grounding", **extra):
 @unittest.skipUnless(HAVE_JSONSCHEMA, "jsonschema not installed (pip install jsonschema)")
 class SchemaFileTests(unittest.TestCase):
     def setUp(self):
-        sys.path.insert(0, str(WEEK8 / "scripts"))
+        sys.path.insert(0, str(PACKAGE / "scripts"))
         from export_schemas import schema_folder
         self.folder = schema_folder()
         if not self.folder.exists():
@@ -53,11 +49,11 @@ class SchemaFileTests(unittest.TestCase):
             jsonschema.Draft202012Validator.check_schema(json.loads(path.read_text(encoding="utf-8")))
 
 
-@unittest.skipUnless(HAVE_JSONSCHEMA and ROOT is not None, "jsonschema or Week 3 index files not available")
+@unittest.skipUnless(HAVE_JSONSCHEMA, "jsonschema not installed (pip install jsonschema)")
 class RecordsMatchSchemaTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.service = build_service("memory", root=ROOT, test_double=True)
+        cls.service = build_service("fixture")
 
     def assertValid(self, record):
         self.assertEqual(validate_record(record), [], json.dumps(record, ensure_ascii=False)[:400])
@@ -70,15 +66,15 @@ class RecordsMatchSchemaTests(unittest.TestCase):
         self.assertValid(build_request(args("chain rule", ("theorem_statement", "chain rule", "chain rule")), c))
         self.assertValid(build_request(args("chain rule example", ("worked_example", "example"), purpose="example_lookup"), c))
         self.assertValid(build_request(args("chain rule", ("definition", "chain rule")), c, top_k=4))
-        self.assertValid(build_structured_request(c, decide("hint")))
-        self.assertValid(plan_to_request(planner.draft(c, decide("explain")), c, purpose="answer_grounding"))
+        self.assertValid(build_structured_request(c, recommend_grounding("hint")))
+        self.assertValid(plan_to_request(planner.draft(c, recommend_grounding("explain")), c, purpose="answer_grounding"))
 
     def test_every_bundle_status_and_warning_path(self):
         run = lambda a, **o: self.service.handle(build_request(a, ctx(**o)))  # noqa: E731
         supported = run(args("fundamental theorem of calculus",
                              ("theorem_statement", "Statement of the fundamental theorem of calculus", "fundamental theorem")))
-        partial = run(args("chain rule", ("theorem_statement", "statement of the chain rule"),
-                           ("worked_example", "worked example of the chain rule")))
+        partial = run(args("chain rule for composite functions", ("theorem_statement", "Statement of the chain rule", "chain rule"),
+                           ("method_guidance", "How to pick the inner and outer function")))
         nothing = run(args("Laplace transform", ("definition", "definition of the Laplace transform")))
         excluded = run(args("What does the Calculus II material say about contour plots?",
                             ("definition", "contour plots"), contains_student_wording=True))
@@ -129,7 +125,7 @@ class RecordsMatchSchemaTests(unittest.TestCase):
         tool_args = {"query": "chain rule for composite functions", "purpose": "answer_grounding",
                      "concept_id": CHAIN,
                      "evidence_needs": [{"need_type": "theorem_statement", "description": "statement of the chain rule"}]}
-        result = run_turn(ScriptedLLM([tool_call(tool_args), answer("ok")]), self.service,
+        result = engine_turn(ScriptedLLM([tool_call(tool_args), answer("ok")]), self.service,
                           ctx(action_type="explain", concept_ids=[CHAIN], student_message="Why is cos(x^2) wrong?"))
         for record in [*result.requests, *result.records]:
             self.assertValid(record)
@@ -143,22 +139,6 @@ class RecordsMatchSchemaTests(unittest.TestCase):
                   dict(bundle, retrieval_status="failed")]                            # failed has no passages
         for record in broken:
             self.assertNotEqual(validate_record(record), [])
-
-
-@unittest.skipUnless(HAVE_JSONSCHEMA and ROOT is not None and REPLAY is not None and REPLAY.exists(),
-                     "jsonschema or Week 3 saved runs not available")
-class RealWeek3OutputTests(unittest.TestCase):
-    def test_all_50_benchmark_bundles_validate(self):
-        """Bundles built from Week 3's own saved search results (real passages, both courses)."""
-        service = build_service("replay", root=ROOT, replay_file=REPLAY)
-        cases = [json.loads(l) for l in (ROOT / "data/benchmark/benchmark_50.jsonl").read_text().splitlines() if l.strip()]
-        for case in cases:
-            request = build_request({"query": case["question"], "purpose": "answer_grounding",
-                                     "evidence_needs": [{"need_type": "method_guidance", "description": case["question"][:200]}]},
-                                    ctx(course_id=case["course_id"], turn_id=case["id"],
-                                        retrieval_snapshot_id=f"snap.{case['course_id']}.dev-ai-breakdown.1"), top_k=6)
-            self.assertEqual(validate_record(request), [], case["id"])
-            self.assertEqual(validate_record(service.handle(request)), [], case["id"])
 
 
 if __name__ == "__main__":

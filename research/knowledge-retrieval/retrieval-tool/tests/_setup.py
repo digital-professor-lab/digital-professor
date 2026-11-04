@@ -1,11 +1,16 @@
-"""Shared test helpers. Tests that need the Week 3 index files skip when they are not found."""
+"""Shared test helpers.
+
+Core tests use the local fixture backend and need only the packages in `pip install -e ".[test]"`.
+Tests that need the Week 3 checkout live in test_week3_integration.py.
+"""
 
 import sys
 from pathlib import Path
 
-WEEK8 = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(WEEK8))
+PACKAGE = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PACKAGE))
 
+from retrieval_tool import recommend_grounding, run_turn  # noqa: E402
 from retrieval_tool.tool_schema import TurnContext  # noqa: E402
 
 
@@ -16,7 +21,12 @@ def ctx(**overrides):
     return TurnContext(**values)
 
 
-def index_root():
+def engine_turn(llm, service, turn, **kwargs):
+    """Plays the Engine's part: apply the agreed policy to the turn's action, then run the turn."""
+    return run_turn(llm, service, turn, decision=recommend_grounding(turn.action_type), **kwargs)
+
+
+def week3_root():
     from retrieval_tool import retrieval_root
     try:
         return retrieval_root()

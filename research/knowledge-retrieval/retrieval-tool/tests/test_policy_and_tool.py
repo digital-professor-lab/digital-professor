@@ -1,7 +1,7 @@
 import unittest
 
-from _setup import ctx  # noqa: F401  (adds week8 to sys.path)
-from retrieval_tool.policy import GROUNDING_POLICY, decide, policy_table
+from _setup import ctx
+from retrieval_tool.policy import GROUNDING_POLICY, recommend_grounding, policy_table
 from retrieval_tool.records import TUTORING_ACTIONS
 from retrieval_tool.tool_schema import (ToolArgumentError, build_request, build_structured_request, openai_tool,
                                         tool_for_decision, validate_tool_arguments)
@@ -19,23 +19,23 @@ class PolicyTests(unittest.TestCase):
         expected = {"elicit": "not_needed", "inspect": "must_not", "probe": "may", "diagnose": "may",
                     "hint": "must", "contrast": "must", "demonstrate": "must", "explain": "must",
                     "retry": "not_needed", "verify": "must_not", "check_understanding": "may", "transfer": "may"}
-        self.assertEqual({a: decide(a).mode for a in TUTORING_ACTIONS}, expected)
+        self.assertEqual({a: recommend_grounding(a).mode for a in TUTORING_ACTIONS}, expected)
 
     def test_tool_choice_mapping(self):
-        self.assertEqual(decide("explain").tool_choice, "required")
-        self.assertEqual(decide("probe").tool_choice, "auto")
-        self.assertIsNone(decide("elicit").tool_choice)
-        self.assertFalse(decide("verify").offer_tool)
+        self.assertEqual(recommend_grounding("explain").tool_choice, "required")
+        self.assertEqual(recommend_grounding("probe").tool_choice, "auto")
+        self.assertIsNone(recommend_grounding("elicit").tool_choice)
+        self.assertFalse(recommend_grounding("verify").offer_tool)
 
     def test_flags(self):
-        self.assertEqual(decide("hint", states_course_content=False).mode, "may")
-        self.assertEqual(decide("verify", checks_course_convention=True).mode, "may")
-        self.assertEqual(decide("explain", course_ready=False).mode, "not_needed")
+        self.assertEqual(recommend_grounding("hint", states_course_content=False).mode, "may")
+        self.assertEqual(recommend_grounding("verify", checks_course_convention=True).mode, "may")
+        self.assertEqual(recommend_grounding("explain", course_ready=False).mode, "not_needed")
         with self.assertRaises(ValueError):
-            decide("lecture")
+            recommend_grounding("lecture")
 
     def test_tool_is_narrowed_to_the_turn(self):
-        tool = tool_for_decision(decide("demonstrate"))
+        tool = tool_for_decision(recommend_grounding("demonstrate"))
         self.assertEqual(tool["function"]["parameters"]["properties"]["purpose"]["enum"], ["example_lookup"])
         self.assertNotIn("course_id", openai_tool()["function"]["parameters"]["properties"])
 
@@ -75,7 +75,7 @@ class ToolArgumentTests(unittest.TestCase):
 
     def test_structured_prefetch_request(self):
         c = ctx(intent_summary="student dropped the inner derivative", concept_names=["chain rule"])
-        r = build_structured_request(c, decide("explain"))
+        r = build_structured_request(c, recommend_grounding("explain"))
         self.assertEqual(r["producer"], "tutoring-engine:prefetch")
         self.assertEqual(r["query_origin"], "structured")
         self.assertEqual([n["need_type"] for n in r["evidence_needs"]],

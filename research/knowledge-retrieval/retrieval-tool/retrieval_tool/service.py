@@ -303,7 +303,8 @@ class RetrievalService:
                                   need_coverage=need_coverage, snapshot_id=policy.retrieval_snapshot_id,
                                   query_interpretation={"question": question, "facets": facets, "facet_source": facet_source,
                                                         "semantic_channel": self.backend.semantic_available,
-                                                        "backend": self.backend.name, "selection": "week3_production",
+                                                        "backend": self.backend.name,
+                                                        "selection": getattr(self.backend, "selection", "week3_production"),
                                                         "options": self.options.describe(),
                                                         "plan": report.get("retrieval_plan"),
                                                         "channel_candidate_counts": week3.get("channel_candidate_counts")})

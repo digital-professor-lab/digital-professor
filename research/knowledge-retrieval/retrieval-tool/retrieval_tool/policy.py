@@ -1,7 +1,9 @@
-"""Grounding policy: for each tutoring action, does this turn retrieve, and how strictly?
+"""Grounding policy helper: for each tutoring action, what retrieval mode does the agreed table recommend?
 
-This is the "function written in code" half of the design. It runs once per turn in the outer
-loop, before the model is called; the model never sees it and cannot bypass it.
+This module is a pure lookup. It reads no state, calls nothing and chooses no tutoring action. The
+Tutoring Engine or coordinator applies the agreed policy and passes the accepted `PolicyDecision` to
+`run_turn`. Retrieval provides the table and this helper, then validates and executes the accepted
+request; it does not decide the pedagogical path and does not override the Engine's decision.
 
 Modes
 -----
@@ -13,8 +15,8 @@ not_needed  The tool is not offered this turn (nothing course-specific is said).
 must_not    The tool is not offered, and any attempted call is rejected (retrieval would add nothing
             or cause harm, e.g. correctness checking belongs to a math tool).
 
-The table follows rag-retrieval.md §2.2 (rules R1-R4). The Engine owner owns the
-state → action mapping; this module owns only the retrieval column. [Proposed]
+The table is rag-retrieval.md Appendix A, offered for team agreement (Q1). The Engine owns action
+selection and applies the table once it is agreed.
 """
 
 from __future__ import annotations
@@ -39,7 +41,7 @@ class PolicyRow:
     note: str = ""
 
 
-# rag-retrieval.md §2.2, "Retrieval column for the Engine's actions"
+# rag-retrieval.md Appendix A
 GROUNDING_POLICY: dict[str, PolicyRow] = {
     "elicit": PolicyRow("not_needed", note="Start of a question; ask for the student's attempt."),
     "inspect": PolicyRow("must_not", note="R2: only a final answer was given; ask for the work."),
@@ -103,9 +105,9 @@ class PolicyDecision:
                 "fallback": self.fallback, "reason": self.reason, "policy_version": self.policy_version}
 
 
-def decide(action_type: str, *, states_course_content: bool | None = None,
+def recommend_grounding(action_type: str, *, states_course_content: bool | None = None,
            checks_course_convention: bool = False, course_ready: bool = True) -> PolicyDecision:
-    """Decide the retrieval mode for one turn.
+    """Return the table's retrieval mode for one action. The caller decides whether to apply it.
 
     states_course_content     Engine flag for `hint`: False = purely Socratic hint (downgrade must → may).
     checks_course_convention  Engine flag for `verify`: True = a notation-convention check is allowed (may).
@@ -132,5 +134,5 @@ def decide(action_type: str, *, states_course_content: bool | None = None,
 
 
 def policy_table() -> list[dict[str, Any]]:
-    """The full table, for documentation and for review by the Engine owner."""
-    return [decide(action).to_dict() for action in TUTORING_ACTIONS]
+    """The full table, for documentation and for team review."""
+    return [recommend_grounding(action).to_dict() for action in TUTORING_ACTIONS]

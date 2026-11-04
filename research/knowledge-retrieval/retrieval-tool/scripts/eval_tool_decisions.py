@@ -7,9 +7,9 @@
 Labels (data/tool_decision_cases.jsonl, 24 cases, 12 should-retrieve) are Sean's silver labels: spot-check them.
 Every case is a `may` turn (probe, diagnose, check_understanding, transfer); must/must_not turns are fixed by code.
 
-    python scripts/eval_tool_decisions.py --decider jev            # needs the Jev key in week5 jev/.env; < $0.01
-    python scripts/eval_tool_decisions.py --decider model          # needs DEEPSEEK_API_KEY; Week 3 database running
-    python scripts/eval_tool_decisions.py --decider all            # all three, one report
+    python scripts/eval_tool_decisions.py --recommender jev            # needs the Jev key in week5 jev/.env; < $0.01
+    python scripts/eval_tool_decisions.py --recommender model          # needs DEEPSEEK_API_KEY; Week 3 database running
+    python scripts/eval_tool_decisions.py --recommender all            # all three, one report
 """
 
 from __future__ import annotations
@@ -23,8 +23,8 @@ from pathlib import Path
 
 WEEK8 = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(WEEK8))
-from retrieval_tool import TurnContext, build_service, decide, run_turn  # noqa: E402
-from retrieval_tool.jev_decider import FORCE_AT, SKIP_BELOW, JevRetrievalDecider, load_week5_jev_client  # noqa: E402
+from retrieval_tool import TurnContext, build_service, recommend_grounding, run_turn  # noqa: E402
+from retrieval_tool.jev_recommender import FORCE_AT, SKIP_BELOW, JevSearchRecommender, load_jev_client  # noqa: E402
 from retrieval_tool.llm import OpenAICompatibleLLM  # noqa: E402
 
 
@@ -43,10 +43,10 @@ def confusion(rows: list[dict], key: str) -> dict:
 
 
 def run_jev(cases: list[dict]) -> dict:
-    decider = JevRetrievalDecider(load_week5_jev_client())
+    recommender = JevSearchRecommender(load_jev_client())
     rows = []
     for case in cases:
-        p = decider.probability(context(case))
+        p = recommender.probability(context(case))
         rows.append({"id": case["id"], "should_retrieve": case["should_retrieve"], "p": round(p, 4)})
     sweep = {}
     for t in (0.3, 0.4, 0.5, 0.6, 0.7):
@@ -60,19 +60,20 @@ def run_jev(cases: list[dict]) -> dict:
     for r in rows:
         r.pop("_hit", None)
     return {"rows": rows, "threshold_sweep": sweep, "three_way_at_defaults": three_way,
-            "wrong_force": wrong_force, "wrong_skip": wrong_skip, "usage": decider.client.usage.to_dict()}
+            "wrong_force": wrong_force, "wrong_skip": wrong_skip, "usage": recommender.client.usage.to_dict()}
 
 
 def run_turns(cases: list[dict], *, with_jev: bool) -> dict:
     service = build_service("pgvector")
     service.policies["calc1"] = replace(service.policies["calc1"], external_processing_allowed=with_jev)
     llm = OpenAICompatibleLLM("deepseek")
-    decider = JevRetrievalDecider(load_week5_jev_client()) if with_jev else None
+    recommender = JevSearchRecommender(load_jev_client()) if with_jev else None
     rows, started = [], time.perf_counter()
     for case in cases:
         ctx = context(case)
-        assert decide(case["action_type"]).mode == "may", case["id"]
-        result = run_turn(llm, service, ctx, decider=decider)
+        decision = recommend_grounding(case["action_type"])
+        assert decision.mode == "may", case["id"]
+        result = run_turn(llm, service, ctx, decision=decision, recommender=recommender)
         verdict = next((e for e in result.events if e["event_type"] == "retrieval_decision"), {})
         rows.append({"id": case["id"], "should_retrieve": case["should_retrieve"],
                      "retrieved": bool(result.requests), "deepseek_calls": result.llm_calls,
@@ -83,29 +84,29 @@ def run_turns(cases: list[dict], *, with_jev: bool) -> dict:
               f"deepseek_calls={result.llm_calls} jev={verdict.get('choice')}", flush=True)
     return {"summary": {**confusion(rows, "retrieved"), "deepseek_calls": sum(r["deepseek_calls"] for r in rows),
                         "seconds": round(time.perf_counter() - started, 1), "model": llm.model,
-                        **({"jev_usage": decider.client.usage.to_dict()} if decider else {})},
+                        **({"jev_usage": recommender.client.usage.to_dict()} if recommender else {})},
             "rows": rows}
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--decider", required=True, choices=("model", "jev", "both", "all"))
+    parser.add_argument("--recommender", required=True, choices=("model", "jev", "both", "all"))
     args = parser.parse_args()
     cases = [json.loads(l) for l in (WEEK8 / "data/tool_decision_cases.jsonl").read_text().splitlines() if l.strip()]
     out: dict = {"cases": len(cases), "should_retrieve": sum(c["should_retrieve"] for c in cases)}
-    if args.decider in ("jev", "all"):
+    if args.recommender in ("jev", "all"):
         print("== Jev alone ==")
         out["jev"] = run_jev(cases)
         print(json.dumps({k: out["jev"][k] for k in ("threshold_sweep", "three_way_at_defaults", "wrong_force", "wrong_skip")}, indent=1))
-    if args.decider in ("model", "all"):
+    if args.recommender in ("model", "all"):
         print("== DeepSeek alone ==")
         out["model"] = run_turns(cases, with_jev=False)
         print(json.dumps(out["model"]["summary"], indent=1))
-    if args.decider in ("both", "all"):
+    if args.recommender in ("both", "all"):
         print("== Jev + DeepSeek ==")
         out["both"] = run_turns(cases, with_jev=True)
         print(json.dumps(out["both"]["summary"], indent=1))
-    path = WEEK8 / "results" / f"tool_decisions_{args.decider}.json"
+    path = WEEK8 / "results" / f"tool_decisions_{args.recommender}.json"
     path.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"saved {path.relative_to(WEEK8)}")
 

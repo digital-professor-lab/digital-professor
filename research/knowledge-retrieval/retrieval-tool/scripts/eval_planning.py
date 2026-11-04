@@ -29,7 +29,7 @@ from pathlib import Path
 
 WEEK8 = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(WEEK8))
-from retrieval_tool import TurnContext, decide  # noqa: E402
+from retrieval_tool import TurnContext, recommend_grounding  # noqa: E402
 from retrieval_tool.planner import RetrievalPlanner, validate_plan  # noqa: E402
 
 
@@ -72,7 +72,7 @@ def main() -> None:
     args = parser.parse_args()
     cases = [json.loads(l) for l in (WEEK8 / "data/planning_cases.jsonl").read_text().splitlines() if l.strip()]
     planner = RetrievalPlanner.from_folder(["calc1"])
-    decision = decide("explain")
+    decision = recommend_grounding("explain")
     rows = []
     for case in cases:
         draft = planner.draft(context(case), decision)
@@ -91,7 +91,7 @@ def main() -> None:
         service = build_service("replay")      # planning only: nothing is searched
         repairs = Counter()
         for case, row in zip(cases, rows):
-            result = propose_plan(llm, service, context(case))
+            result = propose_plan(llm, service, context(case), decision=decision)
             plan = result.get("plan") or {}
             selected = primary(plan)
             raw = result.get("raw_args") or {}

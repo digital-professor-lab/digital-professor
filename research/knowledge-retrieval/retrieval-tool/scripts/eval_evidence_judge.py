@@ -50,7 +50,7 @@ def main() -> None:
                      "need": case["need"]["description"], "_text": passage.get("readable_text") or passage["raw_latex"]})
     out: dict = {"cases": len(rows), "rules": metrics(rows, "rules")}
     if not args.rules_only:
-        from retrieval_tool.jev_decider import default_evidence_judge
+        from retrieval_tool.jev_recommender import default_evidence_judge
         judge = default_evidence_judge()
         scores = [judge.score([c["need"]], [r["_text"]])[0]["n1"] for c, r in zip(cases, rows)]
         for r, p in zip(rows, scores):

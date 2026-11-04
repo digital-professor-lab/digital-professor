@@ -145,7 +145,7 @@ JUDGE_PARTIAL_AT = 0.35
 
 
 class JevEvidenceJudge:
-    """Layer 3 with a Week 5 `JevClient`: one Jev call per passage, one yes/no question per need.
+    """Layer 3 with `JevClient`: one Jev call per passage, one yes/no question per need.
 
     Six passages → six calls, sent in parallel (`ask_many`). Off by default; run in shadow mode (logged next
     to the rules, no effect) until the labelled check (scripts/eval_evidence_judge.py) shows it is better.

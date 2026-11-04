@@ -166,4 +166,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    try:
+        retrieval_root()
+    except FileNotFoundError as error:
+        raise SystemExit(f"{error}\nThis check compares against Week 3, so it needs that checkout. "
+                         "The self-contained check is scripts/smoke_check.py.")
     main()

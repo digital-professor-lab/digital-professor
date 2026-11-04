@@ -18,7 +18,7 @@ WEEK8 = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(WEEK8))
 from dataclasses import replace  # noqa: E402
 
-from retrieval_tool import TurnContext, build_service, run_turn  # noqa: E402
+from retrieval_tool import TurnContext, build_service, recommend_grounding, run_turn  # noqa: E402
 from retrieval_tool.llm import OpenAICompatibleLLM, ScriptedLLM, answer, tool_call  # noqa: E402
 
 
@@ -31,13 +31,14 @@ def scripted(steps):
     return ScriptedLLM(replies + [answer(re.sub(r"\s*\[P\d+(?:,\s*P\d+)*\]", "", last))])
 
 
-def run(name, scenario, service, llm_name, decider=None):
+def run(name, scenario, service, llm_name, recommender=None):
     context = {"course_id": "calc1", "course_title": "Calculus I", "session_id": "demo-session", "turn_id": f"turn-{name}",
                "correlation_id": f"corr-{name}", "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
                "question_id": "calc1.demo", **scenario["context"]}
     ctx = TurnContext(**context)
     llm = scripted(scenario["scripted"]) if llm_name == "scripted" else OpenAICompatibleLLM(llm_name)
-    result = run_turn(llm, service, ctx, goal=scenario["goal"], decider=decider)
+    result = run_turn(llm, service, ctx, decision=recommend_grounding(ctx.action_type), goal=scenario["goal"],
+                      recommender=recommender)
     print(f"\n=== {name}  (action={ctx.action_type}, policy={result.decision['mode']}, llm={llm_name})")
     print(f"student : {ctx.student_message}")
     for e in result.events:
@@ -60,9 +61,9 @@ def run(name, scenario, service, llm_name, decider=None):
           f"model_calls={result.llm_calls}")
     model_ms = sum(e["ms"] for e in result.events if e["event_type"] == "model_call")
     retr = [e["timings_ms"] for e in result.events if e["event_type"] == "retrieval"]
-    decider_ms = sum(e.get("ms", 0) for e in result.events if e["event_type"] == "retrieval_decision")
+    recommender_ms = sum(e.get("ms", 0) for e in result.events if e["event_type"] == "retrieval_decision")
     print(f"time    : model {model_ms/1000:.1f}s | retrieval {sum(t.get('total', 0) for t in retr)/1000:.1f}s "
-          f"(of which Jev judge {sum(t.get('judge', 0) for t in retr)/1000:.1f}s) | Jev decider {decider_ms/1000:.1f}s")
+          f"(of which Jev judge {sum(t.get('judge', 0) for t in retr)/1000:.1f}s) | Jev recommender {recommender_ms/1000:.1f}s")
     suffix = "_testdouble" if service.backend.name == "in_memory" else ""
     out = WEEK8 / "results" / f"demo_{name}_{llm_name}{suffix}.json"
     out.write_text(json.dumps({"context": context, **result.to_dict()}, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -81,29 +82,29 @@ def main():
     parser.add_argument("--judge", default=None, choices=("off", "shadow", "on"),
                         help="override the evidence judge (default: the recommended runtime, Jev on)")
     parser.add_argument("--test-double", action="store_true",
-                        help="offline in-memory stand-in instead of the Week 3 database (not Week 3 retrieval)")
+                        help="local fixture instead of the Week 3 database (not Week 3 retrieval)")
     args = parser.parse_args()
     from retrieval_tool import RetrievalOptions, build_tutoring_runtime
     if args.test_double:
-        service, decider = build_service("memory", test_double=True), None
+        service, recommender = build_service("fixture"), None
     elif args.judge is None and not args.no_jev:
-        service, decider, notes = build_tutoring_runtime("pgvector", use_jev=args.llm != "scripted")
+        service, recommender, notes = build_tutoring_runtime("pgvector", use_jev=args.llm != "scripted")
         print("setup: " + "; ".join(notes))
     else:
         judge = None
         if args.judge not in (None, "off"):
-            from retrieval_tool.jev_decider import default_evidence_judge
+            from retrieval_tool.jev_recommender import default_evidence_judge
             judge = default_evidence_judge()
         service = build_service("pgvector", options=RetrievalOptions(judge_mode=args.judge or "off"), judge=judge)
-        decider = None
+        recommender = None
         if not args.no_jev and args.llm != "scripted":
-            from retrieval_tool.jev_decider import default_decider
-            decider, note = default_decider()
+            from retrieval_tool.jev_recommender import default_recommender
+            recommender, note = default_recommender()
             print(f"may-turn decisions: {note}")
     if args.test_double:
         print("NOTE: --test-double: retrieval is the offline stand-in, not Week 3. Use only to check the turn logic.")
     for name in (sorted(scenarios) if args.all else [args.scenario]):
-        run(name, scenarios[name], service, args.llm, decider)
+        run(name, scenarios[name], service, args.llm, recommender)
 
 
 if __name__ == "__main__":

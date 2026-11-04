@@ -3,13 +3,12 @@
 import json
 import unittest
 
-from _setup import ctx, index_root
-from retrieval_tool import build_service, decide, run_turn
+from _setup import ctx, engine_turn
+from retrieval_tool import build_service, recommend_grounding
 from retrieval_tool.llm import ScriptedLLM, answer, tool_call
 from retrieval_tool.planner import (PLAN_VERSION, RetrievalPlanner, plan_is_usable, plan_to_request, validate_plan)
 from retrieval_tool.tool_schema import tool_for_decision
 
-ROOT = index_root()
 CHAIN = "calc1.03-derivatives.chain-rule"
 FTC = "calc1.05-integration.ftc"
 
@@ -35,12 +34,12 @@ class LinkingAndDraftTests(unittest.TestCase):
 
     def test_question_schema_concept_wins_over_linking(self):
         c = ctx(concept_ids=[CHAIN], student_message="what does the fundamental theorem of calculus say?")
-        draft = self.planner.draft(c, decide("explain"))
+        draft = self.planner.draft(c, recommend_grounding("explain"))
         self.assertEqual([(x["concept_id"], x["source"]) for x in draft["concepts"]], [(CHAIN, "question_schema")])
 
     def test_draft_is_a_valid_plan(self):
         draft = self.planner.draft(ctx(student_message="What does the FTC part about accumulation say? fundamental theorem of calculus"),
-                                   decide("explain"))
+                                   recommend_grounding("explain"))
         self.assertEqual(validate_plan(draft), [])
         self.assertEqual(draft["plan_version"], PLAN_VERSION)
         self.assertEqual([n["need_type"] for n in draft["needs"]], ["definition", "theorem_statement"])
@@ -49,7 +48,7 @@ class LinkingAndDraftTests(unittest.TestCase):
         self.assertEqual(draft["scope"]["narrowing"], "not_enforced")
 
     def test_draft_without_any_concept_has_no_needs(self):
-        draft = self.planner.draft(ctx(student_message="Can you explain Laplace transforms?"), decide("explain"))
+        draft = self.planner.draft(ctx(student_message="Can you explain Laplace transforms?"), recommend_grounding("explain"))
         self.assertEqual((draft["concepts"], draft["needs"]), ([], []))
         self.assertFalse(plan_is_usable(draft))
 
@@ -60,7 +59,7 @@ class FinalizeTests(unittest.TestCase):
         cls.planner = RetrievalPlanner.from_folder(["calc1"])
 
     def draft(self, **kw):
-        return self.planner.draft(ctx(**kw), decide("explain"))
+        return self.planner.draft(ctx(**kw), recommend_grounding("explain"))
 
     def test_unknown_concepts_are_dropped_and_recorded(self):
         c = ctx(student_message="How do I differentiate sin(x^2)?")
@@ -77,12 +76,12 @@ class FinalizeTests(unittest.TestCase):
         c = ctx(concept_ids=[CHAIN])
         plan = self.planner.finalize({"query": "product rule", "concept_id": "calc1.03-derivatives.product-quotient",
                                       "evidence_needs": [{"need_type": "definition", "description": "product rule"}]},
-                                     self.planner.draft(c, decide("explain")), c)
+                                     self.planner.draft(c, recommend_grounding("explain")), c)
         self.assertEqual([x["concept_id"] for x in plan["concepts"]], [CHAIN, "calc1.03-derivatives.product-quotient"])
 
     def test_missing_parts_come_from_the_draft(self):
         c = ctx(student_message="What does the fundamental theorem of calculus say?")
-        draft = self.planner.draft(c, decide("explain"))
+        draft = self.planner.draft(c, recommend_grounding("explain"))
         plan = self.planner.finalize({"query": "", "evidence_needs": []}, draft, c)
         codes = [r["code"] for r in plan["repairs"]]
         self.assertIn("main_query_from_draft", codes)
@@ -100,7 +99,7 @@ class FinalizeTests(unittest.TestCase):
                  {"need_type": "method_guidance", "description": "how to spot the inner function"},
                  {"need_type": "notation_convention", "description": "Leibniz notation"}]
         plan = self.planner.finalize({"query": "chain rule", "evidence_needs": needs},
-                                     self.planner.draft(c, decide("explain")), c)
+                                     self.planner.draft(c, recommend_grounding("explain")), c)
         codes = [r["code"] for r in plan["repairs"]]
         for code in ("duplicate_dropped", "invalid_need_dropped", "not_a_plan_concept_dropped", "truncated"):
             self.assertIn(code, codes)
@@ -118,7 +117,7 @@ class FinalizeTests(unittest.TestCase):
 
     def test_plan_becomes_a_request(self):
         c = ctx(concept_ids=[CHAIN])
-        plan = self.planner.draft(c, decide("explain"))
+        plan = self.planner.draft(c, recommend_grounding("explain"))
         request = plan_to_request(plan, c, purpose="answer_grounding")
         self.assertEqual(request["retrieval_plan"], plan)
         self.assertEqual(request["concept_ids"], [CHAIN])
@@ -127,11 +126,11 @@ class FinalizeTests(unittest.TestCase):
 
     def test_tool_concept_fields_are_enums_of_the_course_list(self):
         menu = self.planner.concept_menu("calc1")
-        props = tool_for_decision(decide("explain"), concept_menu=menu)["function"]["parameters"]["properties"]
+        props = tool_for_decision(recommend_grounding("explain"), concept_menu=menu)["function"]["parameters"]["properties"]
         self.assertEqual(len(props["concept_id"]["enum"]), 34)                  # 33 concepts + not_in_course
         self.assertIn("not_in_course", props["concept_id"]["enum"])
         self.assertEqual(len(props["related_concept_ids"]["items"]["enum"]), 33)
-        bare = tool_for_decision(decide("explain"))["function"]["parameters"]["properties"]
+        bare = tool_for_decision(recommend_grounding("explain"))["function"]["parameters"]["properties"]
         self.assertNotIn("concept_id", bare)
         self.assertNotIn("related_concept_ids", bare)
 
@@ -162,7 +161,7 @@ class FinalizeTests(unittest.TestCase):
         c = ctx(concept_ids=[CHAIN])
         plan = self.planner.finalize({"query": "x", "concept_id": "not_in_course",
                                       "evidence_needs": [{"need_type": "definition", "description": "chain rule"}]},
-                                     self.planner.draft(c, decide("explain")), c)
+                                     self.planner.draft(c, recommend_grounding("explain")), c)
         self.assertEqual(plan["concept_status"], "found")
         self.assertIn("not_in_course_ignored", [r["code"] for r in plan["repairs"]])
 
@@ -170,7 +169,7 @@ class FinalizeTests(unittest.TestCase):
         c = ctx(concept_ids=[CHAIN])
         plan = self.planner.finalize({"query": "trig derivative", "concept_id": "calc1.03-derivatives.trig",
                                       "evidence_needs": [{"need_type": "definition", "description": "derivative of sine"}]},
-                                     self.planner.draft(c, decide("explain")), c)
+                                     self.planner.draft(c, recommend_grounding("explain")), c)
         self.assertEqual([(x["concept_id"], x["role"]) for x in plan["concepts"]],
                          [(CHAIN, "primary"), ("calc1.03-derivatives.trig", "related")])
 
@@ -183,17 +182,16 @@ class FinalizeTests(unittest.TestCase):
                          [(CHAIN, "primary"), ("calc1.03-derivatives.trig", "related")])
 
 
-@unittest.skipIf(ROOT is None, "Week 3 index files not found (set DP_RETRIEVAL_ROOT)")
 class PlannerInTurnTests(unittest.TestCase):
     def setUp(self):
-        self.service = build_service("memory", root=ROOT, test_double=True)
+        self.service = build_service("fixture")
 
     def test_model_sees_the_draft_and_the_list_and_its_proposal_is_repaired(self):
         args = {"query": "chain rule for composite functions", "purpose": "answer_grounding",
                 "concept_id": "calc1.99-made-up",
                 "evidence_needs": [{"need_type": "theorem_statement", "description": "statement of the chain rule"}]}
         llm = ScriptedLLM([tool_call(args), answer("ok")])
-        result = run_turn(llm, self.service, ctx(action_type="explain", concept_ids=[CHAIN],
+        result = engine_turn(llm, self.service, ctx(action_type="explain", concept_ids=[CHAIN],
                                                  student_message="I got cos(x^2). Why is that wrong?"))
         system = llm.calls[0]["messages"][0]["content"]
         self.assertIn("Retrieval plan drafted by the system", system)
@@ -206,7 +204,7 @@ class PlannerInTurnTests(unittest.TestCase):
 
     def test_prefetch_uses_the_code_draft(self):
         llm = ScriptedLLM([answer("from memory"), answer("ok")])
-        result = run_turn(llm, self.service, ctx(action_type="explain", concept_ids=[FTC],
+        result = engine_turn(llm, self.service, ctx(action_type="explain", concept_ids=[FTC],
                                                  student_message="What does it say?"))
         request = result.requests[0]
         self.assertEqual(request["producer"], "tutoring-engine:prefetch")
@@ -218,7 +216,7 @@ class PlannerInTurnTests(unittest.TestCase):
         fixed = {"query": "Laplace transform", "purpose": "answer_grounding",
                  "evidence_needs": [{"need_type": "definition", "description": "definition of the Laplace transform"}]}
         llm = ScriptedLLM([tool_call(empty, call_id="a"), tool_call(fixed, call_id="b"), answer("not in this course")])
-        result = run_turn(llm, self.service, ctx(action_type="explain", student_message="Can you explain Laplace transforms?"))
+        result = engine_turn(llm, self.service, ctx(action_type="explain", student_message="Can you explain Laplace transforms?"))
         first = json.loads([m for m in llm.calls[1]["messages"] if m["role"] == "tool"][0]["content"])
         self.assertEqual(first["error"], "invalid arguments")
         self.assertEqual(len(result.requests), 1)

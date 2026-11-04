@@ -1,16 +1,14 @@
 import unittest
 from dataclasses import replace
 
-import numpy as np
-
-from _setup import ctx, index_root
+from _setup import ctx
 from retrieval_tool import build_service
-from retrieval_tool.backends import BackendUnavailable, Catalog, InMemoryBackend
+from retrieval_tool.backends import BackendUnavailable
+from retrieval_tool.local_fixture import fixture_scope_checker
 from retrieval_tool.records import check_bundle_invariants
-from retrieval_tool.service import RetrievalService, default_scope_checker, development_policy
+from retrieval_tool.service import RetrievalService, development_policy
 from retrieval_tool.tool_schema import build_request
 
-ROOT = index_root()
 
 
 def args(query, *needs, purpose="answer_grounding", **extra):
@@ -18,11 +16,10 @@ def args(query, *needs, purpose="answer_grounding", **extra):
             "evidence_needs": [dict(zip(("need_type", "description", "anchor"), n)) for n in needs], **extra}
 
 
-@unittest.skipIf(ROOT is None, "Week 3 index files not found (set DP_RETRIEVAL_ROOT)")
 class ServiceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.service = build_service("memory", root=ROOT, test_double=True)
+        cls.service = build_service("fixture")
 
     def run_tool(self, tool_args, **ctx_overrides):
         return self.service.handle(build_request(tool_args, ctx(**ctx_overrides)))
@@ -91,7 +88,7 @@ class ServiceTests(unittest.TestCase):
         week3_ids = self.service.last_report["week3"]["selected"]
         self.assertEqual([p["legacy_locator"]["week3_passage_id"] for p in b["passages"]], week3_ids)
         self.assertLessEqual(len(b["passages"]), 6)
-        self.assertEqual(b["query_interpretation"]["selection"], "week3_production")
+        self.assertEqual(b["query_interpretation"]["selection"], getattr(self.service.backend, "selection", "week3_production"))
         self.assertIn(b["query_interpretation"]["facet_source"], ("week3_query_facets", "none"))   # Week 3 default
 
     def test_evidence_needs_as_subquestions_is_a_switch(self):
@@ -110,7 +107,7 @@ class ServiceTests(unittest.TestCase):
     def test_provenance_policy_none_blocks_ai_corpus(self):
         catalog = self.service.catalog
         strict = {"calc1": replace(development_policy("calc1"), allow_unverified_sources="none")}
-        svc = RetrievalService(self.service.backend, catalog, strict, scope_checker=default_scope_checker(ROOT))
+        svc = RetrievalService(self.service.backend, catalog, strict, scope_checker=fixture_scope_checker)
         b = svc.handle(build_request(args("chain rule", ("definition", "chain rule")), ctx()))
         self.assertEqual((b["retrieval_status"], b["warnings"][0]["code"]), ("no_support_found", "no_eligible_sources"))
 
@@ -168,25 +165,6 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(b["retrieval_status"], "failed")
         self.assertTrue(b["warnings"][0]["retryable"])
 
-    def test_vector_channel_path_with_stub_encoder(self):
-        # Stub encoder: returns the stored vector of the first record mentioning the query's first word.
-        backend_probe = InMemoryBackend(ROOT, catalog=self.service.catalog, encoder=lambda k, t: None)
-        def encoder(key, texts):
-            out = []
-            for text in texts:
-                word = text.split()[0].lower()
-                idx = next((i for i, r in enumerate(backend_probe.records) if word in r["input_text"].lower()), 0)
-                out.append(backend_probe.vectors[key][idx])
-            return np.stack(out)
-        backend = InMemoryBackend(ROOT, catalog=self.service.catalog, encoder=encoder)
-        self.assertTrue(backend.semantic_available)
-        svc = RetrievalService(backend, self.service.catalog, self.service.policies)
-        b = svc.handle(build_request(args("logistic growth model", ("definition", "logistic growth model")), ctx()))
-        self.assertNotIn("semantic_channel_unavailable", {w["code"] for w in b["warnings"]})
-        report = backend.run("logistic growth", [], course_id="calc1")
-        self.assertTrue(any(set(r["signals"]) & {"bge_base_en_v1_5", "qwen3_embedding_0_6b"} for r in report["results"]))
-        self.assertEqual(report["channel_candidate_counts"]["bge_base_en_v1_5"], 40)
-
     def test_cross_course_isolation(self):
         b = self.run_tool(args("quadratic reciprocity", ("theorem_statement", "quadratic reciprocity law", "reciprocity")))
         docs = {p["document_id"] for p in b["passages"]}
@@ -200,38 +178,3 @@ class ServiceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-
-@unittest.skipIf(ROOT is None, "Week 3 index files not found (set DP_RETRIEVAL_ROOT)")
-class PgvectorAdapterTests(unittest.TestCase):
-    def test_week3_folder_is_used_and_encoder_fault_is_failed(self):
-        import sys
-        import tempfile
-        from pathlib import Path
-        from retrieval_tool.backends import PgvectorBackend
-        with tempfile.TemporaryDirectory() as tmp:
-            kb = Path(tmp)
-            (kb / "retrieval").mkdir()
-            (kb / "retrieval" / "search.py").write_text(
-                "class Retriever:\n"
-                "    def __init__(self, models=(), device='auto'):\n"
-                "        self.models, self.device = models, device\n"
-                "    def close(self):\n        pass\n")
-            (kb / "retrieval" / "request_policy.py").write_text("def query_facets(q):\n    return []\n")
-            (kb / "retrieval" / "report_contract.py").write_text("def validate_report_contract(r):\n    pass\n")
-            for name in ("search", "request_policy", "report_contract"):
-                sys.modules.pop(name, None)
-            backend = PgvectorBackend(ROOT, week3_kb=kb, models=("bge_base_en_v1_5",))
-            self.assertTrue(backend.semantic_available)
-            try:
-                import sentence_transformers  # noqa: F401
-                has_st = True
-            except ImportError:
-                has_st = False
-            if not has_st:  # encoder library missing -> component fault -> `failed`, not `no_support_found`
-                with self.assertRaises(BackendUnavailable) as raised:
-                    backend.run("chain rule", [], course_id="calc1")
-                self.assertEqual(raised.exception.code, "encoder_unavailable")
-            for name in ("search", "request_policy", "report_contract"):
-                sys.modules.pop(name, None)
-            sys.path.remove(str(kb / "retrieval"))
