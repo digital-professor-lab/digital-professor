@@ -59,7 +59,7 @@ Records that require validation should include:
 **Producer:** Course Context and Ingestion  
 **Consumers:** Interaction, Retrieval, Tutoring Engine, Delivery
 
-CourseContext is the full structured description of one course. Its complete record set — `Course`, `Module`, `Concept`, `LearningObjective`, `Source`, `AssessmentQuestion`, plus `assumptions` and per-record `provenance` — is defined in [`course-context.md`](course-context.md) sections 1–2. This table lists the `Course`-level fields; the richer structure (modules, concepts, the prerequisite graph, the question bank, and source page/line mappings) lives in that document.
+CourseContext is the full structured description of one course. Its complete record set — `Course`, `Module`, `Concept`, `LearningObjective`, `Source`, plus `assumptions` and per-record `provenance` — is defined in [`course-context.md`](course-context.md) sections 1–2. This table lists the `Course`-level fields; the richer structure (modules, concepts, the prerequisite graph, and source page/line mappings) lives in that document. Assessment questions are not part of CourseContext; a question bank, when one exists, is supplied separately (see `course-context.md` §1.1).
 
 The `Course`-level fields are exactly those in [`course-context.md`](course-context.md) §1.2:
 
@@ -72,7 +72,9 @@ The `Course`-level fields are exactly those in [`course-context.md`](course-cont
 | `assumed_background` | string | Yes | What students are expected to know on arrival. |
 | `module_ids` | array[string] | Yes | Modules in teaching order; each expands to concepts (see course-context.md). |
 
-Concepts, learning objectives, sources, prerequisite links, difficulty notes, and assessment questions live in the Course/Module/Concept structure defined in course-context.md, not as loose fields on this record.
+Concepts, learning objectives, sources, prerequisite links, and difficulty notes live in the Course/Module/Concept structure defined in course-context.md, not as loose fields on this record.
+
+**Shared-contract note — `assumptions[].confidence` (optional, additive).** Each `assumptions` entry MAY carry a `confidence` of `high` | `medium` | `low` (the generator's self-rating of an inferred value; see `course-context.md` §2.4). It is **optional and additive**: consumers that do not read the `assumptions` log (Retrieval, Interaction, Tutoring Engine, Delivery — they read `Course`-level fields and the Concept structure) are unaffected and may ignore it; any consumer that does read `assumptions` MUST treat `confidence` as optional and MUST preserve it on pass-through. It does not change any existing field.
 
 ## 3. QuestionSchema
 

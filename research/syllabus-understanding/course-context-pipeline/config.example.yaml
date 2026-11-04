@@ -1,0 +1,31 @@
+# Stage A pipeline config. Copy to config.yaml and edit, or override on the CLI.
+# Paths are relative to the repo root (the folder containing .git).
+
+syllabus_path: research/syllabus-understanding/syllabus-examples/110.106CalculusISyllabus.pdf
+prompt_path:   research/syllabus-understanding/design-example/syllabus-to-json-prompt.md
+output_path:   research/syllabus-understanding/course-context-pipeline/output/calc1.course-context.generated.json
+
+max_attempts: 2          # regenerate-on-error attempts (also the per-call retries in by_module)
+
+# Generation strategy:
+#   single     – one LLM call for the whole file (needs a large output cap)
+#   by_module  – outline + one call per module, then assemble; keeps each response
+#                small so a modest output cap (e.g. deepseek-chat ~8K) never truncates
+strategy: single
+
+llm:
+  # --- Local Ollama (default: free, no key) ---
+  base_url: http://localhost:11434/v1
+  model: qwen3:8b
+  api_key: ollama        # Ollama ignores this
+  num_ctx: 32768         # Ollama context window; harmless for hosted providers
+  temperature: 0.2
+  max_tokens: 16000
+  json_mode: false
+
+  # --- To use a hosted provider instead, change the three lines above, e.g.: ---
+  # OpenAI:        base_url: https://api.openai.com/v1   | model: gpt-4o          | api_key_env: OPENAI_API_KEY
+  # OpenRouter:    base_url: https://openrouter.ai/api/v1 | model: ...             | api_key_env: OPENROUTER_API_KEY
+  # DeepSeek:      base_url: https://api.deepseek.com/v1  | model: deepseek-chat   | api_key_env: DEEPSEEK_API_KEY
+  # JHU Gateway:   base_url: <gateway url>                | model: <catalog model> | api_key_env: JHU_API_KEY
+  # (Use api_key_env to name the env var holding the key; never put real keys in this file.)

@@ -140,10 +140,6 @@
       "source_ids": [
         "neuhauser.ch1"
       ],
-      "question_ids": [
-        "calc1.01-functions.graphs.q1",
-        "calc1.01-functions.graphs.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -176,10 +172,6 @@
       "source_ids": [
         "neuhauser.ch1"
       ],
-      "question_ids": [
-        "calc1.01-functions.families.q1",
-        "calc1.01-functions.families.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -211,10 +203,6 @@
       ],
       "source_ids": [
         "neuhauser.s2-1"
-      ],
-      "question_ids": [
-        "calc1.01-functions.exp-growth.q1",
-        "calc1.01-functions.exp-growth.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -249,10 +237,6 @@
       "source_ids": [
         "neuhauser.s2-2"
       ],
-      "question_ids": [
-        "calc1.01-functions.sequences.q1",
-        "calc1.01-functions.sequences.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -286,10 +270,6 @@
       "source_ids": [
         "neuhauser.s3-1"
       ],
-      "question_ids": [
-        "calc1.02-limits.limits.q1",
-        "calc1.02-limits.limits.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -320,10 +300,6 @@
       ],
       "source_ids": [
         "neuhauser.s3-6"
-      ],
-      "question_ids": [
-        "calc1.02-limits.epsilon-delta.q1",
-        "calc1.02-limits.epsilon-delta.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -356,10 +332,6 @@
       ],
       "source_ids": [
         "neuhauser.s3-2"
-      ],
-      "question_ids": [
-        "calc1.02-limits.continuity.q1",
-        "calc1.02-limits.continuity.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -395,10 +367,6 @@
         "neuhauser.s3-3",
         "neuhauser.s3-6"
       ],
-      "question_ids": [
-        "calc1.02-limits.limits-infinity.q1",
-        "calc1.02-limits.limits-infinity.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -431,10 +399,6 @@
       "source_ids": [
         "neuhauser.s3-4"
       ],
-      "question_ids": [
-        "calc1.02-limits.trig-sandwich.q1",
-        "calc1.02-limits.trig-sandwich.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -465,10 +429,6 @@
       ],
       "source_ids": [
         "neuhauser.s3-5"
-      ],
-      "question_ids": [
-        "calc1.02-limits.continuous-props.q1",
-        "calc1.02-limits.continuous-props.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -503,10 +463,6 @@
       "source_ids": [
         "neuhauser.s4-1"
       ],
-      "question_ids": [
-        "calc1.03-derivatives.definition.q1",
-        "calc1.03-derivatives.definition.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -538,10 +494,6 @@
       "source_ids": [
         "neuhauser.s4-2"
       ],
-      "question_ids": [
-        "calc1.03-derivatives.basic-rules.q1",
-        "calc1.03-derivatives.basic-rules.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -571,10 +523,6 @@
       ],
       "source_ids": [
         "neuhauser.s4-3"
-      ],
-      "question_ids": [
-        "calc1.03-derivatives.power-rule.q1",
-        "calc1.03-derivatives.power-rule.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -606,10 +554,6 @@
       ],
       "source_ids": [
         "neuhauser.s4-4"
-      ],
-      "question_ids": [
-        "calc1.03-derivatives.product-quotient.q1",
-        "calc1.03-derivatives.product-quotient.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -643,10 +587,6 @@
       "source_ids": [
         "neuhauser.s4-5"
       ],
-      "question_ids": [
-        "calc1.03-derivatives.chain-rule.q1",
-        "calc1.03-derivatives.chain-rule.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -678,10 +618,6 @@
       "source_ids": [
         "neuhauser.s4-6"
       ],
-      "question_ids": [
-        "calc1.03-derivatives.implicit.q1",
-        "calc1.03-derivatives.implicit.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -712,10 +648,6 @@
       ],
       "source_ids": [
         "neuhauser.s4-7"
-      ],
-      "question_ids": [
-        "calc1.03-derivatives.higher.q1",
-        "calc1.03-derivatives.higher.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -750,10 +682,6 @@
       "source_ids": [
         "neuhauser.s4-8"
       ],
-      "question_ids": [
-        "calc1.03-derivatives.trig.q1",
-        "calc1.03-derivatives.trig.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -787,10 +715,6 @@
       "source_ids": [
         "neuhauser.s4-9"
       ],
-      "question_ids": [
-        "calc1.03-derivatives.exp-log.q1",
-        "calc1.03-derivatives.exp-log.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -823,10 +747,6 @@
       "source_ids": [
         "neuhauser.s4-10"
       ],
-      "question_ids": [
-        "calc1.03-derivatives.inverse.q1",
-        "calc1.03-derivatives.inverse.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -857,10 +777,6 @@
       ],
       "source_ids": [
         "neuhauser.s4-11"
-      ],
-      "question_ids": [
-        "calc1.03-derivatives.linear-approx.q1",
-        "calc1.03-derivatives.linear-approx.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -895,10 +811,6 @@
       "source_ids": [
         "neuhauser.s5-1"
       ],
-      "question_ids": [
-        "calc1.04-diff-applications.evt-mvt.q1",
-        "calc1.04-diff-applications.evt-mvt.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -930,10 +842,6 @@
       ],
       "source_ids": [
         "neuhauser.s5-2"
-      ],
-      "question_ids": [
-        "calc1.04-diff-applications.monotone-concave.q1",
-        "calc1.04-diff-applications.monotone-concave.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -967,10 +875,6 @@
       "source_ids": [
         "neuhauser.s5-3"
       ],
-      "question_ids": [
-        "calc1.04-diff-applications.extrema-inflection.q1",
-        "calc1.04-diff-applications.extrema-inflection.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1002,10 +906,6 @@
       ],
       "source_ids": [
         "neuhauser.s5-4"
-      ],
-      "question_ids": [
-        "calc1.04-diff-applications.optimization.q1",
-        "calc1.04-diff-applications.optimization.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -1039,10 +939,6 @@
       ],
       "source_ids": [
         "neuhauser.s5-5"
-      ],
-      "question_ids": [
-        "calc1.04-diff-applications.lhopital.q1",
-        "calc1.04-diff-applications.lhopital.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -1079,10 +975,6 @@
       "source_ids": [
         "neuhauser.s5-10"
       ],
-      "question_ids": [
-        "calc1.05-integration.antiderivatives.q1",
-        "calc1.05-integration.antiderivatives.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1115,10 +1007,6 @@
       ],
       "source_ids": [
         "neuhauser.s6-1"
-      ],
-      "question_ids": [
-        "calc1.05-integration.definite-integral.q1",
-        "calc1.05-integration.definite-integral.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -1153,10 +1041,6 @@
       "source_ids": [
         "neuhauser.s6-2"
       ],
-      "question_ids": [
-        "calc1.05-integration.ftc.q1",
-        "calc1.05-integration.ftc.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1187,10 +1071,6 @@
       ],
       "source_ids": [
         "neuhauser.s6-3"
-      ],
-      "question_ids": [
-        "calc1.05-integration.applications.q1",
-        "calc1.05-integration.applications.q2"
       ],
       "provenance": "ai_inferred"
     },
@@ -1225,10 +1105,6 @@
       "source_ids": [
         "neuhauser.s7-1"
       ],
-      "question_ids": [
-        "calc1.06-integral-applications.substitution.q1",
-        "calc1.06-integral-applications.substitution.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1261,10 +1137,6 @@
       "source_ids": [
         "neuhauser.s7-2"
       ],
-      "question_ids": [
-        "calc1.06-integral-applications.by-parts.q1",
-        "calc1.06-integral-applications.by-parts.q2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1296,10 +1168,6 @@
       ],
       "source_ids": [
         "neuhauser.s7-3"
-      ],
-      "question_ids": [
-        "calc1.06-integral-applications.partial-fractions.q1",
-        "calc1.06-integral-applications.partial-fractions.q2"
       ],
       "provenance": "ai_inferred"
     }
@@ -1795,1328 +1663,6 @@
       "provenance": "source_backed"
     }
   ],
-  "AssessmentQuestion": [
-    {
-      "id": "calc1.01-functions.graphs.q1",
-      "concept_ids": [
-        "calc1.01-functions.graphs"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.graphs.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "State the domain of f(x) = sqrt(x - 3)/(x - 5).",
-      "solution": "The square root requires x - 3 ≥ 0, so x ≥ 3. The denominator requires x ≠ 5. Domain: [3, 5) ∪ (5, ∞).",
-      "rubric": "1 pt for x ≥ 3; 1 pt for excluding x = 5; correct interval notation.",
-      "common_wrong_answers": [
-        "x ≠ 5 only",
-        "x > 3 (strict inequality at the square-root condition)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.graphs.q2",
-      "concept_ids": [
-        "calc1.01-functions.graphs"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.graphs.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Let f(x) = 2x + 1 and g(x) = x^2. Compute f(g(x)) and g(f(x)), and find f^-1(x).",
-      "solution": "f(g(x)) = 2x^2 + 1. g(f(x)) = (2x + 1)^2 = 4x^2 + 4x + 1. To invert, set y = 2x + 1 and solve: x = (y - 1)/2, so f^-1(x) = (x - 1)/2.",
-      "rubric": "1 pt each composition; 1 pt for correct inverse; note the compositions differ.",
-      "common_wrong_answers": [
-        "f(g(x)) = g(f(x)) = 2x^3",
-        "f^-1(x) = 1/(2x + 1)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.families.q1",
-      "concept_ids": [
-        "calc1.01-functions.families"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.families.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "For x > 0, simplify ln(e^3 · x^2) in terms of ln x.",
-      "solution": "ln(e^3 · x^2) = ln(e^3) + ln(x^2) = 3 + 2 ln x.",
-      "rubric": "1 pt for splitting the product into a sum; 1 pt for each correct term.",
-      "common_wrong_answers": [
-        "6 ln x",
-        "3 · 2 ln x"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.families.q2",
-      "concept_ids": [
-        "calc1.01-functions.families"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.families.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Solve 5e^(0.2t) = 40 for t.",
-      "solution": "Divide by 5: e^(0.2t) = 8. Take logs: 0.2t = ln 8, so t = ln(8)/0.2 = 5 ln 8 ≈ 10.40.",
-      "rubric": "1 pt for isolating the exponential; 1 pt for applying ln; 1 pt for the correct value.",
-      "common_wrong_answers": [
-        "t = 8/0.2 = 40",
-        "t = ln(35)/0.2 (subtracting 5 instead of dividing)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.exp-growth.q1",
-      "concept_ids": [
-        "calc1.01-functions.exp-growth"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.exp-growth.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "A bacterial population satisfies N(t) = 500 e^(0.3t), with t in hours. Find the doubling time.",
-      "solution": "Set e^(0.3T) = 2, so T = ln(2)/0.3 ≈ 2.31 hours.",
-      "rubric": "1 pt for setting up e^(0.3T) = 2; 1 pt for the correct answer with units.",
-      "common_wrong_answers": [
-        "2/0.3 ≈ 6.67 hours",
-        "0.3/ln 2 ≈ 0.43 hours"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.exp-growth.q2",
-      "concept_ids": [
-        "calc1.01-functions.exp-growth"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.exp-growth.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "A drug has a half-life of 6 hours. At t = 0, 80 mg is in the body. How much remains after 15 hours? When will 10 mg remain?",
-      "solution": "A(t) = 80·(1/2)^(t/6). At t = 15: 80·2^(-2.5) = 80/5.657 ≈ 14.1 mg. For 10 mg: (1/2)^(t/6) = 1/8 = (1/2)^3, so t/6 = 3 and t = 18 hours.",
-      "rubric": "2 pts for the model; 1 pt for each part answered correctly with units.",
-      "common_wrong_answers": [
-        "80·(1/2)^15 (treating hours as half-lives)",
-        "80 - 15·(80/12) (linear decay)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.sequences.q1",
-      "concept_ids": [
-        "calc1.01-functions.sequences"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.sequences.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Find lim_{n→∞} (3n^2 + 1)/(n^2 + 5n).",
-      "solution": "Divide numerator and denominator by n^2: (3 + 1/n^2)/(1 + 5/n) → 3/1 = 3.",
-      "rubric": "1 pt for dividing by the highest power; 1 pt for the correct limit.",
-      "common_wrong_answers": [
-        "∞",
-        "0"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.sequences.q2",
-      "concept_ids": [
-        "calc1.01-functions.sequences"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.sequences.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "analysis",
-      "prompt": "A population satisfies a_(n+1) = 0.5 a_n + 10 with a_0 = 4. Find the equilibrium and decide whether a_n converges to it. Justify.",
-      "solution": "Set a* = 0.5a* + 10, so 0.5a* = 10 and a* = 20. Let b_n = a_n - 20. Then b_(n+1) = 0.5 b_n, so b_n = 0.5^n (4 - 20) = -16·0.5^n → 0. Hence a_n → 20.",
-      "rubric": "1 pt for a* = 20; 2 pts for a valid convergence argument (explicit solution or contraction factor 0.5 < 1).",
-      "common_wrong_answers": [
-        "a* = 10",
-        "The sequence diverges because 10 is added at every step"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.limits.q1",
-      "concept_ids": [
-        "calc1.02-limits.limits"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.limits.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Evaluate lim_{x→2} (x^2 - 4)/(x - 2).",
-      "solution": "Substituting gives 0/0, so factor: (x - 2)(x + 2)/(x - 2) = x + 2 for x ≠ 2. The limit is 4.",
-      "rubric": "1 pt for recognizing 0/0; 1 pt for factoring and cancelling; 1 pt for 4.",
-      "common_wrong_answers": [
-        "Does not exist because of 0/0",
-        "0"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.limits.q2",
-      "concept_ids": [
-        "calc1.02-limits.limits"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.limits.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Let f(x) = |x|/x for x ≠ 0. Find lim_{x→0-} f(x), lim_{x→0+} f(x), and lim_{x→0} f(x).",
-      "solution": "For x < 0, |x| = -x, so f(x) = -1. For x > 0, f(x) = 1. The one-sided limits are -1 and 1; since they disagree, lim_{x→0} f(x) does not exist.",
-      "rubric": "1 pt per one-sided limit; 1 pt for concluding the two-sided limit does not exist.",
-      "common_wrong_answers": [
-        "0",
-        "1 (using only the right side)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.epsilon-delta.q1",
-      "concept_ids": [
-        "calc1.02-limits.epsilon-delta"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.epsilon-delta.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "State the epsilon-delta definition of lim_{x→a} f(x) = L.",
-      "solution": "For every ε > 0 there exists δ > 0 such that if 0 < |x - a| < δ then |f(x) - L| < ε.",
-      "rubric": "1 pt for the correct quantifier order; 1 pt for 0 < |x - a| < δ; 1 pt for |f(x) - L| < ε.",
-      "common_wrong_answers": [
-        "For every δ there exists ε such that ...",
-        "Omitting the 0 < condition so that x = a is included"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.epsilon-delta.q2",
-      "concept_ids": [
-        "calc1.02-limits.epsilon-delta"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.epsilon-delta.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Prove using the definition that lim_{x→3} (2x + 1) = 7.",
-      "solution": "Let ε > 0 and choose δ = ε/2. If 0 < |x - 3| < δ, then |(2x + 1) - 7| = |2x - 6| = 2|x - 3| < 2δ = ε. Hence the limit is 7.",
-      "rubric": "1 pt for scratch-work-derived δ; 1 pt for stating δ in terms of ε; 2 pts for the verification chain.",
-      "common_wrong_answers": [
-        "δ = 2ε",
-        "Choosing δ = ε without verifying the inequality"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.continuity.q1",
-      "concept_ids": [
-        "calc1.02-limits.continuity"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.continuity.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Figure: the graph of f has an open circle at (1, 2) and no filled point at x = 1; at x = 3 the left-hand limit is 1, the right-hand limit is 3, and the filled point is (3, 3); and there is a vertical asymptote at x = 5. Classify the discontinuity at x = 1, x = 3, and x = 5.",
-      "solution": "x = 1: removable (the limit exists but f(1) is undefined). x = 3: jump (the one-sided limits differ). x = 5: infinite (vertical asymptote).",
-      "rubric": "1 pt per correct classification.",
-      "common_wrong_answers": [
-        "x = 1 is a jump discontinuity",
-        "x = 3 is removable because f(3) is defined"
-      ],
-      "requires_figure": true,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.continuity.q2",
-      "concept_ids": [
-        "calc1.02-limits.continuity"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.continuity.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Find the value of c that makes f continuous at x = 1, where f(x) = (x^2 - 1)/(x - 1) for x ≠ 1 and f(1) = c.",
-      "solution": "For x ≠ 1, f(x) = x + 1, so lim_{x→1} f(x) = 2. Continuity requires f(1) = c = 2.",
-      "rubric": "1 pt for simplifying; 1 pt for the limit; 1 pt for c = 2.",
-      "common_wrong_answers": [
-        "c = 0",
-        "c = 1"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.limits-infinity.q1",
-      "concept_ids": [
-        "calc1.02-limits.limits-infinity"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.limits-infinity.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Find lim_{x→∞} (4x^3 - x)/(2x^3 + 7).",
-      "solution": "Divide through by x^3: (4 - 1/x^2)/(2 + 7/x^3) → 4/2 = 2.",
-      "rubric": "1 pt for dividing by x^3; 1 pt for the answer 2.",
-      "common_wrong_answers": [
-        "1 (using ∞/∞ = 1)",
-        "4"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.limits-infinity.q2",
-      "concept_ids": [
-        "calc1.02-limits.limits-infinity"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.limits-infinity.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "A drug concentration is modeled by C(t) = 20t/(t + 4) mg/L for t ≥ 0. Find lim_{t→∞} C(t) and interpret the result.",
-      "solution": "Divide by t: C(t) = 20/(1 + 4/t) → 20. The concentration approaches, but never exceeds, a saturation level of 20 mg/L.",
-      "rubric": "1 pt for the correct limit; 1 pt for a correct method; 1 pt for a clear interpretation.",
-      "common_wrong_answers": [
-        "∞ because t grows without bound",
-        "0"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.trig-sandwich.q1",
-      "concept_ids": [
-        "calc1.02-limits.trig-sandwich"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.trig-sandwich.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Evaluate lim_{x→0} sin(5x)/x.",
-      "solution": "Write sin(5x)/x = 5·sin(5x)/(5x) and let u = 5x → 0. The limit is 5·1 = 5.",
-      "rubric": "1 pt for rescaling; 1 pt for the answer 5.",
-      "common_wrong_answers": [
-        "1",
-        "0"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.trig-sandwich.q2",
-      "concept_ids": [
-        "calc1.02-limits.trig-sandwich"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.trig-sandwich.lo1"
-      ],
-      "type": "midterm",
-      "difficulty": "analysis",
-      "prompt": "Use the Sandwich Theorem to show lim_{x→0} x^2 sin(1/x) = 0.",
-      "solution": "Since -1 ≤ sin(1/x) ≤ 1, multiplying by x^2 ≥ 0 gives -x^2 ≤ x^2 sin(1/x) ≤ x^2 for x ≠ 0. Both bounds tend to 0, so the middle expression tends to 0.",
-      "rubric": "1 pt for the bounds on sin; 1 pt for the inequality with x^2; 1 pt for invoking the theorem with both limits equal.",
-      "common_wrong_answers": [
-        "The limit does not exist because sin(1/x) has no limit",
-        "Substituting x = 0 to get 0·sin(1/0)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.continuous-props.q1",
-      "concept_ids": [
-        "calc1.02-limits.continuous-props"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.continuous-props.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "State the Intermediate Value Theorem.",
-      "solution": "If f is continuous on [a, b] and N is any number between f(a) and f(b), then there exists c in [a, b] with f(c) = N.",
-      "rubric": "1 pt for continuity on a closed interval; 1 pt for N between f(a) and f(b); 1 pt for the conclusion.",
-      "common_wrong_answers": [
-        "Omitting the continuity hypothesis",
-        "Saying f takes every x-value between a and b"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.continuous-props.q2",
-      "concept_ids": [
-        "calc1.02-limits.continuous-props"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.continuous-props.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Show that x^3 + x - 1 = 0 has a solution in (0, 1).",
-      "solution": "Let f(x) = x^3 + x - 1, a polynomial and hence continuous. f(0) = -1 < 0 and f(1) = 1 > 0. By the IVT there is c in (0, 1) with f(c) = 0.",
-      "rubric": "1 pt for continuity; 1 pt for endpoint values; 1 pt for the IVT conclusion.",
-      "common_wrong_answers": [
-        "Claiming the root is 0.5 after evaluating f(0.5)",
-        "Checking only one endpoint"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.definition.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.definition"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.definition.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Write the limit definition of f'(a) and say what it measures.",
-      "solution": "f'(a) = lim_{h→0} (f(a + h) - f(a))/h. It is the instantaneous rate of change of f at a and the slope of the tangent line there.",
-      "rubric": "1 pt for the correct quotient; 1 pt for the limit; 1 pt for the interpretation.",
-      "common_wrong_answers": [
-        "(f(a + h) - f(a))·h",
-        "The average rate over [a, a + h], without taking the limit"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.definition.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.definition"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.definition.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Use the limit definition to find f'(x) for f(x) = x^2 + 3x.",
-      "solution": "(f(x + h) - f(x))/h = (2xh + h^2 + 3h)/h = 2x + h + 3. As h → 0 this tends to 2x + 3.",
-      "rubric": "1 pt for expanding; 1 pt for cancelling h; 1 pt for taking the limit.",
-      "common_wrong_answers": [
-        "2x",
-        "2x + h + 3 (limit not taken)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.basic-rules.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.basic-rules"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.basic-rules.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Differentiate f(x) = 4x + 9 - π.",
-      "solution": "The derivative of 4x is 4, and the derivative of every constant (9 and π) is 0. So f'(x) = 4.",
-      "rubric": "1 pt for 4; 1 pt for treating π as a constant.",
-      "common_wrong_answers": [
-        "4 - 1",
-        "4x"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.basic-rules.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.basic-rules"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.basic-rules.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "A population is P(t) = 300 + 25t (t in days). Find P'(t) and interpret it.",
-      "solution": "P'(t) = 25. The population grows at a constant rate of 25 individuals per day.",
-      "rubric": "1 pt for 25; 1 pt for correct units and interpretation.",
-      "common_wrong_answers": [
-        "300",
-        "25t"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.power-rule.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.power-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.power-rule.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Differentiate f(x) = 3x^4 - 2 sqrt(x) + 5/x.",
-      "solution": "Rewrite f(x) = 3x^4 - 2x^(1/2) + 5x^(-1). Then f'(x) = 12x^3 - x^(-1/2) - 5x^(-2).",
-      "rubric": "1 pt per correct term.",
-      "common_wrong_answers": [
-        "12x^3 - 2x^(-1/2) - 5x^(-2)",
-        "12x^3 - sqrt(x) + 5 ln x"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.power-rule.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.power-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.power-rule.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Find the equation of the tangent line to y = x^(3/2) at x = 4.",
-      "solution": "y(4) = 8. y' = (3/2)x^(1/2), so y'(4) = 3. The tangent line is y - 8 = 3(x - 4), i.e. y = 3x - 4.",
-      "rubric": "1 pt for the point; 1 pt for the slope; 1 pt for the line.",
-      "common_wrong_answers": [
-        "Slope 8 (using the value of f)",
-        "y' = (3/2)x^(3/2)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.product-quotient.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.product-quotient"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.product-quotient.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Differentiate f(x) = (x^2 + 1)(3x - 2).",
-      "solution": "f' = 2x(3x - 2) + (x^2 + 1)(3) = 6x^2 - 4x + 3x^2 + 3 = 9x^2 - 4x + 3.",
-      "rubric": "1 pt for product-rule setup; 1 pt for correct simplification.",
-      "common_wrong_answers": [
-        "(2x)(3) = 6x",
-        "9x^2 - 4x (missing the +3)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.product-quotient.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.product-quotient"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.product-quotient.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Differentiate g(x) = x/(x^2 + 1) and find where g'(x) = 0.",
-      "solution": "g' = [1·(x^2 + 1) - x·2x]/(x^2 + 1)^2 = (1 - x^2)/(x^2 + 1)^2. It is zero when 1 - x^2 = 0, i.e. x = ±1.",
-      "rubric": "2 pts for the derivative; 1 pt for the zeros.",
-      "common_wrong_answers": [
-        "(x^2 + 1 + 2x^2)/(x^2 + 1)^2 (sign error)",
-        "1/(2x)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.chain-rule.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.chain-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.chain-rule.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Differentiate f(x) = (3x^2 + 1)^5.",
-      "solution": "f'(x) = 5(3x^2 + 1)^4 · 6x = 30x(3x^2 + 1)^4.",
-      "rubric": "1 pt for the outer derivative; 1 pt for the inner factor 6x.",
-      "common_wrong_answers": [
-        "5(3x^2 + 1)^4",
-        "5(6x)^4"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.chain-rule.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.chain-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.chain-rule.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Differentiate h(x) = x·sqrt(1 + x^2).",
-      "solution": "By the product rule, h' = sqrt(1 + x^2) + x·(2x)/(2 sqrt(1 + x^2)) = sqrt(1 + x^2) + x^2/sqrt(1 + x^2) = (1 + 2x^2)/sqrt(1 + x^2).",
-      "rubric": "1 pt for the product rule; 1 pt for the chain rule on the square root; 1 pt for simplification.",
-      "common_wrong_answers": [
-        "sqrt(1 + x^2) + x/(2 sqrt(1 + x^2)) (missing 2x)",
-        "x/(2 sqrt(1 + x^2)) (dropping the first product-rule term)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.implicit.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.implicit"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.implicit.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Find dy/dx for x^2 + y^2 = 25.",
-      "solution": "Differentiate: 2x + 2y·dy/dx = 0, so dy/dx = -x/y.",
-      "rubric": "1 pt for 2y·dy/dx; 1 pt for solving.",
-      "common_wrong_answers": [
-        "2x + 2y = 0 so dy/dx = -1",
-        "-y/x"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.implicit.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.implicit"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.implicit.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Find the slope of the tangent line to x^2 + xy + y^2 = 7 at the point (2, 1).",
-      "solution": "Differentiate: 2x + y + x·y' + 2y·y' = 0, so y'(x + 2y) = -(2x + y) and y' = -(2x + y)/(x + 2y). At (2, 1): y' = -5/4.",
-      "rubric": "1 pt for the product rule on xy; 1 pt for isolating y'; 1 pt for -5/4.",
-      "common_wrong_answers": [
-        "-1 (missing the y term from the product rule)",
-        "5/4 (sign error)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.higher.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.higher"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.higher.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Find f''(x) for f(x) = x^4 - 3x^2 + x.",
-      "solution": "f'(x) = 4x^3 - 6x + 1, so f''(x) = 12x^2 - 6.",
-      "rubric": "1 pt for f'; 1 pt for f''.",
-      "common_wrong_answers": [
-        "12x^3 - 6",
-        "(4x^3 - 6x + 1)^2"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.higher.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.higher"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.higher.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "A particle has position s(t) = t^3 - 6t^2 + 9t. Find its velocity and acceleration, and determine when the acceleration is zero.",
-      "solution": "v(t) = s'(t) = 3t^2 - 12t + 9. a(t) = v'(t) = 6t - 12. a(t) = 0 when t = 2.",
-      "rubric": "1 pt per derivative; 1 pt for t = 2.",
-      "common_wrong_answers": [
-        "a(t) = 3t^2 - 12t + 9 (stopping at the first derivative)",
-        "t = 12/6 = 6"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.trig.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.trig"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.trig.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Differentiate f(x) = sin(3x) + cos(x^2).",
-      "solution": "f'(x) = 3cos(3x) - 2x sin(x^2).",
-      "rubric": "1 pt per term, each with the correct chain-rule factor.",
-      "common_wrong_answers": [
-        "cos(3x) - sin(x^2)",
-        "3cos(3x) + 2x sin(x^2)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.trig.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.trig"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.trig.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "The tidal height in meters is h(t) = 2 + 1.5 sin(πt/6), with t in hours. Find h'(t) and the maximum rate at which the water level rises.",
-      "solution": "h'(t) = 1.5·(π/6)cos(πt/6) = (π/4)cos(πt/6). The cosine has maximum 1, so the maximum rate of rise is π/4 ≈ 0.785 m/hr, attained at t = 0, 12, ...",
-      "rubric": "1 pt for the chain-rule factor; 1 pt for h'; 1 pt for the maximum rate with units.",
-      "common_wrong_answers": [
-        "1.5 cos(πt/6) (missing the chain-rule factor)",
-        "-(π/4) sin(πt/6)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.exp-log.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.exp-log"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.exp-log.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Differentiate f(x) = e^(-2x) + 3^x.",
-      "solution": "d/dx e^(-2x) = -2e^(-2x), and d/dx 3^x = 3^x ln 3. So f'(x) = -2e^(-2x) + 3^x ln 3.",
-      "rubric": "1 pt per term.",
-      "common_wrong_answers": [
-        "-2x e^(-2x - 1) + x 3^(x - 1)",
-        "-2e^(-2x) + 3^x"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.exp-log.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.exp-log"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.exp-log.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "For N(t) = N0 e^(rt), show that dN/dt = rN and interpret the result.",
-      "solution": "dN/dt = N0·r·e^(rt) = rN. The growth rate is proportional to the current population size, with constant of proportionality r.",
-      "rubric": "1 pt for the chain-rule differentiation; 1 pt for rewriting as rN; 1 pt for the interpretation.",
-      "common_wrong_answers": [
-        "dN/dt = r t N0 e^(rt - 1)",
-        "dN/dt = r"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.inverse.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.inverse"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.inverse.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Let f(x) = x^3 + x. Find (f^-1)'(2).",
-      "solution": "f(1) = 2, so f^-1(2) = 1. f'(x) = 3x^2 + 1 gives f'(1) = 4. Therefore (f^-1)'(2) = 1/f'(1) = 1/4.",
-      "rubric": "1 pt for finding f^-1(2) = 1; 1 pt for f'(1); 1 pt for 1/4.",
-      "common_wrong_answers": [
-        "1/f'(2) = 1/13",
-        "1/2"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.inverse.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.inverse"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.inverse.lo1"
-      ],
-      "type": "midterm",
-      "difficulty": "analysis",
-      "prompt": "Derive d/dx arctan(x) using the fact that arctan is the inverse of tan.",
-      "solution": "Let y = arctan(x), so tan(y) = x. Differentiate implicitly: sec^2(y)·y' = 1, so y' = 1/sec^2(y) = 1/(1 + tan^2 y) = 1/(1 + x^2).",
-      "rubric": "1 pt for setting tan y = x; 1 pt for implicit differentiation; 1 pt for the identity 1 + tan^2 = sec^2; 1 pt for the result.",
-      "common_wrong_answers": [
-        "1/(1 + y^2)",
-        "cos^2(x)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.linear-approx.q1",
-      "concept_ids": [
-        "calc1.03-derivatives.linear-approx"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.linear-approx.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Find the linearization of f(x) = sqrt(x) at a = 9.",
-      "solution": "f(9) = 3 and f'(x) = 1/(2 sqrt(x)), so f'(9) = 1/6. L(x) = 3 + (x - 9)/6.",
-      "rubric": "1 pt for f(9); 1 pt for f'(9); 1 pt for L(x).",
-      "common_wrong_answers": [
-        "(x - 9)/6 (missing f(a))",
-        "3 + (x - 9)/3"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.linear-approx.q2",
-      "concept_ids": [
-        "calc1.03-derivatives.linear-approx"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.linear-approx.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Use the linearization of sqrt(x) at a = 9 to approximate sqrt(9.3), and say whether it is an over- or underestimate.",
-      "solution": "L(9.3) = 3 + 0.3/6 = 3.05. Since sqrt(x) is concave down, the tangent line lies above the curve, so 3.05 is an overestimate (the true value is about 3.0496).",
-      "rubric": "1 pt for 3.05; 1 pt for the concavity argument; 1 pt for the correct direction of error.",
-      "common_wrong_answers": [
-        "3.3",
-        "Underestimate"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.evt-mvt.q1",
-      "concept_ids": [
-        "calc1.04-diff-applications.evt-mvt"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.evt-mvt.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "State the hypotheses and conclusion of the Mean Value Theorem.",
-      "solution": "If f is continuous on [a, b] and differentiable on (a, b), then there exists c in (a, b) with f'(c) = (f(b) - f(a))/(b - a).",
-      "rubric": "1 pt for continuity on [a, b]; 1 pt for differentiability on (a, b); 1 pt for the conclusion.",
-      "common_wrong_answers": [
-        "Requiring only continuity on (a, b)",
-        "Concluding f(c) = (f(b) - f(a))/(b - a)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.evt-mvt.q2",
-      "concept_ids": [
-        "calc1.04-diff-applications.evt-mvt"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.evt-mvt.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Verify the Mean Value Theorem for f(x) = x^3 on [0, 2] and find the value(s) of c.",
-      "solution": "f is a polynomial, hence continuous and differentiable. The average rate is (8 - 0)/2 = 4. Set 3c^2 = 4, so c = ±2/sqrt(3) and only c = 2/sqrt(3) ≈ 1.155 lies in (0, 2).",
-      "rubric": "1 pt for the hypotheses; 1 pt for the average rate; 1 pt for solving; 1 pt for rejecting the negative root.",
-      "common_wrong_answers": [
-        "c = 1 (the midpoint)",
-        "c = ±2/sqrt(3) without checking the interval"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.monotone-concave.q1",
-      "concept_ids": [
-        "calc1.04-diff-applications.monotone-concave"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.monotone-concave.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "What does f'(x) < 0 on an interval tell you about f? What does f''(x) > 0 tell you?",
-      "solution": "f'(x) < 0 means f is decreasing on the interval. f''(x) > 0 means the graph of f is concave up (f' is increasing).",
-      "rubric": "1 pt each.",
-      "common_wrong_answers": [
-        "f' < 0 means concave down",
-        "f'' > 0 means f is increasing"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.monotone-concave.q2",
-      "concept_ids": [
-        "calc1.04-diff-applications.monotone-concave"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.monotone-concave.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "For f(x) = x^3 - 3x, find the intervals where f is increasing or decreasing and where it is concave up or down.",
-      "solution": "f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1): f is increasing on (-∞, -1) and (1, ∞), decreasing on (-1, 1). f''(x) = 6x: concave down for x < 0, concave up for x > 0.",
-      "rubric": "1 pt for f'; 1 pt for the sign chart; 1 pt for f''; 1 pt for concavity intervals.",
-      "common_wrong_answers": [
-        "Increasing on (-1, 1)",
-        "Concave up for x < 0"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.extrema-inflection.q1",
-      "concept_ids": [
-        "calc1.04-diff-applications.extrema-inflection"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.extrema-inflection.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Find and classify the local extrema and inflection point of f(x) = x^3 - 6x^2 + 9x + 1.",
-      "solution": "f'(x) = 3(x - 1)(x - 3), so critical points x = 1, 3. f''(x) = 6x - 12. f''(1) = -6 < 0, so a local maximum at (1, 5). f''(3) = 6 > 0, so a local minimum at (3, 1). f'' changes sign at x = 2, so the inflection point is (2, 3).",
-      "rubric": "1 pt for critical points; 2 pts for classification; 1 pt for the inflection point.",
-      "common_wrong_answers": [
-        "Swapping maximum and minimum",
-        "Calling x = 1 and x = 3 inflection points"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.extrema-inflection.q2",
-      "concept_ids": [
-        "calc1.04-diff-applications.extrema-inflection"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.extrema-inflection.lo1"
-      ],
-      "type": "midterm",
-      "difficulty": "analysis",
-      "prompt": "For f(x) = x^4, f''(0) = 0. Is x = 0 an inflection point? Does f have an extremum there? Justify.",
-      "solution": "f''(x) = 12x^2 ≥ 0 never changes sign, so there is no inflection point. The second-derivative test is inconclusive, but f'(x) = 4x^3 changes from negative to positive at 0, so by the first-derivative test x = 0 is a local (indeed global) minimum.",
-      "rubric": "1 pt for f''; 1 pt for no sign change; 2 pts for the first-derivative test conclusion.",
-      "common_wrong_answers": [
-        "Inflection point because f''(0) = 0",
-        "No extremum because the second-derivative test failed"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.optimization.q1",
-      "concept_ids": [
-        "calc1.04-diff-applications.optimization"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.optimization.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "A rectangular pen is built against a long barn wall using 100 m of fencing on the other three sides. What dimensions maximize the enclosed area?",
-      "solution": "Let x be the width of each of the two sides perpendicular to the wall and y the side parallel to it, so 2x + y = 100 and y = 100 - 2x. Area A(x) = x(100 - 2x) = 100x - 2x^2 for 0 ≤ x ≤ 50. A' = 100 - 4x = 0 gives x = 25, y = 50, A = 1250 m^2. A'' = -4 < 0 and the endpoints give A = 0, so this is the global maximum.",
-      "rubric": "1 pt for the constraint; 1 pt for the objective in one variable; 1 pt for the critical point; 1 pt for justification and answer in context.",
-      "common_wrong_answers": [
-        "x = y = 33.3 m (fencing all four sides)",
-        "x = 50 m"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.optimization.q2",
-      "concept_ids": [
-        "calc1.04-diff-applications.optimization"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.optimization.lo1"
-      ],
-      "type": "midterm",
-      "difficulty": "analysis",
-      "prompt": "Find the point on the curve y = sqrt(x) that is closest to (4, 0).",
-      "solution": "Minimize the squared distance D(x) = (x - 4)^2 + x for x ≥ 0. D'(x) = 2(x - 4) + 1 = 0 gives x = 3.5. D'' = 2 > 0, so it is a minimum, and D(0) = 16 > D(3.5) = 3.75. The closest point is (3.5, sqrt(3.5)).",
-      "rubric": "1 pt for the squared distance; 1 pt for the derivative; 1 pt for x = 3.5; 1 pt for justification including the endpoint.",
-      "common_wrong_answers": [
-        "x = 4 (matching the x-coordinate)",
-        "Reporting x = 3.5 without the y-coordinate"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.lhopital.q1",
-      "concept_ids": [
-        "calc1.04-diff-applications.lhopital"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.lhopital.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Evaluate lim_{x→0} (e^x - 1)/x.",
-      "solution": "The form is 0/0. By L'Hopital's rule the limit equals lim e^x/1 = 1.",
-      "rubric": "1 pt for verifying 0/0; 1 pt for differentiating numerator and denominator separately; 1 pt for 1.",
-      "common_wrong_answers": [
-        "0",
-        "Using the quotient rule on (e^x - 1)/x"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.lhopital.q2",
-      "concept_ids": [
-        "calc1.04-diff-applications.lhopital"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.lhopital.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Evaluate lim_{x→∞} x^2 e^(-x).",
-      "solution": "Rewrite as x^2/e^x, a ∞/∞ form. Applying L'Hopital: 2x/e^x, still ∞/∞. Applying again: 2/e^x → 0.",
-      "rubric": "1 pt for rewriting as a quotient; 1 pt for the first application; 1 pt for the second and the answer 0.",
-      "common_wrong_answers": [
-        "∞·0 = 0 directly, without justification",
-        "∞"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.antiderivatives.q1",
-      "concept_ids": [
-        "calc1.05-integration.antiderivatives"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.antiderivatives.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Find ∫ (3x^2 - 4/x + e^(2x)) dx.",
-      "solution": "x^3 - 4 ln|x| + (1/2)e^(2x) + C.",
-      "rubric": "1 pt per term; 1 pt for +C.",
-      "common_wrong_answers": [
-        "Omitting +C",
-        "x^3 - 4x^0/0 + e^(2x) + C"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.antiderivatives.q2",
-      "concept_ids": [
-        "calc1.05-integration.antiderivatives"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.antiderivatives.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Solve the initial value problem f'(x) = 6x - 2, f(1) = 5.",
-      "solution": "f(x) = 3x^2 - 2x + C. f(1) = 3 - 2 + C = 5, so C = 4. f(x) = 3x^2 - 2x + 4.",
-      "rubric": "1 pt for the antiderivative; 1 pt for applying the condition; 1 pt for the final function.",
-      "common_wrong_answers": [
-        "3x^2 - 2x (no constant)",
-        "3x^2 - 2x + 5"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.definite-integral.q1",
-      "concept_ids": [
-        "calc1.05-integration.definite-integral"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.definite-integral.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Write the definition of ∫_a^b f(x) dx as a limit of Riemann sums.",
-      "solution": "∫_a^b f(x) dx = lim_{n→∞} Σ_{i=1}^n f(x_i*)Δx, where Δx = (b - a)/n and x_i* is a sample point in the i-th subinterval.",
-      "rubric": "1 pt for the sum; 1 pt for Δx; 1 pt for the limit as n → ∞.",
-      "common_wrong_answers": [
-        "Omitting Δx from the sum",
-        "Using the sum without the limit"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.definite-integral.q2",
-      "concept_ids": [
-        "calc1.05-integration.definite-integral"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.definite-integral.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Approximate ∫_0^2 x^2 dx using a right Riemann sum with n = 4 subintervals. Is the result an over- or underestimate?",
-      "solution": "Δx = 0.5 and the right endpoints are 0.5, 1, 1.5, 2. The sum is (0.25 + 1 + 2.25 + 4)·0.5 = 3.75. The exact value is 8/3 ≈ 2.667, so it is an overestimate because x^2 is increasing on [0, 2].",
-      "rubric": "1 pt for Δx; 1 pt for the endpoints; 1 pt for 3.75; 1 pt for the direction of error.",
-      "common_wrong_answers": [
-        "1.75 (left sum)",
-        "7.5 (forgetting Δx)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.ftc.q1",
-      "concept_ids": [
-        "calc1.05-integration.ftc"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.ftc.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Evaluate ∫_1^4 (2x + 1/sqrt(x)) dx.",
-      "solution": "An antiderivative is F(x) = x^2 + 2 sqrt(x). F(4) - F(1) = (16 + 4) - (1 + 2) = 17.",
-      "rubric": "1 pt for the antiderivative; 1 pt for F(b) - F(a); 1 pt for 17.",
-      "common_wrong_answers": [
-        "F(1) - F(4) = -17",
-        "Using x^2 + sqrt(x) as the antiderivative"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.ftc.q2",
-      "concept_ids": [
-        "calc1.05-integration.ftc"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.ftc.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Find d/dx ∫_0^(x^2) e^(-t^2) dt.",
-      "solution": "By FTC Part 1 with the chain rule, d/dx ∫_0^(x^2) e^(-t^2) dt = e^(-(x^2)^2)·2x = 2x e^(-x^4).",
-      "rubric": "1 pt for applying FTC; 1 pt for substituting the upper limit; 1 pt for the chain-rule factor 2x.",
-      "common_wrong_answers": [
-        "e^(-x^4)",
-        "2x e^(-x^2)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.applications.q1",
-      "concept_ids": [
-        "calc1.05-integration.applications"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.applications.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Find the area between y = x and y = x^2 from x = 0 to x = 1.",
-      "solution": "On [0, 1], x ≥ x^2, so the area is ∫_0^1 (x - x^2) dx = 1/2 - 1/3 = 1/6.",
-      "rubric": "1 pt for identifying the top curve; 1 pt for the integral; 1 pt for 1/6.",
-      "common_wrong_answers": [
-        "-1/6 (reversed order)",
-        "1/2"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.applications.q2",
-      "concept_ids": [
-        "calc1.05-integration.applications"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.applications.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "A drug is infused at rate r(t) = 4e^(-0.5t) mg/hr. Find the total drug delivered in the first 6 hours and the average infusion rate over that period.",
-      "solution": "Total = ∫_0^6 4e^(-0.5t) dt = [-8e^(-0.5t)]_0^6 = 8(1 - e^(-3)) ≈ 7.60 mg. Average rate = 7.60/6 ≈ 1.27 mg/hr.",
-      "rubric": "1 pt for the integral; 1 pt for the antiderivative with factor -8; 1 pt for the total; 1 pt for the average.",
-      "common_wrong_answers": [
-        "4(1 - e^(-3)) (missing the 1/0.5 factor)",
-        "(r(0) + r(6))/2 as the average rate"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.substitution.q1",
-      "concept_ids": [
-        "calc1.06-integral-applications.substitution"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.substitution.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Evaluate ∫ 2x (x^2 + 1)^3 dx.",
-      "solution": "Let u = x^2 + 1, du = 2x dx. Then ∫ u^3 du = u^4/4 + C = (x^2 + 1)^4/4 + C.",
-      "rubric": "1 pt for u and du; 1 pt for integrating; 1 pt for back-substitution.",
-      "common_wrong_answers": [
-        "(x^2 + 1)^4 + C",
-        "2x(x^2 + 1)^4/4 + C"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.substitution.q2",
-      "concept_ids": [
-        "calc1.06-integral-applications.substitution"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.substitution.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Evaluate ∫_0^2 x e^(x^2) dx.",
-      "solution": "Let u = x^2, du = 2x dx, so x dx = du/2. Limits: x = 0 → u = 0 and x = 2 → u = 4. The integral is (1/2)∫_0^4 e^u du = (1/2)(e^4 - 1) ≈ 26.80.",
-      "rubric": "1 pt for the substitution; 1 pt for the factor 1/2; 1 pt for converting limits; 1 pt for the value.",
-      "common_wrong_answers": [
-        "e^4 - 1 (missing the 1/2)",
-        "(e^2 - 1)/2 (keeping the x-limits)"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.by-parts.q1",
-      "concept_ids": [
-        "calc1.06-integral-applications.by-parts"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.by-parts.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Evaluate ∫ x e^x dx.",
-      "solution": "Let u = x, dv = e^x dx, so du = dx and v = e^x. Then ∫ x e^x dx = x e^x - ∫ e^x dx = x e^x - e^x + C.",
-      "rubric": "1 pt for the choice of u and dv; 1 pt for the formula; 1 pt for the final answer.",
-      "common_wrong_answers": [
-        "(x^2/2)e^x + C",
-        "x e^x + e^x + C"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.by-parts.q2",
-      "concept_ids": [
-        "calc1.06-integral-applications.by-parts"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.by-parts.lo1"
-      ],
-      "type": "homework",
-      "difficulty": "application",
-      "prompt": "Evaluate ∫ ln x dx, and explain why u = ln x is the right choice.",
-      "solution": "Take u = ln x, dv = dx, so du = dx/x and v = x. Then ∫ ln x dx = x ln x - ∫ 1 dx = x ln x - x + C. Choosing u = ln x works because differentiating it gives the simpler 1/x; there is no good alternative for dv.",
-      "rubric": "1 pt for the choice; 1 pt for the formula; 1 pt for the answer; 1 pt for the explanation.",
-      "common_wrong_answers": [
-        "1/x + C",
-        "x ln x + C"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.partial-fractions.q1",
-      "concept_ids": [
-        "calc1.06-integral-applications.partial-fractions"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.partial-fractions.lo1"
-      ],
-      "type": "quiz",
-      "difficulty": "recall",
-      "prompt": "Decompose (3x + 5)/((x + 1)(x + 3)) into partial fractions.",
-      "solution": "Write A/(x + 1) + B/(x + 3), so 3x + 5 = A(x + 3) + B(x + 1). At x = -1: 2 = 2A, so A = 1. At x = -3: -4 = -2B, so B = 2. The result is 1/(x + 1) + 2/(x + 3).",
-      "rubric": "1 pt for the form; 1 pt for each constant.",
-      "common_wrong_answers": [
-        "A = 2 and B = 1 (swapped)",
-        "A product (1/(x + 1))·(2/(x + 3))"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.partial-fractions.q2",
-      "concept_ids": [
-        "calc1.06-integral-applications.partial-fractions"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.partial-fractions.lo1"
-      ],
-      "type": "midterm",
-      "difficulty": "analysis",
-      "prompt": "Evaluate ∫ (x^2 + 1)/(x^2 - 1) dx.",
-      "solution": "The fraction is improper, so divide: (x^2 + 1)/(x^2 - 1) = 1 + 2/(x^2 - 1). Decompose 2/((x - 1)(x + 1)) = 1/(x - 1) - 1/(x + 1). Integrating gives x + ln|x - 1| - ln|x + 1| + C.",
-      "rubric": "1 pt for recognizing the improper fraction and dividing; 1 pt for the decomposition; 1 pt for integrating each term.",
-      "common_wrong_answers": [
-        "Decomposing directly without division",
-        "ln|x^2 - 1| + C"
-      ],
-      "requires_figure": false,
-      "provenance": "ai_inferred"
-    }
-  ],
   "assumptions": [
     {
       "entity": "Course",
@@ -3144,7 +1690,7 @@
       "id": "calc1",
       "field": "format (no schema field)",
       "assumption": "Lecture-style, computational course with problem sets and exams.",
-      "reason": "The syllabus is a topic list tied to a textbook, so the computational framing was applied to Concept and AssessmentQuestion records rather than a seminar framing."
+      "reason": "The syllabus is a topic list tied to a textbook, so the computational framing was applied to Concept records rather than a seminar framing."
     },
     {
       "entity": "Module",
@@ -3236,20 +1782,6 @@
       "field": "difficulty_notes",
       "assumption": "All misconceptions and mitigations come from general calculus teaching experience.",
       "reason": "The syllabus is only a topic list and contains no information on student difficulties."
-    },
-    {
-      "entity": "AssessmentQuestion",
-      "id": "calc1.*",
-      "field": "type",
-      "assumption": "Recall questions are typed 'quiz', application questions 'homework', and analysis questions 'midterm'.",
-      "reason": "The syllabus does not describe assessment forms; these types match common practice in a lecture-based calculus course."
-    },
-    {
-      "entity": "AssessmentQuestion",
-      "id": "calc1.*",
-      "field": "solution",
-      "assumption": "Worked solutions and common wrong answers were written for each question from standard calculus content.",
-      "reason": "No problem sets or exams were supplied with the syllabus."
     }
   ]
 }

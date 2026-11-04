@@ -1,0 +1,13 @@
+# secrets & local config
+.env
+config.yaml
+
+# generated outputs
+output/
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/

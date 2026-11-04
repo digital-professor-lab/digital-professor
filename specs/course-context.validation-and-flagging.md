@@ -3,8 +3,8 @@
 | | |
 |---|---|
 | **Spec ID** | `validation-and-flagging` |
-| **Spec version** | `0.1.0` (draft for team review) |
-| **Date** | 2026-10-12 |
+| **Spec version** | `0.4.0` (draft for team review) |
+| **Date** | 2026-11-04 |
 | **Owner** | Course Context module (Ovunc) |
 | **Defines** | two command-line tools: a **Validator** (section 3) and a **Review Flagger** (section 4) |
 | **Related spec** | [`course-context.md`](course-context.md) — the data model, field requirements, and human-check list these tools operate on |
@@ -18,6 +18,9 @@
 
 | Version | Date | Change |
 |---|---|---|
+| 0.4.0 | 2026-11-04 | Addressed PR review. Flagger no longer **suppresses** `confidence: high` items — every inferred check-first field is flagged; `confidence` only **orders** the worklist (shakiest first), since model self-confidence is weakly calibrated. Publication is **gated**: a file with validation errors is never written to the published output path (a clearly-marked `.rejected.json` is written instead). The `by_module` strategy now **regenerates on post-assembly validation errors**, matching the single-pass gate. `assumptions[].confidence` documented as an optional/additive shared-contract field in `interfaces.md` §2. |
+| 0.3.0 | 2026-10-29 | Added an optional `confidence` (`high`/`medium`/`low`) self-rating per `assumptions` entry (V-09 allows and enum-checks it). Flagger now skips `confidence: high` items (except `assumed_background`) and added `Concept.key_definitions` and `Concept.prerequisite_ids` to the check-first set. |
+| 0.2.0 | 2026-10-29 | Synced to the v1 implementation. Validator: V-10 now enforces only provenance present + valid enum (dropped the "source_backed named by an assumption" clause); provenance enum moved out of V-03 into V-10; warnings W-01/W-02 disabled. Flagger relaxed: F-02 dropped, F-01 restricted to the check-first set `{Concept.difficulty_notes, Course.assumed_background}` (prerequisites/weeks no longer flagged), `worth_checking` tier unused. Updated the §4.3 example and Appendix A findings. |
 | 0.1.0 | 2026-10-12 | First draft: pipeline placement, Validator contract and rules, Review Flagger contract and rules, end-to-end workflow, open questions. |
 
 ---
@@ -82,23 +85,25 @@ flowchart TB
 
 ### 3.2 Error rules
 
-Every rule below is an **error**: a file that violates any of them fails validation (exit `1`) and is regenerated (WF-2). "Record" means any `Course`, `Module`, `Concept`, `LearningObjective`, `Source`, or `AssessmentQuestion` object. Field and ID definitions are in `course-context.md` §1.2 and §1.3.
+Every rule below is an **error**: a file that violates any of them fails validation (exit `1`) and is regenerated (WF-2). "Record" means any `Course`, `Module`, `Concept`, `LearningObjective`, or `Source` object. Field and ID definitions are in `course-context.md` §1.2 and §1.3.
 
 | Rule | The Validator MUST reject a file where… |
 |---|---|
-| V-01 | top-level keys are not exactly `course_context_schema_version`, `Course`, the five arrays, and optionally `assumptions`; or `course_context_schema_version` does not look like `1.x` |
+| V-01 | top-level keys are not exactly `course_context_schema_version`, `Course`, the four arrays, and optionally `assumptions`; or `course_context_schema_version` does not look like `1.x` |
 | V-02 | a record is missing any required field, or carries an unknown field; or `provenance` appears while `course_context_schema_version` is below `1.1` |
-| V-03 | an enum holds a value outside its set (`bloom_level`, `difficulty`, `type`, `Source.type`, `provenance`); `duration_weeks` is not an integer ≥ 1; `weeks` does not match `N` or `N-M`; `requires_figure` is not boolean; a `difficulty_notes` entry is not exactly `{misconception, mitigation}` |
+| V-03 | an enum holds a value outside its set (`bloom_level`, `Source.type`); `duration_weeks` is not an integer ≥ 1; `weeks` does not match `N` or `N-M`; a `difficulty_notes` entry is not exactly `{misconception, mitigation}` (provenance enum is checked by V-10) |
 | V-04 | an ID is duplicated, or does not follow the §1.3 pattern; or `Module.id` numbering does not follow `Course.module_ids` order |
 | V-05 | any `*_ids` or `*_id` reference points to a record that does not exist |
-| V-06 | a forward link and its stored reverse link disagree (`Course.module_ids` ↔ `Module.course_id`; `Module.concept_ids` ↔ `Concept.module_id`; `Concept.objective_ids` ↔ `LearningObjective.concept_id`; `Concept.question_ids` ↔ `AssessmentQuestion.concept_ids`) |
+| V-06 | a forward link and its stored reverse link disagree (`Course.module_ids` ↔ `Module.course_id`; `Module.concept_ids` ↔ `Concept.module_id`; `Concept.objective_ids` ↔ `LearningObjective.concept_id`) |
 | V-07 | a prerequisite points to a later module, points to itself, or takes part in a cycle |
-| V-08 | a question's objective does not belong to any of that question's concepts |
-| V-09 | a required field is null, an empty string, an empty array where §1.2 requires ≥ 1, or the literal `"TBD"` |
-| V-10 | an `assumptions` entry is not exactly `{entity, id, field, assumption, reason}`, or its `id` does not resolve (a `.*` wildcard that matches no record) |
-| V-11 | (schema 1.1) a record is missing `provenance`, or holds a `provenance` outside `{source_backed, ai_inferred}`; or a record named by an exact-ID `assumptions` entry is marked `source_backed` |
+| V-08 | a required field is null, an empty string, an empty array where §1.2 requires ≥ 1, or the literal `"TBD"` |
+| V-09 | an `assumptions` entry is missing any of `{entity, id, field, assumption, reason}` or carries a key other than those plus an optional `confidence`; a present `confidence` is outside `{high, medium, low}`; or its `id` does not resolve (a `.*` wildcard that matches no record) |
+| V-10 | (schema 1.1) a record is missing `provenance`, or holds a `provenance` outside `{source_backed, ai_inferred}`. *(The spec's original third clause — a `source_backed` record named by an exact-ID `assumptions` entry — is **not enforced in v1**.)* |
 
 ### 3.3 Warning rules
+
+> **v1 implementation:** warnings are **disabled** — the Validator emits errors only
+> (`0 warning(s)` always). The rules below are kept as design intent for a later version.
 
 Warnings are reported but do **not** block publication. They are passed through to the reviewer.
 
@@ -109,7 +114,7 @@ Warnings are reported but do **not** block publication. They are passed through 
 
 ### 3.4 Question Schema mode (secondary)
 
-With `--question-schema`, the Validator also checks one Question Schema (`course-context.md` §3.2) against the Course Context file: the exact field set; `course_id` / `concept_ids` / `module_id` consistency; a bank ID resolves or a runtime ID matches the hash rule; objectives and misconception text copied verbatim; `prerequisite_concepts` equals the concept's direct prerequisites; `provenance` valid and a runtime schema never `source_backed`; and `built_from.content_sha256` equals the SHA-256 of the Course Context file bytes. This mode is secondary to the main workflow (§2), which is about the Course Context file. (Open question 3.)
+With `--question-schema`, the Validator also checks one Question Schema (`course-context.md` §3.2) against the Course Context file: the exact field set; `course_id` / `concept_ids` / `module_id` consistency; a bank ID (external bank) is well-formed or a runtime ID matches the hash rule; objectives and misconception text copied verbatim; `prerequisite_concepts` equals the concept's direct prerequisites; `provenance` valid and a runtime schema never `source_backed`; and `built_from.content_sha256` equals the SHA-256 of the Course Context file bytes. This mode is secondary to the main workflow (§2), which is about the Course Context file. (Open question 3.)
 
 ---
 
@@ -129,15 +134,29 @@ With `--question-schema`, the Validator also checks one Question Schema (`course
 
 ### 4.2 Flagging rules
 
-The Flagger decides *which records and fields a human should look at first*, and *why*. It draws on two signals already in the file — the `assumptions` log and `provenance` — and on the priority list in `course-context.md` §2.5.
+The Flagger decides *which records and fields a human should look at first*, and *why*. It draws on the `assumptions` log in the file and on the priority list in `course-context.md` §2.5.
 
-| Rule | The Flagger MUST add a review item for… | Priority |
+> **v1 implementation (relaxed to keep the worklist focused):**
+> the Flagger runs **F-01 (restricted) and F-03 only**. The **check-first field set is
+> `{Concept.difficulty_notes, Concept.key_definitions, Concept.prerequisite_ids,
+> Course.assumed_background}`** — the fields whose inference most directly affects
+> tutoring correctness. **Every** inferred check-first field is flagged; the optional
+> **`confidence`** is kept on each item but is used **only to order** the worklist
+> (shakiest first) — it does **not suppress** anything. Model self-confidence is weakly
+> calibrated, so a wrongly-confident high-impact inference must still reach a human
+> (revisit suppression only once confidence is backed by an *independent* check). Every
+> emitted item is `check_first`; the `worth_checking` tier is unused. The blanket **F-02
+> is dropped** (in a syllabus-only file nearly every record is `ai_inferred`, so it
+> flagged almost everything). `Course.duration_weeks` and `Module.weeks` are **not**
+> flagged in v1.
+
+| Rule | The Flagger adds a review item for… | Priority |
 |---|---|---|
-| F-01 | every record named by a non-wildcard `assumptions` entry; the item's reason is that entry's `assumption` and `reason` text | from the field (F-02); otherwise *worth checking* |
-| F-02 | every **"check first"** field from `course-context.md` §2.5 that sits on an `ai_inferred` record: `AssessmentQuestion.solution`, `rubric`, `common_wrong_answers`; `Concept.prerequisite_ids`, `difficulty_notes`; `Course.assumed_background`; `Course.duration_weeks` and `Module.weeks` when inferred; any `AssessmentQuestion.requires_figure = true` | **check first** |
+| F-01 | every record named by a non-wildcard `assumptions` entry **whose field is in the check-first set** (v1: `difficulty_notes`, `key_definitions`, `prerequisite_ids`, `assumed_background`), **regardless of `confidence`**; the reason is that entry's `assumption` + `reason` text, and `confidence` orders the list | **check first** |
+| F-02 | *(design: every check-first field on an `ai_inferred` record)* — **not implemented in v1** | — |
 | F-03 | each **wildcard** `assumptions` entry (`id` ending in `.*`), surfaced once as a global note, not attached to a single record | *global note* |
 
-`source_backed` records with no naming assumption are not flagged.
+Records with no naming assumption on a check-first field are not flagged.
 
 ### 4.3 Review report shape
 
@@ -147,14 +166,14 @@ The report is a list of items plus a short summary. One proposed shape:
 {
   "course_id": "calc1",
   "built_from_sha256": "<sha256 of the input file>",
-  "summary": { "check_first": 0, "worth_checking": 0, "global_notes": 0 },
+  "summary": { "check_first": 1, "worth_checking": 0, "global_notes": 1 },
   "items": [
     {
-      "priority": "check_first | worth_checking",
-      "entity": "AssessmentQuestion",
-      "id": "calc1.06-integral-applications.by-parts.q1",
-      "field": "solution",
-      "reason": "AI-inferred solution; the engine treats it as ground truth (course-context.md 2.5)."
+      "priority": "check_first",
+      "entity": "Concept",
+      "id": "calc1.06-integral-applications.by-parts",
+      "field": "difficulty_notes",
+      "reason": "AI-inferred difficulty notes become the misconceptions in every Question Schema (course-context.md 2.5)."
     }
   ],
   "global_notes": [
@@ -190,12 +209,10 @@ The report is a *worklist*, not a status stored on the data. V1 does not write a
 
 ## Appendix A. Example findings (informative)
 
-Validator, on a clean file:
+Validator, on a clean file (v1: warnings disabled):
 
 ```
-WARN  W-02 Source:neuhauser.s7-2: text_chunk is a syllabus line, not a verbatim excerpt
-...
-calc1.course-context.json: 0 error(s), 32 warning(s)  records={Module:6, Concept:33, LearningObjective:33, Source:32, AssessmentQuestion:66}
+calc1.course-context.json: 0 error(s), 0 warning(s)  records={Module:6, Concept:33, LearningObjective:33, Source:32, assumptions:17}
 ```
 
 Validator, on a broken variant (dangling reference), exit `1`:
@@ -206,8 +223,8 @@ ERROR V-05 Concept:calc1.03-derivatives.chain-rule: prerequisite_ids -> 'calc1.0
 calc1.broken.json: 1 error(s), 0 warning(s)
 ```
 
-Flagger summary line (informative):
+Flagger summary line (v1 — check-first-only worklist):
 
 ```
-review-report.json written: 11 check_first, 22 worth_checking, 3 global_notes
+review: check_first=1 worth_checking=0 global_notes=1
 ```

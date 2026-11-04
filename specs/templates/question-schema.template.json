@@ -1,13 +1,13 @@
 {
   "question_schema_version": "1.0",
-  "question_id": "<bank: an AssessmentQuestion.id | runtime: <primary concept id>.adhoc-<8 hex of the prompt hash>>",
+  "question_id": "<bank: the external bank question's id | runtime: <primary concept id>.adhoc-<8 hex of the prompt hash>>",
   "origin": "<one of: bank | runtime>",
   "course_id": "<course id>",
   "module_id": "<module id of the primary concept>",
   "concept_ids": [
     "<concept id(s) this question tests, primary first>"
   ],
-  "prompt": "<bank: AssessmentQuestion.prompt | runtime: exactly as the student typed it>",
+  "prompt": "<bank: the external bank question's prompt | runtime: exactly as the student typed it>",
   "question_type": "<one of: worked_problem | conceptual | proof | open_question>",
   "expected_response_modes": [
     "<text | equation | steps | diagram | explanation>"
@@ -41,7 +41,7 @@
     }
   ],
   "reference_answer": "<full worked answer, machine-checked where possible; access restricted; MUST NOT be shown to the student>",
-  "rubric": "<grading criteria used by the Tutoring Engine; bank: AssessmentQuestion.rubric; optional>",
+  "rubric": "<grading criteria used by the Tutoring Engine; bank: the external bank question's rubric; optional>",
   "common_misconceptions": [
     {
       "description": "<copied verbatim from Concept.difficulty_notes[i].misconception, or written by the builder>",
