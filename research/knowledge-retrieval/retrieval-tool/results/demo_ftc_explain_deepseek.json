@@ -1,0 +1,569 @@
+{
+  "context": {
+    "course_id": "calc1",
+    "course_title": "Calculus I",
+    "session_id": "demo-session",
+    "turn_id": "turn-ftc_explain",
+    "correlation_id": "corr-ftc_explain",
+    "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+    "question_id": "calc1.05.ftc.adhoc-9a8b7c6d",
+    "action_type": "explain",
+    "student_message": "What does the fundamental theorem of calculus actually say?",
+    "intent_summary": "Student asks for the statement of the Fundamental Theorem of Calculus.",
+    "question_prompt": "What does the Fundamental Theorem of Calculus say?"
+  },
+  "answer": "The course outline lists the Fundamental Theorem of Calculus as a core topic of Module 5, split into Part I (differentiating an accumulation function) and Part II (evaluating definite integrals using antiderivatives), but the materials I can see here don't include the actual formal statement of either part, so I can't quote it to you.\n\nNot from your course materials: Part I says that if f is continuous, then F(x) = ∫ₐˣ f(t) dt is differentiable and F′(x) = f(x). Part II says that for any antiderivative G of f, ∫ₐᵇ f(x) dx = G(b) − G(a).\n\nBefore we go further: in your own words, what does Part I tell you about the relationship between the area function and the original function f?",
+  "decision": {
+    "action_type": "explain",
+    "mode": "must",
+    "purposes": [
+      "answer_grounding",
+      "prerequisite_review",
+      "definition_lookup"
+    ],
+    "need_types": [
+      "definition",
+      "theorem_statement",
+      "prerequisite_explanation"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "Brief general explanation labelled 'not from course materials' if policy allows; otherwise say no course material covers this point.",
+    "reason": "policy table: must",
+    "policy_version": "grounding-policy@0.1"
+  },
+  "requests": [
+    {
+      "record_id": "rr-d8b7fa39ae3d",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-10-29T17:00:40.922Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-ftc_explain",
+      "retrieval_request_id": "rr-d8b7fa39ae3d",
+      "course_id": "calc1",
+      "question_id": "calc1.05.ftc.adhoc-9a8b7c6d",
+      "turn_id": "turn-ftc_explain",
+      "session_id": "demo-session",
+      "query": "Fundamental Theorem of Calculus statement",
+      "query_origin": "structured",
+      "purpose": "answer_grounding",
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "need_type": "theorem_statement",
+          "description": "Statement of the Fundamental Theorem of Calculus, both parts if given",
+          "anchor": "Fundamental Theorem of Calculus",
+          "concept_ids": [
+            "calc1.05-integration.ftc"
+          ]
+        },
+        {
+          "need_id": "n2",
+          "need_type": "definition",
+          "description": "Definition of the accumulation/area function F(x) = integral from a to x of f(t) dt",
+          "concept_ids": [
+            "calc1.05-integration.ftc"
+          ]
+        }
+      ],
+      "concept_ids": [
+        "calc1.05-integration.ftc"
+      ],
+      "query_language": "en",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "concept_names": [
+        "Fundamental Theorem of Calculus"
+      ],
+      "scope_check_text": "What does the fundamental theorem of calculus actually say?",
+      "retrieval_plan": {
+        "plan_version": "retrieval-plan@1",
+        "course_id": "calc1",
+        "concepts": [
+          {
+            "concept_id": "calc1.05-integration.ftc",
+            "name": "Fundamental Theorem of Calculus",
+            "module_id": "calc1.05-integration",
+            "source": "model"
+          }
+        ],
+        "main_query": "Fundamental Theorem of Calculus statement",
+        "needs": [
+          {
+            "need_id": "n1",
+            "need_type": "theorem_statement",
+            "query": "Statement of the Fundamental Theorem of Calculus, both parts if given",
+            "anchor": "Fundamental Theorem of Calculus",
+            "concept_id": "calc1.05-integration.ftc",
+            "preferred_blocks": [
+              "theorem"
+            ]
+          },
+          {
+            "need_id": "n2",
+            "need_type": "definition",
+            "query": "Definition of the accumulation/area function F(x) = integral from a to x of f(t) dt",
+            "concept_id": "calc1.05-integration.ftc",
+            "preferred_blocks": [
+              "definition"
+            ]
+          }
+        ],
+        "scope": {
+          "module_ids": [
+            "calc1.05-integration"
+          ],
+          "narrowing": "not_enforced",
+          "note": "Recorded only: the Week 3 index has no concept→section map yet, so search covers the whole course and ranking does the locating. Narrowing and widening start once Ovunc's ingestion JSON maps concepts to sections."
+        },
+        "origin": "model",
+        "repairs": [],
+        "linking": {
+          "method": "lexical@1",
+          "candidates": [
+            {
+              "concept_id": "calc1.05-integration.ftc",
+              "score": 8.332,
+              "matched": "Fundamental Theorem of Calculus",
+              "full": true
+            },
+            {
+              "concept_id": "calc1.04-diff-applications.evt-mvt",
+              "score": 2.028,
+              "matched": "Mean Value Theorem",
+              "full": false
+            }
+          ],
+          "course_context": "calc1.course-context.json"
+        }
+      }
+    }
+  ],
+  "records": [
+    {
+      "record_id": "gb-88ce2217b3de",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-10-29T17:00:41.304Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-ftc_explain",
+      "grounding_bundle_id": "gb-88ce2217b3de",
+      "retrieval_request_id": "rr-d8b7fa39ae3d",
+      "retrieval_status": "partial",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "passages": [
+        {
+          "passage_id": "psg_d3b3d4952f0d47c6",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "By the end of the course, a successful student will be able to:\n\\begin{enumerate}[label=\\textbf{SLO\\arabic*.}, leftmargin=2.6em]\n\\item \\textbf{Model discrete and continuous change.} Translate a verbal description of a\n      biological or social process into a recurrence equation, a limit statement, a\n      derivative, or a definite integral, and interpret the mathematical result back in\n      the original context.\n\\item \\textbf{Evaluate limits and determine continuity} of algebraic, exponential,\n      logarithmic, and trigonometric functions, including limits at infinity and limits\n      that require the sandwich theorem.\n\\item \\textbf{Differentiate} elementary, polynomial, rational, power, exponential,\n      logarithmic, and trigonometric functions using the formal definition and the rules\n      of differentiation (sum, product, quotient, chain, implicit).\n\\item \\textbf{Apply derivatives} to find extrema, analyze monotonicity and concavity,\n      solve optimization and related-rates problems, evaluate indeterminate forms\n      (L'H\\^{o}pital's Rule), and produce derivative-informed graphs.\n\\item \\textbf{Evaluate definite and indefinite integrals}, state and apply both parts of\n      the Fundamental Theorem of Calculus, and interpret a definite integral as\n      cumulative change or an average value.\n\\item \\textbf{Use technology} (graphing calculators or spreadsheets) to visualize\n      functions and data, iterate recurrence equations, and implement simple numerical\n      methods (bisection, Newton--Raphson).\n\\item \\textbf{Communicate quantitative reasoning}, including the assumptions behind a\n      mathematical model, its limitations, and how well it fits real or simulated data.\n\\end{enumerate}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 1,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 178,
+            "source_line_end": 202,
+            "week3_passage_id": "pass_8701643be8cc4182",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "lexical_exact",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_d023fe8701aca6b7",
+          "document_id": "calc1:context",
+          "content_version": "cv-src-2af82a506643",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\MajorTopics\n\\begin{itemize}\n\\item The definite integral: the area problem, the general theory of Riemann integrals, properties (including optional order properties)\n\\item The Fundamental Theorem of Calculus, Parts I and II (with an optional rigorous treatment via Leibniz's Rule); antiderivatives and indefinite integrals\n\\item Applications: cumulative change, average values, and (optional) the Mean-Value Theorem for integrals, areas, volumes of solids, and rectification of curves\n\\end{itemize}\n\\KeyConcepts\nRiemann sums; the definite integral as a limit of Riemann sums / signed\narea / accumulated change; linearity and additivity of the integral; the\nFundamental Theorem of Calculus (both parts); the indefinite integral;\naverage value of a function; area between curves; volumes of revolution;\narc length.\n\\LearnObj\n\\begin{enumerate}\n\\item Construct and evaluate Riemann sums and interpret the definite integral as their limit.\n\\item Apply properties of the definite integral (linearity, additivity, comparison).\n\\item Apply the Fundamental Theorem of Calculus to evaluate definite integrals and to differentiate accumulation functions.\n\\item Compute indefinite integrals of standard functions.\n\\item Use integration to compute cumulative change and average values (e.g.\\ total drug dose, average population size).\n\\item * Compute areas between curves, volumes of solids of revolution, and arc length.\n\\end{enumerate}\n\\PreReq Antiderivatives (Sec.\\ 5.10); limits (Chapter 3, for the Riemann-sum limiting process).\n\\Hard The rigorous construction of the Riemann integral (Sec.\\ 6.1.2) and\nthe proof of the Fundamental Theorem via Leibniz's Rule (Sec.\\ 6.2.2*) are\nthe most abstract material so far; volume and arc-length integrals (Sec.\\\n6.3.5*--6.3.6*) require strong three-dimensional/geometric visualization\nthat many students have not practiced since high-school geometry.\n\\newpage",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 2,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared course context (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Content_Claude.tex",
+            "source_line_start": 365,
+            "source_line_end": 398,
+            "week3_passage_id": "pass_a944a6476809fb0d",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_6d9b95dc3157621b",
+          "document_id": "calc1:syllabus",
+          "content_version": "cv-src-12ea3fe3ccb0",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\label{mod:5}\n\\begin{modulebox}{Module 5 --- Antiderivatives, the Definite Integral, and the FTC \\hfill (2 weeks)}\n\\textbf{Chapters/Sections:}\n\\begin{itemize}[nosep]\n  \\item 5.10 --- Antiderivatives\n  \\item 6.1 --- The Definite Integral\n  \\item 6.2 --- The Fundamental Theorem of Calculus\n  \\item 6.3 --- Applications of Integration\n\\end{itemize}\n\\textbf{Core Concepts:}\n\\begin{itemize}[nosep]\n  \\item Antiderivatives and indefinite integrals; the constant of integration\n  \\item Riemann sums (left, right, midpoint) as approximations of area\n  \\item The definite integral as a limit of Riemann sums\n  \\item Fundamental Theorem of Calculus, Parts 1 and 2 --- linking differentiation and integration\n  \\item Applications: area between curves, average value of a function, accumulated change from a rate\n\\end{itemize}\n\\loheader\n\\begin{itemize}[nosep]\n  \\item Compute basic antiderivatives using reverse differentiation rules\n  \\item Set up and approximate a definite integral using Riemann sums\n  \\item State and apply both parts of the Fundamental Theorem of Calculus\n  \\item Evaluate definite integrals and interpret them as net accumulated change\n  \\item Apply integrals to compute area between curves and the average value of a function\n\\end{itemize}\n\\end{modulebox}\n\\begin{diffbox}\n\\begin{itemize}[nosep]\n  \\item Conceptually connecting Riemann sums (a discrete process) to the definite integral (a continuous limit)\n  \\item Correctly applying FTC Part 1 when the integrand's upper limit is itself a function (requires the chain rule)\n  \\item Interpreting the definite integral in applied/contextual problems (net change vs.\\ total distance, signed area)\n\\end{itemize}\n\\end{diffbox}\n\\begin{prereqbox}\nModule 3--4 (derivatives and their behavior). Summation notation and basic limit\nconcepts from Module 2 are used when introducing Riemann sums.\n\\end{prereqbox}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 3,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared syllabus course map (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Syllabus_Claude.tex",
+            "source_line_start": 326,
+            "source_line_end": 368,
+            "week3_passage_id": "pass_a4d8e9b45d05e148",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_2353270c3bfcc5bb",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "6.2.1 & FTC, Part I & State and apply the first part of the Fundamental Theorem of Calculus. & \\diffH \\\\",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 4,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 574,
+            "source_line_end": 574,
+            "week3_passage_id": "pass_6f54108b70673a17",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_63f480a18108399c",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\addcontentsline{toc}{subsection}{Module 5 --- Integration (Chapter 6)}\n\\begin{modulebox}{Module 5 at a Glance}{}\n\\textbf{Chapter:} 6 \\quad\\textbf{Sections:} 6.1--6.3 \\quad\\textbf{Weeks:} 14--15 \\quad\n\\textbf{Overall difficulty:} \\diffM\\text{--}\\diffH \\quad\n\\textbf{Prerequisite:} Module 3 (antiderivatives, \\S5.10); Module 1 ($\\Sigma$-notation)\n\\end{modulebox}\n\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n6.1.1 & The Area Problem & Approximate the area under a curve using left/right/midpoint rectangle sums. & \\diffM \\\\\n6.1.2 & The General Theory of Riemann Integrals & Define the definite integral as a limit of Riemann sums. & \\diffH \\\\\n6.1.3 & Properties of the Riemann Integral & Apply linearity and additivity properties of definite integrals. & \\diffM \\\\\n6.1.4\\opt & Order Properties of the Riemann Integral & Use inequalities involving integrals to bound quantities. & \\diffM \\\\\n6.2.1 & FTC, Part I & State and apply the first part of the Fundamental Theorem of Calculus. & \\diffH \\\\\n6.2.2\\opt & Leibniz's Rule / Rigorous Proof of FTC & Follow a rigorous proof of the FTC and differentiate integrals with variable limits. & \\diffH \\\\\n6.2.3 & Antiderivatives and Indefinite Integrals & Compute indefinite integrals of elementary functions. & \\diffM \\\\\n6.2.4 & FTC, Part II & Evaluate definite integrals using antiderivatives. & \\diffM \\\\\n6.3.1 & Cumulative Change & Interpret a definite integral as the total/cumulative change of a quantity from its rate function. & \\diffM \\\\\n6.3.2 & Average Values & Compute the average value of a function over an interval. & \\diffM \\\\\n6.3.3\\opt & The Mean-Value Theorem for Integrals & State and apply the MVT for definite integrals. & \\diffM \\\\\n6.3.4\\opt & Areas (between curves) & Compute the area between two curves using definite integrals. & \\diffM \\\\\n6.3.5\\opt & The Volume of a Solid & Compute volumes of solids of revolution. & \\diffH \\\\\n6.3.6\\opt & Rectification of Curves & Compute the arc length of a curve. & \\diffH \\\\\n\\bottomrule\n\\end{longtable}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 5,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 553,
+            "source_line_end": 585,
+            "week3_passage_id": "pass_b1ea7da0cc5090da",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_e59ddae9c4aa84ee",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "6.2.2\\opt & Leibniz's Rule / Rigorous Proof of FTC & Follow a rigorous proof of the FTC and differentiate integrals with variable limits. & \\diffH \\\\",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 6,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 575,
+            "source_line_end": 575,
+            "week3_passage_id": "pass_ac9f490c1425c079",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        }
+      ],
+      "query_interpretation": {
+        "question": "Fundamental Theorem of Calculus statement",
+        "facets": [],
+        "facet_source": "none",
+        "semantic_channel": true,
+        "backend": "pgvector",
+        "selection": "week3_production",
+        "options": {
+          "facet_source": "week3",
+          "evidence_gate": true,
+          "judge_mode": "on",
+          "week3_retrieval": true,
+          "week3_parity": false
+        },
+        "plan": {
+          "origin": "model",
+          "concepts": [
+            "calc1.05-integration.ftc"
+          ],
+          "needs": [
+            "Statement of the Fundamental Theorem of Calculus, both parts if given",
+            "Definition of the accumulation/area function F(x) = integral from a to x of f(t) dt"
+          ],
+          "scope": {
+            "module_ids": [
+              "calc1.05-integration"
+            ],
+            "narrowing": "not_enforced",
+            "note": "Recorded only: the Week 3 index has no concept→section map yet, so search covers the whole course and ranking does the locating. Narrowing and widening start once Ovunc's ingestion JSON maps concepts to sections."
+          },
+          "repairs": [],
+          "schema_problems": []
+        },
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 1,
+          "lexical_broad": 40
+        }
+      },
+      "warnings": [
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_d3b3d4952f0d47c6"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_d3b3d4952f0d47c6"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_d023fe8701aca6b7"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_d023fe8701aca6b7"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_6d9b95dc3157621b"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_6d9b95dc3157621b"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_2353270c3bfcc5bb"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_2353270c3bfcc5bb"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_63f480a18108399c"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_63f480a18108399c"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_e59ddae9c4aa84ee"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_e59ddae9c4aa84ee"
+        }
+      ],
+      "session_id": "demo-session",
+      "turn_id": "turn-ftc_explain",
+      "need_coverage": [
+        {
+          "need_id": "n1",
+          "coverage": "not_covered",
+          "passage_ids": [],
+          "method": "judge"
+        },
+        {
+          "need_id": "n2",
+          "coverage": "not_covered",
+          "passage_ids": [],
+          "method": "judge"
+        }
+      ],
+      "uncovered_needs": [
+        "n1",
+        "n2"
+      ]
+    }
+  ],
+  "grounding_refs": [],
+  "citation_check": {
+    "ok": true,
+    "accepted": [],
+    "rejected": [],
+    "warnings": [],
+    "unknown_labels": []
+  },
+  "events": [
+    {
+      "event_type": "retrieval_plan_draft",
+      "concepts": [
+        "calc1.05-integration.ftc"
+      ],
+      "linking": [
+        {
+          "concept_id": "calc1.05-integration.ftc",
+          "score": 8.332,
+          "matched": "Fundamental Theorem of Calculus",
+          "full": true
+        },
+        {
+          "concept_id": "calc1.04-diff-applications.evt-mvt",
+          "score": 2.028,
+          "matched": "Mean Value Theorem",
+          "full": false
+        }
+      ],
+      "needs": [
+        [
+          "definition",
+          "definition of Fundamental Theorem of Calculus"
+        ],
+        [
+          "theorem_statement",
+          "statement of Fundamental Theorem of Calculus"
+        ]
+      ]
+    },
+    {
+      "event_type": "model_call",
+      "ms": 1770.9
+    },
+    {
+      "event_type": "retrieval_plan",
+      "origin": "model",
+      "concepts": [
+        [
+          "calc1.05-integration.ftc",
+          "model"
+        ]
+      ],
+      "needs": [
+        [
+          "theorem_statement",
+          "Statement of the Fundamental Theorem of Calculus, both parts if given"
+        ],
+        [
+          "definition",
+          "Definition of the accumulation/area function F(x) = integral from a to x of f(t) dt"
+        ]
+      ],
+      "repairs": []
+    },
+    {
+      "event_type": "retrieval",
+      "retrieval_request_id": "rr-d8b7fa39ae3d",
+      "result": "partial",
+      "query_origin": "structured",
+      "producer": "tutoring-engine",
+      "timings_ms": {
+        "week3_search": 179.1,
+        "judge": 201.6,
+        "total": 382.6
+      },
+      "judge": {
+        "mode": "on",
+        "error": null,
+        "verdicts": [
+          [
+            "n1",
+            "not_covered"
+          ],
+          [
+            "n2",
+            "not_covered"
+          ]
+        ],
+        "rules": [
+          [
+            "n1",
+            "covered"
+          ],
+          [
+            "n2",
+            "partially_covered"
+          ]
+        ]
+      }
+    },
+    {
+      "event_type": "model_call",
+      "ms": 2924.8
+    }
+  ],
+  "llm_calls": 2
+}

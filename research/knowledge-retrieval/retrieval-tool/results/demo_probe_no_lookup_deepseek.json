@@ -1,0 +1,64 @@
+{
+  "context": {
+    "course_id": "calc1",
+    "course_title": "Calculus I",
+    "session_id": "demo-session",
+    "turn_id": "turn-probe_no_lookup",
+    "correlation_id": "corr-probe_no_lookup",
+    "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+    "question_id": "calc1.03.chain-rule.adhoc-1f2e3d4c",
+    "action_type": "probe",
+    "student_message": "So is it cos(x^2) times something?",
+    "intent_summary": "Student suspects a missing factor.",
+    "question_prompt": "Differentiate f(x) = sin(x^2).",
+    "concept_ids": [
+      "calc1.03-derivatives.chain-rule"
+    ]
+  },
+  "answer": "You're on the right track thinking there's a factor. The key question is: what's the outer function here, and what's the inner function being plugged into it? Look at sin(x^2) — the sine is applied to something. What is that something, and what's its derivative?",
+  "decision": {
+    "action_type": "probe",
+    "mode": "not_needed",
+    "purposes": [
+      "definition_lookup"
+    ],
+    "need_types": [
+      "definition",
+      "notation_convention"
+    ],
+    "tool_choice": null,
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "Probe without course wording.",
+    "reason": "may → no retrieval by decider (p=0.22)",
+    "policy_version": "grounding-policy@0.1"
+  },
+  "requests": [],
+  "records": [],
+  "grounding_refs": [],
+  "citation_check": {
+    "ok": true,
+    "accepted": [],
+    "rejected": [],
+    "warnings": [],
+    "unknown_labels": []
+  },
+  "events": [
+    {
+      "event_type": "retrieval_decision",
+      "decider": "jev",
+      "p": 0.22,
+      "choice": "skip",
+      "thresholds": {
+        "force_at": 0.7,
+        "skip_below": 0.3
+      },
+      "ms": 0.1
+    },
+    {
+      "event_type": "model_call",
+      "ms": 1137.9
+    }
+  ],
+  "llm_calls": 1
+}

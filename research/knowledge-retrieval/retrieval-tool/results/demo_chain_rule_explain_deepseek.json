@@ -1,0 +1,655 @@
+{
+  "context": {
+    "course_id": "calc1",
+    "course_title": "Calculus I",
+    "session_id": "demo-session",
+    "turn_id": "turn-chain_rule_explain",
+    "correlation_id": "corr-chain_rule_explain",
+    "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+    "question_id": "calc1.03.chain-rule.adhoc-1f2e3d4c",
+    "action_type": "explain",
+    "student_message": "I got d/dx sin(x^2) = cos(x^2). Why is that marked wrong?",
+    "intent_summary": "Student differentiated sin(x^2) as cos(x^2), omitting the derivative of the inner function x^2 (chain rule).",
+    "question_prompt": "Differentiate f(x) = sin(x^2).",
+    "concept_ids": [
+      "calc1.03-derivatives.chain-rule"
+    ]
+  },
+  "answer": "Your answer is missing a factor: sin(x²) is a composite function, so differentiating it calls for the chain rule. The course materials here don't give the full statement of that rule, so: Not from your course materials: for f(g(x)) the derivative is f′(g(x))·g′(x) — differentiate the outer function, leave the inside unchanged, then multiply by the derivative of the inside.\n\nYou did the first part correctly: the outer function is sine, so you got cos(x²). What you haven't done yet is multiply by the derivative of the inner function. So, what is g(x) here, and what is g′(x)?",
+  "decision": {
+    "action_type": "explain",
+    "mode": "must",
+    "purposes": [
+      "answer_grounding",
+      "prerequisite_review",
+      "definition_lookup"
+    ],
+    "need_types": [
+      "definition",
+      "theorem_statement",
+      "prerequisite_explanation"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "Brief general explanation labelled 'not from course materials' if policy allows; otherwise say no course material covers this point.",
+    "reason": "policy table: must",
+    "policy_version": "grounding-policy@0.1"
+  },
+  "requests": [
+    {
+      "record_id": "rr-5c06a8b1747e",
+      "record_type": "RetrievalRequest",
+      "schema_version": "0.1",
+      "created_at": "2026-10-29T17:00:34.613Z",
+      "producer": "tutoring-engine",
+      "status": "valid",
+      "correlation_id": "corr-chain_rule_explain",
+      "retrieval_request_id": "rr-5c06a8b1747e",
+      "course_id": "calc1",
+      "question_id": "calc1.03.chain-rule.adhoc-1f2e3d4c",
+      "turn_id": "turn-chain_rule_explain",
+      "session_id": "demo-session",
+      "query": "chain rule for composite functions derivative",
+      "query_origin": "structured",
+      "purpose": "answer_grounding",
+      "evidence_needs": [
+        {
+          "need_id": "n1",
+          "need_type": "theorem_statement",
+          "description": "Statement of the chain rule for differentiating a composite function",
+          "anchor": "chain rule",
+          "concept_ids": [
+            "calc1.03-derivatives.chain-rule",
+            "calc1.03-derivatives.trig"
+          ]
+        },
+        {
+          "need_id": "n2",
+          "need_type": "formula_statement",
+          "description": "Formula for derivative of f(g(x)) involving the inner derivative g'(x)",
+          "anchor": "f'(g(x))g'(x)",
+          "concept_ids": [
+            "calc1.03-derivatives.chain-rule",
+            "calc1.03-derivatives.trig"
+          ]
+        },
+        {
+          "need_id": "n3",
+          "need_type": "worked_example",
+          "description": "Worked example differentiating a composite such as sin of a function of x",
+          "concept_ids": [
+            "calc1.03-derivatives.chain-rule",
+            "calc1.03-derivatives.trig"
+          ]
+        }
+      ],
+      "concept_ids": [
+        "calc1.03-derivatives.chain-rule",
+        "calc1.03-derivatives.trig"
+      ],
+      "query_language": "en",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "concept_names": [
+        "The chain rule",
+        "Derivatives of trigonometric functions"
+      ],
+      "scope_check_text": "I got d/dx sin(x^2) = cos(x^2). Why is that marked wrong?",
+      "retrieval_plan": {
+        "plan_version": "retrieval-plan@1",
+        "course_id": "calc1",
+        "concepts": [
+          {
+            "concept_id": "calc1.03-derivatives.chain-rule",
+            "name": "The chain rule",
+            "module_id": "calc1.03-derivatives",
+            "source": "question_schema"
+          },
+          {
+            "concept_id": "calc1.03-derivatives.trig",
+            "name": "Derivatives of trigonometric functions",
+            "module_id": "calc1.03-derivatives",
+            "source": "model"
+          }
+        ],
+        "main_query": "chain rule for composite functions derivative",
+        "needs": [
+          {
+            "need_id": "n1",
+            "need_type": "theorem_statement",
+            "query": "Statement of the chain rule for differentiating a composite function",
+            "anchor": "chain rule",
+            "preferred_blocks": [
+              "theorem"
+            ]
+          },
+          {
+            "need_id": "n2",
+            "need_type": "formula_statement",
+            "query": "Formula for derivative of f(g(x)) involving the inner derivative g'(x)",
+            "anchor": "f'(g(x))g'(x)",
+            "preferred_blocks": [
+              "definition",
+              "theorem"
+            ]
+          },
+          {
+            "need_id": "n3",
+            "need_type": "worked_example",
+            "query": "Worked example differentiating a composite such as sin of a function of x",
+            "preferred_blocks": [
+              "example"
+            ]
+          }
+        ],
+        "scope": {
+          "module_ids": [
+            "calc1.03-derivatives"
+          ],
+          "narrowing": "not_enforced",
+          "note": "Recorded only: the Week 3 index has no concept→section map yet, so search covers the whole course and ranking does the locating. Narrowing and widening start once Ovunc's ingestion JSON maps concepts to sections."
+        },
+        "origin": "model",
+        "repairs": [],
+        "linking": {
+          "method": "lexical@1",
+          "candidates": [
+            {
+              "concept_id": "calc1.03-derivatives.chain-rule",
+              "score": 8.097,
+              "matched": "Chain rule",
+              "full": true
+            },
+            {
+              "concept_id": "calc1.03-derivatives.definition",
+              "score": 3.337,
+              "matched": "Derivative f'(a)",
+              "full": false
+            },
+            {
+              "concept_id": "calc1.03-derivatives.higher",
+              "score": 2.225,
+              "matched": "Second derivative f''(x)",
+              "full": false
+            },
+            {
+              "concept_id": "calc1.01-functions.graphs",
+              "score": 1.896,
+              "matched": "Function",
+              "full": false
+            },
+            {
+              "concept_id": "calc1.03-derivatives.basic-rules",
+              "score": 1.872,
+              "matched": "basic rules",
+              "full": false
+            }
+          ],
+          "course_context": "calc1.course-context.json"
+        }
+      }
+    }
+  ],
+  "records": [
+    {
+      "record_id": "gb-461f2106d20c",
+      "record_type": "GroundingBundle",
+      "schema_version": "0.1",
+      "created_at": "2026-10-29T17:00:35.114Z",
+      "producer": "retrieval",
+      "status": "completed",
+      "correlation_id": "corr-chain_rule_explain",
+      "grounding_bundle_id": "gb-461f2106d20c",
+      "retrieval_request_id": "rr-5c06a8b1747e",
+      "retrieval_status": "partial",
+      "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1",
+      "passages": [
+        {
+          "passage_id": "psg_779b4c5505dd84a7",
+          "document_id": "calc1:syllabus",
+          "content_version": "cv-src-12ea3fe3ccb0",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\begin{diffbox}\n\\begin{itemize}[nosep]\n  \\item Chain rule with nested/multiple compositions (``chain rule of chain rules'')\n  \\item Combining rules correctly in a single problem (e.g., quotient rule containing a chain-rule term)\n  \\item Implicit differentiation: correctly applying $\\frac{d}{dx}$ to both sides and solving for $\\frac{dy}{dx}$\n  \\item Derivatives of inverse functions (formula involving $1/f'(f^{-1}(x))$) and inverse trig derivatives\n  \\item Keeping track of higher derivatives without sign/simplification errors\n\\end{itemize}\n\\end{diffbox}\n\\begin{prereqbox}\nModule 2 (limits, continuity). Trigonometric identities, exponential/logarithm\nrules, and strong algebraic manipulation (fractions, radicals, expanding/factoring).\n\\end{prereqbox}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 1,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared syllabus course map (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Syllabus_Claude.tex",
+            "source_line_start": 260,
+            "source_line_end": 273,
+            "week3_passage_id": "pass_4fa89e4c91b954e5",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "lexical_exact",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_cd8e32135126c716",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\begin{longtable}{P{1.6cm}P{4.6cm}P{7.3cm}c}\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endfirsthead\n\\toprule\n\\textbf{\\S} & \\textbf{Topic} & \\textbf{Learning Objective} & \\textbf{Diff.} \\\\\n\\midrule\n\\endhead\n4.1 & Formal Definition of the Derivative & Compute derivatives from the difference-quotient limit; interpret as tangent slope / instantaneous rate. & \\diffH \\\\\n4.2.1 & Interpreting the Derivative & Interpret derivative values in context (velocity, reaction rate, growth rate). & \\diffM \\\\\n4.2.2 & Differentiability and Continuity & Explain the relationship between differentiability and continuity; find points of non-differentiability. & \\diffM \\\\\n4.3 & Power Rule and Basic Rules & Differentiate polynomials and power functions using the power, sum, and constant-multiple rules. & \\diffL \\\\\n4.4.1 & The Product Rule & Differentiate products of functions. & \\diffM \\\\\n4.4.2 & The Quotient Rule & Differentiate quotients, including rational and power functions. & \\diffM \\\\\n4.5.1 & The Chain Rule & Differentiate composite functions. & \\diffH \\\\\n4.5.2 & Proof of the Chain Rule & Follow a rigorous justification of the chain rule. & \\diffM \\\\\n4.6.1 & Implicit Differentiation & Differentiate implicitly defined relations to find $dy/dx$. & \\diffH \\\\\n4.6.2 & Related Rates & Set up and solve related-rates problems by differentiating a relation between time-dependent quantities. & \\diffH \\\\\n4.7 & Higher Derivatives & Compute second and higher derivatives; interpret their meaning. & \\diffL \\\\\n4.8 & Derivatives of Trigonometric Functions & Differentiate sine, cosine, tangent, and their combinations. & \\diffM \\\\\n4.9 & Derivatives of Exponential Functions & Differentiate $e^{x}$, $a^{x}$, and exponential growth/decay models. & \\diffM \\\\\n4.10.1 & Derivatives of Inverse Functions & Differentiate an inverse function using the inverse function theorem. & \\diffM \\\\\n4.10.2 & Derivative of the Logarithmic Function & Differentiate $\\ln x$ and general logarithms. & \\diffM \\\\\n4.10.3\\opt & Logarithmic Differentiation & Use logarithmic differentiation for products/quotients/powers of functions. & \\diffM \\\\",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 2,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 454,
+            "source_line_end": 478,
+            "week3_passage_id": "pass_adf6e4ec6677313b",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "lexical_exact",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_257f52bf84a06dd1",
+          "document_id": "calc1:syllabus",
+          "content_version": "cv-src-12ea3fe3ccb0",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\label{mod:3}\n\\begin{modulebox}{Module 3 --- Differentiation Rules and Techniques \\hfill (3$^-$ weeks)}\n\\textbf{Chapters/Sections:}\n\\begin{itemize}[nosep]\n  \\item 4.1 --- Formal Definition of the Derivative\n  \\item 4.2 --- Basic Rules of Derivatives\n  \\item 4.3 --- Power Rule and the Rules of Differentiation\n  \\item 4.4 --- Product and Quotient Rules\n  \\item 4.5 --- The Chain Rule\n  \\item 4.6 --- Implicit Functions and Implicit Differentiation\n  \\item 4.7 --- Higher Derivatives\n  \\item 4.8 --- Derivatives of Trigonometric Functions\n  \\item 4.9 --- Derivatives of Exponential Functions\n  \\item 4.10 --- Derivatives of Inverse Functions\n  \\item 4.11 --- Linear Approximation\n\\end{itemize}\n\\textbf{Core Concepts:}\n\\begin{itemize}[nosep]\n  \\item Derivative as a limit of a difference quotient; derivative as instantaneous rate of change and slope of tangent line\n  \\item Differentiability vs.\\ continuity\n  \\item Sum, constant multiple, power, product, quotient, and chain rules\n  \\item Implicit differentiation for curves not expressed as $y = f(x)$\n  \\item Second and higher-order derivatives; notation ($f''$, $\\frac{d^2y}{dx^2}$)\n  \\item Derivatives of $\\sin x$, $\\cos x$, $\\tan x$, $e^x$, and inverse functions (including logarithmic and inverse trig)\n  \\item Linear approximation / tangent line approximation, $L(x) = f(a) + f'(a)(x-a)$\n\\end{itemize}\n\\loheader\n\\begin{itemize}[nosep]\n  \\item Compute a derivative directly from the limit definition\n  \\item Apply the power, product, quotient, and chain rules fluently, including in combination\n  \\item Perform implicit differentiation and find slopes of tangent lines to implicit curves\n  \\item Compute higher-order derivatives and interpret their meaning (e.g., concavity, acceleration)\n  \\item Differentiate trigonometric, exponential, logarithmic, and inverse functions\n  \\item Use linear approximation to estimate function values near a point\n\\end{itemize}\n\\end{modulebox}",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 3,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared syllabus course map (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Syllabus_Claude.tex",
+            "source_line_start": 219,
+            "source_line_end": 258,
+            "week3_passage_id": "pass_bc063f4e07a7317e",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_8fd0f1f78b58a453",
+          "document_id": "calc1:context",
+          "content_version": "cv-src-2af82a506643",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "\\MajorTopics\n\\begin{itemize}\n\\item Formal definition of the derivative\n\\item Properties of the derivative: interpretation; differentiability vs.\\ continuity\n\\item The power rule and derivatives of polynomials\n\\item The product and quotient rules; derivatives of rational and power functions\n\\item The chain rule (with proof)\n\\item Implicit functions, implicit differentiation, and related rates\n\\item Higher derivatives\n\\item Derivatives of trigonometric, exponential, inverse, and logarithmic functions; the inverse tangent function\n\\item Linear approximation and error propagation\n\\end{itemize}\n\\KeyConcepts\nThe derivative as a limit of a difference quotient and as an instantaneous\nrate of change / slope of the tangent line; differentiability implies\ncontinuity (but not conversely); the power, product, quotient, and chain\nrules; implicit differentiation; related rates; higher-order derivatives;\nlinear approximation and differentials.\n\\LearnObj\n\\begin{enumerate}\n\\item Compute a derivative directly from its limit definition.\n\\item Apply the power, product, quotient, and chain rules to differentiate combinations of functions.\n\\item Perform implicit differentiation and solve related-rates problems.\n\\item Differentiate trigonometric, exponential, logarithmic, and inverse functions.\n\\item Compute higher-order derivatives.\n\\item Use linear approximation and differentials to estimate function values and propagate measurement error.\n\\end{enumerate}\n\\PreReq Limits and continuity (Chapter 3); the elementary function families of Chapter 1.\n\\Hard Related-rates and implicit-differentiation word problems are\nconsistently among the hardest topics in introductory calculus because they\nrequire translating a physical/biological scenario into an equation before\nany calculus is applied; combining the chain rule with implicit\ndifferentiation compounds this. Error propagation (Sec.\\ 4.11) is a valuable\nbut unfamiliar application for many students.",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 4,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared course context (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Content_Claude.tex",
+            "source_line_start": 278,
+            "source_line_end": 315,
+            "week3_passage_id": "pass_c42d73788db8c80f",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_2bcc654c8c841989",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "4.5.1 & The Chain Rule & Differentiate composite functions. & \\diffH \\\\",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 5,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 469,
+            "source_line_end": 469,
+            "week3_passage_id": "pass_0ab41c67c5f18e0b",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        },
+        {
+          "passage_id": "psg_b2e09cf4cb1b1c2d",
+          "document_id": "calc1:textbook_reference",
+          "content_version": "cv-src-bac96a264f0c",
+          "page_number": null,
+          "line_start": null,
+          "line_end": null,
+          "passage_text": "4.5.2 & Proof of the Chain Rule & Follow a rigorous justification of the chain rule. & \\diffM \\\\",
+          "highlight_url": null,
+          "relevance_score": null,
+          "retrieval_rank": 6,
+          "role": "primary",
+          "visibility": "student_visible",
+          "document_role": "ai_course_breakdown",
+          "source_provenance": "ai_generated",
+          "review_status": "unverified",
+          "source_label": "AI-prepared textbook breakdown (unverified)",
+          "legacy_locator": {
+            "file": "Calc1_Book_Claude.tex",
+            "source_line_start": 470,
+            "source_line_end": 470,
+            "week3_passage_id": "pass_a8ff18a4defc8a58",
+            "week3_selection_reason": "ranked",
+            "week3_signals": [
+              "bge_base_en_v1_5",
+              "lexical_broad",
+              "qwen3_embedding_0_6b"
+            ]
+          }
+        }
+      ],
+      "query_interpretation": {
+        "question": "chain rule for composite functions derivative",
+        "facets": [],
+        "facet_source": "none",
+        "semantic_channel": true,
+        "backend": "pgvector",
+        "selection": "week3_production",
+        "options": {
+          "facet_source": "week3",
+          "evidence_gate": true,
+          "judge_mode": "on",
+          "week3_retrieval": true,
+          "week3_parity": false
+        },
+        "plan": {
+          "origin": "model",
+          "concepts": [
+            "calc1.03-derivatives.chain-rule",
+            "calc1.03-derivatives.trig"
+          ],
+          "needs": [
+            "Statement of the chain rule for differentiating a composite function",
+            "Formula for derivative of f(g(x)) involving the inner derivative g'(x)",
+            "Worked example differentiating a composite such as sin of a function of x"
+          ],
+          "scope": {
+            "module_ids": [
+              "calc1.03-derivatives"
+            ],
+            "narrowing": "not_enforced",
+            "note": "Recorded only: the Week 3 index has no concept→section map yet, so search covers the whole course and ranking does the locating. Narrowing and widening start once Ovunc's ingestion JSON maps concepts to sections."
+          },
+          "repairs": [],
+          "schema_problems": []
+        },
+        "channel_candidate_counts": {
+          "bge_base_en_v1_5": 40,
+          "qwen3_embedding_0_6b": 40,
+          "lexical_exact": 3,
+          "lexical_broad": 40
+        }
+      },
+      "warnings": [
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_779b4c5505dd84a7"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_779b4c5505dd84a7"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_cd8e32135126c716"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_cd8e32135126c716"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_257f52bf84a06dd1"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_257f52bf84a06dd1"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_8fd0f1f78b58a453"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_8fd0f1f78b58a453"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_2bcc654c8c841989"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_2bcc654c8c841989"
+        },
+        {
+          "code": "unverified_source",
+          "message": "AI-generated course breakdown; not reviewed course material.",
+          "passage_id": "psg_b2e09cf4cb1b1c2d"
+        },
+        {
+          "code": "location_unavailable",
+          "message": "Development corpus: LaTeX source lines only (legacy_locator); no page, line map or highlight link yet.",
+          "passage_id": "psg_b2e09cf4cb1b1c2d"
+        }
+      ],
+      "session_id": "demo-session",
+      "turn_id": "turn-chain_rule_explain",
+      "need_coverage": [
+        {
+          "need_id": "n1",
+          "coverage": "not_covered",
+          "passage_ids": [],
+          "method": "judge"
+        },
+        {
+          "need_id": "n2",
+          "coverage": "not_covered",
+          "passage_ids": [],
+          "method": "judge"
+        },
+        {
+          "need_id": "n3",
+          "coverage": "not_covered",
+          "passage_ids": [],
+          "method": "judge"
+        }
+      ],
+      "uncovered_needs": [
+        "n1",
+        "n2",
+        "n3"
+      ]
+    }
+  ],
+  "grounding_refs": [],
+  "citation_check": {
+    "ok": true,
+    "accepted": [],
+    "rejected": [],
+    "warnings": [],
+    "unknown_labels": []
+  },
+  "events": [
+    {
+      "event_type": "retrieval_plan_draft",
+      "concepts": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "linking": [
+        {
+          "concept_id": "calc1.03-derivatives.chain-rule",
+          "score": 8.097,
+          "matched": "Chain rule",
+          "full": true
+        },
+        {
+          "concept_id": "calc1.03-derivatives.definition",
+          "score": 3.337,
+          "matched": "Derivative f'(a)",
+          "full": false
+        },
+        {
+          "concept_id": "calc1.03-derivatives.higher",
+          "score": 2.225,
+          "matched": "Second derivative f''(x)",
+          "full": false
+        }
+      ],
+      "needs": [
+        [
+          "definition",
+          "definition of chain rule"
+        ],
+        [
+          "theorem_statement",
+          "statement of chain rule"
+        ]
+      ]
+    },
+    {
+      "event_type": "model_call",
+      "ms": 1851.0
+    },
+    {
+      "event_type": "retrieval_plan",
+      "origin": "model",
+      "concepts": [
+        [
+          "calc1.03-derivatives.chain-rule",
+          "question_schema"
+        ],
+        [
+          "calc1.03-derivatives.trig",
+          "model"
+        ]
+      ],
+      "needs": [
+        [
+          "theorem_statement",
+          "Statement of the chain rule for differentiating a composite function"
+        ],
+        [
+          "formula_statement",
+          "Formula for derivative of f(g(x)) involving the inner derivative g'(x)"
+        ],
+        [
+          "worked_example",
+          "Worked example differentiating a composite such as sin of a function of x"
+        ]
+      ],
+      "repairs": []
+    },
+    {
+      "event_type": "retrieval",
+      "retrieval_request_id": "rr-5c06a8b1747e",
+      "result": "partial",
+      "query_origin": "structured",
+      "producer": "tutoring-engine",
+      "timings_ms": {
+        "week3_search": 221.6,
+        "judge": 272.1,
+        "total": 500.2
+      },
+      "judge": {
+        "mode": "on",
+        "error": null,
+        "verdicts": [
+          [
+            "n1",
+            "not_covered"
+          ],
+          [
+            "n2",
+            "not_covered"
+          ],
+          [
+            "n3",
+            "not_covered"
+          ]
+        ],
+        "rules": [
+          [
+            "n1",
+            "covered"
+          ],
+          [
+            "n2",
+            "not_covered"
+          ],
+          [
+            "n3",
+            "not_covered"
+          ]
+        ]
+      }
+    },
+    {
+      "event_type": "model_call",
+      "ms": 2354.5
+    },
+    {
+      "event_type": "citation_rewrite",
+      "ok_after_rewrite": true
+    }
+  ],
+  "llm_calls": 3
+}

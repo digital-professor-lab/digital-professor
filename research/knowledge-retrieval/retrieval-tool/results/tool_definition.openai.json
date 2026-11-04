@@ -1,0 +1,160 @@
+{
+  "type": "function",
+  "function": {
+    "name": "search_course_materials",
+    "description": "Search this course's approved materials (lecture notes, textbook, worked examples) and return exact passages with stable IDs and page/line locations.\nUSE it before you state anything course-specific: a definition, formula, theorem, method, notation convention, or an example the student should study.\nDO NOT use it for: confirming what the student wrote, asking for missing work, checking whether an answer is mathematically correct, encouragement, or turn management.\nWrite `query` in neutral course terms (e.g. 'chain rule for composite functions'), not the student's own words. Split what you need into 1-4 `evidence_needs`, one per kind of evidence.\nThe result has a `retrieval_status`: supported, partial, no_support_found, or failed. Cite only passages that are returned, using their labels like [P1]. If the status is no_support_found or failed, say that the course materials do not cover this point instead of inventing a citation.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query",
+        "purpose",
+        "evidence_needs"
+      ],
+      "properties": {
+        "query": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 300,
+          "description": "What to look for, in course terms. Not the student's raw message."
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "answer_grounding",
+            "prerequisite_review",
+            "definition_lookup"
+          ],
+          "description": "Why you need the material in this turn."
+        },
+        "evidence_needs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "description": "The distinct pieces of evidence you need; one entry per kind. Typical for this turn: definition, theorem_statement, prerequisite_explanation.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "need_type",
+              "description"
+            ],
+            "properties": {
+              "need_type": {
+                "type": "string",
+                "enum": [
+                  "formula_statement",
+                  "definition",
+                  "theorem_statement",
+                  "worked_example",
+                  "exercise",
+                  "method_guidance",
+                  "prerequisite_explanation",
+                  "notation_convention",
+                  "course_policy"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "What this piece of evidence must state."
+              },
+              "anchor": {
+                "type": "string",
+                "maxLength": 80,
+                "description": "Optional exact term or formula that must appear, e.g. 'chain rule' or \"f'(g(x))g'(x)\"."
+              }
+            }
+          }
+        },
+        "contains_student_wording": {
+          "type": "boolean",
+          "description": "True if `query` copies the student's own words."
+        },
+        "concept_id": {
+          "type": "string",
+          "description": "The ONE course concept this turn is mainly about, from the course concept list in the instructions. Choose \"not_in_course\" when the student asks about something this course does not teach (do not pick the nearest concept). Omit if you cannot tell.",
+          "enum": [
+            "calc1.01-functions.graphs",
+            "calc1.01-functions.families",
+            "calc1.01-functions.exp-growth",
+            "calc1.01-functions.sequences",
+            "calc1.02-limits.limits",
+            "calc1.02-limits.epsilon-delta",
+            "calc1.02-limits.continuity",
+            "calc1.02-limits.limits-infinity",
+            "calc1.02-limits.trig-sandwich",
+            "calc1.02-limits.continuous-props",
+            "calc1.03-derivatives.definition",
+            "calc1.03-derivatives.basic-rules",
+            "calc1.03-derivatives.power-rule",
+            "calc1.03-derivatives.product-quotient",
+            "calc1.03-derivatives.chain-rule",
+            "calc1.03-derivatives.implicit",
+            "calc1.03-derivatives.higher",
+            "calc1.03-derivatives.trig",
+            "calc1.03-derivatives.exp-log",
+            "calc1.03-derivatives.inverse",
+            "calc1.03-derivatives.linear-approx",
+            "calc1.04-diff-applications.evt-mvt",
+            "calc1.04-diff-applications.monotone-concave",
+            "calc1.04-diff-applications.extrema-inflection",
+            "calc1.04-diff-applications.optimization",
+            "calc1.04-diff-applications.lhopital",
+            "calc1.05-integration.antiderivatives",
+            "calc1.05-integration.definite-integral",
+            "calc1.05-integration.ftc",
+            "calc1.05-integration.applications",
+            "calc1.06-integral-applications.substitution",
+            "calc1.06-integral-applications.by-parts",
+            "calc1.06-integral-applications.partial-fractions",
+            "not_in_course"
+          ]
+        },
+        "related_concept_ids": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "string",
+            "enum": [
+              "calc1.01-functions.graphs",
+              "calc1.01-functions.families",
+              "calc1.01-functions.exp-growth",
+              "calc1.01-functions.sequences",
+              "calc1.02-limits.limits",
+              "calc1.02-limits.epsilon-delta",
+              "calc1.02-limits.continuity",
+              "calc1.02-limits.limits-infinity",
+              "calc1.02-limits.trig-sandwich",
+              "calc1.02-limits.continuous-props",
+              "calc1.03-derivatives.definition",
+              "calc1.03-derivatives.basic-rules",
+              "calc1.03-derivatives.power-rule",
+              "calc1.03-derivatives.product-quotient",
+              "calc1.03-derivatives.chain-rule",
+              "calc1.03-derivatives.implicit",
+              "calc1.03-derivatives.higher",
+              "calc1.03-derivatives.trig",
+              "calc1.03-derivatives.exp-log",
+              "calc1.03-derivatives.inverse",
+              "calc1.03-derivatives.linear-approx",
+              "calc1.04-diff-applications.evt-mvt",
+              "calc1.04-diff-applications.monotone-concave",
+              "calc1.04-diff-applications.extrema-inflection",
+              "calc1.04-diff-applications.optimization",
+              "calc1.04-diff-applications.lhopital",
+              "calc1.05-integration.antiderivatives",
+              "calc1.05-integration.definite-integral",
+              "calc1.05-integration.ftc",
+              "calc1.05-integration.applications",
+              "calc1.06-integral-applications.substitution",
+              "calc1.06-integral-applications.by-parts",
+              "calc1.06-integral-applications.partial-fractions"
+            ]
+          },
+          "description": "Optional other concepts from the list that the reply will also need (e.g. the chain rule inside an implicit-differentiation question). Recorded for later scope widening; they do not decide which passages count as support. Usually empty."
+        }
+      }
+    }
+  }
+}

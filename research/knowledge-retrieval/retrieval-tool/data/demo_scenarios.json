@@ -1,0 +1,157 @@
+{
+  "_note": "Demo turns for scripts/demo_turn.py. `context` fills TurnContext (system-owned). The sin(x^2) turns are a bank question, so they carry the QuestionSchema concept ID; the other three are student-originated and carry no concept information, so the planner must link concepts from the text. `scripted` is what the offline ScriptedLLM replays; with a real model the scripted steps are ignored.",
+  "chain_rule_explain": {
+    "goal": "Help the student see that the derivative of the inner function is missing.",
+    "context": {
+      "action_type": "explain",
+      "question_id": "calc1.03.chain-rule.adhoc-1f2e3d4c",
+      "student_message": "I got d/dx sin(x^2) = cos(x^2). Why is that marked wrong?",
+      "intent_summary": "Student differentiated sin(x^2) as cos(x^2), omitting the derivative of the inner function x^2 (chain rule).",
+      "question_prompt": "Differentiate f(x) = sin(x^2).",
+      "concept_ids": [
+        "calc1.03-derivatives.chain-rule"
+      ]
+    },
+    "scripted": [
+      {
+        "tool_call": {
+          "query": "chain rule for differentiating composite functions",
+          "purpose": "answer_grounding",
+          "evidence_needs": [
+            {
+              "need_type": "theorem_statement",
+              "description": "Statement of the chain rule for composite functions",
+              "anchor": "chain rule"
+            },
+            {
+              "need_type": "worked_example",
+              "description": "Example differentiating a composite function such as sin of a polynomial"
+            }
+          ]
+        }
+      },
+      {
+        "answer": "You differentiated the outer function correctly: the derivative of sin(u) is cos(u). But x^2 sits inside the sine, so this is a composite function, and the course lists the Chain Rule for exactly this case: differentiating composite functions [P1]. The chain rule says you also multiply by the derivative of the inner function. What is the derivative of x^2, and where should it go in your answer?"
+      }
+    ]
+  },
+  "ftc_explain": {
+    "goal": "State what the Fundamental Theorem of Calculus says, in the course's terms.",
+    "context": {
+      "action_type": "explain",
+      "question_id": "calc1.05.ftc.adhoc-9a8b7c6d",
+      "student_message": "What does the fundamental theorem of calculus actually say?",
+      "intent_summary": "Student asks for the statement of the Fundamental Theorem of Calculus.",
+      "question_prompt": "What does the Fundamental Theorem of Calculus say?"
+    },
+    "scripted": [
+      {
+        "tool_call": {
+          "query": "fundamental theorem of calculus",
+          "purpose": "answer_grounding",
+          "evidence_needs": [
+            {
+              "need_type": "theorem_statement",
+              "description": "Statement of the fundamental theorem of calculus (both parts)",
+              "anchor": "fundamental theorem"
+            }
+          ]
+        }
+      },
+      {
+        "answer": "The course treats the FTC in two parts: Part I and Part II, which connect antiderivatives with definite integrals [P1]. Which part would you like to look at first?"
+      }
+    ]
+  },
+  "probe_no_lookup": {
+    "goal": "Find out whether the student knows which function is inside.",
+    "context": {
+      "action_type": "probe",
+      "question_id": "calc1.03.chain-rule.adhoc-1f2e3d4c",
+      "student_message": "So is it cos(x^2) times something?",
+      "intent_summary": "Student suspects a missing factor.",
+      "question_prompt": "Differentiate f(x) = sin(x^2).",
+      "concept_ids": [
+        "calc1.03-derivatives.chain-rule"
+      ]
+    },
+    "scripted": [
+      {
+        "answer": "Good instinct. In sin(x^2), which function is applied first to x?"
+      }
+    ]
+  },
+  "inspect_no_tool": {
+    "goal": "Ask for the student's working.",
+    "context": {
+      "action_type": "inspect",
+      "question_id": "calc1.03.chain-rule.q4",
+      "student_message": "The answer is 2x cos(x^2).",
+      "question_prompt": "Differentiate f(x) = sin(x^2).",
+      "concept_ids": [
+        "calc1.03-derivatives.chain-rule"
+      ]
+    },
+    "scripted": [
+      {
+        "answer": "That's the right form. Can you show the steps you used to get there?"
+      }
+    ]
+  },
+  "out_of_corpus": {
+    "goal": "Explain a topic the course does not cover.",
+    "context": {
+      "action_type": "explain",
+      "question_id": "calc1.adhoc-laplace",
+      "student_message": "Can you explain Laplace transforms?",
+      "intent_summary": "Student asks about Laplace transforms.",
+      "question_prompt": "Explain Laplace transforms."
+    },
+    "scripted": [
+      {
+        "tool_call": {
+          "query": "Laplace transform",
+          "purpose": "answer_grounding",
+          "evidence_needs": [
+            {
+              "need_type": "definition",
+              "description": "Definition of the Laplace transform",
+              "anchor": "Laplace transform"
+            }
+          ]
+        }
+      },
+      {
+        "answer": "The course materials for Calculus I do not cover Laplace transforms, so I can't point you to a course source. Briefly and in general terms (not from the course): it turns a function of time into a function of a new variable s by integrating e^(-st) f(t)."
+      }
+    ]
+  },
+  "student_scope": {
+    "goal": "Answer a request that names another course.",
+    "context": {
+      "action_type": "explain",
+      "question_id": "calc1.adhoc-scope",
+      "student_message": "What does the Calculus II material say about gradients?",
+      "question_prompt": "What does the Calculus II material say about gradients?"
+    },
+    "scripted": [
+      {
+        "tool_call": {
+          "query": "What does the Calculus II material say about gradients?",
+          "purpose": "answer_grounding",
+          "contains_student_wording": true,
+          "evidence_needs": [
+            {
+              "need_type": "definition",
+              "description": "Definition of the gradient",
+              "anchor": "gradient"
+            }
+          ]
+        }
+      },
+      {
+        "answer": "Calculus II material is outside this course, so I can't cite it here. Would you like to look at the related Calculus I idea of the derivative instead?"
+      }
+    ]
+  }
+}

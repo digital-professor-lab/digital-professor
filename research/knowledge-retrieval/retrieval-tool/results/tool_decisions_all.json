@@ -1,0 +1,792 @@
+{
+  "cases": 24,
+  "should_retrieve": 12,
+  "jev": {
+    "rows": [
+      {
+        "id": "D01",
+        "should_retrieve": false,
+        "p": 0.36
+      },
+      {
+        "id": "D02",
+        "should_retrieve": true,
+        "p": 0.85
+      },
+      {
+        "id": "D03",
+        "should_retrieve": false,
+        "p": 0.26
+      },
+      {
+        "id": "D04",
+        "should_retrieve": true,
+        "p": 0.86
+      },
+      {
+        "id": "D05",
+        "should_retrieve": true,
+        "p": 0.76
+      },
+      {
+        "id": "D06",
+        "should_retrieve": false,
+        "p": 0.29
+      },
+      {
+        "id": "D07",
+        "should_retrieve": true,
+        "p": 0.44
+      },
+      {
+        "id": "D08",
+        "should_retrieve": false,
+        "p": 0.06
+      },
+      {
+        "id": "D09",
+        "should_retrieve": true,
+        "p": 0.64
+      },
+      {
+        "id": "D10",
+        "should_retrieve": false,
+        "p": 0.47
+      },
+      {
+        "id": "D11",
+        "should_retrieve": true,
+        "p": 0.88
+      },
+      {
+        "id": "D12",
+        "should_retrieve": false,
+        "p": 0.05
+      },
+      {
+        "id": "D13",
+        "should_retrieve": true,
+        "p": 0.84
+      },
+      {
+        "id": "D14",
+        "should_retrieve": false,
+        "p": 0.19
+      },
+      {
+        "id": "D15",
+        "should_retrieve": true,
+        "p": 0.77
+      },
+      {
+        "id": "D16",
+        "should_retrieve": false,
+        "p": 0.07
+      },
+      {
+        "id": "D17",
+        "should_retrieve": true,
+        "p": 0.85
+      },
+      {
+        "id": "D18",
+        "should_retrieve": false,
+        "p": 0.06
+      },
+      {
+        "id": "D19",
+        "should_retrieve": true,
+        "p": 0.78
+      },
+      {
+        "id": "D20",
+        "should_retrieve": false,
+        "p": 0.19
+      },
+      {
+        "id": "D21",
+        "should_retrieve": true,
+        "p": 0.89
+      },
+      {
+        "id": "D22",
+        "should_retrieve": false,
+        "p": 0.18
+      },
+      {
+        "id": "D23",
+        "should_retrieve": true,
+        "p": 0.76
+      },
+      {
+        "id": "D24",
+        "should_retrieve": false,
+        "p": 0.05
+      }
+    ],
+    "threshold_sweep": {
+      "0.3": {
+        "accuracy": "22/24",
+        "missed_retrievals": 0,
+        "unneeded_retrievals": 2
+      },
+      "0.4": {
+        "accuracy": "23/24",
+        "missed_retrievals": 0,
+        "unneeded_retrievals": 1
+      },
+      "0.5": {
+        "accuracy": "23/24",
+        "missed_retrievals": 1,
+        "unneeded_retrievals": 0
+      },
+      "0.6": {
+        "accuracy": "23/24",
+        "missed_retrievals": 1,
+        "unneeded_retrievals": 0
+      },
+      "0.7": {
+        "accuracy": "22/24",
+        "missed_retrievals": 2,
+        "unneeded_retrievals": 0
+      }
+    },
+    "three_way_at_defaults": {
+      "force": 10,
+      "skip": 10,
+      "left_to_model": 4
+    },
+    "wrong_force": [],
+    "wrong_skip": [],
+    "usage": {
+      "calls": 24,
+      "cached_calls": 0,
+      "input_tokens": 12352,
+      "cost_usd_including_cached": 0.00052
+    }
+  },
+  "model": {
+    "summary": {
+      "accuracy": "17/24",
+      "missed_retrievals": 0,
+      "unneeded_retrievals": 7,
+      "deepseek_calls": 44,
+      "seconds": 92.6,
+      "model": "deepseek-chat"
+    },
+    "rows": [
+      {
+        "id": "D01",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "chain rule for composite functions derivative"
+        ],
+        "answer": "Your instinct is right that there's a second factor, but check the first one: the outer function is cosine, so its derivative is negative sine, not cosine. So the first piece should be −sin(x²), not cos(x²).\n\nNow the real question: what is the inner function here, and what is its derivative? That's the \"something\" you're missing. Write it out and tell me what you get.",
+        "citation_ok": true
+      },
+      {
+        "id": "D02",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "definition of composite function composition of two functions"
+        ],
+        "answer": "I don't have a formal definition of \"composite function\" in your course materials — they only list composition as a topic and tie composite functions to the chain rule [P4]. So let's build it from what you already know.\n\nThink of a composite as a function built by feeding one function's output into another. If you had f(x) = x² and g(x) = x + 3, what would you get by applying g first and then f? Write out the resulting expression, and tell me what its input variable is.",
+        "citation_ok": true
+      },
+      {
+        "id": "D03",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "order of steps in evaluating a limit or derivative problem"
+        ],
+        "answer": "I can't tell yet which problem you're on, so let's pin that down first. Which question are you working on, and what did you actually write down as your first line of work?\n\nOnce I see that, I can help you check whether the order of your steps matches what the problem is asking for.",
+        "citation_ok": true
+      },
+      {
+        "id": "D04",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "derivative notation prime notation Leibniz notation dy/dx"
+        ],
+        "answer": "I can't point to a course passage that fixes one notation as the standard, so I won't claim the course prefers either. What I can say is that both appear in the material: prime notation shows up in higher-derivative notation like f'' [P4], and dy/dx is used when differentiating implicitly defined relations [P4].\n\nSo the honest answer is that the course uses both, in different settings. Which one do you think fits better when you're differentiating an equation like x² + y² = 25, and why?",
+        "citation_ok": true
+      },
+      {
+        "id": "D05",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "derivative of the exponential function e^x"
+        ],
+        "answer": "Your course treats e^x under its own section, \"Derivatives of Exponential Functions\" [P3], separate from the power rule section, which covers polynomials and power functions [P3]. That's the clue: the power rule is for x raised to a constant power, not for a constant raised to a variable power. So x·e^(x−1) doesn't apply here. Your materials list the topic but don't give the formula itself, so check your notes for section 4.9. What does your text say the derivative of e^x equals?",
+        "citation_ok": true
+      },
+      {
+        "id": "D06",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "notation for the indefinite integral and the differential dx"
+        ],
+        "answer": "Good — that's the whole issue, then. The dx isn't decoration: it names the variable you're integrating with respect to, so it belongs in every integral you write. Your course treats indefinite integrals as a family of antiderivatives, including the constant of integration [P2], and the differential is part of that standard notation. So just append dx to your answer and you're done. Quick check: if the integrand had contained two different letters, how would the dx tell you which one is the variable?",
+        "citation_ok": true
+      },
+      {
+        "id": "D07",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "chain rule for composite functions practice exercise"
+        ],
+        "answer": "Good — let's test it. Your course lists the chain rule as differentiating composite functions [P2], and flags nested compositions and combining rules in one problem as the tricky parts [P5].\n\nTry this: differentiate h(x) = sin(3x² + 1), then try k(x) = (x² + 1)⁵ · e^(2x). For the second, decide first which rule handles the overall structure, then where the chain rule enters.\n\nWhat's your derivative for h(x), and what did you pick as the inner function?",
+        "citation_ok": true
+      },
+      {
+        "id": "D08",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [],
+        "answer": "Great — glad that landed. Before we move on, let me check it stuck: in your own words, what's the key step you'd take first when setting up this kind of problem, and why does it come first?",
+        "citation_ok": true
+      },
+      {
+        "id": "D09",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "harder exercise problems limits derivatives"
+        ],
+        "answer": "Sure — here's a harder one in the spirit of the course's toughest topics. Consider\n\nf(x) = (x² − 4)/(x − 2) for x ≠ 2, and f(2) = 3.\n\n(a) Find lim(x→2) f(x) and classify the discontinuity at x = 2.\n(b) Then take g(x) = (sin 3x)/x for x ≠ 0. Find lim(x→0) g(x), justifying any inequality you use.\n\nPart (b) is the one students find hardest, since it needs an inequality argument rather than substitution. Start with (a): what does factoring the numerator give you?",
+        "citation_ok": true
+      },
+      {
+        "id": "D10",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "practice exercise similar worked example"
+        ],
+        "answer": "I don't have your original problem in front of me, so here's a fresh one in the same spirit. Your course notes flag nested compositions as the place errors compound, so practice peeling outside-in [P1].\n\nTry this: differentiate f(x) = e^(sin(3x²)).\n\nWork from the outermost layer inward, writing each derivative factor separately before multiplying. What's your outermost function, and what's its derivative?",
+        "citation_ok": true
+      },
+      {
+        "id": "D11",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "logistic model carrying capacity definition"
+        ],
+        "answer": "Your course treats carrying capacity as part of density-dependent growth, and one learning objective is to interpret carrying capacity in that setting [P1]. The course works with the discrete logistic equation rather than a continuous logistic differential equation [P2][P3], so the exact wording of a formal definition isn't in what I can see.\n\nBefore I say more: in your own words, what happens to a population's per-capita growth as it gets crowded, and what does that suggest the population approaches in the long run?",
+        "citation_ok": true
+      },
+      {
+        "id": "D12",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [],
+        "answer": "Take your time — I'm not going anywhere.\n\nWhile you think, here's a nudge: before you compute anything, say out loud what the question is actually asking you to find, and what's given. That usually makes the first move obvious.\n\nWhat are you noticing so far?",
+        "citation_ok": true
+      },
+      {
+        "id": "D13",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "chain rule for composite functions derivative"
+        ],
+        "answer": "Your notes call it the Chain Rule, in section 4.5, \"The Chain Rule,\" described as differentiating composite functions [P2][P5]. The outline lists it as a high-difficulty topic and even includes a separate section proving it [P2]. What the outline doesn't give is the actual formula statement, so I can't quote it from your materials.\n\nBefore I say more: in your own words, what do you think the rule says about how the derivative of f(g(x)) relates to the derivatives of f and g?",
+        "citation_ok": true
+      },
+      {
+        "id": "D14",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "chain rule for composite functions inner function outer function"
+        ],
+        "answer": "Good — you've picked out an inner piece. Before we commit to it, check it against the whole expression: is the entire thing built as \"something applied to x²\", or is x² only part of a larger inside?\n\nOnce you're sure, tell me what the outer function is, and then what the chain rule has you multiply by.",
+        "citation_ok": true
+      },
+      {
+        "id": "D15",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "antiderivative of 1/x natural logarithm"
+        ],
+        "answer": "Your setup shows the right instinct — you tried to write 1/x as x^(−1) and apply the power rule. But that rule needs the exponent to be something other than −1, and here it's exactly −1, so x^0/0 is undefined and can't be the answer.\n\nYour course materials don't spell out the antiderivative of 1/x in the passages I can see, so: Not from your course materials: the antiderivative of 1/x is ln|x| + C, because the derivative of ln x is 1/x.\n\nCan you check by differentiating your answer — what does d/dx of x^0/0 even mean?",
+        "citation_ok": true
+      },
+      {
+        "id": "D16",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [],
+        "answer": "No problem — that happens. Before we move on, let's make sure the fix is complete: go back to the line where the sign changed and re-derive it from the step just before, rather than patching it in place. Does the corrected sign now match what you get when you substitute a simple test value?",
+        "citation_ok": true
+      },
+      {
+        "id": "D17",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "differentiation rules product quotient chain rule exercises"
+        ],
+        "answer": "Module 3 covers the product, quotient, and chain rules, and it flags combining rules in one problem as a common difficulty [P2][P5]. The materials list topics but don't include ready-made exercises, so here's one in that style:\n\nDifferentiate f(x) = (x² + 1)³ · sin x.\n\nYou'll need the product rule on the outside and the chain rule inside the first factor. Before you compute, tell me: which rule do you apply first, and what are the two \"pieces\" you're multiplying?",
+        "citation_ok": true
+      },
+      {
+        "id": "D18",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [],
+        "answer": "Great — let's lock it in with one quick check. In your own words, what's the key step you'd take first when setting up this kind of problem, and why does it matter?",
+        "citation_ok": true
+      },
+      {
+        "id": "D19",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 3,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "applications of the derivative: related rates, optimization, curve sketching, motion"
+        ],
+        "answer": "Your course uses derivatives in two main ways. In the differentiation chapter, they appear in related-rates problems, where you differentiate a relation between time-dependent quantities, and in linear approximation and error propagation [P3]. Later, the analysis chapter builds toward applied optimization, where you translate a real-world scenario into an objective function plus a constraint and solve for the optimum.\n\nThe hardest recurring skill there is setting up that objective function and constraint from a word problem. Which of those two settings — related rates or optimization — would you like to start with?",
+        "citation_ok": true
+      },
+      {
+        "id": "D20",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "limit definition of the derivative practice exercise"
+        ],
+        "answer": "Good — let's shift to derivatives. Your course's Module 3 opens with the formal definition of the derivative, where the derivative is the limit of a difference quotient [P4], and one of its learning objectives is computing a derivative directly from that limit definition [P2].\n\nSo here's your next one: use the limit definition to find the derivative of f(x) = x² + 3x. Start by writing out the difference quotient and simplifying the numerator before you take the limit.\n\nWhat does the numerator simplify to?",
+        "citation_ok": true
+      },
+      {
+        "id": "D21",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "definition of continuity of a function at a point"
+        ],
+        "answer": "Your course treats continuity at a point in Section 3.2.1, \"What Is Continuity?\", where you test continuity of a function at a point using a three-part definition [P4]. The outline also lists continuity at a point and on an interval as a key concept [P1], but it doesn't spell out the three conditions themselves.\n\nSo before I say more: what three things do you think a function has to satisfy at a point to be continuous there? Think about the function's value and its limit.",
+        "citation_ok": true
+      },
+      {
+        "id": "D22",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "chain rule derivative of composite function outer derivative times inner derivative"
+        ],
+        "answer": "Good question to pause on. Your course lists the chain rule as the tool for differentiating composite functions [P4], but the materials I have don't spell out the formula itself, so let's reason it out.\n\nThink about what each piece is doing. If the outer function is something squared, the outer derivative contributes a factor of 2 times the inner expression. Then the inner function's own derivative has to come in too — and the chain rule multiplies these contributions rather than adding them.\n\nSo which of your two forms survives that reasoning, and why would adding them be wrong?",
+        "citation_ok": true
+      },
+      {
+        "id": "D23",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [
+          "chain rule for composite functions"
+        ],
+        "answer": "Good instinct to name the rule you used — that helps me see where things went off. The product rule is for a product of two functions, like x·sin x, where two separate factors are multiplied [P3]. But sin(x²) isn't a product: it's one function, sine, applied to an inner function, x². That's a composite, and composites call for the chain rule [P3][P6].\n\nSo ask yourself: what's the outer function here, and what's the inner one? Once you name both, you're ready to differentiate outside-in.",
+        "citation_ok": true
+      },
+      {
+        "id": "D24",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": null,
+        "jev_p": null,
+        "queries": [],
+        "answer": "Of course—take your time. I'll be right here.\n\nWhen you're ready, tell me what you've got so far, even if it's just a first step or a guess. What part of the problem feels least clear to you right now?",
+        "citation_ok": true
+      }
+    ]
+  },
+  "both": {
+    "summary": {
+      "accuracy": "22/24",
+      "missed_retrievals": 0,
+      "unneeded_retrievals": 2,
+      "deepseek_calls": 39,
+      "seconds": 78.5,
+      "model": "deepseek-chat",
+      "jev_usage": {
+        "calls": 24,
+        "cached_calls": 24,
+        "input_tokens": 12352,
+        "cost_usd_including_cached": 0.00052
+      }
+    },
+    "rows": [
+      {
+        "id": "D01",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "auto",
+        "jev_p": 0.36,
+        "queries": [
+          "chain rule for composite functions derivative"
+        ],
+        "answer": "You're on the right track — the outer function is cosine, so the derivative starts with a cosine-type factor. The question is what the inner function is and whether its derivative has been accounted for. Your course covers the chain rule for composite functions [P1], but the materials I have don't spell out the formula itself.\n\nSo: write your function as an outer function applied to an inner one. What's the inner function here, and what's its derivative?",
+        "citation_ok": true
+      },
+      {
+        "id": "D02",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.85,
+        "queries": [
+          "composite function definition composition of functions domain"
+        ],
+        "answer": "Your course materials don't seem to give a formal definition of a composite function, so I can't quote one for you.\n\nNot from your course materials: informally, a composite is what you get when one function's output becomes another function's input, written f(g(x)) or (f∘g)(x). The inner function runs first.\n\nTo see where you stand: if g(x) = x + 1 and f(x) = x², what would f(g(x)) be, and what's the domain of that composite?",
+        "citation_ok": true
+      },
+      {
+        "id": "D03",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.26,
+        "queries": [],
+        "answer": "That's a reasonable instinct, but let's check it against the order of operations. When you look at your expression, which operation sits outermost—the one you'd undo last if you were solving it? Tell me what that outermost operation is, and then we can decide whether the inside or the outside should be handled first.",
+        "citation_ok": true
+      },
+      {
+        "id": "D04",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.86,
+        "queries": [
+          "derivative notation prime notation Leibniz notation dy/dx"
+        ],
+        "answer": "I don't have a verified course passage that fixes one notation, so I can't say the course mandates either. Not from your course materials: both are standard — f'(x) names the derivative as a function, while dy/dx names it as the rate of change of y with respect to x, and the two are interchangeable when y = f(x).\n\nWhich one feels more natural to you when you differentiate something like y = x³, and why?",
+        "citation_ok": true
+      },
+      {
+        "id": "D05",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.76,
+        "queries": [
+          "derivative of the exponential function e^x"
+        ],
+        "answer": "Good that you showed your work — that makes the issue easy to spot. Your course treats the power rule as a tool for polynomials and power functions, i.e. things of the form x^n [P3], while e^x belongs to a separate topic, derivatives of exponential functions [P1]. So the rule you used doesn't apply here: the base is a constant and the variable sits in the exponent, which is the opposite of x^n.\n\nWhat does your course say the derivative of e^x is — can you find it in section 4.9 and tell me?",
+        "citation_ok": true
+      },
+      {
+        "id": "D06",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.29,
+        "queries": [],
+        "answer": "That's a common slip, and it's worth fixing now: the dx isn't decoration, it tells you which variable you're integrating with respect to. Without it, the expression isn't a complete integral. So rewrite your line with the dx in place, then check whether every integral sign in your work has one. Quick check: in your integral, which variable is the dx attached to, and does that match the variable in the integrand?",
+        "citation_ok": true
+      },
+      {
+        "id": "D07",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "auto",
+        "jev_p": 0.44,
+        "queries": [
+          "chain rule for composite functions derivative"
+        ],
+        "answer": "Good — the chain rule is a core topic here, and your course also expects you to combine it with other rules in a single problem [P1][P3].\n\nTry this: differentiate \\(h(x) = (3x^2+1)^5\\). Then, for a harder one, differentiate \\(g(x) = \\dfrac{\\sin(2x)}{x^2+1}\\) — that one needs the quotient rule with a chain-rule term inside.\n\nShow me your steps for the first one, especially what you chose as the inner function.",
+        "citation_ok": true
+      },
+      {
+        "id": "D08",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.06,
+        "queries": [],
+        "answer": "Great. Before we move on, can you tell me in your own words what the key idea of the problem was, and where you'd start if you saw a similar one?",
+        "citation_ok": true
+      },
+      {
+        "id": "D09",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "auto",
+        "jev_p": 0.64,
+        "queries": [
+          "challenging exercise problems limits derivatives"
+        ],
+        "answer": "Happy to. Your course flags a few genuinely hard spots: the chain rule with nested compositions, implicit differentiation, and optimization word problems. Here's one in that style:\n\nA curve is given by x² + xy + y² = 7. Find dy/dx, then find the equation of the tangent line at the point (1, 2), and say where the tangent is horizontal.\n\nStart by differentiating both sides with respect to x, remembering that y is a function of x. What do you get for the derivative of the xy term?",
+        "citation_ok": true
+      },
+      {
+        "id": "D10",
+        "should_retrieve": false,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "auto",
+        "jev_p": 0.47,
+        "queries": [
+          "related rates exercise similar problem"
+        ],
+        "answer": "Here's a fresh one in the same style. A spherical balloon is being inflated so that its volume increases at a constant 100 cm³/s. How fast is the radius growing when the radius is 5 cm?\n\nYour course treats related rates as a translation problem, so start by labeling every time-dependent quantity before you differentiate [P2]. Write V(t) and r(t), then relate them with the sphere volume formula. Once you have that relation, differentiate both sides with respect to t and solve for dr/dt.\n\nWhat relation connects V and r for a sphere, and which symbol is the one you're solving for?",
+        "citation_ok": true
+      },
+      {
+        "id": "D11",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.88,
+        "queries": [
+          "logistic model carrying capacity definition"
+        ],
+        "answer": "Your course treats carrying capacity as part of density-dependent growth, and one of its learning objectives is to interpret carrying capacity when comparing density-independent and density-dependent models [P1]. The logistic equation itself appears as the discrete logistic map [P2], but the materials I can see don't spell out a formal definition of the term.\n\nSo let's build it: in a density-dependent model, what happens to the per-capita growth rate as the population gets large, and what population size would make growth stop entirely?",
+        "citation_ok": true
+      },
+      {
+        "id": "D12",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.05,
+        "queries": [],
+        "answer": "Take your time. While you think, try to say out loud what the problem is asking you to find, and what information you already have. What's your first instinct about where to start?",
+        "citation_ok": true
+      },
+      {
+        "id": "D13",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.84,
+        "queries": [
+          "chain rule for composite functions derivative"
+        ],
+        "answer": "Your notes call it the Chain Rule, in section 4.5.1, where it's listed as the tool for differentiating composite functions [P2][P5]. The outline also has a separate section 4.5.2 for the proof [P2].\n\nWhat the notes don't give me is the exact formula statement, so I can't quote it as written. Before I say more: in your own words, what do you think the rule says about the derivative of f(g(x))?",
+        "citation_ok": true
+      },
+      {
+        "id": "D14",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.19,
+        "queries": [],
+        "answer": "Good start — you've spotted the inner piece. Now think about the whole expression: if \\(x^2\\) is the inside, what is it sitting inside of? In other words, what's the outer operation being applied to \\(x^2\\)? Tell me that, and we'll have the full composition.",
+        "citation_ok": true
+      },
+      {
+        "id": "D15",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 3,
+        "jev_choice": "force",
+        "jev_p": 0.77,
+        "queries": [
+          "antiderivative of 1/x natural logarithm"
+        ],
+        "answer": "Your course outline lists antiderivatives of basic functions as a topic, but it doesn't give the specific formula for 1/x, so I can't quote it here.\n\nStill, I can see the snag in your work: x^0/0 means you applied the power rule with n = −1, and that rule breaks down exactly there — dividing by n + 1 = 0 isn't allowed. So 1/x needs a different antiderivative, one that isn't a power of x at all.\n\nNot from your course materials: the antiderivative of 1/x is ln|x| + C.\n\nWhich function has derivative 1/x? Try differentiating ln x and see.",
+        "citation_ok": true
+      },
+      {
+        "id": "D16",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.07,
+        "queries": [],
+        "answer": "No problem — that happens. Before you redo it, check the sign on the term you moved across: did it change when it crossed to the other side? Fix that one sign and carry on with the rest of your work as it was. What does your corrected line look like?",
+        "citation_ok": true
+      },
+      {
+        "id": "D17",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.85,
+        "queries": [
+          "differentiation rules product quotient chain rule worked example exercise"
+        ],
+        "answer": "Sure — Module 3 covers the product, quotient, and chain rules, and the module notes flag combining rules in one problem as a common difficulty [P2][P6]. Try this one:\n\nDifferentiate f(x) = (x² + 1)³ · sin x.\n\nTwo things to watch: which rule handles the product, and what the chain rule does to the (x² + 1)³ factor. Write out your first line before simplifying — I'd like to see how you set it up. Which rule do you apply first, and why?",
+        "citation_ok": true
+      },
+      {
+        "id": "D18",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.06,
+        "queries": [],
+        "answer": "Great — let's make sure it sticks. In your own words, explain why that step works, not just what to do. And tell me where you'd get stuck if the problem looked slightly different.",
+        "citation_ok": true
+      },
+      {
+        "id": "D19",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.78,
+        "queries": [
+          "applications of the derivative: related rates, optimization, curve sketching, linear approximation"
+        ],
+        "answer": "Your course uses derivatives for related-rates problems and for linear approximation and error propagation, including estimating function values and measurement error [P4]. Beyond that, the course materials I can point to don't give a fuller list of applied problem types, so I won't guess at the rest.\n\nA good next step: pick one related-rates scenario and try translating it into an equation before differentiating anything. What quantities in your problem change with time, and how are they linked?",
+        "citation_ok": true
+      },
+      {
+        "id": "D20",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.19,
+        "queries": [],
+        "answer": "Sure, here's your next one. Consider f(x) = x² − 4x + 1. Find the equation of the tangent line to the graph at x = 3. Start by computing f(3) and f′(3), then use the point-slope form. What do you get for the slope?",
+        "citation_ok": true
+      },
+      {
+        "id": "D21",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.89,
+        "queries": [
+          "definition of continuity of a function at a point"
+        ],
+        "answer": "Your course treats continuity at a point as a three-part test, in Section 3.2.1 \"What Is Continuity?\" [P4], and it's listed among the key concepts as \"continuity at a point and on an interval\" [P1]. The materials I have only outline the topic, though — they don't spell out the three conditions in full wording.\n\nSo let's build it together. For f to be continuous at x = c, what has to be true about f(c) itself, and what has to be true about the limit as x → c? And how must those two relate?",
+        "citation_ok": true
+      },
+      {
+        "id": "D22",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.18,
+        "queries": [],
+        "answer": "Let's reason it out rather than guess. Which expression are you working with, and what rule are you applying to it? Tell me the function and the step you're on, and say why you think it's times 2x or plus 2x.",
+        "citation_ok": true
+      },
+      {
+        "id": "D23",
+        "should_retrieve": true,
+        "retrieved": true,
+        "deepseek_calls": 2,
+        "jev_choice": "force",
+        "jev_p": 0.76,
+        "queries": [
+          "chain rule for composite functions and product rule for products"
+        ],
+        "answer": "Good instinct to check, but sin(x²) isn't a product — it's a composition: the outer function sin(·) applied to the inner function x². Your course separates these: the product rule is for differentiating products of functions [P1], while the chain rule is for differentiating composite functions [P1]. So the product rule doesn't apply here.\n\nBefore we go further: what are the outer function and the inner function in sin(x²)? Naming those two pieces is the first step of the chain rule.",
+        "citation_ok": true
+      },
+      {
+        "id": "D24",
+        "should_retrieve": false,
+        "retrieved": false,
+        "deepseek_calls": 1,
+        "jev_choice": "skip",
+        "jev_p": 0.05,
+        "queries": [],
+        "answer": "Of course—take your time. I'll wait. When you're ready, tell me what you're noticing about the problem so far, even if it's just where you feel stuck.",
+        "citation_ok": true
+      }
+    ]
+  }
+}
