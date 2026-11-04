@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Spec ID** | `tutoring-engine` |
-| **Version** | V1 for team review, 2026-11-04 |
+| **Version** | V1 for team review, 2026-11-04; revised the same day after review of PR #12 |
 | **Spec author** | Sean (Zixiang Song) |
 | **Partners** | Jonathan (Interaction), Ovunc (Course Context), Sean (Retrieval), Yining (Delivery) |
 | **Policy version** | `tutoring-policy@0.1` |
@@ -14,7 +14,7 @@
 |---|---|---|
 | `interfaces.md`, `architecture.md`, `student-interaction.md` | V0.1 | `main` @ `fdbbf0a` |
 | `course-context.md` | 0.6.0 | `oe/JDP-41_question-schema` @ `1c42d99` |
-| `rag-retrieval.md` | 2026-10-29 | `ss/JDP-36_update-retrieval-spec` @ `29c9c70` |
+| `rag-retrieval.md` | Revised 2026-11-04 | `ss/JDP-36_update-retrieval-spec`, latest commit |
 | `tutoring-delivery.md` | 0.2 | `Yining` @ `55fb84c`, under `research/interaction-methods/` |
 
 **Status labels**
@@ -35,6 +35,7 @@ MUST, SHOULD and MAY follow RFC 2119. Every number in this spec is a V1 default 
 6. **Verified content is shown as written.** Similar examples, transfer problems and worked solutions do not pass through a model.
 7. Every model reply is **checked before it leaves the Engine**. If it fails, the Engine rewrites once, then uses a safe template.
 8. **Faults never change teaching state**, and tutoring continues whenever a safe next step exists.
+9. **A turn counts only after the student has seen the reply.** The Engine keeps each result pending until Delivery reports what was shown.
 
 **Template map** (team `README.md`): 1 Purpose → §1 · 2 Responsibilities → §2 · 3 Dependencies → §3 · 4 Inputs → §4 · 5 Functions → §5 · 6 Outputs → §6 · 7 Failures → §7 · 8 Logging → §8 · 9 Examples → §9 · 10 Open questions → §10.
 
@@ -71,8 +72,9 @@ The Engine turns validated student evidence into one structured tutoring action.
 - choosing the next action, its goal and its limits;
 - writing or rendering the exact student-facing content;
 - enforcing the answer boundary;
+- applying the agreed grounding policy on each model-written turn;
 - producing the final `RetrievalRequest` through the model's tool call;
-- saving question state and reporting its own faults.
+- saving question state, applying delivery results to it and reporting its own faults.
 
 **The Engine does not own**
 
@@ -90,6 +92,8 @@ flowchart LR
     E -->|TutoringAction| I
     I --> D[Delivery<br/>Yining]
     D --> S
+    D -->|DeliveryResult| I
+    I -->|DeliveryResult| E
     C[Course Context<br/>Ovunc] -->|full QuestionSchema| Q[(Question store)]
     C -->|question_id and display view| I
     Q -->|full QuestionSchema| E
@@ -97,7 +101,7 @@ flowchart LR
     E --> T[(Session state and trace)]
 ```
 
-The Engine does not call Delivery. It returns the action to Jonathan's coordinator, which forwards it.
+The Engine does not call Delivery. It returns the action to Jonathan's coordinator, which forwards it and owns the delivery handoff and trace. The coordinator then passes `DeliveryResult` back, so the Engine knows what the student saw (§5.12).
 
 ### 2.2 Interaction boundary
 
@@ -107,30 +111,38 @@ Interaction answers **what the student wrote and wants**. The Engine answers **w
 |---|---|---|
 | What did the student write? | Recognizes and confirms it | Does not re-recognize |
 | What does the student want? | Gives explicit control signals when available | Infers it when absent |
-| What are the steps and final answer? | Fills `observed_steps` and `final_answer` when available | Extracts them when absent |
+| What are the steps and final answer? | Fills `observed_steps` and `final_answer` when available, with extraction provenance and uncertainty (§4.5) | Extracts them when absent or uncertain |
 | Is it correct? | Does not judge | Judges |
+| What kind of error is it? | Does not infer | Diagnoses |
 | Does the student understand? | Does not label | Records in `LearnerState` |
+| Is a handwriting or speech reading ambiguous? | Resolves it through its confirmation flow | Does not re-recognize; returns `confirmation_required` if unconfirmed evidence arrives (§4.2) |
 
 **Engine port** [Proposed: Jonathan]
 
 ```python
 class TutoringEnginePort(Protocol):
     def start_question(self, request: QuestionStart) -> TutoringAction: ...
-    def select_action(self, evidence: StudentEvidence) -> TutoringAction: ...
+    def select_action(self, evidence: StudentEvidence) -> TutoringAction | EngineHandoff: ...
+    def record_delivery(self, result: DeliveryResult) -> DeliveryAck: ...
+    def pending_action(self, session_id: str) -> TutoringAction | None: ...
 ```
 
 **Required from Interaction** [Proposed: Jonathan]
 
-- Call `start_question` once when a question opens, then forward the first action. The coordinator allocates its `turn_id`.
+- Call `start_question` when a question opens or reopens, then forward the first action. The coordinator allocates its `turn_id`.
 - Pass `question_id`, never a full schema. Interaction stays limited to the display-safe view [Contract: `student-interaction.md` §14].
 - Keep calling `select_action(evidence)` each turn. Do not add a Retrieval step before the Engine.
-- Keep filling `prior_assistance` from `response_to_action_id`. The Engine uses it to know which action the student actually saw.
+- Keep filling `prior_assistance` from `response_to_action_id`, listing only actions the student could see. The Engine uses it as a fallback when a delivery result is missing (§5.12).
+- Send every action to Delivery, retry it with the same `action_id`, and pass the outcome of each delivery round to `record_delivery` (§5.12).
+- When a student reconnects, call `pending_action(session_id)` and deliver any action it returns.
+- If `DeliveryAck` carries a `replacement_action`, deliver that action instead.
+- Resolve meaning-changing recognition ambiguity before calling `select_action`. If the Engine returns `confirmation_required`, run the confirmation flow and send new evidence.
 - Create a new `attempt_id` when `response_expected.new_attempt` is `true`.
 - When an action carries `switch_candidate`, offer the student a switch control. If confirmed, run the normal question intake, then call `start_question`.
 - When `question_status` is `resolved` or `solved_unverified`, offer the next question or end the session. Follow-up messages on that question may still go to the Engine.
 - When `question_status` is `safety_stop`, end tutoring for the session.
 
-Later, Interaction may pass the turn understanding record from `rag-retrieval.md` §2.2 and Delivery's `submission_kind`. V1 works without them.
+Later, Interaction may pass the optional, non-authoritative turn record from `rag-retrieval.md` §2.2 and Delivery's `submission_kind`. V1 works without them.
 
 ### 2.3 Course Context boundary
 
@@ -147,10 +159,12 @@ If the builder returns `NO_CONCEPT_MATCH`, there is no schema and no `question_i
 
 ### 2.4 Retrieval boundary
 
-The Engine calls Retrieval's **whole-turn** entry point for every model-written card, passing the action card as instructions. Retrieval keeps the grounding policy, may-turn decider, tool loop, prefetch, search, evidence check and citation check. Fixed cards do not call Retrieval.
+The Engine calls Retrieval's **whole-turn** entry point for every model-written card, passing the action card as instructions. The Engine applies the agreed grounding policy and decides whether retrieval is required, optional or unnecessary. Retrieval provides the policy table and an optional-search recommendation, then runs the tool loop, prefetch, search, evidence check and citation check. Retrieval does not choose a tutoring action or override the Engine's decision. Fixed cards do not call Retrieval.
 
 ```python
-result = run_turn(llm, service, ctx, decider=decider,
+decision = recommend_grounding(card.action_type,
+                               states_course_content=card.states_course_content)
+result = run_turn(llm, service, ctx, decision=decision, recommender=recommender,
                   instructions=card_prompt, rewrite_budget=1)
 # result: reply, grounding_refs, bundles, stops, citation_check,
 #         events, model_calls, rewrites_used
@@ -203,6 +217,7 @@ The Engine writes or renders the exact content. Delivery presents it and does no
 
 - Accept this V1 profile: text with math, one `long_answer` field, and no narration.
 - A help button sends a request to Interaction; Delivery never creates help itself.
+- Report one terminal `DeliveryResult` per delivery attempt, with an error code on failure. Treat a repeated `action_id` as a redelivery.
 - Validate one shared fixture with the Engine and coordinator before integration (Appendix H, step 8).
 
 `single_choice`, `true_false` and `fill_in_blank` are not emitted by the Engine in V1.
@@ -222,8 +237,16 @@ The Engine writes or renders the exact content. Delivery presents it and does no
 
 ### 4.1 `QuestionStart` [Proposed: Jonathan]
 
+`QuestionStart` is a shared record, so it carries the common envelope of `interfaces.md` §1.1.
+
 ```json
 {
+  "record_id": "qstart-31",
+  "record_type": "QuestionStart",
+  "schema_version": "0.1",
+  "created_at": "2026-11-04T15:00:00Z",
+  "producer": "interaction",
+  "status": "ready",
   "session_id": "session-20",
   "user_id": "student-7",
   "course_id": "calc1",
@@ -236,7 +259,17 @@ The Engine writes or renders the exact content. Delivery presents it and does no
 }
 ```
 
-`question_id` is `null` only when `no_target_reason` is `NO_CONCEPT_MATCH`.
+| Rule | Behaviour |
+|---|---|
+| Envelope | Every envelope field is required. `record_type` is `QuestionStart`; `producer` is `interaction` |
+| `status` | `ready`, or `no_target` when `question_id` is `null` |
+| Required fields | `session_id`, `user_id`, `course_id`, `turn_id`, `correlation_id`; `retrieval_snapshot_id` when `status` is `ready` |
+| `question_id` | `null` only when `no_target_reason` is `NO_CONCEPT_MATCH` |
+| Unknown fields | Rejected |
+| Validation failure | Raise `invalid_question_start` with field-level `validation_errors`. No state is created and no action is returned |
+| Same `record_id`, same content | Duplicate: return the saved action |
+| Same `record_id`, different content | Raise `question_start_conflict`. State does not change |
+| Reopening a question | Interaction sends a new `QuestionStart` with a new `record_id` and `turn_id`. The Engine finds the state by `(session_id, question_id)` (§7.4) |
 
 ### 4.2 `StudentEvidence` [Contract]
 
@@ -244,8 +277,30 @@ The Engine writes or renders the exact content. Delivery presents it and does no
 |---|---|
 | `valid` | Normal turn |
 | `partial` | `ASK_WORK` for the missing part. No verdict, no level change |
-| `unconfirmed` | `ASK_WORK`, asking the student to confirm or rewrite the expression. No diagnosis |
+| `unconfirmed` | Should not arrive: Interaction resolves meaning-changing ambiguity first [Contract: `student-interaction.md` §10]. As a defensive fallback, return `EngineHandoff` with `confirmation_required`. No action, no diagnosis, no state change |
 | `invalid` | Should not arrive. Log it and use `ASK_WORK` |
+
+`EngineHandoff` [Proposed: Jonathan] tells the coordinator that the Engine cannot run this turn. It is not a tutoring action, and the Engine does not show a recognition prompt. Interaction has the image crop, the candidates and the `RecognitionResult`, so it runs its own confirmation flow and sends new evidence.
+
+```json
+{
+  "record_id": "handoff-12",
+  "record_type": "EngineHandoff",
+  "schema_version": "0.1",
+  "created_at": "2026-11-04T15:00:02Z",
+  "producer": "tutoring-engine",
+  "status": "issued",
+  "correlation_id": "corr-88",
+  "session_id": "session-20",
+  "question_id": "calc1.03-derivatives.chain-rule.v1-q2",
+  "turn_id": "turn-4",
+  "evidence_id": "evidence-204",
+  "handoff_type": "confirmation_required",
+  "unresolved_ambiguities": []
+}
+```
+
+`handoff_type` has one V1 value, `confirmation_required`. `unresolved_ambiguities` is copied from the evidence unchanged.
 
 Evidence always carries the main question's `question_id`. While a transfer problem is active, the Engine applies the evidence to that problem through `QuestionState.active_problem`.
 
@@ -297,8 +352,8 @@ Sean authors the V1 question set from Appendix G; Ovunc reviews its schema shape
 | Signal | Source | Use |
 |---|---|---|
 | `submission_kind` | Delivery control through Interaction | Sets the turn type (table below) |
-| Turn understanding record | Interaction | Replaces `read_turn` |
-| `final_answer`, `observed_steps` | Interaction | Skip extraction |
+| Turn understanding record | Interaction | Optional and non-authoritative. It may inform `read_turn` but does not replace it, unless its ownership is agreed separately |
+| `final_answer`, `observed_steps` | Interaction | Skip extraction when their provenance allows it (below) |
 
 | `submission_kind` | Turn type |
 |---|---|
@@ -306,6 +361,19 @@ Sean authors the V1 question set from Appendix G; Ovunc reviews its schema shape
 | `help_request`, `confusion_report` | `HELP` |
 | `concept_question` | `CONCEPT` |
 | `acknowledgment` | `ACK` |
+
+`final_answer` and `observed_steps` remain factual `StudentEvidence` fields [Contract]. Interaction MUST NOT infer correctness, error type or mastery while producing them. Each one carries its extraction provenance [Proposed: Jonathan]:
+
+```json
+{"extraction": {"method": "student_field | rule | model", "confidence": "high | medium | low"}}
+```
+
+| Provenance | Engine use |
+|---|---|
+| `student_field`: the student entered it in a dedicated field | Use it; skip extraction |
+| `rule` or `model`, confidence `high` | Use it; skip extraction |
+| `rule` or `model`, confidence `medium` or `low` | Run `read_turn` from `confirmed_content` |
+| No provenance | Treat as `medium` |
 
 ### 4.6 Teaching policy
 
@@ -319,6 +387,7 @@ The rules in §5.5 to §5.11 are versioned data (`tutoring-policy@0.1`), stored 
 flowchart TD
     A[StudentEvidence] --> B[prepare_turn]
     B -->|duplicate| Z[Return saved action]
+    B -->|unconfirmed evidence| Y[Return confirmation_required]
     B --> C[read_turn]
     C --> D[check_math]
     D --> E[assess_turn when needed]
@@ -332,13 +401,19 @@ flowchart TD
     I --> K[commit_turn]
     J --> K
     K --> L[Return TutoringAction]
+    L --> M[record_delivery]
+    M -->|presented| N[Apply pending turn]
+    M -->|transient failure| O[Keep for redelivery]
+    M -->|permanent failure| P[Discard; return safe replacement]
 ```
 
 | Function | Run by | Job |
 |---|---|---|
 | `start_question(request)` | Code | Open or reopen a question; return the first action |
-| `select_action(evidence)` | Code | Run one turn; return one `TutoringAction` |
-| `prepare_turn` | Code | Handle duplicates and per-session order; load state, question and history; run the safety phrase check |
+| `select_action(evidence)` | Code | Run one turn; return one `TutoringAction`, or `EngineHandoff` for unconfirmed evidence |
+| `record_delivery(result)` | Code | Apply the delivery result to the pending turn (§5.12); return `DeliveryAck` |
+| `pending_action(session_id)` | Code | Return the saved action that is waiting to be delivered, or `null` |
+| `prepare_turn` | Code | Handle duplicates and per-session order; settle a pending turn (§5.12); load state, question and history; run the safety phrase check; stop on unconfirmed evidence |
 | `read_turn` | Code first; reader model if needed | Return intents, final answer, steps, summary and safety signal |
 | `check_math` | Code in a sandboxed worker | Return `correct`, `incorrect`, `unknown` or `absent`; never raise |
 | `assess_turn` | Assessor model | Return the error type, confidence, target gap and proposed gap updates |
@@ -346,11 +421,11 @@ flowchart TD
 | `choose_action` | Chooser model, optional | Choose between the default and the option; on failure use the default |
 | `write_reply` | Writer model through Retrieval | Write only what the action card allows |
 | `finalize_reply` | Code, then guard model | Run reply checks, rewrite once, then use a fallback template |
-| `commit_turn` | Code | Save state, action and events together |
+| `commit_turn` | Code | Save the action, the proposed state and events together as a pending turn (§5.12) |
 
 `assess_turn` runs only on `ANSWER` and `PARTIAL` turns with `valid` evidence, on an unfinished question. Other turn types use the last diagnosis, or D0 when none exists.
 
-`read_turn` skips the model when `submission_kind` is explicit, when `final_answer` is present, when the whole message parses as one math expression, or when it matches a fixed acknowledgment phrase in policy data.
+`read_turn` skips the model when `submission_kind` is explicit, when `final_answer` is present with provenance that allows it (§4.5), when the whole message parses as one math expression, or when it matches a fixed acknowledgment phrase in policy data.
 
 **Model calls per turn**
 
@@ -500,9 +575,9 @@ def decide(i, s, q):
     if not i.fault:
         s.turn_count += 1
 
-    # 4. Evidence that is not fully confirmed gets no judgment.
+    # 4. Partial evidence gets no judgment. prepare_turn stops unconfirmed evidence before decide().
     if i.evidence.validation_status != "valid":
-        return finish(s, "ASK_WORK", variant="confirm_work")
+        return finish(s, "ASK_WORK", variant="partial_work")
 
     if t == "NEW_QUESTION":
         return finish(s, "CONFIRM_SWITCH")
@@ -656,7 +731,7 @@ Definitions:
 - `i.saw_last` is true when `state.last_action_id` is in `evidence.prior_assistance`.
 - `i.gap_improved` is true when an accepted gap update raises a status on the target gap.
 - `available(c, q)` is false when the card's required input is missing (§4.4).
-- `commit_turn` sets `last_card` and `last_counts` after the action is issued. A fallback action sets `last_card = None` and `last_counts = False`.
+- `commit_turn` sets `last_card` and `last_counts` in the proposed state, which takes effect when the action is presented (§5.12). A fallback action sets `last_card = None` and `last_counts = False`.
 - `last_counts` is true when the card appears in a ladder and is not a fallback. The `ELICIT_START` issued by `start_question` does not count.
 - `prepare_turn` sets `assisted` when `i.saw_last` is true and the last card has Assists = Yes and was not a fallback.
 - `first_error_index` starts at −1 on each problem.
@@ -683,7 +758,7 @@ Model gap updates are accepted only when `evidence_quote` appears verbatim in th
 
 **Stall count** adds 1 for each counted turn without progress, whichever gap the model targets. It guarantees that a student without progress reaches `PARK`, even when the diagnosis or target gap keeps changing.
 
-An undelivered action does not count, because it never appears in `prior_assistance`.
+An undelivered action does not count: its pending turn is discarded (§5.12), and it never appears in `prior_assistance`.
 
 ### 5.7 Question phases
 
@@ -829,7 +904,7 @@ V1 enables 10 of the 12 action types. `diagnose` is an internal step. `contrast`
 1. Skip a segment that assigns the variable, such as `$x = 2$`, and a segment that is not one expression, such as `$[-2, 2]$`.
 2. Take the right side of the last `=`, or the whole segment.
 3. Run `check_math` against the active problem's `answer_check`.
-4. Fail when the result is `correct`, unless the expression is equal to one the student already wrote.
+4. Fail when the result is `correct`, or `unknown` with `equivalence_unproven`, unless the expression is equal to one the student already wrote. An unproven match is treated as a possible leak.
 
 For `solution_outline`, compare each key expression after normalization, or by value when it is one expression.
 
@@ -845,6 +920,90 @@ For `solution_outline`, compare each key expression after normalization, or by v
 | `no_support_found` with `excluded_scope` | `REDIRECT`, variant `out_of_course` |
 | `HINT_TEACH` or `PREREQ_REVIEW` with no usable source and general knowledge off | Next available ladder card |
 
+### 5.12 Delivery and failure handling
+
+Delivery can fail after the Engine has saved a result, so the Engine handles it like a transactional outbox. Each turn is saved once, delivery is at least once, and the result takes effect exactly once.
+
+- **Evidence of exposure drives state.** Teaching state changes only when the student saw the reply, or responded to it.
+- **Retries are safe.** Every step is idempotent, so any component can retry.
+- **Failures are classified.** A transient failure keeps the reply for later. A permanent failure replaces it.
+- **The student always has a next step**, and no paid model work is repeated when the saved reply can still be delivered.
+
+**Pending turn.** `decide()` works on a copy of the state. In one transaction, `commit_turn` saves a `PendingTurn`: the action, the proposed `QuestionState`, the proposed `LearnerState`, the events and the `state_version` it was built on. The current state does not change, except for the safety rule below. One session has at most one pending turn, and turns run one at a time per session.
+
+**Status of an action**
+
+| Status | Meaning | Recorded by | Stored in |
+|---|---|---|---|
+| `selected` | The Engine saved the pending turn | Engine | Action log and trace |
+| `sent` | The coordinator handed the action to Delivery | Coordinator | Trace |
+| `presented` | The student could see the action | Delivery reports it; the coordinator records it and calls `record_delivery` | Trace and action log |
+| `undelivered` | A delivery round failed for a transient reason; the action waits for redelivery | Engine | Action log |
+| `discarded` | The pending turn will never apply. `discard_reason` says why | Engine | Action log |
+| `presented_late` | A presentation was reported after the turn was discarded | Engine | Action log |
+
+Only `DeliveryResult` or the student's own response proves that an action was seen. `sent` does not.
+
+**What changes when**
+
+| State | When it changes |
+|---|---|
+| `help_level`, `stall_count`, `turn_count`, `assisted`, `phase`, `active_problem`, gaps, diagnosis, `last_card`, `last_counts`, `last_action_id` | Only when the pending turn is applied, in one atomic step |
+| Action history | `selected` at commit; `delivered: true` when the pending turn is applied |
+| `prior_assistance` | Filled by Interaction, only with actions the student could see |
+| `LearnerState` | The proposed view is published when the pending turn is applied |
+| Safety flag, `park_reason: safety`, operational safety event | Saved at commit, whatever Delivery reports |
+
+**Delivery round.** The coordinator owns retries. It sends the same `action_id` up to `delivery_max_attempts` times with exponential backoff, within `delivery_retry_budget`. It then calls `record_delivery` once with the outcome of the round.
+
+The coordinator maps Delivery 0.2 results to `DeliveryResult` and adds `failure_class` and `failure_code` [Proposed: Jonathan, Yining]:
+
+| Delivery 0.2 result | `presentation_status` | `failure_class` |
+|---|---|---|
+| `PRESENTED` | `presented` | `null` |
+| `PARTIAL`, text channel `PRESENTED` | `partially_presented` | `null` |
+| `PARTIAL`, text not shown | `failed` | `transient` |
+| `FAILED`, code `RENDER_FAILED` | `failed` | `permanent` |
+| `FAILED`, other codes | `failed` | `transient` |
+| `REJECTED` (`INVALID_ACTION`, `UNSUPPORTED_ACTION`, `STALE_ACTION`, `ACTION_CONFLICT`) | `failed` | `permanent` |
+| `CANCELLED` | `failed` | `transient` |
+
+`ACCEPTED` and `PRESENTING` are not terminal and are not forwarded.
+
+**`record_delivery(result)`**
+
+| Result | Engine behaviour | Student sees |
+|---|---|---|
+| `presented`, `partially_presented` | Apply the pending turn | The reply |
+| `failed`, `transient` | Keep the pending turn; mark the action `undelivered` | The same reply when they reconnect |
+| `failed`, `permanent` | Discard the pending turn with `permanent_delivery_failure`. Save a new pending turn for a safe replacement, and return it in `DeliveryAck.replacement_action` | A safe next step |
+
+**Safe replacement.** The replacement uses the card's fallback template (Appendix E), or the `ASK_WORK` template for a fixed card. It makes no model call, contains no math and cites nothing. It has a new `action_id` and sets `constraints.fallback` to `true` and `constraints.supersedes_action_id`. It is a fault turn, so it changes no teaching state. If a replacement also fails permanently, the Engine discards it and returns no replacement, and Interaction shows its try-again message. `SAFETY_STOP` has no replacement: if it cannot be delivered, Interaction shows the same fixed text itself and raises an operational alert.
+
+**Reconnecting.** `pending_action(session_id)` returns the saved action, so the student receives the same reply and no model runs again. After `pending_turn_ttl`, the Engine discards the turn with `expired` and returns `null`.
+
+**New work while a turn is pending.** The first of these to arrive settles the pending turn before anything else runs:
+
+| Situation | Behaviour |
+|---|---|
+| New evidence lists the action in `prior_assistance` | The student responded to it, so apply the pending turn and log `delivery_result_missing`. Then run the new turn |
+| New evidence does not list the action | Discard the pending turn with `superseded_by_new_evidence`. Then run the new turn |
+| New `QuestionStart` | Discard the pending turn with `superseded_by_new_question` |
+
+**Idempotency and ordering**
+
+- `action_id` is the delivery key. A redelivery uses the same `action_id` and content, and Delivery shows it once.
+- `submission_id` is the turn key. A retried `select_action` returns the saved action and runs no models.
+- `delivery_result_id` is the result key. The same result sent twice returns the same `DeliveryAck`, including any `replacement_action`, and changes nothing.
+- `presented` is final. A later `failed` for the same action is logged as `delivery_status_conflict` and ignored.
+- `presented` after `undelivered` applies the pending turn.
+- `presented` after `discarded` sets `presented_late` and changes no state, because the student's next turn has already moved on.
+- A result for an unknown action is logged and changes nothing.
+- Applying a pending turn is a compare-and-set on `state_version`. A mismatch discards the turn with `state_conflict` and raises an operational alert.
+- If saving fails in `record_delivery`, the Engine raises `state_save_failed`, and the coordinator sends the same result again.
+
+**Discarded work.** A discarded turn stays in the action log and the trace, with its assessment, so it can be audited. It never changes teaching state. The student's submission stays in Interaction's records.
+
 ## 6. Outputs
 
 ### 6.1 `TutoringAction` [Contract + Proposed: team]
@@ -857,7 +1016,7 @@ For `solution_outline`, compare each key expression after normalization, or by v
 | `grounding_refs` | Accepted passage IDs; may be empty |
 | `response_expected` | See below |
 | `allowed_presentations` | `["text"]` in V1 |
-| `constraints` | `content_policy: verbatim`, `answer_disclosure`, `hint_level`, `prohibited_additions`, `allowed_controls`, `based_on_evidence_ids`, `fallback` |
+| `constraints` | `content_policy: verbatim`, `answer_disclosure`, `hint_level`, `prohibited_additions`, `allowed_controls`, `based_on_evidence_ids`, `fallback`, `supersedes_action_id` |
 | `question_status` [Proposed] | `active`, `parked`, `solved_unverified`, `resolved` or `safety_stop` |
 | `switch_candidate` [Proposed] | The student's new question text, or `null` |
 
@@ -889,7 +1048,7 @@ Cards with `none` set `allowed_controls` to an empty list.
 
 ### 6.2 `LearnerState` [Contract]
 
-`QuestionState` (Appendix A) is the Engine's source of truth. `commit_turn` writes `LearnerState` from it as a published view:
+`QuestionState` (Appendix A) is the Engine's source of truth. `LearnerState` is its published view, written when a pending turn is applied (§5.12):
 
 | Information | Stored in |
 |---|---|
@@ -900,7 +1059,7 @@ Cards with `none` set `allowed_controls` to an empty list.
 | Solved claims and open items | `demonstrated`, `unresolved` |
 | Gaps | `open_gaps`, `closed_gaps` |
 
-Internal records are in Appendix A. Only `LearnerState` and `TutoringAction` cross module boundaries.
+Internal records are in Appendix A. `LearnerState`, `TutoringAction` and `EngineHandoff` cross module boundaries.
 
 ## 7. Expected failures
 
@@ -955,7 +1114,10 @@ Fault turns do not change `help_level`, `stall_count` or `turn_count`. A fallbac
 | Parallel submissions | Process one at a time per session | Replies in order |
 | Question not found | Raise `question_not_found`; publish nothing | Error from Interaction |
 | State save fails | Retry; if still failing, raise `state_save_failed` and publish nothing | Try-again message from Interaction |
-| Delivery fails | Do not count the help as seen | Session continues |
+| Delivery fails, transient | Keep the pending turn for redelivery (§5.12) | The same reply on reconnect |
+| Delivery fails, permanent | Discard the turn; return a safe replacement (§5.12) | Safe next step |
+| Delivery result missing | Settle the pending turn on the next evidence (§5.12) | Session continues |
+| Unconfirmed evidence arrives | Return `confirmation_required`; change no state | Interaction's confirmation flow |
 
 **Time budget.** Each step's limit is the smaller of its own timeout and the time left in `turn_deadline`, reserving `commit_reserve` for the template and commit. A retry runs only if the remaining time covers it.
 
@@ -966,7 +1128,8 @@ Known faults return a fallback action. An exception reaches the coordinator only
 | Situation | Result |
 |---|---|
 | No state exists | Validate fields, create gaps and state, return `ELICIT_START` |
-| Same `turn_id` repeated | Return the saved action |
+| Same `record_id` repeated | Return the saved action; a different content raises `question_start_conflict` |
+| Invalid `QuestionStart` | Raise `invalid_question_start`; no state created |
 | State exists and the question is unfinished | Apply the return rule if paused, then `ELICIT_START` with variant `resume` |
 | Question finished | `REDIRECT`, variant `question_done` |
 | `question_id` null with `NO_CONCEPT_MATCH` | `NO_TARGET`, no state created; log the miss |
@@ -978,7 +1141,7 @@ State is keyed by `(session_id, question_id)`.
 
 Each turn writes one `InteractionTraceEvent` per step and follows the shared logging switch [Contract].
 
-**Operational (always kept):** identifiers, phase, active problem, current state, action, policy version, turn status, safety events.
+**Operational (always kept):** identifiers, phase, active problem, current state, action, policy version, turn status, delivery status, discard reason, safety events.
 
 **Diagnostic (when enabled):** step timings, model and prompt versions, math result, assessment, reconciliation, candidates, final card, card replacement, guard results, rejected gap updates, retries, fallback reason, token use. Raw student text stays in referenced records, not repeated in each event.
 
@@ -991,6 +1154,7 @@ Each turn writes one `InteractionTraceEvent` per step and follows the shared log
 | Action agreement on labelled turns | At least 80% |
 | Math errors in replies | Tracked; every case reviewed |
 | Turn time | p50 up to 8 s; p95 up to 15 s |
+| Discarded turns | Tracked by `discard_reason`; every `state_conflict` reviewed |
 
 Action agreement compares the selected card with a human label, because different diagnosis codes can lead to the same card. Labels are silver labels with a human spot check.
 
@@ -1059,11 +1223,17 @@ The student chose u = cos x on ∫x cos x dx. This is their first error, at leve
 
 ### 9.3 Uncertain handoff
 
-Evidence arrives as `unconfirmed` because `x²` and `x₂` are both plausible. The Engine does not diagnose. It keeps state, uses `ASK_WORK` with variant `confirm_work`, and asks the student to confirm or rewrite the expression.
+Interaction normally resolves `x²` versus `x₂` before the turn reaches the Engine. If evidence still arrives as `unconfirmed`, the Engine does not diagnose and does not ask the student anything. It keeps state and returns `EngineHandoff` with `confirmation_required`. Interaction then runs its confirmation flow and sends new evidence.
 
 ### 9.4 Failed handoff
 
 `assess_turn` times out twice on an answer the tool cannot decide. The Engine keeps the previous `LearnerState` and treats the turn as `UNCLEAR` and as a fault turn. It returns `ASK_WORK` with the template reply, without changing the help level, stall count or turn count. The trace records `fallback_reason: assess_timeout`. The student still receives a useful next step.
+
+### 9.5 Failed delivery
+
+**Transient.** The Engine selects `HINT_POINT` and saves a pending turn with `help_level` 1. The student's connection drops, and the coordinator's three attempts fail. The action is `undelivered` and `help_level` stays 0. When the student reconnects, `pending_action` returns the same hint, Delivery shows it, and `record_delivery` applies the turn.
+
+**Permanent.** The same hint contains math that cannot be rendered, so Delivery reports `RENDER_FAILED`. The Engine discards the turn and returns the `HINT_POINT` fallback template as a replacement. The student sees "Please look again at your most recent step. What would you check first?" `help_level` stays 0, and the student keeps moving.
 
 ## 10. Proposed changes and open questions
 
@@ -1078,10 +1248,10 @@ Each item needs the named owner's agreement. Until then, the Engine integrates a
 | P3 | Ovunc | `interfaces.md` §3, `course-context.md` | Add optional `answer_check`, `solution_outline`, `teaching_assets` |
 | P4 | Ovunc | `course-context.md` §3.4 | Builder writes to the question store and returns `question_id` and the display view; applies the machine check; emits `answer_check` where computable |
 | P5 | Ovunc, Sean | Question set | Sean authors the V1 question set; Ovunc reviews its shape |
-| P6 | Jonathan | `architecture.md` §3, §7 | Retrieval is called from the Engine; `TutoringAction` returns through the coordinator |
-| P7 | Jonathan | `student-interaction.md` | Add `start_question` to the port; add `QuestionStart`; remove the pre-Engine grounding step; honour `new_attempt`, `switch_candidate` and `question_status` |
-| P8 | Jonathan, Yining | Coordinator adapter | Coordinator fills `sequence`, `trace_id`, `course_ref`, `question_ref`, `response_context_id` and `sources` |
-| P9 | Sean | `rag-retrieval.md` | Add `instructions`, `rewrite_budget`, `rewrites_used`; accept `states_course_content = false` on `check_understanding`; apply `exclude` to every purpose while unsolved; name the Engine as owner of Appendix A |
+| P6 | Jonathan | `architecture.md` §3, §7 | Retrieval is called from the Engine; `TutoringAction` returns through the coordinator; `DeliveryResult` returns to the Engine through the coordinator |
+| P7 | Jonathan | `student-interaction.md`, `interfaces.md` §7 | Add `start_question`, `record_delivery` and `pending_action` to the port; add `QuestionStart` and `EngineHandoff`; remove the pre-Engine grounding step; honour `new_attempt`, `switch_candidate` and `question_status`; add extraction provenance to `final_answer` and `observed_steps` |
+| P8 | Jonathan, Yining | Coordinator adapter, `interfaces.md` §12 | Coordinator fills `sequence`, `trace_id`, `course_ref`, `question_ref`, `response_context_id` and `sources`; maps Delivery results to `presentation_status`; adds `failure_class` and `failure_code` |
+| P9 | Sean | `rag-retrieval.md` | Add `instructions`, `rewrite_budget`, `rewrites_used`; accept `states_course_content = false` on `check_understanding`; apply `exclude` to every purpose while unsolved. The Engine or coordinator applies Appendix A |
 | P10 | Yining | `tutoring-delivery.md` | Accept the V1 action profile in §2.5 and the shared fixture |
 
 ### 10.2 Still open
@@ -1099,7 +1269,7 @@ Each item needs the named owner's agreement. Until then, the Engine integrates a
 
 | Version | Addition | Why |
 |---|---|---|
-| V1.1 | Use Interaction's turn understanding directly | Removes the reader call |
+| V1.1 | Reuse Interaction's factual turn record once its ownership is agreed | May reduce reader calls |
 | V1.1 | Simulated students for regression tests | Finds failures at scale |
 | V2 | Dispute handling | Corrects verdicts when challenged |
 | V2 | Resume with a recap | Smoother return after a pause |
@@ -1135,7 +1305,7 @@ Field meanings are binding. Storage format is an implementation choice. JSON Sch
 **`MathCheck`**
 
 ```json
-{"status": "correct | incorrect | unknown | absent", "reason": "parse_failed | ambiguous | too_long | non_math_text | low_precision | timeout | no_answer_check | null", "flags": ["missing_constant"]}
+{"status": "correct | incorrect | unknown | absent", "reason": "parse_failed | ambiguous | too_long | non_math_text | low_precision | timeout | no_answer_check | equivalence_unproven | null", "method": "symbolic | numeric_rejection | decimal | null", "flags": ["missing_constant"]}
 ```
 
 **`TurnAssessment`**
@@ -1210,6 +1380,8 @@ Field meanings are binding. Storage format is an implementation choice. JSON Sch
   "last_card": "ASK_REASON",
   "last_counts": true,
   "last_action_id": "action-708",
+  "pending_action_id": null,
+  "state_version": 12,
   "last_attempt_submission_id": "sub-204",
   "park_reason": null,
   "retrieval_snapshot_id": "snap.calc1.dev-ai-breakdown.1"
@@ -1217,6 +1389,31 @@ Field meanings are binding. Storage format is an implementation choice. JSON Sch
 ```
 
 `park_reason` is `ladder_end`, `stall`, `turn_limit`, `transfer_budget`, `no_transfer_available`, `safety` or `null`.
+
+**`PendingTurn`**
+
+```json
+{
+  "action_id": "action-709",
+  "submission_id": "sub-205",
+  "status": "selected",
+  "discard_reason": null,
+  "base_state_version": 12,
+  "proposed_question_state": {},
+  "proposed_learner_state_id": "state-41",
+  "supersedes_action_id": null,
+  "seen_delivery_result_ids": [],
+  "created_at": "2026-11-04T15:00:04Z"
+}
+```
+
+**`DeliveryAck`**
+
+```json
+{"action_id": "action-709", "applied": true, "status": "presented", "replacement_action": null}
+```
+
+`discard_reason` is `permanent_delivery_failure`, `superseded_by_new_evidence`, `superseded_by_new_question`, `expired`, `state_conflict` or `null`.
 
 ## Appendix B. Question Schema additions
 
@@ -1276,8 +1473,19 @@ Every `answer_check` also has `verified`. All solutions use the same plain-math 
 4. `derivative`: compare the student's expression with the target's derivative.
 5. `antiderivative`: differentiate the student's answer, treating `C` as a constant, and compare with the integrand. Record `missing_constant` when `C` is absent.
 6. `value`: an expression containing the variable is `incorrect`. A decimal with `d` places is compared within half a unit of its last place. It is `correct` when `d ≥ 2` or the target is an integer, and `unknown` with `low_precision` otherwise.
-7. Expressions are compared numerically at the sample points −4.7, −3.3, −2.1, −1.3, −0.7, −0.3, 0.4, 0.9, 1.7, 2.3, 3.1, 4.3, with relative tolerance 10⁻⁸. Points where the target is undefined are skipped. A point where only the student's expression is undefined is a mismatch. At least 5 points must remain; otherwise return `unknown`.
+7. Expressions, and exact values in rule 6, follow the equivalence policy below.
 8. Any parse failure or timeout returns `unknown`, never `incorrect`.
+
+**Equivalence policy.** Agreement at sample points never establishes correctness. Numerical sampling can only reject a mismatch. `correct` requires a symbolic proof.
+
+| Step | Check | Result |
+|---|---|---|
+| 1 | Evaluate both expressions at the fixed points −4.7, −3.3, −2.1, −1.3, −0.7, −0.3, 0.4, 0.9, 1.7, 2.3, 3.1, 4.3, then at `math_seeded_points` seeded points, with relative tolerance 10⁻⁸. The seed is a hash of `question_id`, `active_problem` and the policy version | Any mismatch: `incorrect`, method `numeric_rejection` |
+| 2 | Domain: use real values only. Skip points where the target is undefined. A point where only the student's expression is undefined is a mismatch. Fewer than 5 points left: go to step 3 without rejecting | — |
+| 3 | Form the difference between the student's expression and the target, using the derivative identity for `antiderivative` (rule 5), and simplify it symbolically. Rewrite absolute values piecewise when supported | Proved zero: `correct`, method `symbolic`. Proved nonzero: `incorrect`, method `symbolic` |
+| 4 | Equivalence cannot be established within the time limit | `unknown`, reason `equivalence_unproven` |
+
+Because `correct` requires a proof, a tool result of `correct` can safely overrule the model. On `equivalence_unproven`, reconciliation uses the `unknown` rows of §5.4.
 
 **Required test vectors**
 
@@ -1293,6 +1501,10 @@ Every `answer_check` also has `verified`. All solutions use the same plain-math 
 | Value e − 1 | `e-1`, `1.72`, `1.718` | `correct` |
 | Value e − 1 | `e`, `2e-2`, `1.75` | `incorrect` |
 | Value e − 1 | `1.7` | `unknown`, `low_precision` |
+| Derivative of sin(x²) | `2x cos(x²)` plus a polynomial that is zero at all 12 fixed points | `incorrect`, `numeric_rejection` |
+| Derivative of sin(x²) | `2x cos(x²) + 0.000000000001 sin(x)` | `incorrect`, `symbolic` |
+| Target 2 sin x cos x | `sin(2x)` | `correct`, `symbolic` |
+| Target \|sin x + cos x\| | `sqrt(1 + sin(2x))`, equal but not proved by the checker | `unknown`, `equivalence_unproven` |
 | Value 6 | `does not exist` | `unknown`, `non_math_text` |
 | Value 6 | `0/0` | `unknown`, `parse_failed` |
 | Value 2 | `3x²-3` | `incorrect` |
@@ -1387,6 +1599,10 @@ Fixed cards use their card description as `pedagogical_goal`.
 | `max_reply_rewrites` | 1 |
 | `max_reply_words` | 120 |
 | `math_check_timeout` | 2 s |
+| `math_seeded_points` | 24 |
+| `delivery_max_attempts` | 3 |
+| `delivery_retry_budget` | 5 s |
+| `pending_turn_ttl` | 24 h |
 | `read_timeout` | 2 s |
 | `assess_timeout` | 5 s |
 | `choose_timeout` | 2 s |
@@ -1454,8 +1670,19 @@ All answers, examples and transfer problems were verified with SymPy. This is th
 | S11 | No similar example, no prerequisites; D5 with no progress | `HINT_POINT`, `HINT_TEACH`, `ASK_WORK` (guess limit), `PARK` |
 | S12 | Student returns to a solved question parked by the turn limit | Phase `SOLVED_CHECK`; level lowers by 1 |
 | S13 | `partial` evidence with a tool-correct answer | `ASK_WORK`; phase unchanged; not solved |
+| S14 | `unconfirmed` evidence | `confirmation_required`; no action; state and counters unchanged |
+| S15 | `HINT_POINT` presented, then the next wrong answer | Level climbs as in the ladder |
+| S16 | `HINT_POINT` fails as transient; the student reconnects; redelivery is `presented` | `pending_action` returns the same action; no model runs; the turn applies once |
+| S17 | `HINT_POINT` fails as permanent | Turn discarded; replacement has a new `action_id` and `fallback: true`; state unchanged |
+| S18 | The replacement also fails as permanent | No further replacement; state unchanged; Interaction shows its try-again message |
+| S19 | The same `DeliveryResult` is sent twice, and `failed` follows `presented` | Same `DeliveryAck`; turn applied once; `delivery_status_conflict` logged |
+| S20 | No delivery result; next evidence lists the action, or does not | Listed: turn applied, `delivery_result_missing` logged. Not listed: turn discarded with `superseded_by_new_evidence` |
+| S21 | Duplicate `QuestionStart`; same `record_id` with new content; reopened question with a new `record_id` | Saved action; `question_start_conflict`; `ELICIT_START` with variant `resume` |
+| S22 | `SAFETY_STOP` fails permanently | Safety flag stays set; no replacement; the next turn returns `SAFETY_STOP` |
+| S23 | `presented` arrives after the turn was discarded | `presented_late` recorded; no state change |
+| S24 | The pending turn is older than `pending_turn_ttl` | `pending_action` returns `null`; `expired` logged |
 
-**Property test.** Random sequences of intents, tool results, assessments, faults and missing assets MUST always yield a defined card, never `WRAP_UP` before the main problem is solved, and never more than 15 non-fault student turns before the question parks or resolves.
+**Property test.** Random sequences of intents, tool results, assessments, faults, missing assets and delivery results MUST always yield a defined card, never `WRAP_UP` before the main problem is solved, and never more than 15 non-fault student turns before the question parks or resolves.
 
 **Reply-check vectors**
 
@@ -1494,9 +1721,9 @@ Build in this order. Each step must pass before the next.
 | Step | Build | Done when |
 |---|---|---|
 | 1 | Records, JSON Schemas, policy data, question store, V1 question set, in-memory state | All records validate; all Tier A assets pass `check_math` |
-| 2 | `decide()` and fixed cards | Single-turn vectors, S1–S13 and the property test pass with stubs |
+| 2 | `decide()` and fixed cards | Single-turn vectors, S1–S14 and the property test pass with stubs |
 | 3 | `check_math` parser and worker | All Appendix C vectors pass; the worker is killed at the timeout |
-| 4 | `start_question`, `select_action`, `commit_turn` with mock models | Idempotent start, duplicates and ordering pass |
+| 4 | `start_question`, `select_action`, `commit_turn`, `record_delivery`, `pending_action` with mock models | S15–S24, duplicates and ordering pass |
 | 5 | `read_turn`, `assess_turn`, `write_reply` with Retrieval off | One full question runs end to end |
 | 6 | `finalize_reply` and fallbacks | Reply-check vectors and the leakage suite pass; forced faults return a safe action |
 | 7 | Retrieval integration through `run_turn` | Grounded turns produce valid `grounding_refs`; card replacement works |
@@ -1512,6 +1739,8 @@ Build in this order. Each step must pass before the next.
 - [ ] The Engine works with Retrieval turned off.
 - [ ] Interaction never receives restricted schema fields.
 - [ ] Each fault in §7.3 has a test.
+- [ ] Help, progress and action history count only after the action is presented; the safety flag is the one exception.
+- [ ] `check_math` never returns `correct` without a symbolic proof.
 - [ ] A rule change is visible through `tutoring-policy` version.
 - [ ] No API keys or real student data enter tests, logs or the repository.
 
