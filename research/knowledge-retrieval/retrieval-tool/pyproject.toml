@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "digital-professor-retrieval-tool"
+version = "0.1.0"
+description = "Course knowledge retrieval as a tool call (V1 prototype)"
+requires-python = ">=3.11"
+dependencies = ["numpy>=2.0"]
+
+[project.optional-dependencies]
+# Core tests and the smoke check
+test = ["jsonschema>=4.20"]
+# Replay of Week 3's saved results. Same packages as `test`; also needs scripts/setup_week3.sh
+replay = ["jsonschema>=4.20"]
+# Week 3 search code on PostgreSQL / pgvector (versions from the Week 3 lock file)
+postgres = ["psycopg[binary]==3.3.6", "pgvector==0.5.0"]
+# Query encoders for live search (versions from the Week 3 lock file)
+embeddings = ["sentence-transformers==5.7.0", "torch==2.14.0", "transformers==4.57.6"]
+# The model-provider and Jev clients use only the Python standard library. They need an API key, not a package.
+integrations = []
+
+[tool.setuptools.packages.find]
+include = ["retrieval_tool*"]

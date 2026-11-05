@@ -1,0 +1,189 @@
+[
+  {
+    "action_type": "elicit",
+    "mode": "not_needed",
+    "purposes": [],
+    "need_types": [],
+    "tool_choice": null,
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "",
+    "reason": "Start of a question; ask for the student's attempt.",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "probe",
+    "mode": "may",
+    "purposes": [
+      "definition_lookup"
+    ],
+    "need_types": [
+      "definition",
+      "notation_convention"
+    ],
+    "tool_choice": "auto",
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "Probe without course wording.",
+    "reason": "policy table: may",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "inspect",
+    "mode": "must_not",
+    "purposes": [],
+    "need_types": [],
+    "tool_choice": null,
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "",
+    "reason": "R2: only a final answer was given; ask for the work.",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "diagnose",
+    "mode": "may",
+    "purposes": [
+      "diagnosis_support"
+    ],
+    "need_types": [
+      "definition",
+      "theorem_statement"
+    ],
+    "tool_choice": "auto",
+    "exclude_current_problem": false,
+    "engine_only": true,
+    "fallback": "Diagnose from QuestionSchema cues alone.",
+    "reason": "policy table: may",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "hint",
+    "mode": "must",
+    "purposes": [
+      "hint_support"
+    ],
+    "need_types": [
+      "formula_statement",
+      "method_guidance"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": true,
+    "engine_only": false,
+    "fallback": "Give a Socratic hint without a course citation.",
+    "reason": "R1: must when the hint states a course method or formula; a purely Socratic hint may be downgraded with states_course_content=False.",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "contrast",
+    "mode": "must",
+    "purposes": [
+      "example_lookup",
+      "hint_support"
+    ],
+    "need_types": [
+      "worked_example",
+      "method_guidance"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": true,
+    "engine_only": false,
+    "fallback": "Contrast the two methods without a course example.",
+    "reason": "policy table: must",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "explain",
+    "mode": "must",
+    "purposes": [
+      "answer_grounding",
+      "prerequisite_review",
+      "definition_lookup"
+    ],
+    "need_types": [
+      "definition",
+      "theorem_statement",
+      "prerequisite_explanation"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "Brief general explanation labelled 'not from course materials' if policy allows; otherwise say no course material covers this point.",
+    "reason": "policy table: must",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "demonstrate",
+    "mode": "must",
+    "purposes": [
+      "example_lookup"
+    ],
+    "need_types": [
+      "worked_example"
+    ],
+    "tool_choice": "required",
+    "exclude_current_problem": true,
+    "engine_only": false,
+    "fallback": "Switch to contrast, or an example labelled 'not from course materials' if policy allows.",
+    "reason": "policy table: must",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "retry",
+    "mode": "not_needed",
+    "purposes": [],
+    "need_types": [],
+    "tool_choice": null,
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "",
+    "reason": "Refers back to the previous action.",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "verify",
+    "mode": "must_not",
+    "purposes": [],
+    "need_types": [],
+    "tool_choice": null,
+    "exclude_current_problem": false,
+    "engine_only": false,
+    "fallback": "",
+    "reason": "R2: correctness is a math/verification tool, not retrieval. May be relaxed to a convention check with checks_course_convention=True.",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "check_understanding",
+    "mode": "may",
+    "purposes": [
+      "practice_generation"
+    ],
+    "need_types": [
+      "worked_example",
+      "exercise"
+    ],
+    "tool_choice": "auto",
+    "exclude_current_problem": true,
+    "engine_only": false,
+    "fallback": "Engine-written check question.",
+    "reason": "policy table: may",
+    "policy_version": "grounding-policy@0.1"
+  },
+  {
+    "action_type": "transfer",
+    "mode": "may",
+    "purposes": [
+      "practice_generation"
+    ],
+    "need_types": [
+      "exercise",
+      "worked_example"
+    ],
+    "tool_choice": "auto",
+    "exclude_current_problem": true,
+    "engine_only": false,
+    "fallback": "Engine-written transfer question.",
+    "reason": "policy table: may",
+    "policy_version": "grounding-policy@0.1"
+  }
+]

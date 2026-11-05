@@ -1,0 +1,309 @@
+{
+  "cases": 28,
+  "rules": {
+    "agree_3way": "13/28",
+    "false_covered": 8,
+    "missed_covered": 2,
+    "covered_vs_not_correct": "18/28"
+  },
+  "jev_at_defaults": {
+    "covered_at": 0.7,
+    "partial_at": 0.35,
+    "agree_3way": "21/28",
+    "false_covered": 0,
+    "missed_covered": 3,
+    "covered_vs_not_correct": "25/28"
+  },
+  "jev_threshold_sweep": {
+    "0.5": {
+      "agree_3way": "21/28",
+      "false_covered": 1,
+      "missed_covered": 2,
+      "covered_vs_not_correct": "25/28"
+    },
+    "0.6": {
+      "agree_3way": "21/28",
+      "false_covered": 0,
+      "missed_covered": 3,
+      "covered_vs_not_correct": "25/28"
+    },
+    "0.7": {
+      "agree_3way": "21/28",
+      "false_covered": 0,
+      "missed_covered": 3,
+      "covered_vs_not_correct": "25/28"
+    },
+    "0.8": {
+      "agree_3way": "21/28",
+      "false_covered": 0,
+      "missed_covered": 3,
+      "covered_vs_not_correct": "25/28"
+    },
+    "0.9": {
+      "agree_3way": "21/28",
+      "false_covered": 0,
+      "missed_covered": 3,
+      "covered_vs_not_correct": "25/28"
+    }
+  },
+  "jev_usage": {
+    "calls": 28,
+    "cached_calls": 0,
+    "input_tokens": 21730,
+    "cost_usd_including_cached": 0.00091
+  },
+  "rows": [
+    {
+      "id": "E01",
+      "label": "covered",
+      "rules": "covered",
+      "rules_why": "formula anchor present (normalized)",
+      "need": "Integration by parts formula",
+      "jev_p": 0.98,
+      "jev": "covered"
+    },
+    {
+      "id": "E02",
+      "label": "partially_covered",
+      "rules": "partially_covered",
+      "rules_why": "target terms share=1.00; low-reliability need type",
+      "need": "How to choose u and dv in integration by parts",
+      "jev_p": 0.57,
+      "jev": "partially_covered"
+    },
+    {
+      "id": "E03",
+      "label": "covered",
+      "rules": "covered",
+      "rules_why": "formula anchor present (normalized)",
+      "need": "Linear (tangent line) approximation formula",
+      "jev_p": 0.98,
+      "jev": "covered"
+    },
+    {
+      "id": "E04",
+      "label": "covered",
+      "rules": "covered",
+      "rules_why": "formula anchor present (normalized)",
+      "need": "Exponential growth model formula",
+      "jev_p": 0.97,
+      "jev": "covered"
+    },
+    {
+      "id": "E05",
+      "label": "covered",
+      "rules": "covered",
+      "rules_why": "formula anchor present (normalized)",
+      "need": "Discrete-time exponential growth recurrence",
+      "jev_p": 0.94,
+      "jev": "covered"
+    },
+    {
+      "id": "E06",
+      "label": "partially_covered",
+      "rules": "not_covered",
+      "rules_why": "anchor 'T = ln 2 / k' absent",
+      "need": "Doubling time formula for exponential growth",
+      "jev_p": 0.07,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E07",
+      "label": "not_covered",
+      "rules": "partially_covered",
+      "rules_why": "anchor present; no theorem_statement marker",
+      "need": "Statement of the chain rule",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E08",
+      "label": "not_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + theorem_statement marker",
+      "need": "Statement of the chain rule",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E09",
+      "label": "not_covered",
+      "rules": "partially_covered",
+      "rules_why": "anchor present; no theorem_statement marker",
+      "need": "Statement of the chain rule",
+      "jev_p": 0.06,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E10",
+      "label": "not_covered",
+      "rules": "not_covered",
+      "rules_why": "target terms ['work', 'differentiat', 'composite', 'function', 'such', 'sin'] share=0.33",
+      "need": "Worked example differentiating a composite function such as sin(x^2)",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E11",
+      "label": "not_covered",
+      "rules": "not_covered",
+      "rules_why": "target terms ['work', 'differentiat', 'composite', 'function', 'such', 'sin'] share=0.17",
+      "need": "Worked example differentiating a composite function such as sin(x^2)",
+      "jev_p": 0.06,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E12",
+      "label": "not_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + theorem_statement marker",
+      "need": "Statement of the Fundamental Theorem of Calculus, Part I",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E13",
+      "label": "partially_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + theorem_statement marker",
+      "need": "Statement of the Fundamental Theorem of Calculus",
+      "jev_p": 0.06,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E14",
+      "label": "not_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + theorem_statement marker",
+      "need": "Statement of the Fundamental Theorem of Calculus",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E15",
+      "label": "covered",
+      "rules": "covered",
+      "rules_why": "formula anchor present (normalized)",
+      "need": "The limit of sin(x)/x as x approaches 0",
+      "jev_p": 0.42,
+      "jev": "partially_covered"
+    },
+    {
+      "id": "E16",
+      "label": "covered",
+      "rules": "covered",
+      "rules_why": "anchor present + worked_example marker",
+      "need": "Example of a critical point that is not an extremum",
+      "jev_p": 0.39,
+      "jev": "partially_covered"
+    },
+    {
+      "id": "E17",
+      "label": "not_covered",
+      "rules": "partially_covered",
+      "rules_why": "anchor present; no definition marker",
+      "need": "Definition of a critical point",
+      "jev_p": 0.06,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E18",
+      "label": "not_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + theorem_statement marker",
+      "need": "Statement of the Intermediate Value Theorem",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E19",
+      "label": "partially_covered",
+      "rules": "partially_covered",
+      "rules_why": "anchor present; low-reliability need type",
+      "need": "How to locate a root with the bisection method",
+      "jev_p": 0.06,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E20",
+      "label": "not_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + definition marker",
+      "need": "Definition of the derivative as a limit",
+      "jev_p": 0.22,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E21",
+      "label": "not_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + theorem_statement marker",
+      "need": "Statement of the Mean Value Theorem",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E22",
+      "label": "not_covered",
+      "rules": "not_covered",
+      "rules_why": "anchor 'Laplace transform' absent",
+      "need": "Definition of the Laplace transform",
+      "jev_p": 0.01,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E23",
+      "label": "not_covered",
+      "rules": "not_covered",
+      "rules_why": "anchor 'gradient' absent",
+      "need": "Definition of the gradient of a function of several variables",
+      "jev_p": 0.02,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E24",
+      "label": "covered",
+      "rules": "not_covered",
+      "rules_why": "target terms ['precalculu', 'skill', 'before', 'calculu'] share=0.50",
+      "need": "Precalculus skills students need before Calculus I",
+      "jev_p": 0.57,
+      "jev": "partially_covered"
+    },
+    {
+      "id": "E25",
+      "label": "covered",
+      "rules": "partially_covered",
+      "rules_why": "target terms share=1.00; low-reliability need type",
+      "need": "Which integration techniques the course covers",
+      "jev_p": 0.93,
+      "jev": "covered"
+    },
+    {
+      "id": "E26",
+      "label": "partially_covered",
+      "rules": "partially_covered",
+      "rules_why": "target terms share=0.80; low-reliability need type",
+      "need": "Strategy for choosing between substitution and integration by parts",
+      "jev_p": 0.33,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E27",
+      "label": "not_covered",
+      "rules": "partially_covered",
+      "rules_why": "anchor present; no definition marker",
+      "need": "Definition of an equilibrium of a discrete-time model",
+      "jev_p": 0.03,
+      "jev": "not_covered"
+    },
+    {
+      "id": "E28",
+      "label": "not_covered",
+      "rules": "covered",
+      "rules_why": "anchor present + exercise marker",
+      "need": "A practice exercise on the chain rule",
+      "jev_p": 0.04,
+      "jev": "not_covered"
+    }
+  ]
+}

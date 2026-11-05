@@ -1,0 +1,1410 @@
+{
+  "cases": 36,
+  "code": {
+    "correct": "22/36",
+    "wrong": 2,
+    "abstained": 12,
+    "correct_by_kind": {
+      "named": "17/17",
+      "paraphrase": "0/14",
+      "outside": "3/3",
+      "no_content": "2/2"
+    }
+  },
+  "code+model": {
+    "correct": "35/36",
+    "wrong": 1,
+    "abstained": 0,
+    "correct_by_kind": {
+      "named": "17/17",
+      "paraphrase": "14/14",
+      "outside": "3/3",
+      "no_content": "1/2"
+    },
+    "model": "deepseek-chat",
+    "turns_with_related": 5,
+    "related_not_acceptable": 4,
+    "outside_marked_not_in_course": "3/3",
+    "repairs": {},
+    "schema_problems": 0,
+    "mean_ms": 1574
+  },
+  "rows": [
+    {
+      "id": "P01",
+      "kind": "named",
+      "message": "What does the chain rule say?",
+      "acceptable": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.chain-rule",
+          8.097
+        ],
+        [
+          "calc1.03-derivatives.basic-rules",
+          1.872
+        ],
+        [
+          "calc1.03-derivatives.power-rule",
+          1.872
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.chain-rule"
+      },
+      "model_queries": [
+        "Statement of the chain rule for a composite function f(g(x))",
+        "The derivative formula f'(g(x))g'(x) or dy/du times du/dx",
+        "A worked example applying the chain rule to a composite function"
+      ],
+      "model_ms": 2118.4,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P02",
+      "kind": "paraphrase",
+      "message": "How do I differentiate sin(x^2)? I keep getting cos(x^2).",
+      "acceptable": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [],
+      "model": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "model_outcome": "correct",
+      "model_related": [
+        "calc1.03-derivatives.trig"
+      ],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.chain-rule",
+        "related_concept_ids": [
+          "calc1.03-derivatives.trig"
+        ]
+      },
+      "model_queries": [
+        "Statement of the chain rule for differentiating a composite function",
+        "Worked example differentiating a trigonometric function of an inner function such as sin(x^2)",
+        "Derivative of sine"
+      ],
+      "model_ms": 1679.5,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P03",
+      "kind": "paraphrase",
+      "message": "Why do I have to multiply by the derivative of the inside function?",
+      "acceptable": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ],
+        [
+          "calc1.03-derivatives.higher",
+          2.225
+        ],
+        [
+          "calc1.01-functions.graphs",
+          1.896
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.chain-rule"
+      },
+      "model_queries": [
+        "Statement of the chain rule formula for f(g(x))",
+        "Intuition or justification for why the inner derivative factor appears (rate of change composition)",
+        "Worked example applying the chain rule to a composite function"
+      ],
+      "model_ms": 1326.6,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P04",
+      "kind": "named",
+      "message": "What is the product rule again?",
+      "acceptable": [
+        "calc1.03-derivatives.product-quotient"
+      ],
+      "code": [
+        "calc1.03-derivatives.product-quotient"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.product-quotient",
+          7.101
+        ],
+        [
+          "calc1.03-derivatives.basic-rules",
+          1.872
+        ],
+        [
+          "calc1.03-derivatives.chain-rule",
+          1.872
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.product-quotient"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.product-quotient"
+      },
+      "model_queries": [
+        "Statement of the product rule formula for the derivative of a product",
+        "A worked example applying the product rule to a simple product"
+      ],
+      "model_ms": 1573.5,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P05",
+      "kind": "paraphrase",
+      "message": "How do I take the derivative of x^5?",
+      "acceptable": [
+        "calc1.03-derivatives.power-rule"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ],
+        [
+          "calc1.03-derivatives.higher",
+          2.225
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.power-rule"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.power-rule"
+      },
+      "model_queries": [
+        "Statement of the power rule d/dx x^n = n x^(n-1)",
+        "An example applying the power rule to a monomial"
+      ],
+      "model_ms": 1456.1,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P06",
+      "kind": "paraphrase",
+      "message": "What's the derivative of ln x?",
+      "acceptable": [
+        "calc1.03-derivatives.exp-log"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ],
+        [
+          "calc1.03-derivatives.higher",
+          2.225
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.exp-log"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.exp-log"
+      },
+      "model_queries": [
+        "Statement that the derivative of ln x is 1/x",
+        "How the derivative of ln x is derived or used, e.g. via inverse functions or implicit differentiation"
+      ],
+      "model_ms": 1509.5,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P07",
+      "kind": "named",
+      "message": "Explain integration by parts.",
+      "acceptable": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "code": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.06-integral-applications.by-parts",
+          7.63
+        ],
+        [
+          "calc1.05-integration.ftc",
+          2.862
+        ],
+        [
+          "calc1.05-integration.antiderivatives",
+          2.225
+        ]
+      ],
+      "model": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.06-integral-applications.by-parts"
+      },
+      "model_queries": [
+        "The integration by parts formula in integral form",
+        "Statement of the integration by parts rule derived from the product rule",
+        "How to choose u and dv when applying integration by parts",
+        "A worked example of integration by parts"
+      ],
+      "model_ms": 1561.0,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P08",
+      "kind": "paraphrase",
+      "message": "How do I pick u when integrating x e^x?",
+      "acceptable": [
+        "calc1.06-integral-applications.by-parts",
+        "calc1.06-integral-applications.substitution"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [],
+      "model": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.06-integral-applications.by-parts"
+      },
+      "model_queries": [
+        "Integration by parts formula with u and dv",
+        "How to choose u and dv, e.g. LIATE or choosing u so its derivative is simpler",
+        "Worked example integrating x times an exponential"
+      ],
+      "model_ms": 1646.6,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P09",
+      "kind": "named",
+      "message": "When can I use L'Hopital's rule?",
+      "acceptable": [
+        "calc1.04-diff-applications.lhopital"
+      ],
+      "code": [
+        "calc1.04-diff-applications.lhopital"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.04-diff-applications.lhopital",
+          8.097
+        ],
+        [
+          "calc1.03-derivatives.basic-rules",
+          1.872
+        ],
+        [
+          "calc1.03-derivatives.chain-rule",
+          1.872
+        ]
+      ],
+      "model": [
+        "calc1.04-diff-applications.lhopital"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.04-diff-applications.lhopital"
+      },
+      "model_queries": [
+        "Statement of L'Hopital's rule including the hypotheses required before applying it",
+        "Which indeterminate forms the rule applies to, e.g. 0/0 and infinity/infinity",
+        "How to apply the rule step by step and when it fails or must be repeated"
+      ],
+      "model_ms": 1838.4,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P10",
+      "kind": "paraphrase",
+      "message": "What do I do when a limit gives 0/0?",
+      "acceptable": [
+        "calc1.04-diff-applications.lhopital",
+        "calc1.02-limits.limits"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.limits",
+          2.808
+        ],
+        [
+          "calc1.01-functions.sequences",
+          1.872
+        ],
+        [
+          "calc1.02-limits.limits-infinity",
+          1.872
+        ]
+      ],
+      "model": [
+        "calc1.02-limits.limits"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.limits"
+      },
+      "model_queries": [
+        "What an indeterminate form 0/0 means when substituting into a limit",
+        "Techniques for resolving 0/0 limits such as factoring, canceling, rationalizing",
+        "An example of a limit that gives 0/0 and how it is evaluated"
+      ],
+      "model_ms": 1518.3,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P11",
+      "kind": "named",
+      "message": "How does our course define continuity at a point?",
+      "acceptable": [
+        "calc1.02-limits.continuity"
+      ],
+      "code": [
+        "calc1.02-limits.continuity"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.continuity",
+          4.293
+        ],
+        [
+          "calc1.02-limits.continuous-props",
+          2.862
+        ],
+        [
+          "calc1.03-derivatives.definition",
+          2.485
+        ]
+      ],
+      "model": [
+        "calc1.02-limits.continuity"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.continuity"
+      },
+      "model_queries": [
+        "Definition of continuity of a function at a point, in terms of limits",
+        "Classification of types of discontinuity (removable, jump, infinite)"
+      ],
+      "model_ms": 1547.6,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P12",
+      "kind": "paraphrase",
+      "message": "Is a function with a hole in its graph continuous?",
+      "acceptable": [
+        "calc1.02-limits.continuity"
+      ],
+      "code": [
+        "calc1.01-functions.graphs"
+      ],
+      "code_related": [],
+      "code_outcome": "wrong",
+      "code_top_candidates": [
+        [
+          "calc1.01-functions.graphs",
+          5.29
+        ],
+        [
+          "calc1.02-limits.continuous-props",
+          3.526
+        ],
+        [
+          "calc1.01-functions.families",
+          1.264
+        ]
+      ],
+      "model": [
+        "calc1.02-limits.continuity"
+      ],
+      "model_outcome": "correct",
+      "model_related": [
+        "calc1.01-functions.graphs"
+      ],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.continuity",
+        "related_concept_ids": [
+          "calc1.01-functions.graphs"
+        ]
+      },
+      "model_queries": [
+        "Definition of continuity of a function at a point, including the three conditions",
+        "Types of discontinuity, including removable discontinuity or hole in the graph",
+        "Example of a function with a hole whose limit exists but value is missing or different"
+      ],
+      "model_ms": 1779.9,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P13",
+      "kind": "named",
+      "message": "What does the Intermediate Value Theorem say?",
+      "acceptable": [
+        "calc1.02-limits.continuous-props"
+      ],
+      "code": [
+        "calc1.02-limits.continuous-props"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.continuous-props",
+          11.669
+        ],
+        [
+          "calc1.04-diff-applications.evt-mvt",
+          6.379
+        ],
+        [
+          "calc1.05-integration.ftc",
+          2.028
+        ]
+      ],
+      "model": [
+        "calc1.02-limits.continuous-props"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.continuous-props"
+      },
+      "model_queries": [
+        "Statement of the Intermediate Value Theorem for continuous functions on a closed interval",
+        "Definition of continuity on an interval as used in the theorem"
+      ],
+      "model_ms": 1393.2,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P14",
+      "kind": "named",
+      "message": "Can you explain the epsilon-delta definition?",
+      "acceptable": [
+        "calc1.02-limits.epsilon-delta"
+      ],
+      "code": [
+        "calc1.02-limits.epsilon-delta"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.epsilon-delta",
+          14.872
+        ],
+        [
+          "calc1.03-derivatives.definition",
+          4.293
+        ]
+      ],
+      "model": [
+        "calc1.02-limits.epsilon-delta"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.epsilon-delta"
+      },
+      "model_queries": [
+        "The formal epsilon-delta definition of the limit of f(x) as x approaches a",
+        "Meaning of 0 < |x - a| < delta and |f(x) - L| < epsilon",
+        "An example showing how to find delta given epsilon for a simple limit"
+      ],
+      "model_ms": 1729.9,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P15",
+      "kind": "named",
+      "message": "What is the mean value theorem?",
+      "acceptable": [
+        "calc1.04-diff-applications.evt-mvt"
+      ],
+      "code": [
+        "calc1.04-diff-applications.evt-mvt"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.04-diff-applications.evt-mvt",
+          6.379
+        ],
+        [
+          "calc1.02-limits.continuous-props",
+          4.253
+        ],
+        [
+          "calc1.05-integration.ftc",
+          2.028
+        ]
+      ],
+      "model": [
+        "calc1.04-diff-applications.evt-mvt"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.04-diff-applications.evt-mvt"
+      },
+      "model_queries": [
+        "Statement of the Mean Value Theorem including its hypotheses and conclusion",
+        "Definition of the Extreme Value Theorem and its hypotheses"
+      ],
+      "model_ms": 1304.4,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P16",
+      "kind": "paraphrase",
+      "message": "How do I find where a function curves upward?",
+      "acceptable": [
+        "calc1.04-diff-applications.monotone-concave"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.applications",
+          3.526
+        ],
+        [
+          "calc1.01-functions.graphs",
+          1.896
+        ],
+        [
+          "calc1.01-functions.families",
+          1.264
+        ]
+      ],
+      "model": [
+        "calc1.04-diff-applications.monotone-concave"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.04-diff-applications.monotone-concave"
+      },
+      "model_queries": [
+        "Definition of concave up / concave down in terms of the second derivative",
+        "Procedure for determining intervals of concavity using the second derivative and inflection points"
+      ],
+      "model_ms": 1696.7,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P17",
+      "kind": "paraphrase",
+      "message": "How do I find the fence dimensions that give the largest area?",
+      "acceptable": [
+        "calc1.04-diff-applications.optimization"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.applications",
+          2.862
+        ]
+      ],
+      "model": [
+        "calc1.04-diff-applications.optimization"
+      ],
+      "model_outcome": "correct",
+      "model_related": [
+        "calc1.04-diff-applications.extrema-inflection"
+      ],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.04-diff-applications.optimization",
+        "related_concept_ids": [
+          "calc1.04-diff-applications.extrema-inflection"
+        ]
+      },
+      "model_queries": [
+        "Steps for solving an optimization problem: set up objective function and constraint, express in one variable, find critical points",
+        "Worked example of maximizing area with a fixed perimeter or fencing constraint",
+        "How to justify a critical point gives a maximum (first or second derivative test, closed interval check)"
+      ],
+      "model_ms": 2022.0,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P18",
+      "kind": "named",
+      "message": "What is a Riemann sum?",
+      "acceptable": [
+        "calc1.05-integration.definite-integral"
+      ],
+      "code": [
+        "calc1.05-integration.definite-integral"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.definite-integral",
+          9.583
+        ]
+      ],
+      "model": [
+        "calc1.05-integration.definite-integral"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.05-integration.definite-integral"
+      },
+      "model_queries": [
+        "Definition of a Riemann sum: partition, sample points, sum of f(x_i*) times delta x",
+        "Definition of the definite integral as the limit of Riemann sums",
+        "Notation for the integral sign, limits of integration, and dx"
+      ],
+      "model_ms": 1638.5,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P19",
+      "kind": "named",
+      "message": "What does the fundamental theorem of calculus say?",
+      "acceptable": [
+        "calc1.05-integration.ftc"
+      ],
+      "code": [
+        "calc1.05-integration.ftc"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.ftc",
+          8.332
+        ],
+        [
+          "calc1.04-diff-applications.evt-mvt",
+          2.028
+        ]
+      ],
+      "model": [
+        "calc1.05-integration.ftc"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.05-integration.ftc"
+      },
+      "model_queries": [
+        "Statement of the Fundamental Theorem of Calculus, both parts if given",
+        "Definition of the accumulation function F(x) = integral from a to x of f(t) dt and its derivative"
+      ],
+      "model_ms": 1533.8,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P20",
+      "kind": "paraphrase",
+      "message": "How do I differentiate an integral that has x as its upper limit?",
+      "acceptable": [
+        "calc1.05-integration.ftc"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.limits",
+          2.808
+        ],
+        [
+          "calc1.01-functions.sequences",
+          1.872
+        ],
+        [
+          "calc1.02-limits.limits-infinity",
+          1.872
+        ]
+      ],
+      "model": [
+        "calc1.05-integration.ftc"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.05-integration.ftc"
+      },
+      "model_queries": [
+        "Statement of the Fundamental Theorem of Calculus part giving d/dx of integral from a to x of f(t) dt",
+        "How to handle a variable upper limit that is a function of x, using the chain rule",
+        "Example differentiating an integral with x in the upper limit"
+      ],
+      "model_ms": 1577.3,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P21",
+      "kind": "named",
+      "message": "How do I do u-substitution?",
+      "acceptable": [
+        "calc1.06-integral-applications.substitution"
+      ],
+      "code": [
+        "calc1.06-integral-applications.substitution"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.06-integral-applications.substitution",
+          5.29
+        ]
+      ],
+      "model": [
+        "calc1.06-integral-applications.substitution"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.06-integral-applications.substitution"
+      },
+      "model_queries": [
+        "Definition of the substitution rule / change of variable in integration",
+        "Statement of the substitution rule formula, including du = g'(x) dx",
+        "Steps for choosing u and rewriting the integral in terms of u"
+      ],
+      "model_ms": 1803.1,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P22",
+      "kind": "paraphrase",
+      "message": "How do I split 1/(x^2-1) into simpler fractions before integrating?",
+      "acceptable": [
+        "calc1.06-integral-applications.partial-fractions"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.06-integral-applications.partial-fractions",
+          3.526
+        ]
+      ],
+      "model": [
+        "calc1.06-integral-applications.partial-fractions"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.06-integral-applications.partial-fractions"
+      },
+      "model_queries": [
+        "Method for decomposing a proper rational function with distinct linear factors into partial fractions",
+        "Worked example of partial fraction decomposition with distinct linear factors, ideally 1/(x^2-1) type",
+        "The general form of the partial fraction decomposition for distinct linear factors"
+      ],
+      "model_ms": 1531.5,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P23",
+      "kind": "named",
+      "message": "What is the doubling time of an exponentially growing population?",
+      "acceptable": [
+        "calc1.01-functions.exp-growth"
+      ],
+      "code": [
+        "calc1.01-functions.exp-growth"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.01-functions.exp-growth",
+          10.579
+        ]
+      ],
+      "model": [
+        "calc1.01-functions.exp-growth"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.01-functions.exp-growth"
+      },
+      "model_queries": [
+        "Definition of exponential growth and decay, including the form of the model",
+        "Formula or method for doubling time / half-life in exponential models"
+      ],
+      "model_ms": 1433.1,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P24",
+      "kind": "named",
+      "message": "What's a horizontal asymptote?",
+      "acceptable": [
+        "calc1.02-limits.limits-infinity"
+      ],
+      "code": [
+        "calc1.02-limits.limits-infinity"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.limits-infinity",
+          10.579
+        ]
+      ],
+      "model": [
+        "calc1.02-limits.limits-infinity"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.limits-infinity"
+      },
+      "model_queries": [
+        "Definition of a horizontal asymptote in terms of a limit as x approaches infinity or minus infinity",
+        "Statement of the limit laws or rules for limits at infinity used to find horizontal asymptotes"
+      ],
+      "model_ms": 1329.9,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P25",
+      "kind": "paraphrase",
+      "message": "Why does sin x over x go to 1 as x goes to 0?",
+      "acceptable": [
+        "calc1.02-limits.trig-sandwich"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [],
+      "model": [
+        "calc1.02-limits.trig-sandwich"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.trig-sandwich"
+      },
+      "model_queries": [
+        "Sandwich (squeeze) theorem statement for limits",
+        "The standard trigonometric limit sin x / x -> 1 as x -> 0",
+        "How the inequality cos x <= sin x / x <= 1 is derived from areas or geometry"
+      ],
+      "model_ms": 1781.7,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P26",
+      "kind": "paraphrase",
+      "message": "How can I use a tangent line to estimate sqrt(4.1)?",
+      "acceptable": [
+        "calc1.03-derivatives.linear-approx"
+      ],
+      "code": [
+        "calc1.03-derivatives.definition"
+      ],
+      "code_related": [],
+      "code_outcome": "wrong",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          8.587
+        ],
+        [
+          "calc1.03-derivatives.linear-approx",
+          5.724
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.linear-approx"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.linear-approx"
+      },
+      "model_queries": [
+        "Definition of linear approximation using the tangent line at a point",
+        "Formula for the linear approximation L(x) = f(a) + f'(a)(x-a)",
+        "Worked example estimating a square root or similar value with a tangent line"
+      ],
+      "model_ms": 1394.8,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P27",
+      "kind": "named",
+      "message": "What is the second derivative used for?",
+      "acceptable": [
+        "calc1.03-derivatives.higher",
+        "calc1.04-diff-applications.extrema-inflection",
+        "calc1.04-diff-applications.monotone-concave"
+      ],
+      "code": [
+        "calc1.03-derivatives.higher"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.higher",
+          7.63
+        ],
+        [
+          "calc1.04-diff-applications.extrema-inflection",
+          5.087
+        ],
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.higher"
+      ],
+      "model_outcome": "correct",
+      "model_related": [
+        "calc1.04-diff-applications.monotone-concave"
+      ],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.higher",
+        "related_concept_ids": [
+          "calc1.04-diff-applications.monotone-concave"
+        ]
+      },
+      "model_queries": [
+        "Definition of higher derivatives, including second derivative and notation",
+        "How the second derivative is defined as the derivative of the first derivative",
+        "What the second derivative is used for, e.g. concavity or acceleration"
+      ],
+      "model_ms": 1839.3,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P28",
+      "kind": "paraphrase",
+      "message": "How do I find dy/dx for x^2 + y^2 = 25?",
+      "acceptable": [
+        "calc1.03-derivatives.implicit"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [],
+      "model": [
+        "calc1.03-derivatives.implicit"
+      ],
+      "model_outcome": "correct",
+      "model_related": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.implicit",
+        "related_concept_ids": [
+          "calc1.03-derivatives.chain-rule"
+        ]
+      },
+      "model_queries": [
+        "Steps for implicit differentiation: differentiate both sides with respect to x, treat y as a function of x",
+        "How the derivative of y^n or y with respect to x produces dy/dx by the chain rule",
+        "Worked example differentiating an equation like x^2 + y^2 = constant to solve for dy/dx"
+      ],
+      "model_ms": 2047.2,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P29",
+      "kind": "named",
+      "message": "How is the area between two curves computed?",
+      "acceptable": [
+        "calc1.05-integration.applications"
+      ],
+      "code": [
+        "calc1.05-integration.applications"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.applications",
+          9.583
+        ]
+      ],
+      "model": [
+        "calc1.05-integration.applications"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.05-integration.applications"
+      },
+      "model_queries": [
+        "Formula for the area between two curves as an integral of upper minus lower function",
+        "Procedure for setting up the area between two curves, including finding intersection points and choosing upper/lower",
+        "Worked example computing area between two curves"
+      ],
+      "model_ms": 1712.3,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P30",
+      "kind": "named",
+      "message": "What is an antiderivative?",
+      "acceptable": [
+        "calc1.05-integration.antiderivatives"
+      ],
+      "code": [
+        "calc1.05-integration.antiderivatives"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.antiderivatives",
+          5.29
+        ]
+      ],
+      "model": [
+        "calc1.05-integration.antiderivatives"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.05-integration.antiderivatives"
+      },
+      "model_queries": [
+        "Definition of an antiderivative of a function on an interval",
+        "Notation and form of the indefinite integral, including the constant of integration"
+      ],
+      "model_ms": 1471.0,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P31",
+      "kind": "named",
+      "message": "What's the formal definition of the derivative as a limit?",
+      "acceptable": [
+        "calc1.03-derivatives.definition"
+      ],
+      "code": [
+        "calc1.03-derivatives.definition"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          11.924
+        ],
+        [
+          "calc1.02-limits.epsilon-delta",
+          7.596
+        ],
+        [
+          "calc1.02-limits.limits",
+          2.808
+        ]
+      ],
+      "model": [
+        "calc1.03-derivatives.definition"
+      ],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.03-derivatives.definition"
+      },
+      "model_queries": [
+        "Definition of the derivative as the limit of the difference quotient",
+        "Notation for the derivative, e.g. f'(a) or dy/dx, and the point at which it is evaluated"
+      ],
+      "model_ms": 1477.5,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P32",
+      "kind": "outside",
+      "message": "Can you explain Laplace transforms?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [],
+      "model": [],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "not_in_course",
+      "model_raw_concepts": {
+        "concept_id": "not_in_course"
+      },
+      "model_queries": [
+        "Whether the course defines the Laplace transform or any integral transform"
+      ],
+      "model_ms": 1144.9,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P33",
+      "kind": "outside",
+      "message": "What does the Calculus II material say about gradients?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [],
+      "model": [],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "not_in_course",
+      "model_raw_concepts": {
+        "concept_id": "not_in_course"
+      },
+      "model_queries": [
+        "Definition of the gradient of a multivariable function",
+        "Whether multivariable or Calculus II topics appear in this course's materials"
+      ],
+      "model_ms": 1459.7,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P34",
+      "kind": "outside",
+      "message": "What is an eigenvalue?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [],
+      "model": [],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "not_in_course",
+      "model_raw_concepts": {
+        "concept_id": "not_in_course"
+      },
+      "model_queries": [
+        "Definition of eigenvalue and eigenvector"
+      ],
+      "model_ms": 1097.2,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P35",
+      "kind": "no_content",
+      "message": "Got it, thanks!",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [],
+      "model": [],
+      "model_outcome": "correct",
+      "model_related": [],
+      "concept_status": "not_in_course",
+      "model_raw_concepts": {
+        "concept_id": "not_in_course"
+      },
+      "model_queries": [
+        "What topics the course covers and how to proceed to the next topic"
+      ],
+      "model_ms": 1147.4,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    },
+    {
+      "id": "P36",
+      "kind": "no_content",
+      "message": "Can I think for a sec?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [],
+      "model": [
+        "calc1.02-limits.limits"
+      ],
+      "model_outcome": "wrong",
+      "model_related": [],
+      "concept_status": "found",
+      "model_raw_concepts": {
+        "concept_id": "calc1.02-limits.limits"
+      },
+      "model_queries": [
+        "Course guidance on how to approach and think through a calculus problem step by step"
+      ],
+      "model_ms": 1542.6,
+      "repairs": [],
+      "schema_problems": [],
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,747 @@
+{
+  "cases": 36,
+  "code": {
+    "correct": "22/36",
+    "wrong": 2,
+    "abstained": 12,
+    "correct_by_kind": {
+      "named": "17/17",
+      "paraphrase": "0/14",
+      "outside": "3/3",
+      "no_content": "2/2"
+    }
+  },
+  "rows": [
+    {
+      "id": "P01",
+      "kind": "named",
+      "message": "What does the chain rule say?",
+      "acceptable": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.chain-rule",
+          8.097
+        ],
+        [
+          "calc1.03-derivatives.basic-rules",
+          1.872
+        ],
+        [
+          "calc1.03-derivatives.power-rule",
+          1.872
+        ]
+      ]
+    },
+    {
+      "id": "P02",
+      "kind": "paraphrase",
+      "message": "How do I differentiate sin(x^2)? I keep getting cos(x^2).",
+      "acceptable": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P03",
+      "kind": "paraphrase",
+      "message": "Why do I have to multiply by the derivative of the inside function?",
+      "acceptable": [
+        "calc1.03-derivatives.chain-rule"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ],
+        [
+          "calc1.03-derivatives.higher",
+          2.225
+        ],
+        [
+          "calc1.01-functions.graphs",
+          1.896
+        ]
+      ]
+    },
+    {
+      "id": "P04",
+      "kind": "named",
+      "message": "What is the product rule again?",
+      "acceptable": [
+        "calc1.03-derivatives.product-quotient"
+      ],
+      "code": [
+        "calc1.03-derivatives.product-quotient"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.product-quotient",
+          7.101
+        ],
+        [
+          "calc1.03-derivatives.basic-rules",
+          1.872
+        ],
+        [
+          "calc1.03-derivatives.chain-rule",
+          1.872
+        ]
+      ]
+    },
+    {
+      "id": "P05",
+      "kind": "paraphrase",
+      "message": "How do I take the derivative of x^5?",
+      "acceptable": [
+        "calc1.03-derivatives.power-rule"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ],
+        [
+          "calc1.03-derivatives.higher",
+          2.225
+        ]
+      ]
+    },
+    {
+      "id": "P06",
+      "kind": "paraphrase",
+      "message": "What's the derivative of ln x?",
+      "acceptable": [
+        "calc1.03-derivatives.exp-log"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ],
+        [
+          "calc1.03-derivatives.higher",
+          2.225
+        ]
+      ]
+    },
+    {
+      "id": "P07",
+      "kind": "named",
+      "message": "Explain integration by parts.",
+      "acceptable": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "code": [
+        "calc1.06-integral-applications.by-parts"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.06-integral-applications.by-parts",
+          7.63
+        ],
+        [
+          "calc1.05-integration.ftc",
+          2.862
+        ],
+        [
+          "calc1.05-integration.antiderivatives",
+          2.225
+        ]
+      ]
+    },
+    {
+      "id": "P08",
+      "kind": "paraphrase",
+      "message": "How do I pick u when integrating x e^x?",
+      "acceptable": [
+        "calc1.06-integral-applications.by-parts",
+        "calc1.06-integral-applications.substitution"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P09",
+      "kind": "named",
+      "message": "When can I use L'Hopital's rule?",
+      "acceptable": [
+        "calc1.04-diff-applications.lhopital"
+      ],
+      "code": [
+        "calc1.04-diff-applications.lhopital"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.04-diff-applications.lhopital",
+          8.097
+        ],
+        [
+          "calc1.03-derivatives.basic-rules",
+          1.872
+        ],
+        [
+          "calc1.03-derivatives.chain-rule",
+          1.872
+        ]
+      ]
+    },
+    {
+      "id": "P10",
+      "kind": "paraphrase",
+      "message": "What do I do when a limit gives 0/0?",
+      "acceptable": [
+        "calc1.04-diff-applications.lhopital",
+        "calc1.02-limits.limits"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.limits",
+          2.808
+        ],
+        [
+          "calc1.01-functions.sequences",
+          1.872
+        ],
+        [
+          "calc1.02-limits.limits-infinity",
+          1.872
+        ]
+      ]
+    },
+    {
+      "id": "P11",
+      "kind": "named",
+      "message": "How does our course define continuity at a point?",
+      "acceptable": [
+        "calc1.02-limits.continuity"
+      ],
+      "code": [
+        "calc1.02-limits.continuity"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.continuity",
+          4.293
+        ],
+        [
+          "calc1.02-limits.continuous-props",
+          2.862
+        ],
+        [
+          "calc1.03-derivatives.definition",
+          2.485
+        ]
+      ]
+    },
+    {
+      "id": "P12",
+      "kind": "paraphrase",
+      "message": "Is a function with a hole in its graph continuous?",
+      "acceptable": [
+        "calc1.02-limits.continuity"
+      ],
+      "code": [
+        "calc1.01-functions.graphs"
+      ],
+      "code_related": [],
+      "code_outcome": "wrong",
+      "code_top_candidates": [
+        [
+          "calc1.01-functions.graphs",
+          5.29
+        ],
+        [
+          "calc1.02-limits.continuous-props",
+          3.526
+        ],
+        [
+          "calc1.01-functions.families",
+          1.264
+        ]
+      ]
+    },
+    {
+      "id": "P13",
+      "kind": "named",
+      "message": "What does the Intermediate Value Theorem say?",
+      "acceptable": [
+        "calc1.02-limits.continuous-props"
+      ],
+      "code": [
+        "calc1.02-limits.continuous-props"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.continuous-props",
+          11.669
+        ],
+        [
+          "calc1.04-diff-applications.evt-mvt",
+          6.379
+        ],
+        [
+          "calc1.05-integration.ftc",
+          2.028
+        ]
+      ]
+    },
+    {
+      "id": "P14",
+      "kind": "named",
+      "message": "Can you explain the epsilon-delta definition?",
+      "acceptable": [
+        "calc1.02-limits.epsilon-delta"
+      ],
+      "code": [
+        "calc1.02-limits.epsilon-delta"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.epsilon-delta",
+          14.872
+        ],
+        [
+          "calc1.03-derivatives.definition",
+          4.293
+        ]
+      ]
+    },
+    {
+      "id": "P15",
+      "kind": "named",
+      "message": "What is the mean value theorem?",
+      "acceptable": [
+        "calc1.04-diff-applications.evt-mvt"
+      ],
+      "code": [
+        "calc1.04-diff-applications.evt-mvt"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.04-diff-applications.evt-mvt",
+          6.379
+        ],
+        [
+          "calc1.02-limits.continuous-props",
+          4.253
+        ],
+        [
+          "calc1.05-integration.ftc",
+          2.028
+        ]
+      ]
+    },
+    {
+      "id": "P16",
+      "kind": "paraphrase",
+      "message": "How do I find where a function curves upward?",
+      "acceptable": [
+        "calc1.04-diff-applications.monotone-concave"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.applications",
+          3.526
+        ],
+        [
+          "calc1.01-functions.graphs",
+          1.896
+        ],
+        [
+          "calc1.01-functions.families",
+          1.264
+        ]
+      ]
+    },
+    {
+      "id": "P17",
+      "kind": "paraphrase",
+      "message": "How do I find the fence dimensions that give the largest area?",
+      "acceptable": [
+        "calc1.04-diff-applications.optimization"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.applications",
+          2.862
+        ]
+      ]
+    },
+    {
+      "id": "P18",
+      "kind": "named",
+      "message": "What is a Riemann sum?",
+      "acceptable": [
+        "calc1.05-integration.definite-integral"
+      ],
+      "code": [
+        "calc1.05-integration.definite-integral"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.definite-integral",
+          9.583
+        ]
+      ]
+    },
+    {
+      "id": "P19",
+      "kind": "named",
+      "message": "What does the fundamental theorem of calculus say?",
+      "acceptable": [
+        "calc1.05-integration.ftc"
+      ],
+      "code": [
+        "calc1.05-integration.ftc"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.ftc",
+          8.332
+        ],
+        [
+          "calc1.04-diff-applications.evt-mvt",
+          2.028
+        ]
+      ]
+    },
+    {
+      "id": "P20",
+      "kind": "paraphrase",
+      "message": "How do I differentiate an integral that has x as its upper limit?",
+      "acceptable": [
+        "calc1.05-integration.ftc"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.limits",
+          2.808
+        ],
+        [
+          "calc1.01-functions.sequences",
+          1.872
+        ],
+        [
+          "calc1.02-limits.limits-infinity",
+          1.872
+        ]
+      ]
+    },
+    {
+      "id": "P21",
+      "kind": "named",
+      "message": "How do I do u-substitution?",
+      "acceptable": [
+        "calc1.06-integral-applications.substitution"
+      ],
+      "code": [
+        "calc1.06-integral-applications.substitution"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.06-integral-applications.substitution",
+          5.29
+        ]
+      ]
+    },
+    {
+      "id": "P22",
+      "kind": "paraphrase",
+      "message": "How do I split 1/(x^2-1) into simpler fractions before integrating?",
+      "acceptable": [
+        "calc1.06-integral-applications.partial-fractions"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": [
+        [
+          "calc1.06-integral-applications.partial-fractions",
+          3.526
+        ]
+      ]
+    },
+    {
+      "id": "P23",
+      "kind": "named",
+      "message": "What is the doubling time of an exponentially growing population?",
+      "acceptable": [
+        "calc1.01-functions.exp-growth"
+      ],
+      "code": [
+        "calc1.01-functions.exp-growth"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.01-functions.exp-growth",
+          10.579
+        ]
+      ]
+    },
+    {
+      "id": "P24",
+      "kind": "named",
+      "message": "What's a horizontal asymptote?",
+      "acceptable": [
+        "calc1.02-limits.limits-infinity"
+      ],
+      "code": [
+        "calc1.02-limits.limits-infinity"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.02-limits.limits-infinity",
+          10.579
+        ]
+      ]
+    },
+    {
+      "id": "P25",
+      "kind": "paraphrase",
+      "message": "Why does sin x over x go to 1 as x goes to 0?",
+      "acceptable": [
+        "calc1.02-limits.trig-sandwich"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P26",
+      "kind": "paraphrase",
+      "message": "How can I use a tangent line to estimate sqrt(4.1)?",
+      "acceptable": [
+        "calc1.03-derivatives.linear-approx"
+      ],
+      "code": [
+        "calc1.03-derivatives.definition"
+      ],
+      "code_related": [],
+      "code_outcome": "wrong",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          8.587
+        ],
+        [
+          "calc1.03-derivatives.linear-approx",
+          5.724
+        ]
+      ]
+    },
+    {
+      "id": "P27",
+      "kind": "named",
+      "message": "What is the second derivative used for?",
+      "acceptable": [
+        "calc1.03-derivatives.higher",
+        "calc1.04-diff-applications.extrema-inflection",
+        "calc1.04-diff-applications.monotone-concave"
+      ],
+      "code": [
+        "calc1.03-derivatives.higher"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.higher",
+          7.63
+        ],
+        [
+          "calc1.04-diff-applications.extrema-inflection",
+          5.087
+        ],
+        [
+          "calc1.03-derivatives.definition",
+          3.337
+        ]
+      ]
+    },
+    {
+      "id": "P28",
+      "kind": "paraphrase",
+      "message": "How do I find dy/dx for x^2 + y^2 = 25?",
+      "acceptable": [
+        "calc1.03-derivatives.implicit"
+      ],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "abstained",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P29",
+      "kind": "named",
+      "message": "How is the area between two curves computed?",
+      "acceptable": [
+        "calc1.05-integration.applications"
+      ],
+      "code": [
+        "calc1.05-integration.applications"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.applications",
+          9.583
+        ]
+      ]
+    },
+    {
+      "id": "P30",
+      "kind": "named",
+      "message": "What is an antiderivative?",
+      "acceptable": [
+        "calc1.05-integration.antiderivatives"
+      ],
+      "code": [
+        "calc1.05-integration.antiderivatives"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.05-integration.antiderivatives",
+          5.29
+        ]
+      ]
+    },
+    {
+      "id": "P31",
+      "kind": "named",
+      "message": "What's the formal definition of the derivative as a limit?",
+      "acceptable": [
+        "calc1.03-derivatives.definition"
+      ],
+      "code": [
+        "calc1.03-derivatives.definition"
+      ],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": [
+        [
+          "calc1.03-derivatives.definition",
+          11.924
+        ],
+        [
+          "calc1.02-limits.epsilon-delta",
+          7.596
+        ],
+        [
+          "calc1.02-limits.limits",
+          2.808
+        ]
+      ]
+    },
+    {
+      "id": "P32",
+      "kind": "outside",
+      "message": "Can you explain Laplace transforms?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P33",
+      "kind": "outside",
+      "message": "What does the Calculus II material say about gradients?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P34",
+      "kind": "outside",
+      "message": "What is an eigenvalue?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P35",
+      "kind": "no_content",
+      "message": "Got it, thanks!",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": []
+    },
+    {
+      "id": "P36",
+      "kind": "no_content",
+      "message": "Can I think for a sec?",
+      "acceptable": [],
+      "code": [],
+      "code_related": [],
+      "code_outcome": "correct",
+      "code_top_candidates": []
+    }
+  ]
+}

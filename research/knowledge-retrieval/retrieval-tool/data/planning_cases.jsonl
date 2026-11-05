@@ -1,0 +1,36 @@
+{"id": "P01", "student_message": "What does the chain rule say?", "acceptable_concepts": ["calc1.03-derivatives.chain-rule"], "kind": "named"}
+{"id": "P02", "student_message": "How do I differentiate sin(x^2)? I keep getting cos(x^2).", "acceptable_concepts": ["calc1.03-derivatives.chain-rule"], "kind": "paraphrase"}
+{"id": "P03", "student_message": "Why do I have to multiply by the derivative of the inside function?", "acceptable_concepts": ["calc1.03-derivatives.chain-rule"], "kind": "paraphrase"}
+{"id": "P04", "student_message": "What is the product rule again?", "acceptable_concepts": ["calc1.03-derivatives.product-quotient"], "kind": "named"}
+{"id": "P05", "student_message": "How do I take the derivative of x^5?", "acceptable_concepts": ["calc1.03-derivatives.power-rule"], "kind": "paraphrase"}
+{"id": "P06", "student_message": "What's the derivative of ln x?", "acceptable_concepts": ["calc1.03-derivatives.exp-log"], "kind": "paraphrase"}
+{"id": "P07", "student_message": "Explain integration by parts.", "acceptable_concepts": ["calc1.06-integral-applications.by-parts"], "kind": "named"}
+{"id": "P08", "student_message": "How do I pick u when integrating x e^x?", "acceptable_concepts": ["calc1.06-integral-applications.by-parts", "calc1.06-integral-applications.substitution"], "kind": "paraphrase"}
+{"id": "P09", "student_message": "When can I use L'Hopital's rule?", "acceptable_concepts": ["calc1.04-diff-applications.lhopital"], "kind": "named"}
+{"id": "P10", "student_message": "What do I do when a limit gives 0/0?", "acceptable_concepts": ["calc1.04-diff-applications.lhopital", "calc1.02-limits.limits"], "kind": "paraphrase"}
+{"id": "P11", "student_message": "How does our course define continuity at a point?", "acceptable_concepts": ["calc1.02-limits.continuity"], "kind": "named"}
+{"id": "P12", "student_message": "Is a function with a hole in its graph continuous?", "acceptable_concepts": ["calc1.02-limits.continuity"], "kind": "paraphrase"}
+{"id": "P13", "student_message": "What does the Intermediate Value Theorem say?", "acceptable_concepts": ["calc1.02-limits.continuous-props"], "kind": "named"}
+{"id": "P14", "student_message": "Can you explain the epsilon-delta definition?", "acceptable_concepts": ["calc1.02-limits.epsilon-delta"], "kind": "named"}
+{"id": "P15", "student_message": "What is the mean value theorem?", "acceptable_concepts": ["calc1.04-diff-applications.evt-mvt"], "kind": "named"}
+{"id": "P16", "student_message": "How do I find where a function curves upward?", "acceptable_concepts": ["calc1.04-diff-applications.monotone-concave"], "kind": "paraphrase"}
+{"id": "P17", "student_message": "How do I find the fence dimensions that give the largest area?", "acceptable_concepts": ["calc1.04-diff-applications.optimization"], "kind": "paraphrase"}
+{"id": "P18", "student_message": "What is a Riemann sum?", "acceptable_concepts": ["calc1.05-integration.definite-integral"], "kind": "named"}
+{"id": "P19", "student_message": "What does the fundamental theorem of calculus say?", "acceptable_concepts": ["calc1.05-integration.ftc"], "kind": "named"}
+{"id": "P20", "student_message": "How do I differentiate an integral that has x as its upper limit?", "acceptable_concepts": ["calc1.05-integration.ftc"], "kind": "paraphrase"}
+{"id": "P21", "student_message": "How do I do u-substitution?", "acceptable_concepts": ["calc1.06-integral-applications.substitution"], "kind": "named"}
+{"id": "P22", "student_message": "How do I split 1/(x^2-1) into simpler fractions before integrating?", "acceptable_concepts": ["calc1.06-integral-applications.partial-fractions"], "kind": "paraphrase"}
+{"id": "P23", "student_message": "What is the doubling time of an exponentially growing population?", "acceptable_concepts": ["calc1.01-functions.exp-growth"], "kind": "named"}
+{"id": "P24", "student_message": "What's a horizontal asymptote?", "acceptable_concepts": ["calc1.02-limits.limits-infinity"], "kind": "named"}
+{"id": "P25", "student_message": "Why does sin x over x go to 1 as x goes to 0?", "acceptable_concepts": ["calc1.02-limits.trig-sandwich"], "kind": "paraphrase"}
+{"id": "P26", "student_message": "How can I use a tangent line to estimate sqrt(4.1)?", "acceptable_concepts": ["calc1.03-derivatives.linear-approx"], "kind": "paraphrase"}
+{"id": "P27", "student_message": "What is the second derivative used for?", "acceptable_concepts": ["calc1.03-derivatives.higher", "calc1.04-diff-applications.extrema-inflection", "calc1.04-diff-applications.monotone-concave"], "kind": "named"}
+{"id": "P28", "student_message": "How do I find dy/dx for x^2 + y^2 = 25?", "acceptable_concepts": ["calc1.03-derivatives.implicit"], "kind": "paraphrase"}
+{"id": "P29", "student_message": "How is the area between two curves computed?", "acceptable_concepts": ["calc1.05-integration.applications"], "kind": "named"}
+{"id": "P30", "student_message": "What is an antiderivative?", "acceptable_concepts": ["calc1.05-integration.antiderivatives"], "kind": "named"}
+{"id": "P31", "student_message": "What's the formal definition of the derivative as a limit?", "acceptable_concepts": ["calc1.03-derivatives.definition"], "kind": "named"}
+{"id": "P32", "student_message": "Can you explain Laplace transforms?", "acceptable_concepts": [], "kind": "outside"}
+{"id": "P33", "student_message": "What does the Calculus II material say about gradients?", "acceptable_concepts": [], "kind": "outside"}
+{"id": "P34", "student_message": "What is an eigenvalue?", "acceptable_concepts": [], "kind": "outside"}
+{"id": "P35", "student_message": "Got it, thanks!", "acceptable_concepts": [], "kind": "no_content"}
+{"id": "P36", "student_message": "Can I think for a sec?", "acceptable_concepts": [], "kind": "no_content"}

@@ -1,0 +1,13 @@
+{
+  "courses": {
+    "calc1": {
+      "name": "Calculus I for Biological and Social Sciences",
+      "note": "Provided files cover Calculus I; the context file also describes proposed Calculus II material."
+    },
+    "number_theory_1": {
+      "name": "Number Theory I",
+      "note": "Provided context describes a two-semester sequence; scope needs instructor confirmation."
+    }
+  },
+  "note": "Test fixture: a subset of the Week 3 catalog. See scripts/build_fixture_corpus.py."
+}
