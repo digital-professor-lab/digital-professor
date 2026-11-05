@@ -3,6 +3,7 @@ openai>=1.0          # provider-agnostic client (any OpenAI-compatible endpoint,
 pypdf>=4.0           # syllabus PDF -> text
 PyYAML>=6.0          # config files
 python-dotenv>=1.0   # load keys from .env
+sympy>=1.12          # independent symbolic verification of runtime answers (Phase 3)
 
 # dev
 pytest>=7.0

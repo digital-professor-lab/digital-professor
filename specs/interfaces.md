@@ -74,6 +74,8 @@ The `Course`-level fields are exactly those in [`course-context.md`](course-cont
 
 Concepts, learning objectives, sources, prerequisite links, and difficulty notes live in the Course/Module/Concept structure defined in course-context.md, not as loose fields on this record.
 
+**Shared-contract note — `assumptions[].confidence` (optional, additive).** Each `assumptions` entry MAY carry a `confidence` of `high` | `medium` | `low` (the generator's self-rating of an inferred value; see `course-context.md` §2.4). It is **optional and additive**: consumers that do not read the `assumptions` log (Retrieval, Interaction, Tutoring Engine, Delivery — they read `Course`-level fields and the Concept structure) are unaffected and may ignore it; any consumer that does read `assumptions` MUST treat `confidence` as optional and MUST preserve it on pass-through. It does not change any existing field.
+
 ## 3. QuestionSchema
 
 **Producer:** Course Context and Ingestion / question-authoring workflow  
@@ -103,6 +105,8 @@ The per-question target. It carries the common envelope (section 1.1) plus the f
 | `constraints` | object | No | Allowed help, tools, attempts, or disclosure level. |
 | `provenance` | enum | Yes | `source_backed` or `ai_inferred` (weakest link over all elements). |
 | `built_from` | {`course_context_schema_version`,`content_sha256`} | Yes | The exact Course Context used, for reproducibility. |
+
+**Shared-contract note — `answer_verification` (optional, additive).** A runtime QuestionSchema MAY carry `answer_verification` = `{status: "verified" | "unverified", method, detail}`, recording whether the `reference_answer` passed an **independent** check (a symbolic `sympy` differentiation check for integrals) — not the LLM grading its own work. It is optional and additive: consumers may ignore it, but the Tutoring Engine **MUST NOT** treat an `unverified` `reference_answer` as trusted ground truth. A reference answer that is *refuted* by the check is never emitted (no schema). See `course-context.md` §3.3.
 
 ## 4. StudentSubmission
 

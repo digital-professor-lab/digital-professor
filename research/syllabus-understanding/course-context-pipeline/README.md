@@ -11,11 +11,68 @@ hardcoded. Default LLM is **local Ollama** (free, no key).
 ## Pipeline (Phase 1)
 
 ```
-intake → generate → (basic structural check / regenerate) → write CourseContext JSON
+intake → generate → validate → (regenerate on errors) → write → flag → review.json
 ```
 
-Full validation + review flagging (Phase 2) and the QuestionSchema builder
-(Phase 3) are separate steps; the hook points are already in `pipeline.py`.
+- **Validate** (`validate.py`) — the conformance gate (rules V-01..V-10 from
+  `specs/course-context.validation-and-flagging.md`; warnings disabled in v1).
+  Errors **block publication**: an invalid result is never written to the published
+  output path (a clearly-marked `<out>.rejected.json` is written instead) and it
+  drives regeneration.
+- **Flag** (`flag.py`) — on a zero-error file, writes a human-review worklist
+  (`<out>.review.json`) of AI-inferred "check-first" fields (rules F-01/F-03).
+  Every inferred check-first field is flagged; each assumption's optional
+  `confidence` orders the list (shakiest first) but never suppresses a review item.
+
+### QuestionSchema builder (Phase 3)
+
+Builds the per-question **QuestionSchema** target (what the Tutoring Engine consumes)
+from a **validated CourseContext** + a free-text **question**, per `course-context.md`
+§3.2/§3.3. This is the **runtime path** (`origin: runtime`): the question isn't in a
+bank, so the builder uses an LLM (provider-agnostic — DeepSeek/OpenAI/Ollama) to solve
+it and write the teaching content.
+
+```bash
+python -m course_context_pipeline.build_question_schema \
+    --course-context ../../../specs/examples/calc1.course-context.json \
+    --question "\\int x\\cos(x) dx" \
+    --base-url https://api.deepseek.com/v1 --model deepseek-chat \
+    --api-key-env DEEPSEEK_API_KEY \
+    --out output/qs.xcosx.json
+```
+
+- **Copied verbatim from the CourseContext:** `learning_objectives`, misconception
+  `description`/`mitigation`, prerequisite names, `source_ids`.
+- **Written by the LLM:** `correct_approach`, `alternative_approaches`,
+  `reference_answer`, each prerequisite `relevance`, each misconception `cue`, and
+  `question_type`/`expected_response_modes`.
+- **Derived:** the runtime id `<primary concept>.adhoc-<8 hex>` (SHA-1 of the
+  normalised prompt) and `built_from.content_sha256` (the exact CourseContext bytes).
+
+**Independent answer verification.** The LLM does not grade itself — for an integral it
+supplies a machine-parseable `{variable, integrand, antiderivative}` and **`sympy`**
+differentiates the claimed antiderivative and compares it to the integrand. A *refuted*
+answer is rejected (no schema, nonzero exit); an uncheckable one is written with
+`answer_verification.status = "unverified"` and **must not** be trusted as ground truth.
+
+**Gated output.** The builder runs a full `validate_question_schema` (top-level
+fields, enums, CourseContext references, nested structures, provenance, and
+concept↔copied-record consistency). An invalid QuestionSchema is **not** published —
+it's written to `<out>.rejected.json` and the CLI exits nonzero.
+
+Concept match goes through a replaceable **`ConceptMatcher`** interface (`(prompt,
+concepts) -> (primary_id, related_ids)`), so Sean's retrieval can be dropped in without
+changing the builder. The default matcher asks the LLM to pick from the CourseContext's
+concept
+list, or you pass `--concept-id <id>` to set it explicitly (never a free guess).
+
+### Validate / flag an existing file (no generation)
+
+```bash
+# runs the Validator + Flagger on a file, prints the report, exits 1 on any error
+python -m course_context_pipeline.cli --validate-only \
+    --from-json ../../../specs/examples/calc1.course-context.json
+```
 
 ### Generation strategies
 
@@ -30,8 +87,9 @@ with `--strategy` (or the `--by-module` shortcut):
 
 `by_module` generates the Course + module shells first, then fills each module
 (its concepts, objectives, sources) in its own call, feeding earlier concept IDs
-forward so cross-module prerequisites resolve, and finally assembles + checks the
-whole file. Per-call parse failures retry up to `max_attempts`.
+forward so cross-module prerequisites resolve, and finally assembles + validates the
+whole file. Each individual call retries on a parse failure, and the whole pass is
+**regenerated on validation errors** up to `max_attempts` — the same gate as `single`.
 
 ## Setup
 
