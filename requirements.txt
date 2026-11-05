@@ -22,6 +22,12 @@ python-docx
 openai
 anthropic
 huggingface_hub
+pydantic
+pymupdf
+
+# Local V1 browser shell
+fastapi
+uvicorn
 
 # Testing
 pytest

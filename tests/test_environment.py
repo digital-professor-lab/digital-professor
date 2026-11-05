@@ -32,6 +32,10 @@ IMPORT_NAMES = {
     "openai": "openai",
     "anthropic": "anthropic",
     "huggingface-hub": "huggingface_hub",
+    "pydantic": "pydantic",
+    "pymupdf": "pymupdf",
+    "fastapi": "fastapi",
+    "uvicorn": "uvicorn",
     "pytest": "pytest",
     "responses": "responses",
 }

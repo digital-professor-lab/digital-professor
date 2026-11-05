@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Professor V1</title>
+  <style>
+    :root { color-scheme: light; --blue:#002d72; --bright:#68ace5; --ink:#172133; --muted:#667085; --line:#d8e0ea; --soft:#f4f7fb; --white:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:15px/1.5 system-ui,-apple-system,sans-serif; color:var(--ink); background:#edf2f7; }
+    button,textarea { font:inherit; }
+    .shell { min-height:100vh; display:grid; grid-template-columns:260px 1fr 280px; }
+    aside { padding:24px 18px; background:var(--blue); color:white; }
+    .brand { font-size:20px; font-weight:750; margin-bottom:4px; }
+    .version { color:#c9ddf2; font-size:12px; margin-bottom:30px; }
+    .nav { display:grid; gap:8px; }
+    .nav button { text-align:left; border:1px solid transparent; border-radius:9px; padding:11px 12px; color:white; background:transparent; }
+    .nav button.active { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.22); }
+    .nav button:disabled { color:#9bb4d0; cursor:not-allowed; }
+    .tag { float:right; font-size:10px; border:1px solid currentColor; border-radius:999px; padding:1px 6px; }
+    main { min-width:0; display:flex; flex-direction:column; background:white; }
+    header { padding:20px 26px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+    h1 { font-size:18px; margin:0; } .course { color:var(--muted); font-size:13px; }
+    .chat { flex:1; overflow:auto; padding:28px max(28px,8vw); }
+    .bubble { max-width:720px; border-radius:14px; padding:14px 16px; margin:0 0 16px; white-space:pre-wrap; }
+    .assistant { background:var(--soft); border:1px solid var(--line); }
+    .student { margin-left:auto; background:var(--blue); color:white; }
+    .meta { font-size:11px; color:var(--muted); margin-top:8px; }
+    .composer { padding:18px max(28px,8vw) 24px; border-top:1px solid var(--line); }
+    textarea { width:100%; min-height:90px; resize:vertical; border:1px solid #aebdcd; border-radius:12px; padding:13px; outline:none; }
+    textarea:focus { border-color:var(--bright); box-shadow:0 0 0 3px #dceefa; }
+    .actions { display:flex; align-items:center; gap:8px; margin-top:10px; }
+    .primary { margin-left:auto; border:0; border-radius:9px; padding:10px 18px; color:white; background:var(--blue); cursor:pointer; }
+    .primary:disabled { opacity:.55; }
+    .tool { border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:white; color:var(--muted); }
+    .right { padding:22px 18px; background:var(--soft); border-left:1px solid var(--line); }
+    .right h2 { margin:0 0 12px; font-size:14px; }
+    .card { background:white; border:1px solid var(--line); border-radius:11px; padding:13px; margin-bottom:12px; }
+    .card strong { display:block; font-size:13px; margin-bottom:5px; }
+    .card p { color:var(--muted); font-size:12px; margin:0; }
+    .state { display:inline-block; margin-top:9px; color:#176b43; background:#e7f6ee; border-radius:999px; padding:2px 7px; font-size:10px; font-weight:700; text-transform:uppercase; }
+    .state.future { color:#7a5410; background:#fff2d5; }
+    @media(max-width:900px){ .shell{grid-template-columns:76px 1fr}.brand{font-size:0}.brand:after{content:'DP';font-size:20px}.nav button{font-size:0}.nav button:before{content:'•';font-size:18px}.tag,.right{display:none} }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <aside>
+    <div class="brand">Digital Professor</div><div class="version">V1 integration shell</div>
+    <div class="nav">
+      <button class="active">Tutoring chat</button>
+      <button disabled>Course materials <span class="tag">planned</span></button>
+      <button disabled>Assessments <span class="tag">planned</span></button>
+      <button disabled>Office Hours <span class="tag">future</span></button>
+      <button disabled>Provider settings <span class="tag">future</span></button>
+    </div>
+  </aside>
+  <main>
+    <header><div><h1>Integration demo</h1><div class="course">Calculus I · Integration by parts fixture</div></div><div id="apiState" class="state">checking</div></header>
+    <section class="chat" id="chat">
+      <div class="bubble assistant">Try submitting work such as “I chose u=x and dv=cos(x)dx,” or ask for help. This demo preserves the submission, creates Student Evidence, selects a tutoring action, and records delivery.</div>
+    </section>
+    <form class="composer" id="composer">
+      <textarea id="message" required maxlength="10000" placeholder="Enter your work or explain where you are stuck…"></textarea>
+      <div class="actions">
+        <button class="tool" type="button" disabled>✎ Handwriting · next</button>
+        <button class="tool" type="button" disabled>● Voice · future</button>
+        <button class="primary" id="send" type="submit">Send</button>
+      </div>
+    </form>
+  </main>
+  <section class="right">
+    <h2>System modules</h2>
+    <div class="card"><strong>Student Evidence</strong><p>Typed input is preserved and validated before handoff.</p><span class="state">working</span></div>
+    <div class="card"><strong>Course Context</strong><p>Uses the frozen Calculus I Question Schema in this demo.</p><span class="state">fixture</span></div>
+    <div class="card"><strong>Knowledge Retrieval</strong><p>Local fixture passages support help requests without an API key.</p><span class="state">fixture</span></div>
+    <div class="card"><strong>Tutoring Engine</strong><p>Selects a deterministic probe or grounded next-step explanation.</p><span class="state">working</span></div>
+    <div class="card"><strong>Avatar Delivery</strong><p>Chat delivery is mocked; animated delivery comes later.</p><span class="state future">placeholder</span></div>
+  </section>
+</div>
+<script>
+  const chat=document.querySelector('#chat'), form=document.querySelector('#composer'), input=document.querySelector('#message'), send=document.querySelector('#send'), apiState=document.querySelector('#apiState');
+  const sessionId=crypto.randomUUID(); let turn=0;
+  function bubble(text,kind,meta=''){const el=document.createElement('div');el.className='bubble '+kind;el.textContent=text;if(meta){const m=document.createElement('div');m.className='meta';m.textContent=meta;el.appendChild(m)}chat.appendChild(el);chat.scrollTop=chat.scrollHeight}
+  fetch('/api/status').then(r=>r.ok?r.json():Promise.reject()).then(()=>{apiState.textContent='ready'}).catch(()=>{apiState.textContent='offline';apiState.classList.add('future')});
+  form.addEventListener('submit',async e=>{e.preventDefault();const text=input.value.trim();if(!text)return;bubble(text,'student');input.value='';send.disabled=true;send.textContent='Thinking…';try{const r=await fetch('/api/turns',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text,session_id:sessionId,turn_id:`turn-${++turn}`})});const data=await r.json();if(!r.ok)throw new Error(typeof data.detail==='string'?data.detail:'Turn failed');bubble(data.message,'assistant',`${data.action_type} · evidence ${data.evidence_status} · ${data.grounding_refs.length} source reference(s)`)}catch(err){bubble(`Request failed: ${err.message}`,'assistant')}finally{send.disabled=false;send.textContent='Send';input.focus()}});
+</script>
+</body>
+</html>
