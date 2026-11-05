@@ -38,7 +38,7 @@ Ovunc's first Course Context draft has been incorporated into the shared contrac
 |---|---|
 | Per-question record | `QuestionSchema` replaces the earlier `QuestionContext` name. |
 | Ownership | Course Context owns `CourseContext` and the content/build rules for `QuestionSchema`. |
-| Course structure | Course → Module → Concept, with linked objectives, sources, prerequisites, and assessment questions. |
+| Course structure | Course → Module → Concept, with linked objectives, sources, and prerequisites. |
 | Interaction access | Interaction receives only the display-safe Question Schema fields; solution, approach, rubric, and misconception cues remain restricted to the Tutoring Engine. |
 | Learner interpretation | `LearnerState` includes the running open/partial/closed gap comparison against the Question Schema. |
 | Course provisioning | A professor/course administrator uploads the syllabus and approved course materials before students can access the course workspace. |

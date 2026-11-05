@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "Course":   { "id", "title", "level", "duration_weeks", "assumed_background", "module_ids[]" },
+  "Module":   { "id", "course_id", "title", "goal", "weeks", "concept_ids[]" },
+  "Concept":  { "id", "module_id", "name", "summary", "key_definitions[]",
+                "prerequisite_ids[]", "objective_ids[]",
+                "difficulty_notes[{ misconception, mitigation }]",
+                "source_ids[]", "question_ids[]" },
+  "LearningObjective": { "id", "concept_id", "text", "bloom_level" },
+  "Source":   { "id", "type", "citation", "section", "text_chunk" },
+  "AssessmentQuestion": { "id", "concept_ids[]", "objective_ids[]", "type",
+                          "difficulty", "prompt", "solution", "rubric",
+                          "common_wrong_answers[]", "requires_figure" }
+}

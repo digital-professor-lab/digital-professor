@@ -48,9 +48,6 @@
       "source_ids": [
         "<source id; SHOULD have at least one>"
       ],
-      "question_ids": [
-        "<assessment question id>"
-      ],
       "provenance": "<source_backed | ai_inferred>"
     }
   ],
@@ -73,30 +70,9 @@
       "provenance": "<source_backed | ai_inferred>"
     }
   ],
-  "AssessmentQuestion": [
-    {
-      "id": "<concept id>.q<n>, e.g. calc1.01-functions.graphs.q1>",
-      "concept_ids": [
-        "<concept id this question tests (at least one)>"
-      ],
-      "objective_ids": [
-        "<objective id that belongs to one of concept_ids>"
-      ],
-      "type": "<one of: homework | quiz | midterm | final | project | participation-prompt>",
-      "difficulty": "<one of: recall | application | analysis>",
-      "prompt": "<the question text>",
-      "solution": "<full worked answer>",
-      "rubric": "<short grading guide>",
-      "common_wrong_answers": [
-        "<a plausible wrong answer>"
-      ],
-      "requires_figure": false,
-      "provenance": "<source_backed | ai_inferred>"
-    }
-  ],
   "assumptions": [
     {
-      "entity": "<one of: Course | Module | Concept | LearningObjective | Source | AssessmentQuestion>",
+      "entity": "<one of: Course | Module | Concept | LearningObjective | Source>",
       "id": "<a record id, or <slug>.* for a blanket policy over many records>",
       "field": "<the field inferred, or a non-schema topic such as 'format (no schema field)'>",
       "assumption": "<the value that was chosen>",

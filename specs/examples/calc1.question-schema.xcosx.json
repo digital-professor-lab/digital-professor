@@ -78,9 +78,7 @@
     "source_ids": [
       "neuhauser.s7-2"
     ],
-    "sibling_question_ids": [
-      "calc1.06-integral-applications.by-parts.q1"
-    ],
+    "sibling_question_ids": [],
     "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018. Section 7.2",
     "grounding": "reference_only"
   },
