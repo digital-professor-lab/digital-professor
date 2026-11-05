@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-professor-lab.github.io/schemas/retrieval-stop.schema.json",
+  "title": "RetrievalStop",
+  "description": "[Proposed new shared record] Returned instead of a GroundingBundle when retrieval must not run (rag-retrieval.md §7.3). It is never an empty result in disguise.",
+  "x-schema-version": "0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "record_type",
+    "schema_version",
+    "created_at",
+    "producer",
+    "status",
+    "correlation_id",
+    "retrieval_request_id",
+    "stop_reason",
+    "reason_code",
+    "retryable",
+    "policy_version",
+    "course_id",
+    "question_id",
+    "session_id",
+    "turn_id"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Stable identifier of this record (interfaces.md §1.1)."
+    },
+    "record_type": {
+      "const": "RetrievalStop",
+      "description": "[Contract] Canonical record type."
+    },
+    "schema_version": {
+      "const": "0.1",
+      "description": "[Contract] Shared contract version."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "[Contract] Creation time, UTC, ISO-8601."
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Component that created the record."
+    },
+    "status": {
+      "enum": [
+        "completed"
+      ],
+      "description": "[Contract] Record processing status."
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Contract] Connects all records of one turn."
+    },
+    "retrieval_request_id": {
+      "type": "string",
+      "description": "[Proposed] The request stopped ('unknown' if absent)."
+    },
+    "course_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "[Proposed] From the request, unchanged."
+    },
+    "question_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "[Proposed] From the request, unchanged."
+    },
+    "session_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "[Proposed] From the request, unchanged."
+    },
+    "turn_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "[Proposed] From the request, unchanged."
+    },
+    "stop_reason": {
+      "enum": [
+        "invalid_request",
+        "needs_clarification",
+        "course_not_ready",
+        "version_mismatch"
+      ],
+      "description": "[Proposed] Why retrieval did not run."
+    },
+    "reason_code": {
+      "type": "string",
+      "minLength": 1,
+      "description": "[Proposed] Detail code, e.g. unknown_course, ambiguous_scope."
+    },
+    "retryable": {
+      "type": "boolean",
+      "description": "[Proposed] True when a retry can succeed (e.g. after the student clarifies)."
+    },
+    "policy_version": {
+      "type": "string",
+      "description": "[Proposed] Course retrieval policy version applied."
+    },
+    "validation_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "field",
+          "code",
+          "message"
+        ],
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "[Contract] Field-level errors (interfaces.md §1.4)."
+    },
+    "clarification_prompt_hint": {
+      "type": "string",
+      "description": "[Proposed] What to ask the student (needs_clarification)."
+    }
+  }
+}
