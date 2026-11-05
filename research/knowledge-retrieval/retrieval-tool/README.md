@@ -43,7 +43,7 @@ The core tests use the local fixture in `data/fixture_corpus/`, a small subset o
 |---|---|---|
 | `test` | `pip install -e ".[test]"` | Core tests and the smoke check |
 | `replay` | `pip install -e ".[replay]"` | Replay of Week 3's saved results; also run `bash scripts/setup_week3.sh` |
-| `postgres` | `pip install -e ".[postgres]"` | Week 3 search code on PostgreSQL and pgvector |
+| `postgres` | `pip install -e ".[postgres]"` | Week 3 search code on PostgreSQL and pgvector; the in-memory stand-in imports the same code, so it needs this too |
 | `embeddings` | `pip install -e ".[embeddings]"` | BGE and Qwen query encoders for live search |
 | `integrations` | No packages | The model-provider and Jev clients use only the standard library. They need an API key |
 
