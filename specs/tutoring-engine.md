@@ -222,6 +222,12 @@ The Engine writes or renders the exact content. Delivery presents it and does no
 
 `single_choice`, `true_false` and `fill_in_blank` are not emitted by the Engine in V1.
 
+**Optional Tavus voice pilot**
+
+Audio → Tavus STT → tutoring engine → exact text → Tavus TTS/avatar → utterance check.
+
+The pilot's bridge passes the student's transcript to the Engine and returns the selected action's approved speech as the Custom LLM response. Tavus speaks that text verbatim, with no extra hint, paraphrase or next question. A duplicate request for the same turn returns the saved speech and leaves the tutoring state as it was. This pilot uses the existing action types and sits alongside the text-only V1 profile.
+
 ## 3. Dependencies
 
 | Dependency | Use | If unavailable |
@@ -303,6 +309,8 @@ The Engine writes or renders the exact content. Delivery presents it and does no
 `handoff_type` has one V1 value, `confirmation_required`. `unresolved_ambiguities` is copied from the evidence unchanged.
 
 Evidence always carries the main question's `question_id`. While a transfer problem is active, the Engine applies the evidence to that problem through `QuestionState.active_problem`.
+
+For the voice pilot, the bridge removes leading `<user_audio_analysis>…</user_audio_analysis>` blocks before forwarding the transcript or identifying a duplicate turn. Only the remaining transcript enters answer and intent assessment. If no transcript remains, wait for student input. Meaning-changing ambiguity still follows the confirmation flow above.
 
 ### 4.3 `QuestionSchema` [Contract + Proposed: Ovunc]
 
@@ -484,6 +492,12 @@ Two intents also add fixed prefixes, written by code (Appendix E):
 - `DEMAND` adds `decline_answer` while the active problem is unsolved.
 
 **Safety signal.** `prepare_turn` matches a versioned phrase list. `read_turn` also returns `safety_signal`. If either fires, the Engine uses `SAFETY_STOP`. The phrase check runs on every turn, including turns that skip the reader model.
+
+**Spoken work in the voice pilot**
+
+- Extract the final expression from conversational lead-ins such as “Okay, the answer is…” or “Multiplying them together gives…”. After a clear self-correction such as “I mean…” or “I'm sorry…”, check the corrected expression.
+- Normalize spoken maths while preserving signs, powers and function arguments. For Q2, “cosine x squared times two x” and “two x times cosine of x squared” both map to `2x cos(x^2)`. “Two x times cosine x” maps to `2x cos(x)` and calls for `RETRY_CHECK` on what goes inside the cosine. If the expression remains unclear, ask for clarification without grading or increasing the help level.
+- For Q2, track the checked result and the verified inner-derivative step separately within the active problem. Accept either order across turns. Use `ASK_WORK` to request the missing piece. Once both are present, use `CONFIRM_ASK_WHY`, then use `TRANSFER` after the explanation check passes. A repeated result alone leaves that check open.
 
 ### 5.4 Assessing the student
 
@@ -1145,6 +1159,14 @@ Each turn writes one `InteractionTraceEvent` per step and follows the shared log
 
 **Diagnostic (when enabled):** step timings, model and prompt versions, math result, assessment, reconciliation, candidates, final card, card replacement, guard results, rejected gap updates, retries, fallback reason, token use. Raw student text stays in referenced records, not repeated in each event.
 
+**Turns** (voice pilot test view)
+
+| # | Heard by Tavus (user utterance) | Engine received | Action | Engine text | Avatar actually said | Match |
+| :- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | — | — | `elicit` · `ELICIT_START` | Let us differentiate sine of x squared. What would your first step be? | | |
+
+Record rows automatically as a test runs and retain each run and its reviewer marks locally across new tests and reloads. Associate a Tavus utterance with its turn before filling **Avatar actually said**, even if events arrive out of order. Leave the cell blank while evidence is missing. Compare the event transcript with the engine text and track interruption separately. Leave **Match** unchecked for the reviewer to mark after listening. The pilot log is diagnostic. The V1 delivery acknowledgement still follows §5.12.
+
 **V1 metrics**
 
 | Metric | Initial target |
@@ -1174,6 +1196,23 @@ Question: differentiate sin(x²).
 | 3 | "2x cos(x²)" | Tool `correct`; assisted, so D9; `CONFIRM_ASK_WHY` | "That's correct. Why do you need the $2x$?" |
 | 4 | "x² is the inside function, so its derivative multiplies." | Explanation `sound`; phase `TRANSFER`; `TRANSFER` | "Now try this related problem: differentiate $e^{3x^2}$." |
 | 5 | "6x e^(3x²), the same inner-derivative idea." | Tool `correct`; no help on this problem; all gaps close; phase `RESOLVED`; `WRAP_UP` | Fixed summary and the worked solution |
+
+**Voice pilot decision examples for Q2**
+
+These rows are independent examples from the chain-rule prototype. The last column is the approved script sent to Tavus. The utterance check in §8 applies to each row.
+
+| Engine decision | Trigger | Card | Exact speech |
+|---|---|---|---|
+| `elicit` | Start the lesson | `ELICIT_START` | Let us differentiate sine of x squared. What would your first step be? |
+| `inspect` | The result is correct and work is still needed | `ASK_WORK` | Could you walk me through the steps you used? |
+| `probe` | The student proposes the product rule | `ASK_REASON` | What made you choose that rule here? What are the outer and inner functions? |
+| `hint` | The first attempt gives only the outer derivative | `HINT_POINT` | Take another look at the expression inside the sine. |
+| `explain` | The student asks what the chain rule means | `ANSWER_CONCEPT` | For a composite function, differentiate the outer function and multiply by the derivative of the inner function. What would you try next? |
+| `demonstrate` | The student needs more support after two hints | `DEMO_SIMILAR` | For cosine of x cubed, the outer derivative gives negative sine of x cubed. Multiply by three x squared, the derivative of the inner function. Now try the original problem. |
+| `retry` | The first attempt gives `2x cos(x)` | `RETRY_CHECK` | You have the factor of two x. What should go inside the cosine when the original function is sine of x squared? |
+| `check_understanding` | The result and inner derivative have both been verified | `CONFIRM_ASK_WHY` | That derivative is correct. Where does the factor of two x come from? |
+| `transfer` | The student explains the multiplier during the check | `TRANSFER` | Now try differentiating e raised to the power of three x squared. |
+| `verify` | The student solves the transfer problem | `WRAP_UP` | You’ve shown how the chain rule works. The factor of two x comes from differentiating the inner function. On the transfer problem, you multiplied by the derivative of three x squared. |
 
 ### 9.2 Normal handoff
 
@@ -1234,6 +1273,8 @@ Interaction normally resolves `x²` versus `x₂` before the turn reaches the En
 **Transient.** The Engine selects `HINT_POINT` and saves a pending turn with `help_level` 1. The student's connection drops, and the coordinator's three attempts fail. The action is `undelivered` and `help_level` stays 0. When the student reconnects, `pending_action` returns the same hint, Delivery shows it, and `record_delivery` applies the turn.
 
 **Permanent.** The same hint contains math that cannot be rendered, so Delivery reports `RENDER_FAILED`. The Engine discards the turn and returns the `HINT_POINT` fallback template as a replacement. The student sees "Please look again at your most recent step. What would you check first?" `help_level` stays 0, and the student keeps moving.
+
+**Voice pilot.** A Tavus call ending at its duration limit is a delivery event. A `402` when creating the conversation is surfaced as a billing or usage limit. Preserve the test rows already recorded in either case and keep these outcomes separate from the engine's correctness and lesson-completion decisions.
 
 ## 10. Proposed changes and open questions
 
@@ -1681,6 +1722,15 @@ All answers, examples and transfer problems were verified with SymPy. This is th
 | S22 | `SAFETY_STOP` fails permanently | Safety flag stays set; no replacement; the next turn returns `SAFETY_STOP` |
 | S23 | `presented` arrives after the turn was discarded | `presented_late` recorded; no state change |
 | S24 | The pending turn is older than `pending_turn_ttl` | `pending_action` returns `null`; `expired` logged |
+
+**Voice pilot regression cases.** Use synthetic transcripts and simulated Tavus events.
+
+| Case | Expected |
+|---|---|
+| A valid spoken result follows a `<user_audio_analysis>` block | The Engine receives only the result. Replaying the same turn with different analysis returns the same action and creates no additional grade or test row. |
+| The student states the inner derivative, then gives the result in a separate turn, or gives them in reverse order | `ASK_WORK` targets the missing evidence. The second piece leads to `CONFIRM_ASK_WHY`. Transfer waits for the explanation check. |
+| The student ends a self-correction with “two x times cosine x” or “two x times cosine x squared” | On a first attempt, the former leads to `RETRY_CHECK` for the missing substitution and the latter to `ASK_WORK` if the reasoning is absent. |
+| An avatar transcript arrives before the corresponding student event and differs from the approved speech | Associate it with the correct turn when the student event arrives. Show the discrepancy and leave **Match** for the reviewer. |
 
 **Property test.** Random sequences of intents, tool results, assessments, faults, missing assets and delivery results MUST always yield a defined card, never `WRAP_UP` before the main problem is solved, and never more than 15 non-fault student turns before the question parks or resolves.
 
