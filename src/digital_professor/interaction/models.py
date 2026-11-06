@@ -176,6 +176,9 @@ class RecognizerOutput:
     recognition_status: Literal["recognized", "confirmation_required", "partial", "failed"]
     latency_ms: int | None
     raw_provider_output: str | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    estimated_cost_usd: float | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -203,6 +206,9 @@ class RecognitionResult:
     page_count: int
     processed_pages: tuple[int, ...]
     observed_steps: tuple[Mapping[str, Any], ...]
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    estimated_cost_usd: float | None = None
 
 
 @dataclass(frozen=True, slots=True)

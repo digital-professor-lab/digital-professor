@@ -28,6 +28,7 @@ pymupdf
 # Local V1 browser shell
 fastapi
 uvicorn
+python-multipart
 
 # Testing
 pytest

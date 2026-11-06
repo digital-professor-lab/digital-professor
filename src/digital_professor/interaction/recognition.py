@@ -130,6 +130,9 @@ class OpenAIHandwritingRecognizer:
         )
         elapsed_ms = round((time.perf_counter() - started) * 1000)
         payload = _RecognitionPayload.model_validate(json.loads(response.output_text))
+        usage = getattr(response, "usage", None)
+        input_tokens = getattr(usage, "input_tokens", None)
+        output_tokens = getattr(usage, "output_tokens", None)
         meaning_ambiguity = any(item.meaning_may_change for item in payload.ambiguities)
         incomplete = payload.incomplete or len(pages) < page_count
         status = "partial" if incomplete else "confirmation_required" if meaning_ambiguity else "recognized"
@@ -146,7 +149,27 @@ class OpenAIHandwritingRecognizer:
             recognition_status=status,
             latency_ms=elapsed_ms,
             raw_provider_output=response.output_text,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            estimated_cost_usd=_recognition_cost(input_tokens, output_tokens),
         )
+
+
+def _recognition_cost(
+    input_tokens: int | None, output_tokens: int | None
+) -> float | None:
+    try:
+        input_rate = float(os.getenv("OPENAI_HANDWRITING_INPUT_COST_PER_MILLION", ""))
+        output_rate = float(os.getenv("OPENAI_HANDWRITING_OUTPUT_COST_PER_MILLION", ""))
+    except ValueError:
+        return None
+    if input_tokens is None or output_tokens is None:
+        return None
+    return round(
+        input_tokens * input_rate / 1_000_000
+        + output_tokens * output_rate / 1_000_000,
+        8,
+    )
 
 
 class StubHandwritingRecognizer:

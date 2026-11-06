@@ -201,7 +201,9 @@ def test_partial_multi_page_result_requires_review_and_retains_page_provenance()
     assert review.confirmation_required is True
 
 
-def test_openai_adapter_renders_bounded_pdf_pages_and_reports_partial() -> None:
+def test_openai_adapter_renders_bounded_pdf_pages_and_reports_partial(monkeypatch) -> None:
+    monkeypatch.setenv("OPENAI_HANDWRITING_INPUT_COST_PER_MILLION", "2")
+    monkeypatch.setenv("OPENAI_HANDWRITING_OUTPUT_COST_PER_MILLION", "8")
     document = pymupdf.open()
     for number in range(1, 7):
         page = document.new_page()
@@ -211,6 +213,7 @@ def test_openai_adapter_renders_bounded_pdf_pages_and_reports_partial() -> None:
 
     class FakeResponse:
         model = "vision-test-model"
+        usage = type("Usage", (), {"input_tokens": 1000, "output_tokens": 250})()
         output_text = json.dumps({
             "transcription_markdown": "page-limited transcription",
             "steps": [
@@ -246,6 +249,9 @@ def test_openai_adapter_renders_bounded_pdf_pages_and_reports_partial() -> None:
     assert output.processed_pages == (1, 2, 3, 4, 5)
     assert output.recognition_status == "partial"
     assert output.model_version == "vision-test-model"
+    assert output.input_tokens == 1000
+    assert output.output_tokens == 250
+    assert output.estimated_cost_usd == 0.004
     assert client.responses.request is not None
     text_config = client.responses.request["text"]  # type: ignore[index]
     schema = text_config["format"]["schema"]  # type: ignore[index]

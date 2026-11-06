@@ -208,6 +208,9 @@ class HandwritingEvidenceService:
             page_count=output.page_count,
             processed_pages=output.processed_pages,
             observed_steps=tuple(_freeze(item) for item in output.observed_steps),
+            input_tokens=output.input_tokens,
+            output_tokens=output.output_tokens,
+            estimated_cost_usd=output.estimated_cost_usd,
         )
         review = HandwritingReview(
             submission=submission,
@@ -296,6 +299,10 @@ class HandwritingEvidenceService:
         )
         del self._pending[recognition_id]
         return ConfirmedHandwritingTurn(corrections=tuple(corrections), result=result)
+
+    def pending_review(self, recognition_id: str) -> HandwritingReview | None:
+        """Return an immutable pending review for application-level trace recording."""
+        return self._pending.get(recognition_id)
 
     def _build_evidence(
         self,

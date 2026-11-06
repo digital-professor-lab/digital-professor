@@ -36,6 +36,7 @@ IMPORT_NAMES = {
     "pymupdf": "pymupdf",
     "fastapi": "fastapi",
     "uvicorn": "uvicorn",
+    "python-multipart": "multipart",
     "pytest": "pytest",
     "responses": "responses",
 }

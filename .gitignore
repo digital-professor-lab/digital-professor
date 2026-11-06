@@ -61,6 +61,10 @@ node_modules/
 *.vrb
 *.xdv
 
+# Local presentation draft for the initial-implementation update
+/docs/presentations/v1_initial_implementation_update.tex
+/docs/presentations/v1_initial_implementation_update.pdf
+
 # Local application and diagnostic output
 *.pid
 *.tmp

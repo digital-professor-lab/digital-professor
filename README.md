@@ -25,16 +25,14 @@ The implementation follows the contracts and boundaries in:
 - [`specs/rag-retrieval.md`](specs/rag-retrieval.md)
 - [`specs/tutoring-engine.md`](specs/tutoring-engine.md)
 
-The current integrated turn is:
+The current integrated demo is:
 
 ```text
-StudentSubmission -> StudentEvidence ----\
-                                       Tutoring Engine <-> Retrieval
-QuestionSchema ------------------------/       |
-                                                v
-                                      TutoringAction -> mock Delivery
-                                             ^               |
-                                             \-- DeliveryResult
+Uploaded syllabus and notes -> normalized pages/chunks -> course retrieval
+                                                         |
+StudentSubmission -> StudentEvidence -> stateful Tutoring Engine -> mock Delivery
+        ^                                  |                       |
+        \------ linked follow-up turn -----+------ DeliveryResult -+
 ```
 
 The root package is divided by specification ownership:
@@ -42,13 +40,14 @@ The root package is divided by specification ownership:
 | Package | Current responsibility |
 |---|---|
 | `interaction` | Preserve typed or handwritten input, handle recognition and confirmation, construct factual `StudentEvidence`, coordinate handoffs, and record trace events. |
-| `course_context` | Provide a read-only view of a frozen `QuestionSchema` and its course concepts. |
-| `retrieval` | Adapt the product contracts to Retrieval V1 and return grounded passage references without choosing pedagogy. |
-| `tutoring` | Construct a minimal `LearnerState`, select a deterministic probe or grounded explanation, produce `TutoringAction`, and publish state after confirmed delivery. |
+| `course_context` | Parse syllabus and notes, preserve page/line mappings, publish an in-memory course workspace, and build a partial runtime Question Schema. |
+| `retrieval` | Search uploaded course chunks and return passages with document, version, page, line, and source-view links. |
+| `tutoring` / `runtime` | Maintain a session, link follow-up evidence, optionally call an OpenAI-compatible model, produce `TutoringAction`, and apply state only after confirmed delivery. |
 
-Delivery is mocked in the current slice. The integrated Retrieval test uses the
-dependency-free fixture backend, so it requires no API key, model download, or
-database.
+Delivery remains mocked. Course workspaces, indexes, sessions, and logs are
+in-memory and reset when the server restarts. Without a provider key, the demo
+uses a deterministic grounded prompt; with a configured key, it calls the
+selected OpenAI-compatible model.
 
 ## Repository setup
 
@@ -99,21 +98,61 @@ PYTHONPATH=src:research/knowledge-retrieval/retrieval-tool \
                   tests/test_spec_contracts.py -v
 ```
 
-### Run the local V1 interface
+### Run the integrated demo
 
-The browser shell exposes the tested typed tutoring turn and shows disabled,
-status-labeled placeholders for planned course setup, handwriting, voice,
-assessment, provider settings, and avatar delivery features.
+Copy the provider template and add a key if model-generated tutoring responses
+are needed. The key stays server-side.
+
+```bash
+cp .env.example .env
+# Edit .env and set only the provider API key.
+```
 
 ```bash
 PYTHONPATH=src:research/knowledge-retrieval/retrieval-tool \
   uvicorn digital_professor.webapp.app:app --reload
 ```
 
-Open <http://127.0.0.1:8000>. The demo uses the frozen Calculus I Question
-Schema and the local Retrieval fixture, so typed turns require no provider key.
-The interface is an integration shell rather than a production client; disabled
-controls intentionally mark functionality that is not implemented yet.
+Open <http://127.0.0.1:8000>. Upload one syllabus in the syllabus section, then
+upload one or more notes/textbook files in the notes section. Select **Start DP
+and build retrieval**. Chat stays unavailable until parsing,
+page/line normalization, chunking, and retrieval indexing finish. The app then
+reports that the course is ready for queries and opens tutoring setup.
+
+Before publication, ingestion compares course identity signals from the
+syllabus against each notes/textbook file. A conflicting explicit course number
+or explicit course-title header rejects the batch. Files without an identifiable
+course marker are allowed but the workspace is labeled **partially verified**
+with a review note. Matching identifiers produce **verified** status. This is a
+guardrail rather than a semantic proof that every passage belongs to the course.
+
+Use **Provider settings** to select the provider, model, compatible endpoint,
+token pricing, and handwriting model. The app never accepts or returns the API
+key. Follow-up turns reuse the same session and link to the prior action.
+Responses show the passages used; source links open the normalized page and
+highlighted line range. An extracted course name can be corrected from the
+published-course card. Student and tutor messages render inline TeX written as
+`$x^2$` and code written between backticks. The tutoring surface expands with
+the browser window, and handwritten work is attached from the `+` button in the
+message composer.
+
+The browser stores the active session ID in local storage and reloads the
+server-side transcript after a page refresh. This survives browser refreshes,
+but not a backend restart because the current session repository is in memory.
+
+Operational handoff events and generated Question Schema records are written
+only to backend files under `logs/YYYY-MM-DD/<session-id>/`, with timestamped
+filenames; they are not displayed or served by the student UI. Turning
+diagnostics on additionally records source details, model/timing/token metadata,
+configured cost estimates, and explicit issues. Handwritten images or
+PDFs can be transcribed by the configured OpenAI vision model, but the student
+must confirm or correct the transcription before it enters the tutoring flow.
+The **Activity log** sidebar item reads a bounded session summary from these
+backend files: preserved/recognized input, the selected action and policy phase,
+output, and sources. It does not expose private model chain-of-thought. Backend
+records keep exact typed input and distinguish OCR output from confirmed text.
+Office Hours and Assessments remain placeholders.
+See [`docs/notes/INTEGRATED_DEMO.md`](docs/notes/INTEGRATED_DEMO.md) for details.
 
 The handwriting unit tests use a deterministic recognizer and do not require a
 paid provider. Live handwriting recognition is optional and requires an
@@ -193,26 +232,28 @@ implementation moves responsibilities between modules.
 - Added executable tests for required shared-record fields and module
   boundaries.
 - Added Jira-linked branching, peer-reviewed PRs, and AI-assisted coding rules.
+- Added syllabus/notes ingestion, source-linked retrieval, stateful follow-up
+  turns, provider validation, configurable diagnostics, and the integrated UI.
+- Added the first policy-driven Tutoring Engine machinery: phase, help level,
+  action selection, pending Learner State, and delivery-committed state updates.
 
 ### Next
 
 The following specification work is not yet implemented in the root product:
 
-- Promote course ingestion, validation, runtime Question Schema creation, and
-  versioned course publication into product modules.
+- Replace heuristic Course Context extraction and the partial runtime Question
+  Schema with the full validation and instructor-review workflow.
 - Implement `QuestionStart`, question reopening, idempotency, and the complete
   question/session state lifecycle.
 - Replace the deterministic Tutoring Engine slice with the specified decision
   workflow, action cards, help ladders, math checks, reply checks, safe
   fallbacks, and full failure behavior.
-- Replace fixture retrieval with versioned ingested sources, production search,
-  citation resolution, and page/line/highlight links.
+- Replace lexical in-memory search with the specified Retrieval tool loop,
+  embedding index, evidence check, and citation validator.
 - Implement Delivery as a product module, including structured presentation
   failures, retries, accessibility adaptations, and the avatar handoff.
-- Add durable state and trace storage, logging configuration, retention rules,
-  and diagnostic logging controls.
-- Add the root product API and browser client; the current web application is a
-  local integration shell and is not yet a production client.
+- Add durable course/session/trace storage, retention rules, authentication,
+  and authorization. The current state disappears on server restart.
 - Complete recorded-voice input. Real-time voice/video interaction remains
   deferred.
 - Expand schema validation and compatibility checks for every shared record.
@@ -237,3 +278,5 @@ The following specification work is not yet implemented in the root product:
   Learner State.
 
 See [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for project history.
+See [`docs/reports/INTEGRATED_DEMO_TEST_RESULTS.md`](docs/reports/INTEGRATED_DEMO_TEST_RESULTS.md)
+for the latest integrated-demo validation and remaining manual provider checks.
