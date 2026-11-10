@@ -5,7 +5,7 @@ from __future__ import annotations
 import html
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -13,11 +13,17 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from digital_professor.course_context.ingestion import (
+    CourseConsistencyError,
     DocumentIngestionService,
     IngestionError,
     SourceUpload,
 )
-from digital_professor.providers import OpenAICompatibleProvider, ProviderConfiguration
+from digital_professor.providers import (
+    OpenAICompatibleProvider,
+    ProviderConfiguration,
+    configuration_for_provider,
+    provider_catalog,
+)
 from digital_professor.runtime import DemoApplication
 from digital_professor.interaction import OpenAIHandwritingRecognizer
 
@@ -45,7 +51,7 @@ class HandwritingConfirmationRequest(BaseModel):
 class ProviderSettingsRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    provider: str = Field(min_length=1, max_length=80)
+    provider: Literal["openai", "openrouter", "deepseek", "ollama", "custom"]
     model: str = Field(min_length=1, max_length=200)
     base_url: str | None = None
     input_cost_per_million: float | None = Field(default=None, ge=0)
@@ -68,7 +74,10 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     app = FastAPI(title="Digital Professor integrated demo", version="0.2.0")
     provider_config = ProviderConfiguration.from_environment()
     app.state.provider_config = provider_config
-    app.state.handwriting_model = os.getenv("OPENAI_HANDWRITING_MODEL", "gpt-4o-mini")
+    app.state.handwriting_model = os.getenv(
+        "DIGITAL_PROFESSOR_HANDWRITING_MODEL",
+        os.getenv("OPENAI_HANDWRITING_MODEL", "gpt-4o-mini"),
+    )
     app.state.runtime = runtime or DemoApplication(_configured_provider(provider_config))
     app.state.ingestion = DocumentIngestionService()
     app.state.handwriting_recognizer = None
@@ -99,6 +108,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
                 "base_url": config.base_url,
                 "api_key_env": config.api_key_env,
                 "key_configured": bool(config.api_key),
+                "requires_api_key": config.requires_api_key,
                 "input_cost_per_million": config.input_cost_per_million,
                 "output_cost_per_million": config.output_cost_per_million,
                 "handwriting_model": app.state.handwriting_model,
@@ -108,7 +118,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
                 "typed_multi_turn": "available",
                 "source_links": "available",
                 "diagnostic_logging": "available",
-                "handwriting": "available_with_openai_key",
+                "handwriting": "available_with_compatible_vision_provider",
                 "office_hours": "future",
                 "assessments": "future",
             },
@@ -122,17 +132,25 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             app.state.runtime.provider = provider
         return result
 
+    @app.get("/api/provider/catalog")
+    def get_provider_catalog() -> dict[str, Any]:
+        return {
+            "providers": provider_catalog(),
+            "selected": app.state.provider_config.provider,
+        }
+
     @app.put("/api/provider/settings")
     def update_provider_settings(request: ProviderSettingsRequest) -> dict[str, Any]:
-        current = app.state.provider_config
-        config = ProviderConfiguration(
-            provider=request.provider,
-            model=request.model,
-            base_url=request.base_url.strip() if request.base_url else None,
-            api_key_env=current.api_key_env,
-            input_cost_per_million=request.input_cost_per_million,
-            output_cost_per_million=request.output_cost_per_million,
-        )
+        try:
+            config = configuration_for_provider(
+                provider=request.provider,
+                model=request.model,
+                base_url=request.base_url,
+                input_cost_per_million=request.input_cost_per_million,
+                output_cost_per_million=request.output_cost_per_million,
+            )
+        except ValueError as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
         app.state.provider_config = config
         app.state.handwriting_model = request.handwriting_model
         app.state.handwriting_recognizer = None
@@ -148,6 +166,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             "handwriting_model": app.state.handwriting_model,
             "api_key_env": config.api_key_env,
             "key_configured": bool(config.api_key),
+            "requires_api_key": config.requires_api_key,
         }
 
     @app.get("/api/courses")
@@ -181,15 +200,29 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         }
 
     @app.post("/api/course-setup/publish")
-    def prepare_course() -> dict[str, Any]:
+    def prepare_course(confirm_course_mismatch: bool = False) -> dict[str, Any]:
         if app.state.pending_syllabus is None:
             raise HTTPException(status_code=422, detail="Upload a syllabus first.")
         if not app.state.pending_notes:
             raise HTTPException(status_code=422, detail="Upload one or more notes files first.")
         try:
             workspace = app.state.ingestion.ingest_course(
-                [app.state.pending_syllabus, *app.state.pending_notes]
+                [app.state.pending_syllabus, *app.state.pending_notes],
+                allow_course_mismatch=confirm_course_mismatch,
             )
+        except CourseConsistencyError as error:
+            raise HTTPException(
+                status_code=409,
+                detail={
+                    "code": "course_mismatch_confirmation_required",
+                    "message": (
+                        "The uploaded materials may describe different courses. "
+                        "Review the conflicts and confirm only if they belong together."
+                    ),
+                    "conflicts": list(error.conflicts),
+                    "requires_confirmation": True,
+                },
+            ) from error
         except IngestionError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
         app.state.runtime.publish_course(workspace)
@@ -310,7 +343,12 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         try:
             recognizer = app.state.handwriting_recognizer
             if recognizer is None:
-                recognizer = OpenAIHandwritingRecognizer(model=app.state.handwriting_model)
+                provider = OpenAICompatibleProvider(app.state.provider_config)
+                recognizer = OpenAIHandwritingRecognizer(
+                    model=app.state.handwriting_model,
+                    client=provider.client(),
+                    provider_name=app.state.provider_config.provider,
+                )
                 app.state.handwriting_recognizer = recognizer
             return app.state.runtime.begin_handwriting(
                 session_id,

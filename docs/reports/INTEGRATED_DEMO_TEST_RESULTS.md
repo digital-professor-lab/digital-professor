@@ -9,7 +9,7 @@ branch and remain subject to peer review.
 
 | Check | Result |
 |---|---|
-| Root product and contract suite | 84 passed, 6 third-party deprecation warnings |
+| Root product and contract suite | 87 passed, 6 third-party deprecation warnings |
 | Course Context research regression | 28 passed |
 | Retrieval research regression | 100 passed, 26 expected optional-integration skips |
 | Python compile check | Passed |

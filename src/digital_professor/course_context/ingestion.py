@@ -59,7 +59,7 @@ class CourseWorkspace:
     overview: str
     topics: tuple[str, ...]
     documents: tuple[IngestedDocument, ...]
-    consistency_status: Literal["verified", "partially_verified"]
+    consistency_status: Literal["verified", "partially_verified", "override_confirmed"]
     consistency_notes: tuple[str, ...]
     status: Literal["published"] = "published"
 
@@ -68,10 +68,23 @@ class IngestionError(ValueError):
     """Structured source-ingestion failure suitable for an API response."""
 
 
+class CourseConsistencyError(IngestionError):
+    """A suspected cross-course upload that requires explicit confirmation."""
+
+    def __init__(self, conflicts: tuple[str, ...]) -> None:
+        self.conflicts = conflicts
+        super().__init__("Course-material consistency check failed: " + " ".join(conflicts))
+
+
 class DocumentIngestionService:
     """Parse uploaded sources, preserve page lines, and create bounded chunks."""
 
-    def ingest_course(self, uploads: list[SourceUpload]) -> CourseWorkspace:
+    def ingest_course(
+        self,
+        uploads: list[SourceUpload],
+        *,
+        allow_course_mismatch: bool = False,
+    ) -> CourseWorkspace:
         if not uploads:
             raise IngestionError("At least one syllabus and one notes file are required.")
         documents = tuple(self._ingest_document(upload) for upload in uploads)
@@ -90,7 +103,10 @@ class DocumentIngestionService:
         course_number = _course_number(syllabus_text)
         course_name = _course_name(syllabus_text, course_number)
         consistency_status, consistency_notes = _check_course_consistency(
-            course_name, course_number, knowledge
+            course_name,
+            course_number,
+            knowledge,
+            allow_course_mismatch=allow_course_mismatch,
         )
         course_id = _slug(course_number or course_name or f"course-{uuid4().hex[:8]}")
         topics = _topics(knowledge)
@@ -268,8 +284,13 @@ def _check_course_consistency(
     course_name: str | None,
     course_number: str | None,
     documents: list[IngestedDocument],
-) -> tuple[Literal["verified", "partially_verified"], tuple[str, ...]]:
-    """Reject explicit conflicts and retain uncertainty when identity is absent."""
+    *,
+    allow_course_mismatch: bool = False,
+) -> tuple[
+    Literal["verified", "partially_verified", "override_confirmed"],
+    tuple[str, ...],
+]:
+    """Pause explicit conflicts unless a human explicitly confirms the upload."""
     expected_number = _canonical_course_number(course_number)
     expected_tokens = _identity_tokens(course_name)
     verified: list[str] = []
@@ -304,9 +325,12 @@ def _check_course_consistency(
             "included with review recommended"
         )
     if conflicts:
-        raise IngestionError(
-            "Course-material consistency check failed: " + " ".join(conflicts)
+        if not allow_course_mismatch:
+            raise CourseConsistencyError(tuple(conflicts))
+        override_notes = tuple(
+            f"Human override confirmed: {conflict}" for conflict in conflicts
         )
+        return "override_confirmed", tuple(verified + uncertain) + override_notes
     notes = tuple(verified + uncertain)
     return ("partially_verified" if uncertain else "verified"), notes
 

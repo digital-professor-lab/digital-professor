@@ -83,14 +83,19 @@ class OpenAIHandwritingRecognizer:
         *,
         model: str | None = None,
         client: OpenAI | None = None,
+        provider_name: str = "openai",
         max_pages: int = 5,
     ) -> None:
-        self.model = model or os.getenv("OPENAI_HANDWRITING_MODEL", "gpt-4o-mini")
+        self.model = model or os.getenv(
+            "DIGITAL_PROFESSOR_HANDWRITING_MODEL",
+            os.getenv("OPENAI_HANDWRITING_MODEL", "gpt-4o-mini"),
+        )
         if client is None and not os.getenv("OPENAI_API_KEY"):
             raise RecognitionConfigurationError(
                 "OPENAI_API_KEY is not configured for handwriting recognition."
             )
         self.client = client or OpenAI()
+        self.provider_name = provider_name
         self.max_pages = max_pages
 
     def recognize(self, *, filename: str, media_type: str, data: bytes) -> RecognizerOutput:
@@ -101,7 +106,8 @@ class OpenAIHandwritingRecognizer:
             "type": "input_text",
             "text": (
                 f"Faithfully transcribe the student's work from {filename}. Preserve line order, "
-                "visible mistakes, notation, and crossed-out work. Use Markdown with LaTeX. Do not "
+                "visible mistakes, notation, and crossed-out work. Use Markdown with valid LaTeX, "
+                "delimiting inline equations with $...$ and standalone equations with $$...$$. Do not "
                 "solve, grade, simplify, or silently correct anything. Return ordered steps with page "
                 "and visible region labels. Flag uncertain signs, operators, digits, variables, "
                 "exponents, subscripts, inequalities, grouping marks, and missing lines. Mark whether "
@@ -137,7 +143,7 @@ class OpenAIHandwritingRecognizer:
         incomplete = payload.incomplete or len(pages) < page_count
         status = "partial" if incomplete else "confirmation_required" if meaning_ambiguity else "recognized"
         return RecognizerOutput(
-            provider="openai",
+            provider=self.provider_name,
             model_version=getattr(response, "model", self.model),
             recognized_content=payload.transcription_markdown,
             content_format="markdown_tex",
@@ -159,8 +165,18 @@ def _recognition_cost(
     input_tokens: int | None, output_tokens: int | None
 ) -> float | None:
     try:
-        input_rate = float(os.getenv("OPENAI_HANDWRITING_INPUT_COST_PER_MILLION", ""))
-        output_rate = float(os.getenv("OPENAI_HANDWRITING_OUTPUT_COST_PER_MILLION", ""))
+        input_rate = float(
+            os.getenv(
+                "DIGITAL_PROFESSOR_HANDWRITING_INPUT_COST_PER_MILLION",
+                os.getenv("OPENAI_HANDWRITING_INPUT_COST_PER_MILLION", ""),
+            )
+        )
+        output_rate = float(
+            os.getenv(
+                "DIGITAL_PROFESSOR_HANDWRITING_OUTPUT_COST_PER_MILLION",
+                os.getenv("OPENAI_HANDWRITING_OUTPUT_COST_PER_MILLION", ""),
+            )
+        )
     except ValueError:
         return None
     if input_tokens is None or output_tokens is None:

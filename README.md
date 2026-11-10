@@ -121,10 +121,13 @@ reports that the course is ready for queries and opens tutoring setup.
 
 Before publication, ingestion compares course identity signals from the
 syllabus against each notes/textbook file. A conflicting explicit course number
-or explicit course-title header rejects the batch. Files without an identifiable
-course marker are allowed but the workspace is labeled **partially verified**
-with a review note. Matching identifiers produce **verified** status. This is a
-guardrail rather than a semantic proof that every passage belongs to the course.
+or explicit course-title header pauses publication and displays the conflict.
+The user may explicitly confirm that the materials belong together; the
+published workspace is then labeled **override confirmed** and preserves the
+conflict in its audit notes. Files without an identifiable course marker are
+allowed but the workspace is labeled **partially verified** with a review note.
+Matching identifiers produce **verified** status. This is a guardrail rather
+than a semantic proof that every passage belongs to the course.
 
 Use **Provider settings** to select the provider, model, compatible endpoint,
 token pricing, and handwriting model. The app never accepts or returns the API
@@ -132,9 +135,88 @@ key. Follow-up turns reuse the same session and link to the prior action.
 Responses show the passages used; source links open the normalized page and
 highlighted line range. An extracted course name can be corrected from the
 published-course card. Student and tutor messages render inline TeX written as
-`$x^2$` and code written between backticks. The tutoring surface expands with
-the browser window, and handwritten work is attached from the `+` button in the
-message composer.
+`$x^2$`, display TeX written as `$$x^2$$`, and code written between backticks.
+The tutoring model is instructed to return mathematical expressions using
+these delimiters. The tutoring surface expands with the browser window.
+Handwritten PNG, JPEG, WebP, or PDF work can be selected from the `+` button or
+dragged directly onto the conversation/composer. OCR output remains editable
+as LaTeX and has a live rendered preview before confirmation as evidence.
+
+### Use the demo from a phone or tablet
+
+Start the backend on the computer's local-network interface:
+
+```bash
+PYTHONPATH=src:research/knowledge-retrieval/retrieval-tool \
+  .venv/bin/uvicorn digital_professor.webapp.app:app \
+  --host 0.0.0.0 --port 8000
+```
+
+On macOS, find the computer's Wi-Fi address with:
+
+```bash
+ipconfig getifaddr en0
+```
+
+If that returns nothing, try `ipconfig getifaddr en1`. Connect the computer and
+mobile device to the same trusted Wi-Fi network, then open
+`http://<computer-ip>:8000` in Safari or Chrome. For example, if the command
+prints `192.168.1.42`, open `http://192.168.1.42:8000`. Do not expose this
+development server directly to the public internet.
+
+Before testing on mobile, confirm that `http://127.0.0.1:8000` works on the
+computer. Then, from the mobile device:
+
+1. Upload the syllabus and notes and prepare the course.
+2. Start a tutoring session.
+3. Select `+`, then **Take a photo** to photograph handwritten work or
+   **Choose image or PDF** to select an existing file.
+4. Wait for recognition, edit the extracted LaTeX, and inspect the live preview.
+5. Select **Confirm and continue** to create Student Evidence and continue the
+   tutoring turn.
+
+Drag-and-drop depends on browser and operating-system support and is mainly
+intended for desktop and tablet use. On an iPhone, use the camera or file
+picker. The layout uses the mobile viewport, horizontal navigation, touch-sized
+controls, safe-area spacing, and 16-pixel form fields to avoid iOS input zoom.
+
+Camera availability depends on the device, browser, and its camera permission.
+The original image is preserved before recognition, and the student must review
+the transcription before it becomes evidence.
+
+If the phone or tablet cannot connect:
+
+- Keep the backend terminal running and verify the IP address has not changed.
+- Confirm both devices are on the same non-guest Wi-Fi network.
+- Temporarily disconnect VPNs that may prevent local-network access.
+- Allow incoming Python/Uvicorn connections if macOS shows a firewall prompt.
+- Open `http://<computer-ip>:8000/api/status` on the mobile device to distinguish
+  a network problem from a page-rendering problem.
+
+### Provider and model selection
+
+The provider screen supports OpenAI, OpenRouter, DeepSeek, local Ollama, and a
+custom OpenAI-compatible endpoint. Each profile supplies its default base URL
+and `.env` key-variable name. The UI never accepts or returns the key itself.
+
+1. Put the applicable key in `.env` (`OPENAI_API_KEY`,
+   `OPENROUTER_API_KEY`, or `DEEPSEEK_API_KEY`). Ollama does not require one.
+2. Select a provider and enter an exact model/version identifier.
+3. Select **Test provider and load models**. The backend calls the provider's
+   model-list endpoint and populates the model/version suggestions.
+4. Select or enter the desired model/version and apply the settings.
+
+The model-list endpoint reports identifiers available to the account, but it
+does not guarantee that every listed model supports chat or vision. Handwriting
+requires a model and compatible endpoint supporting image input and structured
+Responses output. OpenAI documents the model-list behavior in its
+[Models API reference](https://developers.openai.com/api/reference/resources/models/methods/list).
+
+Visible progress bars report the current client-side stage for syllabus and
+notes upload, course preparation, tutoring turns, provider checks, and
+handwriting recognition. Because the current backend operations are synchronous,
+intermediate percentages are stage indicators rather than server-streamed
+completion measurements.
 
 The browser stores the active session ID in local storage and reloads the
 server-side transcript after a page refresh. This survives browser refreshes,
@@ -145,7 +227,7 @@ only to backend files under `logs/YYYY-MM-DD/<session-id>/`, with timestamped
 filenames; they are not displayed or served by the student UI. Turning
 diagnostics on additionally records source details, model/timing/token metadata,
 configured cost estimates, and explicit issues. Handwritten images or
-PDFs can be transcribed by the configured OpenAI vision model, but the student
+PDFs can be transcribed by a compatible configured vision model, but the student
 must confirm or correct the transcription before it enters the tutoring flow.
 The **Activity log** sidebar item reads a bounded session summary from these
 backend files: preserved/recognized input, the selected action and policy phase,
@@ -155,8 +237,9 @@ Office Hours and Assessments remain placeholders.
 See [`docs/notes/INTEGRATED_DEMO.md`](docs/notes/INTEGRATED_DEMO.md) for details.
 
 The handwriting unit tests use a deterministic recognizer and do not require a
-paid provider. Live handwriting recognition is optional and requires an
-approved provider key; never commit that key or an `.env` file.
+paid provider. Live handwriting recognition is optional and requires a
+compatible provider/model and, when applicable, its server-side key; never
+commit a key or an `.env` file.
 
 ## Contributing
 

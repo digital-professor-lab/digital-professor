@@ -15,7 +15,7 @@ def test_status_distinguishes_working_and_future_capabilities() -> None:
     capabilities = response.json()["capabilities"]
     assert capabilities["typed_multi_turn"] == "available"
     assert capabilities["course_ingestion"] == "available"
-    assert capabilities["handwriting"] == "available_with_openai_key"
+    assert capabilities["handwriting"] == "available_with_compatible_vision_provider"
     assert capabilities["office_hours"] == "future"
 
 
@@ -34,8 +34,22 @@ def test_browser_shell_exposes_course_chat_and_provider_surfaces() -> None:
     assert "Activity log" in response.text
     assert "Attach handwritten work" in response.text
     assert "loadActivity" in response.text
-    assert "Use $equation$ for math and `code` for code." in response.text
+    assert "$$display equation$$" in response.text
     assert "Course match:" in response.text
+    assert 'capture="environment"' in response.text
+    assert "Take a photo" in response.text
+    assert "drop a handwritten image or PDF here" in response.text
+    assert "supportedHandwriting" in response.text
+    assert "drop-active" in response.text
+    assert 'id="handwritingProgress"' in response.text
+    assert 'id="recognizedPreview"' in response.text
+    assert "updateRecognizedPreview" in response.text
+    assert 'id="courseProgress"' in response.text
+    assert 'id="providerProgress"' in response.text
+    assert "Model / version" in response.text
+    assert 'id="consistencyOverride"' in response.text
+    assert 'id="confirmMismatchButton"' in response.text
+    assert "course_mismatch_confirmation_required" in response.text
     assert "Question Schema" not in response.text
     assert "Handoff log" not in response.text
 
