@@ -76,7 +76,8 @@
       "id": "<a record id, or <slug>.* for a blanket policy over many records>",
       "field": "<the field inferred, or a non-schema topic such as 'format (no schema field)'>",
       "assumption": "<the value that was chosen>",
-      "reason": "<why it was inferred this way>"
+      "reason": "<why it was inferred this way>",
+      "confidence": "<optional: high | medium | low — the generator's honest confidence in this inference>"
     }
   ]
 }
