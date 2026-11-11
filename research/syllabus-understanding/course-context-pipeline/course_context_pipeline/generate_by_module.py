@@ -21,19 +21,18 @@ def _outline_user(syllabus_text: str) -> str:
         "For THIS request, output ONLY the course outline — not the full file.\n\n"
         "Return a single JSON object with EXACTLY these top-level keys:\n"
         '- "course_context_schema_version": "1.1"\n'
-        '- "Course": an object with id, title, level, duration_weeks, '
+        '- "Course": an object with id, title, level, '
         "assumed_background, module_ids (all module ids in teaching order), provenance\n"
         '- "Module": an array with one object per unit, in teaching order, each with '
-        'id, course_id, title, goal, weeks, concept_ids (use an empty array []), provenance\n'
+        'id, course_id, title, goal, concept_ids (use an empty array []), provenance\n'
         '- "assumptions": an array of {entity, id, field, assumption, reason, confidence} '
         "objects — one entry per genuinely INFERRED Course- or Module-level value (e.g. level, "
-        "duration_weeks, a module goal or week span). Do NOT log an entry for a value copied "
+        "a module goal). Do NOT log an entry for a value copied "
         "from the syllabus (e.g. a module title). Use [] if none.\n"
         '  "confidence" is your honest "high" | "medium" | "low": high = a standard inference a '
         "domain expert would almost certainly agree with; medium = a reasonable default that "
         "could plausibly differ; low = a genuine guess with little basis in the syllabus.\n\n"
         "Field rules:\n"
-        '- "weeks" is a STRING, "N" or "N-M" (e.g. "2" or "3-4") — never a number.\n'
         '- "provenance" is EXACTLY one of "source_backed" or "ai_inferred" — never free text. '
         "Mark a record source_backed only when EVERY non-structural value on it is copied from "
         "the syllabus; otherwise ai_inferred.\n"
@@ -72,35 +71,22 @@ def _module_user(syllabus_text: str, course: dict, modules: list[dict],
         f"  goal:  {module.get('goal')}\n\n"
         "Return a single JSON object with EXACTLY these top-level keys:\n"
         f'- "Concept": the concepts for THIS module. Each: id (= "{mid}.<slug>"), '
-        f'module_id (= "{mid}"), name, summary, key_definitions[], prerequisite_ids[] '
+        f'module_id (= "{mid}"), name, summary, prerequisite_ids[] '
         "(concept ids from THIS module or from the lists above only — never invent an id; "
-        "empty array if the only prerequisite is assumed background), objective_ids[], "
+        "empty array if the only prerequisite is assumed background), "
         "difficulty_notes[] (each entry EXACTLY {misconception, mitigation}; [] if none), "
-        "source_ids[], provenance\n"
-        '- "LearningObjective": the objectives referenced by this module\'s concepts. '
-        'Each: id (= "<concept id>.lo<n>"), concept_id, text, bloom_level, provenance\n'
-        '- "Source": the Sources this module\'s concepts cite. Each: id, type, citation, '
-        "section, text_chunk, provenance. Reuse a stable id (e.g. \"neuhauser.s7-2\") if "
-        "the same source recurs across modules.\n"
+        "provenance\n"
         '- "assumptions": an array of {entity, id, field, assumption, reason, confidence} '
         "objects — one entry per genuinely INFERRED value in THIS module (summaries, "
-        "prerequisites, difficulty notes, objectives, etc.). Do NOT log an entry for a value "
-        "copied from the syllabus, and in particular do NOT log assumptions about Source "
-        "records whose citation/section come straight from the syllabus. Use [] if none.\n"
+        "prerequisites, difficulty notes). Use [] if none.\n"
         '  "confidence" is your honest "high" | "medium" | "low": high = a standard inference a '
         "domain expert would almost certainly agree with; medium = a reasonable default that "
         "could plausibly differ; low = a genuine guess with little basis in the syllabus.\n\n"
         "Field rules:\n"
-        '- "provenance" is EXACTLY one of "source_backed" or "ai_inferred" — never free text. '
-        "Mark a record source_backed only when EVERY non-structural value on it is copied from "
-        "the syllabus (a Source whose citation and section are from the syllabus is "
-        "source_backed); otherwise ai_inferred.\n"
-        '- Consistency: if you add an assumptions entry naming a record, that record\'s '
-        'provenance MUST be "ai_inferred" — never mark a record source_backed and also log an '
-        "assumption about it.\n"
+        '- "provenance" is EXACTLY one of "source_backed" or "ai_inferred" — never free text.\n'
         '- each "difficulty_notes" entry has exactly the keys misconception and mitigation.\n\n'
-        "Do NOT include Course or Module. Do NOT reference prerequisite ids that are not in "
-        "the lists above.\n\n"
+        "Do NOT include Course, Module, LearningObjective, or Source. "
+        "Do NOT reference prerequisite ids that are not in the lists above.\n\n"
         "=== SYLLABUS START ===\n"
         f"{syllabus_text}\n"
         "=== SYLLABUS END ==="
@@ -120,6 +106,84 @@ def generate_module(syllabus_text: str, prompt_text: str, course: dict,
     return complete_json(llm, prompt_text, user)
 
 
+def _cross_module_prereqs_user(cc: dict) -> str:
+    course = cc.get("Course") or {}
+    module_order = course.get("module_ids") or [m.get("id") for m in (cc.get("Module") or [])]
+    module_titles = {m.get("id"): m.get("title", "") for m in (cc.get("Module") or [])}
+    by_module: dict[str, list[dict]] = {}
+    for c in (cc.get("Concept") or []):
+        by_module.setdefault(c.get("module_id"), []).append(c)
+
+    lines: list[str] = ["Concepts in teaching order:\n"]
+    for mid in module_order:
+        lines.append(f"Module: {mid} — {module_titles.get(mid, '')}")
+        for c in by_module.get(mid, []):
+            existing = c.get("prerequisite_ids") or []
+            note = f"  [within-module prereqs: {existing}]" if existing else ""
+            lines.append(f"  {c.get('id')}: {c.get('name')}{note}")
+        lines.append("")
+
+    return (
+        "Below is the full concept list for a course, in teaching order.\n\n"
+        + "\n".join(lines)
+        + "Task: identify concepts in LATER modules that genuinely cannot be understood "
+        "without first mastering a concept from an EARLIER module. Only add a cross-module "
+        "prerequisite when the dependency is real and direct — not just thematically related.\n\n"
+        "Rules:\n"
+        "- Only use concept IDs exactly as they appear in the list above.\n"
+        "- Only add prerequisites from modules that appear EARLIER in the list.\n"
+        "- Do not repeat within-module prerequisites already listed above.\n"
+        "- Omit a concept entirely if it needs no new cross-module prerequisites.\n\n"
+        'Return ONLY a JSON object: {"updates": [{"id": "<concept_id>", '
+        '"add_prerequisites": ["<earlier_concept_id>", ...]}, ...]}\n'
+        'If nothing to add, return: {"updates": []}'
+    )
+
+
+def generate_cross_module_prerequisites(cc: dict, prompt_text: str, llm: LLMClient) -> list[dict]:
+    """One LLM call that wires cross-module prerequisite links after parallel assembly."""
+    user = _cross_module_prereqs_user(cc)
+    result = complete_json(llm, prompt_text, user)
+    return result.get("updates") or []
+
+
+def apply_cross_module_prerequisites(cc: dict, updates: list[dict]) -> int:
+    """Apply cross-module prerequisite updates to the CC in-place.
+
+    Returns the number of concepts updated. Only adds IDs that exist, are not
+    already present, and come from an earlier module — guards against model errors.
+    """
+    concept_index = {c.get("id"): c for c in (cc.get("Concept") or []) if isinstance(c, dict)}
+    all_ids = set(concept_index.keys())
+    module_order = {
+        mid: i for i, mid in
+        enumerate((cc.get("Course") or {}).get("module_ids") or [])
+    }
+
+    def mod_idx(cid: str) -> int:
+        c = concept_index.get(cid)
+        return module_order.get((c or {}).get("module_id"), -1) if c else -1
+
+    updated = 0
+    for entry in (updates or []):
+        if not isinstance(entry, dict):
+            continue
+        cid = entry.get("id")
+        if cid not in concept_index:
+            continue
+        concept = concept_index[cid]
+        existing = set(concept.get("prerequisite_ids") or [])
+        ci = mod_idx(cid)
+        to_add = [
+            p for p in (entry.get("add_prerequisites") or [])
+            if p in all_ids and p not in existing and p != cid and 0 <= mod_idx(p) < ci
+        ]
+        if to_add:
+            concept["prerequisite_ids"] = sorted(existing) + to_add
+            updated += 1
+    return updated
+
+
 def assemble(outline: dict, module_results: list[dict]) -> dict:
     """Merge the outline + per-module slices into one CourseContext dict.
 
@@ -133,22 +197,11 @@ def assemble(outline: dict, module_results: list[dict]) -> dict:
         "Course": course,
         "Module": outline.get("Module") or [],
         "Concept": [],
-        "LearningObjective": [],
-        "Source": [],
     }
     assumptions = list(outline.get("assumptions") or [])
-    seen_sources: set[str] = set()
 
     for res in module_results:
         cc["Concept"].extend(res.get("Concept") or [])
-        cc["LearningObjective"].extend(res.get("LearningObjective") or [])
-        for s in (res.get("Source") or []):
-            sid = s.get("id")
-            if sid and sid in seen_sources:
-                continue
-            if sid:
-                seen_sources.add(sid)
-            cc["Source"].append(s)
         assumptions.extend(res.get("assumptions") or [])
 
     # back-fill Module.concept_ids from the concepts' module_id

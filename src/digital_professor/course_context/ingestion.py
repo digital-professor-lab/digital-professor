@@ -62,6 +62,9 @@ class CourseWorkspace:
     consistency_status: Literal["verified", "partially_verified"]
     consistency_notes: tuple[str, ...]
     status: Literal["published"] = "published"
+    course_context: dict | None = None
+    course_context_status: str | None = None
+    course_context_review: dict | None = None
 
 
 class IngestionError(ValueError):

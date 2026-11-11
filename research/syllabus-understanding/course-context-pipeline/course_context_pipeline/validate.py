@@ -17,24 +17,20 @@ from dataclasses import dataclass
 
 # --- schema knowledge (mirrors course-context.md §1.2 / §1.3) ---------------
 
-ARRAYS = ["Module", "Concept", "LearningObjective", "Source"]
+ARRAYS = ["Module", "Concept"]
 TOP_LEVEL_REQUIRED = ["course_context_schema_version", "Course", *ARRAYS]
 TOP_LEVEL_OPTIONAL = ["assumptions"]
 
 # required fields per record (schema 1.0 core; `provenance` is added in 1.1)
 REQUIRED: dict[str, list[str]] = {
-    "Course": ["id", "title", "level", "duration_weeks", "assumed_background", "module_ids"],
-    "Module": ["id", "course_id", "title", "goal", "weeks", "concept_ids"],
-    "Concept": ["id", "module_id", "name", "summary", "key_definitions",
-                "prerequisite_ids", "objective_ids", "difficulty_notes", "source_ids"],
-    "LearningObjective": ["id", "concept_id", "text", "bloom_level"],
-    "Source": ["id", "type", "citation", "section", "text_chunk"],
+    "Course": ["id", "title", "level", "assumed_background", "module_ids"],
+    "Module": ["id", "course_id", "title", "goal", "concept_ids"],
+    "Concept": ["id", "module_id", "name", "summary", "prerequisite_ids", "difficulty_notes"],
 }
 # array fields that MUST hold at least one element (everything else may be empty)
 NONEMPTY_ARRAYS = {"Course": ["module_ids"], "Module": ["concept_ids"]}
 # array fields allowed to be empty (MUST* in the spec)
-STAR_ARRAYS = {"key_definitions", "prerequisite_ids", "objective_ids",
-               "difficulty_notes", "source_ids"}
+STAR_ARRAYS = {"prerequisite_ids", "difficulty_notes"}
 
 BLOOM = {"remember", "understand", "apply", "analyze", "evaluate", "create"}
 SOURCE_TYPE = {"syllabus", "textbook", "lecture_notes", "reading", "other"}
@@ -42,7 +38,6 @@ PROVENANCE = {"source_backed", "ai_inferred"}
 ASSUMPTION_KEYS = {"entity", "id", "field", "assumption", "reason"}
 CONFIDENCE = {"high", "medium", "low"}          # optional per-assumption self-rating
 
-WEEKS_RE = re.compile(r"^\d+(-\d+)?$")
 LO_RE = re.compile(r"\.lo\d+$")
 
 
@@ -148,14 +143,6 @@ def _v03_enums(records, is_11: bool, f: list[Finding]) -> None:
             f.append(Finding("V-03", "error", where, f"bloom_level {rec.get('bloom_level')!r} not in {sorted(BLOOM)}"))
         if rtype == "Source" and rec.get("type") not in SOURCE_TYPE:
             f.append(Finding("V-03", "error", where, f"Source.type {rec.get('type')!r} not in {sorted(SOURCE_TYPE)}"))
-        if rtype == "Course":
-            dw = rec.get("duration_weeks")
-            if not isinstance(dw, int) or isinstance(dw, bool) or dw < 1:
-                f.append(Finding("V-03", "error", where, f"duration_weeks {dw!r} is not an integer >= 1"))
-        if rtype == "Module":
-            wk = rec.get("weeks")
-            if not isinstance(wk, str) or not WEEKS_RE.match(wk):
-                f.append(Finding("V-03", "error", where, f"weeks {wk!r} is not 'N' or 'N-M'"))
         if rtype == "Concept":
             for dn in rec.get("difficulty_notes", []) or []:
                 if not isinstance(dn, dict) or set(dn.keys()) != {"misconception", "mitigation"}:
@@ -203,10 +190,6 @@ def _v05_references(cc: dict, records, ids_by_type, f: list[Finding]) -> None:
         elif rtype == "Concept":
             checks.append(("Concept", rid, "module_id", rec.get("module_id"), "Module"))
             checks.append(("Concept", rid, "prerequisite_ids", rec.get("prerequisite_ids"), "Concept"))
-            checks.append(("Concept", rid, "objective_ids", rec.get("objective_ids"), "LearningObjective"))
-            checks.append(("Concept", rid, "source_ids", rec.get("source_ids"), "Source"))
-        elif rtype == "LearningObjective":
-            checks.append(("LearningObjective", rid, "concept_id", rec.get("concept_id"), "Concept"))
     for rtype, rid, field, value, target in checks:
         targets = ids_by_type.get(target, set())
         refs = value if isinstance(value, list) else ([value] if value else [])
@@ -220,7 +203,6 @@ def _v06_reverse_links(cc: dict, records, f: list[Finding]) -> None:
     course = cc.get("Course") or {}
     modules = cc.get("Module") or []
     concepts = cc.get("Concept") or []
-    objectives = cc.get("LearningObjective") or []
 
     # Course.module_ids <-> Module.course_id
     module_ids = {m.get("id") for m in modules if isinstance(m, dict)}
@@ -234,8 +216,6 @@ def _v06_reverse_links(cc: dict, records, f: list[Finding]) -> None:
 
     # Module.concept_ids <-> Concept.module_id
     _reverse_set(modules, "concept_ids", concepts, "module_id", "Module", "Concept", f)
-    # Concept.objective_ids <-> LearningObjective.concept_id
-    _reverse_set(concepts, "objective_ids", objectives, "concept_id", "Concept", "LearningObjective", f)
 
 
 def _reverse_set(parents, child_list_field, children, child_back_field,

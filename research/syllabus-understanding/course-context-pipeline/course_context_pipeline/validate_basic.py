@@ -6,7 +6,7 @@ course-context.validation-and-flagging.md is Phase 2 and will replace this.
 """
 from __future__ import annotations
 
-ARRAYS = ["Module", "Concept", "LearningObjective", "Source"]
+ARRAYS = ["Module", "Concept"]
 
 
 def basic_errors(cc: object) -> list[str]:

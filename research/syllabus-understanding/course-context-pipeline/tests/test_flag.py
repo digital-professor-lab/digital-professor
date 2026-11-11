@@ -1,8 +1,8 @@
-"""Reviewer ask: automated tests for the deterministic Review Flagger.
+"""Tests for the deterministic Review Flagger.
 
-v1 behavior (per review #6 = option A): confidence is NOT used to suppress review
-items — every inferred check-first field is flagged regardless of confidence; the
-value only orders the worklist (shakiest first).
+v1 behavior: confidence IS used to suppress — `high`-confidence items are dropped
+entirely; only `low` and `medium` (and untagged, treated as medium) reach the
+worklist. Check-first set: {Concept.difficulty_notes, Course.assumed_background}.
 """
 from course_context_pipeline.flag import flag
 
@@ -18,17 +18,17 @@ def _a(entity, rid, field, confidence=None):
     return e
 
 
-def test_check_first_fields_flagged_even_when_high_confidence():
+def test_high_confidence_items_suppressed():
     rep = flag(_cc([
-        _a("Concept", "c.01.x", "difficulty_notes", "high"),
-        _a("Concept", "c.01.y", "prerequisite_ids", "low"),
-        _a("Concept", "c.01.z", "key_definitions", "high"),
-        _a("Course", "c", "assumed_background", "high"),
+        _a("Concept", "c.01.x", "difficulty_notes", "high"),    # suppressed
+        _a("Concept", "c.01.y", "difficulty_notes", "low"),     # shown
+        _a("Course", "c", "assumed_background", "high"),         # suppressed
+        _a("Course", "c", "assumed_background", "medium"),       # shown (same field, lower conf)
     ]))
-    flagged = {(i["entity"], i["field"]) for i in rep["items"]}
-    assert ("Concept", "difficulty_notes") in flagged      # high is NOT suppressed
-    assert ("Course", "assumed_background") in flagged
-    assert rep["summary"]["check_first"] == 4
+    flagged = {(i["entity"], i["field"], i["confidence"]) for i in rep["items"]}
+    assert ("Concept", "difficulty_notes", "low") in flagged
+    assert ("Course", "assumed_background", "medium") in flagged
+    assert rep["summary"]["check_first"] == 2                   # high items dropped
 
 
 def test_non_check_first_field_not_flagged():
@@ -37,18 +37,17 @@ def test_non_check_first_field_not_flagged():
 
 
 def test_untagged_confidence_is_still_flagged():
-    rep = flag(_cc([_a("Concept", "c.01.x", "key_definitions")]))   # no confidence
+    rep = flag(_cc([_a("Concept", "c.01.x", "difficulty_notes")]))   # no confidence key
     assert rep["summary"]["check_first"] == 1
     assert rep["items"][0]["confidence"] is None
 
 
 def test_confidence_orders_shakiest_first():
     rep = flag(_cc([
-        _a("Concept", "c.01.a", "difficulty_notes", "high"),
         _a("Concept", "c.01.b", "difficulty_notes", "low"),
         _a("Concept", "c.01.c", "difficulty_notes", "medium"),
     ]))
-    assert [i["confidence"] for i in rep["items"]] == ["low", "medium", "high"]
+    assert [i["confidence"] for i in rep["items"]] == ["low", "medium"]
 
 
 def test_wildcard_becomes_global_note():

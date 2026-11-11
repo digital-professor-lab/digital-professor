@@ -24,27 +24,10 @@ def test_unknown_field(valid_cc):
     assert "V-02" in _rules(valid_cc)
 
 
-# --- enums & formats (V-03) -------------------------------------------------
-
-def test_bad_bloom_enum(valid_cc):
-    valid_cc["LearningObjective"][0]["bloom_level"] = "memorize"
-    assert "V-03" in _rules(valid_cc)
-
-
-def test_weeks_must_be_string(valid_cc):
-    valid_cc["Module"][0]["weeks"] = 2
-    assert "V-03" in _rules(valid_cc)
-
-
 # --- ids (V-04) -------------------------------------------------------------
 
 def test_duplicate_id(valid_cc):
     valid_cc["Concept"].append(copy.deepcopy(valid_cc["Concept"][0]))
-    assert "V-04" in _rules(valid_cc)
-
-
-def test_malformed_learning_objective_id(valid_cc):
-    valid_cc["LearningObjective"][0]["id"] = "c.01-m.x.objective1"   # not .lo<n>
     assert "V-04" in _rules(valid_cc)
 
 
@@ -59,8 +42,7 @@ def test_inconsistent_reverse_link(valid_cc):
     # a concept whose module_id points at the module, but the module doesn't list it
     valid_cc["Concept"].append({
         "id": "c.01-m.y", "module_id": "c.01-m", "name": "Y", "summary": "s",
-        "key_definitions": [], "prerequisite_ids": [], "objective_ids": [],
-        "difficulty_notes": [], "source_ids": [], "provenance": "ai_inferred"})
+        "prerequisite_ids": [], "difficulty_notes": [], "provenance": "ai_inferred"})
     assert "V-06" in _rules(valid_cc)
 
 
@@ -74,10 +56,9 @@ def test_prerequisite_self_cycle(valid_cc):
 def test_prerequisite_in_later_module(valid_cc):
     valid_cc["Course"]["module_ids"].append("c.02-n")
     valid_cc["Module"].append({"id": "c.02-n", "course_id": "c", "title": "N", "goal": "g",
-                               "weeks": "3", "concept_ids": ["c.02-n.z"], "provenance": "ai_inferred"})
+                               "concept_ids": ["c.02-n.z"], "provenance": "ai_inferred"})
     valid_cc["Concept"].append({"id": "c.02-n.z", "module_id": "c.02-n", "name": "Z", "summary": "s",
-                                "key_definitions": [], "prerequisite_ids": [], "objective_ids": [],
-                                "difficulty_notes": [], "source_ids": [], "provenance": "ai_inferred"})
+                                "prerequisite_ids": [], "difficulty_notes": [], "provenance": "ai_inferred"})
     valid_cc["Concept"][0]["prerequisite_ids"] = ["c.02-n.z"]        # module 1 needs a module-2 concept
     assert "V-07" in _rules(valid_cc)
 

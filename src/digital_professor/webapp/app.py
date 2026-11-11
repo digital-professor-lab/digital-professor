@@ -3,15 +3,25 @@
 from __future__ import annotations
 
 import html
+import logging
 import os
 from pathlib import Path
 from typing import Any
+
+_log = logging.getLogger(__name__)
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, ConfigDict, Field
 
+from dataclasses import replace
+
+from digital_professor.course_context.generator import (
+    CourseContextGenerationError,
+    CourseContextGenerator,
+    validate_and_flag,
+)
 from digital_professor.course_context.ingestion import (
     DocumentIngestionService,
     IngestionError,
@@ -57,11 +67,34 @@ class CourseNameRequest(BaseModel):
     course_name: str = Field(min_length=1, max_length=200)
 
 
+class CourseContextFieldUpdate(BaseModel):
+    entity: str
+    id: str
+    field: str
+    value: Any
+
+
+class CourseContextUpdateRequest(BaseModel):
+    updates: list[CourseContextFieldUpdate]
+
+
 def _configured_provider(
     config: ProviderConfiguration | None = None,
 ) -> OpenAICompatibleProvider | None:
     config = config or ProviderConfiguration.from_environment()
     return OpenAICompatibleProvider(config) if config.api_key else None
+
+
+def _configured_cc_generator(
+    config: ProviderConfiguration,
+) -> CourseContextGenerator | None:
+    if not config.api_key:
+        return None
+    return CourseContextGenerator(
+        base_url=config.base_url,
+        model=config.model,
+        api_key=config.api_key,
+    )
 
 
 def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
@@ -71,6 +104,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     app.state.handwriting_model = os.getenv("OPENAI_HANDWRITING_MODEL", "gpt-4o-mini")
     app.state.runtime = runtime or DemoApplication(_configured_provider(provider_config))
     app.state.ingestion = DocumentIngestionService()
+    app.state.cc_generator = _configured_cc_generator(provider_config)
     app.state.handwriting_recognizer = None
     app.state.pending_syllabus = None
     app.state.pending_notes = []
@@ -192,6 +226,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             )
         except IngestionError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
+        workspace = _enrich_with_course_context(workspace, app.state.cc_generator)
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
 
@@ -209,6 +244,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             workspace = app.state.ingestion.ingest_course(uploads)
         except IngestionError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
+        workspace = _enrich_with_course_context(workspace, app.state.cc_generator)
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
 
@@ -228,6 +264,36 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         except ValueError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
         return _course_summary(course, include_topics=True)
+
+    @app.get("/api/courses/{course_id}/course-context")
+    def get_course_context(course_id: str) -> dict[str, Any]:
+        course = app.state.runtime.courses.get(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        if course.course_context is None:
+            raise HTTPException(status_code=404, detail="No CourseContext for this course")
+        return {
+            "course_context": course.course_context,
+            "status": course.course_context_status,
+            "review": course.course_context_review,
+        }
+
+    @app.patch("/api/courses/{course_id}/course-context")
+    def update_course_context(
+        course_id: str, request: CourseContextUpdateRequest
+    ) -> dict[str, Any]:
+        try:
+            updates = [u.model_dump() for u in request.updates]
+            course = app.state.runtime.update_course_context(course_id, updates)
+        except LookupError as error:
+            raise HTTPException(status_code=404, detail=str(error)) from error
+        except ValueError as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
+        return {
+            "course_context": course.course_context,
+            "status": course.course_context_status,
+            "review": course.course_context_review,
+        }
 
     @app.get(
         "/api/courses/{course_id}/sources/{document_id}", response_class=HTMLResponse
@@ -343,6 +409,54 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     return app
 
 
+def _enrich_with_course_context(
+    workspace,
+    generator: CourseContextGenerator | None,
+):
+    """Generate, validate, and flag a CourseContext; fall back gracefully on any failure.
+
+    Retries generation once when the first attempt produces a structurally invalid
+    CourseContext — LLM output is stochastic and a second pass often passes validation.
+    """
+    if generator is None:
+        return workspace
+    syllabus_doc = next(
+        (d for d in workspace.documents if d.document_type == "syllabus"), None
+    )
+    if syllabus_doc is None:
+        return workspace
+    syllabus_text = "\n".join(line for page in syllabus_doc.pages for line in page)
+
+    cc = status = review = None
+    generation_failed = False
+    for _attempt in range(2):
+        try:
+            cc = generator.generate(syllabus_text)
+            generation_failed = False
+        except (CourseContextGenerationError, Exception) as exc:
+            _log.warning("CourseContext generation attempt %d failed: %s", _attempt + 1, exc, exc_info=True)
+            generation_failed = True
+            continue
+        try:
+            status, review = validate_and_flag(cc)
+        except Exception:
+            status, review = "validated", None
+        if status != "validation_failed":
+            break
+        cc = None
+
+    if generation_failed and cc is None:
+        return replace(workspace, course_context_status="generation_failed")
+    if status == "validation_failed":
+        return replace(workspace, course_context_status="validation_failed")
+    return replace(
+        workspace,
+        course_context=cc,
+        course_context_status=status,
+        course_context_review=review,
+    )
+
+
 def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:
     result = {
         "course_id": course.course_id,
@@ -367,6 +481,12 @@ def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:
     }
     if include_topics:
         result["topics"] = list(course.topics)
+    if course.course_context_status:
+        result["course_context_status"] = course.course_context_status
+        review = course.course_context_review
+        result["course_context_review_summary"] = (
+            review["summary"] if review else None
+        )
     return result
 
 

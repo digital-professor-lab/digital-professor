@@ -34,5 +34,4 @@ def test_empty_module_and_concept(valid_cc):
 
 
 def test_counts(valid_cc):
-    assert counts(valid_cc) == {"Module": 1, "Concept": 1, "LearningObjective": 1,
-                                "Source": 1, "assumptions": 0}
+    assert counts(valid_cc) == {"Module": 1, "Concept": 1, "assumptions": 0}

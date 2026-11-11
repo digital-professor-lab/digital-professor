@@ -20,17 +20,14 @@ import json
 # notes "nothing in V1 logic depends on them").
 CHECK_FIRST: dict[tuple[str, str], str] = {
     ("Concept", "difficulty_notes"): "AI-inferred difficulty notes become the misconceptions in every Question Schema.",
-    ("Concept", "key_definitions"): "AI-inferred definitions are surfaced as fact; a wrong one mis-teaches the concept.",
-    ("Concept", "prerequisite_ids"): "AI-inferred prerequisites drive the prerequisite probes in every Question Schema and the gap diagnosis.",
     ("Course", "assumed_background"): "Sets what the tutor assumes about every student.",
 }
 
-# The generator self-reports a confidence (high/medium/low) per assumption. In v1
-# we do NOT use it to SUPPRESS review items: model self-confidence is weakly
-# calibrated, so a wrongly-confident high-impact inference must still reach a human.
-# Confidence is kept on each item and used only to ORDER the worklist (shakiest
-# first), as a priority hint — not a filter. Revisit once confidence is backed by
-# an independent check.
+# The generator self-reports a confidence (high/medium/low) per assumption.
+# high-confidence items are suppressed: standard inferences a domain expert would
+# almost certainly agree with (e.g. "differentiation before integration") don't
+# need human review. Only low/medium — genuinely uncertain calls — reach the worklist.
+# Items with no confidence value are treated as medium (shown).
 _CONFIDENCE_RANK = {"low": 0, "medium": 1, None: 2, "high": 3}
 
 
@@ -42,11 +39,10 @@ def flag(cc: dict, source_sha256: str | None = None) -> dict:
     """Return a review report (the §4.3 shape).
 
     Relaxed for v1 to keep the worklist focused:
-    - F-01, restricted to the **check-first** fields (difficulty notes, key
-      definitions, prerequisites, assumed background) the generator logged an
-      assumption about. EVERY such inferred field is flagged — confidence is NOT
-      used to suppress anything (it only orders the list, shakiest first), so no
-      high-impact inference is silently skipped on a self-reported `high`.
+    - F-01, restricted to the **check-first** fields (difficulty notes,
+      prerequisites, assumed background) the generator logged a low/medium
+      assumption about. High-confidence items are suppressed — routine inferences
+      a domain expert would almost certainly agree with don't need review.
     - F-03 — wildcard assumptions become global notes.
     The blanket F-02 rule (flag every ai_inferred record's check-first fields) is
     dropped: in a syllabus-only file everything is ai_inferred, so it flagged
@@ -75,10 +71,10 @@ def flag(cc: dict, source_sha256: str | None = None) -> dict:
         if isinstance(aid, str) and aid.endswith(".*"):
             global_notes.append({"field": field, "reason": reason})          # F-03
             continue
-        if (entity, field) in CHECK_FIRST:                                    # F-01 (check-first fields)
+        if (entity, field) in CHECK_FIRST and confidence != "high":           # F-01 (check-first, uncertain only)
             add(entity, aid, field, reason, confidence)
 
-    # order by confidence (shakiest first) as a priority hint — never a filter
+    # order by confidence (shakiest first)
     item_list = sorted(items.values(),
                        key=lambda it: (_CONFIDENCE_RANK.get(it.get("confidence"), 2), it["id"], it["field"]))
     summary = {

@@ -415,6 +415,48 @@ class DemoApplication:
                 session.course = renamed
         return renamed
 
+    def update_course_context(
+        self, course_id: str, updates: list[dict]
+    ) -> CourseWorkspace:
+        """Apply field edits to the in-memory CourseContext and mark as reviewed."""
+        from digital_professor.course_context.generator import validate_and_flag
+
+        course = self.courses.get(course_id)
+        if course is None:
+            raise LookupError(f"Published course not found: {course_id}")
+        if course.course_context is None:
+            raise ValueError("No CourseContext to update.")
+        cc = json.loads(json.dumps(course.course_context))
+        for update in updates:
+            entity = update["entity"]
+            record_id = update["id"]
+            field = update["field"]
+            value = update["value"]
+            if entity == "Course":
+                if isinstance(cc.get("Course"), dict):
+                    cc["Course"][field] = value
+            else:
+                for record in cc.get(entity, []):
+                    if isinstance(record, dict) and record.get("id") == record_id:
+                        record[field] = value
+                        break
+        try:
+            status, review = validate_and_flag(cc)
+            if status == "validation_failed":
+                status = "review_required"
+            elif status in ("validated", "review_required"):
+                status = "reviewed"
+        except Exception:
+            status, review = "reviewed", course.course_context_review
+        updated = replace(
+            course,
+            course_context=cc,
+            course_context_status=status,
+            course_context_review=review,
+        )
+        self.courses[course_id] = updated
+        return updated
+
     def start_session(
         self,
         *,
@@ -429,10 +471,15 @@ class DemoApplication:
         passages = self.indexes[course_id].search(question, top_k=4)
         question_id = f"{course_id}.runtime-{uuid4().hex[:12]}"
         correlation_id = f"correlation-{uuid4()}"
-        concepts = tuple(course.topics[:8])
-        concept_ids = tuple(
-            f"{course_id}.runtime.{_slug_topic(value)}" for value in concepts
-        )
+        if course.course_context:
+            concepts, concept_ids = _concepts_from_course_context(
+                course_id, course.course_context
+            )
+        else:
+            concepts = tuple(course.topics[:8])
+            concept_ids = tuple(
+                f"{course_id}.runtime.{_slug_topic(value)}" for value in concepts
+            )
         source_ids = tuple(dict.fromkeys(item.passage.document_id for item in passages))
         schema = RuntimeQuestionSchema(
             record_id=question_id,
@@ -1054,6 +1101,18 @@ def _question_dict(question: RuntimeQuestionSchema) -> dict[str, Any]:
         for name in RuntimeQuestionSchema.__dataclass_fields__
         for value in (getattr(question, name),)
     }
+
+
+def _concepts_from_course_context(
+    course_id: str, cc: dict
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Return (concept_names, concept_ids) from a CourseContext dict, capped at 8."""
+    concepts = [c for c in (cc.get("Concept") or []) if c.get("name")][:8]
+    names = tuple(c["name"] for c in concepts)
+    ids = tuple(
+        c.get("id") or f"{course_id}.{_slug_topic(c['name'])}" for c in concepts
+    )
+    return names, ids
 
 
 def _slug_topic(value: str) -> str:
