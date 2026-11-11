@@ -398,7 +398,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     def get_session_activity(session_id: str) -> dict[str, Any]:
         """Return a bounded, student-safe view derived from backend trace files."""
         try:
-            return {"turns": app.state.runtime.activity_summary(session_id)}
+            return app.state.runtime.activity_summary(session_id)
         except LookupError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
 

@@ -33,6 +33,7 @@ class JsonQuestionStore:
         course_title: str,
         course_context_path: Path | None = None,
     ) -> None:
+        self._course_title = course_title
         self._questions: dict[str, QuestionContext] = {}
         concept_names: dict[str, str] = {}
         if course_context_path is not None:
@@ -55,6 +56,26 @@ class JsonQuestionStore:
                 course_title=course_title,
                 sibling_question_ids=tuple(source.get("sibling_question_ids") or ()),
             )
+
+    def register(self, qs: dict) -> str:
+        """Register a runtime-built QuestionSchema dict and return its question_id."""
+        concept_ids = tuple(qs.get("concept_ids") or ())
+        qs_names: list[str] = qs.get("concept_names") or []
+        source = qs.get("source_reference") or {}
+        qid = qs["question_id"]
+        self._questions[qid] = QuestionContext(
+            question_id=qid,
+            course_id=qs.get("course_id", ""),
+            prompt=qs.get("prompt", ""),
+            concept_ids=concept_ids,
+            concept_names=tuple(
+                qs_names[i] if i < len(qs_names) else _concept_label(cid)
+                for i, cid in enumerate(concept_ids)
+            ),
+            course_title=self._course_title,
+            sibling_question_ids=tuple(source.get("sibling_question_ids") or ()),
+        )
+        return qid
 
     def get(self, question_id: str) -> QuestionContext:
         try:

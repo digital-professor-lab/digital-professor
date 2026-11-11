@@ -10,11 +10,14 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 import hashlib
 import json
+import logging
 from pathlib import Path
 import time
 from types import MappingProxyType
 from typing import Any, Protocol
 from uuid import uuid4
+
+_log = logging.getLogger(__name__)
 
 from digital_professor.course_context.ingestion import CourseWorkspace
 from digital_professor.interaction import (
@@ -132,6 +135,9 @@ class RuntimeQuestionSchema:
     built_from: dict[str, str]
     validation_status: str
     requires_human_review: bool
+    common_misconceptions: tuple[dict, ...] = ()
+    prerequisite_concepts: tuple[dict, ...] = ()
+    answer_verification: dict[str, Any] | None = None
 
 
 @dataclass(slots=True)
@@ -152,6 +158,7 @@ class DemoSession:
     transcript: list[dict[str, Any]] = field(default_factory=list)
     handwriting_service: HandwritingEvidenceService | None = None
     total_estimated_cost_usd: float = 0.0
+    question_schema_dict: dict[str, Any] | None = None
 
 
 class GroundedDemoEngine:
@@ -199,6 +206,8 @@ class GroundedDemoEngine:
             reply = self._local_reply(student_text, passages, action_type)
             self.last_generation = None
         else:
+            q = self.question
+            qs_context = _qs_system_context(q)
             result = self.provider.generate(
                 system=(
                     "You are a course-grounded tutor. Use only the supplied course passages "
@@ -209,6 +218,7 @@ class GroundedDemoEngine:
                     "Write mathematical notation as valid LaTeX: use $...$ inline and "
                     "$$...$$ for important standalone equations. Do not use Unicode math "
                     "as a substitute when LaTeX is clearer.\n\n"
+                    f"{qs_context}"
                     f"COURSE PASSAGES:\n{context or '[no supporting passage found]'}"
                 ),
                 messages=[
@@ -468,71 +478,138 @@ class DemoApplication:
         user_id: str = "local-demo-student",
         diagnostic_logging: bool = False,
     ) -> DemoSession:
+        from digital_professor.course_context.builder import (
+            BuildError,
+            LLMAdapter,
+            build_runtime_question_schema,
+        )
+
         course = self.courses.get(course_id)
         if course is None:
             raise LookupError(f"Published course not found: {course_id}")
         passages = self.indexes[course_id].search(question, top_k=4)
-        question_id = f"{course_id}.runtime-{uuid4().hex[:12]}"
         correlation_id = f"correlation-{uuid4()}"
-        if course.course_context:
-            concepts, concept_ids = _concepts_from_course_context(
-                course_id, course.course_context
-            )
-        else:
-            concepts = tuple(course.topics[:8])
-            concept_ids = tuple(
-                f"{course_id}.runtime.{_slug_topic(value)}" for value in concepts
-            )
         source_ids = tuple(dict.fromkeys(item.passage.document_id for item in passages))
-        schema = RuntimeQuestionSchema(
-            record_id=question_id,
-            record_type="QuestionSchema",
-            schema_version=SCHEMA_VERSION,
-            created_at=_now(),
-            producer="course_context_runtime_builder",
-            status="review_required",
-            correlation_id=correlation_id,
-            question_schema_version="0.1",
-            question_id=question_id,
-            course_id=course_id,
-            module_id=f"{course_id}.runtime",
-            prompt=question,
-            origin="runtime",
-            concept_ids=concept_ids,
-            concept_names=concepts,
-            question_type="open_question",
-            expected_response_modes=("text", "equation", "steps", "explanation"),
-            learning_objectives=tuple(
-                {
-                    "id": f"objective-{index}",
-                    "text": f"Explain and apply {name}.",
-                    "bloom_level": "apply",
-                }
-                for index, name in enumerate(concepts[:3], 1)
-            ),
-            correct_approach={
-                "technique": "course-grounded guided reasoning",
-                "justification": "The runtime question has no instructor-authored solution yet.",
-            },
-            reference_answer=f"restricted://{question_id}/pending-review",
-            source_ids=source_ids,
-            source_reference={
-                "concept_ids": list(concept_ids),
-                "source_ids": list(source_ids),
-                "sibling_question_ids": [],
-                "citation": [item.passage.filename for item in passages],
-                "grounding": [item.passage.passage_id for item in passages],
-            },
-            provenance="source_backed" if passages else "ai_inferred",
-            built_from={
-                "course_context_schema_version": "demo-0.1",
-                "content_sha256": "+".join(
-                    document.content_version for document in course.documents
+
+        qs_dict: dict[str, Any] | None = None
+        schema: RuntimeQuestionSchema
+
+        if course.course_context and self.provider is not None:
+            try:
+                cc = course.course_context
+                cc_text = json.dumps(cc, ensure_ascii=False, sort_keys=True)
+                cc_sha256 = hashlib.sha256(cc_text.encode("utf-8")).hexdigest()
+                adapter = LLMAdapter(self.provider)
+                qs_dict = build_runtime_question_schema(cc, cc_sha256, question, adapter)
+                concept_ids = tuple(qs_dict["concept_ids"])
+                concept_names = tuple(qs_dict.get("concept_names") or ())
+                schema = RuntimeQuestionSchema(
+                    record_id=qs_dict["question_id"],
+                    record_type="QuestionSchema",
+                    schema_version=SCHEMA_VERSION,
+                    created_at=_now(),
+                    producer="course_context_runtime_builder",
+                    status="partial",
+                    correlation_id=correlation_id,
+                    question_schema_version=qs_dict.get("question_schema_version", "1.0"),
+                    question_id=qs_dict["question_id"],
+                    course_id=course_id,
+                    module_id=qs_dict.get("module_id") or f"{course_id}.runtime",
+                    prompt=question,
+                    origin="runtime",
+                    concept_ids=concept_ids,
+                    concept_names=concept_names,
+                    question_type=qs_dict.get("question_type", "worked_problem"),
+                    expected_response_modes=tuple(
+                        qs_dict.get("expected_response_modes") or ()
+                    ),
+                    learning_objectives=tuple(qs_dict.get("learning_objectives") or ()),
+                    correct_approach=qs_dict.get("correct_approach") or {},
+                    reference_answer=qs_dict.get("reference_answer", ""),
+                    source_ids=source_ids,
+                    source_reference={
+                        **(qs_dict.get("source_reference") or {}),
+                        "source_ids": list(source_ids),
+                        "citation": [item.passage.filename for item in passages],
+                        "grounding": [item.passage.passage_id for item in passages],
+                    },
+                    provenance=qs_dict.get("provenance", "ai_inferred"),
+                    built_from=qs_dict.get("built_from") or {},
+                    validation_status="partial",
+                    requires_human_review=True,
+                    common_misconceptions=tuple(
+                        qs_dict.get("common_misconceptions") or ()
+                    ),
+                    prerequisite_concepts=tuple(
+                        qs_dict.get("prerequisite_concepts") or ()
+                    ),
+                    answer_verification=qs_dict.get("answer_verification"),
+                )
+            except (BuildError, Exception) as exc:
+                qs_dict = None
+                _log.warning("QuestionSchema builder failed, falling back to stub: %s", exc)
+
+        if qs_dict is None:
+            if course.course_context:
+                concepts, concept_ids = _concepts_from_course_context(
+                    course_id, course.course_context
+                )
+            else:
+                concepts = tuple(course.topics[:8])
+                concept_ids = tuple(
+                    f"{course_id}.runtime.{_slug_topic(value)}" for value in concepts
+                )
+            question_id = f"{course_id}.runtime-{uuid4().hex[:12]}"
+            schema = RuntimeQuestionSchema(
+                record_id=question_id,
+                record_type="QuestionSchema",
+                schema_version=SCHEMA_VERSION,
+                created_at=_now(),
+                producer="course_context_runtime_builder",
+                status="review_required",
+                correlation_id=correlation_id,
+                question_schema_version="0.1",
+                question_id=question_id,
+                course_id=course_id,
+                module_id=f"{course_id}.runtime",
+                prompt=question,
+                origin="runtime",
+                concept_ids=concept_ids,
+                concept_names=concepts,
+                question_type="open_question",
+                expected_response_modes=("text", "equation", "steps", "explanation"),
+                learning_objectives=tuple(
+                    {
+                        "id": f"objective-{index}",
+                        "text": f"Explain and apply {name}.",
+                        "bloom_level": "apply",
+                    }
+                    for index, name in enumerate(concepts[:3], 1)
                 ),
-            },
-            validation_status="partial",
-            requires_human_review=True,
-        )
+                correct_approach={
+                    "technique": "course-grounded guided reasoning",
+                    "justification": "The runtime question has no instructor-authored solution yet.",
+                },
+                reference_answer=f"restricted://{question_id}/pending-review",
+                source_ids=source_ids,
+                source_reference={
+                    "concept_ids": list(concept_ids),
+                    "source_ids": list(source_ids),
+                    "sibling_question_ids": [],
+                    "citation": [item.passage.filename for item in passages],
+                    "grounding": [item.passage.passage_id for item in passages],
+                },
+                provenance="source_backed" if passages else "ai_inferred",
+                built_from={
+                    "course_context_schema_version": "demo-0.1",
+                    "content_sha256": "+".join(
+                        document.content_version for document in course.documents
+                    ),
+                },
+                validation_status="partial",
+                requires_human_review=True,
+            )
+
         engine = GroundedDemoEngine(schema, self.indexes[course_id], self.provider)
         coordinator = TutoringTurnCoordinator(
             StudentEvidencePipeline(InMemoryArtifactStore()), engine, MockDelivery()
@@ -546,6 +623,7 @@ class DemoApplication:
             coordinator=coordinator,
             engine=engine,
             attempt_id=f"attempt-{uuid4()}",
+            question_schema_dict=qs_dict,
         )
         self.sessions[session.session_id] = session
         self._log(
@@ -978,9 +1056,10 @@ class DemoApplication:
             "sources": sources,
         }
 
-    def activity_summary(self, session_id: str) -> list[dict[str, Any]]:
+    def activity_summary(self, session_id: str) -> dict[str, Any]:
         if session_id not in self.sessions:
             raise LookupError(f"Session not found: {session_id}")
+        session = self.sessions[session_id]
         rows: list[dict[str, Any]] = []
         for event in self.trace_store.read_session(session_id):
             if event.get("event") != "turn_activity":
@@ -998,7 +1077,7 @@ class DemoApplication:
                     "sources": record.get("sources", []),
                 }
             )
-        return rows
+        return {"turns": rows, "question_schema": session.question_schema_dict}
 
     def _write_turn_record(
         self,
@@ -1130,6 +1209,37 @@ def _json_default(value: Any) -> Any:
     if isinstance(value, (tuple, set, frozenset)):
         return list(value)
     return str(value)
+
+
+def _qs_system_context(q: "RuntimeQuestionSchema") -> str:
+    """Build the QUESTION SCHEMA section injected into the tutoring engine system prompt."""
+    lines: list[str] = ["QUESTION SCHEMA:\n"]
+    if q.correct_approach.get("technique"):
+        lines.append(
+            f"Correct approach: {q.correct_approach['technique']} — "
+            f"{q.correct_approach.get('justification', '')}\n"
+        )
+    if q.learning_objectives:
+        lo_text = "; ".join(lo.get("text", "") for lo in q.learning_objectives if lo.get("text"))
+        if lo_text:
+            lines.append(f"Learning objectives: {lo_text}\n")
+    if q.prerequisite_concepts:
+        prereqs = "; ".join(
+            f"{p.get('name', p.get('concept_id', ''))} ({p.get('relevance', '')})"
+            for p in q.prerequisite_concepts
+        )
+        if prereqs:
+            lines.append(f"Prerequisites: {prereqs}\n")
+    if q.common_misconceptions:
+        misc = "; ".join(
+            f"{m.get('description', '')} [cue: {m.get('cue', '')}]"
+            for m in q.common_misconceptions
+            if m.get("description")
+        )
+        if misc:
+            lines.append(f"Watch for these misconceptions: {misc}\n")
+    lines.append("\n")
+    return "".join(lines) if len(lines) > 2 else ""
 
 
 def _bounded(value: Any, limit: int = 360) -> Any:
