@@ -108,6 +108,62 @@ class TimestampedTraceStore:
 
 
 @dataclass(slots=True)
+class Gap:
+    """Tracks whether a single requirement from the QuestionSchema has been demonstrated."""
+
+    gap_id: str
+    gap_type: str  # method | prerequisite | mastery | misconception
+    target_slot: str  # e.g. "correct_approach", "prerequisite_concepts[0]"
+    requirement: str
+    status: str = "open"  # open | partial | closed
+    evidence_ids: list[str] = field(default_factory=list)
+
+
+@dataclass(slots=True)
+class QuestionState:
+    """Per-question mutable state tracked by the Engine during a tutoring session."""
+
+    phase: str = "ATTEMPTING"
+    help_level: int = 0
+    stall_count: int = 0
+    turn_count: int = 0
+    assisted: bool = False
+    main_solved: bool = False
+    solved_by: str | None = None
+    last_diagnosis: str | None = None
+    last_assessment: dict[str, Any] | None = None
+    target_gap: str | None = None
+    gaps: dict[str, Gap] = field(default_factory=dict)
+
+    def open_gaps(self) -> list[Gap]:
+        return [g for g in self.gaps.values() if g.status in ("open", "partial")]
+
+    def closed_gaps(self) -> list[Gap]:
+        return [g for g in self.gaps.values() if g.status == "closed"]
+
+    def apply_updates(
+        self, updates: list[dict], evidence_id: str, student_text: str
+    ) -> None:
+        order = {"open": 0, "partial": 1, "closed": 2}
+        for upd in updates:
+            if not isinstance(upd, dict):
+                continue
+            slot = upd.get("target_slot")
+            new_status = upd.get("status")
+            quote = upd.get("evidence_quote", "")
+            if not slot or new_status not in order:
+                continue
+            gap = next((g for g in self.gaps.values() if g.target_slot == slot), None)
+            if gap is None:
+                continue
+            if quote and quote not in student_text:
+                continue
+            if order[new_status] > order.get(gap.status, 0):
+                gap.status = new_status
+                gap.evidence_ids.append(evidence_id)
+
+
+@dataclass(slots=True)
 class RuntimeQuestionSchema:
     record_id: str
     record_type: str
@@ -181,8 +237,7 @@ class GroundedDemoEngine:
         self.delivery_results: list[DeliveryResult] = []
         self.current_state: LearnerState | None = None
         self.pending_states: dict[str, tuple[LearnerState, str, int]] = {}
-        self.phase = "ELICIT"
-        self.help_level = 0
+        self.qstate: QuestionState = QuestionState(gaps=_build_gaps_from_qs(question))
         self.policy_version = "demo-tutoring-policy@0.2"
 
     def select_action(self, evidence: StudentEvidence) -> TutoringAction:
@@ -202,12 +257,22 @@ class GroundedDemoEngine:
             f"lines {item.passage.line_start}-{item.passage.line_end}\n{item.passage.text}"
             for index, item in enumerate(passages, 1)
         )
+        assessment = self.assess_turn(student_text, evidence.evidence_id)
+        self.qstate.apply_updates(
+            assessment.get("gap_updates") or [], evidence.evidence_id, student_text
+        )
+        if assessment.get("diagnosis") not in (None, "UNCLEAR"):
+            self.qstate.last_diagnosis = assessment["diagnosis"]
+        self.qstate.last_assessment = assessment
+        self.qstate.turn_count += 1
+
         if self.provider is None:
             reply = self._local_reply(student_text, passages, action_type)
             self.last_generation = None
         else:
             q = self.question
             qs_context = _qs_system_context(q)
+            assessment_context = _assessment_context(assessment)
             result = self.provider.generate(
                 system=(
                     "You are a course-grounded tutor. Use only the supplied course passages "
@@ -219,6 +284,7 @@ class GroundedDemoEngine:
                     "$$...$$ for important standalone equations. Do not use Unicode math "
                     "as a substitute when LaTeX is clearer.\n\n"
                     f"{qs_context}"
+                    f"{assessment_context}"
                     f"COURSE PASSAGES:\n{context or '[no supporting passage found]'}"
                 ),
                 messages=[
@@ -231,6 +297,13 @@ class GroundedDemoEngine:
 
         action_id = f"action-{uuid4()}"
         learner_state_id = f"learner-state-{uuid4()}"
+        _conf = (
+            assessment.get("confidence", "low")
+            if assessment.get("diagnosis") not in (None, "UNCLEAR")
+            else "low"
+        )
+        _open = self.qstate.open_gaps()
+        _closed = self.qstate.closed_gaps()
         pending_state = LearnerState(
             record_id=learner_state_id,
             record_type="LearnerState",
@@ -245,16 +318,29 @@ class GroundedDemoEngine:
             session_id=evidence.session_id,
             question_id=evidence.question_id,
             based_on_evidence_ids=(evidence.evidence_id,),
-            demonstrated=(),
-            unresolved=(
+            demonstrated=tuple(MappingProxyType(_gap_dict(g)) for g in _closed),
+            unresolved=tuple(MappingProxyType(_gap_dict(g)) for g in _open)
+            or (
                 MappingProxyType(
                     {
-                        "claim": "The student's method and reasoning still require evidence.",
-                        "phase": next_phase,
+                        "target_slot": "student_reasoning",
+                        "requirement": "Student's method and reasoning still require evidence.",
+                        "status": "open",
                     }
                 ),
             ),
-            diagnostic_hypotheses=(),
+            diagnostic_hypotheses=(
+                MappingProxyType(
+                    {
+                        "diagnosis": assessment.get("diagnosis", "UNCLEAR"),
+                        "confidence": assessment.get("confidence", "low"),
+                        "target_gap": assessment.get("target_gap"),
+                        "summary": assessment.get("summary", ""),
+                    }
+                ),
+            )
+            if assessment.get("diagnosis") not in (None, "UNCLEAR")
+            else (),
             assistance_history_summary=MappingProxyType(
                 {
                     "help_level": next_help_level,
@@ -265,25 +351,20 @@ class GroundedDemoEngine:
             ),
             state_confidence=MappingProxyType(
                 {
-                    "level": "low",
-                    "limitations": (
-                        "The demo policy does not determine mathematical correctness.",
-                    ),
+                    "level": _conf,
+                    "limitations": ()
+                    if _conf != "low"
+                    else ("Assessment confidence is low or unavailable.",),
                 }
             ),
-            open_gaps=(
-                MappingProxyType(
-                    {
-                        "target_slot": "student_reasoning",
-                        "requirement": "The student explains the next mathematical step.",
-                        "status": "open",
-                        "evidence": (evidence.evidence_id,),
-                    }
-                ),
-            ),
-            closed_gaps=(),
+            open_gaps=tuple(MappingProxyType(_gap_dict(g)) for g in _open),
+            closed_gaps=tuple(MappingProxyType(_gap_dict(g)) for g in _closed),
             off_target_context=(),
-            resolved_when="A later Engine implementation verifies every Question Schema gap.",
+            resolved_when=(
+                "All gaps closed."
+                if not _open
+                else f"{len(_open)} gap(s) remain open."
+            ),
         )
         action = TutoringAction(
             record_id=action_id,
@@ -337,8 +418,8 @@ class GroundedDemoEngine:
         self.pending.pop(result.action_id)
         pending_state, phase, help_level = self.pending_states.pop(result.action_id)
         self.current_state = replace(pending_state, status="current")
-        self.phase = phase
-        self.help_level = help_level
+        self.qstate.phase = phase
+        self.qstate.help_level = help_level
         self.delivery_results.append(result)
 
     def state_snapshot(self) -> dict[str, Any] | None:
@@ -348,10 +429,13 @@ class GroundedDemoEngine:
         return {
             "learner_state_id": state.learner_state_id,
             "status": state.status,
-            "phase": self.phase,
-            "help_level": self.help_level,
+            "phase": self.qstate.phase,
+            "help_level": self.qstate.help_level,
+            "last_diagnosis": self.qstate.last_diagnosis,
             "based_on_evidence_ids": list(state.based_on_evidence_ids),
-            "open_gaps": [dict(value) for value in state.open_gaps],
+            "open_gaps": [_gap_dict(g) for g in self.qstate.open_gaps()],
+            "closed_gaps": [_gap_dict(g) for g in self.qstate.closed_gaps()],
+            "diagnostic_hypotheses": [dict(h) for h in state.diagnostic_hypotheses],
             "assistance_history_summary": dict(state.assistance_history_summary),
             "state_confidence": dict(state.state_confidence),
         }
@@ -363,15 +447,84 @@ class GroundedDemoEngine:
             for marker in ("help", "explain", "stuck", "don't know", "do not know", "unsure")
         )
         gives_reason = any(marker in lowered for marker in ("because", "therefore", "since", "so that"))
-        if asks_for_help and self.help_level == 0:
+        hl = self.qstate.help_level
+        if asks_for_help and hl == 0:
             return "hint", "SUPPORT", 1, "Give one small source-backed hint, then ask for the next step."
         if asks_for_help:
-            return "explain", "SUPPORT", min(self.help_level + 1, 3), "Explain one relevant concept, then ask the student to apply it."
+            return "explain", "SUPPORT", min(hl + 1, 3), "Explain one relevant concept, then ask the student to apply it."
         if gives_reason:
-            return "check_understanding", "CHECK", self.help_level, "Ask one question that checks the student's explanation."
+            return "check_understanding", "CHECK", hl, "Ask one question that checks the student's explanation."
         if not self.history:
-            return "probe", "ELICIT", self.help_level, "Ask the student to show or explain the first step."
-        return "retry", "PRACTICE", self.help_level, "Ask the student to inspect the latest step and try again without revealing the answer."
+            return "probe", "ELICIT", hl, "Ask the student to show or explain the first step."
+        return "retry", "PRACTICE", hl, "Ask the student to inspect the latest step and try again without revealing the answer."
+
+    def assess_turn(self, student_text: str, evidence_id: str) -> dict[str, Any]:
+        """Call the assessor model and return a TurnAssessment dict. Never raises."""
+        _empty: dict[str, Any] = {
+            "diagnosis": "UNCLEAR",
+            "confidence": "low",
+            "target_gap": None,
+            "gap_updates": [],
+            "explanation": "none",
+            "summary": "",
+        }
+        q = self.question
+        if self.provider is None or not (
+            q.correct_approach or q.prerequisite_concepts or q.common_misconceptions
+        ):
+            return _empty
+        prereqs = (
+            "\n".join(
+                f"- [{i}] {p.get('name', '')}: {p.get('relevance', '')}"
+                for i, p in enumerate(q.prerequisite_concepts)
+            )
+            or "(none)"
+        )
+        misc_cues = (
+            "\n".join(
+                f"- [{i}] cue: {m.get('cue', '')} | mitigation: {m.get('mitigation', '')}"
+                for i, m in enumerate(q.common_misconceptions)
+            )
+            or "(none)"
+        )
+        gaps_text = (
+            "\n".join(
+                f"- {g.target_slot} ({g.status}): {g.requirement}"
+                for g in self.qstate.gaps.values()
+            )
+            or "(none)"
+        )
+        system = (
+            "You are a math-tutoring assessor. Examine the student's response and "
+            "identify gaps. Output ONLY a JSON object.\n\n"
+            f"Question: {q.prompt}\n"
+            f"Correct approach: {(q.correct_approach or {}).get('technique', '')}\n"
+            f"Reference answer (DO NOT REVEAL TO STUDENT): {q.reference_answer}\n\n"
+            f"Prerequisites:\n{prereqs}\n\n"
+            f"Misconception cues:\n{misc_cues}\n\n"
+            f"Current gaps:\n{gaps_text}"
+        )
+        user = (
+            f"Student response:\n{student_text}\n\n"
+            'Output JSON: {"diagnosis":"D0|D1|D2|D3|D4|D5|D6|D7|CORRECT|UNCLEAR",'
+            '"confidence":"high|medium|low",'
+            '"target_gap":"<target_slot or null>",'
+            '"explanation":"sound|weak|contradicts|none",'
+            '"gap_updates":[{"target_slot":"...","status":"open|partial|closed",'
+            '"evidence_quote":"verbatim quote from student text","note":"..."}],'
+            '"summary":"one sentence"}'
+        )
+        try:
+            from digital_professor.course_context.builder import _extract_json_text
+
+            result = self.provider.generate(
+                system=system, messages=[{"role": "user", "content": user}]
+            )
+            assessment: dict[str, Any] = json.loads(_extract_json_text(result.text))
+            return assessment
+        except Exception as exc:
+            _log.warning("assess_turn failed: %s", exc)
+            return _empty
 
     @staticmethod
     def _local_reply(
@@ -1074,6 +1227,7 @@ class DemoApplication:
                     "recognized_input": _bounded(record.get("recognized_input")),
                     "output": _bounded(record.get("output")),
                     "decision_summary": record.get("decision_summary", {}),
+                    "learner_state": record.get("learner_state"),
                     "sources": record.get("sources", []),
                 }
             )
@@ -1113,6 +1267,7 @@ class DemoApplication:
                         "help_level": action.constraints.get("help_level"),
                         "grounding_status": "supported" if sources else "no_support_found",
                     },
+                    "learner_state": session.engine.state_snapshot(),
                     "sources": [
                         _activity_source(source, diagnostic=session.diagnostic_logging)
                         for source in sources
@@ -1183,6 +1338,65 @@ def _question_dict(question: RuntimeQuestionSchema) -> dict[str, Any]:
         for name in RuntimeQuestionSchema.__dataclass_fields__
         for value in (getattr(question, name),)
     }
+
+
+def _build_gaps_from_qs(q: RuntimeQuestionSchema) -> dict[str, Gap]:
+    """Create initial Gap objects from a QuestionSchema at session start."""
+    gaps: dict[str, Gap] = {}
+    technique = (q.correct_approach or {}).get("technique", "")
+    if technique:
+        gaps["method"] = Gap(
+            gap_id="method",
+            gap_type="method",
+            target_slot="correct_approach",
+            requirement=f"Demonstrate: {technique}",
+        )
+    for i, prereq in enumerate(q.prerequisite_concepts or ()):
+        name = prereq.get("name") or prereq.get("concept_id", f"prerequisite {i}")
+        relevance = prereq.get("relevance", "")
+        gaps[f"prereq_{i}"] = Gap(
+            gap_id=f"prereq_{i}",
+            gap_type="prerequisite",
+            target_slot=f"prerequisite_concepts[{i}]",
+            requirement=f"Apply {name}" + (f": {relevance}" if relevance else ""),
+        )
+    for i, lo in enumerate((q.learning_objectives or ())[:2]):
+        text = lo.get("text", "")
+        if text:
+            gaps[f"mastery_{i}"] = Gap(
+                gap_id=f"mastery_{i}",
+                gap_type="mastery",
+                target_slot=f"learning_objectives[{i}]",
+                requirement=text,
+            )
+    return gaps
+
+
+def _gap_dict(g: Gap) -> dict[str, Any]:
+    return {
+        "gap_id": g.gap_id,
+        "gap_type": g.gap_type,
+        "target_slot": g.target_slot,
+        "requirement": g.requirement,
+        "status": g.status,
+        "evidence_ids": list(g.evidence_ids),
+    }
+
+
+def _assessment_context(assessment: dict[str, Any]) -> str:
+    """Build the TURN ASSESSMENT section injected into the writer's system prompt."""
+    if not assessment or assessment.get("diagnosis") in (None, "UNCLEAR"):
+        return ""
+    lines = ["TURN ASSESSMENT:\n"]
+    lines.append(f"Diagnosis: {assessment['diagnosis']}\n")
+    target = assessment.get("target_gap")
+    if target:
+        lines.append(f"Target gap: {target}\n")
+    summary = assessment.get("summary", "")
+    if summary:
+        lines.append(f"Summary: {summary}\n")
+    lines.append("\n")
+    return "".join(lines)
 
 
 def _concepts_from_course_context(
