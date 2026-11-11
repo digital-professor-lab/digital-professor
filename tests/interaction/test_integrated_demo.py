@@ -6,7 +6,7 @@ import json
 
 from fastapi.testclient import TestClient
 
-from digital_professor.providers import GenerationResult
+from digital_professor.providers import GenerationResult, OpenAICompatibleProvider
 from digital_professor.runtime import DemoApplication, TimestampedTraceStore
 from digital_professor.webapp.app import create_app
 from digital_professor.interaction import RecognizerOutput, StubHandwritingRecognizer
@@ -125,6 +125,42 @@ Definition: A vector space is closed under addition and scalar multiplication.
     assert "consistency check failed" in detail.lower()
     assert "550.413" in detail
     assert "110.108" in detail
+
+
+def test_staged_course_ingestion_requires_and_records_mismatch_override() -> None:
+    client = _client()
+    mismatched_notes = b"""550.413 Linear Algebra Lecture Notes
+Lecture 1: Vector spaces
+Definition: A vector space is closed under addition and scalar multiplication.
+"""
+    syllabus = client.post(
+        "/api/course-setup/syllabus",
+        files={"file": ("calculus_syllabus.txt", SYLLABUS, "text/plain")},
+    )
+    notes = client.post(
+        "/api/course-setup/notes",
+        files={"files": ("linear_algebra_notes.txt", mismatched_notes, "text/plain")},
+    )
+    assert syllabus.status_code == 200
+    assert notes.status_code == 200
+
+    paused = client.post("/api/course-setup/publish")
+
+    assert paused.status_code == 409
+    detail = paused.json()["detail"]
+    assert detail["code"] == "course_mismatch_confirmation_required"
+    assert detail["requires_confirmation"] is True
+    assert "550.413" in " ".join(detail["conflicts"])
+
+    published = client.post(
+        "/api/course-setup/publish?confirm_course_mismatch=true"
+    )
+
+    assert published.status_code == 200, published.text
+    course = published.json()
+    assert course["consistency_status"] == "override_confirmed"
+    assert any("Human override confirmed" in note for note in course["consistency_notes"])
+    assert any("550.413" in note and "110.108" in note for note in course["consistency_notes"])
 
 
 def test_course_ingestion_verifies_matching_course_number() -> None:
@@ -415,7 +451,7 @@ def test_runtime_provider_settings_change_without_accepting_a_key() -> None:
     response = client.put(
         "/api/provider/settings",
         json={
-            "provider": "compatible-provider",
+            "provider": "custom",
             "model": "course-tutor-v2",
             "base_url": "https://provider.example/v1",
             "input_cost_per_million": 1.25,
@@ -442,6 +478,60 @@ def test_runtime_provider_settings_change_without_accepting_a_key() -> None:
         },
     )
     assert rejected.status_code == 422
+
+
+def test_provider_catalog_exposes_supported_profiles() -> None:
+    client = _client()
+
+    response = client.get("/api/provider/catalog")
+
+    assert response.status_code == 200
+    providers = {item["id"]: item for item in response.json()["providers"]}
+    assert {"openai", "openrouter", "deepseek", "ollama", "custom"} <= providers.keys()
+    assert providers["openrouter"]["api_key_env"] == "OPENROUTER_API_KEY"
+    assert providers["ollama"]["requires_api_key"] is False
+
+
+def test_each_provider_profile_can_be_selected_and_models_loaded(monkeypatch) -> None:
+    class Model:
+        def __init__(self, model_id: str) -> None:
+            self.id = model_id
+
+    class Models:
+        def list(self):
+            return type("ModelList", (), {"data": [Model("version-b"), Model("version-a")]})()
+
+    class Client:
+        models = Models()
+
+    monkeypatch.setattr(OpenAICompatibleProvider, "_client", lambda self: Client())
+    client = _client()
+    selections = {
+        "openai": None,
+        "openrouter": None,
+        "deepseek": None,
+        "ollama": None,
+        "custom": "https://models.example/v1",
+    }
+    for provider, base_url in selections.items():
+        settings = client.put(
+            "/api/provider/settings",
+            json={
+                "provider": provider,
+                "model": "version-a",
+                "base_url": base_url,
+                "input_cost_per_million": None,
+                "output_cost_per_million": None,
+                "handwriting_model": "vision-version-a",
+            },
+        )
+        tested = client.post("/api/provider/test")
+        assert settings.status_code == 200, settings.text
+        assert tested.status_code == 200
+        assert tested.json()["ok"] is True
+        assert tested.json()["provider"] == provider
+        assert tested.json()["models"] == ["version-a", "version-b"]
+        assert tested.json()["configured_model_available"] is True
 
 
 def test_handwriting_requires_confirmation_then_joins_the_same_session() -> None:

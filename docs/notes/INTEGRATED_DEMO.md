@@ -13,9 +13,10 @@ the canonical specifications.
    and at least one searchable knowledge source. Chat remains disabled until
    retrieval indexing completes and the API reports `ready_for_query=true`.
    Before publication, it compares explicit course numbers and course-title
-   headers in each knowledge source with the syllabus. Strong conflicts reject
-   the batch; missing signals produce `partially_verified` rather than a guessed
-   match.
+   headers in each knowledge source with the syllabus. Strong conflicts pause
+   publication for explicit confirmation; confirmed exceptions become
+   `override_confirmed`. Missing signals produce `partially_verified` rather
+   than a guessed match.
 4. A student selects the course and enters a question.
 5. Course Context builds a partial runtime `QuestionSchema`, with explicit
    provenance and `requires_human_review=true` for fields that lack an
@@ -43,10 +44,11 @@ the canonical specifications.
 |---|---|
 | `GET /api/status` | Report process and feature status without exposing secrets. |
 | `POST /api/provider/test` | Test the configured OpenAI-compatible provider. |
+| `GET /api/provider/catalog` | List supported provider profiles, endpoints, and server-side key-variable names. |
 | `PUT /api/provider/settings` | Change non-secret runtime model, endpoint, pricing, and OCR settings. API-key fields are rejected. |
 | `POST /api/course-setup/syllabus` | Stage one syllabus independently. |
 | `POST /api/course-setup/notes` | Stage one or more notes/textbook files independently. |
-| `POST /api/course-setup/publish` | Parse, chunk, index, and publish the staged course. |
+| `POST /api/course-setup/publish` | Parse, chunk, index, and publish the staged course; a suspected mismatch returns 409 until repeated with `?confirm_course_mismatch=true`. |
 | `POST /api/courses` | Compatibility endpoint used by automated tests for combined ingestion. |
 | `GET /api/courses` | List in-memory published courses. |
 | `GET /api/courses/{course_id}` | Show course metadata, topics, and source versions. |
@@ -87,12 +89,16 @@ ingestion checks:
 2. If no number is available, an explicit short title line containing a course,
    class, or lecture-notes marker.
 
-A different explicit number or a disjoint explicit title is a hard conflict and
-returns HTTP 422 before the course is published. A matching signal marks that
-source verified. A source with no reliable identity signal remains usable but
-is listed as review recommended, making the complete workspace partially
-verified. The check does not infer course membership from topic similarity;
-that would risk silently accepting a related but incorrect course.
+A different explicit number or a disjoint explicit title pauses staged
+publication with HTTP 409 and returns the detected conflicts. The interface
+requires an explicit confirmation before continuing. A confirmed publication
+is marked `override_confirmed`, and the conflicting signals are retained in its
+audit notes. The compatibility bulk-upload endpoint remains strict and returns
+HTTP 422. A matching signal marks that source verified. A source with no
+reliable identity signal remains usable but is listed as review recommended,
+making the complete workspace partially verified. The check does not infer
+course membership from topic similarity; that would risk silently accepting a
+related but incorrect course.
 The diagnostic switch controls optional payload summaries, retrieval sources
 and links, model identity, latency, and token use. Turning diagnostics off does
 not remove state required for session continuity. API keys never enter logs.
@@ -125,12 +131,42 @@ write the secret. Restart the backend after changing `.env`.
 Model selection uses `DIGITAL_PROFESSOR_MODEL`. Cost estimates use
 `DIGITAL_PROFESSOR_INPUT_COST_PER_MILLION` and
 `DIGITAL_PROFESSOR_OUTPUT_COST_PER_MILLION`. Handwriting uses
-`OPENAI_HANDWRITING_MODEL` and its two handwriting pricing variables. Pricing
-must be updated manually when the provider changes it.
+`DIGITAL_PROFESSOR_HANDWRITING_MODEL` and its two handwriting pricing variables.
+Pricing must be updated manually when the provider changes it. Legacy
+`OPENAI_HANDWRITING_*` names remain accepted as fallbacks.
 
 The Provider Settings screen can override every non-secret setting for the
 running backend. Only the actual key remains in `.env`. The checked-in
 `.env.example` documents the allowed variables; `.env` itself stays ignored.
+
+Provider profiles currently cover OpenAI, OpenRouter, DeepSeek, Ollama, and a
+custom OpenAI-compatible endpoint. A successful provider test loads every model
+identifier returned by that provider's `/models` endpoint. The exact selected
+identifier is stored as the model/version. Provider support for tutoring does
+not imply handwriting support: OCR additionally requires compatible image input
+and structured Responses behavior.
+
+## Mobile capture and progress
+
+The responsive client uses `100dvh`, safe-area padding, touch-sized controls,
+mobile-sized form fields, and horizontally scrollable navigation. The
+handwriting attachment menu exposes a rear-camera input (`capture="environment"`)
+and a separate image/PDF picker. Desktop drag-and-drop accepts PNG, JPEG, WebP,
+and PDF files over the conversation or composer. Every path enters the same
+preservation and confirmation pipeline. The OCR result is an editable
+Markdown/LaTeX field with a live KaTeX preview; changing it never replaces the
+preserved original artifact. Main content views scroll independently while the
+desktop sidebar remains fixed.
+
+Chat rendering supports `$...$` inline math and `$$...$$` display math. The
+provider prompt requests these delimiters for mathematical responses, while
+the local policy and student input use the same renderer.
+
+Progress bars cover source uploads, course preparation, provider tests, tutoring
+turns, and handwriting. They print the current stage in text for accessibility.
+The synchronous V1 API does not stream true server percentages, so values below
+100% are bounded stage estimates; success or failure is only printed after the
+server responds.
 
 ## Initial Tutoring Engine policy
 

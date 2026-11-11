@@ -4,6 +4,33 @@ This changelog records major project-level changes. It begins with the first V1
 implementation work; earlier research artifacts remain available in the Git
 history and under `research/`.
 
+## 2026-11-10 — Mobile capture, provider profiles, and progress
+
+### Added
+
+- Added responsive mobile layout behavior using the dynamic viewport, safe-area
+  spacing, touch-sized controls, horizontal navigation, and iOS-safe form sizes.
+- Added separate **Take a photo** and **Choose image or PDF** handwriting paths;
+  both preserve the original artifact and enter the existing confirmation flow.
+- Added visible, text-labeled progress bars for source uploads, course
+  preparation, tutoring turns, provider testing, and handwriting recognition.
+- Added explicit OpenAI, OpenRouter, DeepSeek, Ollama, and custom
+  OpenAI-compatible provider profiles with provider-specific base URLs and
+  server-side key-variable names.
+- Added dynamic model/version discovery through the configured provider's model
+  list and retained manual exact-identifier entry.
+- Added integration coverage for the provider catalog, every provider profile,
+  model/version loading, mobile capture markup, and progress controls.
+
+### Boundaries
+
+- Progress before completion is a client-side stage estimate because current
+  requests are synchronous; it is not a streamed backend percentage.
+- Handwriting requires more than text-generation compatibility: the selected
+  provider and model must support image input and structured Responses output.
+- The local mobile workflow is intended for a trusted LAN and is not a public
+  deployment or a substitute for authentication and HTTPS.
+
 ## 2026-11-06 — Stateful integrated demo
 
 ### Added
@@ -45,9 +72,16 @@ history and under `research/`.
 - Added exact original-input, recognition-output, and confirmed-input fields to
   turn records so mathematical notation is not silently normalized.
 - Added a course-material consistency gate: explicit course-number/title
-  conflicts block publication, while missing identity signals produce a visible
-  partially-verified review state.
+  conflicts pause publication for human confirmation, confirmed exceptions are
+  recorded as `override_confirmed`, and missing identity signals produce a
+  visible partially-verified review state.
 - Restored the chat composer hint for `$equation$` math and backtick code.
+- Added handwriting drag-and-drop to the conversation and composer, using the
+  same artifact-preserving OCR path as camera and file selection.
+- Added editable recognized LaTeX with a live KaTeX preview, `$$...$$`
+  display-math rendering, and model instructions to format math as LaTeX.
+- Made main content independently scrollable while keeping the desktop sidebar
+  fixed, including when the handwriting review editor expands.
 
 ### Specification conformance audit
 
@@ -68,7 +102,7 @@ module boundaries; it is not a claim that every normative V1 behavior is done.
 | Logging and preservation | Operational continuity records persist when diagnostics are off; optional model/source/cost details obey the session toggle. Exact typed input and separate OCR/confirmed values are stored in timestamped backend records. Secrets are excluded. | Add retention/deletion policy, encryption, access control, redaction, durable session recovery, and institutional privacy review before real student data. |
 | Browser demo | Course-gated setup, multi-turn POSTs, refresh restoration, math/code rendering, handwriting confirmation, source navigation, and bounded Activity summaries are connected. | Add authentication, multi-user isolation, backend restart recovery, accessibility validation, and production deployment controls. |
 
-Automated contract and behavior checks currently report **84 passed** with six
+Automated contract and behavior checks currently report **87 passed** with six
 third-party deprecation warnings. The tests establish the implemented slice;
 they do not waive the remaining normative items above.
 

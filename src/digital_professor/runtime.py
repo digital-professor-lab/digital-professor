@@ -205,7 +205,10 @@ class GroundedDemoEngine:
                     "for course-specific claims. Do not reveal a full answer immediately. "
                     f"Selected tutoring action: {action_type}. {action_instruction} "
                     "State when the "
-                    "sources do not support a claim. Keep the response under 180 words.\n\n"
+                    "sources do not support a claim. Keep the response under 180 words. "
+                    "Write mathematical notation as valid LaTeX: use $...$ inline and "
+                    "$$...$$ for important standalone equations. Do not use Unicode math "
+                    "as a substitute when LaTeX is clearer.\n\n"
                     f"COURSE PASSAGES:\n{context or '[no supporting passage found]'}"
                 ),
                 messages=[
