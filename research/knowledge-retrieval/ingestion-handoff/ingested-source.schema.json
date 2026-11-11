@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/digital-professor-lab/digital-professor/specs/schemas/ingested-source.schema.json",
+  "title": "IngestedSource",
+  "description": "One course document, at one content version, after ingestion (Course Context and Ingestion, Stage B). Handoff from Ingestion (Ovunc) to Course Knowledge Retrieval (Sean). Format version 1.0. Draft for review.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id", "record_type", "schema_version", "created_at", "producer", "status", "correlation_id",
+    "ingested_source_schema_version", "course_id", "course_context_ref", "document", "pages", "sections", "blocks", "warnings"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1, "description": "Common envelope (interfaces.md §1.1)."},
+    "record_type": {"const": "IngestedSource"},
+    "schema_version": {"type": "string", "minLength": 1, "description": "Shared contract version, currently 0.1."},
+    "created_at": {"type": "string", "format": "date-time", "description": "UTC, ISO-8601."},
+    "producer": {"type": "string", "minLength": 1, "description": "e.g. course-context-ingestion"},
+    "status": {
+      "enum": ["ingested", "partial", "failed"],
+      "description": "ingested = every page and block extracted; partial = usable, but some pages or blocks are missing (see warnings); failed = nothing usable, blocks is empty and Retrieval will not index it."
+    },
+    "correlation_id": {"type": "string", "minLength": 1, "description": "One ingestion run, e.g. one provisioning job."},
+
+    "ingested_source_schema_version": {"const": "1.0", "description": "Version of this file format."},
+    "course_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$", "description": "Course.id from the Course Context, e.g. calc1."},
+    "course_context_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["course_context_schema_version", "content_sha256"],
+      "description": "The exact Course Context file whose concept IDs are used below (same idea as QuestionSchema.built_from).",
+      "properties": {
+        "course_context_schema_version": {"type": "string", "minLength": 1},
+        "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+
+    "document": {"$ref": "#/$defs/Document"},
+    "pages": {"type": "array", "items": {"$ref": "#/$defs/Page"}},
+    "sections": {"type": "array", "items": {"$ref": "#/$defs/Section"}},
+    "blocks": {"type": "array", "items": {"$ref": "#/$defs/Block"}},
+    "warnings": {"type": "array", "items": {"$ref": "#/$defs/Warning"}}
+  },
+
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "failed"}}},
+      "then": {"properties": {"blocks": {"maxItems": 0}, "warnings": {"minItems": 1}}},
+      "else": {"properties": {"pages": {"minItems": 1}, "blocks": {"minItems": 1}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "partial"}}},
+      "then": {"properties": {"warnings": {"minItems": 1}}}
+    }
+  ],
+
+  "$defs": {
+    "Document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_id", "content_version", "document_role", "title", "source_label", "source_file",
+                   "source_provenance", "review_status", "language"],
+      "properties": {
+        "document_id": {
+          "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*:[a-z0-9][a-z0-9_.-]*$",
+          "description": "<course_id>:<slug>. Stays the same for every version of the same document."
+        },
+        "content_version": {
+          "type": "string", "minLength": 1, "maxLength": 64,
+          "description": "Changes whenever any page line changes. Page and line numbers are valid only for this version."
+        },
+        "document_role": {
+          "enum": ["textbook", "lecture_notes", "slides", "worked_examples", "problem_set", "past_exam", "syllabus", "other"],
+          "description": "syllabus is reference-only: Retrieval indexes it but does not cite it in production."
+        },
+        "title": {"type": "string", "minLength": 1},
+        "source_label": {"type": "string", "minLength": 1, "description": "Short display name for citations, e.g. 'Lecture notes, Ch. 4'."},
+        "source_file": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["filename", "media_type", "sha256", "page_count"],
+          "properties": {
+            "filename": {"type": "string", "minLength": 1},
+            "media_type": {"type": "string", "minLength": 1, "description": "e.g. application/pdf, application/x-tex"},
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "Hash of the original uploaded file."},
+            "page_count": {"type": "integer", "minimum": 1}
+          }
+        },
+        "source_provenance": {
+          "enum": ["source_document", "ai_generated"],
+          "description": "source_document = text taken from the original course file. ai_generated = text written by a model (e.g. the current AI course breakdowns)."
+        },
+        "review_status": {
+          "enum": ["reviewed", "unverified"],
+          "description": "reviewed = a person confirmed the document (right file, edition and course). Production retrieval cites only reviewed source_document material."
+        },
+        "reviewed_by": {"type": ["string", "null"]},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "language": {"const": "en", "description": "V1 is English only."}
+      }
+    },
+
+    "Page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page_number", "page_label", "lines", "text_sha256"],
+      "properties": {
+        "page_number": {"type": "integer", "minimum": 1, "description": "Physical page in the source file, starting at 1 (what a PDF viewer opens)."},
+        "page_label": {"type": ["string", "null"], "description": "Printed page number, if any, e.g. '112'."},
+        "lines": {
+          "type": "array", "items": {"type": "string", "minLength": 1},
+          "description": "Normalized page text, one entry per line. Line n is lines[n-1]. No empty lines; running headers and footers removed."
+        },
+        "text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "sha256 of the lines joined with \\n (UTF-8)."}
+      }
+    },
+
+    "Section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_id", "parent_id", "level", "number", "title", "heading_kind",
+                   "page_start", "line_start", "page_end", "line_end", "concept_ids", "structure_inferred"],
+      "properties": {
+        "section_id": {"type": "string", "minLength": 1, "description": "Unique in this file."},
+        "parent_id": {"type": ["string", "null"], "description": "null for top-level sections."},
+        "level": {"type": "integer", "minimum": 1, "description": "1 = top level (e.g. chapter)."},
+        "number": {"type": ["string", "null"], "description": "Printed number, e.g. '4.5.1'; null if unnumbered."},
+        "title": {"type": "string", "minLength": 1},
+        "heading_kind": {"enum": ["part", "chapter", "section", "subsection", "lecture", "appendix", "other"]},
+        "page_start": {"type": "integer", "minimum": 1},
+        "line_start": {"type": "integer", "minimum": 1},
+        "page_end": {"type": "integer", "minimum": 1},
+        "line_end": {"type": "integer", "minimum": 1},
+        "concept_ids": {
+          "type": "array", "items": {"type": "string"}, "uniqueItems": true,
+          "description": "Course Context concept IDs this section teaches, main concept first. May be empty."
+        },
+        "structure_inferred": {"type": "boolean", "description": "true if the section was guessed (no heading, bookmark or table of contents behind it)."}
+      }
+    },
+
+    "Block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["block_id", "section_id", "type", "label", "text",
+                   "page_start", "line_start", "page_end", "line_end", "concept_ids", "concept_source", "visibility"],
+      "properties": {
+        "block_id": {"type": "string", "minLength": 1, "description": "Unique in this file. Keep it stable across versions when the block is unchanged."},
+        "section_id": {"type": "string", "minLength": 1, "description": "The innermost section that contains the block."},
+        "type": {
+          "enum": ["definition", "theorem", "formula", "proof", "example", "exercise", "solution",
+                   "explanation", "remark", "summary", "figure", "table", "other"],
+          "description": "theorem also covers rule, proposition, lemma and corollary (the printed name goes in label). A worked example keeps its solution in the same block."
+        },
+        "label": {"type": ["string", "null"], "description": "Printed label, e.g. 'Theorem 4.5.2 (Chain rule)'; null if none."},
+        "text": {
+          "type": "string", "minLength": 1,
+          "description": "Clean text of the block. Math as LaTeX inside $...$ or $$...$$. Covers exactly the lines given by the location fields."
+        },
+        "page_start": {"type": "integer", "minimum": 1},
+        "line_start": {"type": "integer", "minimum": 1},
+        "page_end": {"type": "integer", "minimum": 1},
+        "line_end": {"type": "integer", "minimum": 1},
+        "concept_ids": {
+          "type": "array", "items": {"type": "string"}, "uniqueItems": true,
+          "description": "Course Context concept IDs the block is about, main concept first. May be empty for general text."
+        },
+        "concept_source": {
+          "enum": ["section", "model", "human", "none"],
+          "description": "How concept_ids were set: copied from the section, assigned by a model, set or checked by a person, or none (empty list)."
+        },
+        "visibility": {
+          "enum": ["student_visible", "engine_only"],
+          "description": "engine_only = may ground the tutor but must never be shown or quoted to the student (e.g. answers to exercises)."
+        },
+        "for_block_id": {
+          "type": ["string", "null"],
+          "description": "solution: the exercise it answers. proof: the theorem it proves. Otherwise null or absent."
+        },
+        "question_id": {
+          "type": ["string", "null"],
+          "description": "exercise: its question-bank ID, if it is a bank question. Lets Retrieval keep its answer out of a turn about that question."
+        }
+      },
+      "allOf": [
+        {"if": {"properties": {"type": {"const": "solution"}}},
+         "then": {"required": ["for_block_id"], "properties": {"for_block_id": {"type": "string"}, "visibility": {"const": "engine_only"}}}},
+        {"if": {"properties": {"type": {"const": "proof"}}},
+         "then": {"required": ["for_block_id"]}},
+        {"if": {"properties": {"concept_source": {"const": "none"}}},
+         "then": {"properties": {"concept_ids": {"maxItems": 0}}},
+         "else": {"properties": {"concept_ids": {"minItems": 1}}}}
+      ]
+    },
+
+    "Warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "enum": ["page_unreadable", "ocr_low_confidence", "math_uncertain", "structure_inferred",
+                   "concept_unmapped", "figure_text_missing", "table_text_missing", "page_range_skipped", "other"]
+        },
+        "message": {"type": "string", "minLength": 1},
+        "page_number": {"type": ["integer", "null"], "minimum": 1},
+        "block_id": {"type": ["string", "null"]}
+      }
+    }
+  }
+}
