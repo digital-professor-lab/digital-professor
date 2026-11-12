@@ -5,6 +5,7 @@ from __future__ import annotations
 import html
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_EXCEPTION
 from pathlib import Path
 from typing import Any, Literal
 
@@ -27,6 +28,8 @@ from digital_professor.course_context.ingestion import (
     DocumentIngestionService,
     IngestionError,
     SourceUpload,
+    tag_blocks_with_concepts,
+    to_ingested_source_json,
 )
 from digital_professor.providers import (
     OpenAICompatibleProvider,
@@ -239,10 +242,13 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             raise HTTPException(status_code=422, detail="Upload a syllabus first.")
         if not app.state.pending_notes:
             raise HTTPException(status_code=422, detail="Upload one or more notes files first.")
+
+        all_uploads = [app.state.pending_syllabus, *app.state.pending_notes]
+
+        # Step 1 — cheap identity check (first pages only, no full parse yet)
         try:
-            workspace = app.state.ingestion.ingest_course(
-                [app.state.pending_syllabus, *app.state.pending_notes],
-                allow_course_mismatch=confirm_course_mismatch,
+            app.state.ingestion.check_consistency_fast(
+                all_uploads, allow_course_mismatch=confirm_course_mismatch
             )
         except CourseConsistencyError as error:
             raise HTTPException(
@@ -257,9 +263,41 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
                     "requires_confirmation": True,
                 },
             ) from error
-        except IngestionError as error:
-            raise HTTPException(status_code=422, detail=str(error)) from error
-        workspace = _enrich_with_course_context(workspace, app.state.cc_generator)
+
+        # Step 2 — parse syllabus only, extract text
+        _, syllabus_text = app.state.ingestion.ingest_syllabus(app.state.pending_syllabus)
+
+        # Steps 3 & 4 — run concurrently: LLM has no dependency on the parse result
+        # and the full parse has no dependency on the CC.
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            cc_future = pool.submit(
+                _generate_course_context, syllabus_text, app.state.cc_generator
+            )
+            ingest_future = pool.submit(
+                app.state.ingestion.ingest_course, all_uploads
+            )
+            done, _ = wait([cc_future, ingest_future], return_when=FIRST_EXCEPTION)
+            # Re-raise any exception that occurred in either thread.
+            for f in done:
+                exc = f.exception()
+                if exc is not None:
+                    if isinstance(exc, IngestionError):
+                        raise HTTPException(status_code=422, detail=str(exc)) from exc
+                    raise exc
+
+        cc, cc_status, cc_review = cc_future.result()
+        workspace = ingest_future.result()
+
+        # Step 5 — concept tagging using the now-available CourseContext
+        if cc is not None:
+            workspace = tag_blocks_with_concepts(workspace, cc)
+        workspace = replace(
+            workspace,
+            course_context=cc,
+            course_context_status=cc_status,
+            course_context_review=cc_review,
+        )
+
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
 
@@ -274,10 +312,30 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             for file in files
         ]
         try:
-            workspace = app.state.ingestion.ingest_course(uploads)
-        except IngestionError as error:
-            raise HTTPException(status_code=422, detail=str(error)) from error
-        workspace = _enrich_with_course_context(workspace, app.state.cc_generator)
+            app.state.ingestion.check_consistency_fast(uploads)
+        except CourseConsistencyError as error:
+            raise HTTPException(status_code=409, detail={"conflicts": list(error.conflicts)}) from error
+        syllabus_upload = next((u for u in uploads if u.filename.lower().find("syllabus") >= 0), None)
+        syllabus_text = ""
+        if syllabus_upload:
+            _, syllabus_text = app.state.ingestion.ingest_syllabus(syllabus_upload)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            cc_future = pool.submit(
+                _generate_course_context, syllabus_text, app.state.cc_generator
+            )
+            ingest_future = pool.submit(app.state.ingestion.ingest_course, uploads)
+            done, _ = wait([cc_future, ingest_future], return_when=FIRST_EXCEPTION)
+            for f in done:
+                exc = f.exception()
+                if exc is not None:
+                    if isinstance(exc, IngestionError):
+                        raise HTTPException(status_code=422, detail=str(exc)) from exc
+                    raise exc
+        cc, cc_status, cc_review = cc_future.result()
+        workspace = ingest_future.result()
+        if cc is not None:
+            workspace = tag_blocks_with_concepts(workspace, cc)
+        workspace = replace(workspace, course_context=cc, course_context_status=cc_status, course_context_review=cc_review)
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
 
@@ -447,23 +505,18 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     return app
 
 
-def _enrich_with_course_context(
-    workspace,
+def _generate_course_context(
+    syllabus_text: str,
     generator: CourseContextGenerator | None,
-):
-    """Generate, validate, and flag a CourseContext; fall back gracefully on any failure.
+) -> tuple[dict | None, str | None, dict | None]:
+    """Generate, validate, and flag a CourseContext from syllabus text.
 
-    Retries generation once when the first attempt produces a structurally invalid
-    CourseContext — LLM output is stochastic and a second pass often passes validation.
+    Returns (cc, status, review).  Retries once on structural validation failure.
+    Returns (None, 'generation_failed', None) or (None, 'validation_failed', None)
+    on unrecoverable failure so callers can store the status without crashing.
     """
-    if generator is None:
-        return workspace
-    syllabus_doc = next(
-        (d for d in workspace.documents if d.document_type == "syllabus"), None
-    )
-    if syllabus_doc is None:
-        return workspace
-    syllabus_text = "\n".join(line for page in syllabus_doc.pages for line in page)
+    if generator is None or not syllabus_text.strip():
+        return None, None, None
 
     cc = status = review = None
     generation_failed = False
@@ -484,15 +537,10 @@ def _enrich_with_course_context(
         cc = None
 
     if generation_failed and cc is None:
-        return replace(workspace, course_context_status="generation_failed")
+        return None, "generation_failed", None
     if status == "validation_failed":
-        return replace(workspace, course_context_status="validation_failed")
-    return replace(
-        workspace,
-        course_context=cc,
-        course_context_status=status,
-        course_context_review=review,
-    )
+        return None, "validation_failed", None
+    return cc, status, review
 
 
 def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:

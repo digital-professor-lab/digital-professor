@@ -249,7 +249,9 @@ class GroundedDemoEngine:
         )
         query = f"{self.question.prompt}\n{student_text}"
         retrieval_started = time.perf_counter()
-        passages = self.retrieval.search(query, top_k=4)
+        passages = self.retrieval.search(
+            query, top_k=4, concept_ids=self.question.concept_ids
+        )
         self.last_retrieval_ms = round((time.perf_counter() - retrieval_started) * 1000)
         self.last_passages = passages
         context = "\n\n".join(
@@ -640,6 +642,7 @@ class DemoApplication:
         course = self.courses.get(course_id)
         if course is None:
             raise LookupError(f"Published course not found: {course_id}")
+        # Initial search without concept_ids (not yet known); re-searched below once QS is built.
         passages = self.indexes[course_id].search(question, top_k=4)
         correlation_id = f"correlation-{uuid4()}"
         source_ids = tuple(dict.fromkeys(item.passage.document_id for item in passages))
@@ -656,6 +659,11 @@ class DemoApplication:
                 qs_dict = build_runtime_question_schema(cc, cc_sha256, question, adapter)
                 concept_ids = tuple(qs_dict["concept_ids"])
                 concept_names = tuple(qs_dict.get("concept_names") or ())
+                # Re-search with concept_ids now that we know them.
+                passages = self.indexes[course_id].search(
+                    question, top_k=4, concept_ids=concept_ids
+                )
+                source_ids = tuple(dict.fromkeys(item.passage.document_id for item in passages))
                 schema = RuntimeQuestionSchema(
                     record_id=qs_dict["question_id"],
                     record_type="QuestionSchema",
