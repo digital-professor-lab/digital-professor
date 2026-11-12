@@ -339,6 +339,9 @@ def build_runtime_question_schema(
             "status": v_status,
             "method": "sympy-diff" if parts.get("verification") else "none",
             "detail": v_detail,
+            # Raw payload kept so the tutoring engine can verify student answers.
+            "variable": (parts.get("verification") or {}).get("variable"),
+            "integrand": (parts.get("verification") or {}).get("integrand"),
         },
         "provenance": "ai_inferred",
         "built_from": {

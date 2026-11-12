@@ -244,10 +244,17 @@ class GroundedDemoEngine:
         if evidence.validation_status != "valid" or evidence.unresolved_ambiguities:
             raise ValueError("Only confirmed StudentEvidence may reach the Tutoring Engine.")
         student_text = evidence.confirmed_content or ""
-        action_type, next_phase, next_help_level, action_instruction = self._select_policy(
-            student_text
-        )
-        query = f"{self.question.prompt}\n{student_text}"
+
+        # --- quick synchronous checks (no LLM) ---
+        math_correct = _check_student_math(student_text, self.question.answer_verification)
+        turn_type = _read_turn(student_text, has_history=bool(self.history))
+
+        # --- retrieval (fast, independent of LLM) ---
+        # Prepend the technique name so lexical search finds the right textbook section
+        # even when the student's phrasing ("how to take integral of xcos(x)") has no
+        # term overlap with the technique section heading ("integration by parts").
+        _technique = (self.question.correct_approach or {}).get("technique", "")
+        query = "\n".join(p for p in (_technique, self.question.prompt, student_text) if p)
         retrieval_started = time.perf_counter()
         passages = self.retrieval.search(
             query, top_k=4, concept_ids=self.question.concept_ids
@@ -259,7 +266,27 @@ class GroundedDemoEngine:
             f"lines {item.passage.line_start}-{item.passage.line_end}\n{item.passage.text}"
             for index, item in enumerate(passages, 1)
         )
-        assessment = self.assess_turn(student_text, evidence.evidence_id)
+
+        # --- assessment (LLM) — only needed when student is making an attempt ---
+        _empty_assessment: dict[str, Any] = {
+            "diagnosis": "UNCLEAR",
+            "confidence": "low",
+            "target_gap": None,
+            "gap_updates": [],
+            "explanation": "none",
+            "summary": "",
+        }
+        if turn_type in ("ATTEMPT", "REASONING"):
+            assessment = self.assess_turn(student_text, evidence.evidence_id)
+        else:
+            assessment = _empty_assessment
+        if math_correct is True and assessment.get("diagnosis") != "CORRECT":
+            assessment = {
+                **assessment,
+                "diagnosis": "CORRECT",
+                "confidence": "high",
+                "summary": "SymPy verified: antiderivative is correct.",
+            }
         self.qstate.apply_updates(
             assessment.get("gap_updates") or [], evidence.evidence_id, student_text
         )
@@ -268,13 +295,24 @@ class GroundedDemoEngine:
         self.qstate.last_assessment = assessment
         self.qstate.turn_count += 1
 
+        # --- policy decision (uses turn_type + assessment together) ---
+        action_type, next_phase, next_help_level, action_instruction = self._select_policy(
+            student_text, turn_type=turn_type, math_correct=math_correct, assessment=assessment
+        )
+        self._tick_stall(turn_type, assessment.get("diagnosis"))
+
         if self.provider is None:
             reply = self._local_reply(student_text, passages, action_type)
             self.last_generation = None
         else:
             q = self.question
-            qs_context = _qs_system_context(q)
+            _eliciting = action_type in ("probe", "clarify")
+            qs_context = _qs_system_context(q, hide_technique=_eliciting)
             assessment_context = _assessment_context(assessment)
+            # On probe/clarify turns withhold course passages from the LLM — the
+            # passages often contain worked examples of the target technique, and
+            # the model will cite them even when told not to hint.
+            llm_context = "" if _eliciting else context
             result = self.provider.generate(
                 system=(
                     "You are a course-grounded tutor. Use only the supplied course passages "
@@ -287,7 +325,7 @@ class GroundedDemoEngine:
                     "as a substitute when LaTeX is clearer.\n\n"
                     f"{qs_context}"
                     f"{assessment_context}"
-                    f"COURSE PASSAGES:\n{context or '[no supporting passage found]'}"
+                    f"COURSE PASSAGES:\n{llm_context or '[no supporting passage found]'}"
                 ),
                 messages=[
                     *self.history[-8:],
@@ -442,23 +480,30 @@ class GroundedDemoEngine:
             "state_confidence": dict(state.state_confidence),
         }
 
-    def _select_policy(self, student_text: str) -> tuple[str, str, int, str]:
-        lowered = student_text.lower()
-        asks_for_help = any(
-            marker in lowered
-            for marker in ("help", "explain", "stuck", "don't know", "do not know", "unsure")
+    def _select_policy(
+        self,
+        student_text: str,
+        *,
+        turn_type: str = "ATTEMPT",
+        math_correct: bool | None = None,
+        assessment: dict[str, Any] | None = None,
+    ) -> tuple[str, str, int, str]:
+        return _decide(
+            turn_type=turn_type,
+            math_correct=math_correct,
+            diagnosis=(assessment or {}).get("diagnosis"),
+            help_level=self.qstate.help_level,
+            stall_count=self.qstate.stall_count,
+            has_history=bool(self.history),
+            phase=self.qstate.phase,
         )
-        gives_reason = any(marker in lowered for marker in ("because", "therefore", "since", "so that"))
-        hl = self.qstate.help_level
-        if asks_for_help and hl == 0:
-            return "hint", "SUPPORT", 1, "Give one small source-backed hint, then ask for the next step."
-        if asks_for_help:
-            return "explain", "SUPPORT", min(hl + 1, 3), "Explain one relevant concept, then ask the student to apply it."
-        if gives_reason:
-            return "check_understanding", "CHECK", hl, "Ask one question that checks the student's explanation."
-        if not self.history:
-            return "probe", "ELICIT", hl, "Ask the student to show or explain the first step."
-        return "retry", "PRACTICE", hl, "Ask the student to inspect the latest step and try again without revealing the answer."
+
+    def _tick_stall(self, turn_type: str, diagnosis: str | None) -> None:
+        """Advance the stall counter after each turn so _decide can escalate help."""
+        if turn_type == "HELP" or diagnosis in ("CORRECT", "D5"):
+            self.qstate.stall_count = 0
+        elif turn_type == "ATTEMPT" and diagnosis not in (None, "UNCLEAR"):
+            self.qstate.stall_count += 1
 
     def assess_turn(self, student_text: str, evidence_id: str) -> dict[str, Any]:
         """Call the assessor model and return a TurnAssessment dict. Never raises."""
@@ -540,12 +585,26 @@ class GroundedDemoEngine:
                 "Could you name the topic or section you are working from?"
             )
         heading = passages[0].passage.heading or "the retrieved course passage"
+        if action_type == "probe":
+            return "Show your first step and explain the reasoning behind it."
+        if action_type == "clarify":
+            return "Could you be more specific about what you tried? Walk me through your current approach."
         if action_type == "hint":
-            return f"The course material points to {heading}. What is the smallest next step you can take from that definition?"
+            return f"The course material points to {heading}. What is the smallest next step you can take from there?"
         if action_type == "explain":
-            return f"The relevant course section is {heading}. Which part of that method does your current work use?"
-        if action_type == "check_understanding":
-            return "What feature of the original problem makes that reasoning valid?"
+            return f"The relevant section is {heading}. Which part of that method does your work currently use?"
+        if action_type in ("check_understanding", "nudge_calculation"):
+            return "Your method looks right. Check the calculation in your last step — what do you get?"
+        if action_type == "address_misconception":
+            return f"There is a misconception in that step. Review {heading} and try again."
+        if action_type == "prereq_check":
+            return f"This relies on a prerequisite. Can you state what {heading} says about the technique you need?"
+        if action_type in ("redirect",):
+            return f"That approach won't quite work here. Look at {heading} and think about which method applies."
+        if action_type == "confirm":
+            return "Correct! Well done. Can you explain in your own words why that method gave the right answer?"
+        if action_type == "wrap_up":
+            return "You've solved this one. Would you like a follow-up challenge on the same topic?"
         return "Please show the next step and explain why you chose it."
 
 
@@ -659,9 +718,12 @@ class DemoApplication:
                 qs_dict = build_runtime_question_schema(cc, cc_sha256, question, adapter)
                 concept_ids = tuple(qs_dict["concept_ids"])
                 concept_names = tuple(qs_dict.get("concept_names") or ())
-                # Re-search with concept_ids now that we know them.
+                # Re-search: include technique name so the lexical index finds the right
+                # textbook section even when the question text has no term overlap with it.
+                _qs_technique = (qs_dict.get("correct_approach") or {}).get("technique", "")
+                _qs_query = "\n".join(p for p in (_qs_technique, question) if p)
                 passages = self.indexes[course_id].search(
-                    question, top_k=4, concept_ids=concept_ids
+                    _qs_query, top_k=4, concept_ids=concept_ids
                 )
                 source_ids = tuple(dict.fromkeys(item.passage.document_id for item in passages))
                 schema = RuntimeQuestionSchema(
@@ -1310,6 +1372,289 @@ class DemoApplication:
         self.trace_store.write(session.session_id, row)
 
 
+# ---------------------------------------------------------------------------
+# Action instruction strings — central source of truth for the LLM prompt.
+# ---------------------------------------------------------------------------
+
+_ACTION_INSTRUCTIONS: dict[str, str] = {
+    "probe":                "Ask the student what approach or method they think applies to this problem. Do NOT name, hint at, or reference any specific technique, formula, or concept name — not even indirectly. Do not ask about u, dv, substitution, or any method-specific term. Ask only: what do you think you would try? Wait for their answer before saying anything else.",
+    "clarify":              "The response is unclear. Ask one specific question to understand the student's current approach. Do not name or hint at the correct method.",
+    "hint":                 "Give one small source-backed hint, then ask what the next step should be. Do not advance further.",
+    "explain":              "Explain one relevant concept using course material, then ask the student to apply it to this problem.",
+    "check_understanding":  "The student is on the right track. Ask one focused question that deepens or confirms their reasoning.",
+    "address_misconception":"Address the specific misconception the student has shown. Correct it gently using course evidence, then ask them to try again.",
+    "nudge_calculation":    "The student's method is correct but there is a calculation error. Point to the specific step without correcting it outright.",
+    "prereq_check":         "Point the student toward the prerequisite concept they are missing, using course material. Do not give the full solution.",
+    "redirect":             "Acknowledge the student's attempt. Explain briefly why the current approach does not work, and hint at the correct direction without giving the answer.",
+    "confirm":              "Confirm the correct answer. Celebrate briefly (one sentence), then ask the student to explain in their own words why the method works.",
+    "wrap_up":              "The student already solved this problem. Offer a brief follow-up challenge or close the question. Do not re-explain the solution.",
+    "retry":                "Ask the student to inspect the latest step and try again. Do not reveal the answer.",
+}
+
+
+# ---------------------------------------------------------------------------
+# decide() — pure function: maps (turn state) → (action, phase, help_level)
+# ---------------------------------------------------------------------------
+
+def _decide(
+    *,
+    turn_type: str,
+    math_correct: bool | None,
+    diagnosis: str | None,
+    help_level: int,
+    stall_count: int,
+    has_history: bool,
+    phase: str,
+) -> tuple[str, str, int, str]:
+    """Pure, deterministic action selection.
+
+    Returns (action_type, next_phase, next_help_level, instruction).
+    All state is passed in; nothing is read from self.
+    """
+    hl = help_level
+    stall_escalate = stall_count >= 2
+
+    # Already solved — just wrap up regardless of what the student sends.
+    if phase == "SOLVED":
+        return ("wrap_up", "SOLVED", hl, _ACTION_INSTRUCTIONS["wrap_up"])
+
+    # SymPy or model confirmed correct answer.
+    if math_correct is True or diagnosis == "CORRECT":
+        return ("confirm", "SOLVED", hl, _ACTION_INSTRUCTIONS["confirm"])
+
+    # Explicit help request.
+    if turn_type == "HELP":
+        if hl == 0:
+            return ("hint", "ATTEMPTING", 1, _ACTION_INSTRUCTIONS["hint"])
+        return ("explain", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["explain"])
+
+    # Ambiguous / too short.
+    if turn_type == "VAGUE":
+        if not has_history:
+            return ("probe", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["probe"])
+        return ("clarify", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["clarify"])
+
+    # Student is explaining reasoning.
+    if turn_type == "REASONING":
+        return ("check_understanding", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["check_understanding"])
+
+    # Off-topic new question.
+    if turn_type == "NEW_QUESTION":
+        return ("redirect", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["redirect"])
+
+    # --- ATTEMPT branch: ladder indexed by diagnosis ---
+
+    if diagnosis == "D0":  # no work shown
+        return ("probe", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["probe"])
+
+    if diagnosis == "D1":  # known misconception
+        return ("address_misconception", "ATTEMPTING", max(hl, 1), _ACTION_INSTRUCTIONS["address_misconception"])
+
+    if diagnosis == "D4":  # calculation error — method is right
+        return ("nudge_calculation", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["nudge_calculation"])
+
+    if diagnosis == "D5":  # partial — on the right track
+        return ("check_understanding", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["check_understanding"])
+
+    if diagnosis == "D2":  # wrong method
+        if stall_escalate:
+            return ("explain", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["explain"])
+        return ("redirect", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["redirect"])
+
+    if diagnosis in ("D3", "D6", "D7"):  # concept/prerequisite gap or other specific gap
+        return ("prereq_check", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["prereq_check"])
+
+    # Unclear / no specific diagnosis — escalate if stalled, otherwise retry.
+    if stall_escalate:
+        if hl == 0:
+            return ("hint", "ATTEMPTING", 1, _ACTION_INSTRUCTIONS["hint"])
+        return ("explain", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["explain"])
+
+    if not has_history:
+        return ("probe", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["probe"])
+    return ("retry", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["retry"])
+
+
+_HELP_MARKERS = frozenset({
+    "help", "stuck", "explain", "don't know", "do not know", "unsure",
+    "hint", "show me", "what do i", "how do i", "i don't", "i do not",
+    "not sure", "confused", "lost",
+})
+_REASON_MARKERS = frozenset({
+    "because", "therefore", "since", "so that", "which means", "thus",
+    "hence", "that's why", "this means",
+})
+_MATH_CHARS = frozenset("=+-*/^∫∂∑∏")
+_MATH_WORDS = frozenset({
+    "integral", "derivative", "integrate", "differentiat", "substitut",
+    "factor", "simplif", "expand", "solve", "calculat", "dx", "dy",
+    "step", "approach", "method", "technique", "formula",
+})
+_NEW_Q_PATTERNS = (
+    "what is ", "what are ", "how do ", "how does ", "can you ", "could you ",
+    "define ", "what's the difference",
+)
+
+
+def _read_turn(text: str, *, has_history: bool) -> str:
+    """Classify a student message into one of five turn types.
+
+    HELP      — student is explicitly asking for guidance
+    ATTEMPT   — student is making a mathematical attempt
+    REASONING — student is explaining their reasoning
+    VAGUE     — message is too short or ambiguous to classify
+    NEW_QUESTION — student is asking about something unrelated
+    """
+    import re as _re
+
+    stripped = text.strip()
+    lowered = stripped.lower()
+    words = lowered.split()
+    has_math = any(c in _MATH_CHARS for c in text) or _re.search(r"\d", text)
+
+    # Explicit help request — check before length gate so "help" alone works.
+    if any(m in lowered for m in _HELP_MARKERS):
+        return "HELP"
+
+    # Very short messages with no math signal are VAGUE.
+    if len(words) < 4 and not has_math:
+        return "VAGUE"
+
+    # Reasoning (student justifies a step).
+    if any(m in lowered for m in _REASON_MARKERS):
+        return "REASONING"
+
+    # Math content signals an attempt.
+    if has_math or any(w in lowered for w in _MATH_WORDS):
+        return "ATTEMPT"
+
+    # Looks like a new conceptual question (no math, starts with question phrase).
+    if any(lowered.startswith(p) for p in _NEW_Q_PATTERNS):
+        return "NEW_QUESTION"
+
+    # Default: treat as an attempt if we have history, otherwise vague.
+    return "ATTEMPT" if has_history else "VAGUE"
+
+
+def _check_student_math(student_text: str, answer_verification: dict | None) -> bool | None:
+    """Return True if the student's text contains a provably correct antiderivative.
+
+    Returns None when verification isn't possible (SymPy missing, no payload,
+    no parseable expression found).  Never raises.
+    """
+    if not answer_verification:
+        return None
+    variable = answer_verification.get("variable")
+    integrand = answer_verification.get("integrand")
+    if not (variable and integrand):
+        return None
+    try:
+        import sympy
+    except ImportError:
+        return None
+    try:
+        var = sympy.Symbol(str(variable))
+        loc: dict[str, Any] = {str(variable): var}
+        integ = sympy.sympify(str(integrand), locals=loc)
+    except Exception:
+        return None
+    for candidate in _extract_math_candidates(student_text):
+        try:
+            anti = sympy.sympify(candidate, locals=loc)
+            if sympy.simplify(sympy.diff(anti, var) - integ) == 0:
+                return True
+        except Exception:
+            continue
+    return None
+
+
+def _extract_math_candidates(text: str) -> list[str]:
+    """Pull potential antiderivative expressions from free-form student text."""
+    import re as _re
+
+    candidates: list[str] = []
+
+    # Method 1: whatever comes after any "=" sign (up to newline or sentence end).
+    for part in _re.split(r"=", text)[1:]:
+        raw = _re.split(r"[\n.;]", part)[0].strip()
+        if raw:
+            candidates.append(_latex_to_sympy(raw))
+
+    # Method 2: LaTeX inline math $...$ or $$...$$
+    for m in _re.findall(r"\$\$?([^$]+)\$\$?", text):
+        candidates.append(_latex_to_sympy(m.strip()))
+
+    # Method 3: expressions anchored to a function call (handles answers written
+    # without "=", e.g. "the answer is xsin(x)+cos(x)").
+    # Lazy prefix so "xsin(" is split as prefix="x", fn="sin" rather than
+    # consuming "sin" into the prefix.
+    _fns = r"(?:sin|cos|tan|log|exp|sqrt|ln)"
+    _prefix = r"[-a-zA-Z0-9\*]*?"          # lazy: minimal chars before func name
+    _arg = r"\([^()]*\)"                   # single-level argument
+    _post_term = rf"[-a-zA-Z0-9\*]*?(?:{_fns}\s*{_arg}|[a-zA-Z0-9]+)"
+    for m in _re.finditer(
+        rf"({_prefix}{_fns}\s*{_arg}(?:\s*[\+\-]\s*{_post_term})*)",
+        text,
+        _re.IGNORECASE,
+    ):
+        raw = m.group(1).strip()
+        if raw:
+            candidates.append(_latex_to_sympy(raw))
+
+    # Method 4: power expressions without function calls, e.g. "x^2/2 + x".
+    for m in _re.finditer(
+        r"[a-zA-Z]\s*(?:\*\*|\^)\s*[0-9]+"
+        r"(?:\s*[\+\-\*\/]\s*[a-zA-Z0-9]+(?:\s*(?:\*\*|\^)\s*[0-9]+)?)*",
+        text,
+    ):
+        candidates.append(_latex_to_sympy(m.group(0).strip()))
+
+    # Deduplicate while preserving order.
+    seen: set[str] = set()
+    result: list[str] = []
+    for c in candidates:
+        if c and c not in seen:
+            seen.add(c)
+            result.append(c)
+    return result
+
+
+def _latex_to_sympy(raw: str) -> str:
+    """Best-effort conversion of common LaTeX/student notation to SymPy syntax."""
+    import re as _re
+
+    s = raw.strip()
+    # Strip trailing constant of integration (+C / + c)
+    s = _re.sub(r"\s*\+\s*[Cc]\b\s*$", "", s)
+    # LaTeX trig / log commands
+    for latex, sympy_fn in (
+        (r"\sin", "sin"),
+        (r"\cos", "cos"),
+        (r"\tan", "tan"),
+        (r"\ln", "log"),
+        (r"\log", "log"),
+        (r"\exp", "exp"),
+    ):
+        s = s.replace(latex, sympy_fn)
+    # Multiplication operators
+    s = s.replace(r"\cdot", "*").replace(r"\times", "*")
+    # LaTeX braces used as grouping: \frac{a}{b} → (a)/(b)  [simple single-level]
+    s = _re.sub(r"\\frac\{([^{}]+)\}\{([^{}]+)\}", r"(\1)/(\2)", s)
+    # Remove remaining LaTeX commands and braces
+    s = _re.sub(r"\\[a-zA-Z]+", "", s)
+    s = s.replace("{", "(").replace("}", ")")
+    # Exponents
+    s = s.replace("^", "**")
+    # Implicit multiplication before known trig/math function names
+    for _fn in ("sin", "cos", "tan", "log", "exp", "sqrt"):
+        s = _re.sub(rf"([a-zA-Z\d])({_fn}\()", r"\1*\2", s)
+    # Implicit multiplication: digit immediately before letter or "("
+    s = _re.sub(r"(\d)([a-zA-Z(])", r"\1*\2", s)
+    # letter immediately before digit
+    s = _re.sub(r"([a-zA-Z])(\d)", r"\1*\2", s)
+    return s.strip()
+
+
 def _source_dict(item: RetrievedPassage) -> dict[str, Any]:
     passage = item.passage
     return {
@@ -1433,10 +1778,10 @@ def _json_default(value: Any) -> Any:
     return str(value)
 
 
-def _qs_system_context(q: "RuntimeQuestionSchema") -> str:
+def _qs_system_context(q: "RuntimeQuestionSchema", *, hide_technique: bool = False) -> str:
     """Build the QUESTION SCHEMA section injected into the tutoring engine system prompt."""
     lines: list[str] = ["QUESTION SCHEMA:\n"]
-    if q.correct_approach.get("technique"):
+    if not hide_technique and q.correct_approach.get("technique"):
         lines.append(
             f"Correct approach: {q.correct_approach['technique']} — "
             f"{q.correct_approach.get('justification', '')}\n"
