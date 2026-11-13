@@ -3,20 +3,33 @@
 from __future__ import annotations
 
 import html
+import logging
 import os
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_EXCEPTION
 from pathlib import Path
 from typing import Any, Literal
+
+_log = logging.getLogger(__name__)
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, ConfigDict, Field
 
+from dataclasses import replace
+
+from digital_professor.course_context.generator import (
+    CourseContextGenerationError,
+    CourseContextGenerator,
+    validate_and_flag,
+)
 from digital_professor.course_context.ingestion import (
     CourseConsistencyError,
     DocumentIngestionService,
     IngestionError,
     SourceUpload,
+    tag_blocks_with_concepts,
+    to_ingested_source_json,
 )
 from digital_professor.providers import (
     OpenAICompatibleProvider,
@@ -63,11 +76,34 @@ class CourseNameRequest(BaseModel):
     course_name: str = Field(min_length=1, max_length=200)
 
 
+class CourseContextFieldUpdate(BaseModel):
+    entity: str
+    id: str
+    field: str
+    value: Any
+
+
+class CourseContextUpdateRequest(BaseModel):
+    updates: list[CourseContextFieldUpdate]
+
+
 def _configured_provider(
     config: ProviderConfiguration | None = None,
 ) -> OpenAICompatibleProvider | None:
     config = config or ProviderConfiguration.from_environment()
     return OpenAICompatibleProvider(config) if config.api_key else None
+
+
+def _configured_cc_generator(
+    config: ProviderConfiguration,
+) -> CourseContextGenerator | None:
+    if not config.api_key:
+        return None
+    return CourseContextGenerator(
+        base_url=config.base_url,
+        model=config.model,
+        api_key=config.api_key,
+    )
 
 
 def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
@@ -80,6 +116,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     )
     app.state.runtime = runtime or DemoApplication(_configured_provider(provider_config))
     app.state.ingestion = DocumentIngestionService()
+    app.state.cc_generator = _configured_cc_generator(provider_config)
     app.state.handwriting_recognizer = None
     app.state.pending_syllabus = None
     app.state.pending_notes = []
@@ -205,10 +242,13 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             raise HTTPException(status_code=422, detail="Upload a syllabus first.")
         if not app.state.pending_notes:
             raise HTTPException(status_code=422, detail="Upload one or more notes files first.")
+
+        all_uploads = [app.state.pending_syllabus, *app.state.pending_notes]
+
+        # Step 1 — cheap identity check (first pages only, no full parse yet)
         try:
-            workspace = app.state.ingestion.ingest_course(
-                [app.state.pending_syllabus, *app.state.pending_notes],
-                allow_course_mismatch=confirm_course_mismatch,
+            app.state.ingestion.check_consistency_fast(
+                all_uploads, allow_course_mismatch=confirm_course_mismatch
             )
         except CourseConsistencyError as error:
             raise HTTPException(
@@ -223,8 +263,41 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
                     "requires_confirmation": True,
                 },
             ) from error
-        except IngestionError as error:
-            raise HTTPException(status_code=422, detail=str(error)) from error
+
+        # Step 2 — parse syllabus only, extract text
+        _, syllabus_text = app.state.ingestion.ingest_syllabus(app.state.pending_syllabus)
+
+        # Steps 3 & 4 — run concurrently: LLM has no dependency on the parse result
+        # and the full parse has no dependency on the CC.
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            cc_future = pool.submit(
+                _generate_course_context, syllabus_text, app.state.cc_generator
+            )
+            ingest_future = pool.submit(
+                app.state.ingestion.ingest_course, all_uploads
+            )
+            done, _ = wait([cc_future, ingest_future], return_when=FIRST_EXCEPTION)
+            # Re-raise any exception that occurred in either thread.
+            for f in done:
+                exc = f.exception()
+                if exc is not None:
+                    if isinstance(exc, IngestionError):
+                        raise HTTPException(status_code=422, detail=str(exc)) from exc
+                    raise exc
+
+        cc, cc_status, cc_review = cc_future.result()
+        workspace = ingest_future.result()
+
+        # Step 5 — concept tagging using the now-available CourseContext
+        if cc is not None:
+            workspace = tag_blocks_with_concepts(workspace, cc)
+        workspace = replace(
+            workspace,
+            course_context=cc,
+            course_context_status=cc_status,
+            course_context_review=cc_review,
+        )
+
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
 
@@ -239,9 +312,30 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             for file in files
         ]
         try:
-            workspace = app.state.ingestion.ingest_course(uploads)
-        except IngestionError as error:
-            raise HTTPException(status_code=422, detail=str(error)) from error
+            app.state.ingestion.check_consistency_fast(uploads)
+        except CourseConsistencyError as error:
+            raise HTTPException(status_code=409, detail={"conflicts": list(error.conflicts)}) from error
+        syllabus_upload = next((u for u in uploads if u.filename.lower().find("syllabus") >= 0), None)
+        syllabus_text = ""
+        if syllabus_upload:
+            _, syllabus_text = app.state.ingestion.ingest_syllabus(syllabus_upload)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            cc_future = pool.submit(
+                _generate_course_context, syllabus_text, app.state.cc_generator
+            )
+            ingest_future = pool.submit(app.state.ingestion.ingest_course, uploads)
+            done, _ = wait([cc_future, ingest_future], return_when=FIRST_EXCEPTION)
+            for f in done:
+                exc = f.exception()
+                if exc is not None:
+                    if isinstance(exc, IngestionError):
+                        raise HTTPException(status_code=422, detail=str(exc)) from exc
+                    raise exc
+        cc, cc_status, cc_review = cc_future.result()
+        workspace = ingest_future.result()
+        if cc is not None:
+            workspace = tag_blocks_with_concepts(workspace, cc)
+        workspace = replace(workspace, course_context=cc, course_context_status=cc_status, course_context_review=cc_review)
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
 
@@ -261,6 +355,36 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         except ValueError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
         return _course_summary(course, include_topics=True)
+
+    @app.get("/api/courses/{course_id}/course-context")
+    def get_course_context(course_id: str) -> dict[str, Any]:
+        course = app.state.runtime.courses.get(course_id)
+        if course is None:
+            raise HTTPException(status_code=404, detail="Course not found")
+        if course.course_context is None:
+            raise HTTPException(status_code=404, detail="No CourseContext for this course")
+        return {
+            "course_context": course.course_context,
+            "status": course.course_context_status,
+            "review": course.course_context_review,
+        }
+
+    @app.patch("/api/courses/{course_id}/course-context")
+    def update_course_context(
+        course_id: str, request: CourseContextUpdateRequest
+    ) -> dict[str, Any]:
+        try:
+            updates = [u.model_dump() for u in request.updates]
+            course = app.state.runtime.update_course_context(course_id, updates)
+        except LookupError as error:
+            raise HTTPException(status_code=404, detail=str(error)) from error
+        except ValueError as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
+        return {
+            "course_context": course.course_context,
+            "status": course.course_context_status,
+            "review": course.course_context_review,
+        }
 
     @app.get(
         "/api/courses/{course_id}/sources/{document_id}", response_class=HTMLResponse
@@ -332,7 +456,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     def get_session_activity(session_id: str) -> dict[str, Any]:
         """Return a bounded, student-safe view derived from backend trace files."""
         try:
-            return {"turns": app.state.runtime.activity_summary(session_id)}
+            return app.state.runtime.activity_summary(session_id)
         except LookupError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
 
@@ -381,6 +505,44 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
     return app
 
 
+def _generate_course_context(
+    syllabus_text: str,
+    generator: CourseContextGenerator | None,
+) -> tuple[dict | None, str | None, dict | None]:
+    """Generate, validate, and flag a CourseContext from syllabus text.
+
+    Returns (cc, status, review).  Retries once on structural validation failure.
+    Returns (None, 'generation_failed', None) or (None, 'validation_failed', None)
+    on unrecoverable failure so callers can store the status without crashing.
+    """
+    if generator is None or not syllabus_text.strip():
+        return None, None, None
+
+    cc = status = review = None
+    generation_failed = False
+    for _attempt in range(2):
+        try:
+            cc = generator.generate(syllabus_text)
+            generation_failed = False
+        except (CourseContextGenerationError, Exception) as exc:
+            _log.warning("CourseContext generation attempt %d failed: %s", _attempt + 1, exc, exc_info=True)
+            generation_failed = True
+            continue
+        try:
+            status, review = validate_and_flag(cc)
+        except Exception:
+            status, review = "validated", None
+        if status != "validation_failed":
+            break
+        cc = None
+
+    if generation_failed and cc is None:
+        return None, "generation_failed", None
+    if status == "validation_failed":
+        return None, "validation_failed", None
+    return cc, status, review
+
+
 def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:
     result = {
         "course_id": course.course_id,
@@ -405,6 +567,12 @@ def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:
     }
     if include_topics:
         result["topics"] = list(course.topics)
+    if course.course_context_status:
+        result["course_context_status"] = course.course_context_status
+        review = course.course_context_review
+        result["course_context_review_summary"] = (
+            review["summary"] if review else None
+        )
     return result
 
 

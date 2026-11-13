@@ -10,11 +10,14 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 import hashlib
 import json
+import logging
 from pathlib import Path
 import time
 from types import MappingProxyType
 from typing import Any, Protocol
 from uuid import uuid4
+
+_log = logging.getLogger(__name__)
 
 from digital_professor.course_context.ingestion import CourseWorkspace
 from digital_professor.interaction import (
@@ -105,6 +108,62 @@ class TimestampedTraceStore:
 
 
 @dataclass(slots=True)
+class Gap:
+    """Tracks whether a single requirement from the QuestionSchema has been demonstrated."""
+
+    gap_id: str
+    gap_type: str  # method | prerequisite | mastery | misconception
+    target_slot: str  # e.g. "correct_approach", "prerequisite_concepts[0]"
+    requirement: str
+    status: str = "open"  # open | partial | closed
+    evidence_ids: list[str] = field(default_factory=list)
+
+
+@dataclass(slots=True)
+class QuestionState:
+    """Per-question mutable state tracked by the Engine during a tutoring session."""
+
+    phase: str = "ATTEMPTING"
+    help_level: int = 0
+    stall_count: int = 0
+    turn_count: int = 0
+    assisted: bool = False
+    main_solved: bool = False
+    solved_by: str | None = None
+    last_diagnosis: str | None = None
+    last_assessment: dict[str, Any] | None = None
+    target_gap: str | None = None
+    gaps: dict[str, Gap] = field(default_factory=dict)
+
+    def open_gaps(self) -> list[Gap]:
+        return [g for g in self.gaps.values() if g.status in ("open", "partial")]
+
+    def closed_gaps(self) -> list[Gap]:
+        return [g for g in self.gaps.values() if g.status == "closed"]
+
+    def apply_updates(
+        self, updates: list[dict], evidence_id: str, student_text: str
+    ) -> None:
+        order = {"open": 0, "partial": 1, "closed": 2}
+        for upd in updates:
+            if not isinstance(upd, dict):
+                continue
+            slot = upd.get("target_slot")
+            new_status = upd.get("status")
+            quote = upd.get("evidence_quote", "")
+            if not slot or new_status not in order:
+                continue
+            gap = next((g for g in self.gaps.values() if g.target_slot == slot), None)
+            if gap is None:
+                continue
+            if quote and quote not in student_text:
+                continue
+            if order[new_status] > order.get(gap.status, 0):
+                gap.status = new_status
+                gap.evidence_ids.append(evidence_id)
+
+
+@dataclass(slots=True)
 class RuntimeQuestionSchema:
     record_id: str
     record_type: str
@@ -132,6 +191,9 @@ class RuntimeQuestionSchema:
     built_from: dict[str, str]
     validation_status: str
     requires_human_review: bool
+    common_misconceptions: tuple[dict, ...] = ()
+    prerequisite_concepts: tuple[dict, ...] = ()
+    answer_verification: dict[str, Any] | None = None
 
 
 @dataclass(slots=True)
@@ -152,6 +214,7 @@ class DemoSession:
     transcript: list[dict[str, Any]] = field(default_factory=list)
     handwriting_service: HandwritingEvidenceService | None = None
     total_estimated_cost_usd: float = 0.0
+    question_schema_dict: dict[str, Any] | None = None
 
 
 class GroundedDemoEngine:
@@ -174,20 +237,28 @@ class GroundedDemoEngine:
         self.delivery_results: list[DeliveryResult] = []
         self.current_state: LearnerState | None = None
         self.pending_states: dict[str, tuple[LearnerState, str, int]] = {}
-        self.phase = "ELICIT"
-        self.help_level = 0
+        self.qstate: QuestionState = QuestionState(gaps=_build_gaps_from_qs(question))
         self.policy_version = "demo-tutoring-policy@0.2"
 
     def select_action(self, evidence: StudentEvidence) -> TutoringAction:
         if evidence.validation_status != "valid" or evidence.unresolved_ambiguities:
             raise ValueError("Only confirmed StudentEvidence may reach the Tutoring Engine.")
         student_text = evidence.confirmed_content or ""
-        action_type, next_phase, next_help_level, action_instruction = self._select_policy(
-            student_text
-        )
-        query = f"{self.question.prompt}\n{student_text}"
+
+        # --- quick synchronous checks (no LLM) ---
+        math_correct = _check_student_math(student_text, self.question.answer_verification)
+        turn_type = _read_turn(student_text, has_history=bool(self.history))
+
+        # --- retrieval (fast, independent of LLM) ---
+        # Prepend the technique name so lexical search finds the right textbook section
+        # even when the student's phrasing ("how to take integral of xcos(x)") has no
+        # term overlap with the technique section heading ("integration by parts").
+        _technique = (self.question.correct_approach or {}).get("technique", "")
+        query = "\n".join(p for p in (_technique, self.question.prompt, student_text) if p)
         retrieval_started = time.perf_counter()
-        passages = self.retrieval.search(query, top_k=4)
+        passages = self.retrieval.search(
+            query, top_k=4, concept_ids=self.question.concept_ids
+        )
         self.last_retrieval_ms = round((time.perf_counter() - retrieval_started) * 1000)
         self.last_passages = passages
         context = "\n\n".join(
@@ -195,10 +266,53 @@ class GroundedDemoEngine:
             f"lines {item.passage.line_start}-{item.passage.line_end}\n{item.passage.text}"
             for index, item in enumerate(passages, 1)
         )
+
+        # --- assessment (LLM) — only needed when student is making an attempt ---
+        _empty_assessment: dict[str, Any] = {
+            "diagnosis": "UNCLEAR",
+            "confidence": "low",
+            "target_gap": None,
+            "gap_updates": [],
+            "explanation": "none",
+            "summary": "",
+        }
+        if turn_type in ("ATTEMPT", "REASONING"):
+            assessment = self.assess_turn(student_text, evidence.evidence_id)
+        else:
+            assessment = _empty_assessment
+        if math_correct is True and assessment.get("diagnosis") != "CORRECT":
+            assessment = {
+                **assessment,
+                "diagnosis": "CORRECT",
+                "confidence": "high",
+                "summary": "SymPy verified: antiderivative is correct.",
+            }
+        self.qstate.apply_updates(
+            assessment.get("gap_updates") or [], evidence.evidence_id, student_text
+        )
+        if assessment.get("diagnosis") not in (None, "UNCLEAR"):
+            self.qstate.last_diagnosis = assessment["diagnosis"]
+        self.qstate.last_assessment = assessment
+        self.qstate.turn_count += 1
+
+        # --- policy decision (uses turn_type + assessment together) ---
+        action_type, next_phase, next_help_level, action_instruction = self._select_policy(
+            student_text, turn_type=turn_type, math_correct=math_correct, assessment=assessment
+        )
+        self._tick_stall(turn_type, assessment.get("diagnosis"))
+
         if self.provider is None:
             reply = self._local_reply(student_text, passages, action_type)
             self.last_generation = None
         else:
+            q = self.question
+            _eliciting = action_type in ("probe", "clarify")
+            qs_context = _qs_system_context(q, hide_technique=_eliciting)
+            assessment_context = _assessment_context(assessment)
+            # On probe/clarify turns withhold course passages from the LLM — the
+            # passages often contain worked examples of the target technique, and
+            # the model will cite them even when told not to hint.
+            llm_context = "" if _eliciting else context
             result = self.provider.generate(
                 system=(
                     "You are a course-grounded tutor. Use only the supplied course passages "
@@ -209,7 +323,9 @@ class GroundedDemoEngine:
                     "Write mathematical notation as valid LaTeX: use $...$ inline and "
                     "$$...$$ for important standalone equations. Do not use Unicode math "
                     "as a substitute when LaTeX is clearer.\n\n"
-                    f"COURSE PASSAGES:\n{context or '[no supporting passage found]'}"
+                    f"{qs_context}"
+                    f"{assessment_context}"
+                    f"COURSE PASSAGES:\n{llm_context or '[no supporting passage found]'}"
                 ),
                 messages=[
                     *self.history[-8:],
@@ -221,6 +337,13 @@ class GroundedDemoEngine:
 
         action_id = f"action-{uuid4()}"
         learner_state_id = f"learner-state-{uuid4()}"
+        _conf = (
+            assessment.get("confidence", "low")
+            if assessment.get("diagnosis") not in (None, "UNCLEAR")
+            else "low"
+        )
+        _open = self.qstate.open_gaps()
+        _closed = self.qstate.closed_gaps()
         pending_state = LearnerState(
             record_id=learner_state_id,
             record_type="LearnerState",
@@ -235,16 +358,29 @@ class GroundedDemoEngine:
             session_id=evidence.session_id,
             question_id=evidence.question_id,
             based_on_evidence_ids=(evidence.evidence_id,),
-            demonstrated=(),
-            unresolved=(
+            demonstrated=tuple(MappingProxyType(_gap_dict(g)) for g in _closed),
+            unresolved=tuple(MappingProxyType(_gap_dict(g)) for g in _open)
+            or (
                 MappingProxyType(
                     {
-                        "claim": "The student's method and reasoning still require evidence.",
-                        "phase": next_phase,
+                        "target_slot": "student_reasoning",
+                        "requirement": "Student's method and reasoning still require evidence.",
+                        "status": "open",
                     }
                 ),
             ),
-            diagnostic_hypotheses=(),
+            diagnostic_hypotheses=(
+                MappingProxyType(
+                    {
+                        "diagnosis": assessment.get("diagnosis", "UNCLEAR"),
+                        "confidence": assessment.get("confidence", "low"),
+                        "target_gap": assessment.get("target_gap"),
+                        "summary": assessment.get("summary", ""),
+                    }
+                ),
+            )
+            if assessment.get("diagnosis") not in (None, "UNCLEAR")
+            else (),
             assistance_history_summary=MappingProxyType(
                 {
                     "help_level": next_help_level,
@@ -255,25 +391,20 @@ class GroundedDemoEngine:
             ),
             state_confidence=MappingProxyType(
                 {
-                    "level": "low",
-                    "limitations": (
-                        "The demo policy does not determine mathematical correctness.",
-                    ),
+                    "level": _conf,
+                    "limitations": ()
+                    if _conf != "low"
+                    else ("Assessment confidence is low or unavailable.",),
                 }
             ),
-            open_gaps=(
-                MappingProxyType(
-                    {
-                        "target_slot": "student_reasoning",
-                        "requirement": "The student explains the next mathematical step.",
-                        "status": "open",
-                        "evidence": (evidence.evidence_id,),
-                    }
-                ),
-            ),
-            closed_gaps=(),
+            open_gaps=tuple(MappingProxyType(_gap_dict(g)) for g in _open),
+            closed_gaps=tuple(MappingProxyType(_gap_dict(g)) for g in _closed),
             off_target_context=(),
-            resolved_when="A later Engine implementation verifies every Question Schema gap.",
+            resolved_when=(
+                "All gaps closed."
+                if not _open
+                else f"{len(_open)} gap(s) remain open."
+            ),
         )
         action = TutoringAction(
             record_id=action_id,
@@ -327,8 +458,8 @@ class GroundedDemoEngine:
         self.pending.pop(result.action_id)
         pending_state, phase, help_level = self.pending_states.pop(result.action_id)
         self.current_state = replace(pending_state, status="current")
-        self.phase = phase
-        self.help_level = help_level
+        self.qstate.phase = phase
+        self.qstate.help_level = help_level
         self.delivery_results.append(result)
 
     def state_snapshot(self) -> dict[str, Any] | None:
@@ -338,30 +469,109 @@ class GroundedDemoEngine:
         return {
             "learner_state_id": state.learner_state_id,
             "status": state.status,
-            "phase": self.phase,
-            "help_level": self.help_level,
+            "phase": self.qstate.phase,
+            "help_level": self.qstate.help_level,
+            "last_diagnosis": self.qstate.last_diagnosis,
             "based_on_evidence_ids": list(state.based_on_evidence_ids),
-            "open_gaps": [dict(value) for value in state.open_gaps],
+            "open_gaps": [_gap_dict(g) for g in self.qstate.open_gaps()],
+            "closed_gaps": [_gap_dict(g) for g in self.qstate.closed_gaps()],
+            "diagnostic_hypotheses": [dict(h) for h in state.diagnostic_hypotheses],
             "assistance_history_summary": dict(state.assistance_history_summary),
             "state_confidence": dict(state.state_confidence),
         }
 
-    def _select_policy(self, student_text: str) -> tuple[str, str, int, str]:
-        lowered = student_text.lower()
-        asks_for_help = any(
-            marker in lowered
-            for marker in ("help", "explain", "stuck", "don't know", "do not know", "unsure")
+    def _select_policy(
+        self,
+        student_text: str,
+        *,
+        turn_type: str = "ATTEMPT",
+        math_correct: bool | None = None,
+        assessment: dict[str, Any] | None = None,
+    ) -> tuple[str, str, int, str]:
+        return _decide(
+            turn_type=turn_type,
+            math_correct=math_correct,
+            diagnosis=(assessment or {}).get("diagnosis"),
+            help_level=self.qstate.help_level,
+            stall_count=self.qstate.stall_count,
+            has_history=bool(self.history),
+            phase=self.qstate.phase,
         )
-        gives_reason = any(marker in lowered for marker in ("because", "therefore", "since", "so that"))
-        if asks_for_help and self.help_level == 0:
-            return "hint", "SUPPORT", 1, "Give one small source-backed hint, then ask for the next step."
-        if asks_for_help:
-            return "explain", "SUPPORT", min(self.help_level + 1, 3), "Explain one relevant concept, then ask the student to apply it."
-        if gives_reason:
-            return "check_understanding", "CHECK", self.help_level, "Ask one question that checks the student's explanation."
-        if not self.history:
-            return "probe", "ELICIT", self.help_level, "Ask the student to show or explain the first step."
-        return "retry", "PRACTICE", self.help_level, "Ask the student to inspect the latest step and try again without revealing the answer."
+
+    def _tick_stall(self, turn_type: str, diagnosis: str | None) -> None:
+        """Advance the stall counter after each turn so _decide can escalate help."""
+        if turn_type == "HELP" or diagnosis in ("CORRECT", "D5"):
+            self.qstate.stall_count = 0
+        elif turn_type == "ATTEMPT" and diagnosis not in (None, "UNCLEAR"):
+            self.qstate.stall_count += 1
+
+    def assess_turn(self, student_text: str, evidence_id: str) -> dict[str, Any]:
+        """Call the assessor model and return a TurnAssessment dict. Never raises."""
+        _empty: dict[str, Any] = {
+            "diagnosis": "UNCLEAR",
+            "confidence": "low",
+            "target_gap": None,
+            "gap_updates": [],
+            "explanation": "none",
+            "summary": "",
+        }
+        q = self.question
+        if self.provider is None or not (
+            q.correct_approach or q.prerequisite_concepts or q.common_misconceptions
+        ):
+            return _empty
+        prereqs = (
+            "\n".join(
+                f"- [{i}] {p.get('name', '')}: {p.get('relevance', '')}"
+                for i, p in enumerate(q.prerequisite_concepts)
+            )
+            or "(none)"
+        )
+        misc_cues = (
+            "\n".join(
+                f"- [{i}] cue: {m.get('cue', '')} | mitigation: {m.get('mitigation', '')}"
+                for i, m in enumerate(q.common_misconceptions)
+            )
+            or "(none)"
+        )
+        gaps_text = (
+            "\n".join(
+                f"- {g.target_slot} ({g.status}): {g.requirement}"
+                for g in self.qstate.gaps.values()
+            )
+            or "(none)"
+        )
+        system = (
+            "You are a math-tutoring assessor. Examine the student's response and "
+            "identify gaps. Output ONLY a JSON object.\n\n"
+            f"Question: {q.prompt}\n"
+            f"Correct approach: {(q.correct_approach or {}).get('technique', '')}\n"
+            f"Reference answer (DO NOT REVEAL TO STUDENT): {q.reference_answer}\n\n"
+            f"Prerequisites:\n{prereqs}\n\n"
+            f"Misconception cues:\n{misc_cues}\n\n"
+            f"Current gaps:\n{gaps_text}"
+        )
+        user = (
+            f"Student response:\n{student_text}\n\n"
+            'Output JSON: {"diagnosis":"D0|D1|D2|D3|D4|D5|D6|D7|CORRECT|UNCLEAR",'
+            '"confidence":"high|medium|low",'
+            '"target_gap":"<target_slot or null>",'
+            '"explanation":"sound|weak|contradicts|none",'
+            '"gap_updates":[{"target_slot":"...","status":"open|partial|closed",'
+            '"evidence_quote":"verbatim quote from student text","note":"..."}],'
+            '"summary":"one sentence"}'
+        )
+        try:
+            from digital_professor.course_context.builder import _extract_json_text
+
+            result = self.provider.generate(
+                system=system, messages=[{"role": "user", "content": user}]
+            )
+            assessment: dict[str, Any] = json.loads(_extract_json_text(result.text))
+            return assessment
+        except Exception as exc:
+            _log.warning("assess_turn failed: %s", exc)
+            return _empty
 
     @staticmethod
     def _local_reply(
@@ -375,12 +585,26 @@ class GroundedDemoEngine:
                 "Could you name the topic or section you are working from?"
             )
         heading = passages[0].passage.heading or "the retrieved course passage"
+        if action_type == "probe":
+            return "Show your first step and explain the reasoning behind it."
+        if action_type == "clarify":
+            return "Could you be more specific about what you tried? Walk me through your current approach."
         if action_type == "hint":
-            return f"The course material points to {heading}. What is the smallest next step you can take from that definition?"
+            return f"The course material points to {heading}. What is the smallest next step you can take from there?"
         if action_type == "explain":
-            return f"The relevant course section is {heading}. Which part of that method does your current work use?"
-        if action_type == "check_understanding":
-            return "What feature of the original problem makes that reasoning valid?"
+            return f"The relevant section is {heading}. Which part of that method does your work currently use?"
+        if action_type in ("check_understanding", "nudge_calculation"):
+            return "Your method looks right. Check the calculation in your last step — what do you get?"
+        if action_type == "address_misconception":
+            return f"There is a misconception in that step. Review {heading} and try again."
+        if action_type == "prereq_check":
+            return f"This relies on a prerequisite. Can you state what {heading} says about the technique you need?"
+        if action_type in ("redirect",):
+            return f"That approach won't quite work here. Look at {heading} and think about which method applies."
+        if action_type == "confirm":
+            return "Correct! Well done. Can you explain in your own words why that method gave the right answer?"
+        if action_type == "wrap_up":
+            return "You've solved this one. Would you like a follow-up challenge on the same topic?"
         return "Please show the next step and explain why you chose it."
 
 
@@ -418,6 +642,48 @@ class DemoApplication:
                 session.course = renamed
         return renamed
 
+    def update_course_context(
+        self, course_id: str, updates: list[dict]
+    ) -> CourseWorkspace:
+        """Apply field edits to the in-memory CourseContext and mark as reviewed."""
+        from digital_professor.course_context.generator import validate_and_flag
+
+        course = self.courses.get(course_id)
+        if course is None:
+            raise LookupError(f"Published course not found: {course_id}")
+        if course.course_context is None:
+            raise ValueError("No CourseContext to update.")
+        cc = json.loads(json.dumps(course.course_context))
+        for update in updates:
+            entity = update["entity"]
+            record_id = update["id"]
+            field = update["field"]
+            value = update["value"]
+            if entity == "Course":
+                if isinstance(cc.get("Course"), dict):
+                    cc["Course"][field] = value
+            else:
+                for record in cc.get(entity, []):
+                    if isinstance(record, dict) and record.get("id") == record_id:
+                        record[field] = value
+                        break
+        try:
+            status, review = validate_and_flag(cc)
+            if status == "validation_failed":
+                status = "review_required"
+            elif status in ("validated", "review_required"):
+                status = "reviewed"
+        except Exception:
+            status, review = "reviewed", course.course_context_review
+        updated = replace(
+            course,
+            course_context=cc,
+            course_context_status=status,
+            course_context_review=review,
+        )
+        self.courses[course_id] = updated
+        return updated
+
     def start_session(
         self,
         *,
@@ -426,66 +692,147 @@ class DemoApplication:
         user_id: str = "local-demo-student",
         diagnostic_logging: bool = False,
     ) -> DemoSession:
+        from digital_professor.course_context.builder import (
+            BuildError,
+            LLMAdapter,
+            build_runtime_question_schema,
+        )
+
         course = self.courses.get(course_id)
         if course is None:
             raise LookupError(f"Published course not found: {course_id}")
+        # Initial search without concept_ids (not yet known); re-searched below once QS is built.
         passages = self.indexes[course_id].search(question, top_k=4)
-        question_id = f"{course_id}.runtime-{uuid4().hex[:12]}"
         correlation_id = f"correlation-{uuid4()}"
-        concepts = tuple(course.topics[:8])
-        concept_ids = tuple(
-            f"{course_id}.runtime.{_slug_topic(value)}" for value in concepts
-        )
         source_ids = tuple(dict.fromkeys(item.passage.document_id for item in passages))
-        schema = RuntimeQuestionSchema(
-            record_id=question_id,
-            record_type="QuestionSchema",
-            schema_version=SCHEMA_VERSION,
-            created_at=_now(),
-            producer="course_context_runtime_builder",
-            status="review_required",
-            correlation_id=correlation_id,
-            question_schema_version="0.1",
-            question_id=question_id,
-            course_id=course_id,
-            module_id=f"{course_id}.runtime",
-            prompt=question,
-            origin="runtime",
-            concept_ids=concept_ids,
-            concept_names=concepts,
-            question_type="open_question",
-            expected_response_modes=("text", "equation", "steps", "explanation"),
-            learning_objectives=tuple(
-                {
-                    "id": f"objective-{index}",
-                    "text": f"Explain and apply {name}.",
-                    "bloom_level": "apply",
-                }
-                for index, name in enumerate(concepts[:3], 1)
-            ),
-            correct_approach={
-                "technique": "course-grounded guided reasoning",
-                "justification": "The runtime question has no instructor-authored solution yet.",
-            },
-            reference_answer=f"restricted://{question_id}/pending-review",
-            source_ids=source_ids,
-            source_reference={
-                "concept_ids": list(concept_ids),
-                "source_ids": list(source_ids),
-                "sibling_question_ids": [],
-                "citation": [item.passage.filename for item in passages],
-                "grounding": [item.passage.passage_id for item in passages],
-            },
-            provenance="source_backed" if passages else "ai_inferred",
-            built_from={
-                "course_context_schema_version": "demo-0.1",
-                "content_sha256": "+".join(
-                    document.content_version for document in course.documents
+
+        qs_dict: dict[str, Any] | None = None
+        schema: RuntimeQuestionSchema
+
+        if course.course_context and self.provider is not None:
+            try:
+                cc = course.course_context
+                cc_text = json.dumps(cc, ensure_ascii=False, sort_keys=True)
+                cc_sha256 = hashlib.sha256(cc_text.encode("utf-8")).hexdigest()
+                adapter = LLMAdapter(self.provider)
+                qs_dict = build_runtime_question_schema(cc, cc_sha256, question, adapter)
+                concept_ids = tuple(qs_dict["concept_ids"])
+                concept_names = tuple(qs_dict.get("concept_names") or ())
+                # Re-search: include technique name so the lexical index finds the right
+                # textbook section even when the question text has no term overlap with it.
+                _qs_technique = (qs_dict.get("correct_approach") or {}).get("technique", "")
+                _qs_query = "\n".join(p for p in (_qs_technique, question) if p)
+                passages = self.indexes[course_id].search(
+                    _qs_query, top_k=4, concept_ids=concept_ids
+                )
+                source_ids = tuple(dict.fromkeys(item.passage.document_id for item in passages))
+                schema = RuntimeQuestionSchema(
+                    record_id=qs_dict["question_id"],
+                    record_type="QuestionSchema",
+                    schema_version=SCHEMA_VERSION,
+                    created_at=_now(),
+                    producer="course_context_runtime_builder",
+                    status="partial",
+                    correlation_id=correlation_id,
+                    question_schema_version=qs_dict.get("question_schema_version", "1.0"),
+                    question_id=qs_dict["question_id"],
+                    course_id=course_id,
+                    module_id=qs_dict.get("module_id") or f"{course_id}.runtime",
+                    prompt=question,
+                    origin="runtime",
+                    concept_ids=concept_ids,
+                    concept_names=concept_names,
+                    question_type=qs_dict.get("question_type", "worked_problem"),
+                    expected_response_modes=tuple(
+                        qs_dict.get("expected_response_modes") or ()
+                    ),
+                    learning_objectives=tuple(qs_dict.get("learning_objectives") or ()),
+                    correct_approach=qs_dict.get("correct_approach") or {},
+                    reference_answer=qs_dict.get("reference_answer", ""),
+                    source_ids=source_ids,
+                    source_reference={
+                        **(qs_dict.get("source_reference") or {}),
+                        "source_ids": list(source_ids),
+                        "citation": [item.passage.filename for item in passages],
+                        "grounding": [item.passage.passage_id for item in passages],
+                    },
+                    provenance=qs_dict.get("provenance", "ai_inferred"),
+                    built_from=qs_dict.get("built_from") or {},
+                    validation_status="partial",
+                    requires_human_review=True,
+                    common_misconceptions=tuple(
+                        qs_dict.get("common_misconceptions") or ()
+                    ),
+                    prerequisite_concepts=tuple(
+                        qs_dict.get("prerequisite_concepts") or ()
+                    ),
+                    answer_verification=qs_dict.get("answer_verification"),
+                )
+            except (BuildError, Exception) as exc:
+                qs_dict = None
+                _log.warning("QuestionSchema builder failed, falling back to stub: %s", exc)
+
+        if qs_dict is None:
+            if course.course_context:
+                concepts, concept_ids = _concepts_from_course_context(
+                    course_id, course.course_context
+                )
+            else:
+                concepts = tuple(course.topics[:8])
+                concept_ids = tuple(
+                    f"{course_id}.runtime.{_slug_topic(value)}" for value in concepts
+                )
+            question_id = f"{course_id}.runtime-{uuid4().hex[:12]}"
+            schema = RuntimeQuestionSchema(
+                record_id=question_id,
+                record_type="QuestionSchema",
+                schema_version=SCHEMA_VERSION,
+                created_at=_now(),
+                producer="course_context_runtime_builder",
+                status="review_required",
+                correlation_id=correlation_id,
+                question_schema_version="0.1",
+                question_id=question_id,
+                course_id=course_id,
+                module_id=f"{course_id}.runtime",
+                prompt=question,
+                origin="runtime",
+                concept_ids=concept_ids,
+                concept_names=concepts,
+                question_type="open_question",
+                expected_response_modes=("text", "equation", "steps", "explanation"),
+                learning_objectives=tuple(
+                    {
+                        "id": f"objective-{index}",
+                        "text": f"Explain and apply {name}.",
+                        "bloom_level": "apply",
+                    }
+                    for index, name in enumerate(concepts[:3], 1)
                 ),
-            },
-            validation_status="partial",
-            requires_human_review=True,
-        )
+                correct_approach={
+                    "technique": "course-grounded guided reasoning",
+                    "justification": "The runtime question has no instructor-authored solution yet.",
+                },
+                reference_answer=f"restricted://{question_id}/pending-review",
+                source_ids=source_ids,
+                source_reference={
+                    "concept_ids": list(concept_ids),
+                    "source_ids": list(source_ids),
+                    "sibling_question_ids": [],
+                    "citation": [item.passage.filename for item in passages],
+                    "grounding": [item.passage.passage_id for item in passages],
+                },
+                provenance="source_backed" if passages else "ai_inferred",
+                built_from={
+                    "course_context_schema_version": "demo-0.1",
+                    "content_sha256": "+".join(
+                        document.content_version for document in course.documents
+                    ),
+                },
+                validation_status="partial",
+                requires_human_review=True,
+            )
+
         engine = GroundedDemoEngine(schema, self.indexes[course_id], self.provider)
         coordinator = TutoringTurnCoordinator(
             StudentEvidencePipeline(InMemoryArtifactStore()), engine, MockDelivery()
@@ -499,6 +846,7 @@ class DemoApplication:
             coordinator=coordinator,
             engine=engine,
             attempt_id=f"attempt-{uuid4()}",
+            question_schema_dict=qs_dict,
         )
         self.sessions[session.session_id] = session
         self._log(
@@ -931,9 +1279,10 @@ class DemoApplication:
             "sources": sources,
         }
 
-    def activity_summary(self, session_id: str) -> list[dict[str, Any]]:
+    def activity_summary(self, session_id: str) -> dict[str, Any]:
         if session_id not in self.sessions:
             raise LookupError(f"Session not found: {session_id}")
+        session = self.sessions[session_id]
         rows: list[dict[str, Any]] = []
         for event in self.trace_store.read_session(session_id):
             if event.get("event") != "turn_activity":
@@ -948,10 +1297,11 @@ class DemoApplication:
                     "recognized_input": _bounded(record.get("recognized_input")),
                     "output": _bounded(record.get("output")),
                     "decision_summary": record.get("decision_summary", {}),
+                    "learner_state": record.get("learner_state"),
                     "sources": record.get("sources", []),
                 }
             )
-        return rows
+        return {"turns": rows, "question_schema": session.question_schema_dict}
 
     def _write_turn_record(
         self,
@@ -987,6 +1337,7 @@ class DemoApplication:
                         "help_level": action.constraints.get("help_level"),
                         "grounding_status": "supported" if sources else "no_support_found",
                     },
+                    "learner_state": session.engine.state_snapshot(),
                     "sources": [
                         _activity_source(source, diagnostic=session.diagnostic_logging)
                         for source in sources
@@ -1019,6 +1370,289 @@ class DemoApplication:
             row["details"] = diagnostic
         session.logs.append(row)
         self.trace_store.write(session.session_id, row)
+
+
+# ---------------------------------------------------------------------------
+# Action instruction strings — central source of truth for the LLM prompt.
+# ---------------------------------------------------------------------------
+
+_ACTION_INSTRUCTIONS: dict[str, str] = {
+    "probe":                "Ask the student what approach or method they think applies to this problem. Do NOT name, hint at, or reference any specific technique, formula, or concept name — not even indirectly. Do not ask about u, dv, substitution, or any method-specific term. Ask only: what do you think you would try? Wait for their answer before saying anything else.",
+    "clarify":              "The response is unclear. Ask one specific question to understand the student's current approach. Do not name or hint at the correct method.",
+    "hint":                 "Give one small source-backed hint, then ask what the next step should be. Do not advance further.",
+    "explain":              "Explain one relevant concept using course material, then ask the student to apply it to this problem.",
+    "check_understanding":  "The student is on the right track. Ask one focused question that deepens or confirms their reasoning.",
+    "address_misconception":"Address the specific misconception the student has shown. Correct it gently using course evidence, then ask them to try again.",
+    "nudge_calculation":    "The student's method is correct but there is a calculation error. Point to the specific step without correcting it outright.",
+    "prereq_check":         "Point the student toward the prerequisite concept they are missing, using course material. Do not give the full solution.",
+    "redirect":             "Acknowledge the student's attempt. Explain briefly why the current approach does not work, and hint at the correct direction without giving the answer.",
+    "confirm":              "Confirm the correct answer. Celebrate briefly (one sentence), then ask the student to explain in their own words why the method works.",
+    "wrap_up":              "The student already solved this problem. Offer a brief follow-up challenge or close the question. Do not re-explain the solution.",
+    "retry":                "Ask the student to inspect the latest step and try again. Do not reveal the answer.",
+}
+
+
+# ---------------------------------------------------------------------------
+# decide() — pure function: maps (turn state) → (action, phase, help_level)
+# ---------------------------------------------------------------------------
+
+def _decide(
+    *,
+    turn_type: str,
+    math_correct: bool | None,
+    diagnosis: str | None,
+    help_level: int,
+    stall_count: int,
+    has_history: bool,
+    phase: str,
+) -> tuple[str, str, int, str]:
+    """Pure, deterministic action selection.
+
+    Returns (action_type, next_phase, next_help_level, instruction).
+    All state is passed in; nothing is read from self.
+    """
+    hl = help_level
+    stall_escalate = stall_count >= 2
+
+    # Already solved — just wrap up regardless of what the student sends.
+    if phase == "SOLVED":
+        return ("wrap_up", "SOLVED", hl, _ACTION_INSTRUCTIONS["wrap_up"])
+
+    # SymPy or model confirmed correct answer.
+    if math_correct is True or diagnosis == "CORRECT":
+        return ("confirm", "SOLVED", hl, _ACTION_INSTRUCTIONS["confirm"])
+
+    # Explicit help request.
+    if turn_type == "HELP":
+        if hl == 0:
+            return ("hint", "ATTEMPTING", 1, _ACTION_INSTRUCTIONS["hint"])
+        return ("explain", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["explain"])
+
+    # Ambiguous / too short.
+    if turn_type == "VAGUE":
+        if not has_history:
+            return ("probe", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["probe"])
+        return ("clarify", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["clarify"])
+
+    # Student is explaining reasoning.
+    if turn_type == "REASONING":
+        return ("check_understanding", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["check_understanding"])
+
+    # Off-topic new question.
+    if turn_type == "NEW_QUESTION":
+        return ("redirect", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["redirect"])
+
+    # --- ATTEMPT branch: ladder indexed by diagnosis ---
+
+    if diagnosis == "D0":  # no work shown
+        return ("probe", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["probe"])
+
+    if diagnosis == "D1":  # known misconception
+        return ("address_misconception", "ATTEMPTING", max(hl, 1), _ACTION_INSTRUCTIONS["address_misconception"])
+
+    if diagnosis == "D4":  # calculation error — method is right
+        return ("nudge_calculation", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["nudge_calculation"])
+
+    if diagnosis == "D5":  # partial — on the right track
+        return ("check_understanding", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["check_understanding"])
+
+    if diagnosis == "D2":  # wrong method
+        if stall_escalate:
+            return ("explain", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["explain"])
+        return ("redirect", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["redirect"])
+
+    if diagnosis in ("D3", "D6", "D7"):  # concept/prerequisite gap or other specific gap
+        return ("prereq_check", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["prereq_check"])
+
+    # Unclear / no specific diagnosis — escalate if stalled, otherwise retry.
+    if stall_escalate:
+        if hl == 0:
+            return ("hint", "ATTEMPTING", 1, _ACTION_INSTRUCTIONS["hint"])
+        return ("explain", "ATTEMPTING", min(hl + 1, 3), _ACTION_INSTRUCTIONS["explain"])
+
+    if not has_history:
+        return ("probe", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["probe"])
+    return ("retry", "ATTEMPTING", hl, _ACTION_INSTRUCTIONS["retry"])
+
+
+_HELP_MARKERS = frozenset({
+    "help", "stuck", "explain", "don't know", "do not know", "unsure",
+    "hint", "show me", "what do i", "how do i", "i don't", "i do not",
+    "not sure", "confused", "lost",
+})
+_REASON_MARKERS = frozenset({
+    "because", "therefore", "since", "so that", "which means", "thus",
+    "hence", "that's why", "this means",
+})
+_MATH_CHARS = frozenset("=+-*/^∫∂∑∏")
+_MATH_WORDS = frozenset({
+    "integral", "derivative", "integrate", "differentiat", "substitut",
+    "factor", "simplif", "expand", "solve", "calculat", "dx", "dy",
+    "step", "approach", "method", "technique", "formula",
+})
+_NEW_Q_PATTERNS = (
+    "what is ", "what are ", "how do ", "how does ", "can you ", "could you ",
+    "define ", "what's the difference",
+)
+
+
+def _read_turn(text: str, *, has_history: bool) -> str:
+    """Classify a student message into one of five turn types.
+
+    HELP      — student is explicitly asking for guidance
+    ATTEMPT   — student is making a mathematical attempt
+    REASONING — student is explaining their reasoning
+    VAGUE     — message is too short or ambiguous to classify
+    NEW_QUESTION — student is asking about something unrelated
+    """
+    import re as _re
+
+    stripped = text.strip()
+    lowered = stripped.lower()
+    words = lowered.split()
+    has_math = any(c in _MATH_CHARS for c in text) or _re.search(r"\d", text)
+
+    # Explicit help request — check before length gate so "help" alone works.
+    if any(m in lowered for m in _HELP_MARKERS):
+        return "HELP"
+
+    # Very short messages with no math signal are VAGUE.
+    if len(words) < 4 and not has_math:
+        return "VAGUE"
+
+    # Reasoning (student justifies a step).
+    if any(m in lowered for m in _REASON_MARKERS):
+        return "REASONING"
+
+    # Math content signals an attempt.
+    if has_math or any(w in lowered for w in _MATH_WORDS):
+        return "ATTEMPT"
+
+    # Looks like a new conceptual question (no math, starts with question phrase).
+    if any(lowered.startswith(p) for p in _NEW_Q_PATTERNS):
+        return "NEW_QUESTION"
+
+    # Default: treat as an attempt if we have history, otherwise vague.
+    return "ATTEMPT" if has_history else "VAGUE"
+
+
+def _check_student_math(student_text: str, answer_verification: dict | None) -> bool | None:
+    """Return True if the student's text contains a provably correct antiderivative.
+
+    Returns None when verification isn't possible (SymPy missing, no payload,
+    no parseable expression found).  Never raises.
+    """
+    if not answer_verification:
+        return None
+    variable = answer_verification.get("variable")
+    integrand = answer_verification.get("integrand")
+    if not (variable and integrand):
+        return None
+    try:
+        import sympy
+    except ImportError:
+        return None
+    try:
+        var = sympy.Symbol(str(variable))
+        loc: dict[str, Any] = {str(variable): var}
+        integ = sympy.sympify(str(integrand), locals=loc)
+    except Exception:
+        return None
+    for candidate in _extract_math_candidates(student_text):
+        try:
+            anti = sympy.sympify(candidate, locals=loc)
+            if sympy.simplify(sympy.diff(anti, var) - integ) == 0:
+                return True
+        except Exception:
+            continue
+    return None
+
+
+def _extract_math_candidates(text: str) -> list[str]:
+    """Pull potential antiderivative expressions from free-form student text."""
+    import re as _re
+
+    candidates: list[str] = []
+
+    # Method 1: whatever comes after any "=" sign (up to newline or sentence end).
+    for part in _re.split(r"=", text)[1:]:
+        raw = _re.split(r"[\n.;]", part)[0].strip()
+        if raw:
+            candidates.append(_latex_to_sympy(raw))
+
+    # Method 2: LaTeX inline math $...$ or $$...$$
+    for m in _re.findall(r"\$\$?([^$]+)\$\$?", text):
+        candidates.append(_latex_to_sympy(m.strip()))
+
+    # Method 3: expressions anchored to a function call (handles answers written
+    # without "=", e.g. "the answer is xsin(x)+cos(x)").
+    # Lazy prefix so "xsin(" is split as prefix="x", fn="sin" rather than
+    # consuming "sin" into the prefix.
+    _fns = r"(?:sin|cos|tan|log|exp|sqrt|ln)"
+    _prefix = r"[-a-zA-Z0-9\*]*?"          # lazy: minimal chars before func name
+    _arg = r"\([^()]*\)"                   # single-level argument
+    _post_term = rf"[-a-zA-Z0-9\*]*?(?:{_fns}\s*{_arg}|[a-zA-Z0-9]+)"
+    for m in _re.finditer(
+        rf"({_prefix}{_fns}\s*{_arg}(?:\s*[\+\-]\s*{_post_term})*)",
+        text,
+        _re.IGNORECASE,
+    ):
+        raw = m.group(1).strip()
+        if raw:
+            candidates.append(_latex_to_sympy(raw))
+
+    # Method 4: power expressions without function calls, e.g. "x^2/2 + x".
+    for m in _re.finditer(
+        r"[a-zA-Z]\s*(?:\*\*|\^)\s*[0-9]+"
+        r"(?:\s*[\+\-\*\/]\s*[a-zA-Z0-9]+(?:\s*(?:\*\*|\^)\s*[0-9]+)?)*",
+        text,
+    ):
+        candidates.append(_latex_to_sympy(m.group(0).strip()))
+
+    # Deduplicate while preserving order.
+    seen: set[str] = set()
+    result: list[str] = []
+    for c in candidates:
+        if c and c not in seen:
+            seen.add(c)
+            result.append(c)
+    return result
+
+
+def _latex_to_sympy(raw: str) -> str:
+    """Best-effort conversion of common LaTeX/student notation to SymPy syntax."""
+    import re as _re
+
+    s = raw.strip()
+    # Strip trailing constant of integration (+C / + c)
+    s = _re.sub(r"\s*\+\s*[Cc]\b\s*$", "", s)
+    # LaTeX trig / log commands
+    for latex, sympy_fn in (
+        (r"\sin", "sin"),
+        (r"\cos", "cos"),
+        (r"\tan", "tan"),
+        (r"\ln", "log"),
+        (r"\log", "log"),
+        (r"\exp", "exp"),
+    ):
+        s = s.replace(latex, sympy_fn)
+    # Multiplication operators
+    s = s.replace(r"\cdot", "*").replace(r"\times", "*")
+    # LaTeX braces used as grouping: \frac{a}{b} → (a)/(b)  [simple single-level]
+    s = _re.sub(r"\\frac\{([^{}]+)\}\{([^{}]+)\}", r"(\1)/(\2)", s)
+    # Remove remaining LaTeX commands and braces
+    s = _re.sub(r"\\[a-zA-Z]+", "", s)
+    s = s.replace("{", "(").replace("}", ")")
+    # Exponents
+    s = s.replace("^", "**")
+    # Implicit multiplication before known trig/math function names
+    for _fn in ("sin", "cos", "tan", "log", "exp", "sqrt"):
+        s = _re.sub(rf"([a-zA-Z\d])({_fn}\()", r"\1*\2", s)
+    # Implicit multiplication: digit immediately before letter or "("
+    s = _re.sub(r"(\d)([a-zA-Z(])", r"\1*\2", s)
+    # letter immediately before digit
+    s = _re.sub(r"([a-zA-Z])(\d)", r"\1*\2", s)
+    return s.strip()
 
 
 def _source_dict(item: RetrievedPassage) -> dict[str, Any]:
@@ -1059,6 +1693,77 @@ def _question_dict(question: RuntimeQuestionSchema) -> dict[str, Any]:
     }
 
 
+def _build_gaps_from_qs(q: RuntimeQuestionSchema) -> dict[str, Gap]:
+    """Create initial Gap objects from a QuestionSchema at session start."""
+    gaps: dict[str, Gap] = {}
+    technique = (q.correct_approach or {}).get("technique", "")
+    if technique:
+        gaps["method"] = Gap(
+            gap_id="method",
+            gap_type="method",
+            target_slot="correct_approach",
+            requirement=f"Demonstrate: {technique}",
+        )
+    for i, prereq in enumerate(q.prerequisite_concepts or ()):
+        name = prereq.get("name") or prereq.get("concept_id", f"prerequisite {i}")
+        relevance = prereq.get("relevance", "")
+        gaps[f"prereq_{i}"] = Gap(
+            gap_id=f"prereq_{i}",
+            gap_type="prerequisite",
+            target_slot=f"prerequisite_concepts[{i}]",
+            requirement=f"Apply {name}" + (f": {relevance}" if relevance else ""),
+        )
+    for i, lo in enumerate((q.learning_objectives or ())[:2]):
+        text = lo.get("text", "")
+        if text:
+            gaps[f"mastery_{i}"] = Gap(
+                gap_id=f"mastery_{i}",
+                gap_type="mastery",
+                target_slot=f"learning_objectives[{i}]",
+                requirement=text,
+            )
+    return gaps
+
+
+def _gap_dict(g: Gap) -> dict[str, Any]:
+    return {
+        "gap_id": g.gap_id,
+        "gap_type": g.gap_type,
+        "target_slot": g.target_slot,
+        "requirement": g.requirement,
+        "status": g.status,
+        "evidence_ids": list(g.evidence_ids),
+    }
+
+
+def _assessment_context(assessment: dict[str, Any]) -> str:
+    """Build the TURN ASSESSMENT section injected into the writer's system prompt."""
+    if not assessment or assessment.get("diagnosis") in (None, "UNCLEAR"):
+        return ""
+    lines = ["TURN ASSESSMENT:\n"]
+    lines.append(f"Diagnosis: {assessment['diagnosis']}\n")
+    target = assessment.get("target_gap")
+    if target:
+        lines.append(f"Target gap: {target}\n")
+    summary = assessment.get("summary", "")
+    if summary:
+        lines.append(f"Summary: {summary}\n")
+    lines.append("\n")
+    return "".join(lines)
+
+
+def _concepts_from_course_context(
+    course_id: str, cc: dict
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Return (concept_names, concept_ids) from a CourseContext dict, capped at 8."""
+    concepts = [c for c in (cc.get("Concept") or []) if c.get("name")][:8]
+    names = tuple(c["name"] for c in concepts)
+    ids = tuple(
+        c.get("id") or f"{course_id}.{_slug_topic(c['name'])}" for c in concepts
+    )
+    return names, ids
+
+
 def _slug_topic(value: str) -> str:
     import re
 
@@ -1071,6 +1776,37 @@ def _json_default(value: Any) -> Any:
     if isinstance(value, (tuple, set, frozenset)):
         return list(value)
     return str(value)
+
+
+def _qs_system_context(q: "RuntimeQuestionSchema", *, hide_technique: bool = False) -> str:
+    """Build the QUESTION SCHEMA section injected into the tutoring engine system prompt."""
+    lines: list[str] = ["QUESTION SCHEMA:\n"]
+    if not hide_technique and q.correct_approach.get("technique"):
+        lines.append(
+            f"Correct approach: {q.correct_approach['technique']} — "
+            f"{q.correct_approach.get('justification', '')}\n"
+        )
+    if q.learning_objectives:
+        lo_text = "; ".join(lo.get("text", "") for lo in q.learning_objectives if lo.get("text"))
+        if lo_text:
+            lines.append(f"Learning objectives: {lo_text}\n")
+    if q.prerequisite_concepts:
+        prereqs = "; ".join(
+            f"{p.get('name', p.get('concept_id', ''))} ({p.get('relevance', '')})"
+            for p in q.prerequisite_concepts
+        )
+        if prereqs:
+            lines.append(f"Prerequisites: {prereqs}\n")
+    if q.common_misconceptions:
+        misc = "; ".join(
+            f"{m.get('description', '')} [cue: {m.get('cue', '')}]"
+            for m in q.common_misconceptions
+            if m.get("description")
+        )
+        if misc:
+            lines.append(f"Watch for these misconceptions: {misc}\n")
+    lines.append("\n")
+    return "".join(lines) if len(lines) > 2 else ""
 
 
 def _bounded(value: Any, limit: int = 360) -> Any:
