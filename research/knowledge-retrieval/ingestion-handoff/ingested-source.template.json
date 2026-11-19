@@ -1,0 +1,82 @@
+{
+  "record_id": "<unique id for this file, e.g. ing-<course_id>-<document slug>-<content_version>>",
+  "record_type": "IngestedSource",
+  "schema_version": "0.1",
+  "created_at": "<UTC time, e.g. 2026-11-12T15:00:00Z>",
+  "producer": "course-context-ingestion",
+  "status": "<ingested | partial | failed>",
+  "correlation_id": "<id of this ingestion run>",
+
+  "ingested_source_schema_version": "1.0",
+  "course_id": "<Course.id, e.g. calc1>",
+  "course_context_ref": {
+    "course_context_schema_version": "<e.g. 1.1>",
+    "content_sha256": "<sha256 of the Course Context file whose concept IDs you used>"
+  },
+
+  "document": {
+    "document_id": "<course_id>:<document slug, same for every version>",
+    "content_version": "<changes whenever any page line changes, e.g. 2026-11-12.1>",
+    "document_role": "<textbook | lecture_notes | slides | worked_examples | problem_set | past_exam | syllabus | other>",
+    "title": "<full title>",
+    "source_label": "<short display name for citations>",
+    "source_file": {
+      "filename": "<original file name>",
+      "media_type": "<application/pdf | application/x-tex | ...>",
+      "sha256": "<sha256 of the original file>",
+      "page_count": 1
+    },
+    "source_provenance": "<source_document | ai_generated>",
+    "review_status": "<reviewed | unverified>",
+    "reviewed_by": null,
+    "reviewed_at": null,
+    "language": "en"
+  },
+
+  "pages": [
+    {
+      "page_number": 1,
+      "page_label": "<printed page number, or null>",
+      "lines": ["<normalized line 1>", "<normalized line 2>"],
+      "text_sha256": "<sha256 of the lines joined with \\n>"
+    }
+  ],
+
+  "sections": [
+    {
+      "section_id": "<unique in this file, e.g. ch4.s5>",
+      "parent_id": null,
+      "level": 1,
+      "number": "<printed number, e.g. 4.5, or null>",
+      "title": "<heading text>",
+      "heading_kind": "<part | chapter | section | subsection | lecture | appendix | other>",
+      "page_start": 1,
+      "line_start": 1,
+      "page_end": 1,
+      "line_end": 2,
+      "concept_ids": ["<Course Context concept id, main one first>"],
+      "structure_inferred": false
+    }
+  ],
+
+  "blocks": [
+    {
+      "block_id": "<document_id>/<section number>/b01",
+      "section_id": "<innermost section that contains the block>",
+      "type": "<definition | theorem | formula | proof | example | exercise | solution | explanation | remark | summary | figure | table | other>",
+      "label": "<printed label, e.g. Theorem 4.5.2 (Chain rule), or null>",
+      "text": "<clean text of the block; math as LaTeX in $...$ or $$...$$>",
+      "page_start": 1,
+      "line_start": 2,
+      "page_end": 1,
+      "line_end": 2,
+      "concept_ids": ["<Course Context concept id, main one first>"],
+      "concept_source": "<section | model | human | none>",
+      "visibility": "<student_visible | engine_only>",
+      "for_block_id": null,
+      "question_id": null
+    }
+  ],
+
+  "warnings": []
+}

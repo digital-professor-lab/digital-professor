@@ -4,7 +4,6 @@
     "id": "calc1",
     "title": "AS.110.106 Calculus I (Biology and Social Sciences)",
     "level": "undergraduate introductory",
-    "duration_weeks": 14,
     "assumed_background": "High-school algebra, coordinate geometry, and basic trigonometry; no prior calculus required.",
     "module_ids": [
       "calc1.01-functions",
@@ -22,7 +21,6 @@
       "course_id": "calc1",
       "title": "Review Basic Properties of Functions",
       "goal": "Review the function families, exponential models, and sequences that the rest of the course builds on.",
-      "weeks": "1-2",
       "concept_ids": [
         "calc1.01-functions.graphs",
         "calc1.01-functions.families",
@@ -36,7 +34,6 @@
       "course_id": "calc1",
       "title": "Limits and Continuity",
       "goal": "Develop the limit concept, informally and formally, and use it to define and analyze continuity.",
-      "weeks": "3-4",
       "concept_ids": [
         "calc1.02-limits.limits",
         "calc1.02-limits.epsilon-delta",
@@ -52,7 +49,6 @@
       "course_id": "calc1",
       "title": "Derivatives",
       "goal": "Define the derivative as a limit and master the rules for differentiating the standard function families.",
-      "weeks": "5-7",
       "concept_ids": [
         "calc1.03-derivatives.definition",
         "calc1.03-derivatives.basic-rules",
@@ -73,7 +69,6 @@
       "course_id": "calc1",
       "title": "Applications of Differentiation",
       "goal": "Use derivatives to analyze function shape, find extrema, solve optimization problems, and evaluate indeterminate limits.",
-      "weeks": "8-10",
       "concept_ids": [
         "calc1.04-diff-applications.evt-mvt",
         "calc1.04-diff-applications.monotone-concave",
@@ -88,7 +83,6 @@
       "course_id": "calc1",
       "title": "Integration",
       "goal": "Introduce antiderivatives and the definite integral, and connect them through the Fundamental Theorem of Calculus.",
-      "weeks": "11-12",
       "concept_ids": [
         "calc1.05-integration.antiderivatives",
         "calc1.05-integration.definite-integral",
@@ -102,7 +96,6 @@
       "course_id": "calc1",
       "title": "Applications of the Integral",
       "goal": "Extend integration with substitution, integration by parts, and partial fractions so a wider range of integrals can be evaluated.",
-      "weeks": "13-14",
       "concept_ids": [
         "calc1.06-integral-applications.substitution",
         "calc1.06-integral-applications.by-parts",
@@ -117,16 +110,7 @@
       "module_id": "calc1.01-functions",
       "name": "Functions, graphs, and transformations",
       "summary": "A function assigns each input in its domain exactly one output. Domain, range, graphs, composition, inverses, and shifts/stretches are the basic toolkit for everything that follows.",
-      "key_definitions": [
-        "Function: a rule assigning exactly one output to each input in the domain",
-        "Domain and range",
-        "Composition: (f∘g)(x) = f(g(x))",
-        "Inverse function: f^-1 satisfies f^-1(f(x)) = x; it exists when f is one-to-one"
-      ],
       "prerequisite_ids": [],
-      "objective_ids": [
-        "calc1.01-functions.graphs.lo1"
-      ],
       "difficulty_notes": [
         {
           "misconception": "Treating f(g(x)) as g(f(x)) or as the product f(x)g(x).",
@@ -137,9 +121,6 @@
           "mitigation": "Tabulate a few points of f(x) and f(x-2) and plot them to see the shift is to the right."
         }
       ],
-      "source_ids": [
-        "neuhauser.ch1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -147,17 +128,8 @@
       "module_id": "calc1.01-functions",
       "name": "Polynomial, rational, exponential, logarithmic, and trigonometric functions",
       "summary": "The standard function families, their graphs, and the algebraic laws (exponent, logarithm, trig identities) used to simplify expressions and solve equations.",
-      "key_definitions": [
-        "Logarithm: log_b(x) = y if and only if b^y = x",
-        "Rational function: a ratio of two polynomials",
-        "Radian measure of an angle",
-        "Natural logarithm ln(x) = log_e(x)"
-      ],
       "prerequisite_ids": [
         "calc1.01-functions.graphs"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.families.lo1"
       ],
       "difficulty_notes": [
         {
@@ -169,9 +141,6 @@
           "mitigation": "Fix radians as the default from the start and convert once with π rad = 180°."
         }
       ],
-      "source_ids": [
-        "neuhauser.ch1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -179,17 +148,8 @@
       "module_id": "calc1.01-functions",
       "name": "Exponential growth and decay",
       "summary": "Quantities whose rate of change is proportional to their size follow N(t) = N0·e^(rt); r > 0 gives growth and r < 0 gives decay. Doubling times and half-lives summarize the rate.",
-      "key_definitions": [
-        "Exponential model N(t) = N0 e^(rt)",
-        "Doubling time T = ln(2)/r",
-        "Half-life: time for a quantity to fall to half its value",
-        "Growth rate r versus growth factor b per time step"
-      ],
       "prerequisite_ids": [
         "calc1.01-functions.families"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.exp-growth.lo1"
       ],
       "difficulty_notes": [
         {
@@ -201,9 +161,6 @@
           "mitigation": "Tabulate the amount remaining after each half-life to show repeated halving, not repeated subtraction."
         }
       ],
-      "source_ids": [
-        "neuhauser.s2-1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -211,18 +168,9 @@
       "module_id": "calc1.01-functions",
       "name": "Sequences and their limits",
       "summary": "A sequence is a function on the positive integers. Sequences can be given explicitly or recursively (difference equations), and their long-run behavior is described by limits and equilibria.",
-      "key_definitions": [
-        "Sequence a_n",
-        "Recursion (difference equation) a_(n+1) = f(a_n)",
-        "Limit of a sequence: a_n → L as n → ∞",
-        "Equilibrium (fixed point) a* satisfying a* = f(a*)"
-      ],
       "prerequisite_ids": [
         "calc1.01-functions.graphs",
         "calc1.01-functions.exp-growth"
-      ],
-      "objective_ids": [
-        "calc1.01-functions.sequences.lo1"
       ],
       "difficulty_notes": [
         {
@@ -234,9 +182,6 @@
           "mitigation": "Substitute a_(n+1) = a_n = a* and solve the resulting equation explicitly."
         }
       ],
-      "source_ids": [
-        "neuhauser.s2-2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -244,18 +189,9 @@
       "module_id": "calc1.02-limits",
       "name": "Limits (informal and one-sided)",
       "summary": "lim_{x→a} f(x) = L means f(x) gets arbitrarily close to L as x approaches a, regardless of the value at a. The limit exists exactly when both one-sided limits exist and agree; algebra resolves 0/0 forms.",
-      "key_definitions": [
-        "Limit lim_{x→a} f(x) = L",
-        "One-sided limits from the left and right",
-        "Limit laws for sums, products, and quotients",
-        "0/0 form: requires algebraic simplification before evaluating"
-      ],
       "prerequisite_ids": [
         "calc1.01-functions.graphs",
         "calc1.01-functions.sequences"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.limits.lo1"
       ],
       "difficulty_notes": [
         {
@@ -267,9 +203,6 @@
           "mitigation": "Always compute left and right limits separately for piecewise and absolute-value functions."
         }
       ],
-      "source_ids": [
-        "neuhauser.s3-1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -277,16 +210,8 @@
       "module_id": "calc1.02-limits",
       "name": "Formal (epsilon-delta) definition of a limit",
       "summary": "lim_{x→a} f(x) = L if for every ε > 0 there is a δ > 0 such that 0 < |x - a| < δ implies |f(x) - L| < ε. This makes 'arbitrarily close' precise and supports rigorous proofs of limits.",
-      "key_definitions": [
-        "Epsilon-delta definition of lim_{x→a} f(x) = L",
-        "Punctured neighborhood 0 < |x - a| < δ",
-        "δ as a function of ε"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.limits"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.epsilon-delta.lo1"
       ],
       "difficulty_notes": [
         {
@@ -298,9 +223,6 @@
           "mitigation": "Emphasize that the proof must work for an arbitrary ε, by writing δ as a formula in ε."
         }
       ],
-      "source_ids": [
-        "neuhauser.s3-6"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -308,17 +230,8 @@
       "module_id": "calc1.02-limits",
       "name": "Continuity and types of discontinuity",
       "summary": "f is continuous at a if f(a) is defined, lim_{x→a} f(x) exists, and the two are equal. Failures are classified as removable, jump, or infinite discontinuities.",
-      "key_definitions": [
-        "Continuity at a (three conditions)",
-        "Removable discontinuity",
-        "Jump discontinuity",
-        "Infinite discontinuity"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.limits"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.continuity.lo1"
       ],
       "difficulty_notes": [
         {
@@ -330,9 +243,6 @@
           "mitigation": "Use the removable-hole example where the limit exists but f(a) is missing or misplaced."
         }
       ],
-      "source_ids": [
-        "neuhauser.s3-2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -340,18 +250,10 @@
       "module_id": "calc1.02-limits",
       "name": "Limits at infinity and horizontal asymptotes",
       "summary": "lim_{x→∞} f(x) = L means f(x) stays within any ε of L once x is large enough. Comparing dominant terms evaluates rational functions, and the limit describes the long-run behavior of biological models.",
-      "key_definitions": [
-        "Limit at infinity (formal): for each ε > 0 there is M such that x > M implies |f(x) - L| < ε",
-        "Horizontal asymptote y = L",
-        "Dominant term of a polynomial"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.limits",
         "calc1.02-limits.epsilon-delta",
         "calc1.01-functions.sequences"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.limits-infinity.lo1"
       ],
       "difficulty_notes": [
         {
@@ -363,10 +265,6 @@
           "mitigation": "Compare C(t) = 20t/(t+4) with t and show it increases yet stays below 20."
         }
       ],
-      "source_ids": [
-        "neuhauser.s3-3",
-        "neuhauser.s3-6"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -374,17 +272,9 @@
       "module_id": "calc1.02-limits",
       "name": "Trigonometric limits and the Sandwich Theorem",
       "summary": "If g(x) ≤ f(x) ≤ h(x) near a and g and h both tend to L, then f tends to L. This yields lim sin(x)/x = 1 and lim (1 - cos x)/x = 0 as x → 0, which underpin trig derivatives.",
-      "key_definitions": [
-        "Sandwich (Squeeze) Theorem",
-        "lim_{x→0} sin(x)/x = 1 (x in radians)",
-        "lim_{x→0} (1 - cos x)/x = 0"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.limits",
         "calc1.01-functions.families"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.trig-sandwich.lo1"
       ],
       "difficulty_notes": [
         {
@@ -396,9 +286,6 @@
           "mitigation": "Multiply and divide by 5 so the argument of sin matches the denominator."
         }
       ],
-      "source_ids": [
-        "neuhauser.s3-4"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -406,16 +293,8 @@
       "module_id": "calc1.02-limits",
       "name": "Properties of continuous functions and the Intermediate Value Theorem",
       "summary": "Sums, products, quotients (with nonzero denominator), and compositions of continuous functions are continuous. The Intermediate Value Theorem says a continuous f on [a, b] takes every value between f(a) and f(b).",
-      "key_definitions": [
-        "Continuity on an interval",
-        "Intermediate Value Theorem (IVT)",
-        "Continuity of compositions"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.continuity"
-      ],
-      "objective_ids": [
-        "calc1.02-limits.continuous-props.lo1"
       ],
       "difficulty_notes": [
         {
@@ -427,9 +306,6 @@
           "mitigation": "Show a cubic that crosses zero three times while the endpoint signs differ."
         }
       ],
-      "source_ids": [
-        "neuhauser.s3-5"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -437,18 +313,9 @@
       "module_id": "calc1.03-derivatives",
       "name": "Formal definition of the derivative",
       "summary": "f'(a) = lim_{h→0} (f(a+h) - f(a))/h is the slope of the tangent line and the instantaneous rate of change. Differentiability implies continuity, but not conversely.",
-      "key_definitions": [
-        "Derivative f'(a) as a limit of difference quotients",
-        "Difference quotient (average rate of change)",
-        "Differentiable at a point",
-        "Tangent line y = f(a) + f'(a)(x - a)"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.limits",
         "calc1.02-limits.continuity"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.definition.lo1"
       ],
       "difficulty_notes": [
         {
@@ -460,9 +327,6 @@
           "mitigation": "Examine |x| at 0, where the left and right difference quotients disagree."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -470,16 +334,8 @@
       "module_id": "calc1.03-derivatives",
       "name": "Basic rules of differentiation",
       "summary": "The derivative of a constant is 0, constants factor out, and the derivative of a sum or difference is the sum or difference of derivatives (linearity). Linear functions have constant derivative equal to their slope.",
-      "key_definitions": [
-        "Constant rule: d/dx c = 0",
-        "Constant multiple rule: (cf)' = c f'",
-        "Sum/difference rule: (f ± g)' = f' ± g'"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.definition"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.basic-rules.lo1"
       ],
       "difficulty_notes": [
         {
@@ -491,9 +347,6 @@
           "mitigation": "Always state the units of the derivative (units of P per unit of t) in word problems."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -501,15 +354,8 @@
       "module_id": "calc1.03-derivatives",
       "name": "Power rule",
       "summary": "d/dx x^n = n x^(n-1) for any real exponent n, including negative and fractional ones. Combined with linearity, it differentiates polynomials, roots, and reciprocals.",
-      "key_definitions": [
-        "Power rule: d/dx x^n = n x^(n-1)",
-        "Rewriting roots and reciprocals as powers"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.basic-rules"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.power-rule.lo1"
       ],
       "difficulty_notes": [
         {
@@ -521,9 +367,6 @@
           "mitigation": "Make the rewrite step explicit in every worked example."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-3"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -531,16 +374,9 @@
       "module_id": "calc1.03-derivatives",
       "name": "Product and quotient rules",
       "summary": "(fg)' = f'g + fg' and (f/g)' = (f'g - fg')/g^2. These handle products and ratios of differentiable functions where term-by-term differentiation fails.",
-      "key_definitions": [
-        "Product rule: (fg)' = f'g + fg'",
-        "Quotient rule: (f/g)' = (f'g - fg')/g^2"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.basic-rules",
         "calc1.03-derivatives.power-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.product-quotient.lo1"
       ],
       "difficulty_notes": [
         {
@@ -552,9 +388,6 @@
           "mitigation": "Use the mnemonic 'low d-high minus high d-low, over low squared' and check the sign on a simple example."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-4"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -562,17 +395,9 @@
       "module_id": "calc1.03-derivatives",
       "name": "The chain rule",
       "summary": "(f(g(x)))' = f'(g(x))·g'(x): differentiate the outer function at the inner function, then multiply by the derivative of the inner function. It is the key rule for composite functions.",
-      "key_definitions": [
-        "Chain rule",
-        "Inner and outer function",
-        "Leibniz form dy/dx = (dy/du)(du/dx)"
-      ],
       "prerequisite_ids": [
         "calc1.01-functions.graphs",
         "calc1.03-derivatives.power-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.chain-rule.lo1"
       ],
       "difficulty_notes": [
         {
@@ -584,9 +409,6 @@
           "mitigation": "Write the outer derivative with a placeholder first, e.g. 5(□)^4, then fill in the inner function."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-5"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -594,16 +416,8 @@
       "module_id": "calc1.03-derivatives",
       "name": "Implicit functions and implicit differentiation",
       "summary": "When y is defined implicitly by an equation in x and y, differentiate both sides with respect to x, treat y as y(x) using the chain rule, and solve for dy/dx.",
-      "key_definitions": [
-        "Implicit function",
-        "Implicit differentiation",
-        "dy/dx as a function of both x and y"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.chain-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.implicit.lo1"
       ],
       "difficulty_notes": [
         {
@@ -615,9 +429,6 @@
           "mitigation": "Use a fixed checklist: differentiate, collect y' terms, factor, solve, substitute."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-6"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -625,16 +436,8 @@
       "module_id": "calc1.03-derivatives",
       "name": "Higher derivatives",
       "summary": "The second derivative f'' is the derivative of f' and measures how the slope changes (acceleration, concavity). Higher derivatives f^(n) continue the process.",
-      "key_definitions": [
-        "Second derivative f''(x) = d^2y/dx^2",
-        "nth derivative f^(n)",
-        "Acceleration as the second derivative of position"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.power-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.higher.lo1"
       ],
       "difficulty_notes": [
         {
@@ -646,9 +449,6 @@
           "mitigation": "Tie f'' to acceleration in a motion example and to the curvature of a graph."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-7"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -656,18 +456,10 @@
       "module_id": "calc1.03-derivatives",
       "name": "Derivatives of trigonometric functions",
       "summary": "d/dx sin x = cos x, d/dx cos x = -sin x, and d/dx tan x = sec^2 x, all with x in radians. These follow from the limit of sin(x)/x and combine with the chain rule.",
-      "key_definitions": [
-        "d/dx sin x = cos x",
-        "d/dx cos x = -sin x",
-        "d/dx tan x = sec^2 x"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.definition",
         "calc1.02-limits.trig-sandwich",
         "calc1.03-derivatives.chain-rule"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.trig.lo1"
       ],
       "difficulty_notes": [
         {
@@ -679,9 +471,6 @@
           "mitigation": "Label inner function kx and multiply by k."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-8"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -689,18 +478,10 @@
       "module_id": "calc1.03-derivatives",
       "name": "Derivatives of exponential and logarithmic functions",
       "summary": "d/dx e^x = e^x, d/dx a^x = a^x ln(a), and d/dx ln x = 1/x. With the chain rule, d/dx e^(g(x)) = g'(x) e^(g(x)), which shows exponential growth has rate proportional to size.",
-      "key_definitions": [
-        "d/dx e^x = e^x",
-        "d/dx a^x = a^x ln(a)",
-        "d/dx ln x = 1/x"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.definition",
         "calc1.03-derivatives.chain-rule",
         "calc1.01-functions.exp-growth"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.exp-log.lo1"
       ],
       "difficulty_notes": [
         {
@@ -712,9 +493,6 @@
           "mitigation": "Rewrite a^x as e^(x ln a) and apply the chain rule."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-9"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -722,17 +500,10 @@
       "module_id": "calc1.03-derivatives",
       "name": "Derivatives of inverse functions",
       "summary": "If g = f^-1, then g'(y) = 1/f'(g(y)). This formula explains the derivative of ln x and gives derivatives of inverse trigonometric functions.",
-      "key_definitions": [
-        "Inverse derivative formula (f^-1)'(y) = 1/f'(f^-1(y))",
-        "Inverse function f^-1 (not the reciprocal 1/f)"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.chain-rule",
         "calc1.03-derivatives.implicit",
         "calc1.03-derivatives.exp-log"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.inverse.lo1"
       ],
       "difficulty_notes": [
         {
@@ -744,9 +515,6 @@
           "mitigation": "Derive it with the inverse formula in class before memorizing."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-10"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -754,16 +522,8 @@
       "module_id": "calc1.03-derivatives",
       "name": "Linear approximation",
       "summary": "Near x = a, f(x) ≈ L(x) = f(a) + f'(a)(x - a). Linearization estimates function values and changes, and concavity tells whether the estimate is high or low.",
-      "key_definitions": [
-        "Linearization L(x) = f(a) + f'(a)(x - a)",
-        "Differential dy = f'(x) dx",
-        "Tangent line approximation error"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.definition"
-      ],
-      "objective_ids": [
-        "calc1.03-derivatives.linear-approx.lo1"
       ],
       "difficulty_notes": [
         {
@@ -775,9 +535,6 @@
           "mitigation": "Use concavity: concave down means the tangent lies above the curve (overestimate)."
         }
       ],
-      "source_ids": [
-        "neuhauser.s4-11"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -785,18 +542,9 @@
       "module_id": "calc1.04-diff-applications",
       "name": "Extreme Value Theorem and Mean Value Theorem",
       "summary": "A continuous function on a closed interval attains an absolute maximum and minimum. If it is also differentiable on the open interval, the Mean Value Theorem gives a point where the instantaneous rate equals the average rate. Interior extrema occur at critical points.",
-      "key_definitions": [
-        "Absolute (global) versus local extremum",
-        "Critical point: f'(c) = 0 or f'(c) undefined",
-        "Extreme Value Theorem",
-        "Mean Value Theorem: f'(c) = (f(b) - f(a))/(b - a)"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.continuous-props",
         "calc1.03-derivatives.definition"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.evt-mvt.lo1"
       ],
       "difficulty_notes": [
         {
@@ -808,9 +556,6 @@
           "mitigation": "Examine f(x) = x^3 at c = 0, where the derivative vanishes but f is increasing."
         }
       ],
-      "source_ids": [
-        "neuhauser.s5-1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -818,17 +563,9 @@
       "module_id": "calc1.04-diff-applications",
       "name": "Monotonicity and concavity",
       "summary": "The sign of f' tells where f increases or decreases, and the sign of f'' tells where its graph is concave up or down. Sign charts organize this information to sketch a graph.",
-      "key_definitions": [
-        "Increasing and decreasing function",
-        "Concave up (f'' > 0) and concave down (f'' < 0)",
-        "Sign chart"
-      ],
       "prerequisite_ids": [
         "calc1.04-diff-applications.evt-mvt",
         "calc1.03-derivatives.higher"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.monotone-concave.lo1"
       ],
       "difficulty_notes": [
         {
@@ -840,9 +577,6 @@
           "mitigation": "Use a sign chart with one test point in every interval between critical points."
         }
       ],
-      "source_ids": [
-        "neuhauser.s5-2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -850,17 +584,8 @@
       "module_id": "calc1.04-diff-applications",
       "name": "Extrema and inflection points",
       "summary": "Local extrema are located at critical points and classified by the first-derivative test or the second-derivative test. Inflection points occur where concavity changes, which requires a sign change of f'' and not just f'' = 0.",
-      "key_definitions": [
-        "First-derivative test",
-        "Second-derivative test",
-        "Inflection point: a point where concavity changes",
-        "Local maximum and minimum"
-      ],
       "prerequisite_ids": [
         "calc1.04-diff-applications.monotone-concave"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.extrema-inflection.lo1"
       ],
       "difficulty_notes": [
         {
@@ -872,9 +597,6 @@
           "mitigation": "Use a checklist: critical points, endpoints, points of non-differentiability."
         }
       ],
-      "source_ids": [
-        "neuhauser.s5-3"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -882,17 +604,8 @@
       "module_id": "calc1.04-diff-applications",
       "name": "Optimization",
       "summary": "Optimization problems are translated into maximizing or minimizing a function of one variable on a domain: define variables, write the objective, use the constraint to eliminate a variable, find critical points, check endpoints, and justify the result.",
-      "key_definitions": [
-        "Objective function",
-        "Constraint",
-        "Feasible domain",
-        "Global maximum/minimum on an interval"
-      ],
       "prerequisite_ids": [
         "calc1.04-diff-applications.extrema-inflection"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.optimization.lo1"
       ],
       "difficulty_notes": [
         {
@@ -904,9 +617,6 @@
           "mitigation": "Require a final sentence that restates the answer with units."
         }
       ],
-      "source_ids": [
-        "neuhauser.s5-4"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -914,18 +624,10 @@
       "module_id": "calc1.04-diff-applications",
       "name": "L'Hopital's rule",
       "summary": "If lim f/g is of the form 0/0 or ∞/∞, then lim f/g = lim f'/g' whenever the latter limit exists. Other indeterminate forms (0·∞, ∞ - ∞) are first rewritten as quotients.",
-      "key_definitions": [
-        "Indeterminate forms 0/0 and ∞/∞",
-        "L'Hopital's rule",
-        "Rewriting 0·∞ as a quotient"
-      ],
       "prerequisite_ids": [
         "calc1.04-diff-applications.evt-mvt",
         "calc1.02-limits.limits-infinity",
         "calc1.03-derivatives.exp-log"
-      ],
-      "objective_ids": [
-        "calc1.04-diff-applications.lhopital.lo1"
       ],
       "difficulty_notes": [
         {
@@ -937,9 +639,6 @@
           "mitigation": "Make 'check the form first' an explicit first step, with a counterexample such as lim (x+1)/x as x → 0+."
         }
       ],
-      "source_ids": [
-        "neuhauser.s5-5"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -947,20 +646,11 @@
       "module_id": "calc1.05-integration",
       "name": "Antiderivatives and indefinite integrals",
       "summary": "F is an antiderivative of f if F' = f. All antiderivatives differ by a constant, so the indefinite integral is written F(x) + C. Initial conditions determine C.",
-      "key_definitions": [
-        "Antiderivative",
-        "Indefinite integral ∫ f(x) dx",
-        "Constant of integration C",
-        "Initial value problem"
-      ],
       "prerequisite_ids": [
         "calc1.03-derivatives.basic-rules",
         "calc1.03-derivatives.power-rule",
         "calc1.03-derivatives.trig",
         "calc1.03-derivatives.exp-log"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.antiderivatives.lo1"
       ],
       "difficulty_notes": [
         {
@@ -972,9 +662,6 @@
           "mitigation": "Differentiate the proposed antiderivative and see what factor appears."
         }
       ],
-      "source_ids": [
-        "neuhauser.s5-10"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -982,18 +669,9 @@
       "module_id": "calc1.05-integration",
       "name": "The definite integral",
       "summary": "∫_a^b f(x) dx is the limit of Riemann sums Σ f(x_i*) Δx and measures net signed area. It obeys linearity, additivity over intervals, and sign change when limits are reversed.",
-      "key_definitions": [
-        "Riemann sum",
-        "Definite integral as a limit of Riemann sums",
-        "Net signed area",
-        "Properties: linearity, additivity, reversing limits"
-      ],
       "prerequisite_ids": [
         "calc1.02-limits.limits",
         "calc1.01-functions.sequences"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.definite-integral.lo1"
       ],
       "difficulty_notes": [
         {
@@ -1005,9 +683,6 @@
           "mitigation": "Interpret each term f(x_i)·Δx as the area of a rectangle."
         }
       ],
-      "source_ids": [
-        "neuhauser.s6-1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1015,18 +690,10 @@
       "module_id": "calc1.05-integration",
       "name": "Fundamental Theorem of Calculus",
       "summary": "Part 1: d/dx ∫_a^x f(t) dt = f(x). Part 2: ∫_a^b f(x) dx = F(b) - F(a) for any antiderivative F. Together they link differentiation and integration.",
-      "key_definitions": [
-        "FTC Part 1 (derivative of an accumulation function)",
-        "FTC Part 2 (evaluation theorem)",
-        "Accumulation function A(x) = ∫_a^x f(t) dt"
-      ],
       "prerequisite_ids": [
         "calc1.05-integration.definite-integral",
         "calc1.05-integration.antiderivatives",
         "calc1.03-derivatives.chain-rule"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.ftc.lo1"
       ],
       "difficulty_notes": [
         {
@@ -1038,9 +705,6 @@
           "mitigation": "Show that C cancels in F(b) - F(a)."
         }
       ],
-      "source_ids": [
-        "neuhauser.s6-2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1048,16 +712,8 @@
       "module_id": "calc1.05-integration",
       "name": "Applications of integration",
       "summary": "Definite integrals compute area between curves (top minus bottom), net change from a rate (total drug delivered), and average value (1/(b - a))∫ f.",
-      "key_definitions": [
-        "Area between curves ∫ (top - bottom) dx",
-        "Net change theorem",
-        "Average value of a function (1/(b - a)) ∫_a^b f(x) dx"
-      ],
       "prerequisite_ids": [
         "calc1.05-integration.ftc"
-      ],
-      "objective_ids": [
-        "calc1.05-integration.applications.lo1"
       ],
       "difficulty_notes": [
         {
@@ -1069,9 +725,6 @@
           "mitigation": "Compare against a nonlinear example, e.g. f(x) = x^2 on [0, 2]."
         }
       ],
-      "source_ids": [
-        "neuhauser.s6-3"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1079,18 +732,10 @@
       "module_id": "calc1.06-integral-applications",
       "name": "The substitution rule",
       "summary": "∫ f(g(x)) g'(x) dx = ∫ f(u) du with u = g(x). It reverses the chain rule; for definite integrals the limits are converted to u-values.",
-      "key_definitions": [
-        "u-substitution",
-        "Differential du = g'(x) dx",
-        "Changing limits of integration"
-      ],
       "prerequisite_ids": [
         "calc1.05-integration.ftc",
         "calc1.03-derivatives.chain-rule",
         "calc1.05-integration.antiderivatives"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.substitution.lo1"
       ],
       "difficulty_notes": [
         {
@@ -1102,9 +747,6 @@
           "mitigation": "Solve for dx or x dx explicitly: x dx = du/2."
         }
       ],
-      "source_ids": [
-        "neuhauser.s7-1"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1112,17 +754,9 @@
       "module_id": "calc1.06-integral-applications",
       "name": "Integration by parts",
       "summary": "∫ u dv = uv - ∫ v du reverses the product rule. Choose u to simplify when differentiated (LIATE heuristic); it can be repeated and applied to definite integrals.",
-      "key_definitions": [
-        "Integration by parts formula",
-        "LIATE heuristic for choosing u",
-        "Definite integration by parts"
-      ],
       "prerequisite_ids": [
         "calc1.06-integral-applications.substitution",
         "calc1.03-derivatives.product-quotient"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.by-parts.lo1"
       ],
       "difficulty_notes": [
         {
@@ -1134,9 +768,6 @@
           "mitigation": "Tabulate u, du, dv, v in a 2x2 grid before substituting."
         }
       ],
-      "source_ids": [
-        "neuhauser.s7-2"
-      ],
       "provenance": "ai_inferred"
     },
     {
@@ -1144,17 +775,9 @@
       "module_id": "calc1.06-integral-applications",
       "name": "Rational functions and partial fractions",
       "summary": "A proper rational function P/Q is decomposed into simpler fractions according to the factors of Q so each piece integrates to a logarithm or similar. Improper fractions are first divided.",
-      "key_definitions": [
-        "Partial fraction decomposition",
-        "Proper versus improper rational function",
-        "Polynomial long division"
-      ],
       "prerequisite_ids": [
         "calc1.06-integral-applications.substitution",
         "calc1.01-functions.families"
-      ],
-      "objective_ids": [
-        "calc1.06-integral-applications.partial-fractions.lo1"
       ],
       "difficulty_notes": [
         {
@@ -1166,501 +789,7 @@
           "mitigation": "Solve for constants by substituting the roots of each factor, then check by recombining."
         }
       ],
-      "source_ids": [
-        "neuhauser.s7-3"
-      ],
       "provenance": "ai_inferred"
-    }
-  ],
-  "LearningObjective": [
-    {
-      "id": "calc1.01-functions.graphs.lo1",
-      "concept_id": "calc1.01-functions.graphs",
-      "text": "Evaluate, compose, and invert functions, and sketch the effect of shifts and stretches on a graph.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.families.lo1",
-      "concept_id": "calc1.01-functions.families",
-      "text": "Apply exponent, logarithm, and trigonometric laws to simplify expressions and solve equations.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.exp-growth.lo1",
-      "concept_id": "calc1.01-functions.exp-growth",
-      "text": "Model growth and decay with exponential functions and compute doubling times and half-lives.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.01-functions.sequences.lo1",
-      "concept_id": "calc1.01-functions.sequences",
-      "text": "Compute limits of explicit and recursively defined sequences and find and interpret equilibria.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.limits.lo1",
-      "concept_id": "calc1.02-limits.limits",
-      "text": "Evaluate limits algebraically, including one-sided limits and 0/0 forms, and decide when a limit does not exist.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.epsilon-delta.lo1",
-      "concept_id": "calc1.02-limits.epsilon-delta",
-      "text": "State the epsilon-delta definition of a limit and prove simple linear limits with it.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.continuity.lo1",
-      "concept_id": "calc1.02-limits.continuity",
-      "text": "Test continuity at a point using the three conditions and classify discontinuities.",
-      "bloom_level": "analyze",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.limits-infinity.lo1",
-      "concept_id": "calc1.02-limits.limits-infinity",
-      "text": "Compute limits at infinity and interpret them as long-run behavior or horizontal asymptotes.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.trig-sandwich.lo1",
-      "concept_id": "calc1.02-limits.trig-sandwich",
-      "text": "Apply the Sandwich Theorem and standard trigonometric limits to evaluate limits.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.02-limits.continuous-props.lo1",
-      "concept_id": "calc1.02-limits.continuous-props",
-      "text": "Use the Intermediate Value Theorem to justify the existence of solutions and justify continuity of composite functions.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.definition.lo1",
-      "concept_id": "calc1.03-derivatives.definition",
-      "text": "Compute derivatives from the limit definition and interpret them as instantaneous rates of change and tangent slopes.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.basic-rules.lo1",
-      "concept_id": "calc1.03-derivatives.basic-rules",
-      "text": "Differentiate constants, constant multiples, and sums, and interpret the result in context.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.power-rule.lo1",
-      "concept_id": "calc1.03-derivatives.power-rule",
-      "text": "Differentiate polynomials, roots, and reciprocals with the power rule and find tangent lines.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.product-quotient.lo1",
-      "concept_id": "calc1.03-derivatives.product-quotient",
-      "text": "Differentiate products and quotients of functions correctly using the product and quotient rules.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.chain-rule.lo1",
-      "concept_id": "calc1.03-derivatives.chain-rule",
-      "text": "Differentiate composite functions by identifying inner and outer functions and applying the chain rule, alone or with other rules.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.implicit.lo1",
-      "concept_id": "calc1.03-derivatives.implicit",
-      "text": "Find dy/dx for implicitly defined curves and compute tangent slopes at given points.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.higher.lo1",
-      "concept_id": "calc1.03-derivatives.higher",
-      "text": "Compute higher-order derivatives and interpret the second derivative as acceleration or concavity.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.trig.lo1",
-      "concept_id": "calc1.03-derivatives.trig",
-      "text": "Differentiate trigonometric functions and compositions and interpret rates in periodic models.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.exp-log.lo1",
-      "concept_id": "calc1.03-derivatives.exp-log",
-      "text": "Differentiate exponential and logarithmic functions and explain why exponential growth has rate proportional to size.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.inverse.lo1",
-      "concept_id": "calc1.03-derivatives.inverse",
-      "text": "Use the inverse-function derivative formula to compute (f^-1)' at a point and derive derivatives of inverse functions.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.03-derivatives.linear-approx.lo1",
-      "concept_id": "calc1.03-derivatives.linear-approx",
-      "text": "Construct a linearization, use it to estimate values, and judge whether the estimate is an over- or underestimate.",
-      "bloom_level": "evaluate",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.evt-mvt.lo1",
-      "concept_id": "calc1.04-diff-applications.evt-mvt",
-      "text": "State the hypotheses of the Extreme Value and Mean Value Theorems and apply them to find guaranteed points.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.monotone-concave.lo1",
-      "concept_id": "calc1.04-diff-applications.monotone-concave",
-      "text": "Determine intervals of increase, decrease, and concavity from the signs of f' and f''.",
-      "bloom_level": "analyze",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.extrema-inflection.lo1",
-      "concept_id": "calc1.04-diff-applications.extrema-inflection",
-      "text": "Locate and classify local extrema and inflection points and justify classifications.",
-      "bloom_level": "analyze",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.optimization.lo1",
-      "concept_id": "calc1.04-diff-applications.optimization",
-      "text": "Formulate and solve optimization problems and justify that the solution is a global extremum.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.04-diff-applications.lhopital.lo1",
-      "concept_id": "calc1.04-diff-applications.lhopital",
-      "text": "Evaluate indeterminate limits using L'Hopital's rule after verifying the form.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.antiderivatives.lo1",
-      "concept_id": "calc1.05-integration.antiderivatives",
-      "text": "Compute antiderivatives of basic functions and solve initial value problems.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.definite-integral.lo1",
-      "concept_id": "calc1.05-integration.definite-integral",
-      "text": "Approximate definite integrals with Riemann sums and interpret them as net signed area.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.ftc.lo1",
-      "concept_id": "calc1.05-integration.ftc",
-      "text": "Apply both parts of the Fundamental Theorem of Calculus to evaluate definite integrals and differentiate accumulation functions.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.05-integration.applications.lo1",
-      "concept_id": "calc1.05-integration.applications",
-      "text": "Use definite integrals to compute areas between curves, net change, and average values in context.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.substitution.lo1",
-      "concept_id": "calc1.06-integral-applications.substitution",
-      "text": "Evaluate indefinite and definite integrals using u-substitution, converting limits correctly.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.by-parts.lo1",
-      "concept_id": "calc1.06-integral-applications.by-parts",
-      "text": "Choose u and dv sensibly and evaluate integrals using integration by parts.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    },
-    {
-      "id": "calc1.06-integral-applications.partial-fractions.lo1",
-      "concept_id": "calc1.06-integral-applications.partial-fractions",
-      "text": "Decompose rational functions into partial fractions, using long division when needed, and integrate them.",
-      "bloom_level": "apply",
-      "provenance": "ai_inferred"
-    }
-  ],
-  "Source": [
-    {
-      "id": "neuhauser.ch1",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Chapter 1",
-      "text_chunk": "Syllabus entry: Chapter 1 (Review Basic Properties of Functions)",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s2-1",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 2.1",
-      "text_chunk": "Syllabus entry: 2.1 Exponential Growth and Decay",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s2-2",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 2.2",
-      "text_chunk": "Syllabus entry: 2.2 Sequences",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s3-1",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 3.1",
-      "text_chunk": "Syllabus entry: 3.1 Limits (with formal definition from 3.6)",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s3-2",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 3.2",
-      "text_chunk": "Syllabus entry: 3.2 Continuity",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s3-3",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 3.3",
-      "text_chunk": "Syllabus entry: 3.3 Limits at Infinity (with formal definition from 3.6)",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s3-4",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 3.4",
-      "text_chunk": "Syllabus entry: 3.4 Trigonometric Limits and The Sandwich Theorem",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s3-5",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 3.5",
-      "text_chunk": "Syllabus entry: 3.5 Properties of Continuous Functions",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s3-6",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 3.6 (formal definition of limits)",
-      "text_chunk": "Syllabus reference: formal definition of limits, cited from 3.1 and 3.3",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-1",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.1",
-      "text_chunk": "Syllabus entry: 4.1 Formal Definition of the Derivative",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-2",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.2",
-      "text_chunk": "Syllabus entry: 4.2 Basic Rules of Derivatives",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-3",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.3",
-      "text_chunk": "Syllabus entry: 4.3 Power Rule and the Rules of Differentiation",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-4",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.4",
-      "text_chunk": "Syllabus entry: 4.4 Product and Quotient Rules",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-5",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.5",
-      "text_chunk": "Syllabus entry: 4.5 The Chain Rule",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-6",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.6",
-      "text_chunk": "Syllabus entry: 4.6 Implicit Functions and Implicit Differentiation",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-7",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.7",
-      "text_chunk": "Syllabus entry: 4.7 Higher Derivatives",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-8",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.8",
-      "text_chunk": "Syllabus entry: 4.8 Derivative of Trigonometric Functions",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-9",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.9",
-      "text_chunk": "Syllabus entry: 4.9 Derivatives of Exponential Functions",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-10",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.10",
-      "text_chunk": "Syllabus entry: 4.10 Derivatives of Inverse Functions",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s4-11",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 4.11",
-      "text_chunk": "Syllabus entry: 4.11 Linear Approximation",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s5-1",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 5.1",
-      "text_chunk": "Syllabus entry: 5.1 Extreme and Mean Value Theorems",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s5-2",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 5.2",
-      "text_chunk": "Syllabus entry: 5.2 Monotonicity and Concavity",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s5-3",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 5.3",
-      "text_chunk": "Syllabus entry: 5.3 Extrema and Inflection Points",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s5-4",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 5.4",
-      "text_chunk": "Syllabus entry: 5.4 Optimization",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s5-5",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 5.5",
-      "text_chunk": "Syllabus entry: 5.5 L'Hopital's Rule",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s5-10",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 5.10",
-      "text_chunk": "Syllabus entry: 5.10 Antiderivatives",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s6-1",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 6.1",
-      "text_chunk": "Syllabus entry: 6.1 The Definite Integral",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s6-2",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 6.2",
-      "text_chunk": "Syllabus entry: 6.2 The Fundamental Theorem of Calculus",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s6-3",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 6.3",
-      "text_chunk": "Syllabus entry: 6.3 Applications of Integration",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s7-1",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 7.1",
-      "text_chunk": "Syllabus entry: 7.1 The Substitution Rule",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s7-2",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 7.2",
-      "text_chunk": "Syllabus entry: 7.2 Integration by Parts and Practicing Integration",
-      "provenance": "source_backed"
-    },
-    {
-      "id": "neuhauser.s7-3",
-      "type": "textbook",
-      "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-      "section": "Section 7.3",
-      "text_chunk": "Syllabus entry: 7.3 Rational Functions and Partial Fractions",
-      "provenance": "source_backed"
     }
   ],
   "assumptions": [
@@ -1670,13 +799,6 @@
       "field": "level",
       "assumption": "Undergraduate introductory.",
       "reason": "The syllabus is for a first calculus course (Calculus I) and gives no explicit level label."
-    },
-    {
-      "entity": "Course",
-      "id": "calc1",
-      "field": "duration_weeks",
-      "assumption": "14 weeks.",
-      "reason": "The module durations (2, 2, 3, 2+, 2, 1+) sum to about 12 weeks; the plus signs and a typical semester with exams suggest 14."
     },
     {
       "entity": "Course",
@@ -1691,48 +813,6 @@
       "field": "format (no schema field)",
       "assumption": "Lecture-style, computational course with problem sets and exams.",
       "reason": "The syllabus is a topic list tied to a textbook, so the computational framing was applied to Concept records rather than a seminar framing."
-    },
-    {
-      "entity": "Module",
-      "id": "calc1.01-functions",
-      "field": "weeks",
-      "assumption": "Weeks 1-2.",
-      "reason": "The syllabus gives '2- weeks', read as about two weeks, placed first in teaching order."
-    },
-    {
-      "entity": "Module",
-      "id": "calc1.02-limits",
-      "field": "weeks",
-      "assumption": "Weeks 3-4.",
-      "reason": "Sequential placement after Module 1 using the stated two weeks."
-    },
-    {
-      "entity": "Module",
-      "id": "calc1.03-derivatives",
-      "field": "weeks",
-      "assumption": "Weeks 5-7.",
-      "reason": "Sequential placement using the stated '3- weeks', read as about three weeks."
-    },
-    {
-      "entity": "Module",
-      "id": "calc1.04-diff-applications",
-      "field": "weeks",
-      "assumption": "Weeks 8-10.",
-      "reason": "The syllabus says '2+ weeks'; three weeks was assumed to cover the plus."
-    },
-    {
-      "entity": "Module",
-      "id": "calc1.05-integration",
-      "field": "weeks",
-      "assumption": "Weeks 11-12.",
-      "reason": "Sequential placement using the stated two weeks."
-    },
-    {
-      "entity": "Module",
-      "id": "calc1.06-integral-applications",
-      "field": "weeks",
-      "assumption": "Weeks 13-14.",
-      "reason": "The syllabus says '1+ week'; two weeks was assumed to fill the semester."
     },
     {
       "entity": "Module",

@@ -18,6 +18,9 @@ ipykernel
 pypdf
 python-docx
 
+# Symbolic math (answer verification)
+sympy
+
 # AI model SDKs
 openai
 anthropic

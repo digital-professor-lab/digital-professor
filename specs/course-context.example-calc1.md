@@ -17,16 +17,16 @@ This document walks one course end to end: the generated **Course Context** file
 
 ## 1. The Course Context file
 
-`examples/calc1.course-context.json` is generated from the one-page syllabus by the syllabus-to-JSON prompt, carrying the `provenance` field (schema 1.1). It has 6 modules, 33 concepts, 33 objectives, 32 sources and 17 assumptions. Assessment questions are not part of Course Context (`course-context.md` §1.1), so this file carries none. All 31 syllabus section references appear as Source records; the 32nd, 3.6, is a derived source for the formal limit definition.
+`examples/calc1.course-context.json` is generated from the one-page syllabus by the syllabus-to-JSON prompt, carrying the `provenance` field (schema 1.1). It has 6 modules, 33 concepts and 10 assumptions. Assessment questions are not part of Course Context (`course-context.md` §1.1), so this file carries none. 
 
-| Module ID | Title | Weeks | Concepts |
-|---|---|---|---|
-| `calc1.01-functions` | Review Basic Properties of Functions | 1-2 | 4 |
-| `calc1.02-limits` | Limits and Continuity | 3-4 | 6 |
-| `calc1.03-derivatives` | Derivatives | 5-7 | 11 |
-| `calc1.04-diff-applications` | Applications of Differentiation | 8-10 | 5 |
-| `calc1.05-integration` | Integration | 11-12 | 4 |
-| `calc1.06-integral-applications` | Applications of the Integral | 13-14 | 3 |
+| Module ID | Title | Concepts |
+|---|---|---|
+| `calc1.01-functions` | Review Basic Properties of Functions | 4 |
+| `calc1.02-limits` | Limits and Continuity | 6 |
+| `calc1.03-derivatives` | Derivatives | 11 |
+| `calc1.04-diff-applications` | Applications of Differentiation | 5 |
+| `calc1.05-integration` | Integration | 4 |
+| `calc1.06-integral-applications` | Applications of the Integral | 3 |
 
 Prerequisite chain behind the example question: `by-parts` requires `substitution` and `product-quotient`; `substitution` requires `ftc`, `chain-rule` and `antiderivatives`.
 
@@ -39,17 +39,9 @@ The records the Question Schema below is built from (abridged to the fields used
     "module_id": "calc1.06-integral-applications",
     "name": "Integration by parts",
     "summary": "∫ u dv = uv - ∫ v du reverses the product rule. Choose u to simplify when differentiated (LIATE heuristic); it can be repeated and applied to definite integrals.",
-    "key_definitions": [
-      "Integration by parts formula",
-      "LIATE heuristic for choosing u",
-      "Definite integration by parts"
-    ],
     "prerequisite_ids": [
       "calc1.06-integral-applications.substitution",
       "calc1.03-derivatives.product-quotient"
-    ],
-    "objective_ids": [
-      "calc1.06-integral-applications.by-parts.lo1"
     ],
     "difficulty_notes": [
       {
@@ -61,25 +53,7 @@ The records the Question Schema below is built from (abridged to the fields used
         "mitigation": "Tabulate u, du, dv, v in a 2x2 grid before substituting."
       }
     ],
-    "source_ids": [
-      "neuhauser.s7-2"
-    ],
     "provenance": "ai_inferred"
-  },
-  "LearningObjective": {
-    "id": "calc1.06-integral-applications.by-parts.lo1",
-    "concept_id": "calc1.06-integral-applications.by-parts",
-    "text": "Choose u and dv sensibly and evaluate integrals using integration by parts.",
-    "bloom_level": "apply",
-    "provenance": "ai_inferred"
-  },
-  "Source": {
-    "id": "neuhauser.s7-2",
-    "type": "textbook",
-    "citation": "Neuhauser, C. & Roper, M. Calculus for Biology and Medicine, 4th ed. Pearson, 2018.",
-    "section": "Section 7.2",
-    "text_chunk": "Syllabus entry: 7.2 Integration by Parts and Practicing Integration",
-    "provenance": "source_backed"
   }
 }
 ```
@@ -189,13 +163,13 @@ A student brings `\int x\cos(x) dx`. With no external question bank provided for
 |---|---|---|
 | `course_id`, `module_id`, `concept_ids` | retrieved | concept match to `by-parts` (step 3), then its Course Context record |
 | `prompt` | verbatim | the student's text |
-| `learning_objectives` | copied | `by-parts.lo1` |
+| `learning_objectives` | derived | builder, from concept name, summary, and question type |
 | `prerequisite_concepts[].concept_id`, `name` | copied | `Concept.prerequisite_ids` of `by-parts` |
 | `prerequisite_concepts[].relevance` | runtime | builder |
 | `correct_approach`, `alternative_approaches`, `reference_answer` | runtime | builder, from the concept summary; the answer was checked by differentiating it |
 | `common_misconceptions[0]`, `[1]` | copied + cue written | `by-parts` `difficulty_notes[0]` and `[1]` |
 | `common_misconceptions[2]` | runtime | builder (not in Course Context, see §5) |
-| `source_reference` | retrieved | `Concept.source_ids` of `by-parts`; `grounding: reference_only` because the file holds only a syllabus line for Section 7.2 |
+| `source_reference` | derived | `concept_ids` of `by-parts`; `grounding: reference_only` |
 | `provenance`, `built_from` | derived | weakest link (`ai_inferred`); SHA-256 of the Course Context file |
 
 ## 4. The tutoring workflow on this question
@@ -278,7 +252,7 @@ The design page's 13-turn trace was written before this file existed and assumes
 | In the trace | In Course Context | V1 handling |
 |---|---|---|
 | M1: pattern-matching "x next to a trig factor" to u-substitution | no such note (`substitution` notes: leaving x's in after substituting, dropping a constant factor; `by-parts` notes: a harder integral, sign errors) | builder adds it as a runtime misconception, `ai_inferred` |
-| LO1: choose a technique from the structure of the integrand | `by-parts` has one objective: choose u and dv sensibly and evaluate | not added; the Question Schema carries only what Course Context holds |
+
 | P2: the structural test for substitution | not its own concept; part of `substitution` | recorded as `relevance` text on the `substitution` prerequisite |
 | P3 listed as a *prerequisite* (the by-parts formula and the u and dv choice) | it is the target concept `by-parts` itself | tracked through `observed_approach`, not `prerequisite_status` (`course-context.md` open question 4) |
 | IDs such as `calc1.module-F.q-xcosx-01` | `calc1.06-integral-applications…` | Course Context IDs are canonical (`course-context.md` open question 3) |
@@ -288,8 +262,5 @@ The design page's 13-turn trace was written before this file existed and assumes
 
 | Item | Detail | Reference |
 |---|---|---|
-| Labelled syllabus lines in `text_chunk` | all 32 Source records: 31 start `Syllabus entry:`, one starts `Syllabus reference:` | `course-context.md` open question 2 |
-| `Source.type = textbook` on reference-only records | no textbook text is held | `course-context.md` open question 2 |
 | Wildcard assumptions | 3 entries use `id` = `calc1.*`; one `field` is `format (no schema field)` | allowed by P-4 |
-| `duration_weeks = 14` | the syllabus units sum to about 12 | inferred; logged in `assumptions` |
 | Module and Concept IDs in the design page's trace | `calc1.module-F…` rather than `calc1.06-…` | `course-context.md` open question 3 |

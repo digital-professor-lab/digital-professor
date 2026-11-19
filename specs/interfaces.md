@@ -74,6 +74,8 @@ The `Course`-level fields are exactly those in [`course-context.md`](course-cont
 
 Concepts, learning objectives, sources, prerequisite links, and difficulty notes live in the Course/Module/Concept structure defined in course-context.md, not as loose fields on this record.
 
+**Shared-contract note — `assumptions[].confidence` (optional, additive).** Each `assumptions` entry MAY carry a `confidence` of `high` | `medium` | `low` (the generator's self-rating of an inferred value; see `course-context.md` §2.4). It is **optional and additive**: consumers that do not read the `assumptions` log (Retrieval, Interaction, Tutoring Engine, Delivery — they read `Course`-level fields and the Concept structure) are unaffected and may ignore it; any consumer that does read `assumptions` MUST treat `confidence` as optional and MUST preserve it on pass-through. It does not change any existing field.
+
 ## 3. QuestionSchema
 
 **Producer:** Course Context and Ingestion / question-authoring workflow  

@@ -20,10 +20,15 @@ from __future__ import annotations
 import argparse
 import sys
 
+import json
+import pathlib
+
 from .config import load_config
+from .flag import flag, format_report as format_flag, sha256_of
 from .generate import read_prompt
 from .intake import load_syllabus
 from .pipeline import run_stage_a
+from .validate import error_findings, format_report as format_validation, validate
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -49,6 +54,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--json-mode", dest="json_mode", action="store_true", default=None,
                    help="request response_format=json_object (provider must support it)")
     p.add_argument("--dry-run", action="store_true", help="load syllabus + prompt, print sizes, don't call the model")
+    p.add_argument("--validate-only", action="store_true",
+                   help="validate + flag an existing file (requires --from-json); prints the "
+                        "report, writes nothing, exits 1 on any error")
     p.add_argument("--quiet", action="store_true")
     return p
 
@@ -64,8 +72,11 @@ def main(argv: list[str] | None = None) -> int:
         pass
 
     overrides = {k: v for k, v in vars(args).items()
-                 if k not in ("config", "dry_run", "quiet") and v is not None}
+                 if k not in ("config", "dry_run", "quiet", "validate_only") and v is not None}
     cfg = load_config(config_file=args.config, overrides=overrides)
+
+    if args.validate_only:
+        return _validate_only(cfg)
 
     if args.dry_run:
         syllabus = load_syllabus(cfg.syllabus_path)
@@ -80,6 +91,23 @@ def main(argv: list[str] | None = None) -> int:
 
     result = run_stage_a(cfg, quiet=args.quiet)
     return 1 if result.errors else 0
+
+
+def _validate_only(cfg) -> int:
+    """Standalone Validator + Flagger on an existing file (no writes)."""
+    if not cfg.from_json:
+        print("--validate-only requires --from-json <course-context.json>")
+        return 2
+    path = pathlib.Path(cfg.from_json)
+    text = path.read_text(encoding="utf-8")
+    cc = json.loads(text)
+    findings = validate(cc)
+    print(format_validation(findings, cc, path.name))
+    errs = error_findings(findings)
+    if not errs:
+        print()
+        print(format_flag(flag(cc, source_sha256=sha256_of(text))))
+    return 1 if errs else 0
 
 
 if __name__ == "__main__":

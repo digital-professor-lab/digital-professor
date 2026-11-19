@@ -11,11 +11,28 @@ hardcoded. Default LLM is **local Ollama** (free, no key).
 ## Pipeline (Phase 1)
 
 ```
-intake → generate → (basic structural check / regenerate) → write CourseContext JSON
+intake → generate → validate → (regenerate on errors) → write → flag → review.json
 ```
 
-Full validation + review flagging (Phase 2) and the QuestionSchema builder
-(Phase 3) are separate steps; the hook points are already in `pipeline.py`.
+- **Validate** (`validate.py`) — the conformance gate (rules V-01..V-10 from
+  `specs/course-context.validation-and-flagging.md`; warnings disabled in v1).
+  Errors **block publication**: an invalid result is never written to the published
+  output path (a clearly-marked `<out>.rejected.json` is written instead) and it
+  drives regeneration.
+- **Flag** (`flag.py`) — on a zero-error file, writes a human-review worklist
+  (`<out>.review.json`) of AI-inferred "check-first" fields (rules F-01/F-03).
+  Every inferred check-first field is flagged; each assumption's optional
+  `confidence` orders the list (shakiest first) but never suppresses a review item.
+
+The QuestionSchema builder (Phase 3) is still a separate step to come.
+
+### Validate / flag an existing file (no generation)
+
+```bash
+# runs the Validator + Flagger on a file, prints the report, exits 1 on any error
+python -m course_context_pipeline.cli --validate-only \
+    --from-json ../../../specs/examples/calc1.course-context.json
+```
 
 ### Generation strategies
 
@@ -30,8 +47,9 @@ with `--strategy` (or the `--by-module` shortcut):
 
 `by_module` generates the Course + module shells first, then fills each module
 (its concepts, objectives, sources) in its own call, feeding earlier concept IDs
-forward so cross-module prerequisites resolve, and finally assembles + checks the
-whole file. Per-call parse failures retry up to `max_attempts`.
+forward so cross-module prerequisites resolve, and finally assembles + validates the
+whole file. Each individual call retries on a parse failure, and the whole pass is
+**regenerated on validation errors** up to `max_attempts` — the same gate as `single`.
 
 ## Setup
 

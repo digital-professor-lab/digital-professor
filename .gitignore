@@ -73,6 +73,13 @@ node_modules/
 *.bak
 logs/
 
+# Benchmarking (local dev tool, not part of the product)
+benchmark_cc.py
+benchmark_output/
+
+# Local research scratch files
+research/syllabus-understanding/calc1_notes.txt
+
 # IDE and operating-system files
 .idea/
 .vscode/

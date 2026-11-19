@@ -29,4 +29,7 @@ def test_from_json_reports_structural_errors(tmp_path):
 
     assert res.source == "from_json"
     assert res.errors                       # missing arrays + empty Module/Concept
-    assert out.exists()                     # still written for inspection
+    # publication is gated: an invalid result is NOT written to the published path;
+    # it goes to a clearly-marked rejected artifact instead.
+    assert not out.exists()
+    assert (tmp_path / "out.rejected.json").exists()
