@@ -38,6 +38,7 @@ IMPORT_NAMES = {
     "uvicorn": "uvicorn",
     "python-multipart": "multipart",
     "pytest": "pytest",
+    "sympy": "sympy",
     "responses": "responses",
 }
 

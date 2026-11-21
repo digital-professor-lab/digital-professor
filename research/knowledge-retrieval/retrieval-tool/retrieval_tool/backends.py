@@ -1,4 +1,4 @@
-"""Search backends behind the retrieval tool — both run **Week 3's own retrieval code**.
+"""Search backends behind the retrieval tool — all of them run **Week 3's own retrieval code**.
 
 Alignment rule: fusion (RRF k=60, channel weights, source weights), sub-question reservation (2 passages
 per facet), the soft per-file limit, the broad-keyword-only skip and the context budget are NOT
@@ -9,6 +9,8 @@ production defaults (top_k 6, 40 candidates per channel, 12,000 characters, soft
   that the two embedding models are loaded once and kept (Week 3 reloaded them on every call).
 * `ReplayBackend` – replays reports that Week 3 itself produced (e.g. artifacts/evaluations/refinement_runs/
   facets_6.jsonl). Searches nothing; used to check that the tool wrapper reproduces Week 3's results.
+* `IngestedCourseBackend` – Week 3's Retriever over blocks ingested from uploaded course files (the product
+  demo). Same search and selection code; see the class for how it differs from the pgvector run.
 * `InMemoryBackend` – TEST STAND-IN ONLY, for offline unit tests of the service logic. Its keyword channel is
   SQLite FTS5, not PostgreSQL full-text search, so its numbers are NOT comparable with Week 3 and it must not
   be used for benchmarks or demos. Real runs use `PgvectorBackend` on the Mac.
@@ -20,6 +22,7 @@ from __future__ import annotations
 
 import importlib
 import json
+import os
 import re
 import sqlite3
 import sys
@@ -133,8 +136,19 @@ class SearchBackend(Protocol):
 # ---------------------------------------------------------------------------
 # Loading Week 3 code (never modified)
 # ---------------------------------------------------------------------------
-def load_week3_package(root: Path) -> tuple[Any, Any, Any]:
-    """`digital_professor.retrieval` from output/github-ready/src → (search, request_policy, report_contract)."""
+def load_week3_package(root: Path, *, alias: str | None = None) -> tuple[Any, Any, Any]:
+    """`digital_professor.retrieval` from output/github-ready/src → (search, request_policy, report_contract).
+
+    Week 3's package is also called `digital_professor`. Inside the product application that name is already
+    taken by `src/digital_professor`, so there the Week 3 files are loaded under another package name
+    (`alias`, default "dp_week3"). The files themselves are not changed. Give a different `alias` to get a
+    private copy of the modules (the uploaded-course backend does, see `IngestedCourseBackend`).
+    """
+    package_dir = (root / "src" / "digital_professor").resolve()
+    loaded = sys.modules.get("digital_professor")
+    name_taken = loaded is not None and package_dir not in [Path(p).resolve() for p in getattr(loaded, "__path__", [])]
+    if alias or name_taken:
+        return _load_week3_under_alias(package_dir, alias or "dp_week3")
     src = str(root / "src")
     if src not in sys.path:
         sys.path.insert(0, src)
@@ -144,6 +158,38 @@ def load_week3_package(root: Path) -> tuple[Any, Any, Any]:
         contract = importlib.import_module("digital_professor.retrieval.report_contract")
     except ImportError as error:
         raise BackendUnavailable("index_unavailable", f"cannot import Week 3 retrieval code from {src}: {error}") from error
+    return search, policy, contract
+
+
+def _load_week3_under_alias(package_dir: Path, alias: str) -> tuple[Any, Any, Any]:
+    """Import Week 3's package files as `<alias>` and `<alias>.retrieval.*`, leaving `digital_professor` alone."""
+    import importlib.util
+    try:
+        if alias not in sys.modules:
+            spec = importlib.util.spec_from_file_location(alias, package_dir / "__init__.py",
+                                                          submodule_search_locations=[str(package_dir)])
+            if spec is None or spec.loader is None:
+                raise ImportError(f"no package at {package_dir}")
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[alias] = module
+            try:
+                spec.loader.exec_module(module)
+            except BaseException:
+                sys.modules.pop(alias, None)
+                raise
+        paths = importlib.import_module(f"{alias}.paths")
+        # Week 3's search.py imports `digital_professor.paths` by its absolute name. The product package has no
+        # module of that name, so registering Week 3's own paths module there satisfies the import and hides nothing.
+        sys.modules.setdefault("digital_professor.paths", paths)
+        hf_home = os.environ.get("HF_HOME")
+        search = importlib.import_module(f"{alias}.retrieval.search")
+        if hf_home is None:
+            os.environ.pop("HF_HOME", None)  # search.py points HF_HOME at Week 3's folder; do not leak that default
+        policy = importlib.import_module(f"{alias}.retrieval.request_policy")
+        contract = importlib.import_module(f"{alias}.retrieval.report_contract")
+    except ImportError as error:
+        raise BackendUnavailable("index_unavailable",
+                                 f"cannot import Week 3 retrieval code from {package_dir}: {error}") from error
     return search, policy, contract
 
 
@@ -210,17 +256,34 @@ Encoder = Callable[[str, list[str]], np.ndarray]  # (model_key, texts) -> (n, di
 
 
 class _MemoryData:
-    def __init__(self, root: Path, catalog: Catalog, model_keys: tuple[str, ...]) -> None:
-        embeddings = root / "data" / "embeddings"
+    """Embedding records, their vectors and a keyword table, held in memory.
+
+    Read from Week 3's files under `root` by default. `records` (and `vectors`) may be given directly instead;
+    the uploaded-course backend does that with records built from ingested blocks.
+    """
+
+    def __init__(self, root: Path | None, catalog: Catalog, model_keys: tuple[str, ...], *,
+                 records: list[dict[str, Any]] | None = None, vectors: dict[str, np.ndarray] | None = None) -> None:
         self.catalog = catalog
-        self.records = [json.loads(l) for l in (embeddings / "embedding_inputs.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
-        self.by_id = {r["record_id"]: r for r in self.records}
         self.vectors: dict[str, np.ndarray] = {}
-        for key in model_keys:
-            rows = [json.loads(l) for l in (embeddings / key / "rows.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
-            matrix = np.load(embeddings / key / "vectors.npy")
-            order = {r["record_id"]: r["row_index"] for r in rows}
-            self.vectors[key] = matrix[[order[r["record_id"]] for r in self.records]]
+        if records is not None:
+            self.records = records
+            for key in model_keys:
+                matrix = np.asarray((vectors or {})[key], dtype=np.float32)
+                if matrix.shape[0] != len(records):
+                    raise BackendUnavailable("index_encoder_mismatch",
+                                             f"{key}: {matrix.shape[0]} vectors for {len(records)} records")
+                self.vectors[key] = matrix
+        else:
+            assert root is not None, "root is required when records are read from Week 3's files"
+            embeddings = root / "data" / "embeddings"
+            self.records = [json.loads(l) for l in (embeddings / "embedding_inputs.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+            for key in model_keys:
+                rows = [json.loads(l) for l in (embeddings / key / "rows.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+                matrix = np.load(embeddings / key / "vectors.npy")
+                order = {r["record_id"]: r["row_index"] for r in rows}
+                self.vectors[key] = matrix[[order[r["record_id"]] for r in self.records]]
+        self.by_id = {r["record_id"]: r for r in self.records}
         self.fts = sqlite3.connect(":memory:", check_same_thread=False)
         self.fts.execute("CREATE VIRTUAL TABLE t USING fts5(body, tokenize='porter unicode61')")
         self.fts.executemany("INSERT INTO t(rowid, body) VALUES (?, ?)",
@@ -349,6 +412,69 @@ class InMemoryBackend:
     @property
     def vectors(self) -> dict[str, np.ndarray]:
         return self.data.vectors
+
+    def query_facets(self, question: str) -> list[str]:
+        return self.policy_module.query_facets(question)
+
+    def run(self, question: str, facets: list[str], *, course_id: str, include_unconfirmed: bool = False,
+            include_outside_course: bool = False, **options: Any) -> dict[str, Any]:
+        return run_week3(self.retriever, self.contract, question, facets, course_id=course_id,
+                         include_unconfirmed=include_unconfirmed, include_outside_course=include_outside_course, **options)
+
+    def close(self) -> None:
+        pass
+
+
+# ---------------------------------------------------------------------------
+# Ingested-course backend: Week 3 search code over blocks from uploaded course files
+# ---------------------------------------------------------------------------
+class IngestedCourseBackend:
+    """Week 3's search and selection code over one course's ingested blocks (Stage B, rag-retrieval.md §6.3).
+
+    The data adapter promised at the top of this file: the catalog and the embedding records are built from
+    Course Context's ingested blocks instead of the Week 3 files, and everything after that (channels, RRF
+    fusion, sub-question reservation, soft file limit, context budget) is Week 3's `_search_with_vectors`,
+    unchanged, with Week 3's defaults.
+
+    Differences from the Week 3 pgvector run, all stated in the bundle's `query_interpretation`:
+      * vectors are held in memory and compared with a dot product (same order as pgvector's `<=>` on
+        normalized vectors);
+      * the keyword channel is SQLite FTS5, as in `InMemoryBackend`, not PostgreSQL full-text search;
+      * without an encoder there is no vector channel (`semantic_channel_unavailable`), and Week 3's rule that
+        skips passages found only by the broad keyword query then leaves only passages containing every
+        query word;
+      * Week 3's course-name rules were written for its two pilot courses (calc1, number_theory_1) and would
+        stop a request that names any other course. They are switched off here; the rules about lecture
+        records and student grades still apply.
+    """
+
+    name = "ingested_in_memory"
+    selection = "week3_production"
+
+    def __init__(self, week3_root: Path, *, catalog: Catalog, records: list[dict[str, Any]],
+                 vectors: dict[str, np.ndarray] | None = None, encoder: Encoder | None = None,
+                 models: tuple[str, ...] = ("bge_base_en_v1_5", "qwen3_embedding_0_6b")) -> None:
+        # A private copy of Week 3's modules, so the scope change below cannot reach the pgvector backend.
+        self.search_module, self.policy_module, self.contract = load_week3_package(week3_root, alias="dp_week3_ingested")
+        if not getattr(self.search_module, "_course_name_rules_off", False):
+            pilot_rules = self.policy_module.assess_request
+
+            def assess_request(question: str, *, include_unconfirmed: bool, include_outside_course: bool,
+                               source_types: set[str], course_id: str | None = None) -> Any:
+                return pilot_rules(question, include_unconfirmed=True, include_outside_course=True,
+                                   source_types=source_types, course_id=None)
+
+            self.search_module.assess_request = assess_request
+            self.search_module._course_name_rules_off = True
+        keys = tuple(models) if encoder is not None else ()
+        self.data = _MemoryData(None, catalog, keys, records=records, vectors=vectors)
+        self.retriever = _make_memory_retriever(self.search_module.Retriever, self.data, encoder, keys)
+        self.semantic_available = bool(self.retriever.models)
+
+    def assess(self, text: str, *, source_types: set[str]) -> dict[str, Any]:
+        """The scope rules this backend applies, for the service's free-text check on student wording."""
+        return self.search_module.assess_request(text, include_unconfirmed=True, include_outside_course=True,
+                                                 source_types=source_types).to_dict()
 
     def query_facets(self, question: str) -> list[str]:
         return self.policy_module.query_facets(question)

@@ -46,12 +46,16 @@ class CourseRetrievalIndex:
         *,
         top_k: int = 4,
         concept_ids: tuple[str, ...] = (),
+        **turn_context: object,
     ) -> tuple[RetrievedPassage, ...]:
         """Search indexed blocks.
 
         When concept_ids are supplied (from the active QuestionSchema), blocks
         whose concept_ids overlap are boosted so the most relevant sections rank
         above lexically-similar but off-topic passages.
+
+        ``turn_context`` (topic, concept names, turn identifiers) is what the Retrieval V1
+        index needs to build a ``RetrievalRequest``; this keyword index ignores it.
         """
         wanted = _terms(query)
         if not wanted:

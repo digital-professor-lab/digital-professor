@@ -105,7 +105,8 @@ retrieval-tool/
 │   ├── planner.py           retrieval plan: concept linking → draft → model refinement → code validation
 │   ├── tool_schema.py       the tool the model sees; builds RetrievalRequest (system fields injected)
 │   ├── service.py           RetrievalRequest → GroundingBundle / RetrievalStop (preflight, search, evidence check)
-│   ├── backends.py          Week 3 pgvector search (real), replay of Week 3 runs, in-memory stand-in over Week 3 code
+│   ├── backends.py          Week 3 pgvector search (real), replay of Week 3 runs, in-memory stand-in over Week 3 code,
+│   │                        and Week 3 code over ingested course blocks (the product demo)
 │   ├── local_fixture.py     local fixture search for core tests and the smoke check; no Week 3 code
 │   ├── evidence.py          evidence check per need: rules, plus the Jev judge
 │   ├── jev_client.py        Jev API client: cache, retries, cost tracking, offline mock
@@ -121,6 +122,12 @@ retrieval-tool/
 ├── data/                    Course Context copy, local fixture, demo scenarios, labelled evaluation cases
 └── results/                 current fixtures, evaluation summaries and historical run records
 ```
+
+## Uploaded course material
+
+`IngestedCourseBackend` runs Week 3's search and selection code over blocks ingested from uploaded course files. The product builds it in `src/digital_professor/retrieval/course_retrieval.py` when a course is published; see `docs/notes/INTEGRATED_DEMO.md` ("Course retrieval"). Passages from ingested files carry a page, a line range and a highlight link. The keyword channel is SQLite FTS5 and vectors are held in memory, so these results are not comparable with the Week 3 pgvector benchmark.
+
+Inside the product application the Week 3 package is imported under an alias, because both packages are named `digital_professor`. The Week 3 files are not changed.
 
 ## Who decides what
 

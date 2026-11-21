@@ -77,7 +77,8 @@ class CourseContextGenerator:
                 model=self._model,
                 api_key=self._api_key,
                 timeout=self._timeout,
-                temperature=0.2,
+                # Its client always sends a temperature; recent Claude models accept only 1.
+                temperature=1.0 if "claude" in self._model.lower() else 0.2,
             )
         )
 

@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from .agent_loop import TurnResult, run_turn
-from .backends import Catalog, InMemoryBackend, PgvectorBackend, ReplayBackend
+from .backends import Catalog, IngestedCourseBackend, InMemoryBackend, PgvectorBackend, ReplayBackend
 from .citations import verify_grounding_refs
 from .policy import GROUNDING_POLICY, POLICY_VERSION, recommend_grounding, policy_table
 from .service import CoursePolicy, RetrievalOptions, RetrievalService, default_scope_checker, development_policy

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import html
 import logging
 import os
@@ -24,6 +25,7 @@ from digital_professor.course_context.generator import (
     validate_and_flag,
 )
 from digital_professor.course_context.ingestion import (
+    quick_document_type,
     CourseConsistencyError,
     DocumentIngestionService,
     IngestionError,
@@ -42,7 +44,10 @@ from digital_professor.interaction import OpenAIHandwritingRecognizer
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-load_dotenv(PROJECT_ROOT / ".env")
+# Tests set DIGITAL_PROFESSOR_SKIP_DOTENV so a developer's own .env (provider, model, API key) can never
+# change what the suite does or send test traffic to a paid provider.
+if not os.getenv("DIGITAL_PROFESSOR_SKIP_DOTENV"):
+    load_dotenv(PROJECT_ROOT / ".env")
 
 
 class SessionRequest(BaseModel):
@@ -115,6 +120,8 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         os.getenv("OPENAI_HANDWRITING_MODEL", "gpt-4o-mini"),
     )
     app.state.runtime = runtime or DemoApplication(_configured_provider(provider_config))
+    if runtime is None:
+        app.state.runtime.restore_courses()      # only with DP_KEEP_COURSES=1 (local development)
     app.state.ingestion = DocumentIngestionService()
     app.state.cc_generator = _configured_cc_generator(provider_config)
     app.state.handwriting_recognizer = None
@@ -127,6 +134,24 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             encoding="utf-8"
         )
 
+    @app.get("/pipeline", response_class=HTMLResponse)
+    def pipeline_page() -> str:
+        """Run log for presenters: every step of a session with its output and a plain-language note."""
+        return (Path(__file__).with_name("static") / "pipeline.html").read_text(
+            encoding="utf-8"
+        )
+
+    @app.get("/api/pipeline/sessions")
+    def pipeline_sessions() -> dict[str, Any]:
+        return {"sessions": app.state.runtime.pipeline_sessions()}
+
+    @app.get("/api/sessions/{session_id}/pipeline")
+    def session_pipeline(session_id: str) -> dict[str, Any]:
+        try:
+            return app.state.runtime.pipeline_view(session_id)
+        except LookupError as error:
+            raise HTTPException(status_code=404, detail=str(error)) from error
+
     @app.get("/api/status")
     def status() -> dict[str, Any]:
         config = app.state.provider_config
@@ -135,6 +160,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             "ready_for_query": bool(app.state.runtime.courses),
             "courses": len(app.state.runtime.courses),
             "sessions": len(app.state.runtime.sessions),
+            "retrieval": app.state.runtime.retrieval_status(),
             "course_setup": {
                 "syllabus_uploaded": app.state.pending_syllabus is not None,
                 "notes_uploaded": len(app.state.pending_notes),
@@ -217,6 +243,11 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             media_type=file.content_type or "application/octet-stream",
             data=await file.read(),
         )
+        kind, pages = _quick_type(upload)
+        if kind == "textbook":
+            raise HTTPException(status_code=422, detail=(
+                f"{upload.filename} looks like a textbook ({pages} pages), not a syllabus. Upload the course "
+                "syllabus here, and the textbook under Notes and textbooks."))
         app.state.pending_syllabus = upload
         return {"status": "received", "filename": upload.filename}
 
@@ -230,6 +261,17 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             )
             for file in files
         ]
+        syllabus = app.state.pending_syllabus
+        for upload in uploads:
+            if syllabus is not None and _same_file(upload, syllabus):
+                raise HTTPException(status_code=422, detail=(
+                    f"{upload.filename} is the same file as the syllabus. Upload the textbook or lecture notes "
+                    "here."))
+            kind, _ = _quick_type(upload)
+            if kind == "syllabus":
+                raise HTTPException(status_code=422, detail=(
+                    f"{upload.filename} looks like a syllabus, not lecture notes or a textbook. Upload the "
+                    "textbook or lecture notes here; the syllabus goes in step 1."))
         app.state.pending_notes = uploads
         return {
             "status": "received",
@@ -244,10 +286,11 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             raise HTTPException(status_code=422, detail="Upload one or more notes files first.")
 
         all_uploads = [app.state.pending_syllabus, *app.state.pending_notes]
+        _require_course_material(app.state.pending_notes)
 
         # Step 1 — cheap identity check (first pages only, no full parse yet)
         try:
-            app.state.ingestion.check_consistency_fast(
+            consistency = app.state.ingestion.check_consistency_fast(
                 all_uploads, allow_course_mismatch=confirm_course_mismatch
             )
         except CourseConsistencyError as error:
@@ -269,12 +312,15 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
 
         # Steps 3 & 4 — run concurrently: LLM has no dependency on the parse result
         # and the full parse has no dependency on the CC.
-        with ThreadPoolExecutor(max_workers=2) as pool:
+        # Not a `with` block: on a failure the response returns at once instead of waiting for the model.
+        pool = ThreadPoolExecutor(max_workers=2)
+        try:
             cc_future = pool.submit(
                 _generate_course_context, syllabus_text, app.state.cc_generator
             )
             ingest_future = pool.submit(
-                app.state.ingestion.ingest_course, all_uploads
+                app.state.ingestion.ingest_course, all_uploads,
+                syllabus=app.state.pending_syllabus,
             )
             done, _ = wait([cc_future, ingest_future], return_when=FIRST_EXCEPTION)
             # Re-raise any exception that occurred in either thread.
@@ -284,6 +330,8 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
                     if isinstance(exc, IngestionError):
                         raise HTTPException(status_code=422, detail=str(exc)) from exc
                     raise exc
+        finally:
+            pool.shutdown(wait=False, cancel_futures=True)
 
         cc, cc_status, cc_review = cc_future.result()
         workspace = ingest_future.result()
@@ -297,6 +345,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             course_context_status=cc_status,
             course_context_review=cc_review,
         )
+        workspace = _with_consistency(workspace, consistency)
 
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
@@ -311,10 +360,12 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
             )
             for file in files
         ]
+        # One-shot upload has no confirmation step, so a mismatch is rejected
+        # outright; use the staged /api/course-setup flow to confirm an override.
         try:
-            app.state.ingestion.check_consistency_fast(uploads)
+            consistency = app.state.ingestion.check_consistency_fast(uploads)
         except CourseConsistencyError as error:
-            raise HTTPException(status_code=409, detail={"conflicts": list(error.conflicts)}) from error
+            raise HTTPException(status_code=422, detail=str(error)) from error
         syllabus_upload = next((u for u in uploads if u.filename.lower().find("syllabus") >= 0), None)
         syllabus_text = ""
         if syllabus_upload:
@@ -336,6 +387,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         if cc is not None:
             workspace = tag_blocks_with_concepts(workspace, cc)
         workspace = replace(workspace, course_context=cc, course_context_status=cc_status, course_context_review=cc_review)
+        workspace = _with_consistency(workspace, consistency)
         app.state.runtime.publish_course(workspace)
         return _course_summary(workspace)
 
@@ -543,6 +595,36 @@ def _generate_course_context(
     return cc, status, review
 
 
+def _quick_type(upload: SourceUpload) -> tuple[str, int]:
+    """Document type and page count from the first pages; an unreadable file is left to full ingestion."""
+    try:
+        return quick_document_type(upload)
+    except Exception:
+        return "other", 0
+
+
+def _same_file(a: SourceUpload, b: SourceUpload) -> bool:
+    return hashlib.sha256(a.data).digest() == hashlib.sha256(b.data).digest()
+
+
+def _require_course_material(notes: list[SourceUpload]) -> None:
+    """Stop before any model call or indexing when no upload is lecture notes or a textbook."""
+    kinds = [(upload.filename, *_quick_type(upload)) for upload in notes]
+    if not any(kind in ("lecture_notes", "textbook") for _, kind, _ in kinds):
+        found = "; ".join(f"{name}: {kind.replace('_', ' ')}" for name, kind, _ in kinds)
+        raise HTTPException(status_code=422, detail=(
+            "No lecture notes or textbook were identified, so the course was not built "
+            f"({found}). Upload the textbook or lecture notes and try again."))
+
+
+def _with_consistency(workspace, consistency):
+    """Record the pre-publish course-match result on the published course."""
+    if consistency is None:
+        return workspace
+    status, notes = consistency
+    return replace(workspace, consistency_status=status, consistency_notes=tuple(notes))
+
+
 def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:
     result = {
         "course_id": course.course_id,
@@ -561,6 +643,8 @@ def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:
                 "content_version": doc.content_version,
                 "page_count": doc.page_count,
                 "chunk_count": len(doc.chunks),
+                "indexed_pages": (getattr(doc, "scope", None) or {}).get("indexed_pages", doc.page_count),
+                "scope_note": (getattr(doc, "scope", None) or {}).get("note"),
             }
             for doc in course.documents
         ],
