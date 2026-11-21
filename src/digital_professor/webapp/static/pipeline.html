@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Professor Run Log</title>
+<style>
+:root{--blue:#002d72;--sky:#68ace5;--ink:#172133;--muted:#667085;--line:#d7e0ea;--soft:#f4f7fb;--card:#fff;
+  --student:#475467;--code:#7a4b00;--code-bg:#fff4e0;--retrieval:#0b6b4f;--retrieval-bg:#e3f6ee;
+  --model:#5b3cc4;--model-bg:#efeaff;--system:#1d4f91;--system-bg:#e6f0fb;--student-bg:#eef1f5;
+  --json-key:#1d4f91;--json-str:#0b6b4f;--json-num:#9a3412;--json-lit:#7a4b00}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
+  background:linear-gradient(135deg,#eef5fb,#f8fafc 45%,#edf2f7);min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:var(--blue);color:#fff;padding:14px 24px;
+  display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 10px #0003}
+header h1{margin:0;font-size:20px}
+header .sub{font-size:13px;color:#c9daf0}
+.controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;font-size:14px}
+.controls select{max-width:360px;padding:6px 8px;border-radius:8px;border:1px solid #ffffff55;
+  background:#ffffff1a;color:#fff;font:inherit}
+.controls select option{color:var(--ink)}
+.controls label{display:flex;gap:6px;align-items:center;cursor:pointer;white-space:nowrap}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#c9daf0}
+.live i{width:8px;height:8px;border-radius:50%;background:#3ddc97;display:inline-block}
+.live.off i{background:#f97066}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 10px;
+  border-radius:999px;white-space:nowrap}
+.a-student{color:var(--student);background:var(--student-bg)}
+.a-code{color:var(--code);background:var(--code-bg)}
+.a-retrieval{color:var(--retrieval);background:var(--retrieval-bg)}
+.a-model{color:var(--model);background:var(--model-bg)}
+.a-system{color:var(--system);background:var(--system-bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 20px #1d29390d;
+  margin:0 0 16px}
+.session{padding:18px 20px}
+.session h2{margin:0 0 6px;font-size:19px}
+.meta{color:var(--muted);font-size:13.5px}
+details.turn>summary,details.setup>summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;
+  flex-wrap:wrap;gap:8px 14px;align-items:center}
+details>summary::-webkit-details-marker{display:none}
+.turn-no{font-weight:700;color:var(--blue);min-width:62px}
+.said{flex:1 1 280px;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px}
+.flow .arrow{color:var(--muted)}
+.caret{margin-left:auto;color:var(--muted);transition:transform .2s}
+details[open]>summary .caret{transform:rotate(90deg)}
+.convo{margin:0 20px 6px;padding:12px 14px;background:var(--soft);border-radius:10px;font-size:14px}
+.convo p{margin:4px 0}
+.convo b{color:var(--blue)}
+ol.steps{list-style:none;margin:0;padding:8px 20px 18px 20px}
+ol.steps>li{position:relative;padding:0 0 18px 44px}
+ol.steps>li:before{content:"";position:absolute;left:15px;top:30px;bottom:0;width:2px;background:var(--line)}
+ol.steps>li:last-child:before{display:none}
+.num{position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  font-weight:700;font-size:14px}
+.step-head{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;min-height:32px}
+.step-title{font-weight:700;font-size:15.5px}
+.explain{margin:4px 0 8px;color:#344054}
+.skipped .step-title,.skipped .explain{color:var(--muted)}
+pre.json{margin:0;padding:10px 12px;background:#0f172a;color:#e2e8f0;border-radius:9px;overflow:auto;
+  max-height:340px;font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;
+  word-break:break-word}
+pre.json .k{color:#93c5fd}pre.json .s{color:#86efac}pre.json .n{color:#fdba74}pre.json .l{color:#fcd34d}
+body.hide-json pre.json{display:none}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.links a{font-size:12.5px;color:var(--retrieval);background:var(--retrieval-bg);padding:2px 8px;border-radius:6px;
+  text-decoration:none}
+.links a:hover{text-decoration:underline}
+button.reveal{margin-top:8px;font:inherit;font-size:13px;padding:5px 10px;border-radius:8px;border:1px solid var(--line);
+  background:#fff;cursor:pointer}
+.secret{margin-top:8px;padding:10px 12px;border:1px dashed var(--model);border-radius:9px;background:var(--model-bg);
+  font-size:13.5px;white-space:pre-wrap}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+.section-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  margin:22px 4px 8px}
+@media (max-width:640px){
+  header{padding:12px 16px}
+  details.turn>summary,details.setup>summary{padding:14px 16px}
+  ol.steps{padding:6px 14px 14px}
+  .convo{margin:0 14px 6px}
+  .said{white-space:normal}
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Run log</h1>
+    <div class="sub">What the system did at each step, live</div>
+  </div>
+  <div class="controls">
+    <select id="sessionSelect" aria-label="Session"></select>
+    <label><input type="checkbox" id="follow" checked> Follow newest session</label>
+    <label><input type="checkbox" id="showJson" checked> Show outputs</label>
+    <span class="live" id="live"><i></i><span>live</span></span>
+  </div>
+</header>
+<main>
+  <div class="legend">
+    <span class="chip a-student">Student</span>
+    <span class="chip a-code">Rule code (fixed logic)</span>
+    <span class="chip a-retrieval">Retrieval tool</span>
+    <span class="chip a-model" id="legendModel">Language model</span>
+    <span class="chip a-system">System</span>
+  </div>
+  <div id="content"><div class="card empty">Loading…</div></div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const state = {sessionId: null, lastJson: '', open: {}, revealed: {}, model: null};
+
+function store(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function highlight(value) {
+  const text = esc(JSON.stringify(value, null, 2));
+  return text.replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?)/g,
+    (m, str, colon, lit, num) => {
+      if (str) return colon ? `<span class="k">${str}</span>${colon}` : `<span class="s">${str}</span>`;
+      if (lit) return `<span class="l">${lit}</span>`;
+      return `<span class="n">${num}</span>`;
+    });
+}
+
+function actorLabel(actor) {
+  return {student: 'Student', code: 'Rule code', retrieval: 'Retrieval tool',
+          model: state.model || 'Language model', system: 'System'}[actor] || actor;
+}
+
+function renderSteps(steps, prefix) {
+  return '<ol class="steps">' + steps.map((step, i) => {
+    const key = `${prefix}-${i}`;
+    const secret = step.secret ? (state.revealed[key]
+      ? `<div class="secret">${esc(step.secret.value)}</div>`
+      : `<button class="reveal" data-reveal="${key}">${esc(step.secret.label)}</button>`) : '';
+    const links = step.links ? `<div class="links">${step.links.map(l =>
+      `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')}</div>` : '';
+    return `<li class="${step.skipped ? 'skipped' : ''}">
+      <span class="num a-${esc(step.actor)}">${i + 1}</span>
+      <div class="step-head"><span class="step-title">${esc(step.title)}</span>
+        <span class="chip a-${esc(step.actor)}">${esc(actorLabel(step.actor))}</span></div>
+      <p class="explain">${esc(step.explain)}</p>
+      <pre class="json">${highlight(step.output)}</pre>${links}${secret}
+    </li>`;
+  }).join('') + '</ol>';
+}
+
+function pill(cls, text) { return `<span class="chip ${cls}">${esc(text)}</span>`; }
+
+function renderTurn(turn, index, isLast) {
+  const key = turn.turn_id || `turn-${index + 1}`;
+  const open = key in state.open ? state.open[key] : isLast;
+  const f = turn.flow || {};
+  const flow = [pill('a-code', f.message_type), '<span class="arrow">→</span>',
+    pill('a-model', f.verdict ? `verdict ${f.verdict}` : 'not marked'), '<span class="arrow">→</span>',
+    pill('a-code', `move: ${f.move}`), pill('a-retrieval', `retrieval: ${f.retrieval}`)].join(' ');
+  return `<details class="card turn" data-key="${esc(key)}" ${open ? 'open' : ''}>
+    <summary><span class="turn-no">Turn ${index + 1}</span>
+      <span class="said">“${esc(turn.student_text)}”</span>
+      <span class="flow">${flow}</span><span class="caret">▶</span></summary>
+    <div class="convo"><p><b>Student:</b> ${esc(turn.student_text)}</p><p><b>Tutor:</b> ${esc(turn.reply)}</p></div>
+    ${renderSteps(turn.steps, key)}
+  </details>`;
+}
+
+function render(view) {
+  state.model = view.model;
+  $('#legendModel').textContent = view.model || 'Language model';
+  const setupKey = 'setup';
+  const setupOpen = setupKey in state.open ? state.open[setupKey] : view.turns.length === 0;
+  const started = view.started_at ? new Date(view.started_at).toLocaleString() : '';
+  let html = `<div class="card session"><h2>${esc(view.question)}</h2>
+    <div class="meta">${esc(view.course_name)} · ${esc(view.model || 'no language model')} · started ${esc(started)}
+    · ${view.turns.length} turn(s)</div></div>`;
+  html += `<div class="section-label">Session setup</div>
+    <details class="card setup" data-key="${setupKey}" ${setupOpen ? 'open' : ''}>
+    <summary><span class="turn-no">Setup</span><span class="said">Question → lesson plan → search → checklist</span>
+    <span class="caret">▶</span></summary>${renderSteps(view.start.steps, setupKey)}</details>`;
+  html += `<div class="section-label">Turns</div>`;
+  html += view.turns.length
+    ? view.turns.map((t, i) => renderTurn(t, i, i === view.turns.length - 1)).join('')
+    : `<div class="card empty">No turns yet. Reply in Tutoring chat; each turn appears here by itself.</div>`;
+  $('#content').innerHTML = html;
+}
+
+function renderEmpty(message) {
+  $('#content').innerHTML = `<div class="card empty">${esc(message)}</div>`;
+}
+
+async function getJson(url) {
+  const res = await fetch(url, {cache: 'no-store'});
+  if (!res.ok) throw new Error(`${res.status}`);
+  return res.json();
+}
+
+async function refresh(force) {
+  try {
+    const {sessions} = await getJson('/api/pipeline/sessions');
+    const select = $('#sessionSelect');
+    const options = sessions.map(s =>
+      `<option value="${esc(s.session_id)}">${esc((s.question || '').slice(0, 60))} · ${s.turns} turn(s)</option>`).join('');
+    if (select.dataset.options !== options) { select.innerHTML = options; select.dataset.options = options; }
+    if (!sessions.length) { state.sessionId = null; renderEmpty('No session yet. Start one in Tutoring chat; this page updates by itself.'); setLive(true); return; }
+    const ids = sessions.map(s => s.session_id);
+    if ($('#follow').checked || !ids.includes(state.sessionId)) {
+      if (state.sessionId !== sessions[0].session_id) { state.open = {}; state.revealed = {}; }
+      state.sessionId = sessions[0].session_id;
+    }
+    select.value = state.sessionId;
+    const view = await getJson(`/api/sessions/${encodeURIComponent(state.sessionId)}/pipeline`);
+    const json = JSON.stringify(view);
+    if (force || json !== state.lastJson) {
+      const grew = state.lastJson && JSON.parse(state.lastJson).turns.length < view.turns.length;
+      state.lastJson = json;
+      if (grew) delete state.open[view.turns[view.turns.length - 2]?.turn_id];
+      render(view);
+      if (grew && $('#follow').checked) {
+        const last = document.querySelector('details.turn:last-of-type');
+        if (last) last.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+    }
+    setLive(true);
+  } catch (e) {
+    setLive(false);
+  }
+}
+
+function setLive(ok) {
+  $('#live').classList.toggle('off', !ok);
+  $('#live span').textContent = ok ? 'live' : 'server not reachable';
+}
+
+document.addEventListener('toggle', e => {
+  const el = e.target;
+  if (el.matches && el.matches('details[data-key]')) state.open[el.dataset.key] = el.open;
+}, true);
+document.addEventListener('click', e => {
+  const key = e.target.dataset && e.target.dataset.reveal;
+  if (key) { state.revealed[key] = true; refresh(true); }
+});
+$('#sessionSelect').addEventListener('change', e => {
+  $('#follow').checked = false; state.sessionId = e.target.value; state.open = {}; state.revealed = {};
+  state.lastJson = ''; refresh(true);
+});
+$('#follow').addEventListener('change', () => refresh(true));
+$('#showJson').addEventListener('change', e => {
+  document.body.classList.toggle('hide-json', !e.target.checked); store('dpRunLogShowJson', e.target.checked ? '1' : '0');
+});
+if (load('dpRunLogShowJson') === '0') { $('#showJson').checked = false; document.body.classList.add('hide-json'); }
+
+refresh(true);
+setInterval(refresh, 2000);
+</script>
+</body>
+</html>

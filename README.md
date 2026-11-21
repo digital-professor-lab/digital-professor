@@ -10,6 +10,41 @@ student understanding, and returns an appropriate tutoring action. The
 architecture is intended to remain course-agnostic; Calculus is the current
 reference course for implementation and validation.
 
+## In plain words
+
+Digital Professor is a study tutor that has read the course. An instructor
+uploads the syllabus and the textbook or lecture notes; the system reads them
+and keeps track of every page. A student then brings a problem, for example
+"differentiate sin(x²)", and works on it with the tutor in a chat.
+
+How a session goes:
+
+1. **The tutor gets the student started.** It asks how the student would begin
+   and gives no hint yet.
+2. **When the student is stuck, help comes in small steps.** The first time it
+   points at what to look at. The second time it names the method and attaches
+   the passage from the course textbook that states it, with the page number,
+   so the student learns the way the course teaches it.
+3. **The student does the solving.** The tutor never gives the final answer or
+   does a step of the problem for the student, even when asked directly.
+4. **Answers are checked by computation.** For derivatives, integrals and
+   limits a math library verifies the student's answer. Every tutor reply is
+   checked before it is sent: no answer given away, no method named too early,
+   and new math in the reply is re-checked by a second model call.
+
+Students can type, use math notation, or photograph handwritten work.
+Everything the tutor does is recorded step by step for review (the **Run log**).
+
+What makes it different from asking a general chatbot: it follows the course's
+own material and methods, cites the exact textbook page, and is built to make
+the student think rather than hand over solutions.
+
+Current limits: this is a development demo. It runs on one computer, keeps data
+only for testing, has no student accounts, and has been tested on Calculus I.
+
+To try it, follow the five steps in
+[`docs/notes/CONFIGURATION.md`](docs/notes/CONFIGURATION.md#1-quick-start).
+
 ## V1 implementation
 
 Product code lives in [`src/digital_professor`](src/digital_professor). Work
@@ -41,11 +76,12 @@ The root package is divided by specification ownership:
 |---|---|
 | `interaction` | Preserve typed or handwritten input, handle recognition and confirmation, construct factual `StudentEvidence`, coordinate handoffs, and record trace events. |
 | `course_context` | Parse syllabus and notes, preserve page/line mappings, publish an in-memory course workspace, and build a partial runtime Question Schema. |
-| `retrieval` | Search uploaded course chunks and return passages with document, version, page, line, and source-view links. |
+| `retrieval` | Index the ingested course blocks at publication and answer one `RetrievalRequest` per turn through Retrieval V1 (`retrieval_tool`), returning passages with document, version, page, line, and source-view links. Falls back to a keyword index when Retrieval V1 is not installed. |
 | `tutoring` / `runtime` | Maintain a session, link follow-up evidence, optionally call an OpenAI-compatible model, produce `TutoringAction`, and apply state only after confirmed delivery. |
 
-Delivery remains mocked. Course workspaces, indexes, sessions, and logs are
-in-memory and reset when the server restarts. Without a provider key, the demo
+Delivery remains mocked. Course workspaces, indexes, and sessions are
+in-memory and reset when the server restarts (with `DP_KEEP_COURSES=1`,
+published courses are saved and restored). Without a provider key, the demo
 uses a deterministic grounded prompt; with a configured key, it calls the
 selected OpenAI-compatible model.
 
@@ -70,6 +106,16 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m pip install -e "research/knowledge-retrieval/retrieval-tool[test]"
+```
+
+Retrieval V1 over uploaded course material is optional. Without the two steps
+below the demo still runs and uses its keyword index.
+
+```bash
+# Week 3 search code, pinned commit, into retrieval-tool/.week3 (ignored by git)
+bash research/knowledge-retrieval/retrieval-tool/scripts/setup_week3.sh
+# packages that code imports, plus the BGE and Qwen query encoders
+python -m pip install -e "research/knowledge-retrieval/retrieval-tool[postgres,embeddings]"
 ```
 
 On Windows PowerShell, activate the environment with:
@@ -101,7 +147,10 @@ PYTHONPATH=src:research/knowledge-retrieval/retrieval-tool \
 ### Run the integrated demo
 
 Copy the provider template and add a key if model-generated tutoring responses
-are needed. The key stays server-side.
+are needed. The template starts with OpenRouter and DeepSeek V4.1 Flash, so one
+`OPENROUTER_API_KEY` covers the tutor and the Jev passage judge. The key stays
+server-side. Every setting is explained in
+[`docs/notes/CONFIGURATION.md`](docs/notes/CONFIGURATION.md).
 
 ```bash
 cp .env.example .env
@@ -115,7 +164,9 @@ PYTHONPATH=src:research/knowledge-retrieval/retrieval-tool \
 
 Open <http://127.0.0.1:8000>. Upload one syllabus in the syllabus section, then
 upload one or more notes/textbook files in the notes section. Select **Start DP
-and build retrieval**. Chat stays unavailable until parsing,
+and build retrieval**. A file placed in the wrong step (for example the
+textbook as the syllabus) is rejected at once with a message saying where it
+belongs. Chat stays unavailable until parsing,
 page/line normalization, chunking, and retrieval indexing finish. The app then
 reports that the course is ready for queries and opens tutoring setup.
 
@@ -195,12 +246,12 @@ If the phone or tablet cannot connect:
 
 ### Provider and model selection
 
-The provider screen supports OpenAI, OpenRouter, DeepSeek, local Ollama, and a
-custom OpenAI-compatible endpoint. Each profile supplies its default base URL
+The provider screen supports OpenRouter, DeepSeek, Anthropic Claude, OpenAI,
+local Ollama, and a custom OpenAI-compatible endpoint. Each profile supplies its default base URL
 and `.env` key-variable name. The UI never accepts or returns the key itself.
 
-1. Put the applicable key in `.env` (`OPENAI_API_KEY`,
-   `OPENROUTER_API_KEY`, or `DEEPSEEK_API_KEY`). Ollama does not require one.
+1. Put the applicable key in `.env` (`OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY`,
+   `ANTHROPIC_API_KEY`, or `OPENAI_API_KEY`). Ollama does not require one.
 2. Select a provider and enter an exact model/version identifier.
 3. Select **Test provider and load models**. The backend calls the provider's
    model-list endpoint and populates the model/version suggestions.
@@ -319,6 +370,22 @@ implementation moves responsibilities between modules.
   turns, provider validation, configurable diagnostics, and the integrated UI.
 - Added the first policy-driven Tutoring Engine machinery: phase, help level,
   action selection, pending Learner State, and delivery-committed state updates.
+- Connected Retrieval V1 to uploaded courses: ingested blocks are embedded with
+  the Week 3 encoders (BGE, Qwen) and searched with the Week 3 hybrid search;
+  passages keep their page, line and highlight links.
+- Rebuilt the Tutoring Engine as policy 3.0: one hard rule (the student does the
+  solving), no hint in the opening reply, the method and the textbook passage
+  from the second time the student is stuck, computed answer checks, and reply
+  checks. See `docs/notes/INTEGRATED_DEMO.md` for how it differs from the spec.
+- Published courses are cached on disk and restored when the demo restarts.
+- Added the Jev passage judge: before the tutor cites a textbook passage, Jev
+  checks which candidate states the rule (textbook text only is sent).
+- Added upload checks that reject a file placed in the wrong course-setup step.
+- Hid the Question Schema card (which contains the correct approach) from the
+  student page; it remains in the developer Run log.
+- Made syllabus-scoped textbook ingestion optional (`DP_TEXTBOOK_SCOPE=on`);
+  the whole textbook is ingested by default.
+- Added the configuration guide `docs/notes/CONFIGURATION.md`.
 
 ### Next
 

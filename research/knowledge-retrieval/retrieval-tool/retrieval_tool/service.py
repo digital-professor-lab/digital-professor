@@ -314,8 +314,10 @@ class RetrievalService:
     def _judge(self, needs: list[dict[str, Any]], passages: list[dict[str, Any]], rules: list[Any],
                report: dict[str, Any]) -> tuple[list[Any], list[dict[str, Any]]]:
         """Layer 3. shadow: log the judge's verdict next to the rules; on: the judge decides (pinned still wins)."""
-        texts = [self.catalog.passages[p["legacy_locator"]["week3_passage_id"]].get("readable_text") or p["passage_text"]
-                 for p in passages]
+        texts = []
+        for p in passages:
+            source_id = (p.get("legacy_locator") or {}).get("week3_passage_id")   # absent on ingested passages
+            texts.append((self.catalog.passages[source_id].get("readable_text") if source_id else None) or p["passage_text"])
         t0 = time.perf_counter()
         try:
             from .evidence import judge_needs
@@ -416,6 +418,8 @@ class RetrievalService:
     def _to_passage(self, result: dict[str, Any], rank: int) -> dict[str, Any]:
         source_passage_id = result["passage_id"]
         row = self.catalog.row(source_passage_id)
+        if row.get("page_number") is not None:
+            return self._ingested_passage(row, result, rank)
         content_version = f"cv-src-{row['document_sha256'][:12]}"
         # Dev corpus: LaTeX source lines are NOT page lines (rag-retrieval.md §5.3). Until Ovunc's ingested
         # pages exist, page/line/highlight stay null and the source lines go to legacy_locator.
@@ -445,6 +449,32 @@ class RetrievalService:
         if row["known_issues"]:
             passage["known_issues"] = row["known_issues"]
         return passage
+
+    @staticmethod
+    def _ingested_passage(row: dict[str, Any], result: dict[str, Any], rank: int) -> dict[str, Any]:
+        """A passage from an ingested course file (Stage B): real page, line range and highlight link (§5.3)."""
+        content_version = row.get("content_version") or f"cv-src-{row['document_sha256'][:12]}"
+        where = f"p. {row.get('page_label') or row['page_number']}, lines {row['start_line']}-{row['end_line']}"
+        name = row.get("label") or row.get("section_path")
+        return {
+            "passage_id": passage_identity(row["document_id"], content_version, row["page_number"],
+                                           row["start_line"], row["end_line"]),
+            "document_id": row["document_id"],
+            "content_version": content_version,
+            "page_number": row["page_number"],
+            "line_start": row["start_line"],
+            "line_end": row["end_line"],
+            "passage_text": row["raw_latex"].strip(),
+            "highlight_url": row.get("highlight_url"),
+            "relevance_score": None,       # fused scores are ranking signals, not calibrated (§7.7)
+            "retrieval_rank": rank,
+            "role": "primary",
+            "visibility": row.get("visibility", "student_visible"),
+            "document_role": row["source_type"],
+            "source_provenance": "source_document",
+            "review_status": row["review_status"],
+            "source_label": f"{row['filename']}, {where}" + (f" ({name})" if name else ""),
+        }
 
     def _warnings(self, passages: list[dict[str, Any]], results: list[Any], judge_errors: list[dict[str, Any]],
                   cuts: dict[str, int]) -> list[dict[str, Any]]:

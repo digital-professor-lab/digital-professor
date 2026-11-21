@@ -25,6 +25,11 @@ PROVIDER_PROFILES: dict[str, ProviderProfile] = {
     "deepseek": ProviderProfile(
         "deepseek", "DeepSeek", "https://api.deepseek.com", "DEEPSEEK_API_KEY"
     ),
+    # Claude through Anthropic's OpenAI-compatible endpoint (chat completions only). Intended by Anthropic for
+    # testing and comparing models, which is how this project uses it.
+    "anthropic": ProviderProfile(
+        "anthropic", "Anthropic Claude", "https://api.anthropic.com/v1/", "ANTHROPIC_API_KEY"
+    ),
     "ollama": ProviderProfile(
         "ollama", "Ollama (local)", "http://127.0.0.1:11434/v1", "OLLAMA_API_KEY", False
     ),
@@ -50,7 +55,7 @@ class ProviderConfiguration:
         return cls(
             provider=provider,
             model=os.getenv("DIGITAL_PROFESSOR_MODEL", "gpt-4.1-mini"),
-            base_url=os.getenv("DIGITAL_PROFESSOR_BASE_URL") or profile.default_base_url,
+            base_url=os.getenv("DIGITAL_PROFESSOR_BASE_URL") or profile_base_url(profile),
             api_key_env=os.getenv("DIGITAL_PROFESSOR_API_KEY_ENV", profile.default_api_key_env),
             input_cost_per_million=_optional_float(
                 os.getenv("DIGITAL_PROFESSOR_INPUT_COST_PER_MILLION")
@@ -74,6 +79,17 @@ class ProviderConfiguration:
         return provider_profile(self.provider).requires_api_key
 
 
+def profile_base_url(profile: ProviderProfile) -> str | None:
+    """The endpoint for a provider: ``<PROVIDER>_BASE_URL`` (for example ``DEEPSEEK_BASE_URL`` for a
+    company-hosted DeepSeek deployment) when set, otherwise the profile default."""
+    return os.getenv(f"{profile.provider_id.upper()}_BASE_URL") or profile.default_base_url
+
+
+def fixed_temperature(model: str) -> bool:
+    """Recent Claude models reject a temperature below 1, so none is sent to them."""
+    return "claude" in model.lower()
+
+
 def provider_profile(provider: str) -> ProviderProfile:
     normalized = provider.strip().lower()
     if normalized not in PROVIDER_PROFILES:
@@ -92,7 +108,7 @@ def configuration_for_provider(
 ) -> ProviderConfiguration:
     profile = provider_profile(provider)
     selected_base_url = (
-        base_url.strip() if base_url and base_url.strip() else profile.default_base_url
+        base_url.strip() if base_url and base_url.strip() else profile_base_url(profile)
     )
     if profile.provider_id == "custom" and not selected_base_url:
         raise ValueError("A base URL is required for a custom provider.")
@@ -113,7 +129,7 @@ def provider_catalog() -> list[dict[str, Any]]:
         {
             "id": profile.provider_id,
             "label": profile.label,
-            "default_base_url": profile.default_base_url,
+            "default_base_url": profile_base_url(profile),
             "api_key_env": profile.default_api_key_env,
             "requires_api_key": profile.requires_api_key,
         }
@@ -142,7 +158,10 @@ class OpenAICompatibleProvider:
             raise RuntimeError(
                 f"No key found in {self.config.api_key_env}; add it to .env and restart the server."
             )
-        return OpenAI(api_key=self.config.api_key, base_url=self.config.base_url, timeout=25)
+        # Anthropic's endpoint needs its API version header for some routes (model listing); chat works without.
+        headers = {"anthropic-version": "2023-06-01"} if self.config.provider == "anthropic" else None
+        return OpenAI(api_key=self.config.api_key, base_url=self.config.base_url, timeout=25,
+                      default_headers=headers)
 
     def client(self):
         """Build the configured SDK client for compatible feature adapters."""
@@ -179,10 +198,11 @@ class OpenAICompatibleProvider:
 
     def generate(self, *, system: str, messages: list[dict[str, str]]) -> GenerationResult:
         started = time.perf_counter()
+        options: dict[str, Any] = {} if fixed_temperature(self.config.model) else {"temperature": 0.2}
         response = self._client().chat.completions.create(
             model=self.config.model,
             messages=[{"role": "system", "content": system}, *messages],
-            temperature=0.2,
+            **options,
         )
         usage = response.usage
         input_tokens = getattr(usage, "prompt_tokens", None)

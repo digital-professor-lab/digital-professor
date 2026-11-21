@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 
+import pytest
 from fastapi.testclient import TestClient
 
 from digital_professor.providers import GenerationResult, OpenAICompatibleProvider
@@ -33,13 +34,30 @@ The formula is integral u dv = uv - integral v du.
 
 
 class FakeProvider:
+    """One fake model for the three roles the Engine uses.
+
+    The marking step and the reply guard must return JSON records; the writer returns a sentence. Marking
+    reads every message as a concept question, which is a move that searches the course material.
+    """
+
     def __init__(self) -> None:
         self.calls: list[list[dict[str, str]]] = []
+        self.roles: list[str] = []
 
     def generate(self, *, system: str, messages: list[dict[str, str]]) -> GenerationResult:
         self.calls.append(messages)
+        if system.startswith("You are the marking step"):
+            role = "judge"
+            text = json.dumps({"intents": ["CONCEPT"], "final_answer": None, "has_work": False,
+                               "safety_signal": False, "diagnosis": "UNCLEAR", "confidence": "low",
+                               "explanation": "none", "target_gap": None, "gap_updates": [], "summary": ""})
+        elif system.startswith("You check one tutor reply"):
+            role, text = "guard", json.dumps({"leak": False, "reason": ""})
+        else:
+            role, text = "writer", "Which function is inside the sine, and what is its derivative?"
+        self.roles.append(role)
         return GenerationResult(
-            text="Which function is inside the sine, and what is its derivative?",
+            text=text,
             model="fake-tutor",
             latency_ms=7,
             input_tokens=40,
@@ -198,10 +216,20 @@ def test_local_tutoring_policy_runs_without_a_paid_provider() -> None:
 
     assert turn.status_code == 200, turn.text
     payload = turn.json()
-    assert payload["action_type"] == "hint"
+    # The tutor has asked nothing yet, so the first request for help gets a question, not a hint.
+    assert payload["action_type"] == "elicit"
     state = runtime.sessions[session["session_id"]].engine.state_snapshot()
-    assert state["phase"] == "SUPPORT"
-    assert state["help_level"] == 1
+    assert state["phase"] == "WORKING"
+    assert state["help_level"] == 0
+    again = client.post(
+        f"/api/sessions/{session['session_id']}/turns",
+        json={"text": "I am still stuck."},
+    ).json()
+    # Without a language model the Engine never invents a hint: the second time the student is stuck it
+    # sends them to the course passage.
+    assert again["action_type"] == "hint" and again["sources"]
+    state = runtime.sessions[session["session_id"]].engine.state_snapshot()
+    assert state["help_level"] == 2
     assert "learner_state" not in payload
     assert "cost" not in payload
 
@@ -246,7 +274,7 @@ def test_two_posts_share_state_and_link_student_responses() -> None:
 
     first = client.post(
         f"/api/sessions/{session['session_id']}/turns",
-        json={"text": "I am stuck on the chain rule."},
+        json={"text": "Why does the chain rule multiply by the inner derivative?"},
     )
     second = client.post(
         f"/api/sessions/{session['session_id']}/turns",
@@ -259,11 +287,13 @@ def test_two_posts_share_state_and_link_student_responses() -> None:
     assert second_data["turn_id"] == "turn-2"
     assert first_data["sources"]
     assert first_data["sources"][0]["highlight_url"].startswith("/api/courses/")
-    assert len(provider.calls) == 2
-    assert any(item["role"] == "assistant" for item in provider.calls[1])
-    assert first_data["action_type"] == "hint"
+    # each turn: marking and writing; the guard reads a reply only when it contains new math
+    assert provider.roles == ["judge", "writer"] * 2
+    second_writer = provider.calls[3]
+    assert any(item["role"] == "assistant" for item in second_writer)
+    assert first_data["action_type"] == "explain"
     internal = runtime.sessions[session["session_id"]]
-    assert internal.total_estimated_cost_usd == 0.000104
+    assert internal.total_estimated_cost_usd == pytest.approx(4 * 0.000052)
     assert internal.prior_evidence_id
     assert internal.prior_action_id
     assert internal.engine.state_snapshot()["status"] == "current"
@@ -316,7 +346,7 @@ def test_logging_toggle_keeps_operations_but_omits_diagnostics(tmp_path) -> None
     ).json()
     client.post(
         f"/api/sessions/{session['session_id']}/turns",
-        json={"text": "I do not know how to choose u."},
+        json={"text": "Why do we choose u that way?"},
     )
 
     logs = runtime.sessions[session["session_id"]].logs
@@ -352,7 +382,7 @@ def test_diagnostic_logging_includes_handoffs_sources_and_model_usage(tmp_path) 
     ).json()
     client.post(
         f"/api/sessions/{session['session_id']}/turns",
-        json={"text": "I need help."},
+        json={"text": "Why does the chain rule work?"},
     )
 
     events = runtime.sessions[session["session_id"]].logs
@@ -364,11 +394,12 @@ def test_diagnostic_logging_includes_handoffs_sources_and_model_usage(tmp_path) 
     )
     generation = next(event for event in events if event["event"] == "model_generation")
     assert generation["details"]["model"] == "fake-tutor"
-    assert generation["details"]["input_tokens"] == 40
-    assert generation["details"]["estimated_cost_usd"] == 0.000052
+    # the turn's two model calls (marking, writing) are reported together
+    assert generation["details"]["input_tokens"] == 80
+    assert generation["details"]["estimated_cost_usd"] == pytest.approx(2 * 0.000052)
     completed = next(event for event in events if event["event"] == "turn_completed")
     assert completed["details"]["duration_ms"] >= 0
-    assert completed["details"]["estimated_cost_usd"] == 0.000052
+    assert completed["details"]["estimated_cost_usd"] == pytest.approx(2 * 0.000052)
     trace_text = "\n".join(path.read_text() for path in (tmp_path / "logs").glob("**/*.json"))
     assert "QuestionSchema" in trace_text
     public_snapshot = client.get(f"/api/sessions/{session['session_id']}").json()

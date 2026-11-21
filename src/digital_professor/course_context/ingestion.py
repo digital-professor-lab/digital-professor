@@ -37,6 +37,8 @@ ConceptSource = Literal["section", "model", "human", "none"]
 Visibility = Literal["student_visible", "engine_only"]
 
 
+from .syllabus_scope import ScopeEntry, parse_syllabus_scope, plan_textbook_scope, scope_enabled
+
 @dataclass(frozen=True, slots=True)
 class SourceUpload:
     filename: str
@@ -88,6 +90,10 @@ class IngestedDocument:
     page_count: int
     pages: tuple[tuple[str, ...], ...]
     chunks: tuple[IngestedBlock, ...]
+    # Which pages were ingested when a syllabus limited the scope (see syllabus_scope.py). Pages outside
+    # it are empty, so page numbers still match the original file. None: the whole document was ingested
+    # and no scope was considered.
+    scope: dict | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -640,11 +646,15 @@ class DocumentIngestionService:
         uploads: list[SourceUpload],
         *,
         allow_course_mismatch: bool = False,
-    ) -> None:
+    ) -> tuple[str, tuple[str, ...]] | None:
         """Quick identity check using only the first few pages of each file.
 
         Raises CourseConsistencyError on a confirmed mismatch.  Reads at most
         _PREVIEW_PAGES pages per file so a 600-page textbook costs almost nothing.
+
+        Returns ``(consistency_status, consistency_notes)`` so the caller can
+        record the outcome on the published course, or ``None`` when there is
+        nothing to compare yet (validation then happens in ``ingest_course``).
         """
         syllabus_upload = next(
             (u for u in uploads if _classify_filename_quick(u.filename) == "syllabus"),
@@ -655,7 +665,7 @@ class DocumentIngestionService:
             if _classify_filename_quick(u.filename) in {"lecture_notes", "textbook", "other"}
         ]
         if syllabus_upload is None or not notes_uploads:
-            return  # validation handled later in ingest_course
+            return None  # validation handled later in ingest_course
 
         syllabus_pages = _extract_first_pages(syllabus_upload)
         syllabus_text = "\n".join(line for page in syllabus_pages for line in page)
@@ -665,7 +675,7 @@ class DocumentIngestionService:
         preview_docs = [
             _make_preview_doc(u) for u in notes_uploads
         ]
-        _check_course_consistency(
+        return _check_course_consistency(
             course_name,
             course_number,
             preview_docs,
@@ -685,16 +695,27 @@ class DocumentIngestionService:
     def ingest_course(
         self,
         uploads: list[SourceUpload],
+        *,
+        syllabus: SourceUpload | None = None,
     ) -> CourseWorkspace:
         """Full extraction and segmentation of all uploaded files.
 
         Consistency check is NOT performed here — call check_consistency_fast
         before this method.  CourseContext concept tagging is also separate;
         call tag_blocks_with_concepts after CourseContext is available.
+
+        ``syllabus`` names the syllabus upload when the caller knows it (the staged flow). Its topic list
+        limits which textbook pages are ingested; see syllabus_scope.py.
         """
         if not uploads:
             raise IngestionError("At least one syllabus and one notes file are required.")
-        documents = tuple(self._ingest_document(upload) for upload in uploads)
+        syllabus = syllabus or next(
+            (u for u in uploads if _classify_filename_quick(u.filename) == "syllabus"), None)
+        scope_entries = _syllabus_scope_entries(syllabus)
+        documents = tuple(
+            self._ingest_document(upload, scope_entries=() if upload is syllabus else scope_entries)
+            for upload in uploads
+        )
         syllabi = [doc for doc in documents if doc.document_type == "syllabus"]
         knowledge = [
             doc for doc in documents if doc.document_type in {"lecture_notes", "textbook"}
@@ -723,13 +744,20 @@ class DocumentIngestionService:
             consistency_notes=(),
         )
 
-    def _ingest_document(self, upload: SourceUpload) -> IngestedDocument:
-        pages = _extract_pages(upload)
+    def _ingest_document(
+        self, upload: SourceUpload, *, scope_entries: list[ScopeEntry] | tuple = ()
+    ) -> IngestedDocument:
+        plan = None
+        if scope_entries and Path(upload.filename).suffix.lower() == ".pdf":
+            plan = plan_textbook_scope(upload.data, list(scope_entries))
+        pages = _extract_pages(upload, keep_pages=plan.pages if plan is not None else None)
         if not any(any(line.strip() for line in page) for page in pages):
             raise IngestionError(f"No embedded text was found in {upload.filename}.")
         full_sha256 = hashlib.sha256(upload.data).hexdigest()
         content_version = full_sha256[:16]
-        doc_type = _classify(upload.filename, pages)
+        # A scoped file is book-sized with a table of contents (see syllabus_scope.MIN_PAGES); its first
+        # pages may be outside the scope and empty, so they cannot be used to classify it.
+        doc_type = "textbook" if plan is not None and plan.applied else _classify(upload.filename, pages)
         # Stable document_id: slug from stem so it survives re-uploads of the same file.
         doc_id = _slug(Path(upload.filename).stem) or f"doc-{uuid4().hex[:8]}"
         doc_prefix = f"{doc_type[:2]}-{doc_id}"[:40]
@@ -746,6 +774,7 @@ class DocumentIngestionService:
             page_count=len(pages),
             pages=pages,
             chunks=chunks,
+            scope=({**plan.summary(), "note": plan.note()} if plan is not None else None),
         )
 
 
@@ -803,13 +832,31 @@ def _make_preview_doc(upload: SourceUpload) -> _PreviewDoc:
     )
 
 
-def _extract_pages(upload: SourceUpload) -> tuple[tuple[str, ...], ...]:
+def _syllabus_scope_entries(syllabus: SourceUpload | None) -> list[ScopeEntry]:
+    """The textbook sections the syllabus lists, or none when scoping is off or there is no syllabus."""
+    if not scope_enabled() or syllabus is None:
+        return []
+    try:
+        text = "\n".join(line for page in _extract_pages(syllabus) for line in page)
+    except IngestionError:
+        return []
+    return parse_syllabus_scope(text)
+
+
+def _extract_pages(
+    upload: SourceUpload, *, keep_pages: frozenset[int] | None = None
+) -> tuple[tuple[str, ...], ...]:
+    """Text lines per page. With ``keep_pages`` (1-based) only those pages are read; the others are
+    returned empty, so the page numbering of the file is kept."""
     suffix = Path(upload.filename).suffix.lower()
     if suffix == ".pdf":
         from pypdf import PdfReader
 
         reader = PdfReader(io.BytesIO(upload.data))
-        texts = [page.extract_text() or "" for page in reader.pages]
+        texts = [
+            (page.extract_text() or "") if keep_pages is None or number in keep_pages else ""
+            for number, page in enumerate(reader.pages, 1)
+        ]
     elif suffix == ".docx":
         from docx import Document
 
@@ -831,6 +878,22 @@ def _normalize_lines(text: str) -> list[str]:
         if line:
             lines.append(line)
     return lines
+
+
+def quick_document_type(upload: SourceUpload) -> tuple[DocumentType, int]:
+    """The document type and page count from the first pages only (well under a second, no full parse).
+
+    Uses the same rule as full ingestion (``_classify``), so a file accepted here is classified the same way
+    when the course is built. Used to reject a wrong file at upload time instead of after a long build.
+    """
+    preview = _extract_first_pages(upload)
+    total = len(preview)
+    if Path(upload.filename).suffix.lower() == ".pdf":
+        from pypdf import PdfReader
+
+        total = len(PdfReader(io.BytesIO(upload.data)).pages)
+    padded = preview + tuple(() for _ in range(max(0, total - len(preview))))
+    return _classify(upload.filename, padded), total
 
 
 def _classify(filename: str, pages: tuple[tuple[str, ...], ...]) -> DocumentType:
