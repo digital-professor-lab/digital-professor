@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-professor-lab.github.io/schemas/difficulty-decision.schema.json",
+  "title": "DifficultyDecision",
+  "description": "Reproducible bounded decision for the next assessment difficulty (assessment.md sections 5.4 and 6.5).",
+  "x-schema-version": "0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id", "record_type", "schema_version", "created_at", "producer", "status", "correlation_id", "difficulty_decision_id", "assessment_session_id", "assessment_question_id", "evaluation_id", "previous_level", "next_level", "correctness_signal", "timing_signal", "student_rating", "tutoring_history_signal", "missing_signals", "rationale", "policy_version"],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "record_type": {"const": "DifficultyDecision"},
+    "schema_version": {"const": "0.1"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "producer": {"type": "string", "minLength": 1},
+    "status": {"enum": ["completed", "partial"]},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "difficulty_decision_id": {"type": "string", "minLength": 1},
+    "assessment_session_id": {"type": "string", "minLength": 1},
+    "assessment_question_id": {"type": "string", "minLength": 1},
+    "evaluation_id": {"type": "string", "minLength": 1},
+    "previous_level": {"type": "integer", "minimum": 1, "maximum": 5},
+    "next_level": {"type": "integer", "minimum": 1, "maximum": 5},
+    "correctness_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "critical_dimension_incorrect"],
+      "properties": {
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "critical_dimension_incorrect": {"type": "boolean"}
+      }
+    },
+    "timing_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quality", "response_time_ms", "relative_band"],
+      "properties": {
+        "quality": {"enum": ["valid", "interrupted", "unknown"]},
+        "response_time_ms": {"type": ["integer", "null"], "minimum": 0},
+        "relative_band": {"enum": ["faster", "expected", "slower", "excluded"]}
+      }
+    },
+    "student_rating": {"enum": ["too_easy", "just_right", "too_hard", "skipped", "unknown"]},
+    "tutoring_history_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary_ref", "prerequisite_gap_active", "recent_help_level"],
+      "properties": {
+        "summary_ref": {"type": ["string", "null"]},
+        "prerequisite_gap_active": {"type": ["boolean", "null"]},
+        "recent_help_level": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "missing_signals": {"type": "array", "uniqueItems": true, "items": {"enum": ["correctness", "timing", "student_rating", "tutoring_history"]}},
+    "rationale": {"type": "string", "minLength": 1, "maxLength": 500},
+    "policy_version": {"type": "string", "minLength": 1}
+  }
+}

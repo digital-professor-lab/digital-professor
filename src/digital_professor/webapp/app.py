@@ -12,6 +12,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, ConfigDict, Field
 
+from digital_professor.assessment import AssessmentError, AssessmentService
 from digital_professor.course_context.ingestion import (
     CourseConsistencyError,
     DocumentIngestionService,
@@ -63,6 +64,26 @@ class CourseNameRequest(BaseModel):
     course_name: str = Field(min_length=1, max_length=200)
 
 
+class AssessmentStartRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    course_id: str = Field(min_length=1)
+    concept: str = Field(min_length=1, max_length=300)
+    question_types: list[Literal["multiple_choice", "true_false", "open_ended"]] = Field(min_length=1)
+    starting_difficulty: int = Field(default=2, ge=1, le=5)
+    tutoring_session_id: str | None = None
+    diagnostic_logging: bool = False
+
+
+class AssessmentResponseRequest(BaseModel):
+    response: str = Field(min_length=1, max_length=30_000)
+
+
+class AssessmentRatingRequest(BaseModel):
+    rating: Literal["too_easy", "just_right", "too_hard"]
+    comment: str | None = Field(default=None, max_length=1000)
+
+
 def _configured_provider(
     config: ProviderConfiguration | None = None,
 ) -> OpenAICompatibleProvider | None:
@@ -79,6 +100,11 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         os.getenv("OPENAI_HANDWRITING_MODEL", "gpt-4o-mini"),
     )
     app.state.runtime = runtime or DemoApplication(_configured_provider(provider_config))
+    app.state.assessment = AssessmentService(
+        app.state.runtime.courses,
+        app.state.runtime.indexes,
+        app.state.runtime.trace_store,
+    )
     app.state.ingestion = DocumentIngestionService()
     app.state.handwriting_recognizer = None
     app.state.pending_syllabus = None
@@ -120,7 +146,7 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
                 "diagnostic_logging": "available",
                 "handwriting": "available_with_compatible_vision_provider",
                 "office_hours": "future",
-                "assessments": "future",
+                "assessments": "available",
             },
         }
 
@@ -336,6 +362,81 @@ def create_app(*, runtime: DemoApplication | None = None) -> FastAPI:
         except LookupError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
 
+    @app.post("/api/assessments")
+    def start_assessment(request: AssessmentStartRequest) -> dict[str, Any]:
+        history = _tutoring_history(app.state.runtime, request.tutoring_session_id)
+        try:
+            return app.state.assessment.start(
+                course_id=request.course_id,
+                concept=request.concept,
+                allowed_question_types=tuple(request.question_types),
+                starting_difficulty=request.starting_difficulty,
+                diagnostic_logging=request.diagnostic_logging,
+                tutoring_history_signal=history,
+                linked_tutoring_session_id=request.tutoring_session_id,
+            )
+        except AssessmentError as error:
+            raise HTTPException(
+                status_code=error.status_code,
+                detail={"code": error.code, "message": str(error)},
+            ) from error
+
+    @app.get("/api/assessments/{assessment_id}")
+    def get_assessment(assessment_id: str) -> dict[str, Any]:
+        try:
+            return app.state.assessment.snapshot(assessment_id)
+        except AssessmentError as error:
+            raise HTTPException(
+                status_code=error.status_code,
+                detail={"code": error.code, "message": str(error)},
+            ) from error
+
+    @app.post("/api/assessments/{assessment_id}/responses")
+    def submit_assessment_response(
+        assessment_id: str, request: AssessmentResponseRequest
+    ) -> dict[str, Any]:
+        try:
+            return app.state.assessment.submit_response(assessment_id, request.response)
+        except AssessmentError as error:
+            raise HTTPException(
+                status_code=error.status_code,
+                detail={"code": error.code, "message": str(error)},
+            ) from error
+
+    @app.post("/api/assessments/{assessment_id}/ratings")
+    def rate_assessment_question(
+        assessment_id: str, request: AssessmentRatingRequest
+    ) -> dict[str, Any]:
+        try:
+            return app.state.assessment.rate_and_continue(
+                assessment_id, rating=request.rating, comment=request.comment
+            )
+        except AssessmentError as error:
+            raise HTTPException(
+                status_code=error.status_code,
+                detail={"code": error.code, "message": str(error)},
+            ) from error
+
+    @app.get("/api/assessments/{assessment_id}/activity")
+    def get_assessment_activity(assessment_id: str) -> dict[str, Any]:
+        try:
+            return {"events": app.state.assessment.activity(assessment_id)}
+        except AssessmentError as error:
+            raise HTTPException(
+                status_code=error.status_code,
+                detail={"code": error.code, "message": str(error)},
+            ) from error
+
+    @app.post("/api/assessments/{assessment_id}/end")
+    def end_assessment(assessment_id: str) -> dict[str, Any]:
+        try:
+            return app.state.assessment.end(assessment_id)
+        except AssessmentError as error:
+            raise HTTPException(
+                status_code=error.status_code,
+                detail={"code": error.code, "message": str(error)},
+            ) from error
+
     @app.post("/api/sessions/{session_id}/handwriting/recognitions")
     async def recognize_handwriting(
         session_id: str, file: UploadFile = File(...)
@@ -406,6 +507,27 @@ def _course_summary(course, *, include_topics: bool = False) -> dict[str, Any]:
     if include_topics:
         result["topics"] = list(course.topics)
     return result
+
+
+def _tutoring_history(runtime: DemoApplication, session_id: str | None) -> dict[str, Any]:
+    if not session_id:
+        return {
+            "summary_ref": None,
+            "prerequisite_gap_active": None,
+            "recent_help_level": None,
+        }
+    session = runtime.sessions.get(session_id)
+    if session is None:
+        raise HTTPException(status_code=404, detail="Tutoring session not found")
+    state = session.engine.state_snapshot() or {}
+    open_gaps = state.get("open_gaps", [])
+    return {
+        "summary_ref": f"session://{session_id}/learner-state",
+        "prerequisite_gap_active": any(
+            "prerequisite" in str(gap).lower() for gap in open_gaps
+        ),
+        "recent_help_level": state.get("help_level"),
+    }
 
 
 app = create_app()

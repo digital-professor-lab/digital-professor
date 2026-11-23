@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-professor-lab.github.io/schemas/question-rating.schema.json",
+  "title": "QuestionRating",
+  "description": "A student's perceived difficulty rating after an assessment result (assessment.md section 6.4).",
+  "x-schema-version": "0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id", "record_type", "schema_version", "created_at", "producer", "status", "correlation_id", "rating_id", "assessment_session_id", "assessment_question_id", "evaluation_id", "user_id", "perceived_difficulty", "submitted_at"],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "record_type": {"const": "QuestionRating"},
+    "schema_version": {"const": "0.1"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "producer": {"type": "string", "minLength": 1},
+    "status": {"const": "recorded"},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "rating_id": {"type": "string", "minLength": 1},
+    "assessment_session_id": {"type": "string", "minLength": 1},
+    "assessment_question_id": {"type": "string", "minLength": 1},
+    "evaluation_id": {"type": "string", "minLength": 1},
+    "user_id": {"type": "string", "minLength": 1},
+    "perceived_difficulty": {"enum": ["too_easy", "just_right", "too_hard"]},
+    "comment": {"type": ["string", "null"], "maxLength": 1000},
+    "submitted_at": {"type": "string", "format": "date-time"}
+  }
+}

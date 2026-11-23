@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-professor-lab.github.io/schemas/assessment-summary.schema.json",
+  "title": "AssessmentSummary",
+  "description": "Bounded end-of-session assessment summary that does not overclaim mastery (assessment.md section 6.6).",
+  "x-schema-version": "0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id", "record_type", "schema_version", "created_at", "producer", "status", "correlation_id", "assessment_summary_id", "assessment_session_id", "course_id", "session_id", "user_id", "completed_question_count", "question_results", "concept_evidence", "difficulty_history", "content_versions", "retrieval_snapshot_id", "limitations", "summary_policy_version"],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "record_type": {"const": "AssessmentSummary"},
+    "schema_version": {"const": "0.1"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "producer": {"type": "string", "minLength": 1},
+    "status": {"enum": ["completed", "partial", "insufficient_evidence"]},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "assessment_summary_id": {"type": "string", "minLength": 1},
+    "assessment_session_id": {"type": "string", "minLength": 1},
+    "course_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "user_id": {"type": "string", "minLength": 1},
+    "completed_question_count": {"type": "integer", "minimum": 0},
+    "question_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assessment_question_id", "evaluation_id", "question_type", "difficulty_level", "correctness_score", "rating_id"],
+        "properties": {
+          "assessment_question_id": {"type": "string", "minLength": 1},
+          "evaluation_id": {"type": "string", "minLength": 1},
+          "question_type": {"enum": ["multiple_choice", "true_false", "open_ended"]},
+          "difficulty_level": {"type": "integer", "minimum": 1, "maximum": 5},
+          "correctness_score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+          "rating_id": {"type": ["string", "null"], "minLength": 1}
+        }
+      }
+    },
+    "concept_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["concept_id", "assessment_question_ids", "observation_count", "evidence_status", "score_range", "limitations"],
+        "properties": {
+          "concept_id": {"type": "string", "minLength": 1},
+          "assessment_question_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "observation_count": {"type": "integer", "minimum": 1},
+          "evidence_status": {"enum": ["developing", "mixed", "consistently_demonstrated", "needs_reinforcement", "insufficient_evidence"]},
+          "score_range": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": ["minimum", "maximum"],
+            "properties": {
+              "minimum": {"type": "number", "minimum": 0, "maximum": 1},
+              "maximum": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          },
+          "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "difficulty_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assessment_question_id", "difficulty_decision_id", "presented_level", "next_level"],
+        "properties": {
+          "assessment_question_id": {"type": "string", "minLength": 1},
+          "difficulty_decision_id": {"type": "string", "minLength": 1},
+          "presented_level": {"type": "integer", "minimum": 1, "maximum": 5},
+          "next_level": {"type": "integer", "minimum": 1, "maximum": 5}
+        }
+      }
+    },
+    "content_versions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "retrieval_snapshot_id": {"type": "string", "minLength": 1},
+    "limitations": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "summary_policy_version": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"completed_question_count": {"const": 0}}, "required": ["completed_question_count"]},
+      "then": {
+        "properties": {
+          "status": {"const": "insufficient_evidence"},
+          "question_results": {"maxItems": 0},
+          "concept_evidence": {"maxItems": 0}
+        }
+      }
+    }
+  ]
+}

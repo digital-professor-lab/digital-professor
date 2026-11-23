@@ -26,6 +26,7 @@ The system should remain course-agnostic at the architectural level. Concrete co
 | `course-context.md` | Syllabus and lecture-note ingestion, structured Course Context / Question Schema, and preparation for retrieval | Ovunc |
 | `knowledge-retrieval.md` | Indexing, retrieval, passage-level grounding, citations, and retrieval status | Sean |
 | `tutoring-engine.md` | Learner State, diagnosis, and selection of a structured Tutoring Action | Shared boundary specification |
+| `assessment.md` | Adaptive, note-grounded, one-question-at-a-time quizzes, response evaluation, difficulty feedback, and assessment activity records | Jonathan |
 | `delivery.md` | Presentation of questions, hints, explanations, and reassessment through supported interfaces | Delivery owner / shared boundary specification |
 
 Additional module files should be added only when a responsibility cannot be stated clearly in one of these documents.

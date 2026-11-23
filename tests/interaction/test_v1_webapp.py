@@ -16,6 +16,7 @@ def test_status_distinguishes_working_and_future_capabilities() -> None:
     assert capabilities["typed_multi_turn"] == "available"
     assert capabilities["course_ingestion"] == "available"
     assert capabilities["handwriting"] == "available_with_compatible_vision_provider"
+    assert capabilities["assessments"] == "available"
     assert capabilities["office_hours"] == "future"
 
 
@@ -26,6 +27,10 @@ def test_browser_shell_exposes_course_chat_and_provider_surfaces() -> None:
     assert "Course sources" in response.text
     assert "Tutoring chat" in response.text
     assert "Provider settings" in response.text
+    assert "Start a note-grounded assessment" in response.text
+    assert 'id="assessmentNav"' in response.text
+    assert 'id="assessmentResponseForm"' in response.text
+    assert "How did this question feel?" in response.text
     assert 'id="syllabusForm"' in response.text
     assert 'id="notesForm"' in response.text
     assert "katex" in response.text.lower()

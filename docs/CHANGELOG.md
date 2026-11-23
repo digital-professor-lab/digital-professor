@@ -4,6 +4,35 @@ This changelog records major project-level changes. It begins with the first V1
 implementation work; earlier research artifacts remain available in the Git
 history and under `research/`.
 
+## 2026-11-19 — Assessment module V1 slice
+
+### Added
+
+- Added `specs/assessment.md` and six Draft 2020-12 schemas for assessment
+  sessions, questions, evaluations, ratings, difficulty decisions, and summaries.
+- Added `digital_professor.assessment` with one active question at a time,
+  multiple-choice/true-false/open-ended formats, typed Student Evidence capture,
+  continuous rubric scoring, response timing, perceived-difficulty ratings, and
+  bounded next-question adaptation.
+- Added an enforceable lecture-notes-only filter to course retrieval. Assessment
+  generation and feedback reject syllabus and textbook grounding in V1.
+- Added assessment REST endpoints, browser UI, refresh restoration, LaTeX
+  rendering, note citations, and assessment records in the Activity log.
+- Added an explicit Assessment-to-Engine handoff carrying factual rubric
+  results, timing quality, student rating, grounding, and weak-dimension focus.
+  A replaceable Engine port can use this evidence to choose targeted hints,
+  retries, or follow-up questions without moving diagnosis into Assessment.
+- Added schema, module, API-cycle, source-policy, and browser-surface tests.
+
+### Boundaries
+
+- The current local question/evaluation policy is deterministic and explicitly
+  reports its term-matching limitation. Provider-backed generation, symbolic
+  math checking, code evaluation, plot interpretation, and textbook grounding
+  remain future work.
+- Assessment evidence may inform Learner State, but V1 does not certify mastery
+  or write grades to an academic record.
+
 ## 2026-11-10 — Mobile capture, provider profiles, and progress
 
 ### Added
@@ -102,7 +131,7 @@ module boundaries; it is not a claim that every normative V1 behavior is done.
 | Logging and preservation | Operational continuity records persist when diagnostics are off; optional model/source/cost details obey the session toggle. Exact typed input and separate OCR/confirmed values are stored in timestamped backend records. Secrets are excluded. | Add retention/deletion policy, encryption, access control, redaction, durable session recovery, and institutional privacy review before real student data. |
 | Browser demo | Course-gated setup, multi-turn POSTs, refresh restoration, math/code rendering, handwriting confirmation, source navigation, and bounded Activity summaries are connected. | Add authentication, multi-user isolation, backend restart recovery, accessibility validation, and production deployment controls. |
 
-Automated contract and behavior checks currently report **87 passed** with six
+Automated contract and behavior checks currently report **94 passed** with six
 third-party deprecation warnings. The tests establish the implemented slice;
 they do not waive the remaining normative items above.
 

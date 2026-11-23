@@ -43,6 +43,7 @@ The root package is divided by specification ownership:
 | `course_context` | Parse syllabus and notes, preserve page/line mappings, publish an in-memory course workspace, and build a partial runtime Question Schema. |
 | `retrieval` | Search uploaded course chunks and return passages with document, version, page, line, and source-view links. |
 | `tutoring` / `runtime` | Maintain a session, link follow-up evidence, optionally call an OpenAI-compatible model, produce `TutoringAction`, and apply state only after confirmed delivery. |
+| `assessment` | Run one-question-at-a-time, lecture-note-grounded quizzes; preserve responses as Student Evidence; evaluate with a non-binary rubric; collect difficulty ratings; choose the next bounded difficulty; and publish factual outcomes for later Tutoring Engine decisions. |
 
 Delivery remains mocked. Course workspaces, indexes, sessions, and logs are
 in-memory and reset when the server restarts. Without a provider key, the demo
@@ -218,6 +219,25 @@ handwriting recognition. Because the current backend operations are synchronous,
 intermediate percentages are stage indicators rather than server-streamed
 completion measurements.
 
+### Run an assessment
+
+After publishing a course with lecture notes, open **Assessments**:
+
+1. Select the course and a topic extracted from its notes.
+2. Choose a starting difficulty and one or more formats: multiple choice,
+   true/false, or open ended.
+3. Submit one response. Typed responses pass through the same immutable
+   `StudentSubmission` and `StudentEvidence` pipeline used by tutoring.
+4. Review the continuous score, concept/method/execution/communication results,
+   explanation, and lecture-note page/line citations.
+5. Rate the question **too easy**, **just right**, or **too hard**. Only then is
+   the next question generated, with difficulty changing by at most one level.
+
+Assessment V1 excludes syllabus and textbook passages from both generation and
+evaluation. Its deterministic local evaluator keeps the demo usable without an
+API key and records its limitations; richer provider-backed checking and math
+verification remain follow-up work.
+
 The browser stores the active session ID in local storage and reloads the
 server-side transcript after a page refresh. This survives browser refreshes,
 but not a backend restart because the current session repository is in memory.
@@ -319,6 +339,10 @@ implementation moves responsibilities between modules.
   turns, provider validation, configurable diagnostics, and the integrated UI.
 - Added the first policy-driven Tutoring Engine machinery: phase, help level,
   action selection, pending Learner State, and delivery-committed state updates.
+- Added the Assessment module specification, six JSON Schemas, note-only
+  retrieval filtering, adaptive quiz state, non-binary evaluation, student
+  difficulty ratings, assessment APIs/UI, restoration, Activity events, and an
+  explicit Assessment-to-Engine handoff port for targeted follow-up decisions.
 
 ### Next
 
@@ -333,6 +357,9 @@ The following specification work is not yet implemented in the root product:
   fallbacks, and full failure behavior.
 - Replace lexical in-memory search with the specified Retrieval tool loop,
   embedding index, evidence check, and citation validator.
+- Replace the deterministic assessment generator/evaluator with validated
+  provider and math-checker paths while preserving the frozen rubric and
+  lecture-note-only source boundary.
 - Implement Delivery as a product module, including structured presentation
   failures, retries, accessibility adaptations, and the avatar handoff.
 - Add durable course/session/trace storage, retention rules, authentication,

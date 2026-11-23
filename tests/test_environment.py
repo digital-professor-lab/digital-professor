@@ -39,6 +39,7 @@ IMPORT_NAMES = {
     "python-multipart": "multipart",
     "pytest": "pytest",
     "responses": "responses",
+    "jsonschema": "jsonschema",
 }
 
 

@@ -26,12 +26,21 @@ class CourseRetrievalIndex:
         )
         self._terms = {chunk.passage_id: _terms(chunk.text) for chunk in self._chunks}
 
-    def search(self, query: str, *, top_k: int = 4) -> tuple[RetrievedPassage, ...]:
+    def search(
+        self,
+        query: str,
+        *,
+        top_k: int = 4,
+        document_types: set[str] | frozenset[str] | None = None,
+    ) -> tuple[RetrievedPassage, ...]:
+        """Search within the course, optionally enforcing a source-type allowlist."""
         wanted = _terms(query)
         if not wanted:
             return ()
         scored: list[tuple[float, SourceChunk]] = []
         for chunk in self._chunks:
+            if document_types is not None and chunk.document_type not in document_types:
+                continue
             overlap = wanted & self._terms[chunk.passage_id]
             if not overlap:
                 continue
